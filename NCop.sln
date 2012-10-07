@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCop.Core", "NCop.Core\NCop.Core.csproj", "{7100C0DF-E619-4AC8-8ED0-048DD118F251}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCop.Aspects", "NCop.Aspects\NCop.Aspects.csproj", "{302ADD1B-6FDB-4872-BB24-3D783826A91E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCop.DependencyInjection", "NCop.DependencyInjection\NCop.DependencyInjection.csproj", "{0B598341-32A5-4D5F-A11C-E37E5B4EF65D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7100C0DF-E619-4AC8-8ED0-048DD118F251}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7100C0DF-E619-4AC8-8ED0-048DD118F251}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7100C0DF-E619-4AC8-8ED0-048DD118F251}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7100C0DF-E619-4AC8-8ED0-048DD118F251}.Release|Any CPU.Build.0 = Release|Any CPU
+		{302ADD1B-6FDB-4872-BB24-3D783826A91E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{302ADD1B-6FDB-4872-BB24-3D783826A91E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{302ADD1B-6FDB-4872-BB24-3D783826A91E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{302ADD1B-6FDB-4872-BB24-3D783826A91E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B598341-32A5-4D5F-A11C-E37E5B4EF65D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B598341-32A5-4D5F-A11C-E37E5B4EF65D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B598341-32A5-4D5F-A11C-E37E5B4EF65D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B598341-32A5-4D5F-A11C-E37E5B4EF65D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
