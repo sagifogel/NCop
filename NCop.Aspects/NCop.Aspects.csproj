@@ -39,7 +39,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\AspectDefinition.cs" />
+    <Compile Include="Engine\IPointcut.cs" />
+    <Compile Include="Framework\AbstractAdviceAttribute.cs" />
+    <Compile Include="Framework\MethodAroundAttribute.cs" />
+    <Compile Include="Framework\AroundPropertyType.cs" />
+    <Compile Include="Framework\PropertyAroundAttribute.cs" />
+    <Compile Include="Framework\AllMethodsAroundAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Aspects\" />
+    <Folder Include="Mixins\" />
+    <Folder Include="Pointcuts\" />
+    <Folder Include="Runtime\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
