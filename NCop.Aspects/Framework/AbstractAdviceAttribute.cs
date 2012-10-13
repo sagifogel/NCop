@@ -8,5 +8,6 @@ namespace NCop.Aspects.Framework
 {
     public abstract class AbstractAdviceAttribute : Attribute
     {
+
     }
 }

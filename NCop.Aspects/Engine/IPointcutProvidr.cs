@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NCop.Aspects.Framework
-{   
-    [Flags]
-    public enum AroundPropertyType
-    {   
-        Get = 0,
-        Set = 1
+namespace NCop.Aspects.Engine
+{
+    public interface IPointcutProvidr
+    {
+        IPointcutMatcher Matcher { get; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NCop.Aspects.Pointcuts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public interface IPointcut
+    public interface IPointcutMatcher
     {
-        string Name { get; }
+        PointcutMatchCollection Match(Type type);
     }
 }

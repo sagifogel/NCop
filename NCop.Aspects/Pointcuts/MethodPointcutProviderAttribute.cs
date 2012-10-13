@@ -1,15 +1,18 @@
-﻿using System;
+﻿using NCop.Aspects.Engine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NCop.Aspects.Framework
+namespace NCop.Aspects.Pointcuts
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
-    public class AllMethodsAroundAttribute : AbstractAdviceAttribute
+    public class MethodPointcutMatcherAttribute : PointcutMatcherAttribute
     {
+        public override bool Match(object obj) {
+            return base.Match(obj);
+        }
     }
 }

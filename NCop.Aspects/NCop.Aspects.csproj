@@ -39,20 +39,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aspects\EventInterceptionAspect.cs" />
+    <Compile Include="Aspects\GetPropertyInterception.cs" />
+    <Compile Include="Aspects\GetPropertyInterceptionAspect.cs" />
+    <Compile Include="Aspects\MethodInterceptionAspect.cs" />
+    <Compile Include="Aspects\Interception\MethodInterception.cs" />
+    <Compile Include="Aspects\OnMethodBoundaryAspect.cs" />
+    <Compile Include="Aspects\PropertyInterceptionAspect.cs" />
+    <Compile Include="Aspects\Interception\SetPropertyInterception.cs" />
+    <Compile Include="Aspects\SetPropertyInterceptionAspect.cs" />
+    <Compile Include="Engine\Advices.cs" />
+    <Compile Include="Engine\IAdvice.cs" />
+    <Compile Include="Engine\IPointcutStore.cs" />
+    <Compile Include="Framework\AspectAttribute.cs" />
     <Compile Include="Engine\AspectDefinition.cs" />
     <Compile Include="Engine\IPointcut.cs" />
+    <Compile Include="Engine\IPointcutMatcher.cs" />
+    <Compile Include="Engine\IPointcutProvidr.cs" />
+    <Compile Include="Pointcuts\MethodCallPointcut.cs" />
+    <Compile Include="Pointcuts\PointcutMatchCollection.cs" />
     <Compile Include="Framework\AbstractAdviceAttribute.cs" />
-    <Compile Include="Framework\MethodAroundAttribute.cs" />
-    <Compile Include="Framework\AroundPropertyType.cs" />
-    <Compile Include="Framework\PropertyAroundAttribute.cs" />
-    <Compile Include="Framework\AllMethodsAroundAttribute.cs" />
+    <Compile Include="Pointcuts\MethodPointcutProviderAttribute.cs" />
+    <Compile Include="Pointcuts\PointcutMatcherAttribute.cs" />
+    <Compile Include="Pointcuts\PointcutVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Aspects\" />
+    <Folder Include="Advise\" />
     <Folder Include="Mixins\" />
-    <Folder Include="Pointcuts\" />
     <Folder Include="Runtime\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NCop.Core\NCop.Core.csproj">
+      <Project>{7100c0df-e619-4ac8-8ed0-048dd118f251}</Project>
+      <Name>NCop.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

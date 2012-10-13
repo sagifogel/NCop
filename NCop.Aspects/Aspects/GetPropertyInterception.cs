@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NCop.Aspects.Engine
+namespace NCop.Aspects.Aspects
 {
-    public interface IPointcut
+    public class GetPropertyInterception
     {
-        string Name { get; }
     }
 }

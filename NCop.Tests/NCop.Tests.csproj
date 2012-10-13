@@ -50,13 +50,16 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NCop.Aspects\NCop.Aspects.csproj">
       <Project>{302add1b-6fdb-4872-bb24-3d783826a91e}</Project>
       <Name>NCop.Aspects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NCop.Core\NCop.Core.csproj">
+      <Project>{7100c0df-e619-4ac8-8ed0-048dd118f251}</Project>
+      <Name>NCop.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

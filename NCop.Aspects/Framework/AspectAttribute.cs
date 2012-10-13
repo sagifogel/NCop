@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NCop.Aspects.Engine
+namespace NCop.Aspects.Framework
 {
-    public interface IPointcut
+    public class AspectAttribute : Attribute
     {
-        string Name { get; }
     }
 }

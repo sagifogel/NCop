@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public interface IPointcut
+    public interface IAdvice
     {
-        string Name { get; }
     }
 }
