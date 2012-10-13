@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Pointcuts
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
-    public class MethodPointcutMatcherAttribute : PointcutMatcherAttribute
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    public abstract class MethodPointcutMatcherAttribute : AbstractPointcutMatcherAttribute
     {
+        public abstract override IPointcut Visit(MethodInfo[] methods);
+
         public override bool Match(object obj) {
             return base.Match(obj);
         }

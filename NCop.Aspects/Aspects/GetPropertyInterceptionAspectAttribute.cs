@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Aspects
 {
-    public class SetPropertyInterceptionAspect : PropertyInterceptionAspect
+    public class GetPropertyInterceptionAspectAttribute : PropertyInterceptionAspectAttribute
     {
-
     }
 }

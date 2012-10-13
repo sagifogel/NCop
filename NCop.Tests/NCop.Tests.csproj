@@ -50,6 +50,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="MethodMethodPointcutMatcherAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

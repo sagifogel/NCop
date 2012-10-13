@@ -25,7 +25,7 @@ namespace NCop.Aspects.Engine
             get { return Type.FullName; }
         }
 
-        private void AddPointcuts(string name, IPointcut pointcut) {
+        private void AddPointcut(string name, IPointcut pointcut) {
             lock (_syncLock) {
                 _pointcuts.GetOrAdd(name, new List<IPointcut>(1))
                           .Add(pointcut);
@@ -40,7 +40,7 @@ namespace NCop.Aspects.Engine
             return pointcuts;
         }
 
-        public void Advise(IAdvice advice) {
+        public void AddAdvise(IAdvice advice) {
             _advices.Add(advice);
         }
 

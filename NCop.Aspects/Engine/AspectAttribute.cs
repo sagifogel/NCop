@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NCop.Aspects.Aspects
+namespace NCop.Aspects.Engine
 {
-    public class GetPropertyInterceptionAspect : PropertyInterceptionAspect
+    public class AspectAttribute : Attribute
     {
     }
 }

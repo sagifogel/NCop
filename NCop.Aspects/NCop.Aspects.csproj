@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PostSharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,33 +40,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Aspects\EventInterceptionAspect.cs" />
-    <Compile Include="Aspects\GetPropertyInterception.cs" />
-    <Compile Include="Aspects\GetPropertyInterceptionAspect.cs" />
-    <Compile Include="Aspects\MethodInterceptionAspect.cs" />
+    <Compile Include="Aspects\EventInterceptionAspectAttribute.cs" />
+    <Compile Include="Aspects\GetPropertyInterceptionAspectAttribute.cs" />
+    <Compile Include="Aspects\MethodInterceptionAspectAttribute.cs" />
     <Compile Include="Aspects\Interception\MethodInterception.cs" />
-    <Compile Include="Aspects\OnMethodBoundaryAspect.cs" />
-    <Compile Include="Aspects\PropertyInterceptionAspect.cs" />
+    <Compile Include="Aspects\OnMethodBoundaryAspectAttribute.cs" />
+    <Compile Include="Aspects\PropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Aspects\Interception\SetPropertyInterception.cs" />
-    <Compile Include="Aspects\SetPropertyInterceptionAspect.cs" />
+    <Compile Include="Aspects\SetPropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Engine\Advices.cs" />
     <Compile Include="Engine\IAdvice.cs" />
+    <Compile Include="Engine\ILifetimeStrategy.cs" />
     <Compile Include="Engine\IPointcutStore.cs" />
-    <Compile Include="Framework\AspectAttribute.cs" />
+    <Compile Include="Engine\AspectAttribute.cs" />
     <Compile Include="Engine\AspectDefinition.cs" />
     <Compile Include="Engine\IPointcut.cs" />
     <Compile Include="Engine\IPointcutMatcher.cs" />
     <Compile Include="Engine\IPointcutProvidr.cs" />
+    <Compile Include="LifetimeStrategies\PerThreadLifetimeStrategy.cs" />
+    <Compile Include="LifetimeStrategies\TransientLifetimeStrategy.cs" />
     <Compile Include="Pointcuts\MethodCallPointcut.cs" />
     <Compile Include="Pointcuts\PointcutMatchCollection.cs" />
-    <Compile Include="Framework\AbstractAdviceAttribute.cs" />
     <Compile Include="Pointcuts\MethodPointcutProviderAttribute.cs" />
-    <Compile Include="Pointcuts\PointcutMatcherAttribute.cs" />
+    <Compile Include="Pointcuts\AbstractPointcutMatcherAttribute.cs" />
     <Compile Include="Pointcuts\PointcutVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Advise\" />
+    <Folder Include="Framework\" />
     <Folder Include="Mixins\" />
     <Folder Include="Runtime\" />
   </ItemGroup>

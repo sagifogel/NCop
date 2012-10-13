@@ -1,4 +1,4 @@
-﻿using NCop.Aspects.Framework;
+﻿using NCop.Aspects.Engine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace NCop.Aspects.Aspects
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class PropertyInterceptionAspect : AspectAttribute
+    public class PropertyInterceptionAspectAttribute : AspectAttribute
     {
     }
 }

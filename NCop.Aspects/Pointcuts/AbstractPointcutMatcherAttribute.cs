@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Pointcuts
 {
-    public abstract class PointcutMatcherAttribute : Attribute, IPointcutVisitor, IPointcutMatcher
+    public abstract class AbstractPointcutMatcherAttribute : Attribute, IPointcutVisitor, IPointcutMatcher
     {   
         private IEnumerable<IPointcut> Visit(Type type) {
             yield return Visit(type.GetFields(ReflectionUtils.AllFlags));

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NCop.Aspects.Framework
+namespace NCop.Aspects.Aspects
 {
-    public class AspectAttribute : Attribute
+    public class SetPropertyInterceptionAspectAttribute : PropertyInterceptionAspectAttribute
     {
+
     }
 }
