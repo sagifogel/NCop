@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 
 namespace NCop.Aspects.Engine
 {
-    public class AspectDefinition
+    public class AspectDefinition : IAdviceRepository
     {
         private readonly Advices _advices = new Advices();
         private static readonly object _syncLock = new object();
@@ -40,11 +40,11 @@ namespace NCop.Aspects.Engine
             return pointcuts;
         }
 
-        public void AddAdvise(IAdvice advice) {
+        public void AddAdvice(Advice advice) {
             _advices.Add(advice);
         }
 
-        public IEnumerable<IAdvice> Advices {
+        public IEnumerable<Advice> Advices {
             get { return _advices; }
         }
     }

@@ -6,13 +6,16 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using NCop.Core.Extensions;
 
 namespace NCop.Tests
 {
-    public class MethodMethodPointcutMatcherAttribute : MethodPointcutMatcherAttribute
+    public class MethodMethodPointcutMatcherAttribute : MethodPointcutProviderAttribute
     {
-        public override IPointcut Visit(MethodInfo[] methods) {
-            return new MethodCallPointcut(methods);
+        public override IEnumerable<IPointcut> Visit(MethodInfo[] methods) {
+            return methods.Select(method => {
+                return new MethodCallPointcut(method);
+            });
         }
     }
 }

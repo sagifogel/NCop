@@ -7,11 +7,11 @@ using System.Text;
 
 namespace NCop.Aspects.Pointcuts
 {
-    public class PointcutMatchCollection : IEnumerable<IPointcut>
+    public class PointcutCollection : IEnumerable<IPointcut>
     {
         private IEnumerable<IPointcut> _matches = null;
 
-        public PointcutMatchCollection(IEnumerable<IPointcut> matches) {
+        public PointcutCollection(IEnumerable<IPointcut> matches) {
             _matches = matches;
         }
 

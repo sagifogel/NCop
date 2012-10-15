@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public interface IAdvice
+    public interface IJointPoint
     {
+        object Proceed();
+        object Instance { get; }
     }
 }

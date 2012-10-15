@@ -30,7 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PostSharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL" />
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\packages\Mono.Cecil.0.9.5.3\lib\net40\Mono.Cecil.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,26 +50,28 @@
     <Compile Include="Aspects\PropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Aspects\Interception\SetPropertyInterception.cs" />
     <Compile Include="Aspects\SetPropertyInterceptionAspectAttribute.cs" />
+    <Compile Include="Engine\Advice.cs" />
     <Compile Include="Engine\Advices.cs" />
-    <Compile Include="Engine\IAdvice.cs" />
+    <Compile Include="Engine\IAdviceRepository.cs" />
+    <Compile Include="Engine\IAspectProvider.cs" />
+    <Compile Include="Engine\IJointPoint.cs" />
     <Compile Include="Engine\ILifetimeStrategy.cs" />
     <Compile Include="Engine\IPointcutStore.cs" />
     <Compile Include="Engine\AspectAttribute.cs" />
     <Compile Include="Engine\AspectDefinition.cs" />
     <Compile Include="Engine\IPointcut.cs" />
-    <Compile Include="Engine\IPointcutMatcher.cs" />
-    <Compile Include="Engine\IPointcutProvidr.cs" />
+    <Compile Include="Engine\IPointcutProvider.cs" />
     <Compile Include="LifetimeStrategies\PerThreadLifetimeStrategy.cs" />
+    <Compile Include="LifetimeStrategies\SingletonLifetimeStrategy.cs" />
     <Compile Include="LifetimeStrategies\TransientLifetimeStrategy.cs" />
     <Compile Include="Pointcuts\MethodCallPointcut.cs" />
-    <Compile Include="Pointcuts\PointcutMatchCollection.cs" />
+    <Compile Include="Pointcuts\PointcutCollection.cs" />
     <Compile Include="Pointcuts\MethodPointcutProviderAttribute.cs" />
-    <Compile Include="Pointcuts\AbstractPointcutMatcherAttribute.cs" />
+    <Compile Include="Pointcuts\AbstractPointcutVisitorAttribute.cs" />
     <Compile Include="Pointcuts\PointcutVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Advise\" />
     <Folder Include="Framework\" />
     <Folder Include="Mixins\" />
     <Folder Include="Runtime\" />
@@ -77,6 +81,11 @@
       <Project>{7100c0df-e619-4ac8-8ed0-048dd118f251}</Project>
       <Name>NCop.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

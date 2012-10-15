@@ -10,7 +10,7 @@ namespace NCop.Aspects.Pointcuts
 {
     public class MethodCallPointcut : IPointcut
     {
-        public MethodCallPointcut(MethodInfo[] methodInfos) {
+        public MethodCallPointcut(MethodInfo methodInfo) {
 
         }
 

@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public class AspectAttribute : Attribute
+    public class AspectAttribute : Attribute, IAdviceRepository
     {
+        public ILifetimeStrategy LifetimeStrategy {
+            get { throw new NotImplementedException(); }
+        }
+
+        public void AddAdvice(Advice advice) {
+            throw new NotImplementedException();
+        }
     }
 }

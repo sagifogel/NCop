@@ -10,9 +10,9 @@ namespace NCop.Aspects.Pointcuts
 {
     public interface IPointcutVisitor
     {
-        IPointcut Visit(FieldInfo[] fields);
-        IPointcut Visit(MethodInfo[] methods);
-        IPointcut Visit(ConstructorInfo[] ctors);
-        IPointcut Visit(PropertyInfo[] properties);
+        IEnumerable<IPointcut> Visit(FieldInfo[] fields);
+        IEnumerable<IPointcut> Visit(MethodInfo[] methods);
+        IEnumerable<IPointcut> Visit(ConstructorInfo[] ctors);
+        IEnumerable<IPointcut> Visit(PropertyInfo[] properties);
     }
 }

@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace NCop.Aspects.Pointcuts
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public abstract class MethodPointcutMatcherAttribute : AbstractPointcutMatcherAttribute
+    public abstract class MethodPointcutProviderAttribute : AbstractPointcutVisitorAttribute
     {
-        public abstract override IPointcut Visit(MethodInfo[] methods);
+        public abstract override IEnumerable<IPointcut> Visit(MethodInfo[] methods);
 
         public override bool Match(object obj) {
             return base.Match(obj);
