@@ -10,7 +10,7 @@ namespace NCop.Aspects.Engine
 {
     public class AspectDefinition : IAdviceRepository
     {
-        private readonly Advices _advices = new Advices();
+        private readonly Advise _advices = new Advise();
         private static readonly object _syncLock = new object();
         private readonly PointcutStore _pointcuts = new PointcutStore();
 
@@ -40,11 +40,11 @@ namespace NCop.Aspects.Engine
             return pointcuts;
         }
 
-        public void AddAdvice(Advice advice) {
+        public void AddAdvice(IAdvice advice) {
             _advices.Add(advice);
         }
 
-        public IEnumerable<Advice> Advices {
+        public IEnumerable<IAdvice> Advices {
             get { return _advices; }
         }
     }

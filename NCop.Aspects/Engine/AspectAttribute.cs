@@ -12,7 +12,7 @@ namespace NCop.Aspects.Engine
             get { throw new NotImplementedException(); }
         }
 
-        public void AddAdvice(Advice advice) {
+        public void AddAdvice(IAdvice advice) {
             throw new NotImplementedException();
         }
     }

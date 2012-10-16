@@ -9,5 +9,8 @@ namespace NCop.Aspects.LifetimeStrategies
 {
     public class SingletonLifetimeStrategy : ILifetimeStrategy
     {
+        public SingletonLifetimeStrategy() {
+
+        }
     }
 }

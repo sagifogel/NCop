@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public interface IJointPoint
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    public abstract class AdviceAttribute : Attribute
     {
-        object Instance { get; }
-        MethodInfo Method { get; }
-        object[] Arguments { get; }
     }
 }

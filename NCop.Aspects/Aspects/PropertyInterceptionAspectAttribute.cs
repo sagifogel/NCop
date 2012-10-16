@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace NCop.Aspects.Aspects
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class PropertyInterceptionAspectAttribute : AspectAttribute
+    public abstract class PropertyInterceptionAspectAttribute : AspectAttribute
     {
     }
 }

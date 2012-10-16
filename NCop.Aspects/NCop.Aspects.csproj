@@ -42,25 +42,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Advices\OnInvokeAdviceAttribute.cs" />
+    <Compile Include="Advices\OnFinallyAdviceAttribute.cs" />
+    <Compile Include="Advices\OnSuccessAdviceAttribute.cs" />
     <Compile Include="Aspects\EventInterceptionAspectAttribute.cs" />
     <Compile Include="Aspects\GetPropertyInterceptionAspectAttribute.cs" />
+    <Compile Include="Aspects\Interception\GetPropertyInterception.cs" />
     <Compile Include="Aspects\MethodInterceptionAspectAttribute.cs" />
     <Compile Include="Aspects\Interception\MethodInterception.cs" />
+    <Compile Include="Advices\OnErrorAdviceAttribute.cs" />
     <Compile Include="Aspects\OnMethodBoundaryAspectAttribute.cs" />
     <Compile Include="Aspects\PropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Aspects\Interception\SetPropertyInterception.cs" />
     <Compile Include="Aspects\SetPropertyInterceptionAspectAttribute.cs" />
-    <Compile Include="Engine\Advice.cs" />
-    <Compile Include="Engine\Advices.cs" />
+    <Compile Include="Engine\AdviceAttribute.cs" />
+    <Compile Include="Engine\Advise.cs" />
+    <Compile Include="Engine\IAdvice.cs" />
     <Compile Include="Engine\IAdviceRepository.cs" />
     <Compile Include="Engine\IAspectProvider.cs" />
     <Compile Include="Engine\IJointPoint.cs" />
     <Compile Include="Engine\ILifetimeStrategy.cs" />
+    <Compile Include="Engine\IMethodExecuter.cs" />
     <Compile Include="Engine\IPointcutStore.cs" />
     <Compile Include="Engine\AspectAttribute.cs" />
     <Compile Include="Engine\AspectDefinition.cs" />
     <Compile Include="Engine\IPointcut.cs" />
     <Compile Include="Engine\IPointcutProvider.cs" />
+    <Compile Include="Engine\IPreventable.cs" />
+    <Compile Include="Engine\IPropertyGetExecuter.cs" />
+    <Compile Include="Engine\IPropertySetExecuter.cs" />
     <Compile Include="LifetimeStrategies\PerThreadLifetimeStrategy.cs" />
     <Compile Include="LifetimeStrategies\SingletonLifetimeStrategy.cs" />
     <Compile Include="LifetimeStrategies\TransientLifetimeStrategy.cs" />

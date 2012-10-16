@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public interface IAdviceRepository
+    public interface IPropertySetExecuter
     {
-        void AddAdvice(IAdvice advice);
+        void ProceedSetValue();
     }
 }
