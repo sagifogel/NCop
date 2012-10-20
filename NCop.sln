@@ -5,9 +5,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCop.Core", "NCop.Core\NCop
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCop.Aspects", "NCop.Aspects\NCop.Aspects.csproj", "{302ADD1B-6FDB-4872-BB24-3D783826A91E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCop.DependencyInjection", "NCop.DependencyInjection\NCop.DependencyInjection.csproj", "{0B598341-32A5-4D5F-A11C-E37E5B4EF65D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCop.IoC", "NCop.DependencyInjection\NCop.IoC.csproj", "{0B598341-32A5-4D5F-A11C-E37E5B4EF65D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCop.Tests", "NCop.Tests\NCop.Tests.csproj", "{1A05073C-E859-4503-9178-54E4267F3BCA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCop.Samples", "NCop.Samples\NCop.Samples.csproj", "{E3EDF1E1-E763-44FF-BE7A-7C546986DCC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{1A05073C-E859-4503-9178-54E4267F3BCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A05073C-E859-4503-9178-54E4267F3BCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A05073C-E859-4503-9178-54E4267F3BCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3EDF1E1-E763-44FF-BE7A-7C546986DCC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3EDF1E1-E763-44FF-BE7A-7C546986DCC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3EDF1E1-E763-44FF-BE7A-7C546986DCC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3EDF1E1-E763-44FF-BE7A-7C546986DCC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

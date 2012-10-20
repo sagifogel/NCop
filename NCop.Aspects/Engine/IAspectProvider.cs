@@ -8,6 +8,6 @@ namespace NCop.Aspects.Engine
 {
     public interface IAspectProvider
     {
-        ILifetimeStrategy LifetimeStrategy { get; }
+        IAspect GetAspect();
     }
 }

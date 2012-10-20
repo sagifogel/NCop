@@ -78,6 +78,10 @@ namespace NCop.Core.Extensions
                          .ToList();
         }
 
+        public static List<TSource> ToList<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate) {
+            return source.Where(predicate).ToList();
+        }
+
         public static int IndexOf<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate) {
             int index = -1;
             int count = -1;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public interface ILifetimeStrategy
+    public interface ILifetimeStrategy : IAspectProvider
     {
     }
 }

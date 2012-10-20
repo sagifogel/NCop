@@ -4,10 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace NCop.Aspects.LifetimeStrategies
 {
-    public class PerThreadLifetimeStrategy : ILifetimeStrategy
+    public class PerThreadLifetimeStrategy : AbstractLifetimeStrategy
     {
+        private ThreadLocal<IAspect> _aspectThread = null;
+
+        public PerThreadLifetimeStrategy(IAspectFactory factory)
+            : base(factory) {
+            //_aspectThread = new ThreadLocal<IAspect>(Factory.Create, true);
+        }
+
+        public override IAspect GetAspect() {
+            return _aspectThread.Value;
+        }
     }
 }

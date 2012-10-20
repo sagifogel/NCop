@@ -7,7 +7,13 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.LifetimeStrategies
 {
-    public class TransientLifetimeStrategy : ILifetimeStrategy
+    public class TransientLifetimeStrategy : AbstractLifetimeStrategy
     {
+        public TransientLifetimeStrategy(IAspectFactory factory)
+            : base(factory) { }
+
+        public override IAspect GetAspect() {
+            return Factory.Create();
+        }
     }
 }

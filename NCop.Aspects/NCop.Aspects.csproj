@@ -11,6 +11,7 @@
     <AssemblyName>NCop.Aspects</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,38 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsInferRequires>False</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestRequires>True</CodeContractsSuggestRequires>
+    <CodeContractsSuggestEnsures>False</CodeContractsSuggestEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Preconditions</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,44 +78,55 @@
     <Compile Include="Advices\OnInvokeAdviceAttribute.cs" />
     <Compile Include="Advices\OnFinallyAdviceAttribute.cs" />
     <Compile Include="Advices\OnSuccessAdviceAttribute.cs" />
-    <Compile Include="Aspects\EventInterceptionAspectAttribute.cs" />
-    <Compile Include="Aspects\GetPropertyInterceptionAspectAttribute.cs" />
+    <Compile Include="Framework\EventInterceptionAspectAttribute.cs" />
+    <Compile Include="Framework\GetPropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Aspects\Interception\GetPropertyInterception.cs" />
-    <Compile Include="Aspects\MethodInterceptionAspectAttribute.cs" />
+    <Compile Include="Framework\MethodInterceptionAspectAttribute.cs" />
     <Compile Include="Aspects\Interception\MethodInterception.cs" />
     <Compile Include="Advices\OnErrorAdviceAttribute.cs" />
-    <Compile Include="Aspects\OnMethodBoundaryAspectAttribute.cs" />
+    <Compile Include="Framework\OnMethodBoundaryAspectAttribute.cs" />
     <Compile Include="Aspects\PropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Aspects\Interception\SetPropertyInterception.cs" />
-    <Compile Include="Aspects\SetPropertyInterceptionAspectAttribute.cs" />
+    <Compile Include="Framework\SetPropertyInterceptionAspectAttribute.cs" />
+    <Compile Include="LifetimeStrategies\AbstractLifetimeStrategy.cs" />
+    <Compile Include="Engine\Advice.cs" />
     <Compile Include="Engine\AdviceAttribute.cs" />
     <Compile Include="Engine\Advise.cs" />
+    <Compile Include="Engine\AspectsRepository.cs" />
+    <Compile Include="Engine\IAdviseCollection.cs" />
+    <Compile Include="Engine\IAspectBuilderProvider.cs" />
+    <Compile Include="Engine\IAspectDefinition.cs" />
+    <Compile Include="Engine\IAspectBuilder.cs" />
     <Compile Include="Engine\IAdvice.cs" />
     <Compile Include="Engine\IAdviceRepository.cs" />
+    <Compile Include="Engine\IAspectFactory.cs" />
     <Compile Include="Engine\IAspectProvider.cs" />
     <Compile Include="Engine\IJointPoint.cs" />
     <Compile Include="Engine\ILifetimeStrategy.cs" />
     <Compile Include="Engine\IMethodExecuter.cs" />
+    <Compile Include="Engine\IPointcutCollection.cs" />
     <Compile Include="Engine\IPointcutStore.cs" />
     <Compile Include="Engine\AspectAttribute.cs" />
-    <Compile Include="Engine\AspectDefinition.cs" />
+    <Compile Include="Aspects\AspectDefinition.cs" />
     <Compile Include="Engine\IPointcut.cs" />
     <Compile Include="Engine\IPointcutProvider.cs" />
     <Compile Include="Engine\IPreventable.cs" />
     <Compile Include="Engine\IPropertyGetExecuter.cs" />
     <Compile Include="Engine\IPropertySetExecuter.cs" />
+    <Compile Include="Engine\AspectByReflectionFactory.cs" />
+    <Compile Include="Framework\AttributeAspectBuilder.cs" />
+    <Compile Include="LifetimeStrategies\WellKnownLifetimeStrategy.cs" />
     <Compile Include="LifetimeStrategies\PerThreadLifetimeStrategy.cs" />
     <Compile Include="LifetimeStrategies\SingletonLifetimeStrategy.cs" />
     <Compile Include="LifetimeStrategies\TransientLifetimeStrategy.cs" />
     <Compile Include="Pointcuts\MethodCallPointcut.cs" />
-    <Compile Include="Pointcuts\PointcutCollection.cs" />
-    <Compile Include="Pointcuts\MethodPointcutProviderAttribute.cs" />
+    <Compile Include="Engine\PointcutCollection.cs" />
+    <Compile Include="Framework\MethodPointcutAttribute.cs" />
     <Compile Include="Pointcuts\AbstractPointcutVisitorAttribute.cs" />
     <Compile Include="Pointcuts\PointcutVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Framework\" />
     <Folder Include="Mixins\" />
     <Folder Include="Runtime\" />
   </ItemGroup>
