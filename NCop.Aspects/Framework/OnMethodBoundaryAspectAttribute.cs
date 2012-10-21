@@ -9,8 +9,8 @@ namespace NCop.Aspects.Framework
 {
     public class OnMethodBoundaryAspectAttribute : MethodInterceptionAspectAttribute
     {
-        public OnMethodBoundaryAspectAttribute(WellKnownLifetimeStrategy lifetimeStrategy = LifetimeStrategies.WellKnownLifetimeStrategy.Singleton)
-            : base(lifetimeStrategy) { }
+        public OnMethodBoundaryAspectAttribute()
+            : base() { }
 
         [OnFinallyAdvice]
         public virtual void Finally(MethodInterception interception) { }

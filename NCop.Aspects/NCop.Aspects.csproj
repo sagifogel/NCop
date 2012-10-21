@@ -78,9 +78,11 @@
     <Compile Include="Advices\OnInvokeAdviceAttribute.cs" />
     <Compile Include="Advices\OnFinallyAdviceAttribute.cs" />
     <Compile Include="Advices\OnSuccessAdviceAttribute.cs" />
+    <Compile Include="Engine\ILifetimeStrategyProvider.cs" />
     <Compile Include="Framework\EventInterceptionAspectAttribute.cs" />
     <Compile Include="Framework\GetPropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Aspects\Interception\GetPropertyInterception.cs" />
+    <Compile Include="Framework\LifetimeStrategyAttribute.cs" />
     <Compile Include="Framework\MethodInterceptionAspectAttribute.cs" />
     <Compile Include="Aspects\Interception\MethodInterception.cs" />
     <Compile Include="Advices\OnErrorAdviceAttribute.cs" />
