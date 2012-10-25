@@ -57,6 +57,11 @@ namespace NCop.Core.Extensions
                 yield return item;
             }
         }
+        
+        public static TSource Single<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate) {
+            return source.Where(predicate)
+                         .FirstOrDefault();
+        }
 
         public static IEnumerable<TSource> Distinct<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> predicate) {
             HashSet<TKey> keys = new HashSet<TKey>();

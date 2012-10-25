@@ -35,7 +35,7 @@ namespace NCop.Aspects.Engine
                     _aspects.GetOrAdd(type, provider);
                 }
 
-                return provider.GetAspect();
+                return provider.Aspect;
             }
         }
     }

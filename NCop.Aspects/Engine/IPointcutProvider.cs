@@ -9,6 +9,6 @@ namespace NCop.Aspects.Engine
 {
     public interface IPointcutProvider
     {
-        PointcutCollection Match(Type type);
+        IPointcutCollection Match(Type type);
     }
 }

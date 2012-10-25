@@ -63,7 +63,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mono.Cecil">
+    <Reference Include="Mono.Cecil, Version=0.9.5.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Mono.Cecil.0.9.5.3\lib\net40\Mono.Cecil.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -78,7 +79,18 @@
     <Compile Include="Advices\OnInvokeAdviceAttribute.cs" />
     <Compile Include="Advices\OnFinallyAdviceAttribute.cs" />
     <Compile Include="Advices\OnSuccessAdviceAttribute.cs" />
+    <Compile Include="Aspects\IAspectVisitor.cs" />
+    <Compile Include="Aspects\Interception\MethodExecution.cs" />
+    <Compile Include="Engine\AbstractVisitor.cs" />
+    <Compile Include="Engine\AspectCollection.cs" />
+    <Compile Include="Engine\AttributeAspectProvider.cs" />
+    <Compile Include="Engine\Collection.cs" />
+    <Compile Include="Engine\IAspect.cs" />
+    <Compile Include="Engine\IAspectCollection.cs" />
+    <Compile Include="Engine\IInvocationJointPoint.cs" />
     <Compile Include="Engine\ILifetimeStrategyProvider.cs" />
+    <Compile Include="Engine\IVisitor.cs" />
+    <Compile Include="Engine\PointcutAttribute.cs" />
     <Compile Include="Framework\EventInterceptionAspectAttribute.cs" />
     <Compile Include="Framework\GetPropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Aspects\Interception\GetPropertyInterception.cs" />
@@ -93,10 +105,9 @@
     <Compile Include="LifetimeStrategies\AbstractLifetimeStrategy.cs" />
     <Compile Include="Engine\Advice.cs" />
     <Compile Include="Engine\AdviceAttribute.cs" />
-    <Compile Include="Engine\Advise.cs" />
+    <Compile Include="Engine\AdviceCollection.cs" />
     <Compile Include="Engine\AspectsRepository.cs" />
-    <Compile Include="Engine\IAdviseCollection.cs" />
-    <Compile Include="Engine\IAspectBuilderProvider.cs" />
+    <Compile Include="Engine\IAdviceCollection.cs" />
     <Compile Include="Engine\IAspectDefinition.cs" />
     <Compile Include="Engine\IAspectBuilder.cs" />
     <Compile Include="Engine\IAdvice.cs" />
@@ -116,7 +127,8 @@
     <Compile Include="Engine\IPropertyGetExecuter.cs" />
     <Compile Include="Engine\IPropertySetExecuter.cs" />
     <Compile Include="Engine\AspectByReflectionFactory.cs" />
-    <Compile Include="Framework\AttributeAspectBuilder.cs" />
+    <Compile Include="Engine\AttributeAspectBuilder.cs" />
+    <Compile Include="Engine\Extensions.cs" />
     <Compile Include="LifetimeStrategies\WellKnownLifetimeStrategy.cs" />
     <Compile Include="LifetimeStrategies\PerThreadLifetimeStrategy.cs" />
     <Compile Include="LifetimeStrategies\SingletonLifetimeStrategy.cs" />
@@ -125,7 +137,7 @@
     <Compile Include="Engine\PointcutCollection.cs" />
     <Compile Include="Framework\MethodPointcutAttribute.cs" />
     <Compile Include="Pointcuts\AbstractPointcutVisitorAttribute.cs" />
-    <Compile Include="Pointcuts\PointcutVisitor.cs" />
+    <Compile Include="Pointcuts\IPointcutVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

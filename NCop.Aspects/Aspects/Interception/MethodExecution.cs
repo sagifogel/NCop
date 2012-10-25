@@ -8,18 +8,12 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Aspects.Interception
 {
-    public class SetPropertyInterception : IJointPoint, IPropertySetExecuter, IPreventable
-    {
-        public void ProceedSetValue() {
-        }
-
+    public class MethodExecution : IJointPoint
+    {   
         public object Instance { get; private set; }
-
-        public bool IsPrevented { get; private set; }
 
         public MethodInfo Method { get; private set; }
 
-        public object Argument { get; private set; }
-
+        public object[] Arguments { get; private set; }
     }
 }

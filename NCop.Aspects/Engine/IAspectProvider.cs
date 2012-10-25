@@ -8,6 +8,6 @@ namespace NCop.Aspects.Engine
 {
     public interface IAspectProvider
     {
-        IAspect GetAspect();
+        IAspect Aspect { get; }
     }
 }

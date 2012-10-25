@@ -8,26 +8,8 @@ using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Pointcuts
 {
-    public class PointcutCollection : IPointcutCollection
+    public class PointcutCollection : Collection<IPointcut>, IPointcutCollection
     {
-        private List<IPointcut> _matches = null;
-
-        public PointcutCollection(IEnumerable<IPointcut> matches) {
-            _matches = matches.ToList(p => !ReferenceEquals(p, null));
-        }
-
-        public IEnumerator<IPointcut> GetEnumerator() {
-            return _matches.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            return GetEnumerator();
-        }
-
-        public int Count {
-            get {
-                return _matches.Count;
-            }
-        }
+        public PointcutCollection(IEnumerable<IPointcut> pointcuts) : base(pointcuts) { }
     }
 }

@@ -11,6 +11,6 @@ namespace NCop.Aspects.Framework
     public class MethodInterceptionAspectAttribute : AspectAttribute
     {
         [OnInvokeAdvice]
-        public virtual void OnInvoke(MethodInterception interception) { }
+        public virtual void OnInvoke(MethodInterception methodInterception) { }
     }
 }

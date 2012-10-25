@@ -9,35 +9,34 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Pointcuts
 {
-    public abstract class AbstractPointcutVisitorAttribute : AspectAttribute, IPointcutVisitor, IPointcutProvider
+    public class AbstractPointcutAttribute : PointcutAttribute, IPointcutVisitor, IPointcutProvider
     {
-        private IEnumerable<IPointcut> Visit(Type type) {
-            return Visit(type.GetFields(ReflectionUtils.AllFlags))
-                     .Concat(Visit(type.GetMethods(ReflectionUtils.AllFlags)))
-                        .Concat(Visit(type.GetProperties(ReflectionUtils.AllFlags)))
-                            .Concat(Visit(type.GetConstructors(ReflectionUtils.AllFlags)));
-        }
+        private static readonly IEnumerable<IPointcut> _empty = Enumerable.Empty<IPointcut>();
 
-        public virtual IEnumerable<IPointcut> Visit(FieldInfo[] fields) {
-            return null;
-        }
-
-        public virtual IEnumerable<IPointcut> Visit(MethodInfo[] methods) {
-            return null;
-        }
-
-        public virtual IEnumerable<IPointcut> Visit(ConstructorInfo[] ctors) {
-            return null;
-        }
-
-        public virtual IEnumerable<IPointcut> Visit(PropertyInfo[] properties) {
-            return null;
-        }
-
-        public PointcutCollection Match(Type type) {
+        public IPointcutCollection Match(Type type) {
             var pointcuts = Visit(type);
 
             return new PointcutCollection(pointcuts);
+        }
+
+        public virtual IEnumerable<IPointcut> Visit(FieldInfo[] fields) {
+            return _empty;
+        }
+
+        public virtual IEnumerable<IPointcut> Visit(MethodInfo[] methods) {
+            return _empty;
+        }
+
+        public virtual IEnumerable<IPointcut> Visit(ConstructorInfo[] ctors) {
+            return _empty;
+        }
+
+        public virtual IEnumerable<IPointcut> Visit(PropertyInfo[] properties) {
+            return _empty;
+        }
+
+        public IEnumerable<IPointcut> Visit(Type type) {
+            throw new NotImplementedException();
         }
     }
 }

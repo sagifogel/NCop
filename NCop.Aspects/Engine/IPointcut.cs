@@ -8,6 +8,6 @@ namespace NCop.Aspects.Engine
 {
     public interface IPointcut
     {
-        string Name { get; }
+        //string Name { get; }
     }
 }

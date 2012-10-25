@@ -7,7 +7,7 @@ using NCop.Aspects.Pointcuts;
 namespace NCop.Aspects.Framework
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public abstract class MethodPointcutAttribute : AbstractPointcutVisitorAttribute
+    public abstract class MethodPointcutAttribute : AbstractPointcutAttribute
     {
         public abstract override IEnumerable<IPointcut> Visit(MethodInfo[] methods);
     }

@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public interface IAspect
+    public interface IAspectDefinition
     {
-        IAdviceCollection Advise { get; }        
+        IAspect Aspect { get; }
+        IAdviceCollection Advices { get; }
+        IPointcutCollection Pointcuts { get; }
     }
 }

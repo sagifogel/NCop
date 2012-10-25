@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public interface IAspectBuilder
+    public interface IAdviceCollection : IReadOnlyCollection<IAdvice>
     {
-        void Build();
     }
 }

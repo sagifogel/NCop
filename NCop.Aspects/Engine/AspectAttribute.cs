@@ -9,8 +9,8 @@ using NCop.Aspects.LifetimeStrategies;
 
 namespace NCop.Aspects.Engine
 {
-    public abstract class AspectAttribute : Attribute
+    public abstract class AspectAttribute : Attribute, IAspect
     {
-        
+
     }
 }

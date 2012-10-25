@@ -1,14 +1,14 @@
-﻿using System;
+﻿using NCop.Aspects.Engine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NCop.Aspects.Engine
+namespace NCop.Aspects.Pointcuts
 {
-    public interface IJointPoint
+    public interface IPointcutVisitor : IVisitor<IPointcut>
     {
-        object Instance { get; }
     }
 }

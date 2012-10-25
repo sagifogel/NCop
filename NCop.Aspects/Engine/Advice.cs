@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public class Advice
+    public class Advice : IAdvice
     {
     }
 }

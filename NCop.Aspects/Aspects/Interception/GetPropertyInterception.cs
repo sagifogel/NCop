@@ -14,8 +14,5 @@ namespace NCop.Aspects.Aspects.Interception
         public bool IsPrevented { get; private set; }
 
         public MethodInfo Method { get; private set; }
-
-        public object[] Arguments { get; private set; }
-
     }
 }

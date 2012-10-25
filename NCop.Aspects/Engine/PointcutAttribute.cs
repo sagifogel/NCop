@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public interface IAspectBuilder
+    public class PointcutAttribute : Attribute, IPointcut
     {
-        void Build();
+        
     }
 }

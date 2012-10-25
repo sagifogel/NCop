@@ -25,12 +25,7 @@ namespace NCop.Tests
 
         [TestMethod]
         static void OnMethodBoundaryAspect_WithoutSuppliedLifetimeStrategy_CreatesSingletonStartegy() {
-            var type = typeof(OnMethodBoundaryAspectAttribute);
-            var attr = typeof(Test).GetMethod("Foo").GetCustomAttributes(type, true);
-            var liftimeAttr = attr.GetType().GetCustomAttributes(typeof(LifetimeStrategyAttribute), true).First() as ILifetimeStrategyProvider;
-
-            var builder = new AttributeAspectBuilder(type, liftimeAttr.GetLifetimeStrategy(type));
-            var aspect = builder.Build();
+            
         }
     }
 }

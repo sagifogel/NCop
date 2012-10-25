@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public interface IAspectBuilder
+    interface IInvocationJointPoint : IJointPoint
     {
-        void Build();
+        MethodInfo Method { get; }
+        object[] Arguments { get; }
     }
 }
