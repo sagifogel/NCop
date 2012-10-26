@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Framework
 {
+    [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = false)]
     public class LifetimeStrategyAttribute : Attribute, ILifetimeStrategyProvider
     {
         private bool _initialized = false;

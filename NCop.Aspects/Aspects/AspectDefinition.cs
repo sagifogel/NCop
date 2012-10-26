@@ -8,48 +8,31 @@ using System.Diagnostics.Contracts;
 using NCop.Aspects.Pointcuts;
 using NCop.Aspects.Engine;
 using System.Reflection;
+using NCop.Aspects.Advices;
+using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Aspects
 {
-    public class AspectDefinition : IAdviceRepository, IAspectDefinition
+    public abstract class AspectDefinition : IAspectDefinition
     {
-        private readonly IAspect _aspect = null;
-        private static readonly object _syncLock = new object();
-        private readonly PointcutStore _pointcuts = new PointcutStore();
-        private readonly AdviceCollection _advices = new AdviceCollection();
+        protected readonly JoinPointMetadata JoinPointMetadata = null;
+        protected readonly AdviceVisitor AdviceVisitor = new AdviceVisitor();
+        protected readonly AdviceCollection AdviceCollection = new AdviceCollection();
 
-        public AspectDefinition(IAspect aspect) {
-            _aspect = aspect;
+        public AspectDefinition(IAspectProvider provider, JoinPointMetadata joinPointMetadata) {
+            Aspect = provider.Aspect;
+            JoinPointMetadata = joinPointMetadata;
+            BulidAdvices();
         }
 
-        private void AddPointcut(string name, IPointcut pointcut) {
-            lock (_syncLock) {
-                _pointcuts.GetOrAdd(name, new List<IPointcut>(1))
-                          .Add(pointcut);
-            }
-        }
-
-        public void AddAdvice(IAdvice advice) {
-            _advices.Add(advice);
-        }
-
-        public IPointcutCollection Pointcuts {
-            get {
-                var pointcuts = _pointcuts.Values.SelectMany(v => v.AsEnumerable());
-                return new PointcutCollection(pointcuts);
-            }
-        }
-
-        public IAspect Aspect {
-            get {
-                return _aspect;
-            }
-        }
+        public IAspect Aspect { get; private set; }
 
         public IAdviceCollection Advices {
             get {
-                return _advices;
+                return AdviceCollection;
             }
         }
+
+        protected abstract void BulidAdvices();
     }
 }

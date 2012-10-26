@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public abstract class AbstractVisitor<T> : IVisitor<T>
+    public abstract class AbstractTypeVisitor<T> : ITypesVisitor<T>
     {
         private static readonly IEnumerable<T> _empty = Enumerable.Empty<T>();
 

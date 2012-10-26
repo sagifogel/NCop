@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NCop.Aspects.Pointcuts
+namespace NCop.Aspects.Aspects
 {
-    public interface IPointcutVisitor : ITypesVisitor<IPointcut>
+    public class AspectDefinitionCollection : Collection<IAspectDefinition>, IAspectDefinitionCollection
     {
     }
 }

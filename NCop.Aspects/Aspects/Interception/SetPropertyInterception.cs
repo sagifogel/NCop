@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Aspects.Interception
 {
-    public class SetPropertyInterception : IJointPoint, IPropertySetExecuter, IPreventable
+    public class SetPropertyInterception : IJoinPoint, IPropertySetExecuter, IPreventable
     {
         public void ProceedSetValue() {
         }
@@ -17,9 +17,8 @@ namespace NCop.Aspects.Aspects.Interception
 
         public bool IsPrevented { get; private set; }
 
-        public MethodInfo Method { get; private set; }
-
         public object Argument { get; private set; }
 
+        public MemberInfo TargetMember { get; private set; }
     }
 }

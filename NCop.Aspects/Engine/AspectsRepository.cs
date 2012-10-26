@@ -6,37 +6,37 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NCop.Core;
+using NCop.Aspects.Aspects;
 
 namespace NCop.Aspects.Engine
 {
-    public sealed class AspectsRepository
+    internal sealed class AspectsRepository
     {
-        private static bool _initialized = false;
         private static object _syncLock = new object();
-        private static AspectsRepository _repository = null;
-        private ConcurrentDictionary<Type, IAspectProvider> _aspects = new ConcurrentDictionary<Type, IAspectProvider>();
+        private static AspectsDefinitionStore _aspects = new AspectsDefinitionStore();
+        private static Lazy<AspectsRepository> _aspectsRepository = new Lazy<AspectsRepository>(() => new AspectsRepository());
 
         private AspectsRepository() { }
 
         public static AspectsRepository Instance {
             get {
-                return LazyInitializer.EnsureInitialized(ref _repository, 
-                                                         ref _initialized, 
-                                                         ref _syncLock, 
-                                                         () => new AspectsRepository());
+                return _aspectsRepository.Instance;
             }
         }
 
-        public IAspect GetOrAdd(Type type, IAspectProvider provider) {
-            IAspectProvider aspectProvider = null;
+        public void AddOrUpdate(Type type, IAspectDefinition aspectDefinition) {
+            lock (_syncLock) {
+                 var aspectsCollection = Ensure(type);
 
-            using (ReadWriteLocker.AcquireReadLock()) {
-                if (!_aspects.TryGetValue(type, out aspectProvider)) {
-                    _aspects.GetOrAdd(type, provider);
-                }
-
-                return provider.Aspect;
+                 _aspects.AddOrUpdate(type, aspectsCollection, (a, aspects) => {
+                    aspects.Add(aspectDefinition);
+                    return aspects;
+                });
             }
+        }
+
+        private AspectDefinitionCollection Ensure(Type type) {
+            return _aspects.GetOrAdd(type, new AspectDefinitionCollection());   
         }
     }
 }

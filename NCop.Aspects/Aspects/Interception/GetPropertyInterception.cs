@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace NCop.Aspects.Aspects.Interception
 {
-    public class GetPropertyInterception : IJointPoint, IPropertyGetExecuter, IPreventable
+    public class GetPropertyInterception : IJoinPoint, IPropertyGetExecuter, IPreventable
     {
         public object ProceedGetValue() {
             return null;
@@ -13,6 +13,6 @@ namespace NCop.Aspects.Aspects.Interception
 
         public bool IsPrevented { get; private set; }
 
-        public MethodInfo Method { get; private set; }
+        public MemberInfo TargetMember { get; private set; }
     }
 }

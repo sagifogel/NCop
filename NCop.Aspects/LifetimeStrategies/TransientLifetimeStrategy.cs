@@ -12,8 +12,10 @@ namespace NCop.Aspects.LifetimeStrategies
         public TransientLifetimeStrategy(IAspectFactory factory)
             : base(factory) { }
 
-        public override IAspect GetAspect() {
-            return Factory.Create();
+        public override IAspect Aspect {
+            get {
+                return Factory.Create();
+            }
         }
     }
 }

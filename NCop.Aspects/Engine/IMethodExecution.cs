@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public interface IMethodExecuter
+    public interface IMethodExecution
     {
-        object Proceed();
+        object Instance { get; }
+        object[] Arguments { get; }
+        Exception Exception { get; }
     }
 }

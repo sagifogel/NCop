@@ -17,8 +17,14 @@ namespace NCop.Aspects.LifetimeStrategies
         public SingletonLifetimeStrategy(IAspectFactory factory)
             : base(factory) { }
  
-        public override IAspect GetAspect() {
-            return LazyInitializer.EnsureInitialized(ref _aspect, ref _initialized, ref _syncLock, Factory.Create);
+        public override IAspect Aspect {
+            get {
+                return 
+                LazyInitializer.EnsureInitialized(ref _aspect, 
+                                                  ref _initialized, 
+                                                  ref _syncLock, 
+                                                  Factory.Create);
+            }
         }
     }
 }

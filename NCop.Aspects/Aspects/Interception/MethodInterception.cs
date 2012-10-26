@@ -7,7 +7,7 @@ using System.Text;
 
 namespace NCop.Aspects.Aspects.Interception
 {
-    public class MethodInterception : IJointPoint, IMethodExecuter, IPreventable
+    public class MethodInterception : IJoinPoint, IMethodInterception
     {   
         public object Proceed() {
             return null;
@@ -17,8 +17,10 @@ namespace NCop.Aspects.Aspects.Interception
 
         public bool IsPrevented { get; private set; }
 
-        public MethodInfo Method { get; private set; }
-
         public object[] Arguments { get; private set; }
+
+        public Exception Exception { get; private set; }
+
+        public MemberInfo TargetMember { get; private set; }
     }
 }

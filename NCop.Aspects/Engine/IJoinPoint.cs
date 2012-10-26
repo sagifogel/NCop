@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public interface IJointPoint
+    public interface IJoinPoint
     {
-        object Instance { get; }
+        MemberInfo TargetMember { get; }
     }
 }

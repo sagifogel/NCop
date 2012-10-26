@@ -9,9 +9,16 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Pointcuts
 {
-    public class AbstractPointcutAttribute : PointcutAttribute, IPointcutVisitor, IPointcutProvider
+    public class AbstractPointcutAttribute : PointcutAttribute, IPointcutVisitor
     {
         private static readonly IEnumerable<IPointcut> _empty = Enumerable.Empty<IPointcut>();
+
+        public IEnumerable<IPointcut> Visit(Type type) {
+            return Visit(type.GetFields(ReflectionUtils.AllFlags))
+                     .Concat(Visit(type.GetMethods(ReflectionUtils.AllFlags)))
+                        .Concat(Visit(type.GetProperties(ReflectionUtils.AllFlags)))
+                            .Concat(Visit(type.GetConstructors(ReflectionUtils.AllFlags)));
+        }
 
         public IPointcutCollection Match(Type type) {
             var pointcuts = Visit(type);
@@ -33,10 +40,6 @@ namespace NCop.Aspects.Pointcuts
 
         public virtual IEnumerable<IPointcut> Visit(PropertyInfo[] properties) {
             return _empty;
-        }
-
-        public IEnumerable<IPointcut> Visit(Type type) {
-            throw new NotImplementedException();
         }
     }
 }

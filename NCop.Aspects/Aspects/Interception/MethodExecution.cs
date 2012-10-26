@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Aspects.Interception
 {
-    public class MethodExecution : IJointPoint
+    public class MethodExecution : IJoinPoint, IMethodExecution
     {   
         public object Instance { get; private set; }
 
-        public MethodInfo Method { get; private set; }
-
         public object[] Arguments { get; private set; }
+
+        public Exception Exception { get; private set; }
+
+        public MemberInfo TargetMember { get; private set; }
     }
 }

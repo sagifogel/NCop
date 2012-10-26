@@ -48,7 +48,7 @@ namespace NCop.Core.Extensions
             return !source.Any();
         }
 
-		public static IEnumerable<TSource> Concat<TSource>(this IEnumerable<TSource> source, params TSource[] others) {
+        public static IEnumerable<TSource> Concat<TSource>(this IEnumerable<TSource> source, params TSource[] others) {
             foreach (TSource item in source) {
                 yield return item;
             }
@@ -57,7 +57,7 @@ namespace NCop.Core.Extensions
                 yield return item;
             }
         }
-        
+
         public static TSource Single<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate) {
             return source.Where(predicate)
                          .FirstOrDefault();
@@ -110,6 +110,10 @@ namespace NCop.Core.Extensions
         public static ConcurrentDictionary<TKey, TValue> ToThreadSafeDictionary<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> elementSelector) {
             return new ConcurrentDictionary<TKey, TValue>(
                     source.ToDictionary(local => keySelector(local), local => elementSelector(local)));
+        }
+
+        public static TValue GetOrAdd<TKey, TValue>(this ConcurrentDictionary<TKey, Lazy<TValue>> source, TKey key, Func<TKey, TValue> valueFactory) {
+            return source.GetOrAdd(key, new Lazy<TValue>(() => valueFactory(key))).Value;
         }
     }
 }

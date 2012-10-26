@@ -5,9 +5,9 @@ using System;
 using NCop.Aspects.LifetimeStrategies;
 
 namespace NCop.Aspects.Framework
-{   
-    [LifetimeStrategyAttribute(WellKnownLifetimeStrategy.Singleton)]
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+{
+    [LifetimeStrategy(WellKnownLifetimeStrategy.Singleton)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
     public class MethodInterceptionAspectAttribute : AspectAttribute
     {
         [OnInvokeAdvice]

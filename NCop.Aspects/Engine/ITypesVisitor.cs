@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public interface IVisitor<out T>
+    public interface ITypesVisitor<out T>
     {
         IEnumerable<T> Visit(Type type);
         IEnumerable<T> Visit(FieldInfo[] fields);

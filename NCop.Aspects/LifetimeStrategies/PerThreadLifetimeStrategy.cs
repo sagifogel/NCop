@@ -17,8 +17,10 @@ namespace NCop.Aspects.LifetimeStrategies
             //_aspectThread = new ThreadLocal<IAspect>(Factory.Create, true);
         }
 
-        public override IAspect GetAspect() {
-            return _aspectThread.Value;
+         public override IAspect Aspect {
+            get {
+                return _aspectThread.Value;
+            }
         }
     }
 }

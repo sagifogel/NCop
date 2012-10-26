@@ -15,6 +15,6 @@ namespace NCop.Aspects.LifetimeStrategies
 
         public IAspectFactory Factory { get; private set; }
 
-        public abstract IAspect GetAspect();
+        public abstract IAspect Aspect { get; }
     }
 }

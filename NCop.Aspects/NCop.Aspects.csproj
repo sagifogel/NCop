@@ -76,21 +76,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Advices\AdviceVisitor.cs" />
+    <Compile Include="Engine\IAcceptsVisitor.cs" />
+    <Compile Include="Aspects\JoinPointMetadataVisitor.cs" />
     <Compile Include="Advices\OnInvokeAdviceAttribute.cs" />
     <Compile Include="Advices\OnFinallyAdviceAttribute.cs" />
     <Compile Include="Advices\OnSuccessAdviceAttribute.cs" />
+    <Compile Include="Aspects\AspectDefinitionCollection.cs" />
+    <Compile Include="Aspects\AspectsDefinitionStore.cs" />
     <Compile Include="Aspects\IAspectVisitor.cs" />
+    <Compile Include="Aspects\MethodAspectDefinition.cs" />
     <Compile Include="Aspects\Interception\MethodExecution.cs" />
-    <Compile Include="Engine\AbstractVisitor.cs" />
+    <Compile Include="Engine\AbstractTypeVisitor.cs" />
     <Compile Include="Engine\AspectCollection.cs" />
+    <Compile Include="Engine\AspectDefinitionBuilder.cs" />
     <Compile Include="Engine\AttributeAspectProvider.cs" />
     <Compile Include="Engine\Collection.cs" />
+    <Compile Include="Engine\EventJoinPointMetadata.cs" />
+    <Compile Include="Engine\FieldJoinPointMetadata.cs" />
+    <Compile Include="Engine\IAcceptsVisitor`2.cs" />
     <Compile Include="Engine\IAspect.cs" />
     <Compile Include="Engine\IAspectCollection.cs" />
-    <Compile Include="Engine\IInvocationJointPoint.cs" />
+    <Compile Include="Engine\IAspectDefinitionCollection.cs" />
+    <Compile Include="Engine\IInvocationJoinPoint.cs" />
     <Compile Include="Engine\ILifetimeStrategyProvider.cs" />
-    <Compile Include="Engine\IVisitor.cs" />
+    <Compile Include="Engine\IMethodInterception.cs" />
+    <Compile Include="Engine\IPointcutProvider.cs" />
+    <Compile Include="Engine\ITypesVisitor.cs" />
+    <Compile Include="Engine\JoinPointMetadata.cs" />
+    <Compile Include="Engine\Lazy.cs" />
+    <Compile Include="Engine\MethodJoinPointMetadata.cs" />
     <Compile Include="Engine\PointcutAttribute.cs" />
+    <Compile Include="Engine\PropertyJoinPointMetadata.cs" />
     <Compile Include="Framework\EventInterceptionAspectAttribute.cs" />
     <Compile Include="Framework\GetPropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Aspects\Interception\GetPropertyInterception.cs" />
@@ -111,18 +128,16 @@
     <Compile Include="Engine\IAspectDefinition.cs" />
     <Compile Include="Engine\IAspectBuilder.cs" />
     <Compile Include="Engine\IAdvice.cs" />
-    <Compile Include="Engine\IAdviceRepository.cs" />
     <Compile Include="Engine\IAspectFactory.cs" />
     <Compile Include="Engine\IAspectProvider.cs" />
-    <Compile Include="Engine\IJointPoint.cs" />
+    <Compile Include="Engine\IJoinPoint.cs" />
     <Compile Include="Engine\ILifetimeStrategy.cs" />
-    <Compile Include="Engine\IMethodExecuter.cs" />
+    <Compile Include="Engine\IMethodExecution.cs" />
     <Compile Include="Engine\IPointcutCollection.cs" />
     <Compile Include="Engine\IPointcutStore.cs" />
     <Compile Include="Engine\AspectAttribute.cs" />
     <Compile Include="Aspects\AspectDefinition.cs" />
     <Compile Include="Engine\IPointcut.cs" />
-    <Compile Include="Engine\IPointcutProvider.cs" />
     <Compile Include="Engine\IPreventable.cs" />
     <Compile Include="Engine\IPropertyGetExecuter.cs" />
     <Compile Include="Engine\IPropertySetExecuter.cs" />
@@ -141,7 +156,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Mixins\" />
     <Folder Include="Runtime\" />
   </ItemGroup>
   <ItemGroup>

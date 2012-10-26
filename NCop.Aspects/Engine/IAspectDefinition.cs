@@ -11,6 +11,5 @@ namespace NCop.Aspects.Engine
     {
         IAspect Aspect { get; }
         IAdviceCollection Advices { get; }
-        IPointcutCollection Pointcuts { get; }
     }
 }

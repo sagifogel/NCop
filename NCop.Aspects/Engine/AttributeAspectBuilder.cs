@@ -10,30 +10,44 @@ using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Framework
 {
-    public class AttributeAspectBuilder : AbstractVisitor<Type>, IAspectBuilder
+    public class AttributeAspectBuilder : AbstractTypeVisitor<Tuple<Type, JoinPointMetadata>>, IAspectBuilder
     {
         private Type _type = null;
+        private static AspectDefinitionBuilder _builder = AspectDefinitionBuilder.Instance;
 
         public AttributeAspectBuilder(Type type) {
             _type = type;
         }
 
         public void Build() {
+            Visit(_type).ForEach(aspectTuple => {
+                Type aspectType = aspectTuple.Item1; 
 
-            Visit(_type).ForEach(aspectType => {
-                var provider = new AttributeAspectProvider(aspectType);
+                Func<IAspectProvider> provider = () => {
+                    var type = aspectType;
+                    return new AttributeAspectProvider(type);
+                };
 
-                AspectsRepository.Instance.GetOrAdd(_type, provider);
+                var aspectDefintion = _builder.BuildDefinition(aspectType, provider, aspectTuple.Item2);
+
+                AspectsRepository.Instance.AddOrUpdate(aspectType, aspectDefintion);
             });
         }
 
-        public override IEnumerable<Type> Visit(MethodInfo[] methods) {
-            var aspectAttributes = methods.Select(metod => {
-                return metod.GetCustomAttributes<AspectAttribute>(true);
+        public override IEnumerable<Tuple<Type, JoinPointMetadata>> Visit(MethodInfo[] methods) {
+            var aspectAttributes = methods.Select(method => {
+                return new {
+                    JoinPoint = new MethodJoinPointMetadata(method) as JoinPointMetadata,
+                    Attributes = method.GetCustomAttributes<AspectAttribute>(true)
+                };
             });
 
-            return aspectAttributes.Where(attributes => !attributes.IsNullOrEmpty())
-                                   .SelectMany(attributes => attributes.Select(a => a.GetType()));
+            return aspectAttributes.Where(aspect => !aspect.Attributes.IsNullOrEmpty())
+                                   .SelectMany(aspect => {
+                                       return aspect.Attributes.Select(a => {
+                                           return Tuple.Create(a.GetType(), aspect.JoinPoint);
+                                       });
+                                   });
         }
     }
 }
