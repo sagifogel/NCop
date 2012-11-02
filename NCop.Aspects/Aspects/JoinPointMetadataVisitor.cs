@@ -12,19 +12,19 @@ namespace NCop.Aspects.Aspects
 {
     public class JoinPointMetadataVisitor
     {
-        public AspectDefinition Visit( FieldJoinPointMetadata joinPoint, IAspectProvider aspectProvider) {
+        public IAspectDefinition Visit(FieldJoinPointMetadata joinPoint, IAspectProvider aspectProvider) {
             throw new NotImplementedException();
         }
 
-        public AspectDefinition Visit(EventJoinPointMetadata joinPoint, IAspectProvider aspectProvider) {
+        public IAspectDefinition Visit(EventJoinPointMetadata joinPoint, IAspectProvider aspectProvider) {
             throw new NotImplementedException();
         }
 
-        public AspectDefinition Visit(MethodJoinPointMetadata joinPoint, IAspectProvider aspectProvider) {
+        public IAspectDefinition Visit(MethodJoinPointMetadata joinPoint, IAspectProvider aspectProvider) {
             return new MethodAspectDefinition(aspectProvider, joinPoint);
         }
 
-        public AspectDefinition Visit(PropertyJoinPointMetadata joinPoint, IAspectProvider aspectProvider) {
+        public IAspectDefinition Visit(PropertyJoinPointMetadata joinPoint, IAspectProvider aspectProvider) {
             throw new NotImplementedException();
         }
     }

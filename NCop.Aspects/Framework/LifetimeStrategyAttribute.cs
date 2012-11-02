@@ -14,8 +14,8 @@ namespace NCop.Aspects.Framework
     public class LifetimeStrategyAttribute : Attribute, ILifetimeStrategyProvider
     {
         private bool _initialized = false;
-        private ILifetimeStrategy _strategy = null;
         private object _syncLock = new object();
+        private ILifetimeStrategy _strategy = null;
         private WellKnownLifetimeStrategy _wellKnownLifetimeStrategy;
         private static readonly string _liftimeStrategiesNamespace = "NCop.Aspects.LifetimeStrategies";
 

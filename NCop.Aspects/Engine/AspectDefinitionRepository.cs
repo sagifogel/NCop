@@ -1,27 +1,17 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using NCop.Aspects.Aspects;
 using NCop.Core;
-using NCop.Aspects.Aspects;
+using System;
+using System.Collections.Concurrent;
 
 namespace NCop.Aspects.Engine
 {
-    internal sealed class AspectsRepository
+    internal class AspectDefinitionRepository
     {
         private static object _syncLock = new object();
-        private static AspectsDefinitionStore _aspects = new AspectsDefinitionStore();
-        private static Lazy<AspectsRepository> _aspectsRepository = new Lazy<AspectsRepository>(() => new AspectsRepository());
+        private ConcurrentDictionary<Type, AspectDefinitionCollection> _aspects = null;
 
-        private AspectsRepository() { }
-
-        public static AspectsRepository Instance {
-            get {
-                return _aspectsRepository.Instance;
-            }
+        public AspectDefinitionRepository() {
+            _aspects = new ConcurrentDictionary<Type, AspectDefinitionCollection>();
         }
 
         public void AddOrUpdate(Type type, IAspectDefinition aspectDefinition) {

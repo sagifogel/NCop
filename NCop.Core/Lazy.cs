@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NCop.Aspects.Engine
+namespace NCop.Core
 {
     public class Lazy<T>
     {
@@ -18,7 +18,7 @@ namespace NCop.Aspects.Engine
             _valueFactory = valueFactory;
         }
 
-        public T Instance {
+        public T Value {
             get {
                 return LazyInitializer.EnsureInitialized(ref _instance,
                                                          ref _initialized,

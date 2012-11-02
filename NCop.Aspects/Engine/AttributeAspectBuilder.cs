@@ -13,24 +13,26 @@ namespace NCop.Aspects.Framework
     public class AttributeAspectBuilder : AbstractTypeVisitor<Tuple<Type, JoinPointMetadata>>, IAspectBuilder
     {
         private Type _type = null;
-        private static AspectDefinitionBuilder _builder = AspectDefinitionBuilder.Instance;
+        private AspectDefinitionBuilder _builder = AspectDefinitionBuilder.Instance;
 
         public AttributeAspectBuilder(Type type) {
             _type = type;
         }
 
-        public void Build() {
-            Visit(_type).ForEach(aspectTuple => {
-                Type aspectType = aspectTuple.Item1; 
+        public IAspectDefinitionCollection Build() {
+            return new AspectDefinitionCollection(BuildInternal());
+        }
+
+        private IEnumerable<IAspectDefinition> BuildInternal() {
+            return Visit(_type).Select(aspectTuple => {
+                Type aspectType = aspectTuple.Item1;
 
                 Func<IAspectProvider> provider = () => {
                     var type = aspectType;
                     return new AttributeAspectProvider(type);
                 };
 
-                var aspectDefintion = _builder.BuildDefinition(aspectType, provider, aspectTuple.Item2);
-
-                AspectsRepository.Instance.AddOrUpdate(aspectType, aspectDefintion);
+                return _builder.BuildDefinition(aspectType, provider, aspectTuple.Item2);
             });
         }
 

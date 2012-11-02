@@ -12,33 +12,44 @@ namespace NCop.Aspects.Pointcuts
     public class AbstractPointcutAttribute : PointcutAttribute, IPointcutVisitor
     {
         private static readonly IEnumerable<IPointcut> _empty = Enumerable.Empty<IPointcut>();
-
-        public IEnumerable<IPointcut> Visit(Type type) {
-            return Visit(type.GetFields(ReflectionUtils.AllFlags))
-                     .Concat(Visit(type.GetMethods(ReflectionUtils.AllFlags)))
-                        .Concat(Visit(type.GetProperties(ReflectionUtils.AllFlags)))
-                            .Concat(Visit(type.GetConstructors(ReflectionUtils.AllFlags)));
+        
+        public virtual BindingFlags Flags
+        {
+            get { return BindingFlags.Instance | BindingFlags.Public; }
         }
 
-        public IPointcutCollection Match(Type type) {
+        public IEnumerable<IPointcut> Visit(Type type)
+        {
+            return Visit(type.GetFields(Flags))
+                     .Concat(Visit(type.GetMethods(Flags)))
+                        .Concat(Visit(type.GetProperties(Flags)))
+                            .Concat(Visit(type.GetConstructors(Flags)));
+        }
+
+        public IPointcutCollection Match(Type type)
+        {
             var pointcuts = Visit(type);
 
             return new PointcutCollection(pointcuts);
         }
 
-        public virtual IEnumerable<IPointcut> Visit(FieldInfo[] fields) {
+        public virtual IEnumerable<IPointcut> Visit(FieldInfo[] fields)
+        {
             return _empty;
         }
 
-        public virtual IEnumerable<IPointcut> Visit(MethodInfo[] methods) {
+        public virtual IEnumerable<IPointcut> Visit(MethodInfo[] methods)
+        {
             return _empty;
         }
 
-        public virtual IEnumerable<IPointcut> Visit(ConstructorInfo[] ctors) {
+        public virtual IEnumerable<IPointcut> Visit(ConstructorInfo[] ctors)
+        {
             return _empty;
         }
 
-        public virtual IEnumerable<IPointcut> Visit(PropertyInfo[] properties) {
+        public virtual IEnumerable<IPointcut> Visit(PropertyInfo[] properties)
+        {
             return _empty;
         }
     }

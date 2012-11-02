@@ -115,5 +115,9 @@ namespace NCop.Core.Extensions
         public static TValue GetOrAdd<TKey, TValue>(this ConcurrentDictionary<TKey, Lazy<TValue>> source, TKey key, Func<TKey, TValue> valueFactory) {
             return source.GetOrAdd(key, new Lazy<TValue>(() => valueFactory(key))).Value;
         }
+
+        public static HashSet<TSourcve> ToSet<TSourcve>(this IEnumerable<TSourcve> source) {
+            return new HashSet<TSourcve>(source);
+        }
     }
 }

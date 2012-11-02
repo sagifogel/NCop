@@ -12,7 +12,7 @@ namespace NCop.Aspects.Aspects
 
         protected override void BulidAdvices() {
             Aspect.GetType()
-                  .GetMethods(ReflectionUtils.AllFlags)
+                  .GetMethods(BindingFlags.Instance | BindingFlags.Public)
                   .ForEach(method => {
                       method.GetCustomAttributes<AdviceAttribute>(true)
                             .ForEach(a => {

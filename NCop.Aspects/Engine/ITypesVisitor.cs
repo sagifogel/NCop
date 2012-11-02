@@ -9,6 +9,7 @@ namespace NCop.Aspects.Engine
 {
     public interface ITypesVisitor<out T>
     {
+        BindingFlags Flags { get; }
         IEnumerable<T> Visit(Type type);
         IEnumerable<T> Visit(FieldInfo[] fields);
         IEnumerable<T> Visit(MethodInfo[] methods);

@@ -15,7 +15,7 @@ namespace NCop.Aspects.Engine
             : base(@event) {
         }
 
-        public override AspectDefinition Accept(JoinPointMetadataVisitor visitor, IAspectProvider aspectProvider) {
+        public override IAspectDefinition Accept(JoinPointMetadataVisitor visitor, IAspectProvider aspectProvider) {
             return visitor.Visit(this, aspectProvider);
         }
     }

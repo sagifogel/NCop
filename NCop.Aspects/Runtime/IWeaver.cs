@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NCop.Aspects.Engine
+namespace NCop.Aspects.Runtime
 {
-    public interface IAspectBuilder
+    public interface IWeaver
     {
-        IAspectDefinitionCollection Build();
+        void Weave();
     }
 }

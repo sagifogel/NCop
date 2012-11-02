@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public abstract class JoinPointMetadata : IJoinPoint, IAcceptsVisitor<AspectDefinition, JoinPointMetadataVisitor, IAspectProvider>
+    public abstract class JoinPointMetadata : IJoinPoint, IAcceptsVisitor<IAspectDefinition, JoinPointMetadataVisitor, IAspectProvider>
     {
         public JoinPointMetadata(MemberInfo member) {
             TargetMember = member;
@@ -17,6 +17,6 @@ namespace NCop.Aspects.Engine
 
         public MemberInfo TargetMember { get; private set; }
 
-        public abstract AspectDefinition Accept(JoinPointMetadataVisitor visitor, IAspectProvider aspectProvider);
+        public abstract IAspectDefinition Accept(JoinPointMetadataVisitor visitor, IAspectProvider aspectProvider);
     }
 }
