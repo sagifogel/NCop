@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using NCop.Aspects.Framework;
 using NCop.Aspects.Advices;
+using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Extensions
 {

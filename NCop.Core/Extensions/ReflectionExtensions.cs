@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -30,6 +31,19 @@ namespace NCop.Core.Extensions
         internal static bool IsExtensionMethod(this MethodInfo method) {
             return method.IsDefined(typeof(ExtensionAttribute), true);
         }
+
+#if !NET_4_5
+
+        public static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(this ICustomAttributeProvider type, bool inherit) {
+            return type.GetCustomAttributes(typeof(TAttribute), inherit)
+                       .Cast<TAttribute>();
+        }
+
+        public static TAttribute GetCustomAttribute<TAttribute>(this ICustomAttributeProvider type, bool inherit) {
+            return type.GetCustomAttributes<TAttribute>(inherit).FirstOrDefault();
+        }
+            
+#endif
 
         internal static Delegate CreateDelegate(this MethodInfo methodInfo, Type type = null, object @this = null) {
             if (type == null) {
