@@ -8,8 +8,6 @@ namespace NCop.Aspects.Runtime
 {
     public interface IAspectBuilderRegistry
     {
-        IAspectBuilderCollection Builders { get; }
-
         void RegisterBuilder(Type type, IAspectBuilder builder);
     }
 }

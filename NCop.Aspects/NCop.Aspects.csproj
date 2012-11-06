@@ -168,6 +168,7 @@
     <Compile Include="Runtime\AspectsRuntime.cs" />
     <Compile Include="Runtime\AspectAttributeBuilderRegistry.cs" />
     <Compile Include="Runtime\IAspectBuilderCollection.cs" />
+    <Compile Include="Runtime\IAspectBuilderProvider.cs" />
     <Compile Include="Runtime\IAspectBuilderRegistry.cs" />
     <Compile Include="Runtime\IAspectRuntime.cs" />
     <Compile Include="Runtime\IWeaver.cs" />

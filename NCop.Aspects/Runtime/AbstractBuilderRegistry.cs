@@ -7,7 +7,7 @@ using System.Text;
 
 namespace NCop.Aspects.Runtime
 {
-    public class AbstractBuilderRegistry : IAspectBuilderRegistry
+    public class AbstractBuilderRegistry : IAspectBuilderRegistry, IAspectBuilderProvider
     {
         protected ConcurrentDictionary<Type, IAspectBuilder> RegisteredBuilders = null;
 

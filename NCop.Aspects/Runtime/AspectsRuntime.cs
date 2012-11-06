@@ -25,7 +25,7 @@ namespace NCop.Aspects.Runtime
 
             _settings = settings;
             settings.Assemblies = settings.Assemblies ?? GetAssemblies();
-            settings.AspectBuilderRegistry = GetBuilderRegistry();
+            settings.AspectBuilderProvider = GetBuilderProvider();
             acceptVisitor = settings.Weaver as IWeaverAcceptVisitor;
             _weaver = acceptVisitor.Accept(_visitor, settings);
         }
@@ -33,15 +33,11 @@ namespace NCop.Aspects.Runtime
         private IEnumerable<Assembly> GetAssemblies() {
             return AppDomain.CurrentDomain
                             .GetAssemblies()
-                            .Where(a => !AspectsRuntimeSettings.IgnoredAssemblies.Contains(a));
+                            .Where(assembly => !AspectsRuntimeSettings.IgnoredAssemblies.Contains(assembly));
         }
 
-        private IAspectBuilderRegistry GetBuilderRegistry() {
-            return _settings.AspectBuilderRegistry ?? new AttributeAspectBuilderRegistry(_assemblies);
-        }
-
-        private IWeaver WrapWeaver(RuntimeWeaver weaver) {
-            return new RuntimeMixinsWeaver(weaver, _settings);
+        private IAspectBuilderProvider GetBuilderProvider() {
+            return _settings.AspectBuilderProvider ?? new AttributeAspectBuilderRegistry(_assemblies);
         }
 
         public void Run() {

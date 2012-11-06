@@ -37,7 +37,7 @@ namespace NCop.Aspects.Runtime
 
         public IEnumerable<Assembly> Assemblies { get; set; }
 
-        public IAspectBuilderRegistry AspectBuilderRegistry { get; set; }
+        public IAspectBuilderProvider AspectBuilderProvider { get; set; }
 
         public static ISet<Assembly> IgnoredAssemblies { get; private set; }
 
