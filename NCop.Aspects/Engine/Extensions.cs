@@ -18,4 +18,11 @@ namespace NCop.Aspects.Extensions
                              .GetLifetimeStrategy(aspectType);
         }
     }
+
+    public static class AspectBuilderExtensions
+    {
+        public static IAspectDefinitionCollection Build(this IAspectBuilder aspectBuilder, Func<IAspectDefinitionCollection> builder) {
+            return builder();
+        }
+    }
 }

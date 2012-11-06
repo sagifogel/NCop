@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace NCop.Aspects.Runtime
 {
-    public interface IWeaver
-    {   
-        void Weave();
+    public interface IAspectRuntime
+    {
+        void Run();
     }
 }

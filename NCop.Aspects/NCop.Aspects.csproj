@@ -87,7 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Advices\AdviceVisitor.cs" />
-    <Compile Include="Engine\AspectBuilderRegistry.cs" />
+    <Compile Include="Runtime\AbstractBuilderRegistry.cs" />
     <Compile Include="Engine\IAcceptsVisitor.cs" />
     <Compile Include="Aspects\JoinPointMetadataVisitor.cs" />
     <Compile Include="Advices\OnInvokeAdviceAttribute.cs" />
@@ -164,10 +164,18 @@
     <Compile Include="Pointcuts\AbstractPointcutVisitorAttribute.cs" />
     <Compile Include="Pointcuts\IPointcutVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Runtime\AspectBuilderCollection.cs" />
     <Compile Include="Runtime\AspectsRuntime.cs" />
+    <Compile Include="Runtime\AspectAttributeBuilderRegistry.cs" />
+    <Compile Include="Runtime\IAspectBuilderCollection.cs" />
+    <Compile Include="Runtime\IAspectBuilderRegistry.cs" />
+    <Compile Include="Runtime\IAspectRuntime.cs" />
     <Compile Include="Runtime\IWeaver.cs" />
-    <Compile Include="Runtime\MixinsWeaver.cs" />
-    <Compile Include="Runtime\RuntimeSetting.cs" />
+    <Compile Include="Runtime\IWeaverAcceptVisitor.cs" />
+    <Compile Include="Runtime\RuntimeMixinsWeaver.cs" />
+    <Compile Include="Runtime\AspectsRuntimeSettings.cs" />
+    <Compile Include="Runtime\RuntimeWeaver.cs" />
+    <Compile Include="Runtime\WeaverVisitor.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

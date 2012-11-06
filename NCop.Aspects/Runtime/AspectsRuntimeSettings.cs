@@ -7,18 +7,16 @@ using System.Reflection;
 using NCop.Core.Extensions;
 using System.Text.RegularExpressions;
 using CSharpBinder = Microsoft.CSharp.RuntimeBinder;
+using NCop.Aspects.Engine;
 
 namespace NCop.Aspects.Runtime
 {
-    public class RuntimeSetting
+    public class AspectsRuntimeSettings
     {
-        public IWeaver Weaver { get; set; }
-        public IEnumerable<Assembly> Assemblies { get; set; }
         private readonly static Regex _publicKeyTokenValue = new Regex(@"PublicKeyToken=(?<PublicKeyTokenValue>[A-Fa-f0-9]{16})");
 
-        static RuntimeSetting() {
-            
-            var ignoredAssembliedTokens = new [] {
+        static AspectsRuntimeSettings() {
+            var ignoredAssembliedTokens = new[] {
                     MatchPublicKeyToken(typeof(Object).Assembly.FullName),
                     MatchPublicKeyToken(typeof(CSharpBinder.Binder).Assembly.FullName)
             };
@@ -32,8 +30,16 @@ namespace NCop.Aspects.Runtime
                                                     HasSamePublicKeyToken(name, ignoredAssembliedTokens[1]);
                                          })
                                          .ToSet();
-
         }
+
+
+        public IWeaver Weaver { get; set; }
+
+        public IEnumerable<Assembly> Assemblies { get; set; }
+
+        public IAspectBuilderRegistry AspectBuilderRegistry { get; set; }
+
+        public static ISet<Assembly> IgnoredAssemblies { get; private set; }
 
         private static string MatchPublicKeyToken(string assemblyFullName) {
             return _publicKeyTokenValue.Match(assemblyFullName).Groups["PublicKeyTokenValue"].Value;
@@ -42,7 +48,5 @@ namespace NCop.Aspects.Runtime
         private static bool HasSamePublicKeyToken(string assemblyFullName, string token) {
             return MatchPublicKeyToken(assemblyFullName).Equals(token);
         }
-
-        public static ISet<Assembly> IgnoredAssemblies { get; private set; }
     }
 }
