@@ -104,6 +104,7 @@
     <Compile Include="Synchronization\ReadLock.cs" />
     <Compile Include="Synchronization\ReadWriteLocker.cs" />
     <Compile Include="Synchronization\UpgradeableLocker.cs" />
+    <Compile Include="Volatile.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

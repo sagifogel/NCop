@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace NCop.Core
 {
@@ -14,7 +13,7 @@ namespace NCop.Core
         private object _syncLock = new object();
         private static T _instance = default(T);
 
-#if !NET_4_5
+#if NET_4_5
 
         public Lazy(Func<T> valueFactory) {
             _valueFactory = valueFactory;
@@ -29,7 +28,7 @@ namespace NCop.Core
             }
         }
   
-#else
+#elif NET_4_0
 
         public Lazy(Func<T> valueFactory) {
             _valueFactory = valueFactory;
