@@ -9,8 +9,8 @@ namespace NCop.Aspects.Runtime
 {
     public class RuntimeWeaver : IWeaverAcceptVisitor
     {
-        internal IAspectBuilderRegistry Registry = null;
         internal IEnumerable<Assembly> Assemblies = null;
+        internal IAspectBuilderProvider BuilderProvider = null;
 
         public virtual void Weave() {
             

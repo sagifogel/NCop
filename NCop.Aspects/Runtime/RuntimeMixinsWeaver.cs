@@ -16,6 +16,8 @@ namespace NCop.Aspects.Runtime
 
         public RuntimeMixinsWeaver(RuntimeWeaver weaver, AspectsRuntimeSettings settings) {
             _weaver = weaver;
+            _weaver.Assemblies = settings.Assemblies;
+            weaver.BuilderProvider = settings.AspectBuilderProvider;
         }
 
         public void Weave() {

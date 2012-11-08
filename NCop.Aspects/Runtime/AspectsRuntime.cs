@@ -41,7 +41,7 @@ namespace NCop.Aspects.Runtime
         }
 
         public void Run() {
-
+            _weaver.Weave();
         }
     }
 }
