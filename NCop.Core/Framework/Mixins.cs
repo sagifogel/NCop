@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NCop.Samples
+namespace NCop.Core.Framework
 {   
     [AttributeUsage(AttributeTargets.Interface, AllowMultiple = false)]
     public class MixinsAttribute : Attribute

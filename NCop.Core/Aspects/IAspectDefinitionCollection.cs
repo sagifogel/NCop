@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NCop.Aspects.Engine
+namespace NCop.Core.Aspects
 {
     public interface IAspectDefinitionCollection : IReadOnlyCollection<IAspectDefinition>
     {

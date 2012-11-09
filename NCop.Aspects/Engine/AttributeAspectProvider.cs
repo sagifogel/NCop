@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NCop.Aspects.Extensions;
+using NCop.Core.Aspects;
 
 namespace NCop.Aspects.Engine
 {

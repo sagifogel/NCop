@@ -7,6 +7,7 @@ using NCop.Aspects.Engine;
 using System.Reflection;
 using NCop.Aspects.Aspects;
 using NCop.Core.Extensions;
+using NCop.Core.Aspects;
 
 namespace NCop.Aspects.Framework
 {

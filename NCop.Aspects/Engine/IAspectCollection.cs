@@ -1,4 +1,5 @@
 ﻿using NCop.Core;
+using NCop.Core.Aspects;
 using System;
 using System.Collections.Generic;
 using System.Linq;

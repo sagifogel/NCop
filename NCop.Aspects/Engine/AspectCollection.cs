@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NCop.Core.Aspects;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace NCop.Aspects.Engine

@@ -5,12 +5,13 @@ using NCop.Aspects.Aspects.Interception;
 using NCop.Aspects.Engine;
 using NCop.Aspects.LifetimeStrategies;
 using System.Diagnostics;
+using NCop.Aspects.Aspects;
 
 namespace NCop.Aspects.Framework
 {
     [LifetimeStrategy(WellKnownLifetimeStrategy.Singleton)]
-    [AttributeUsage(AttributeTargets.Method,AllowMultiple = false, Inherited = false)]
-    public class OnMethodBoundaryAspectAttribute : AspectAttribute
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+    public class OnMethodBoundaryAspectAttribute : AspectAttribute, IOnMethodBoundryContract
     {
         [OnInvokeAdvice]
         public virtual void OnInvoke(MethodExecution methodExecution) { }
