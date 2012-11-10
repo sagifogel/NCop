@@ -8,16 +8,18 @@ using NCop.Core.Extensions;
 using System.Text.RegularExpressions;
 using CSharpBinder = Microsoft.CSharp.RuntimeBinder;
 using NCop.Aspects.Engine;
+using System.Configuration;
 
 namespace NCop.Aspects.Runtime
 {
     public class AspectsRuntimeSettings
     {
-        private readonly static Regex _publicKeyTokenValue = new Regex(@"PublicKeyToken=(?<PublicKeyTokenValue>[A-Fa-f0-9]{16})");
+        private static readonly string NCopToken = "5f8f9ac08842d356";
+        private static readonly Regex _publicKeyTokenValue = new Regex(@"PublicKeyToken=(?<PublicKeyTokenValue>[A-Fa-f0-9]{16})");
 
         static AspectsRuntimeSettings() {
             var ignoredAssembliedTokens = new[] {
-                    MatchPublicKeyToken(typeof(Object).Assembly.FullName),
+                    MatchPublicKeyToken(typeof(object).Assembly.FullName),
                     MatchPublicKeyToken(typeof(CSharpBinder.Binder).Assembly.FullName)
             };
 
@@ -26,7 +28,8 @@ namespace NCop.Aspects.Runtime
                                          .Where(a => {
                                              string name = a.GetName().FullName;
 
-                                             return HasSamePublicKeyToken(name, ignoredAssembliedTokens[0]) ||
+                                             return IsCoreType(name) ||
+                                                    HasSamePublicKeyToken(name, ignoredAssembliedTokens[0]) ||
                                                     HasSamePublicKeyToken(name, ignoredAssembliedTokens[1]);
                                          })
                                          .ToSet();
@@ -47,6 +50,10 @@ namespace NCop.Aspects.Runtime
 
         private static bool HasSamePublicKeyToken(string assemblyFullName, string token) {
             return MatchPublicKeyToken(assemblyFullName).Equals(token);
+        }
+
+        private static bool IsCoreType(string assemblyFullName) {
+            return MatchPublicKeyToken(assemblyFullName).Equals(NCopToken);
         }
     }
 }

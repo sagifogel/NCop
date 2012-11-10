@@ -66,11 +66,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>NCop.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Cecil, Version=0.9.5.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
@@ -172,7 +171,6 @@
     <Compile Include="Runtime\IAspectBuilderProvider.cs" />
     <Compile Include="Runtime\IAspectBuilderRegistry.cs" />
     <Compile Include="Runtime\IAspectRuntime.cs" />
-    <Compile Include="Runtime\ITransientComposite.cs" />
     <Compile Include="Runtime\IWeaver.cs" />
     <Compile Include="Runtime\IWeaverAcceptVisitor.cs" />
     <Compile Include="Runtime\RuntimeMixinsWeaver.cs" />
@@ -188,6 +186,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="NCop.snk" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
