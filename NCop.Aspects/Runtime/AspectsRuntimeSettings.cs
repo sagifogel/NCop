@@ -14,27 +14,21 @@ namespace NCop.Aspects.Runtime
 {
     public class AspectsRuntimeSettings
     {
-        private static readonly string NCopToken = "5f8f9ac08842d356";
-        private static readonly Regex _publicKeyTokenValue = new Regex(@"PublicKeyToken=(?<PublicKeyTokenValue>[A-Fa-f0-9]{16})");
-
         static AspectsRuntimeSettings() {
             var ignoredAssembliedTokens = new[] {
-                    MatchPublicKeyToken(typeof(object).Assembly.FullName),
-                    MatchPublicKeyToken(typeof(CSharpBinder.Binder).Assembly.FullName)
+                    typeof(object).Assembly.MatchPublicKeyToken(),
+                    typeof(CSharpBinder.Binder).Assembly.MatchPublicKeyToken()
             };
 
             IgnoredAssemblies = AppDomain.CurrentDomain
                                          .GetAssemblies()
                                          .Where(a => {
-                                             string name = a.GetName().FullName;
-
-                                             return IsCoreType(name) ||
-                                                    HasSamePublicKeyToken(name, ignoredAssembliedTokens[0]) ||
-                                                    HasSamePublicKeyToken(name, ignoredAssembliedTokens[1]);
+                                             return a.IsNCopAssembly() ||
+                                                    a.HasSamePublicKeyToken(ignoredAssembliedTokens[0]) ||
+                                                    a.HasSamePublicKeyToken(ignoredAssembliedTokens[1]);
                                          })
                                          .ToSet();
         }
-
 
         public IWeaver Weaver { get; set; }
 
@@ -43,17 +37,5 @@ namespace NCop.Aspects.Runtime
         public IAspectBuilderProvider AspectBuilderProvider { get; set; }
 
         public static ISet<Assembly> IgnoredAssemblies { get; private set; }
-
-        private static string MatchPublicKeyToken(string assemblyFullName) {
-            return _publicKeyTokenValue.Match(assemblyFullName).Groups["PublicKeyTokenValue"].Value;
-        }
-
-        private static bool HasSamePublicKeyToken(string assemblyFullName, string token) {
-            return MatchPublicKeyToken(assemblyFullName).Equals(token);
-        }
-
-        private static bool IsCoreType(string assemblyFullName) {
-            return MatchPublicKeyToken(assemblyFullName).Equals(NCopToken);
-        }
     }
 }

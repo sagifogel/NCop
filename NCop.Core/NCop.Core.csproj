@@ -92,14 +92,15 @@
     <Compile Include="AssemblyScanner.cs" />
     <Compile Include="Aspects\IAdvice.cs" />
     <Compile Include="Aspects\IAspect.cs" />
+    <Compile Include="Engine\CompositeAttribute.cs" />
+    <Compile Include="Framework\TransientCompositeAttribute.cs" />
     <Compile Include="Engine\CompositeDefinition.cs" />
     <Compile Include="Engine\IMixinDefinitionCollection.cs" />
     <Compile Include="Engine\MixinDefinition.cs" />
+    <Compile Include="Engine\WellKnownComposites.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="Framework\ConcernAttribute.cs" />
-    <Compile Include="Framework\IComposite.cs" />
-    <Compile Include="Framework\ITransientComposite.cs" />
     <Compile Include="Framework\Mixins.cs" />
     <Compile Include="IReadOnlyCollection.cs" />
     <Compile Include="Lazy.cs" />

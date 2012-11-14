@@ -5,32 +5,15 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
+using CSharpBinder = Microsoft.CSharp.RuntimeBinder;
 
 namespace NCop.Core.Extensions
 {
     public static class ReflectionUtils
     {
-        private static readonly Type _delegate = typeof(Delegate);
-
-        private delegate Type ResolveDelegateType(params Type[] typeArgs);
-
-        public static readonly BindingFlags AllFlags = BindingFlags.Public |
-                                                       BindingFlags.NonPublic |
-                                                       BindingFlags.Instance |
-                                                       BindingFlags.Static |
-                                                       BindingFlags.FlattenHierarchy;
-
-        internal static bool IsDelegate(this Type type) {
-            return _delegate.IsAssignableFrom(type);
-        }
-
-        internal static bool IsStatic(this Type type) {
-            return type.IsAbstract && type.IsSealed;
-        }
-
-        internal static bool IsExtensionMethod(this MethodInfo method) {
-            return method.IsDefined(typeof(ExtensionAttribute), true);
-        }
+        internal static readonly string NCopToken = "5f8f9ac08842d356";
+        private static readonly Regex _publicKeyTokenValue = new Regex(@"PublicKeyToken=(?<PublicKeyTokenValue>[A-Fa-f0-9]{16})");
 
 #if !NET_4_5
 
@@ -39,201 +22,55 @@ namespace NCop.Core.Extensions
                        .Cast<TAttribute>();
         }
 
-        public static TAttribute GetCustomAttribute<TAttribute>(this ICustomAttributeProvider type, bool inherit) {
+        public static TAttribute GetCustomAttribute<TAttribute>(this ICustomAttributeProvider type, bool inherit = true) {
             return type.GetCustomAttributes<TAttribute>(inherit).FirstOrDefault();
         }
-            
+
 #endif
 
-        internal static Delegate CreateDelegate(this MethodInfo methodInfo, Type type = null, object @this = null) {
-            if (type == null) {
-                Type[] types = null;
-                ResolveDelegateType getDelegateType = null;
-                ParameterInfo[] parameterInfos = methodInfo.GetParameters();
-                bool methodHasReturnType = !methodInfo.ReturnType.Equals(typeof(void));
-                var parameterTypes = parameterInfos.Select(parameter => parameter.ParameterType);
+        public static string MatchPublicKeyToken(this Assembly assembly) {
+            return _publicKeyTokenValue.Match(assembly.FullName).Groups["PublicKeyTokenValue"].Value;
+        }
 
-                if (methodHasReturnType) {
-                    parameterTypes = parameterTypes.Concat(methodInfo.ReturnType);
-                    getDelegateType = Expression.GetFuncType;
-                }
-                else {
-                    getDelegateType = Expression.GetActionType;
-                }
+        public static bool HasSamePublicKeyToken(this Assembly assembly, string token) {
+            return assembly.MatchPublicKeyToken().Equals(token);
+        }
 
-                types = parameterTypes.ToArray();
-                type = getDelegateType(types);
+        public static bool IsNCopAssembly(this Assembly assembly) {
+            return assembly.MatchPublicKeyToken().Equals(NCopToken);
+        }
+
+        public static bool InNCopAssembly(this Type type) {
+            return type.Assembly.IsNCopAssembly();
+        }
+
+        public static bool IsDefined<TAttribute>(this Type type, bool inherit = true) where TAttribute : Attribute {
+            return type.IsDefined(typeof(TAttribute), inherit);
+        }
+
+        public static bool IsNCopDefined<TAttribute>(this Type type, bool inherit = true) where TAttribute : Attribute {
+            return type.IsDefined(typeof(TAttribute), inherit) &&
+                    type.GetCustomAttribute<TAttribute>(true)
+                        .GetType()
+                        .InNCopAssembly();
+        }
+
+        public static Type[] GetImmediateInterfaces(this Type type) {
+            var interfaces = type.GetInterfaces();
+            var nonInheritedInterfaces = new HashSet<Type>(interfaces);
+
+            foreach (var @interface in interfaces) {
+                @interface.RemoveInheritedInterfaces(nonInheritedInterfaces);
             }
 
-            return Delegate.CreateDelegate(type, @this, methodInfo);
+            return nonInheritedInterfaces.ToArray();
         }
 
-        internal static Type MakeGenericType(this Type type, TypeBuilder typeBuilder) {
-            GenericTypeParameterBuilder[] genericTypeParameterBuilder = null;
-            Type[] genericArguments = type.GetGenericArguments();
-            string[] genericParameters = genericArguments.Select(g => g.Name)
-                                                         .ToArray();
-
-            genericTypeParameterBuilder = typeBuilder.DefineGenericParameters(genericParameters);
-
-            return typeBuilder.MakeGenericType(genericTypeParameterBuilder);
-        }
-
-        internal static Type GetNonNullableType(this Type type) {
-            if (type.IsNullableType()) {
-                return type.GetGenericArguments()[0];
+        private static void RemoveInheritedInterfaces(this Type type, HashSet<Type> interfaces) {
+            foreach (var @interface in type.GetInterfaces()) {
+                interfaces.Remove(@interface);
+                RemoveInheritedInterfaces(@interface, interfaces);
             }
-
-            return type;
-        }
-
-        internal static bool IsInt32OrInt64(this Type type) {
-            return type == typeof(int) || type == typeof(long);
-        }
-
-        internal static bool IsSingleOrDouble(this Type type) {
-            return type == typeof(float) || type == typeof(double);
-        }
-
-        internal static bool IsFloatingPoint(this Type type) {
-            type = type.GetNonNullableType();
-
-            switch (Type.GetTypeCode(type)) {
-                case TypeCode.Single:
-                case TypeCode.Double:
-
-                    return true;
-
-                default:
-
-                    return false;
-            }
-        }
-
-        internal static bool IsUnsigned(this Type type) {
-            type = type.GetNonNullableType();
-
-            switch (Type.GetTypeCode(type)) {
-                case TypeCode.Char:
-                case TypeCode.Byte:
-                case TypeCode.UInt16:
-                case TypeCode.UInt32:
-                case TypeCode.UInt64:
-                    return true;
-            }
-            return false;
-        }
-
-        internal static bool IsNullableType(this Type type) {
-            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
-        }
-
-        public static bool IsEquivalentTo(this Type type1, Type type2) {
-            if (!(type1 == type2)) {
-                return type1.IsEquivalentTo(type2);
-            }
-
-            return true;
-        }
-
-        internal static bool ContainsGenericParameters(this Type type, out Type[] arguments) {
-            arguments = Type.EmptyTypes;
-
-            if (type.IsGenericType) {
-                if (type.ContainsGenericParameters) {
-                    arguments = type.GetGenericArguments();
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        internal static bool IsCompilerGenerated(this Type type) {
-            return type.IsDefined(typeof(CompilerGeneratedAttribute), true);
-        }
-
-        internal static bool IsSubType(this Type type, Type subType) {
-            return subType.IsSubclassOf(type) || type.GetInterfaces().Any(i => i.Equals(subType));
-        }
-
-        internal static MemberInfo[] GetMember(this Type type, string name, BindingFlags bindingAttr, MemberTypes memberTypes = MemberTypes.All, bool includeSubTypes = false) {
-            MemberInfo[] memberInfos = type.GetMember(name, memberTypes, bindingAttr);
-
-            if (memberInfos.Length == 0 && includeSubTypes) {
-                memberInfos = type.GetInterfaces()
-                                  .Select(t => t.GetMember(name, bindingAttr))
-                                  .FirstOrDefault(t => t.Length > 0);
-            }
-
-            return memberInfos;
-        }
-
-        internal static Type GetMemberType(this MemberInfo member) {
-            Type type = null;
-
-            switch (member.MemberType) {
-                case MemberTypes.Event:
-
-                    type = (member as EventInfo).EventHandlerType;
-                    break;
-
-                case MemberTypes.Field:
-
-                    type = (member as FieldInfo).FieldType;
-                    break;
-
-                case MemberTypes.Method:
-
-                    type = (member as MethodInfo).ReturnType;
-                    break;
-
-                case MemberTypes.Property:
-
-                    type = (member as PropertyInfo).PropertyType;
-                    break;
-
-                default:
-
-                    throw new NotSupportedException();
-            }
-
-            return type;
-        }
-
-        internal static Type MakeSafeArrayType(this Type type, Nullable<int> rank = 0) {
-            return rank > 1 ? type.MakeArrayType(rank.Value) : type.MakeArrayType();
-        }
-
-        internal static bool IsPrimitive(this Type type) {
-            return type.IsPrimitive || type.IsValueType || Type.GetTypeCode(type) == TypeCode.Decimal;
-        }
-
-        internal static bool IsNumeric(this Type type) {
-            type = type.GetNonNullableType();
-
-            if (type.IsEnum) {
-                return true;
-            }
-
-            switch (Type.GetTypeCode(type)) {
-                case TypeCode.Boolean:
-                case TypeCode.Char:
-                case TypeCode.SByte:
-                case TypeCode.Byte:
-                case TypeCode.Int16:
-                case TypeCode.UInt16:
-                case TypeCode.Int32:
-                case TypeCode.UInt32:
-                case TypeCode.Int64:
-                case TypeCode.UInt64:
-                case TypeCode.Single:
-                case TypeCode.Double:
-                    return true;
-            }
-
-            return false;
         }
     }
 }

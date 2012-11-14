@@ -8,13 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using NCop.Core.Extensions;
 using NCop.Core.Framework;
+using NCop.Core.Engine;
 
 namespace NCop.Aspects.Runtime
 {
     public class RuntimeMixinsWeaver : IWeaverAcceptVisitor
     {
         private RuntimeWeaver _weaver = null;
-        private static Type _compositeIntrafceType = typeof(IComposite);
 
         public RuntimeMixinsWeaver(RuntimeWeaver weaver, AspectsRuntimeSettings settings) {
             _weaver = weaver;
@@ -29,16 +29,16 @@ namespace NCop.Aspects.Runtime
 
         private void MapTypes() {
             var composites = _weaver.Assemblies
-                                    .SelectMany(a => a.GetTypes()
-                                    .Where(t => _compositeIntrafceType.IsAssignableFrom(t)))
-                                    .Select(c => new {
-                                        Type = c,
-                                        Interfaces = c.GetInterfaces()
-                                                      .Where(i => _compositeIntrafceType.IsAssignableFrom(i))
-                                    });
-
-
-
+                                    .SelectMany(a => a.GetTypes())
+                                    .Where(type => {
+                                        return type.IsNCopDefined<CompositeAttribute>();
+                                    })
+                                    .Select(type => new {
+                                        Type = type,
+                                        Interfaces = type.GetImmediateInterfaces(),
+                                        Mixins = type.GetCustomAttribute<MixinsAttribute>(),
+                                        Concerns = type.GetCustomAttribute<ConcernAttribute>()
+                                    }).ToList();
         }
 
         public IWeaver Accept(WeaverVisitor visitor, AspectsRuntimeSettings settings) {
