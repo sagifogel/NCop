@@ -48,6 +48,10 @@ namespace NCop.Core.Extensions
             return !source.Any();
         }
 
+        public static IEnumerable<TSource> NullCoalesce<TSource>(this IEnumerable<TSource> source) {
+            return source ?? Enumerable.Empty<TSource>();
+        }
+
         public static IEnumerable<TSource> Concat<TSource>(this IEnumerable<TSource> source, params TSource[] others) {
             foreach (TSource item in source) {
                 yield return item;

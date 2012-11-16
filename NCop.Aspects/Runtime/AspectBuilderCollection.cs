@@ -1,10 +1,7 @@
 ﻿using NCop.Aspects.Engine;
-using NCop.Core.Aspects;
-using System;
-using System.Collections;
+using NCop.Core;
+using NCop.Core.Engine;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace NCop.Aspects.Runtime
 {

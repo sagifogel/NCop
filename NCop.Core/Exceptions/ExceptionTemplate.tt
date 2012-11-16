@@ -1,0 +1,36 @@
+﻿<#+
+
+public class ExceptionTemplate : Template
+{	
+	private string _name = System.IO.Path.GetFileNameWithoutExtension(TransformationContext.Host.TemplateFile);
+	public string Message { get; set; }
+	
+	public override string TransformText()
+	{
+#>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Text;
+
+namespace <#= TransformationContext.DefaultNamespace  #>
+{
+	[Serializable]
+	public class <#= _name #> : ArgumentException
+	{
+		private static string _message = "<#= Message #>";
+		
+		public <#= _name #>(string parameterName) : base(_message, parameterName) { }
+
+		public <#= _name #>(string parameterName, string message) : base(message, parameterName) { }
+
+		public <#= _name #>(string message, Exception innerException) : base(message, innerException) { }
+
+		protected <#= _name #>(SerializationInfo info, StreamingContext context) : base(info, context) { }
+	}
+}
+	<#+
+		return this.GenerationEnvironment.ToString();
+	}
+}
+#>

@@ -99,7 +99,6 @@
     <Compile Include="Engine\AspectDefinitionRepository.cs" />
     <Compile Include="Engine\AttributeAspectBuilder.cs" />
     <Compile Include="Engine\AttributeAspectProvider.cs" />
-    <Compile Include="Engine\Collection.cs" />
     <Compile Include="Engine\EventJoinPointMetadata.cs" />
     <Compile Include="Engine\Extensions.cs" />
     <Compile Include="Engine\FieldJoinPointMetadata.cs" />

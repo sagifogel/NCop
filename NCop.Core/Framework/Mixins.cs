@@ -9,7 +9,9 @@ namespace NCop.Core.Framework
     public class MixinsAttribute : Attribute
     {
         public MixinsAttribute(params Type[] mixins) {
-
+            Mixins = mixins;
         }
+
+        public Type[] Mixins { get; private set; }
     }
 }

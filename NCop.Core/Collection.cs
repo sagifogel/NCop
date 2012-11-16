@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NCop.Core.Extensions;
 using System.Collections.ObjectModel;
 
-namespace NCop.Aspects.Engine
+namespace NCop.Core
 {
     public class Collection<T> : System.Collections.ObjectModel.Collection<T>
     {
@@ -14,10 +14,14 @@ namespace NCop.Aspects.Engine
 
         public Collection(IEnumerable<T> source) {
             source.ForEach(e => {
-                if (ReferenceEquals(e, null)) {
+                if (!ReferenceEquals(e, null)) {
                     this.Add(e);
                 }
             });
+        }
+
+        public void AddRange(IEnumerable<T> source) {
+            source.ForEach(e => Add(e));
         }
     }
 }

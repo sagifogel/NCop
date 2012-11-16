@@ -1,0 +1,9 @@
+<#@ template language="C#" hostspecific="True" debug="True" #>
+<#@ output extension="cs" #>
+<#@ include file="T4Toolbox.tt" #>
+<#@ include file="ExceptionTemplate.tt" #>
+<#
+	var template = new ExceptionTemplate();
+    template.Message = "Missing mixin annotation";
+    template.Render();
+#>

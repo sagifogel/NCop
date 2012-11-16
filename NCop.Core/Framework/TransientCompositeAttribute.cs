@@ -8,8 +8,5 @@ namespace NCop.Core.Framework
 {
     public class TransientCompositeAttribute : CompositeAttribute
     {
-        public TransientCompositeAttribute() {
-
-        }
     }
 }

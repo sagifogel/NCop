@@ -30,15 +30,12 @@ namespace NCop.Aspects.Runtime
         private void MapTypes() {
             var composites = _weaver.Assemblies
                                     .SelectMany(a => a.GetTypes())
-                                    .Where(type => {
-                                        return type.IsNCopDefined<CompositeAttribute>();
-                                    })
-                                    .Select(type => new {
-                                        Type = type,
-                                        Interfaces = type.GetImmediateInterfaces(),
-                                        Mixins = type.GetCustomAttribute<MixinsAttribute>(),
-                                        Concerns = type.GetCustomAttribute<ConcernAttribute>()
-                                    }).ToList();
+                                    .Where(type => type.IsNCopDefined<CompositeAttribute>())
+                                    .Select(type => new CompositeMetadata(type));
+
+            foreach (var item in composites) {
+                
+            }
         }
 
         public IWeaver Accept(WeaverVisitor visitor, AspectsRuntimeSettings settings) {

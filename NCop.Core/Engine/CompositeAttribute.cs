@@ -8,8 +8,5 @@ namespace NCop.Core.Engine
     [AttributeUsage(AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
     public abstract class CompositeAttribute : Attribute
     {
-        public CompositeAttribute() {
-
-        }
     }
 }

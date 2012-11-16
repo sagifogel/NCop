@@ -17,7 +17,7 @@ namespace NCop.Core.Extensions
 
 #if !NET_4_5
 
-        public static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(this ICustomAttributeProvider type, bool inherit) {
+        public static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(this ICustomAttributeProvider type, bool inherit = true) {
             return type.GetCustomAttributes(typeof(TAttribute), inherit)
                        .Cast<TAttribute>();
         }
@@ -55,7 +55,7 @@ namespace NCop.Core.Extensions
                         .InNCopAssembly();
         }
 
-        public static Type[] GetImmediateInterfaces(this Type type) {
+        public static IEnumerable<Type> GetImmediateInterfaces(this Type type) {
             var interfaces = type.GetInterfaces();
             var nonInheritedInterfaces = new HashSet<Type>(interfaces);
 
@@ -63,7 +63,7 @@ namespace NCop.Core.Extensions
                 @interface.RemoveInheritedInterfaces(nonInheritedInterfaces);
             }
 
-            return nonInheritedInterfaces.ToArray();
+            return nonInheritedInterfaces;
         }
 
         private static void RemoveInheritedInterfaces(this Type type, HashSet<Type> interfaces) {

@@ -92,7 +92,22 @@
     <Compile Include="AssemblyScanner.cs" />
     <Compile Include="Aspects\IAdvice.cs" />
     <Compile Include="Aspects\IAspect.cs" />
+    <Compile Include="Collection.cs" />
+    <Compile Include="Engine\CompositeMetadata.cs" />
     <Compile Include="Engine\CompositeAttribute.cs" />
+    <Compile Include="Engine\IMixinsMap.cs" />
+    <Compile Include="Engine\MixinMap.cs" />
+    <Compile Include="Engine\MixinsMap.cs" />
+    <Compile Include="Exceptions\DuplicateMixinAnnotationException1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DuplicateMixinAnnotationException.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Exceptions\MissingMixinException.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MissingMixinException.tt</DependentUpon>
+    </Compile>
     <Compile Include="Framework\TransientCompositeAttribute.cs" />
     <Compile Include="Engine\CompositeDefinition.cs" />
     <Compile Include="Engine\IMixinDefinitionCollection.cs" />
@@ -118,7 +133,19 @@
     <Compile Include="Volatile.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Exceptions\DuplicateMixinAnnotationException.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DuplicateMixinAnnotationException1.cs</LastGenOutput>
+    </None>
+    <None Include="Exceptions\ExceptionTemplate.tt" />
+    <None Include="Exceptions\MissingMixinException.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MissingMixinException.cs</LastGenOutput>
+    </None>
     <None Include="NCop.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
