@@ -4,7 +4,6 @@
 <#@ include file="ExceptionTemplate.tt" #>
 <#
 	var template = new ExceptionTemplate();
-    template.Name = "DuplicateMixinAnnotationException";
     template.Message = "Duplicate mixin annotation has been found";
     template.Render();
 #>

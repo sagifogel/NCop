@@ -98,7 +98,7 @@
     <Compile Include="Engine\IMixinsMap.cs" />
     <Compile Include="Engine\MixinMap.cs" />
     <Compile Include="Engine\MixinsMap.cs" />
-    <Compile Include="Exceptions\DuplicateMixinAnnotationException1.cs">
+    <Compile Include="Exceptions\DuplicateMixinAnnotationException.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DuplicateMixinAnnotationException.tt</DependentUpon>
@@ -135,7 +135,7 @@
   <ItemGroup>
     <None Include="Exceptions\DuplicateMixinAnnotationException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DuplicateMixinAnnotationException1.cs</LastGenOutput>
+      <LastGenOutput>DuplicateMixinAnnotationException.cs</LastGenOutput>
     </None>
     <None Include="Exceptions\ExceptionTemplate.tt" />
     <None Include="Exceptions\MissingMixinException.tt">
