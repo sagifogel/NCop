@@ -22,10 +22,10 @@ namespace NCop.Aspects.Runtime
 
             IgnoredAssemblies = AppDomain.CurrentDomain
                                          .GetAssemblies()
-                                         .Where(a => {
-                                             return a.IsNCopAssembly() ||
-                                                    a.HasSamePublicKeyToken(ignoredAssembliedTokens[0]) ||
-                                                    a.HasSamePublicKeyToken(ignoredAssembliedTokens[1]);
+                                         .Where(assembly => {
+                                             return assembly.IsNCopAssembly() ||
+                                                    assembly.HasSamePublicKeyToken(ignoredAssembliedTokens[0]) ||
+                                                    assembly.HasSamePublicKeyToken(ignoredAssembliedTokens[1]);
                                          })
                                          .ToSet();
         }

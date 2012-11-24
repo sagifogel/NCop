@@ -12,11 +12,11 @@ using NCop.Core.Engine;
 
 namespace NCop.Aspects.Runtime
 {
-    public class RuntimeMixinsWeaver : IWeaverAcceptVisitor
+    internal class RuntimeMixinsWeaver : IWeaverAcceptVisitor
     {
         private RuntimeWeaver _weaver = null;
 
-        public RuntimeMixinsWeaver(RuntimeWeaver weaver, AspectsRuntimeSettings settings) {
+        internal RuntimeMixinsWeaver(RuntimeWeaver weaver, AspectsRuntimeSettings settings) {
             _weaver = weaver;
             _weaver.Assemblies = settings.Assemblies;
             weaver.BuilderProvider = settings.AspectBuilderProvider;
@@ -28,13 +28,12 @@ namespace NCop.Aspects.Runtime
         }
 
         private void MapTypes() {
-            var composites = _weaver.Assemblies
-                                    .SelectMany(a => a.GetTypes())
-                                    .Where(type => type.IsNCopDefined<CompositeAttribute>())
-                                    .Select(type => new CompositeMetadata(type));
+            var composites = _weaver.Assemblies.SelectMany(assembly => {
+                return assembly.GetCompositesMetadata();
+            });
 
             foreach (var item in composites) {
-                
+
             }
         }
 

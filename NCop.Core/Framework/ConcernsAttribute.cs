@@ -6,9 +6,9 @@ using System.Text;
 namespace NCop.Core.Framework
 {   
     [AttributeUsage(AttributeTargets.Interface)] 
-    public class ConcernAttribute : Attribute
+    public class ConcernsAttribute : Attribute
     {
-        public ConcernAttribute(params Type[] concerns) {
+        public ConcernsAttribute(params Type[] concerns) {
 
         }
     }

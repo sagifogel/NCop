@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NCop.Core.Engine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -50,9 +51,15 @@ namespace NCop.Core.Extensions
 
         public static bool IsNCopDefined<TAttribute>(this Type type, bool inherit = true) where TAttribute : Attribute {
             return type.IsDefined(typeof(TAttribute), inherit) &&
-                    type.GetCustomAttribute<TAttribute>(true)
-                        .GetType()
-                        .InNCopAssembly();
+                   type.GetCustomAttribute<TAttribute>(true)
+                       .GetType()
+                       .InNCopAssembly();
+        }
+
+        public static IEnumerable<CompositeMetadata> GetCompositesMetadata(this Assembly assembly) {
+            return assembly.GetTypes()
+                           .Where(type => type.IsNCopDefined<CompositeAttribute>())
+                           .Select(type => new CompositeMetadata(type));
         }
 
         public static IEnumerable<Type> GetImmediateInterfaces(this Type type) {

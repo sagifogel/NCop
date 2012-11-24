@@ -108,6 +108,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MissingMixinException.tt</DependentUpon>
     </Compile>
+    <Compile Include="Framework\ConcernOf.cs" />
     <Compile Include="Framework\TransientCompositeAttribute.cs" />
     <Compile Include="Engine\CompositeDefinition.cs" />
     <Compile Include="Engine\IMixinDefinitionCollection.cs" />
@@ -115,7 +116,7 @@
     <Compile Include="Engine\WellKnownComposites.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
-    <Compile Include="Framework\ConcernAttribute.cs" />
+    <Compile Include="Framework\ConcernsAttribute.cs" />
     <Compile Include="Framework\Mixins.cs" />
     <Compile Include="IReadOnlyCollection.cs" />
     <Compile Include="Lazy.cs" />

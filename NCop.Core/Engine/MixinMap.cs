@@ -7,22 +7,13 @@ namespace NCop.Core.Engine
 {
     public class MixinMap
     {
-        private Tuple<Type, Type> _mixinMap = null;
-
         public MixinMap(Type contract, Type implementation) {
-            _mixinMap = Tuple.Create(contract, implementation);
+            Contract = contract;
+            Implementation = implementation;
         }
 
-        public Type Contract {
-            get {
-              return _mixinMap.Item1;
-            }
-        }
+        public Type Contract { get; set; }
 
-        public Type Implementation {
-            get {
-                return _mixinMap.Item2;
-            }
-        }
+        public Type Implementation { get; set; }
     }
 }
