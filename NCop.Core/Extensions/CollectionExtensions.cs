@@ -116,7 +116,7 @@ namespace NCop.Core.Extensions
                     source.ToDictionary(local => keySelector(local), local => elementSelector(local)));
         }
 
-        public static HashSet<TSourcve> ToSet<TSourcve>(this IEnumerable<TSourcve> source) {
+        public static ISet<TSourcve> ToSet<TSourcve>(this IEnumerable<TSourcve> source) {
             return new HashSet<TSourcve>(source);
         }
     }

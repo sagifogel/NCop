@@ -4,6 +4,6 @@
 <#@ include file="ArgumentExceptionTemplate.tt" #>
 <#
 	var template = new ArgumentExceptionTemplate();
-    template.Message = "Duplicate mixin annotation has been found";
+    template.Message = "Missing aspect annotation";
     template.Render();
 #>

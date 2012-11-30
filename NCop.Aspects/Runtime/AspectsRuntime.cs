@@ -16,22 +16,23 @@ namespace NCop.Aspects.Runtime
         private AspectsRuntimeSettings _settings = null;
         private IEnumerable<Assembly> _assemblies = null;
         private WeaverVisitor _visitor = new WeaverVisitor();
-        
+
         public AspectsRuntime(AspectsRuntimeSettings settings) {
             Contract.Assert(settings != null, "Runtime Settings can not be null.");
             Contract.Assert(settings.Weaver != null, "Weaver can not be null.");
-            
+
             IWeaverAcceptVisitor acceptVisitor = null;
 
             _settings = settings;
-            settings.Assemblies = settings.Assemblies ?? GetAssemblies();
+            settings.Assemblies = GetAssemblies();
             settings.AspectBuilderProvider = GetBuilderProvider();
             acceptVisitor = settings.Weaver as IWeaverAcceptVisitor;
             _weaver = acceptVisitor.Accept(_visitor, settings);
         }
 
         private IEnumerable<Assembly> GetAssemblies() {
-            return AppDomain.CurrentDomain
+            return _settings.Assemblies ??
+                   AppDomain.CurrentDomain
                             .GetAssemblies()
                             .Where(assembly => !AspectsRuntimeSettings.IgnoredAssemblies.Contains(assembly));
         }

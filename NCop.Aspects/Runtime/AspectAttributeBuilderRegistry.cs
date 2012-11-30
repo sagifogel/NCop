@@ -8,7 +8,7 @@ using System.Text;
 
 namespace NCop.Aspects.Runtime
 {
-    public class AttributeAspectBuilderRegistry : AbstractBuilderRegistry
+    public class AttributeAspectBuilderRegistry : AspectBuilderRepository
     {   
         private IEnumerable<Assembly> _assemblies = null;
 

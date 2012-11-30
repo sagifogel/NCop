@@ -8,15 +8,15 @@ using System.Text;
 
 namespace NCop.Aspects.Runtime
 {
-    public class AbstractBuilderRegistry : IAspectBuilderRegistry, IAspectBuilderProvider
+    public class AspectBuilderRepository : IAspectBuilderRepository, IAspectBuilderProvider
     {
         protected ConcurrentDictionary<Type, IAspectBuilder> RegisteredBuilders = null;
 
-        public AbstractBuilderRegistry() {
+        public AspectBuilderRepository() {
             RegisteredBuilders = new ConcurrentDictionary<Type, IAspectBuilder>();
         }
 
-        public void RegisterBuilder(Type type, IAspectBuilder builder) {
+        public void AddBuilder(Type type, IAspectBuilder builder) {
             RegisteredBuilders.TryAdd(type, builder);
         }
 

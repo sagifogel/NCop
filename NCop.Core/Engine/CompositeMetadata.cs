@@ -13,15 +13,15 @@ namespace NCop.Core.Engine
             Type = compositeType;
             Interfaces = compositeType.GetImmediateInterfaces();
             MixinsMap = new MixinsMap(compositeType);
-            Concerns = compositeType.GetCustomAttributes<ConcernsAttribute>();
+            AspectsMap = new AspectsMap(compositeType);
         }
 
         public Type Type { get; private set; }
 
-        public IEnumerable<Type> Interfaces { get; private set; }
-
         public IMixinsMap MixinsMap { get; private set; }
 
-        public IEnumerable<ConcernsAttribute> Concerns { get; private set; }
+        public IAspectsMap AspectsMap { get; private set; }
+
+        public IEnumerable<Type> Interfaces { get; private set; }
     }
 }

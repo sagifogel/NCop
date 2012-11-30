@@ -12,8 +12,7 @@ namespace NCop.Aspects.Engine
     {
         private static readonly IEnumerable<T> _empty = Enumerable.Empty<T>();
 
-        public virtual IEnumerable<T> Visit(Type type)
-        {
+        public virtual IEnumerable<T> Visit(Type type) {
             return Visit(type.GetFields(Flags))
                      .Concat(Visit(type.GetMethods(Flags)))
                         .Concat(Visit(type.GetProperties(Flags)))
@@ -21,28 +20,23 @@ namespace NCop.Aspects.Engine
         }
 
 
-        public virtual BindingFlags Flags
-        {
+        public virtual BindingFlags Flags {
             get { return BindingFlags.Instance | BindingFlags.Public; }
         }
 
-        public virtual IEnumerable<T> Visit(FieldInfo[] fields)
-        {
+        public virtual IEnumerable<T> Visit(FieldInfo[] fields) {
             return _empty;
         }
 
-        public virtual IEnumerable<T> Visit(MethodInfo[] methods)
-        {
+        public virtual IEnumerable<T> Visit(MethodInfo[] methods) {
             return _empty;
         }
 
-        public virtual IEnumerable<T> Visit(ConstructorInfo[] ctors)
-        {
+        public virtual IEnumerable<T> Visit(ConstructorInfo[] ctors) {
             return _empty;
         }
 
-        public virtual IEnumerable<T> Visit(PropertyInfo[] properties)
-        {
+        public virtual IEnumerable<T> Visit(PropertyInfo[] properties) {
             return _empty;
         }
     }

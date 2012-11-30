@@ -6,10 +6,12 @@ using System.Text;
 namespace NCop.Core.Framework
 {   
     [AttributeUsage(AttributeTargets.Interface)] 
-    public class ConcernsAttribute : Attribute
+    public class AspectsAttribute : Attribute
     {
-        public ConcernsAttribute(params Type[] concerns) {
-
+        public AspectsAttribute(params Type[] aspects) {
+            Aspects = aspects;
         }
+
+        public Type[] Aspects { get; private set; }
     }
 }

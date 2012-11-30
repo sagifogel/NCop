@@ -10,58 +10,24 @@ namespace NCop.Core.Engine
 {
     public class MixinsMap : IMixinsMap
     {
-        private ISet<Type> _immediateInterfaces = null;
-        private ISet<Type> _registered = new HashSet<Type>();
-        private List<MixinMap> _map = new List<MixinMap>();
+        private List<MixinMap> _map = null;
+        private TypeMatcher<MixinsAttribute> _matcher = null;
 
         public MixinsMap(Type type) {
-            _immediateInterfaces = type.GetImmediateInterfaces().ToSet();
-            _map.AddRange(FindMixinsRecursively(type));
-
-            if (_map.Count != _immediateInterfaces.Count) {
-                var missing = _immediateInterfaces.Except(_map.Select(map => map.Contract));
-
-                throw new MissingMixinException(missing.First().Name);
+            try {
+                _matcher = new TypeMatcher<MixinsAttribute>(type, (attr) => attr.Mixins);
+                _map = new List<MixinMap>(
+                    _matcher.Select(tuple => {
+                        return new MixinMap(tuple.Item1, tuple.Item2);
+                    })
+                );
             }
-        }
-
-        private IEnumerable<MixinMap> FindMixinsRecursively(Type type) {
-            var mixins = FindMixins(type);
-
-            if (_immediateInterfaces.Count != _registered.Count) {
-                var interfaces = type.GetImmediateInterfaces();
-                var leftToFind = interfaces.Except(_registered);
-
-                mixins = mixins.Concat(leftToFind.SelectMany(@interface => {
-                    return FindMixinsRecursively(@interface);
-                }));
+            catch (MissingTypeException missingTypeException) {
+                throw new MissingMixinException(missingTypeException);
             }
-
-            return mixins;
-        }
-
-        private IEnumerable<MixinMap> FindMixins(Type type) {
-            var mixinsMap = new List<MixinMap>();
-            var mixinsAtribute = type.GetCustomAttribute<MixinsAttribute>();
-
-            if (mixinsAtribute != null) {
-                mixinsAtribute.Mixins.ForEach(mixin => {
-                    mixin.GetImmediateInterfaces()
-                         .ForEach(@interface => {
-                             if (_immediateInterfaces.Contains(@interface)) {
-                                 var mixinMap = new MixinMap(@interface, mixin);
-
-                                 if (!_registered.Add(@interface)) {
-                                     throw new DuplicateMixinAnnotationException(@interface.FullName);
-                                 }
-
-                                 mixinsMap.Add(mixinMap);
-                             }
-                         });
-                });
+            catch (DuplicateTypeAnnotationException duplicateTypeAnnotationException) {
+                throw new DuplicateMixinAnnotationException(duplicateTypeAnnotationException);
             }
-
-            return mixinsMap.NullCoalesce();
         }
 
         public int Count {

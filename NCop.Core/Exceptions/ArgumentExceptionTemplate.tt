@@ -1,6 +1,6 @@
 ﻿<#+
 
-public class ExceptionTemplate : Template
+public class ArgumentExceptionTemplate : Template
 {	
 	private string _name = System.IO.Path.GetFileNameWithoutExtension(TransformationContext.Host.TemplateFile);
 		
@@ -30,6 +30,8 @@ namespace <#= TransformationContext.DefaultNamespace  #>
 		private static string _message = "<#= Message #>";
 		
 		public <#= _name #>(string parameterName) : base(_message, parameterName) { }
+
+		public <#= _name #>(Exception innerException) : this(_message, innerException) { }
 
 		public <#= _name #>(string parameterName, string message) : base(message, parameterName) { }
 

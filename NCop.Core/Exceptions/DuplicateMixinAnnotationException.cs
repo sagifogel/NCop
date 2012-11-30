@@ -20,6 +20,8 @@ namespace NCop.Core.Exceptions
 		
 		public DuplicateMixinAnnotationException(string parameterName) : base(_message, parameterName) { }
 
+		public DuplicateMixinAnnotationException(Exception innerException) : this(_message, innerException) { }
+
 		public DuplicateMixinAnnotationException(string parameterName, string message) : base(message, parameterName) { }
 
 		public DuplicateMixinAnnotationException(string message, Exception innerException) : base(message, innerException) { }

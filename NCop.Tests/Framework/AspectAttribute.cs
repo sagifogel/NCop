@@ -18,7 +18,6 @@ namespace NCop.Tests
     {
         public class Test
         {
-            [OnMethodBoundaryAspect]
             public void Foo() {
             }
         }

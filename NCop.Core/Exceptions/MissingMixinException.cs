@@ -20,6 +20,8 @@ namespace NCop.Core.Exceptions
 		
 		public MissingMixinException(string parameterName) : base(_message, parameterName) { }
 
+		public MissingMixinException(Exception innerException) : this(_message, innerException) { }
+
 		public MissingMixinException(string parameterName, string message) : base(message, parameterName) { }
 
 		public MissingMixinException(string message, Exception innerException) : base(message, innerException) { }

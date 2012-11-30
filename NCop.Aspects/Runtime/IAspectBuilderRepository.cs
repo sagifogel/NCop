@@ -7,8 +7,9 @@ using System.Text;
 
 namespace NCop.Aspects.Runtime
 {
-    public interface IAspectBuilderRegistry
+    public interface IAspectBuilderRepository
     {
-        void RegisterBuilder(Type type, IAspectBuilder builder);
+        IAspectBuilderCollection Builders { get; }
+        void AddBuilder(Type type, IAspectBuilder builder);
     }
 }

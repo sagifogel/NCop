@@ -92,7 +92,6 @@
     <Compile Include="Engine\Advice.cs" />
     <Compile Include="Engine\AdviceAttribute.cs" />
     <Compile Include="Engine\AdviceCollection.cs" />
-    <Compile Include="Engine\AspectAttribute.cs" />
     <Compile Include="Engine\AspectByReflectionFactory.cs" />
     <Compile Include="Engine\AspectCollection.cs" />
     <Compile Include="Engine\AspectDefinitionBuilder.cs" />
@@ -128,11 +127,7 @@
     <Compile Include="Engine\PointcutAttribute.cs" />
     <Compile Include="Engine\PointcutCollection.cs" />
     <Compile Include="Engine\PropertyJoinPointMetadata.cs" />
-    <Compile Include="Framework\MethodInterceptionConcern.cs" />
-    <Compile Include="Framework\MethodInterceptionConcernOf.cs" />
-    <Compile Include="Framework\OnMethodBoundryConcern.cs" />
-    <Compile Include="Framework\OnMethodBoundryConcernOf.cs" />
-    <Compile Include="Runtime\AbstractBuilderRegistry.cs" />
+    <Compile Include="Runtime\AspectBuilderRepository.cs" />
     <Compile Include="Aspects\JoinPointMetadataVisitor.cs" />
     <Compile Include="Advices\OnInvokeAdviceAttribute.cs" />
     <Compile Include="Advices\OnFinallyAdviceAttribute.cs" />
@@ -148,7 +143,7 @@
     <Compile Include="Framework\MethodInterceptionAspectAttribute.cs" />
     <Compile Include="Aspects\Interception\MethodInterception.cs" />
     <Compile Include="Advices\OnErrorAdviceAttribute.cs" />
-    <Compile Include="Framework\OnMethodBoundaryAspectAttribute.cs" />
+    <Compile Include="Framework\MethodBoundaryAspectAttribute.cs" />
     <Compile Include="Aspects\PropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Aspects\Interception\SetPropertyInterception.cs" />
     <Compile Include="Framework\SetPropertyInterceptionAspectAttribute.cs" />
@@ -168,7 +163,7 @@
     <Compile Include="Runtime\AspectAttributeBuilderRegistry.cs" />
     <Compile Include="Runtime\IAspectBuilderCollection.cs" />
     <Compile Include="Runtime\IAspectBuilderProvider.cs" />
-    <Compile Include="Runtime\IAspectBuilderRegistry.cs" />
+    <Compile Include="Runtime\IAspectBuilderRepository.cs" />
     <Compile Include="Runtime\IAspectRuntime.cs" />
     <Compile Include="Runtime\IWeaver.cs" />
     <Compile Include="Runtime\IWeaverAcceptVisitor.cs" />
@@ -177,7 +172,6 @@
     <Compile Include="Runtime\RuntimeWeaver.cs" />
     <Compile Include="Runtime\WeaverVisitor.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\NCop.Core\NCop.Core.csproj">
       <Project>{7100c0df-e619-4ac8-8ed0-048dd118f251}</Project>
