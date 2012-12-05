@@ -36,7 +36,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>NCop.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\build\NCop.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -89,8 +89,7 @@
     <None Include="Exceptions\MissingTypeException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MissingTypeException.cs</LastGenOutput>
-    </None>
-    <None Include="NCop.snk" />
+    </None>    
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

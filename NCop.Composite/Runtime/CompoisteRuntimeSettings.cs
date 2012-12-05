@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NCop.Mixins.Runtime
+namespace NCop.Composite.Runtime
 {
-    public class MixinsRuntimeSettings : AbstractRuntimeSettings
+    public class CompoisteRuntimeSettings : AbstractRuntimeSettings
     {
     }
 }

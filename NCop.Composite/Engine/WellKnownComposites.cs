@@ -1,10 +1,10 @@
-﻿using NCop.Mixins.Framework;
+﻿using NCop.Composite.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NCop.Mixins.Engine
+namespace NCop.Composite.Engine
 {
     public sealed class WellKnownComposites
     {

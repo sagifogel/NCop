@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-namespace NCop.Mixins.Engine
+namespace NCop.Composite.Engine
 {
     public class AspectsMap : IAspectsMap
     {

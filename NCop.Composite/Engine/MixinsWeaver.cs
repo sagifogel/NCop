@@ -1,11 +1,11 @@
 ﻿using NCop.Aspects.Runtime;
 using NCop.Core.Runtime;
-using NCop.Mixins.Extensions;
+using NCop.Composite.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace NCop.Mixins.Runtime
+namespace NCop.Composite.Runtime
 {
     internal class MixinsWeaver : IWeaver
     {

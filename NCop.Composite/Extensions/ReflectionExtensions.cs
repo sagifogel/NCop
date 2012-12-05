@@ -1,10 +1,10 @@
-﻿using NCop.Mixins.Engine;
+﻿using NCop.Composite.Engine;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NCop.Core.Extensions;
 
-namespace NCop.Mixins.Extensions
+namespace NCop.Composite.Extensions
 {
     public static class ReflectionExtensions
     {

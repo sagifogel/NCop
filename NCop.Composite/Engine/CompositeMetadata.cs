@@ -1,11 +1,10 @@
-﻿using NCop.Mixins.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NCop.Core.Extensions;
 
-namespace NCop.Mixins.Engine
+namespace NCop.Composite.Engine
 {
     public class CompositeMetadata
     {

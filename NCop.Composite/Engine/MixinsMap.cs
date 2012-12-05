@@ -1,13 +1,13 @@
 ﻿using NCop.Core.Exceptions;
 using NCop.Core.Extensions;
 using NCop.Mixins.Exceptions;
-using NCop.Mixins.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NCop.Mixins.Framework;
 
-namespace NCop.Mixins.Engine
+namespace NCop.Composite.Engine
 {
     public class MixinsMap : IMixinsMap
     {

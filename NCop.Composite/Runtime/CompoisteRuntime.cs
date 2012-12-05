@@ -5,11 +5,11 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace NCop.Mixins.Runtime
+namespace NCop.Composite.Runtime
 {
-    public class MixinsRuntime : AbstractRuntime
+    public class CompoisteRuntime : AbstractRuntime
     {
-        public MixinsRuntime(MixinsRuntimeSettings settings) {
+        public CompoisteRuntime(CompoisteRuntimeSettings settings) {
 
         }
 

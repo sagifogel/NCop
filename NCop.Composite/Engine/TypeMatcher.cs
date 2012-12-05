@@ -1,12 +1,12 @@
-﻿//using NCop.Core.Exceptions;
+﻿using NCop.Core.Exceptions;
+//using NCop.Core.Exceptions;
 using NCop.Core.Extensions;
-using NCop.Mixins.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NCop.Mixins.Engine
+namespace NCop.Composite.Engine
 {
     public class TypeMatcher<TAttribute> : IEnumerable<Tuple<Type, Type>>
         where TAttribute : Attribute
@@ -24,7 +24,7 @@ namespace NCop.Mixins.Engine
             if (_map.Count != _immediateInterfaces.Count) {
                 var missing = _immediateInterfaces.Except(_map.Select(map => map.Item1));
 
-                //throw new MissingTypeException(missing.First().Name);
+                throw new MissingTypeException(missing.First().Name);
             }
         }
 
@@ -55,7 +55,7 @@ namespace NCop.Mixins.Engine
                                  var tuple = Tuple.Create(@interface, t);
 
                                  if (!_registered.Add(@interface)) {
-                                     //throw new DuplicateTypeAnnotationException(@interface.FullName);
+                                     throw new DuplicateTypeAnnotationException(@interface.FullName);
                                  }
 
                                  typeMap.Add(tuple);

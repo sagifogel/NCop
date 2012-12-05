@@ -69,7 +69,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>NCop.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\build\NCop.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Cecil, Version=0.9.5.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
@@ -193,10 +193,6 @@
     <None Include="Exceptions\MissingAspectException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MissingAspectException.cs</LastGenOutput>
-    </None>
-    <None Include="NCop.snk" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>

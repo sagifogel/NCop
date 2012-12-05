@@ -71,7 +71,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>NCop.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\build\NCop.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -94,37 +94,15 @@
     <Compile Include="Engine\MixinsMap.cs" />
     <Compile Include="Engine\MixinsWeaver.cs" />
     <Compile Include="Engine\TypeMatcher.cs" />
-    <Compile Include="Exceptions\DuplicateMixinAnnotationException.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DuplicateMixinAnnotationException.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Exceptions\MissingMixinException.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MissingMixinException.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Framework\TransientCompositeAttribute.cs" />
     <Compile Include="Engine\CompositeDefinition.cs" />
     <Compile Include="Engine\IMixinDefinitionCollection.cs" />
     <Compile Include="Engine\MixinDefinition.cs" />
     <Compile Include="Engine\WellKnownComposites.cs" />
-    <Compile Include="Framework\MixinsAttribute.cs" />
+    <Compile Include="Framework\TransientCompositeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
-    <Compile Include="Runtime\MixinsRuntime.cs" />
-    <Compile Include="Runtime\MixinsRuntimeSettings.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Exceptions\DuplicateMixinAnnotationException.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DuplicateMixinAnnotationException.cs</LastGenOutput>
-    </None>
-    <None Include="Exceptions\MissingMixinException.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MissingMixinException.cs</LastGenOutput>
-    </None>
-    <None Include="NCop.snk" />
+    <Compile Include="Runtime\CompoisteRuntime.cs" />
+    <Compile Include="Runtime\CompoisteRuntimeSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -137,6 +115,10 @@
     <ProjectReference Include="..\NCop.Core\NCop.Core.csproj">
       <Project>{ef89677e-7af0-4c80-b73f-aea357c5614c}</Project>
       <Name>NCop.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NCop.Mixins\NCop.Mixins.csproj">
+      <Project>{cf04be7b-d2af-4218-8317-627ce2edc3f5}</Project>
+      <Name>NCop.Mixins</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
