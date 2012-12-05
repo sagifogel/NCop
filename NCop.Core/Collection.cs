@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NCop.Core.Extensions;
-using System.Collections.ObjectModel;
+using mscorlib = System.Collections.ObjectModel;
 
 namespace NCop.Core
 {
-    public class Collection<T> : System.Collections.ObjectModel.Collection<T>
+    public class Collection<T> : mscorlib.Collection<T>
     {
         public Collection() : base() { }
 

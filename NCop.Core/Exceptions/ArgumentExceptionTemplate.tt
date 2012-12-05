@@ -6,6 +6,8 @@ public class ArgumentExceptionTemplate : Template
 		
 	public string Message { get; set; }
 	
+	public string Namespace { get; set; }
+
 	public override string TransformText()
 	{
 #>
@@ -22,10 +24,10 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace <#= TransformationContext.DefaultNamespace  #>
+namespace <#= Namespace ?? TransformationContext.DefaultNamespace  #>
 {
 	[Serializable]
-	public class <#= _name #> : ArgumentException
+	public class <#=  _name #> : ArgumentException
 	{
 		private static string _message = "<#= Message #>";
 		

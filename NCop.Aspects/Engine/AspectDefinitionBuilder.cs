@@ -1,6 +1,5 @@
 ﻿using NCop.Aspects.Aspects;
 using NCop.Core;
-using NCop.Core.Aspects;
 using System;
 using System.Collections.Concurrent;
 

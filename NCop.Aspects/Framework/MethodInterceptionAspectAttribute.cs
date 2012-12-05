@@ -4,7 +4,6 @@ using NCop.Aspects.Engine;
 using System;
 using NCop.Aspects.LifetimeStrategies;
 using NCop.Aspects.Aspects;
-using NCop.Core.Engine;
 
 namespace NCop.Aspects.Framework
 {

@@ -1,6 +1,5 @@
 ﻿using NCop.Aspects.Engine;
 using NCop.Core;
-using NCop.Core.Engine;
 using System.Collections.Generic;
 
 namespace NCop.Aspects.Runtime

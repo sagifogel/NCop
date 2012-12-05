@@ -1,5 +1,5 @@
-﻿using NCop.Aspects.Engine;
-using NCop.Core.Aspects;
+﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Engine;
 using System;
 using System.Collections.Generic;
 using System.Linq;

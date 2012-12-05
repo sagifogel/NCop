@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7100C0DF-E619-4AC8-8ED0-048DD118F251}</ProjectGuid>
+    <ProjectGuid>{EF89677E-7AF0-4C80-B73F-AEA357C5614C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NCop.Core</RootNamespace>
     <AssemblyName>NCop.Core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -24,39 +23,6 @@
     <DefineConstants Condition=" '$(TargetFrameworkVersion)' == 'v4.0' ">NET_4_0</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeContractsEnableRuntimeChecking>False</CodeContractsEnableRuntimeChecking>
-    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
-    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
-    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
-    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
-    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
-    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
-    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
-    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
-    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
-    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
-    <CodeContractsInferRequires>False</CodeContractsInferRequires>
-    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
-    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
-    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
-    <CodeContractsSuggestRequires>True</CodeContractsSuggestRequires>
-    <CodeContractsSuggestEnsures>False</CodeContractsSuggestEnsures>
-    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
-    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
-    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
-    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
-    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
-    <CodeContractsCustomRewriterAssembly />
-    <CodeContractsCustomRewriterClass />
-    <CodeContractsLibPaths />
-    <CodeContractsExtraRewriteOptions />
-    <CodeContractsExtraAnalysisOptions />
-    <CodeContractsBaseLineFile />
-    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
-    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
-    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
-    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -65,7 +31,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -74,9 +39,6 @@
     <AssemblyOriginatorKeyFile>NCop.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mono.Cecil">
-      <HintPath>..\packages\Mono.Cecil.0.9.5.3\lib\net40\Mono.Cecil.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -86,67 +48,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Aspects\IAdviceCollection.cs" />
-    <Compile Include="Aspects\IAspectDefinition.cs" />
-    <Compile Include="Aspects\IAspectDefinitionCollection.cs" />
-    <Compile Include="AssemblyScanner.cs" />
-    <Compile Include="Aspects\IAdvice.cs" />
-    <Compile Include="Aspects\IAspect.cs" />
-    <Compile Include="Collection.cs" />
-    <Compile Include="Engine\AspectAttribute.cs" />
-    <Compile Include="Engine\AspectMap.cs" />
-    <Compile Include="Engine\CompositeMetadata.cs" />
-    <Compile Include="Engine\CompositeAttribute.cs" />
-    <Compile Include="Engine\AspectsMap.cs" />
-    <Compile Include="Engine\IAspectsMap.cs" />
-    <Compile Include="Engine\IMixinsMap.cs" />
-    <Compile Include="Engine\MixinMap.cs" />
-    <Compile Include="Engine\MixinsMap.cs" />
-    <Compile Include="Engine\TypeMatcher.cs" />
-    <Compile Include="Exceptions\DuplicateAspectException.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DuplicateAspectException.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Exceptions\DuplicateMixinAnnotationException.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DuplicateMixinAnnotationException.tt</DependentUpon>
-    </Compile>
     <Compile Include="Exceptions\DuplicateTypeAnnotationException.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>DuplicateTypeAnnotationException.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Exceptions\MissingAspectException.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MissingAspectException.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Exceptions\MissingMixinException.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MissingMixinException.tt</DependentUpon>
     </Compile>
     <Compile Include="Exceptions\MissingTypeException.cs">
+      <DependentUpon>MissingTypeException.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MissingTypeException.tt</DependentUpon>
     </Compile>
-    <Compile Include="Framework\AspectOf.cs" />
-    <Compile Include="Framework\IAspectFilter.cs" />
-    <Compile Include="Framework\TransientCompositeAttribute.cs" />
-    <Compile Include="Engine\CompositeDefinition.cs" />
-    <Compile Include="Engine\IMixinDefinitionCollection.cs" />
-    <Compile Include="Engine\MixinDefinition.cs" />
-    <Compile Include="Engine\WellKnownComposites.cs" />
+    <Compile Include="IWeaver.cs" />
+    <Compile Include="Runtime.cs" />
+    <Compile Include="Collection.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
-    <Compile Include="Framework\AspectsAttribute.cs" />
-    <Compile Include="Framework\MixinsAttribute.cs" />
     <Compile Include="IReadOnlyCollection.cs" />
+    <Compile Include="IRuntime.cs" />
     <Compile Include="Lazy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RuntimeSettings.cs" />
     <Compile Include="Synchronization\DowngradeableLocker.cs" />
     <Compile Include="Synchronization\IDowngradeableLocker.cs" />
     <Compile Include="Synchronization\ILocker.cs" />
@@ -160,26 +81,10 @@
     <Compile Include="Volatile.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Exceptions\DuplicateAspectException.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DuplicateAspectException.cs</LastGenOutput>
-    </None>
-    <None Include="Exceptions\DuplicateMixinAnnotationException.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DuplicateMixinAnnotationException.cs</LastGenOutput>
-    </None>
+    <None Include="Exceptions\ArgumentExceptionTemplate.tt" />
     <None Include="Exceptions\DuplicateTypeAnnotationException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DuplicateTypeAnnotationException.cs</LastGenOutput>
-    </None>
-    <None Include="Exceptions\ArgumentExceptionTemplate.tt" />
-    <None Include="Exceptions\MissingAspectException.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MissingAspectException.cs</LastGenOutput>
-    </None>
-    <None Include="Exceptions\MissingMixinException.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MissingMixinException.cs</LastGenOutput>
     </None>
     <None Include="Exceptions\MissingTypeException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

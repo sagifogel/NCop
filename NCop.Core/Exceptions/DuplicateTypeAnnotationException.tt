@@ -1,7 +1,7 @@
 <#@ template language="C#" hostspecific="True" debug="True" #>
 <#@ output extension="cs" #>
 <#@ include file="T4Toolbox.tt" #>
-<#@ include file="ArgumentExceptionTemplate.tt" #>
+<#@ include file="..\..\NCop.Core\Exceptions\ArgumentExceptionTemplate.tt" #>
 <#
 	var template = new ArgumentExceptionTemplate();
     template.Message = "Duplicate type annotation has been found";

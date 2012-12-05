@@ -92,6 +92,7 @@
     <Compile Include="Engine\Advice.cs" />
     <Compile Include="Engine\AdviceAttribute.cs" />
     <Compile Include="Engine\AdviceCollection.cs" />
+    <Compile Include="Engine\AspectAttribute.cs" />
     <Compile Include="Engine\AspectByReflectionFactory.cs" />
     <Compile Include="Engine\AspectCollection.cs" />
     <Compile Include="Engine\AspectDefinitionBuilder.cs" />
@@ -124,9 +125,27 @@
     <Compile Include="Engine\IVisitor.cs" />
     <Compile Include="Engine\JoinPointMetadata.cs" />
     <Compile Include="Engine\MethodJoinPointMetadata.cs" />
+    <Compile Include="Engine\IAdvice.cs" />
+    <Compile Include="Engine\IAdviceCollection.cs" />
+    <Compile Include="Engine\IAspect.cs" />
+    <Compile Include="Engine\IAspectDefinition.cs" />
+    <Compile Include="Engine\IAspectDefinitionCollection.cs" />
     <Compile Include="Engine\PointcutAttribute.cs" />
     <Compile Include="Engine\PointcutCollection.cs" />
     <Compile Include="Engine\PropertyJoinPointMetadata.cs" />
+    <Compile Include="Exceptions\DuplicateAspectException.cs">
+      <DependentUpon>DuplicateAspectException.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Exceptions\MissingAspectException.cs">
+      <DependentUpon>MissingAspectException.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Framework\AspectOf.cs" />
+    <Compile Include="Framework\AspectsAttribute.cs" />
+    <Compile Include="Framework\IAspectFilter.cs" />
     <Compile Include="Runtime\AspectBuilderRepository.cs" />
     <Compile Include="Aspects\JoinPointMetadataVisitor.cs" />
     <Compile Include="Advices\OnInvokeAdviceAttribute.cs" />
@@ -160,29 +179,34 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runtime\AspectBuilderCollection.cs" />
     <Compile Include="Runtime\AspectsRuntime.cs" />
-    <Compile Include="Runtime\AspectAttributeBuilderRegistry.cs" />
+    <Compile Include="Runtime\AttributeAspectBuilderProvider.cs" />
     <Compile Include="Runtime\IAspectBuilderCollection.cs" />
     <Compile Include="Runtime\IAspectBuilderProvider.cs" />
     <Compile Include="Runtime\IAspectBuilderRepository.cs" />
-    <Compile Include="Runtime\IAspectRuntime.cs" />
-    <Compile Include="Runtime\IWeaver.cs" />
-    <Compile Include="Runtime\IWeaverAcceptVisitor.cs" />
-    <Compile Include="Runtime\RuntimeMixinsWeaver.cs" />
     <Compile Include="Runtime\AspectsRuntimeSettings.cs" />
-    <Compile Include="Runtime\RuntimeWeaver.cs" />
-    <Compile Include="Runtime\WeaverVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NCop.Core\NCop.Core.csproj">
-      <Project>{7100c0df-e619-4ac8-8ed0-048dd118f251}</Project>
-      <Name>NCop.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="Exceptions\DuplicateAspectException.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DuplicateAspectException.cs</LastGenOutput>
+    </None>
+    <None Include="Exceptions\MissingAspectException.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MissingAspectException.cs</LastGenOutput>
+    </None>
     <None Include="NCop.snk" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NCop.Core\NCop.Core.csproj">
+      <Project>{ef89677e-7af0-4c80-b73f-aea357c5614c}</Project>
+      <Name>NCop.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

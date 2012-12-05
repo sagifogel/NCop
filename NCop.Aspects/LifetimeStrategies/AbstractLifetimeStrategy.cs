@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NCop.Aspects.Engine;
-using NCop.Core.Aspects;
+using NCop.Aspects.Aspects;
 
 namespace NCop.Aspects.LifetimeStrategies
 {

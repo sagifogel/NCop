@@ -1,9 +1,0 @@
-<#@ template language="C#" hostspecific="True" debug="True" #>
-<#@ output extension="cs" #>
-<#@ include file="T4Toolbox.tt" #>
-<#@ include file="ArgumentExceptionTemplate.tt" #>
-<#
-	var template = new ArgumentExceptionTemplate();
-    template.Message = "Duplicate type aspects has been found";
-    template.Render();
-#>

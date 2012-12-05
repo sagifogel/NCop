@@ -1,5 +1,4 @@
 ﻿using NCop.Aspects.Engine;
-using NCop.Core.Aspects;
 using NCop.Core.Extensions;
 using System.Reflection;
 

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using NCop.Core.Aspects;
+using NCop.Aspects.Aspects;
 
 namespace NCop.Aspects.LifetimeStrategies
 {

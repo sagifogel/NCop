@@ -1,5 +1,5 @@
-﻿using NCop.Aspects.Engine;
-using NCop.Core.Aspects;
+﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Engine;
 
 namespace NCop.Aspects.Advices
 {

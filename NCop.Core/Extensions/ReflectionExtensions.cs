@@ -1,5 +1,4 @@
-﻿using NCop.Core.Engine;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -29,16 +28,24 @@ namespace NCop.Core.Extensions
 
 #endif
 
-        public static string MatchPublicKeyToken(this Assembly assembly) {
+        public static string GetAssemblyPublicKeyToken(this Type type) {
+            return type.Assembly.GetPublicKeyToken();
+        }
+
+        public static string GetPublicKeyToken(this Assembly assembly) {
             return _publicKeyTokenValue.Match(assembly.FullName).Groups["PublicKeyTokenValue"].Value;
         }
 
         public static bool HasSamePublicKeyToken(this Assembly assembly, string token) {
-            return assembly.MatchPublicKeyToken().Equals(token);
+            return assembly.GetPublicKeyToken().Equals(token);
+        }
+
+        public static bool HasSamePublicKeyToken(this Assembly assembly, params string[] tokens) {
+            return tokens.Any(token => assembly.HasSamePublicKeyToken(token));
         }
 
         public static bool IsNCopAssembly(this Assembly assembly) {
-            return assembly.MatchPublicKeyToken().Equals(NCopToken);
+            return assembly.GetPublicKeyToken().Equals(NCopToken);
         }
 
         public static bool InNCopAssembly(this Type type) {
@@ -54,12 +61,6 @@ namespace NCop.Core.Extensions
                    type.GetCustomAttribute<TAttribute>(true)
                        .GetType()
                        .InNCopAssembly();
-        }
-
-        public static IEnumerable<CompositeMetadata> GetCompositesMetadata(this Assembly assembly) {
-            return assembly.GetTypes()
-                           .Where(type => type.IsNCopDefined<CompositeAttribute>())
-                           .Select(type => new CompositeMetadata(type));
         }
 
         public static IEnumerable<Type> GetImmediateInterfaces(this Type type) {

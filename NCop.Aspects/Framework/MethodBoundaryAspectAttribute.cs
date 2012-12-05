@@ -6,7 +6,6 @@ using NCop.Aspects.Engine;
 using NCop.Aspects.LifetimeStrategies;
 using System.Diagnostics;
 using NCop.Aspects.Aspects;
-using NCop.Core.Engine;
 
 namespace NCop.Aspects.Framework
 {
