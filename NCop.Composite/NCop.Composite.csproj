@@ -101,8 +101,8 @@
     <Compile Include="Framework\TransientCompositeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
-    <Compile Include="Runtime\CompoisteRuntime.cs" />
-    <Compile Include="Runtime\CompoisteRuntimeSettings.cs" />
+    <Compile Include="Runtime\CompositeRuntime.cs" />
+    <Compile Include="Runtime\CompositeRuntimeSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

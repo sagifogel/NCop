@@ -7,11 +7,15 @@ using System.Text;
 
 namespace NCop.Composite.Runtime
 {
-    public class CompoisteRuntime : AbstractRuntime
+    public class CompositeRuntime
     {
-        public CompoisteRuntime(CompoisteRuntimeSettings settings) {
+        public CompositeRuntime() { }
 
+        public CompositeRuntime(RuntimeSettings settings) {
+            Settings = settings;
         }
+
+        public RuntimeSettings Settings { get; set; }
 
         public override void Run() {
             throw new NotImplementedException();

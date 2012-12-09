@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NCop.Composite.Runtime
 {
-    public class CompoisteRuntimeSettings : AbstractRuntimeSettings
+    public class CompositeRuntimeSettings : RuntimeSettings
     {
     }
 }

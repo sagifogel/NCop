@@ -7,9 +7,9 @@ using NCop.Core.Extensions;
 
 namespace NCop.Core
 {
-    public abstract class AbstractRuntimeSettings
+    public class RuntimeSettings
     {
-        static AbstractRuntimeSettings() {
+        static RuntimeSettings() {
             var objectPublicKeyToken = typeof(object).GetAssemblyPublicKeyToken();
             var binderPublicKeyToken = typeof(CSharpBinder.Binder).GetAssemblyPublicKeyToken();
 
