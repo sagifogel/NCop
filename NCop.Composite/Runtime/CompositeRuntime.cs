@@ -4,21 +4,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using NCop.Aspects.Runtime;
 
 namespace NCop.Composite.Runtime
 {
-    public class CompositeRuntime
-    {
-        public CompositeRuntime() { }
+	public class CompositeRuntime : AbstractRuntime
+	{
+		private readonly AspectsRuntime _aspectsRuntime = null;
+		//private readonly MixinsRuntime _aspectsRuntime = null;
 
-        public CompositeRuntime(RuntimeSettings settings) {
-            Settings = settings;
-        }
+		public CompositeRuntime()
+		{
+			_aspectsRuntime = new AspectsRuntime(new AspectsRuntimeSettings());
+		}
 
-        public RuntimeSettings Settings { get; set; }
+		public CompositeRuntime(RuntimeSettings settings) 
+			: this()
+		{
+			Settings = settings;
+		}
 
-        public override void Run() {
-            throw new NotImplementedException();
-        }
-    }
+		public RuntimeSettings Settings { get; set; }
+
+		public override void Run()
+		{
+			_aspectsRuntime.Run();
+		}
+	}
 }

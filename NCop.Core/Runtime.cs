@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace NCop.Core
 {
-    public abstract class AbstractRuntime : IRuntime
-    {
-        public abstract void Run();
-
-        public ISet<Assembly> IgnoredAssemblies { get; private set; }
-
-        public IEnumerable<Assembly> Assemblies { get; private set; }
-    }
+	public abstract class AbstractRuntime : IRuntime
+	{
+		public abstract void Run();
+	}
 }

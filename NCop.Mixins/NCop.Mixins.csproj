@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\IMixinDefinitionCollection.cs" />
+    <Compile Include="Engine\MixinDefinition.cs" />
     <Compile Include="Exceptions\DuplicateMixinAnnotationException.cs">
       <DependentUpon>DuplicateMixinAnnotationException.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -71,6 +73,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NCop.Core\NCop.Core.csproj">
+      <Project>{EF89677E-7AF0-4C80-B73F-AEA357C5614C}</Project>
+      <Name>NCop.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

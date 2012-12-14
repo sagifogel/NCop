@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using NCop.Aspects.Aspects;
+using NCop.Mixins.Engine;
 
 namespace NCop.Composite.Engine
 {
@@ -9,5 +8,6 @@ namespace NCop.Composite.Engine
     {
         public Type Type { get; private set; }
         public IMixinDefinitionCollection Mixins { get; private set; }
+		public IAspectDefinitionCollection Aspects { get; private set; }
     }
 }

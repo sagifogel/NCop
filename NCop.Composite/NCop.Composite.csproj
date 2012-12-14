@@ -83,21 +83,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\AspectAttribute.cs" />
-    <Compile Include="Engine\AspectMap.cs" />
-    <Compile Include="Engine\CompositeMetadata.cs" />
-    <Compile Include="Engine\CompositeAttribute.cs" />
-    <Compile Include="Engine\AspectsMap.cs" />
-    <Compile Include="Engine\IAspectsMap.cs" />
-    <Compile Include="Engine\IMixinsMap.cs" />
-    <Compile Include="Engine\MixinMap.cs" />
-    <Compile Include="Engine\MixinsMap.cs" />
-    <Compile Include="Engine\MixinsWeaver.cs" />
-    <Compile Include="Engine\TypeMatcher.cs" />
-    <Compile Include="Engine\CompositeDefinition.cs" />
-    <Compile Include="Engine\IMixinDefinitionCollection.cs" />
-    <Compile Include="Engine\MixinDefinition.cs" />
-    <Compile Include="Engine\WellKnownComposites.cs" />
+    <Compile Include="Engine\AspectMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\AspectsMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\CompositeAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\CompositeDefinition.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\CompositeMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\IAspectsMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\IMixinsMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\MixinMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\MixinsMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\MixinsWeaver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\TypeMatcher.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\WellKnownComposites.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Framework\TransientCompositeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />

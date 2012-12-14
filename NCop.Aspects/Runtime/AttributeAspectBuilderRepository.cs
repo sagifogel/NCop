@@ -8,11 +8,12 @@ using System.Text;
 
 namespace NCop.Aspects.Runtime
 {
-    public class AttributeAspectBuilderProvider : AspectBuilderProvider
+	public class AttributeAspectBuilderRepository : AspectBuilderRepository
     {   
         private Type[] _types = null;
 
-        public AttributeAspectBuilderProvider(Type[] types) {
+		public AttributeAspectBuilderRepository(Type[] types)
+		{
             _types = types;
         }
     }

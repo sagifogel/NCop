@@ -7,24 +7,49 @@ using NCop.Core.Extensions;
 
 namespace NCop.Core
 {
-    public class RuntimeSettings
-    {
-        static RuntimeSettings() {
-            var objectPublicKeyToken = typeof(object).GetAssemblyPublicKeyToken();
-            var binderPublicKeyToken = typeof(CSharpBinder.Binder).GetAssemblyPublicKeyToken();
+	public class RuntimeSettings : IRuntimeSettings
+	{
+		protected static IEnumerable<Assembly> ProtectedAssemblies = null;
+		protected static Lazy<IEnumerable<Assembly>> LazyAssemblies = null;
 
-            IgnoredAssemblies = AppDomain.CurrentDomain
-                                         .GetAssemblies()
-                                         .Where(assembly => {
-                                             return assembly.IsNCopAssembly() ||
-                                                    assembly.HasSamePublicKeyToken(objectPublicKeyToken) ||
-                                                    assembly.HasSamePublicKeyToken(binderPublicKeyToken);
-                                         })
-                                         .ToSet();
-        }
+		static RuntimeSettings()
+		{
+			var objectPublicKeyToken = typeof(object).GetAssemblyPublicKeyToken();
+			var binderPublicKeyToken = typeof(CSharpBinder.Binder).GetAssemblyPublicKeyToken();
 
-        public IEnumerable<Assembly> Assemblies { get; set; }
+			LazyAssemblies = new Lazy<IEnumerable<Assembly>>(() => AssembliesInternal);
+			IgnoredAssemblies = AppDomain.CurrentDomain
+										 .GetAssemblies()
+										 .Where(assembly =>
+										 {
+											 return assembly.IsNCopAssembly() ||
+													assembly.HasSamePublicKeyToken(objectPublicKeyToken) ||
+													assembly.HasSamePublicKeyToken(binderPublicKeyToken);
+										 })
+										 .ToSet();
+		}
 
-        public static ISet<Assembly> IgnoredAssemblies { get; private set; }
-    }
+		public RuntimeSettings(IEnumerable<Assembly> assemblies = null)
+		{
+			ProtectedAssemblies = assemblies;
+		}
+
+		public IEnumerable<Assembly> Assemblies
+		{
+			get { return LazyAssemblies.Value; }
+		}
+
+		private static IEnumerable<Assembly> AssembliesInternal
+		{
+			get
+			{
+				return ProtectedAssemblies ??
+							AppDomain.CurrentDomain
+									 .GetAssemblies()
+									 .Where(assembly => !IgnoredAssemblies.Contains(assembly));
+			}
+		}
+
+		public static ISet<Assembly> IgnoredAssemblies { get; private set; }
+	}
 }

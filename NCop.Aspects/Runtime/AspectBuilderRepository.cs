@@ -4,11 +4,11 @@ using System.Collections.Concurrent;
 
 namespace NCop.Aspects.Runtime
 {
-    public class AspectBuilderProvider : IAspectBuilderRepository, IAspectBuilderProvider
+    public class AspectBuilderRepository : IAspectBuilderRepository, IAspectBuilderProvider
     {
         private ConcurrentDictionary<Type, IAspectBuilder> _builders = null;
 
-        public AspectBuilderProvider() {
+        public AspectBuilderRepository() {
             _builders = new ConcurrentDictionary<Type, IAspectBuilder>();
         }
 
