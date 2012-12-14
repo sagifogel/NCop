@@ -12,8 +12,8 @@ namespace NCop.Composite.Engine
             Implementation = implementation;
         }
 
-        public Type Contract { get; set; }
+        public Type Contract { get; private set; }
 
-        public Type Implementation { get; set; }
+        public Type Implementation { get; private set; }
     }
 }

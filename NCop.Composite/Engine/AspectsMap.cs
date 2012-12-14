@@ -13,11 +13,11 @@ namespace NCop.Composite.Engine
     public class AspectsMap : IAspectsMap
     {
         private List<AspectMap> _map = null;
-        private TypeMatcher<AspectsAttribute> _matcher = null;
+        private AttributeTypeMatcher<AspectsAttribute> _matcher = null;
 
         public AspectsMap(Type type) {
             try {
-                _matcher = new TypeMatcher<AspectsAttribute>(type, (attr) => attr.Aspects);
+                _matcher = new AttributeTypeMatcher<AspectsAttribute>(type, (attr) => attr.Aspects);
                 _map = new List<AspectMap>(_matcher.Select(tuple => {
                     return new AspectMap(tuple.Item1, tuple.Item2);
                 }));
@@ -35,7 +35,7 @@ namespace NCop.Composite.Engine
         private static void EnsureValidAspects(IEnumerable<AspectMap> aspectsMap) {
             aspectsMap.ForEach(aspect => {
                 if (!IsAspect(aspect.AspectType)) {
-                    //throw new MissingAspectException(aspect.Contract.FullName);
+                    throw new MissingAspectException(aspect.Contract.FullName);
                 }
             });
         }

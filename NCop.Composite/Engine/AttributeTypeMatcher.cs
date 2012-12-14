@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace NCop.Composite.Engine
 {
-    public class TypeMatcher<TAttribute> : IEnumerable<Tuple<Type, Type>>
+    public class AttributeTypeMatcher<TAttribute> : IEnumerable<Tuple<Type, Type>>
         where TAttribute : Attribute
     {
         private ISet<Type> _immediateInterfaces = null;
@@ -16,7 +16,7 @@ namespace NCop.Composite.Engine
         private Func<TAttribute, Type[]> _typeFactory = null;
         private List<Tuple<Type, Type>> _map = new List<Tuple<Type, Type>>();
 
-        public TypeMatcher(Type type, Func<TAttribute, Type[]> typeFactory) {
+        public AttributeTypeMatcher(Type type, Func<TAttribute, Type[]> typeFactory) {
             _typeFactory = typeFactory;
             _immediateInterfaces = type.GetImmediateInterfaces().ToSet();
             _map.AddRange(FindTypesRecursively(type));

@@ -10,18 +10,13 @@ namespace NCop.Aspects.Runtime
 {
 	public class AspectsRuntime : IRuntime
 	{
-		private readonly IWeaver _weaver = null;
-		private readonly AspectsRuntimeSettings _settings = null;
-		
-		public AspectsRuntime(AspectsRuntimeSettings settings)
-		{
-			Contract.Assert(settings != null, "Runtime Settings can not be null.");
+        private IAspectBuilderProvider _aspectBuilderProvider = null;
 
-			_settings = settings;
-		}
+		public AspectsRuntimeSettings Settings { get; set; }
 
 		public void Run()
 		{
+            _aspectBuilderProvider = _aspectBuilderProvider ?? new AttributeAspectBuilderRepository();
 		}
 	}
 }

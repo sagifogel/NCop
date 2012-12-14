@@ -7,10 +7,10 @@ namespace NCop.Aspects.Engine
 {
     internal sealed class AspectDefinitionBuilder
     {   
-        private static object _syncLock = new object();
-        private JoinPointMetadataVisitor _visitor = new JoinPointMetadataVisitor();
-        private ConcurrentDictionary<Type, IAspectProvider> _registeredTypes = null;
-        private static NCop.Core.Lazy<AspectDefinitionBuilder> _aspectsRepository = null;
+        private readonly static object _syncLock = new object();
+        private readonly JoinPointMetadataVisitor _visitor = new JoinPointMetadataVisitor();
+        private readonly ConcurrentDictionary<Type, IAspectProvider> _registeredTypes = null;
+        private readonly static NCop.Core.Lazy<AspectDefinitionBuilder> _aspectsRepository = null;
 
         static AspectDefinitionBuilder() {
             _aspectsRepository = new NCop.Core.Lazy<AspectDefinitionBuilder>(() => new AspectDefinitionBuilder());

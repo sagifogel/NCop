@@ -12,9 +12,8 @@ namespace NCop.Aspects.Runtime
     {   
         private Type[] _types = null;
 
-		public AttributeAspectBuilderRepository(Type[] types)
+		public AttributeAspectBuilderRepository()
 		{
-            _types = types;
         }
     }
 }

@@ -52,14 +52,12 @@ namespace NCop.Core.Extensions
             return source ?? Enumerable.Empty<TSource>();
         }
 
-        public static IEnumerable<TSource> Concat<TSource>(this IEnumerable<TSource> source, params TSource[] others) {
-            foreach (TSource item in source) {
-                yield return item;
+        public static IEnumerable<TSource> SelfJoin<TSource>(this IEnumerable<TSource> source, IEnumerable<TSource> second) {
+            if (source != second) {
+                source = source.Concat(second);
             }
 
-            foreach (TSource item in others) {
-                yield return item;
-            }
+            return source;
         }
 
         public static TSource Single<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate) {

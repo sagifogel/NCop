@@ -5,30 +5,31 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using NCop.Aspects.Runtime;
+using NCop.Core.Runtime;
+using NCop.Composite.Engine;
 
 namespace NCop.Composite.Runtime
 {
-	public class CompositeRuntime : AbstractRuntime
-	{
-		private readonly AspectsRuntime _aspectsRuntime = null;
-		//private readonly MixinsRuntime _aspectsRuntime = null;
+    public class CompositeRuntime : IRuntime
+    {
+        private AspectsRuntime _aspectsRuntime = null;
+        private readonly CompositeMetadataMapper _metadataMapper = new CompositeMetadataMapper();
 
-		public CompositeRuntime()
-		{
-			_aspectsRuntime = new AspectsRuntime(new AspectsRuntimeSettings());
-		}
+        public CompositeRuntimeSettings Settings { get; set; }
 
-		public CompositeRuntime(RuntimeSettings settings) 
-			: this()
-		{
-			Settings = settings;
-		}
+        public void Run() {
+            IEnumerable<CompositeMetadata> composites = null;
+            Settings = Settings ?? new CompositeRuntimeSettings();
 
-		public RuntimeSettings Settings { get; set; }
+            _aspectsRuntime = new AspectsRuntime {
+                Settings = new AspectsRuntimeSettings() {
+                    AspectBuilderProvider = Settings.AspectBuilderProvider
+                }
+            };
 
-		public override void Run()
-		{
-			_aspectsRuntime.Run();
-		}
-	}
+            composites = _metadataMapper.Map(Settings.Assemblies).ToList();
+            _aspectsRuntime.Run();
+        }
+    }
 }
+

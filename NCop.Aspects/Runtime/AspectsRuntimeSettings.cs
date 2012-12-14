@@ -8,20 +8,10 @@ using CSharpBinder = Microsoft.CSharp.RuntimeBinder;
 
 namespace NCop.Aspects.Runtime
 {
-	public class AspectsRuntimeSettings : RuntimeSettings
-	{
-		private readonly RuntimeSettings _runtimeSettings = null;
+    public class AspectsRuntimeSettings : AbstractRuntimeSettings
+    {
+        public AspectsRuntimeSettings(IEnumerable<Assembly> assemblies = null) : base(assemblies) { }
 
-		public AspectsRuntimeSettings(IEnumerable<Assembly> assemblies = null)
-		{
-			_runtimeSettings = new RuntimeSettings(assemblies);
-		}
-
-		public IEnumerable<Assembly> Assemblies
-		{
-			get { return _runtimeSettings.Assemblies; }
-		}
-
-		public IAspectBuilderProvider AspectBuilderProvider { get; set; }
-	}
+        public IAspectBuilderProvider AspectBuilderProvider { get; set; }
+    }
 }

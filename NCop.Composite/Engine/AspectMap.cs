@@ -12,8 +12,8 @@ namespace NCop.Composite.Engine
             AspectType = aspectType;
         }
 
-        public Type Contract { get; set; }
+        public Type Contract { get; private set; }
 
-        public Type AspectType { get; set; }
+        public Type AspectType { get; private set; }
     }
 }

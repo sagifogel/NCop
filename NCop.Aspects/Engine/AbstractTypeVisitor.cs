@@ -14,9 +14,9 @@ namespace NCop.Aspects.Engine
 
         public virtual IEnumerable<T> Visit(Type type) {
             return Visit(type.GetFields(Flags))
-                     .Concat(Visit(type.GetMethods(Flags)))
-                        .Concat(Visit(type.GetProperties(Flags)))
-                            .Concat(Visit(type.GetConstructors(Flags)));
+                     .SelfJoin(Visit(type.GetMethods(Flags)))
+                        .SelfJoin(Visit(type.GetProperties(Flags)))
+                            .SelfJoin(Visit(type.GetConstructors(Flags)));
         }
 
 

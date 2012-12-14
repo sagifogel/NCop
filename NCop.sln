@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2010
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCop.Tests", "NCop.Tests\NCop.Tests.csproj", "{1A05073C-E859-4503-9178-54E4267F3BCA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCop.IoC", "NCop.IoC\NCop.IoC.csproj", "{0B598341-32A5-4D5F-A11C-E37E5B4EF65D}"
@@ -85,16 +85,16 @@ Global
 		{CF04BE7B-D2AF-4218-8317-627CE2EDC3F5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{CF04BE7B-D2AF-4218-8317-627CE2EDC3F5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{CF04BE7B-D2AF-4218-8317-627CE2EDC3F5}.Release|x86.ActiveCfg = Release|Any CPU
-		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Debug|x86.ActiveCfg = Debug|x86
-		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Debug|x86.Build.0 = Debug|x86
-		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Release|Any CPU.ActiveCfg = Release|x86
-		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Release|Mixed Platforms.Build.0 = Release|x86
-		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Release|x86.ActiveCfg = Release|x86
-		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Release|x86.Build.0 = Release|x86
+		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B7220FDA-AF29-42BC-A3DD-3E0C83117725}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

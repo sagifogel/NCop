@@ -1,6 +1,6 @@
 ﻿using NCop.Aspects.Runtime;
 using NCop.Core.Runtime;
-using NCop.Composite.Extensions;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -16,17 +16,6 @@ namespace NCop.Composite.Runtime
         }
 
         public void Weave() {
-            MapTypes();
-        }
-
-        private void MapTypes() {
-            var composites = _assemblies.SelectMany(assembly => {
-                return assembly.GetCompositesMetadata();
-            });
-
-            foreach (var item in composites) {
-                
-            }
         }
     }
 }

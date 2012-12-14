@@ -4,18 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NCop.Aspects.Runtime;
+using System.Reflection;
 
 namespace NCop.Composite.Runtime
 {
-	public class CompositeRuntimeSettings : RuntimeSettings
-	{
-		private AspectsRuntimeSettings _aspectsRuntimeSettings = null;
+    public class CompositeRuntimeSettings : AbstractRuntimeSettings
+    {
+        public CompositeRuntimeSettings(IEnumerable<Assembly> assemblies = null)
+            : base(assemblies) {
+        }
 
-		public CompositeRuntimeSettings()
-		{
-			_aspectsRuntimeSettings = new AspectsRuntimeSettings();
-		}
-
-		public IAspectBuilderProvider AspectBuilderProvider { get; set; }
-	}
+        public IAspectBuilderProvider AspectBuilderProvider { get; set; }
+    }
 }
