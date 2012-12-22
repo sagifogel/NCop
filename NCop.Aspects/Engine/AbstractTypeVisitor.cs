@@ -8,36 +8,27 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public abstract class AbstractTypeVisitor<T> : ITypesVisitor<T>
+    public abstract class AbstractTypeVisitor<T> : ITypeVisitor<T>
     {
-        private static readonly IEnumerable<T> _empty = Enumerable.Empty<T>();
+        protected static readonly IEnumerable<T> Empty = Enumerable.Empty<T>();
 
         public virtual IEnumerable<T> Visit(Type type) {
-            return Visit(type.GetFields(Flags))
-                     .SelfJoin(Visit(type.GetMethods(Flags)))
-                        .SelfJoin(Visit(type.GetProperties(Flags)))
-                            .SelfJoin(Visit(type.GetConstructors(Flags)));
+            return Visit(type.GetMethods(Flags))
+                     .SelfJoin(Visit(type.GetProperties(Flags)));
         }
-
 
         public virtual BindingFlags Flags {
-            get { return BindingFlags.Instance | BindingFlags.Public; }
-        }
-
-        public virtual IEnumerable<T> Visit(FieldInfo[] fields) {
-            return _empty;
+            get {
+                return BindingFlags.Instance | BindingFlags.Public;
+            }
         }
 
         public virtual IEnumerable<T> Visit(MethodInfo[] methods) {
-            return _empty;
-        }
-
-        public virtual IEnumerable<T> Visit(ConstructorInfo[] ctors) {
-            return _empty;
+            return Empty;
         }
 
         public virtual IEnumerable<T> Visit(PropertyInfo[] properties) {
-            return _empty;
+            return Empty;
         }
     }
 }

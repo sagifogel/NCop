@@ -1,5 +1,6 @@
 ﻿using NCop.Aspects.Exceptions;
 using NCop.Aspects.Framework;
+using NCop.Core;
 using NCop.Core.Exceptions;
 using NCop.Core.Extensions;
 using System;

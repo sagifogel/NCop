@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NCop.Aspects.Framework
 {
-    public class AspectOf<T> : IAspect where T : class
+    public class AspectOf<T> : TypeLevelAspect where T : class
     {
         public T Instance { get; private set; }
     }

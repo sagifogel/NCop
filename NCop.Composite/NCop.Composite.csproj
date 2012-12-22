@@ -114,9 +114,6 @@
     <Compile Include="Engine\MixinsWeaver.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Engine\AttributeTypeMatcher.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Engine\WellKnownComposites.cs">
       <SubType>Code</SubType>
     </Compile>

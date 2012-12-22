@@ -1,14 +1,9 @@
-﻿using NCop.Aspects.Engine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
+﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Aspects.Builders;
 using NCop.Aspects.Framework;
-using NCop.Aspects.Advices;
+using NCop.Aspects.LifetimeStrategies;
 using NCop.Core.Extensions;
-using NCop.Aspects.Aspects;
+using System;
 
 namespace NCop.Aspects.Extensions
 {

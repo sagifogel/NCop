@@ -1,4 +1,5 @@
 ﻿using NCop.Aspects.Engine;
+using NCop.Aspects.JoinPoints;
 using System.Reflection;
 
 namespace NCop.Aspects.Aspects.Interception

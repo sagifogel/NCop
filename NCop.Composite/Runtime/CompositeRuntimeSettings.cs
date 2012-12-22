@@ -8,12 +8,10 @@ using System.Reflection;
 
 namespace NCop.Composite.Runtime
 {
-    public class CompositeRuntimeSettings : AbstractRuntimeSettings
+    public class CompositeRuntimeSettings : RuntimeSettings
     {
         public CompositeRuntimeSettings(IEnumerable<Assembly> assemblies = null)
             : base(assemblies) {
         }
-
-        public IAspectBuilderProvider AspectBuilderProvider { get; set; }
     }
 }

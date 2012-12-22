@@ -86,53 +86,59 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Advices\AdviceVisitor.cs" />
+    <Compile Include="Aspects\Builders\AttributeAspectBuilderProvider.cs" />
+    <Compile Include="Aspects\Builders\TypeLevelAspectBuilder.cs" />
+    <Compile Include="Aspects\Builders\TypeLevelAspectBuilderProvider.cs" />
     <Compile Include="Aspects\IInterceptionConcern.cs" />
     <Compile Include="Aspects\IOnMethodBoundryContract.cs" />
+    <Compile Include="Aspects\TypeLevelAspect.cs" />
     <Compile Include="Engine\AbstractTypeVisitor.cs" />
-    <Compile Include="Engine\Advice.cs" />
-    <Compile Include="Engine\AdviceAttribute.cs" />
-    <Compile Include="Engine\AdviceCollection.cs" />
-    <Compile Include="Engine\AspectAttribute.cs" />
-    <Compile Include="Engine\AspectByReflectionFactory.cs" />
-    <Compile Include="Engine\AspectCollection.cs" />
-    <Compile Include="Engine\AspectDefinitionBuilder.cs" />
-    <Compile Include="Engine\AspectDefinitionRepository.cs" />
-    <Compile Include="Engine\AttributeAspectBuilder.cs" />
-    <Compile Include="Engine\AttributeAspectProvider.cs" />
-    <Compile Include="Engine\EventJoinPointMetadata.cs" />
+    <Compile Include="Advices\Advice.cs" />
+    <Compile Include="Advices\AdviceAttribute.cs" />
+    <Compile Include="Advices\AdviceCollection.cs" />
+    <Compile Include="Aspects\AspectAttribute.cs" />
+    <Compile Include="Aspects\AspectByReflectionFactory.cs" />
+    <Compile Include="Aspects\AspectCollection.cs" />
+    <Compile Include="Aspects\AspectDefinitionBuilder.cs" />
+    <Compile Include="Aspects\AspectDefinitionRepository.cs" />
+    <Compile Include="Aspects\Builders\AttributeAspectBuilder.cs" />
+    <Compile Include="Aspects\AttributeAspectProvider.cs" />
+    <Compile Include="Exceptions\AspectBuilderNotFoundException.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AspectBuilderNotFoundException.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JoinPoints\EventJoinPointMetadata.cs" />
     <Compile Include="Engine\Extensions.cs" />
-    <Compile Include="Engine\FieldJoinPointMetadata.cs" />
+    <Compile Include="Pointcuts\FieldJoinPointMetadata.cs" />
     <Compile Include="Engine\IAcceptsVisitor.cs" />
     <Compile Include="Engine\IAcceptsVisitor`2.cs" />
-    <Compile Include="Engine\IAspectBuilder.cs" />
-    <Compile Include="Engine\IAspectCollection.cs" />
-    <Compile Include="Engine\IAspectFactory.cs" />
-    <Compile Include="Engine\IAspectProvider.cs" />
+    <Compile Include="Aspects\Builders\IAspectBuilder.cs" />
+    <Compile Include="Aspects\IAspectCollection.cs" />
+    <Compile Include="Aspects\IAspectFactory.cs" />
+    <Compile Include="Aspects\IAspectProvider.cs" />
     <Compile Include="Engine\IInvocationJoinPoint.cs" />
-    <Compile Include="Engine\IJoinPoint.cs" />
-    <Compile Include="Engine\ILifetimeStrategy.cs" />
-    <Compile Include="Engine\ILifetimeStrategyProvider.cs" />
+    <Compile Include="JoinPoints\IJoinPoint.cs" />
+    <Compile Include="LifetimeStrategies\ILifetimeStrategy.cs" />
+    <Compile Include="LifetimeStrategies\ILifetimeStrategyProvider.cs" />
     <Compile Include="Engine\IMethodExecution.cs" />
     <Compile Include="Engine\IMethodInterception.cs" />
-    <Compile Include="Engine\IPointcut.cs" />
-    <Compile Include="Engine\IPointcutCollection.cs" />
-    <Compile Include="Engine\IPointcutProvider.cs" />
-    <Compile Include="Engine\IPointcutStore.cs" />
+    <Compile Include="Pointcuts\IPointcut.cs" />
+    <Compile Include="Pointcuts\IPointcutCollection.cs" />
+    <Compile Include="Pointcuts\IPointcutStore.cs" />
     <Compile Include="Engine\IPreventable.cs" />
     <Compile Include="Engine\IPropertyGetExecuter.cs" />
     <Compile Include="Engine\IPropertySetExecuter.cs" />
-    <Compile Include="Engine\ITypesVisitor.cs" />
-    <Compile Include="Engine\IVisitor.cs" />
-    <Compile Include="Engine\JoinPointMetadata.cs" />
-    <Compile Include="Engine\MethodJoinPointMetadata.cs" />
-    <Compile Include="Engine\IAdvice.cs" />
-    <Compile Include="Engine\IAdviceCollection.cs" />
-    <Compile Include="Engine\IAspect.cs" />
-    <Compile Include="Engine\IAspectDefinition.cs" />
-    <Compile Include="Engine\IAspectDefinitionCollection.cs" />
-    <Compile Include="Engine\PointcutAttribute.cs" />
-    <Compile Include="Engine\PointcutCollection.cs" />
-    <Compile Include="Engine\PropertyJoinPointMetadata.cs" />
+    <Compile Include="Engine\ITypeVisitor.cs" />
+    <Compile Include="JoinPoints\JoinPointMetadata.cs" />
+    <Compile Include="JoinPoints\MethodJoinPointMetadata.cs" />
+    <Compile Include="Advices\IAdvice.cs" />
+    <Compile Include="Advices\IAdviceCollection.cs" />
+    <Compile Include="Aspects\IAspect.cs" />
+    <Compile Include="Aspects\IAspectDefinition.cs" />
+    <Compile Include="Aspects\IAspectDefinitionCollection.cs" />
+    <Compile Include="Pointcuts\PointcutCollection.cs" />
+    <Compile Include="JoinPoints\PropertyJoinPointMetadata.cs" />
     <Compile Include="Exceptions\DuplicateAspectException.cs">
       <DependentUpon>DuplicateAspectException.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -146,7 +152,6 @@
     <Compile Include="Framework\AspectOf.cs" />
     <Compile Include="Framework\AspectsAttribute.cs" />
     <Compile Include="Framework\IAspectFilter.cs" />
-    <Compile Include="Runtime\AspectBuilderRepository.cs" />
     <Compile Include="Aspects\JoinPointMetadataVisitor.cs" />
     <Compile Include="Advices\OnInvokeAdviceAttribute.cs" />
     <Compile Include="Advices\OnFinallyAdviceAttribute.cs" />
@@ -168,22 +173,21 @@
     <Compile Include="Framework\SetPropertyInterceptionAspectAttribute.cs" />
     <Compile Include="LifetimeStrategies\AbstractLifetimeStrategy.cs" />
     <Compile Include="Aspects\AspectDefinition.cs" />
-    <Compile Include="LifetimeStrategies\WellKnownLifetimeStrategy.cs" />
+    <Compile Include="LifetimeStrategies\KnownLifetimeStrategy.cs" />
     <Compile Include="LifetimeStrategies\PerThreadLifetimeStrategy.cs" />
     <Compile Include="LifetimeStrategies\SingletonLifetimeStrategy.cs" />
     <Compile Include="LifetimeStrategies\TransientLifetimeStrategy.cs" />
     <Compile Include="Pointcuts\MethodCallPointcut.cs" />
-    <Compile Include="Framework\MethodPointcutAttribute.cs" />
-    <Compile Include="Pointcuts\AbstractPointcutVisitorAttribute.cs" />
+    <Compile Include="Pointcuts\MethodPointcutAttribute.cs" />
+    <Compile Include="Pointcuts\AbstractPointcutAttribute.cs" />
     <Compile Include="Pointcuts\IPointcutVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Runtime\AspectBuilderCollection.cs" />
+    <Compile Include="Aspects\AspectBuilderCollection.cs" />
     <Compile Include="Runtime\AspectsRuntime.cs" />
-    <Compile Include="Runtime\AttributeAspectBuilderRepository.cs" />
-    <Compile Include="Runtime\IAspectBuilderCollection.cs" />
-    <Compile Include="Runtime\IAspectBuilderProvider.cs" />
-    <Compile Include="Runtime\IAspectBuilderRepository.cs" />
+    <Compile Include="Aspects\Builders\IAspectBuilderCollection.cs" />
+    <Compile Include="Aspects\Builders\IAspectBuilderProvider.cs" />
     <Compile Include="Runtime\AspectsRuntimeSettings.cs" />
+    <Compile Include="Aspects\KnownAspectBuilders.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Exceptions\DuplicateAspectException.tt">
@@ -193,6 +197,10 @@
     <None Include="Exceptions\MissingAspectException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MissingAspectException.cs</LastGenOutput>
+    </None>
+    <None Include="Exceptions\AspectBuilderNotFoundException.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AspectBuilderNotFoundException.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

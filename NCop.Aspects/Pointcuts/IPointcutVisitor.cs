@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Pointcuts
 {
-    public interface IPointcutVisitor : ITypesVisitor<IPointcut>
+    public interface IPointcutVisitor : ITypeVisitor<IPointcut>
     {
     }
 }

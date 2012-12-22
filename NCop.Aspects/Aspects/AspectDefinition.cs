@@ -10,6 +10,7 @@ using NCop.Aspects.Engine;
 using System.Reflection;
 using NCop.Aspects.Advices;
 using NCop.Core.Extensions;
+using NCop.Aspects.JoinPoints;
 
 namespace NCop.Aspects.Aspects
 {

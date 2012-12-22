@@ -1,4 +1,5 @@
-﻿using NCop.Aspects.Engine;
+﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Engine;
 using NCop.Aspects.LifetimeStrategies;
 using System;
 using System.Collections.Generic;
@@ -16,10 +17,10 @@ namespace NCop.Aspects.Framework
         private bool _initialized = false;
         private object _syncLock = new object();
         private ILifetimeStrategy _strategy = null;
-        private WellKnownLifetimeStrategy _wellKnownLifetimeStrategy;
+        private KnownLifetimeStrategy _wellKnownLifetimeStrategy;
         private static readonly string _liftimeStrategiesNamespace = "NCop.Aspects.LifetimeStrategies";
 
-        public LifetimeStrategyAttribute(WellKnownLifetimeStrategy lifetimeStrategy) {
+        public LifetimeStrategyAttribute(KnownLifetimeStrategy lifetimeStrategy) {
             _wellKnownLifetimeStrategy = lifetimeStrategy;
         }
 

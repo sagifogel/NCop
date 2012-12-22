@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Aspects
 {
-    public interface IAspectVisitor : ITypesVisitor<IAspect>
+    public interface IAspectVisitor : ITypeVisitor<IAspect>
     {
     }
 }

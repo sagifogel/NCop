@@ -7,7 +7,7 @@ using NCop.Aspects.Aspects;
 
 namespace NCop.Aspects.Framework
 {
-    [LifetimeStrategy(WellKnownLifetimeStrategy.Singleton)]
+    [LifetimeStrategy(KnownLifetimeStrategy.Singleton)]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
     public class MethodInterceptionAspectAttribute : AspectAttribute, IMethodInterceptionContract
     {

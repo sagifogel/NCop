@@ -13,8 +13,7 @@ namespace NCop.Composite.Runtime
     public class CompositeRuntime : IRuntime
     {
         private AspectsRuntime _aspectsRuntime = null;
-        private readonly CompositeMetadataMapper _metadataMapper = new CompositeMetadataMapper();
-
+        
         public CompositeRuntimeSettings Settings { get; set; }
 
         public void Run() {
@@ -23,11 +22,10 @@ namespace NCop.Composite.Runtime
 
             _aspectsRuntime = new AspectsRuntime {
                 Settings = new AspectsRuntimeSettings() {
-                    AspectBuilderProvider = Settings.AspectBuilderProvider
                 }
             };
 
-            composites = _metadataMapper.Map(Settings.Assemblies).ToList();
+            composites = CompositeMetadataMapper.Map(Settings.Assemblies).ToList();
             _aspectsRuntime.Run();
         }
     }

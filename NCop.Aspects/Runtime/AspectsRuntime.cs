@@ -8,15 +8,11 @@ using System.Reflection;
 
 namespace NCop.Aspects.Runtime
 {
-	public class AspectsRuntime : IRuntime
-	{
-        private IAspectBuilderProvider _aspectBuilderProvider = null;
+    public class AspectsRuntime : IRuntime
+    {
+        public AspectsRuntimeSettings Settings { get; set; }
 
-		public AspectsRuntimeSettings Settings { get; set; }
-
-		public void Run()
-		{
-            _aspectBuilderProvider = _aspectBuilderProvider ?? new AttributeAspectBuilderRepository();
-		}
-	}
+        public void Run() {
+        }
+    }
 }

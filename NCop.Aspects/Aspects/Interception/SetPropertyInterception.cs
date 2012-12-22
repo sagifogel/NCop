@@ -1,4 +1,5 @@
 ﻿using NCop.Aspects.Engine;
+using NCop.Aspects.JoinPoints;
 using System;
 using System.Collections.Generic;
 using System.Linq;
