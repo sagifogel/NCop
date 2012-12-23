@@ -17,17 +17,17 @@ namespace NCop.Aspects.Exceptions
 	[Serializable]
 	public class AspectBuilderNotFoundException : SystemException, ISerializable
 	{
-		private bool _messageIntialized = false;
+		private bool _messageInitialized = false;
         private string _message = string.Empty;
 
         public AspectBuilderNotFoundException(string message) 
 		    : base(message) {
-            _messageIntialized = true;
+            _messageInitialized = true;
         }
 
         public AspectBuilderNotFoundException(string message, Exception innerException) 
 		    : base(message, innerException) {
-            _messageIntialized = true;
+            _messageInitialized = true;
         }
 		
 		public AspectBuilderNotFoundException(Type type)
@@ -56,7 +56,7 @@ namespace NCop.Aspects.Exceptions
 
 		public override string Message {
             get {
-                if (_messageIntialized) {
+                if (_messageInitialized) {
                     return base.Message;
                 }
 

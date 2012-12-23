@@ -83,17 +83,17 @@ namespace <#= Namespace ?? TransformationContext.DefaultNamespace  #>
 	[Serializable]
 	public class <#=  _name #> : SystemException, ISerializable
 	{
-		private bool _messageIntialized = false;
+		private bool _messageInitialized = false;
         private string _message = string.Empty;
 
         public <#=  _name #>(string message) 
 		    : base(message) {
-            _messageIntialized = true;
+            _messageInitialized = true;
         }
 
         public <#=  _name #>(string message, Exception innerException) 
 		    : base(message, innerException) {
-            _messageIntialized = true;
+            _messageInitialized = true;
         }
 		<#= _constructor #>
 		protected <#=  _name #>(SerializationInfo info, StreamingContext context)
@@ -111,7 +111,7 @@ namespace <#= Namespace ?? TransformationContext.DefaultNamespace  #>
 
 		public override string Message {
             get {
-                if (_messageIntialized) {
+                if (_messageInitialized) {
                     return base.Message;
                 }
 

@@ -208,6 +208,10 @@
       <Project>{ef89677e-7af0-4c80-b73f-aea357c5614c}</Project>
       <Name>NCop.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NCop.Mixins\NCop.Mixins.csproj">
+      <Project>{cf04be7b-d2af-4218-8317-627ce2edc3f5}</Project>
+      <Name>NCop.Mixins</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

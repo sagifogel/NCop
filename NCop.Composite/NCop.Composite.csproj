@@ -92,9 +92,6 @@
     <Compile Include="Engine\CompositeAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Engine\CompositeDefinition.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Engine\CompositeMetadataMapper.cs" />
     <Compile Include="Engine\CompositeMetadata.cs">
       <SubType>Code</SubType>
