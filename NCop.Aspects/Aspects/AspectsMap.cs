@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-namespace NCop.Composite.Engine
+namespace NCop.Aspects.Aspects
 {
     public class AspectsMap : IAspectsMap
     {

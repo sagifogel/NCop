@@ -83,32 +83,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\AspectMap.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Engine\AspectsMap.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Engine\CompositeAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Engine\CompositeMetadataMapper.cs" />
     <Compile Include="Engine\CompositeMetadata.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Engine\IAspectsMap.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Engine\IMixinsMap.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Engine\MixinMap.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Engine\MixinsMap.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Engine\MixinsWeaver.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Engine\WellKnownComposites.cs">
@@ -137,7 +116,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Aspects\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

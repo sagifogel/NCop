@@ -8,7 +8,7 @@ using System.Linq;
 using NCop.Mixins.Framework;
 using NCop.Core;
 
-namespace NCop.Composite.Engine
+namespace NCop.Mixins.Engine
 {
     public class MixinsMap : IMixinsMap
     {

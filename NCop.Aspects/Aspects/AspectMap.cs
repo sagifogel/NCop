@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NCop.Composite.Engine
+namespace NCop.Aspects.Aspects
 {
     public class AspectMap
     {

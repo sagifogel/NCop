@@ -103,6 +103,9 @@
     <Compile Include="Aspects\AspectDefinitionRepository.cs" />
     <Compile Include="Aspects\Builders\AttributeAspectBuilder.cs" />
     <Compile Include="Aspects\AttributeAspectProvider.cs" />
+    <Compile Include="Aspects\AspectMap.cs" />
+    <Compile Include="Aspects\AspectsMap.cs" />
+    <Compile Include="Aspects\IAspectsMap.cs" />
     <Compile Include="Exceptions\AspectBuilderNotFoundException.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -207,10 +210,6 @@
     <ProjectReference Include="..\NCop.Core\NCop.Core.csproj">
       <Project>{ef89677e-7af0-4c80-b73f-aea357c5614c}</Project>
       <Name>NCop.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NCop.Mixins\NCop.Mixins.csproj">
-      <Project>{cf04be7b-d2af-4218-8317-627ce2edc3f5}</Project>
-      <Name>NCop.Mixins</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
