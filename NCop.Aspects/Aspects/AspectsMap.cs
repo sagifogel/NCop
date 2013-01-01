@@ -42,15 +42,8 @@ namespace NCop.Aspects.Aspects
         }
 
         private static bool IsAspect(Type aspectType) {
-            var baseType = aspectType.BaseType;
-
-            if (baseType != null) {
-                var genericImpl = baseType.GetGenericTypeDefinition();
-
-                return genericImpl != null && genericImpl.Equals(typeof(AspectOf<>));
-            }
-
-            return aspectType.GetInterfaces()
+            return typeof(TypeLevelAspect).IsAssignableFrom(aspectType) ||
+                   aspectType.GetInterfaces()
                              .Any(@interface => @interface.Equals(typeof(IAspectFilter)));
         }
 

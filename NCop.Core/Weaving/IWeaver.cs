@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace NCop.Core.Runtime
+namespace NCop.Core.Weaving
 {
     public interface IWeaver
-    {   
+    {
         void Weave();
     }
 }

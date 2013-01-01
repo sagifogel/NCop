@@ -60,9 +60,16 @@ namespace NCop.Core.Extensions
             return source;
         }
 
-        public static TSource Single<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate) {
-            return source.Where(predicate)
-                         .FirstOrDefault();
+        public static Tuple<TSource, TProject> SelectFirst<TSource, TProject>(this IEnumerable<TSource> source, Func<TSource, TProject> selector, Func<TProject, bool> predicate) {
+            foreach (var item in source) {
+                var projection = selector(item);
+
+                if (predicate(projection)) {
+                    return Tuple.Create(item, projection);
+                }
+            }
+
+            return null;
         }
 
         public static IEnumerable<TSource> Distinct<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> predicate) {

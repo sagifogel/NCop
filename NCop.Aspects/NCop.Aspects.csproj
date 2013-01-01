@@ -111,11 +111,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AspectBuilderNotFoundException.tt</DependentUpon>
     </Compile>
+    <Compile Include="Framework\AspectMixin.cs" />
     <Compile Include="JoinPoints\EventJoinPointMetadata.cs" />
     <Compile Include="Engine\Extensions.cs" />
     <Compile Include="Pointcuts\FieldJoinPointMetadata.cs" />
     <Compile Include="Engine\IAcceptsVisitor.cs" />
-    <Compile Include="Engine\IAcceptsVisitor`2.cs" />
+    <Compile Include="Engine\IAcceptsVisitor`1.cs" />
     <Compile Include="Aspects\Builders\IAspectBuilder.cs" />
     <Compile Include="Aspects\IAspectCollection.cs" />
     <Compile Include="Aspects\IAspectFactory.cs" />
@@ -214,6 +215,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Weavers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

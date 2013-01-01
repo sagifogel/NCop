@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using NCop.Aspects.Runtime;
-using NCop.Core.Runtime;
 using NCop.Composite.Engine;
 
 namespace NCop.Composite.Runtime

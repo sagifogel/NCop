@@ -51,7 +51,6 @@
     <Compile Include="Engine\MixinDefinition.cs" />
     <Compile Include="Engine\MixinMap.cs" />
     <Compile Include="Engine\MixinsMap.cs" />
-    <Compile Include="Engine\MixinsWeaver.cs" />
     <Compile Include="Exceptions\DuplicateMixinAnnotationException.cs">
       <DependentUpon>DuplicateMixinAnnotationException.tt</DependentUpon>
       <AutoGen>True</AutoGen>

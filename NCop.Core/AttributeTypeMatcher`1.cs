@@ -49,17 +49,17 @@ namespace NCop.Core
             if (attribute != null) {
                 _typeFactory(attribute).ForEach(t => {
                     t.GetImmediateInterfaces()
-                         .ForEach(@interface => {
-                             if (_immediateInterfaces.Contains(@interface)) {
-                                 var tuple = Tuple.Create(@interface, t);
+                     .ForEach(@interface => {
+                         if (_immediateInterfaces.Contains(@interface)) {
+                             var tuple = Tuple.Create(@interface, t);
 
-                                 if (!_registered.Add(@interface)) {
-                                     throw new DuplicateTypeAnnotationException(@interface.FullName);
-                                 }
-
-                                 typeMap.Add(tuple);
+                             if (!_registered.Add(@interface)) {
+                                 throw new DuplicateTypeAnnotationException(@interface.FullName);
                              }
-                         });
+
+                             typeMap.Add(tuple);
+                         }
+                     });
                 });
             }
 

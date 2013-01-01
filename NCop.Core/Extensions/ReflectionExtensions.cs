@@ -28,6 +28,11 @@ namespace NCop.Core.Extensions
 
 #endif
 
+        public static Attribute GetCustomAttribute(this ICustomAttributeProvider type, ISet<Type> attributesToMatch, bool inherit = true) {
+            return type.GetCustomAttributes(inherit)
+                       .FirstOrDefault(attr => attributesToMatch.Contains(attr)) as Attribute; 
+        }
+
         public static string GetAssemblyPublicKeyToken(this Type type) {
             return type.Assembly.GetPublicKeyToken();
         }

@@ -48,7 +48,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttributeTypeMatcher.cs" />
+    <Compile Include="AttribueTypeMacher.cs" />
+    <Compile Include="AttributeMixinTypeDescriptor.cs" />
+    <Compile Include="AttributeTypeMatcher`1.cs" />
+    <Compile Include="Exceptions\AttributeNotFoundException.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AttributeNotFoundException.tt</DependentUpon>
+    </Compile>
     <Compile Include="Exceptions\DuplicateTypeAnnotationException.cs">
       <DependentUpon>DuplicateTypeAnnotationException.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -59,10 +66,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Framework\MixinAttribute.cs" />
+    <Compile Include="IMixinTypeDescriptor.cs" />
     <Compile Include="IRuntimeSettings.cs" />
     <Compile Include="ITypeVisitor.cs" />
-    <Compile Include="IWeaver.cs" />
     <Compile Include="Collection.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
@@ -82,9 +88,28 @@
     <Compile Include="Synchronization\ReadWriteLocker.cs" />
     <Compile Include="Synchronization\UpgradeableLocker.cs" />
     <Compile Include="Volatile.cs" />
+    <Compile Include="Weaving\MethodPipelineWeavers.cs" />
+    <Compile Include="Weaving\IMethodWeaver.cs" />
+    <Compile Include="Weaving\IMixinTypeWeaver.cs" />
+    <Compile Include="Weaving\MethodWeaverTemplate.cs" />
+    <Compile Include="Weaving\MixinsTypeWeaver.cs" />
+    <Compile Include="Weaving\MixinTypeWeaver.cs" />
+    <Compile Include="Weaving\NCopAssemblyBuilder.cs" />
+    <Compile Include="Weaving\NCopModuleBuilder.cs" />
+    <Compile Include="Weaving\IMethodScopeWeaver.cs" />
+    <Compile Include="Weaving\IMethodSignatureWeaver.cs" />
+    <Compile Include="Weaving\IGetPropertyWeaver.cs" />
+    <Compile Include="Weaving\ISetPropertyWeaver.cs" />
+    <Compile Include="Weaving\ITypeWeaver.cs" />
+    <Compile Include="Weaving\IWeaver.cs" />
+    <Compile Include="Weaving\NCopTypeBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Exceptions\ArgumentExceptionTemplate.tt" />
+    <None Include="Exceptions\AttributeNotFoundException.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AttributeNotFoundException.cs</LastGenOutput>
+    </None>
     <None Include="Exceptions\DuplicateTypeAnnotationException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DuplicateTypeAnnotationException.cs</LastGenOutput>
@@ -98,7 +123,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Framework\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
