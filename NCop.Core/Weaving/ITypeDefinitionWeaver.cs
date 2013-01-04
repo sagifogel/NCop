@@ -6,9 +6,8 @@ using System.Text;
 
 namespace NCop.Core.Weaving
 {
-    public class MethodPipelineWeavers
+    public interface ITypeDefinitionWeaver
     {
-        IMethodScopeWeaver MethodScopeWeaver { get; set; }
-        IMethodSignatureWeaver SignatureWeaver { get; set; }
+        TypeBuilder Weave();
     }
 }

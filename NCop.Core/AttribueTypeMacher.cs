@@ -9,10 +9,6 @@ namespace NCop.Core
 {
     public class AttribueTypeMacher
     {
-        private Tuple<Type, Type> _map = null;
-        private ISet<Type> _immediateInterfaces = null;
-        private ISet<Type> _registered = new HashSet<Type>();
-
         public AttribueTypeMacher(Type[] types, Type[] attributesToMatch) {
             var attributesSet = attributesToMatch.ToSet();
             var tuple = types.SelectFirst(type => type.GetCustomAttribute(attributesSet), attr => attr != null);

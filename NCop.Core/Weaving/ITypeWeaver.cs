@@ -8,6 +8,6 @@ namespace NCop.Core.Weaving
 {
     public interface ITypeWeaver : IWeaver
     {
-        TypeBuilder TypeBuilder { get; }
+        void Weave();
     }
 }

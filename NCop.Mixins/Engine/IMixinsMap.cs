@@ -1,8 +1,5 @@
 ﻿using NCop.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using NCop.Core.Mixin;
 
 namespace NCop.Mixins.Engine
 {

@@ -1,12 +1,12 @@
-﻿using NCop.Core.Exceptions;
-using NCop.Core.Extensions;
+﻿using NCop.Core;
+using NCop.Core.Exceptions;
+using NCop.Core.Mixin;
 using NCop.Mixins.Exceptions;
+using NCop.Mixins.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NCop.Core;
-using NCop.Core.Framework;
 
 namespace NCop.Mixins.Engine
 {

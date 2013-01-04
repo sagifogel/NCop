@@ -8,6 +8,5 @@ namespace NCop.Core.Weaving
 {
     public interface IWeaver
     {
-        void Weave();
     }
 }

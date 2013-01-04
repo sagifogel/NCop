@@ -92,7 +92,6 @@
     <Compile Include="Aspects\IInterceptionConcern.cs" />
     <Compile Include="Aspects\IOnMethodBoundryContract.cs" />
     <Compile Include="Aspects\TypeLevelAspect.cs" />
-    <Compile Include="Engine\AbstractTypeVisitor.cs" />
     <Compile Include="Advices\Advice.cs" />
     <Compile Include="Advices\AdviceAttribute.cs" />
     <Compile Include="Advices\AdviceCollection.cs" />
@@ -106,6 +105,7 @@
     <Compile Include="Aspects\AspectMap.cs" />
     <Compile Include="Aspects\AspectsMap.cs" />
     <Compile Include="Aspects\IAspectsMap.cs" />
+    <Compile Include="Engine\AbstractTypeVisitor.cs" />
     <Compile Include="Exceptions\AspectBuilderNotFoundException.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -217,7 +217,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Weavers\" />
+    <Folder Include="Weaving\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

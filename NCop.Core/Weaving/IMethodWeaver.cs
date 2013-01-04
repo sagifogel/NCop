@@ -6,11 +6,10 @@ using System.Text;
 
 namespace NCop.Core.Weaving
 {
-    public interface IMethodWeaver
+    public interface IMethodWeaver : IWeaver
     {
-        void DefineMethod();
-        void WeaveMethodScope();
-        void WeaveEndMethod();
-        MethodPipelineWeavers PipelineWeavers { get; }
+        MethodBuilder DefineMethod(TypeBuilder typeBuilder);
+        ILGenerator WeaveMethodScope(ILGenerator ilGenerator);
+        void WeaveEndMethod(ILGenerator ilGenerator);
     }
 }

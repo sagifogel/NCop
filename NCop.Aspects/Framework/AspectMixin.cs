@@ -6,8 +6,10 @@ using System.Text;
 
 namespace NCop.Aspects.Framework
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class AspectMixin : AttributeMixinTypeDescriptor
+    [AttributeUsage(AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
+    public class AspectMixin : Attribute
     {
+        public AspectMixin(Type mixin) {
+        }
     }
 }
