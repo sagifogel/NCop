@@ -87,6 +87,9 @@
     <Compile Include="Synchronization\ReadWriteLocker.cs" />
     <Compile Include="Synchronization\UpgradeableLocker.cs" />
     <Compile Include="Weaving\ITypeVisitor.cs" />
+    <Compile Include="Weaving\MethodDecoratorWeaver.cs" />
+    <Compile Include="Weaving\Responsibility\MethodDecoratorWeaverHandler.cs" />
+    <Compile Include="Weaving\Responsibility\MethodHandler.cs" />
     <Compile Include="Weaving\TypeBuilderVisitor.cs" />
     <Compile Include="Volatile.cs" />
     <Compile Include="Weaving\IMethodScopeWeaver.cs" />
