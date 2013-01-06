@@ -163,6 +163,7 @@
     <Compile Include="Weaving\IArgumentsSettings.cs" />
     <Compile Include="Weaving\IAspectTypeReflectorWeaver.cs" />
     <Compile Include="Weaving\NestedMethodDecoratorArgumentsWeaver.cs" />
+    <Compile Include="Weaving\NestedOnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\OnMethodBoundaryImplArgumentsWeaver.cs" />
     <Compile Include="Weaving\ReturnValueAspectWeaver.cs" />
     <Compile Include="Weaving\TopMethodInterceptionAspectWeaver.cs" />
@@ -454,7 +455,7 @@
     <Compile Include="Weaving\MethodInterceptionImplArgumentsWeaver.cs" />
     <Compile Include="Weaving\MethodInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\MethodParameters.cs" />
-    <Compile Include="Weaving\OnMethodBoundaryAspectWeaver.cs" />
+    <Compile Include="Weaving\BindingOnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\OnMethodEntryAdviceWeaver.cs" />
     <Compile Include="Weaving\OnMethodExceptionAdviceWeaver.cs" />
     <Compile Include="Weaving\OnMethodInterceptionBindingWeaver.cs" />

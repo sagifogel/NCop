@@ -16,13 +16,9 @@ namespace NCop.Aspects.Weaving.Expressions
         }
 
         public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
-            var clonedSettings = aspectWeavingSettings.CloneWith(settings => {
-                settings.LocalBuilderRepository = new LocalBuilderRepository();
-            });
+            var nestedWeaver = expression.Reduce(aspectWeavingSettings);
 
-            var nestedWeaver = expression.Reduce(clonedSettings);
-
-            return new OnMethodBoundaryAspectWeaver(nestedWeaver, aspectDefinition, aspectWeavingSettings);
+            return new NestedOnMethodBoundaryAspectWeaver(nestedWeaver, aspectDefinition, aspectWeavingSettings);
         }
     }
 }

@@ -14,14 +14,15 @@ namespace NCop.Aspects.Weaving
 
         public override void Weave(ILGenerator ilGenerator) {
             FieldBuilder contractFieldBuilder = null; 
-            LocalBuilder argsLocalBuilder = LocalBuilderRepository.Get(ArgumentType);
+            var argsLocalBuilder = LocalBuilderRepository.Get(ArgumentType);
             
             contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
+            ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
 
             Parameters.ForEach(1, (parameter, i) => {
                 var property = ArgumentType.GetProperty("Arg{0}".Fmt(i));
-
+                
                 ilGenerator.EmitLoadLocal(argsLocalBuilder);
                 ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());
             });

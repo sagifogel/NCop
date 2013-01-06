@@ -153,6 +153,7 @@ namespace NCop.Samples
         public string Code(string sagi) {
             var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(developer, sagi);
             Aspects.traceAspect3.OnEntry(aspectArgs);
+            Aspects.traceAspect3.OnEntry(aspectArgs);
 
             return developer.Code(aspectArgs.Arg1);
         }
@@ -168,6 +169,7 @@ namespace NCop.Samples
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
         [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
         //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
         //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 3)]
         new string Code(string s);
@@ -176,8 +178,6 @@ namespace NCop.Samples
     class Program
     {
         static void Main(string[] args) {
-            var person1 = new Person();
-            string result = person1.Code("");
             var container = new CompositeContainer();
             container.Configure();
 
@@ -219,6 +219,7 @@ namespace NCop.Samples
     public class TraceAspect3 : OnFunctionBoundaryAspect<string, string>
     {
         public override void OnEntry(FunctionExecutionArgs<string, string> args) {
+            Console.WriteLine("Code from TraceAspect3");
             base.OnEntry(args);
         }
     }

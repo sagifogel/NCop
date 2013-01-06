@@ -1,11 +1,5 @@
 ﻿using NCop.Aspects.Aspects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NCop.Aspects.Extensions;
-using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving.Expressions
 {

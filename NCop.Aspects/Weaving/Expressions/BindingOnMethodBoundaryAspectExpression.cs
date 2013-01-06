@@ -22,7 +22,7 @@ namespace NCop.Aspects.Weaving.Expressions
 
             var nestedWeaver = expression.Reduce(clonedSettings); 
             
-            return new OnMethodBoundaryAspectWeaver(nestedWeaver, aspectDefinition, aspectWeavingSettings);
+            return new BindingOnMethodBoundaryAspectWeaver(nestedWeaver, aspectDefinition, aspectWeavingSettings);
         }
     }
 }

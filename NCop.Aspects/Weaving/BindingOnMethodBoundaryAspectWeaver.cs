@@ -1,24 +1,14 @@
 ﻿using NCop.Aspects.Aspects;
-using NCop.Weaving;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Text;
 using NCop.Core.Extensions;
-using NCop.Aspects.Weaving.Expressions;
-using NCop.Aspects.Advices;
-using NCop.Composite.Weaving;
-using NCop.Aspects.Extensions;
+using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class OnMethodBoundaryAspectWeaver : AbstractOnMethodBoundaryAspectWeaver
+    internal class BindingOnMethodBoundaryAspectWeaver : AbstractOnMethodBoundaryAspectWeaver
     {
         protected IArgumentsWeaver argumentsWeaver = null;
 
-        internal OnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings)
+        internal BindingOnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings)
             : base(nestedWeaver, aspectDefinition, settings) {
             var @params = weavingSettings.MethodInfoImpl.GetParameters();
 
