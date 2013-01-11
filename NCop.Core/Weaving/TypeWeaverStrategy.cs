@@ -17,7 +17,7 @@ namespace NCop.Core.Weaving
             var typeDefinition = TypeDefinitionWeaver.Weave();
 
             MethodWeavers.ForEach(methodWeaver => {
-                var methodBuilder = methodWeaver.DefineMethod(typeDefinition.TypeBuilder);
+                var methodBuilder = methodWeaver.DefineMethod();
                 var ilGenerator = methodBuilder.GetILGenerator();
 
                 methodWeaver.WeaveMethodScope(ilGenerator);

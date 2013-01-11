@@ -1,36 +1,26 @@
 ﻿using NCop.Core.Weaving;
 using NCop.Core.Weaving.Responsibility;
 using System;
+using System.Reflection;
 using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving.Responsibility
 {
-    public class AspectPipelineMethodWeaver : IMethodWeaver
+    public class AspectPipelineMethodWeaver : IMethodWeaverMatcher
     {
-        private IMethodWeaver _methodWeaver = null;
-        private IMethodBuilderHandler _handler = null;
+        private IMethodWeaverHandler _handler = null;
         private ITypeDefinition _typeDefinition = null;
 
         public AspectPipelineMethodWeaver(Type type, ITypeDefinition typeDefinition) {
             _typeDefinition = typeDefinition;
-            _handler = new MethodDecoratorWeaverHandler(type, typeDefinition);
+            _handler = new AspectMethodWeaverHandler(type, typeDefinition);
 
-            _handler.SetNextHandler(NullObjectHanler.Instance)
-                    .SetNextHandler(NullObjectHanler.Instance);
+            _handler.SetNextHandler(new MethodDecoratorWeaverHandler(type, typeDefinition))
+                    .SetNextHandler(NullObjectMethdodWeaverHanler.Instance);
         }
 
-        public MethodBuilder DefineMethod(TypeBuilder typeBuilder) {
-            _methodWeaver = _handler.Handle(_typeDefinition);
-
-            return _methodWeaver.DefineMethod(typeBuilder);
-        }
-
-        public ILGenerator WeaveMethodScope(ILGenerator ilGenerator) {
-            return _methodWeaver.WeaveMethodScope(ilGenerator);
-        }
-
-        public void WeaveEndMethod(ILGenerator ilGenerator) {
-            _methodWeaver.WeaveEndMethod(ilGenerator);
+        public IMethodWeaver Handle(MethodInfo methodInfo) {
+            return _handler.Handle(methodInfo);
         }
     }
 }

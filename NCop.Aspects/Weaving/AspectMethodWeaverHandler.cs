@@ -1,14 +1,16 @@
-﻿using System;
+﻿using NCop.Core.Weaving;
+using NCop.Core.Weaving.Responsibility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace NCop.Core.Weaving.Responsibility
+namespace NCop.Aspects.Weaving
 {
-    public class MethodDecoratorWeaverHandler : AbstractMethodWeaverHandler
+    public class AspectMethodWeaverHandler : AbstractMethodWeaverHandler
     {
-        public MethodDecoratorWeaverHandler(Type type, ITypeDefinition typeDefinition)
+        public AspectMethodWeaverHandler(Type type, ITypeDefinition typeDefinition)
             : base(type, typeDefinition) {
         }
 
@@ -19,7 +21,7 @@ namespace NCop.Core.Weaving.Responsibility
         }
 
         protected override IMethodWeaver HandleInternal(MethodInfo methodInfo) {
-            return new MethodDecoratorWeaver(methodInfo, Type, TypeDefinition);
+            return null;
         }
     }
 }

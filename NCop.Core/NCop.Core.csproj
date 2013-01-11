@@ -91,10 +91,11 @@
     <Compile Include="Weaving\ITypeDefinition.cs" />
     <Compile Include="Weaving\ITypeVisitor.cs" />
     <Compile Include="Weaving\MethodDecoratorWeaver.cs" />
-    <Compile Include="Weaving\Responsibility\IMethodBuilderHandler.cs" />
+    <Compile Include="Weaving\Responsibility\IMethodWeaverHandler.cs" />
+    <Compile Include="Weaving\Responsibility\IMethodWeaverMatcher.cs" />
     <Compile Include="Weaving\Responsibility\MethodDecoratorWeaverHandler.cs" />
-    <Compile Include="Weaving\Responsibility\AbstractMethodBuilderHandler.cs" />
-    <Compile Include="Weaving\Responsibility\NullObjectHanler.cs" />
+    <Compile Include="Weaving\Responsibility\AbstractMethodWeaverHandler.cs" />
+    <Compile Include="Weaving\Responsibility\NullObjectMethdodWeaverHanler.cs" />
     <Compile Include="Weaving\TypeBuilderVisitor.cs" />
     <Compile Include="Volatile.cs" />
     <Compile Include="Weaving\IMethodScopeWeaver.cs" />
