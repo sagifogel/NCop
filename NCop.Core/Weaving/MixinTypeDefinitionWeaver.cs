@@ -15,7 +15,7 @@ namespace NCop.Core.Weaving
 
         public MixinMap MixinMap { get; private set; }
 
-        public TypeBuilder Weave() {
+        public ITypeDefinition Weave() {
             throw new NotImplementedException();
         }
     }

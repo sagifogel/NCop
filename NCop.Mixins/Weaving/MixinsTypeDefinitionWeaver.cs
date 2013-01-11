@@ -16,7 +16,7 @@ namespace NCop.Mixins.Weaving
 
         public IEnumerable<MixinMap> MixinsMap { get; private set; }
 
-        public TypeBuilder Weave() {
+        public ITypeDefinition Weave() {
             throw new NotImplementedException();
         }
     }

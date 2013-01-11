@@ -6,8 +6,8 @@ using System.Text;
 
 namespace NCop.Core.Weaving
 {
-    public interface ITypeDefinitionWeaver
+    public interface IFieldWeaver : IWeaver
     {
-        ITypeDefinition Weave();
+        FieldBuilder Weave(TypeBuilder typeBuilder);
     }
 }

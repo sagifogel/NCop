@@ -14,12 +14,12 @@ namespace NCop.Core.Weaving
         }
 
         public void Weave() {
-            var typeBuilder = TypeDefinitionWeaver.Weave();
-            
+            var typeDefinition = TypeDefinitionWeaver.Weave();
+
             MethodWeavers.ForEach(methodWeaver => {
-                var methodBuilder = methodWeaver.DefineMethod(typeBuilder);
+                var methodBuilder = methodWeaver.DefineMethod(typeDefinition.TypeBuilder);
                 var ilGenerator = methodBuilder.GetILGenerator();
-                
+
                 methodWeaver.WeaveMethodScope(ilGenerator);
                 methodWeaver.WeaveEndMethod(ilGenerator);
             });

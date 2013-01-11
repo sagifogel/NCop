@@ -192,6 +192,7 @@
     <Compile Include="Aspects\Builders\IAspectBuilderProvider.cs" />
     <Compile Include="Runtime\AspectsRuntimeSettings.cs" />
     <Compile Include="Aspects\KnownAspectBuilders.cs" />
+    <Compile Include="Weaving\Responsibility\AspectPipelineMethodWeaver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Exceptions\DuplicateAspectException.tt">
@@ -216,9 +217,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Weaving\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
