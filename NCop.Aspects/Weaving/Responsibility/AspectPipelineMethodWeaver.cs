@@ -2,25 +2,22 @@
 using NCop.Core.Weaving.Responsibility;
 using System;
 using System.Reflection;
-using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving.Responsibility
 {
     public class AspectPipelineMethodWeaver : IMethodWeaverMatcher
     {
-        private IMethodWeaverHandler _handler = null;
-        private ITypeDefinition _typeDefinition = null;
+		private readonly IMethodWeaverHandler _handler = null;
 
-        public AspectPipelineMethodWeaver(Type type, ITypeDefinition typeDefinition) {
-            _typeDefinition = typeDefinition;
-            _handler = new AspectMethodWeaverHandler(type, typeDefinition);
+        public AspectPipelineMethodWeaver(Type type) {
+            _handler = new AspectMethodWeaverHandler(type);
 
-            _handler.SetNextHandler(new MethodDecoratorWeaverHandler(type, typeDefinition))
-                    .SetNextHandler(NullObjectMethdodWeaverHanler.Instance);
+            _handler.SetNextHandler(new MethodDecoratorWeaverHandler(type))
+                    .SetNextHandler(new NullObjectMethdodWeaverHanler());
         }
 
-        public IMethodWeaver Handle(MethodInfo methodInfo) {
-            return _handler.Handle(methodInfo);
+		public IMethodWeaver Handle(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
+            return _handler.Handle(methodInfo, typeDefinition);
         }
     }
 }

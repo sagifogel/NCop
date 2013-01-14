@@ -8,8 +8,8 @@ namespace NCop.Core.Weaving.Responsibility
 {
     public class MethodDecoratorWeaverHandler : AbstractMethodWeaverHandler
     {
-        public MethodDecoratorWeaverHandler(Type type, ITypeDefinition typeDefinition)
-            : base(type, typeDefinition) {
+        public MethodDecoratorWeaverHandler(Type type)
+            : base(type) {
         }
 
         public override bool CanHandle {
@@ -18,8 +18,8 @@ namespace NCop.Core.Weaving.Responsibility
             }
         }
 
-        protected override IMethodWeaver HandleInternal(MethodInfo methodInfo) {
-            return new MethodDecoratorWeaver(methodInfo, Type, TypeDefinition);
+		protected override IMethodWeaver HandleInternal(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
+            return new MethodDecoratorWeaver(methodInfo, Type, typeDefinition);
         }
     }
 }

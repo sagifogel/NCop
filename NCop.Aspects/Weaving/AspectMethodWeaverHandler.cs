@@ -10,8 +10,8 @@ namespace NCop.Aspects.Weaving
 {
     public class AspectMethodWeaverHandler : AbstractMethodWeaverHandler
     {
-        public AspectMethodWeaverHandler(Type type, ITypeDefinition typeDefinition)
-            : base(type, typeDefinition) {
+        public AspectMethodWeaverHandler(Type type)
+            : base(type) {
         }
 
         public override bool CanHandle {
@@ -20,7 +20,7 @@ namespace NCop.Aspects.Weaving
             }
         }
 
-        protected override IMethodWeaver HandleInternal(MethodInfo methodInfo) {
+		protected override IMethodWeaver HandleInternal(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
             return null;
         }
     }

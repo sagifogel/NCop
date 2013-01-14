@@ -6,9 +6,9 @@ using NCop.Core.Extensions;
 
 namespace NCop.Core.Weaving
 {
-    public class TypeWeaverStrategy : ITypeWeaver
+    public class MixinWeaverStrategy : ITypeWeaver
     {
-        public TypeWeaverStrategy(ITypeDefinitionWeaver typeDefinitionWeaver, IEnumerable<IMethodWeaver> methodWeavers) {
+        public MixinWeaverStrategy(ITypeDefinitionWeaver typeDefinitionWeaver, IEnumerable<IMethodWeaver> methodWeavers) {
             MethodWeavers = methodWeavers;
             TypeDefinitionWeaver = typeDefinitionWeaver;
         }
@@ -20,7 +20,7 @@ namespace NCop.Core.Weaving
                 var methodBuilder = methodWeaver.DefineMethod();
                 var ilGenerator = methodBuilder.GetILGenerator();
 
-                methodWeaver.WeaveMethodScope(ilGenerator);
+                methodWeaver.WeaveMethodScope(ilGenerator, typeDefinition);
                 methodWeaver.WeaveEndMethod(ilGenerator);
             });
         }

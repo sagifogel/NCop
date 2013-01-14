@@ -46,9 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\IMixinDefinitionCollection.cs" />
     <Compile Include="Engine\IMixinsMap.cs" />
-    <Compile Include="Engine\MixinDefinition.cs" />
     <Compile Include="Engine\MixinsMap.cs" />
     <Compile Include="Exceptions\DuplicateMixinAnnotationException.cs">
       <DependentUpon>DuplicateMixinAnnotationException.tt</DependentUpon>
@@ -62,8 +60,10 @@
     </Compile>
     <Compile Include="Framework\MixinsAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Weaving\MixinsTypeDefinition.cs" />
     <Compile Include="Weaving\MixinsTypeDefinitionWeaver.cs" />
     <Compile Include="Weaving\MixinsTypeWeaverBuilder.cs" />
+    <Compile Include="Weaving\MixinsWeaverStrategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

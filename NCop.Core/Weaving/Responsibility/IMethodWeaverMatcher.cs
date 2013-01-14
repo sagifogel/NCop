@@ -8,6 +8,6 @@ namespace NCop.Core.Weaving.Responsibility
 {
     public interface IMethodWeaverMatcher
     {
-        IMethodWeaver Handle(MethodInfo methodInfo);
+        IMethodWeaver Handle(MethodInfo methodInfo, ITypeDefinition typeDefinition);
     }
 }

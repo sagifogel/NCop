@@ -7,16 +7,21 @@ using System.Text;
 
 namespace NCop.Core.Weaving
 {
-    public class MixinTypeDefinitionWeaver : ITypeDefinitionWeaver
-    {
-        public MixinTypeDefinitionWeaver(MixinMap mixinMap) {
-            MixinMap = mixinMap;
-        }
+	public class MixinTypeDefinitionWeaver : ITypeDefinitionWeaver
+	{
+		private readonly MixinMap _mixinMap = null;
+		private readonly TypeBuilder _typeBuilder = null;
 
-        public MixinMap MixinMap { get; private set; }
+		public MixinTypeDefinitionWeaver(TypeBuilder typeBuilder, MixinMap mixinMap) {
+			_mixinMap = mixinMap;
+			_typeBuilder = typeBuilder;
+			Type = mixinMap.Contract;
+		}
 
-        public ITypeDefinition Weave() {
-            throw new NotImplementedException();
-        }
-    }
+		public Type Type { get; private set; }
+		
+		public ITypeDefinition Weave() {
+			throw new NotImplementedException();
+		}
+	}
 }

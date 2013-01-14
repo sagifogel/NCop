@@ -10,8 +10,8 @@ namespace NCop.Mixins.Weaving
 {
     public class MixinsTypeWeaverBuilder : ITypeWeaverBuilder
     {
-        private ISet<MixinMap> _mixinsMap = new HashSet<MixinMap>();
-        private List<IMethodWeaver> _methodWeavers = new List<IMethodWeaver>();
+		private readonly ISet<MixinMap> _mixinsMap = new HashSet<MixinMap>();
+        private readonly List<IMethodWeaver> _methodWeavers = new List<IMethodWeaver>();
 
         public void AddMixinTypeMap(MixinMap mixinMap) {
             _mixinsMap.Add(mixinMap);
@@ -22,9 +22,8 @@ namespace NCop.Mixins.Weaving
         }
         
         public ITypeWeaver Build() {
-            var typeDefinitionWeaver = new MixinsTypeDefinitionWeaver(_mixinsMap);
 
-            return new TypeWeaverStrategy(typeDefinitionWeaver, _methodWeavers);
+            return null;
         }
     }
 }

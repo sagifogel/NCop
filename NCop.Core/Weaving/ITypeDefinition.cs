@@ -8,6 +8,7 @@ namespace NCop.Core.Weaving
 {
     public interface ITypeDefinition
     {
+		Type Type { get; }
         TypeBuilder TypeBuilder { get; }
         FieldBuilder GetOrAddFieldBuilder(Type type);
     }

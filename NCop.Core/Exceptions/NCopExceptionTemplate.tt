@@ -1,4 +1,4 @@
-<#@ assembly name="System.Core" #>
+﻿<#@ assembly name="System.Core" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
@@ -83,8 +83,8 @@ namespace <#= Namespace ?? TransformationContext.DefaultNamespace  #>
 	[Serializable]
 	public class <#=  _name #> : SystemException, ISerializable
 	{
-		private bool _messageInitialized = false;
-        private string _message = string.Empty;
+        private readonly string _message = string.Empty;
+		private readonly bool _messageInitialized = false;
 
         public <#=  _name #>(string message) 
 		    : base(message) {

@@ -6,6 +6,6 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#
 	var template = new NCopExceptionTemplate();
-	template.KeyPrefix = "Attribute";
+	template.KeyPrefix = "TypeDefinition";
     template.Render();
 #>

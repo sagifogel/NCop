@@ -15,29 +15,29 @@ using System.Text;
 namespace NCop.Core.Exceptions
 {	
 	[Serializable]
-	public class AttributeNotFoundException : SystemException, ISerializable
+	public class TypeDefinitionInitializationException : SystemException, ISerializable
 	{
         private readonly string _message = string.Empty;
 		private readonly bool _messageInitialized = false;
 
-        public AttributeNotFoundException(string message) 
+        public TypeDefinitionInitializationException(string message) 
 		    : base(message) {
             _messageInitialized = true;
         }
 
-        public AttributeNotFoundException(string message, Exception innerException) 
+        public TypeDefinitionInitializationException(string message, Exception innerException) 
 		    : base(message, innerException) {
             _messageInitialized = true;
         }
 		
-		protected AttributeNotFoundException(SerializationInfo info, StreamingContext context)
+		protected TypeDefinitionInitializationException(SerializationInfo info, StreamingContext context)
             : base(info, context) {
 
             if (info == null) {
                 throw new ArgumentNullException("info");
             }
 
-            _message = info.GetString("AttributeMessage");
+            _message = info.GetString("TypeDefinitionMessage");
         }
 		
 		public override string Message {
@@ -56,7 +56,7 @@ namespace NCop.Core.Exceptions
             }
 
             base.GetObjectData(info, context);
-            info.AddValue("AttributeMessage", Message);
+            info.AddValue("TypeDefinitionMessage", Message);
         }
 	}	
 }

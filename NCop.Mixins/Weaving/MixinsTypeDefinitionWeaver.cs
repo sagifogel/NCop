@@ -1,23 +1,27 @@
-﻿using NCop.Core.Mixin;
-using NCop.Core.Weaving;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
+using NCop.Core.Mixin;
+using NCop.Core.Weaving;
 
 namespace NCop.Mixins.Weaving
 {
-    public class MixinsTypeDefinitionWeaver : ITypeDefinitionWeaver
-    {
-        public MixinsTypeDefinitionWeaver(IEnumerable<MixinMap> mixinsMap) {
-            MixinsMap = mixinsMap;
-        }
+	public class MixinsTypeDefinitionWeaver : ITypeDefinitionWeaver
+	{
+		private readonly TypeBuilder _typeBuilder = null;
+		private readonly IEnumerable<MixinMap> _mixinMap = null;
 
-        public IEnumerable<MixinMap> MixinsMap { get; private set; }
+		public MixinsTypeDefinitionWeaver(TypeBuilder typeBuilder, IEnumerable<MixinMap> mixinMap) {
+			_mixinMap = mixinMap;
+			_typeBuilder = typeBuilder;
+		}
 
-        public ITypeDefinition Weave() {
-            throw new NotImplementedException();
-        }
-    }
+		public Type Type { get; private set; }
+
+		public ITypeDefinition Weave() {
+			throw new NotImplementedException();
+		}
+	}
 }

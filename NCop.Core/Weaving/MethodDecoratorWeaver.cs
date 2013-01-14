@@ -24,7 +24,7 @@ namespace NCop.Core.Weaving
             throw new NotImplementedException();
         }
 
-        public ILGenerator WeaveMethodScope(ILGenerator ilGenerator) {
+		public ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition) {
             throw new NotImplementedException();
         }
 
