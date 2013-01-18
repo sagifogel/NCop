@@ -1,4 +1,5 @@
-﻿using NCop.Core.Mixin;
+﻿using NCop.Core;
+using NCop.Core.Mixin;
 using NCop.Core.Weaving;
 using NCop.Mixins.Engine;
 using System;
@@ -10,8 +11,15 @@ namespace NCop.Mixins.Weaving
 {
     public class MixinsTypeWeaverBuilder : ITypeWeaverBuilder
     {
-		private readonly ISet<MixinMap> _mixinsMap = new HashSet<MixinMap>();
-        private readonly List<IMethodWeaver> _methodWeavers = new List<IMethodWeaver>();
+        private readonly Type _type = null;
+        private readonly List<MixinMap> _mixinsMap = null;
+        private readonly List<IMethodWeaver> _methodWeavers = null;
+
+        public MixinsTypeWeaverBuilder(Type type) {
+            _type = type;
+            _mixinsMap = new List<MixinMap>();
+            _methodWeavers = new List<IMethodWeaver>();
+        }
 
         public void AddMixinTypeMap(MixinMap mixinMap) {
             _mixinsMap.Add(mixinMap);
@@ -22,8 +30,7 @@ namespace NCop.Mixins.Weaving
         }
         
         public ITypeWeaver Build() {
-
-            return null;
+            return new MixinsWeaverStrategy(_type, new MixinsMap(_mixinsMap), _methodWeavers);
         }
     }
 }

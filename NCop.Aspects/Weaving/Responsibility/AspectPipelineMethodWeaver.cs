@@ -5,9 +5,9 @@ using System.Reflection;
 
 namespace NCop.Aspects.Weaving.Responsibility
 {
-    public class AspectPipelineMethodWeaver : IMethodWeaverMatcher
+    public class AspectPipelineMethodWeaver : IMethodWeaverHandler
     {
-		private readonly IMethodWeaverHandler _handler = null;
+        private readonly IMethodWeaverChainer _handler = null;
 
         public AspectPipelineMethodWeaver(Type type) {
             _handler = new AspectMethodWeaverHandler(type);

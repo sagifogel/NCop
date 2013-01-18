@@ -29,7 +29,9 @@ namespace NCop.Core.Weaving
         }
 
         public void WeaveEndMethod(ILGenerator ilGenerator) {
-            throw new NotImplementedException();
+            var endMethodWeaver = new EndMethodWeaver();
+
+            endMethodWeaver.Weave(ilGenerator);
         }
     }
 }

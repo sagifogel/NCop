@@ -6,8 +6,8 @@ using System.Text;
 
 namespace NCop.Core.Weaving.Responsibility
 {
-    public interface IMethodWeaverHandler : IMethodWeaverMatcher
+    public interface IMethodWeaverChainer  : IMethodWeaverHandler
     {
-        IMethodWeaverHandler SetNextHandler(IMethodWeaverHandler nextHanlder);
+        IMethodWeaverChainer SetNextHandler(IMethodWeaverChainer nextHanlder);
     }
 }

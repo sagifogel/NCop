@@ -7,9 +7,9 @@ using System.Text;
 
 namespace NCop.Core.Weaving.Responsibility
 {
-	public sealed class NullObjectMethdodWeaverHanler : IMethodWeaverHandler
+	public sealed class NullObjectMethdodWeaverHanler : IMethodWeaverChainer
 	{
-		public IMethodWeaverHandler SetNextHandler(IMethodWeaverHandler nextHanlder) {
+        public IMethodWeaverChainer SetNextHandler(IMethodWeaverChainer nextHanlder) {
 			throw new InvalidOperationException("It is impossible to set another handler after NullObjectHanler.");
 		}
 

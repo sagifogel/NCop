@@ -6,33 +6,34 @@ using System.Text;
 
 namespace NCop.Core.Weaving.Responsibility
 {
-	public abstract class AbstractMethodWeaverHandler : IMethodWeaverHandler
-	{
-		protected AbstractMethodWeaverHandler(Type type) {
-			Type = type;
-			TypeDefinition = TypeDefinition;
-		}
+    public abstract class AbstractMethodWeaverHandler : IMethodWeaverHandler, IMethodWeaverChainer
+    {
+        protected AbstractMethodWeaverHandler(Type type) {
+            Type = type;
+            TypeDefinition = TypeDefinition;
+        }
 
-		public abstract bool CanHandle { get; }
+        public abstract bool CanHandle { get; }
 
-		protected Type Type { get; private set; }
+        protected Type Type { get; private set; }
 
-		protected ITypeDefinition TypeDefinition { get; private set; }
+        protected ITypeDefinition TypeDefinition { get; private set; }
 
-		protected abstract IMethodWeaver HandleInternal(MethodInfo methodInfo, ITypeDefinition typeDefinition);
+        public IMethodWeaverChainer NextHandler { get; protected set; }
 
-		public IMethodWeaverHandler NextHandler { get; protected set; }
+        public IMethodWeaverChainer SetNextHandler(IMethodWeaverChainer nextHandler) {
+            return NextHandler = nextHandler;
+        }
 
-		public IMethodWeaverHandler SetNextHandler(IMethodWeaverHandler nextHandler) {
-			return NextHandler = nextHandler;
-		}
+        public IMethodWeaver Handle(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
+            if (CanHandle) {
+                return HandleInternal(methodInfo, typeDefinition);
+            }
 
-		public IMethodWeaver Handle(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
-			if (CanHandle) {
-				return HandleInternal(methodInfo, typeDefinition);
-			}
+            return NextHandler.Handle(methodInfo, typeDefinition);
+        }
 
-			return NextHandler.Handle(methodInfo, typeDefinition);
-		}
-	}
+        protected abstract IMethodWeaver HandleInternal(MethodInfo methodInfo, ITypeDefinition typeDefinition);
+
+    }
 }

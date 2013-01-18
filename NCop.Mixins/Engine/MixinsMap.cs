@@ -12,7 +12,7 @@ namespace NCop.Mixins.Engine
 {
     public class MixinsMap : IMixinsMap
     {
-        private List<MixinMap> _map = null;
+        private readonly List<MixinMap> _map = null;
         private AttributeTypeMatcher<MixinsAttribute> _matcher = null;
 
         public MixinsMap(Type type) {
@@ -30,6 +30,10 @@ namespace NCop.Mixins.Engine
             catch (DuplicateTypeAnnotationException duplicateTypeAnnotationException) {
                 throw new DuplicateMixinAnnotationException(duplicateTypeAnnotationException);
             }
+        }
+
+        public MixinsMap(IEnumerable<MixinMap> mixinsMap) {
+            _map = mixinsMap.ToList();
         }
 
         public int Count {

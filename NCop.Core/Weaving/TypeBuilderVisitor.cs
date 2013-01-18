@@ -15,13 +15,14 @@ namespace NCop.Core.Weaving
         public ITypeWeaverBuilder TypeBuilder { get; private set; }
 
         public void Visit(Type type) {
+            
         }
 
         public void Visit(MethodInfo method) {
         }
 
         public void Visit(PropertyInfo property) {
-        }
+        }   
 
         private void Visit(MemberInfo memeberInfo, ITypeWeaverBuilder builder) { }
     }

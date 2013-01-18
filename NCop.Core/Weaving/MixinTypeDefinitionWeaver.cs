@@ -10,11 +10,9 @@ namespace NCop.Core.Weaving
 	public class MixinTypeDefinitionWeaver : ITypeDefinitionWeaver
 	{
 		private readonly MixinMap _mixinMap = null;
-		private readonly TypeBuilder _typeBuilder = null;
 
-		public MixinTypeDefinitionWeaver(TypeBuilder typeBuilder, MixinMap mixinMap) {
+		public MixinTypeDefinitionWeaver(MixinMap mixinMap) {
 			_mixinMap = mixinMap;
-			_typeBuilder = typeBuilder;
 			Type = mixinMap.Contract;
 		}
 

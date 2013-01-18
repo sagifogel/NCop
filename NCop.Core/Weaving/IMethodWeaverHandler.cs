@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace NCop.Core.Weaving.Responsibility
+namespace NCop.Core.Weaving
 {
-    public interface IMethodWeaverMatcher
+    public interface IMethodWeaverHandler
     {
         IMethodWeaver Handle(MethodInfo methodInfo, ITypeDefinition typeDefinition);
     }
