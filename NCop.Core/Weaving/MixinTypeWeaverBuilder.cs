@@ -10,11 +10,11 @@ namespace NCop.Core.Weaving
     public class MixinTypeWeaverBuilder : ITypeWeaverBuilder
     {
         private MixinMap _mixinMap = null;
-        private readonly TypeBuilder _typeBuilder = null;
+        private readonly Type _type = null;
         private readonly List<IMethodWeaver> _methodWeavers = new List<IMethodWeaver>();
 
-        public MixinTypeWeaverBuilder(TypeBuilder typeBuilder) {
-            _typeBuilder = typeBuilder;
+        public MixinTypeWeaverBuilder(Type type) {
+            _type = type;
         }
 
         public void AddMixinTypeMap(MixinMap mixinMap) {

@@ -12,5 +12,6 @@ namespace NCop.Core
         void Visit(Type type);
         void Visit(MethodInfo method);
         void Visit(PropertyInfo property);
+        ITypeWeaverBuilder Visit();
     }
 }

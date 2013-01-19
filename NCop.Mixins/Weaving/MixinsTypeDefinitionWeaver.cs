@@ -19,7 +19,7 @@ namespace NCop.Mixins.Weaving
 
 		public Type Type { get; private set; }
 
-		public ITypeDefinition Weave() {
+        public ITypeDefinition Weave() {
 			throw new NotImplementedException();
 		}
 	}

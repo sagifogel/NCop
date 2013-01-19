@@ -92,6 +92,7 @@
     <Compile Include="Synchronization\ReadWriteLocker.cs" />
     <Compile Include="Synchronization\UpgradeableLocker.cs" />
     <Compile Include="Tuples.cs" />
+    <Compile Include="Weaving\AbstractTypeWeaverBuilderVisitor.cs" />
     <Compile Include="Weaving\EndMethodWeaver.cs" />
     <Compile Include="Weaving\IFieldWeaver.cs" />
     <Compile Include="Weaving\InstanceFieldWeaver.cs" />
@@ -104,7 +105,6 @@
     <Compile Include="Weaving\Responsibility\MethodDecoratorWeaverHandler.cs" />
     <Compile Include="Weaving\Responsibility\AbstractMethodWeaverHandler.cs" />
     <Compile Include="Weaving\Responsibility\NullObjectMethdodWeaverHanler.cs" />
-    <Compile Include="Weaving\TypeBuilderVisitor.cs" />
     <Compile Include="Volatile.cs" />
     <Compile Include="Weaving\IMethodScopeWeaver.cs" />
     <Compile Include="Weaving\IMethodSignatureWeaver.cs" />
