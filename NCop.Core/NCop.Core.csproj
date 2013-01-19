@@ -92,12 +92,15 @@
     <Compile Include="Synchronization\ReadWriteLocker.cs" />
     <Compile Include="Synchronization\UpgradeableLocker.cs" />
     <Compile Include="Tuples.cs" />
+    <Compile Include="Weaving\AbstractMethodWeaver.cs" />
     <Compile Include="Weaving\AbstractTypeWeaverBuilderVisitor.cs" />
-    <Compile Include="Weaving\EndMethodWeaver.cs" />
+    <Compile Include="Weaving\MethodEndWeaver.cs" />
+    <Compile Include="Weaving\IMethodEndWeaver.cs" />
     <Compile Include="Weaving\IFieldWeaver.cs" />
     <Compile Include="Weaving\InstanceFieldWeaver.cs" />
     <Compile Include="Weaving\ITypeDefinition.cs" />
     <Compile Include="Weaving\ITypeVisitor.cs" />
+    <Compile Include="Weaving\MethodDecoratorScopeWeaver.cs" />
     <Compile Include="Weaving\MethodDecoratorWeaver.cs" />
     <Compile Include="Weaving\MixinTypeDefinition.cs" />
     <Compile Include="Weaving\Responsibility\IMethodWeaverChainer.cs" />

@@ -8,31 +8,25 @@ using System.Reflection.Emit;
 
 namespace NCop.Composite.Weaving
 {
-    public class CompositeMethodWeaver : IMethodWeaver
+    public class CompositeMethodWeaver : AbstractMethodWeaver
     {
-        private IMethodWeaver _first = null;
-        private IEnumerable<IMethodWeaver> _methodWeavers = null;
-
-        public CompositeMethodWeaver(MethodInfo method, IEnumerable<IMethodWeaver> methodWeavers) {
-            MethodInfo = method;
-            _first = methodWeavers.First();
-            _methodWeavers = methodWeavers;
+        public CompositeMethodWeaver(MethodInfo methodInfo, Type type, IMethodSignatureWeaver methodDefinitionWeaver, IEnumerable<IMethodWeaver> methodWeavers)
+            : base(methodInfo, type) {
+            MethodDefintionWeaver = methodDefinitionWeaver;
+            MethodScopeWeaver = new MethodScopeWeaversQueue(methodWeavers.Select(weaver => weaver.MethodScopeWeaver));
+            MethodEndWeaver = new MethodEndWeaver();
         }
 
-        public MethodInfo MethodInfo { get; private set; }
-
-        public MethodBuilder DefineMethod() {
-            return _first.DefineMethod();
+        public override MethodBuilder DefineMethod() {
+            return MethodDefintionWeaver.Weave(MethodInfo);
         }
 
-        public ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition) {
-            _methodWeavers.ForEach(m => m.WeaveMethodScope(ilGenerator, typeDefinition));
-
-            return ilGenerator;
+        public override ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition) {
+            return MethodScopeWeaver.Weave(ilGenerator, typeDefinition);
         }
 
-        public void WeaveEndMethod(ILGenerator ilGenerator) {
-            _first.WeaveEndMethod(ilGenerator);
+        public override void WeaveEndMethod(ILGenerator ilGenerator) {
+            MethodEndWeaver.Weave(MethodInfo, ilGenerator);
         }
     }
 }

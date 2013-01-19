@@ -7,10 +7,8 @@ using System.Text;
 
 namespace NCop.Core.Weaving
 {
-    public class MethodSignatureWeaver : IMethodSignatureWeaver
+    public interface IMethodEndWeaver
     {
-        public MethodBuilder Weave(MethodInfo methodInfo) {
-            throw new NotImplementedException();
-        }
+        void Weave(MethodInfo methodInfo, ILGenerator ilGenerator);
     }
 }

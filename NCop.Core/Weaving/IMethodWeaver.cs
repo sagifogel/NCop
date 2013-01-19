@@ -9,9 +9,11 @@ namespace NCop.Core.Weaving
 {
     public interface IMethodWeaver : IWeaver
     {
-        MethodInfo MethodInfo { get; }
+        IMethodEndWeaver MethodEndWeaver { get; }
+        IMethodScopeWeaver MethodScopeWeaver { get; }
+        IMethodSignatureWeaver MethodDefintionWeaver { get; }
         MethodBuilder DefineMethod();
-        ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition);
         void WeaveEndMethod(ILGenerator ilGenerator);
+        ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition);
     }
 }

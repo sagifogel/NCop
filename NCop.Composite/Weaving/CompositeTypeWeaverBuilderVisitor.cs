@@ -1,18 +1,19 @@
 ﻿using NCop.Aspects.Weaving.Responsibility;
-using NCop.Core;
+using NCop.Core.Extensions;
 using NCop.Core.Weaving;
+using NCop.Mixins.Engine;
 using NCop.Mixins.Weaving;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace NCop.Composite.Weaving
 {
     public class CompositeTypeWeaverBuilderVisitor : AbstractTypeWeaverBuilderVisitor
     {
         private ITypeDefinition _typeDefinition = null;
+        private IMethodWeaverHandler _methodWeaverHanlder = null;
         private readonly List<IMethodWeaverHandler> _methodHandlers = null;
 
         public CompositeTypeWeaverBuilderVisitor(Type type)
@@ -25,17 +26,24 @@ namespace NCop.Composite.Weaving
         }
 
         public override void Visit(Type type) {
-            var typeDefinitionWeaver = new MixinsTypeDefinitionWeaver(null);
-            
-            _typeDefinition = typeDefinitionWeaver.Weave();
-            _methodHandlers.Add(new AspectPipelineMethodWeaver(type));
+            var mixinsMap = new MixinsMap(type);
+            var typeDefinitionWeaver = new MixinsTypeDefinitionWeaver(mixinsMap);
+
+            _methodWeaverHanlder = new AspectPipelineMethodWeaver(type);
+            //_typeDefinition = typeDefinitionWeaver.Weave();
+            _methodHandlers.Add(_methodWeaverHanlder);
 
             Builder.AddMixinTypeMap(null);
         }
 
-        public override void Visit(MethodInfo method) {
-            var hanlders = _methodHandlers.Select(handler => handler.Handle(method, _typeDefinition));
-            var compositeMethodWeaver = new CompositeMethodWeaver(method, hanlders);
+        public override void Visit(MethodInfo methodInfo) {
+            CompositeMethodWeaver compositeMethodWeaver = null;
+            var handlers = _methodHandlers.Select(handler => handler.Handle(methodInfo, _typeDefinition));
+            var mainWeaver = _methodWeaverHanlder.Handle(methodInfo, _typeDefinition);
+            var methodWeavers = new List<IMethodWeaver>() { mainWeaver };
+            
+            methodWeavers.AddRange(handlers) ;
+            compositeMethodWeaver = new CompositeMethodWeaver(methodInfo, Type, mainWeaver.MethodDefintionWeaver, methodWeavers);
 
             Builder.AddMethodWeaver(compositeMethodWeaver);
         }

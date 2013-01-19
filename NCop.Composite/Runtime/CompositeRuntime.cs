@@ -1,31 +1,31 @@
-﻿using NCop.Core;
-using System;
-using System.Collections.Generic;
+﻿using NCop.Composite.Engine;
+using NCop.Composite.Weaving;
+using NCop.Core;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using NCop.Aspects.Runtime;
-using NCop.Composite.Engine;
+using NCop.Core.Extensions;
 
 namespace NCop.Composite.Runtime
 {
     public class CompositeRuntime : IRuntime
     {
-        private AspectsRuntime _aspectsRuntime = null;
-        
-        public CompositeRuntimeSettings Settings { get; set; }
+        public RuntimeSettings Settings { get; set; }
 
         public void Run() {
-            IEnumerable<CompositeMetadata> composites = null;
-            Settings = Settings ?? new CompositeRuntimeSettings();
+            var settings = Settings ?? new RuntimeSettings();
+            var composites = settings.Assemblies.SelectMany(assembly => {
+                return assembly.GetTypes()
+                               .Where(type => type.IsNCopDefined<CompositeAttribute>());
+            });
 
-            _aspectsRuntime = new AspectsRuntime {
-                Settings = new AspectsRuntimeSettings() {
-                }
-            };
+            var builders = composites.Select(composite => {
+                var builder = new CompositeTypeWeaverBuilderVisitor(composite).Visit();
+                
+                return builder.Build();
+            });
 
-            composites = CompositeMetadataMapper.Map(Settings.Assemblies).ToList();
-            _aspectsRuntime.Run();
+            foreach (var builder in builders) {
+                builder.Weave();
+            }
         }
     }
 }

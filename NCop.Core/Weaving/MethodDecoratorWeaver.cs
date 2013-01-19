@@ -7,31 +7,25 @@ using System.Text;
 
 namespace NCop.Core.Weaving
 {
-    public class MethodDecoratorWeaver : IMethodWeaver
+    public class MethodDecoratorWeaver : AbstractMethodWeaver
     {
-        private Type _decoratedType = null;
-        private ITypeDefinition _typeDefinition = null;
-
-        public MethodDecoratorWeaver(MethodInfo methodInfo, Type decoratedType, ITypeDefinition typeDefinition) {
-            MethodInfo = methodInfo;
-            _decoratedType = decoratedType;
-            _typeDefinition = typeDefinition;
+        public MethodDecoratorWeaver(MethodInfo methodInfo, Type decoratedType)
+            : base(methodInfo, decoratedType) {
+            MethodEndWeaver = new MethodEndWeaver();
+            MethodDefintionWeaver = new MethodSignatureWeaver();
+            MethodScopeWeaver = new MethodDecoratorScopeWeaver(methodInfo, decoratedType);
         }
 
-        public MethodInfo MethodInfo { get; private set; }
-
-        public MethodBuilder DefineMethod() {
-            throw new NotImplementedException();
+        public override MethodBuilder DefineMethod() {
+            return MethodDefintionWeaver.Weave(MethodInfo);
         }
 
-		public ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition) {
-            throw new NotImplementedException();
+        public override ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition) {
+            return MethodScopeWeaver.Weave(ilGenerator, typeDefinition);
         }
 
-        public void WeaveEndMethod(ILGenerator ilGenerator) {
-            var endMethodWeaver = new EndMethodWeaver();
-
-            endMethodWeaver.Weave(ilGenerator);
+        public override void WeaveEndMethod(ILGenerator ilGenerator) {
+            MethodEndWeaver.Weave(MethodInfo, ilGenerator);
         }
     }
 }

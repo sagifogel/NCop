@@ -86,7 +86,7 @@
     <Compile Include="Engine\CompositeAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Engine\CompositeMetadataMapper.cs" />
+    <Compile Include="Extensions\CompositeMetadataMapper.cs" />
     <Compile Include="Engine\CompositeMetadata.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -96,9 +96,9 @@
     <Compile Include="Framework\TransientCompositeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runtime\CompositeRuntime.cs" />
-    <Compile Include="Runtime\CompositeRuntimeSettings.cs" />
     <Compile Include="Weaving\CompositeMethodWeaver.cs" />
     <Compile Include="Weaving\CompositeTypeWeaverBuilderVisitor.cs" />
+    <Compile Include="Weaving\MethodScopeWeaversQueue.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -119,7 +119,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />
-    <Folder Include="Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

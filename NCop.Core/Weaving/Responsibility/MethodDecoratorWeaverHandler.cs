@@ -19,7 +19,7 @@ namespace NCop.Core.Weaving.Responsibility
         }
 
 		protected override IMethodWeaver HandleInternal(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
-            return new MethodDecoratorWeaver(methodInfo, Type, typeDefinition);
+            return new MethodDecoratorWeaver(methodInfo, Type);
         }
     }
 }

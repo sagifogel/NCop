@@ -10,13 +10,12 @@ namespace NCop.Core
     public class RuntimeSettings : IRuntimeSettings
     {
         protected IEnumerable<Assembly> ProtectedAssemblies = null;
-        protected static Lazy<IEnumerable<Assembly>> LazyAssemblies = null;
+        protected Lazy<IEnumerable<Assembly>> LazyAssemblies = null;
 
         static RuntimeSettings() {
             var objectPublicKeyToken = typeof(object).GetAssemblyPublicKeyToken();
             var binderPublicKeyToken = typeof(CSharpBinder.Binder).GetAssemblyPublicKeyToken();
 
-            LazyAssemblies = new Lazy<IEnumerable<Assembly>>(() => AssembliesInternal);
             IgnoredAssemblies = AppDomain.CurrentDomain
                                          .GetAssemblies()
                                          .Where(assembly => {
@@ -29,6 +28,7 @@ namespace NCop.Core
 
         public RuntimeSettings(IEnumerable<Assembly> assemblies = null) {
             ProtectedAssemblies = assemblies;
+            LazyAssemblies = new Lazy<IEnumerable<Assembly>>(() => AssembliesInternal);
         }
 
         public IEnumerable<Assembly> Assemblies {
