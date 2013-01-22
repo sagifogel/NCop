@@ -17,14 +17,14 @@ namespace NCop.Composite.Runtime
                                .Where(type => type.IsNCopDefined<CompositeAttribute>());
             });
 
-            var builders = composites.Select(composite => {
+            var weavers = composites.Select(composite => {
                 var builder = new CompositeTypeWeaverBuilderVisitor(composite).Visit();
                 
                 return builder.Build();
             });
 
-            foreach (var builder in builders) {
-                builder.Weave();
+            foreach (var weaver in weavers) {
+                weaver.Weave();
             }
         }
     }

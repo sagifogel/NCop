@@ -11,7 +11,7 @@ using NCop.Aspects.JoinPoints;
 
 namespace NCop.Aspects.Aspects.Builders
 {
-    public class AttributeAspectBuilder : AbstractTypeVisitor<Tuple<Type, JoinPointMetadata>>, IAspectBuilder
+    public class AttributeAspectBuilder : EnumerableProjectionTypeVisitor<Tuple<Type, JoinPointMetadata>>, IAspectBuilder
     {
         private Type _type = null;
         private AspectDefinitionBuilder _builder = AspectDefinitionBuilder.Instance;

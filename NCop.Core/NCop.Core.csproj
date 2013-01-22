@@ -71,7 +71,8 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="IRuntimeSettings.cs" />
-    <Compile Include="ITypeVisitor.cs" />
+    <Compile Include="Visitors\IEnumerableProjectionTypeVisitor.cs" />
+    <Compile Include="Visitors\IProjectionTypeVisitor.cs" />
     <Compile Include="Collection.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Synchronization\ReadWriteLocker.cs" />
     <Compile Include="Synchronization\UpgradeableLocker.cs" />
     <Compile Include="Tuples.cs" />
+    <Compile Include="Visitors\ITypeVisitor.cs" />
     <Compile Include="Weaving\AbstractMethodWeaver.cs" />
     <Compile Include="Weaving\AbstractTypeWeaverBuilderVisitor.cs" />
     <Compile Include="Weaving\MethodEndWeaver.cs" />

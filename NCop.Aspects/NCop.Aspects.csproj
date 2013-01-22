@@ -105,7 +105,7 @@
     <Compile Include="Aspects\AspectMap.cs" />
     <Compile Include="Aspects\AspectsMap.cs" />
     <Compile Include="Aspects\IAspectsMap.cs" />
-    <Compile Include="Engine\AbstractTypeVisitor.cs" />
+    <Compile Include="Engine\EnumerableProjectionTypeVisitor.cs" />
     <Compile Include="Exceptions\AspectBuilderNotFoundException.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -133,7 +133,6 @@
     <Compile Include="Engine\IPreventable.cs" />
     <Compile Include="Engine\IPropertyGetExecuter.cs" />
     <Compile Include="Engine\IPropertySetExecuter.cs" />
-    <Compile Include="Engine\ITypeVisitor.cs" />
     <Compile Include="JoinPoints\JoinPointMetadata.cs" />
     <Compile Include="JoinPoints\MethodJoinPointMetadata.cs" />
     <Compile Include="Advices\IAdvice.cs" />
@@ -194,7 +193,7 @@
     <Compile Include="Aspects\KnownAspectBuilders.cs" />
     <Compile Include="Weaving\AspectMethodWeaverHandler.cs" />
     <Compile Include="Weaving\Responsibility\AspectPipelineMethodWeaver.cs" />
-    <Compile Include="Weaving\TypeBuilderVisitor.cs" />
+    <Compile Include="Weaving\AspectTypeWeaverBuilderVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Exceptions\DuplicateAspectException.tt">

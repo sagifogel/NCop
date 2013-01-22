@@ -1,5 +1,8 @@
 ﻿using NCop.Aspects.Weaving.Responsibility;
+using NCop.Core;
 using NCop.Core.Extensions;
+using NCop.Core.Mixin;
+using NCop.Core.Visitors;
 using NCop.Core.Weaving;
 using NCop.Mixins.Engine;
 using NCop.Mixins.Weaving;
@@ -10,42 +13,53 @@ using System.Reflection;
 
 namespace NCop.Composite.Weaving
 {
-    public class CompositeTypeWeaverBuilderVisitor : AbstractTypeWeaverBuilderVisitor
+    public class CompositeTypeWeaverBuilderVisitor : ITypeWeaverBuilderVisitor
     {
-        private ITypeDefinition _typeDefinition = null;
-        private IMethodWeaverHandler _methodWeaverHanlder = null;
-        private readonly List<IMethodWeaverHandler> _methodHandlers = null;
+        private readonly Type _type = null;
 
-        public CompositeTypeWeaverBuilderVisitor(Type type)
-            : base(type) {
-            _methodHandlers = new List<IMethodWeaverHandler>();
+        public CompositeTypeWeaverBuilderVisitor(Type type) {
+            _type = type;
         }
 
-        protected override ITypeWeaverBuilder GetTypeWeaverBuilder(Type type) {
-            return new MixinsTypeWeaverBuilder(type);
-        }
-
-        public override void Visit(Type type) {
-            var mixinsMap = new MixinsMap(type);
+        public ITypeWeaverBuilder Visit() {
+            var mixinsMap = new MixinsMap(_type);
+            var builder = new MixinsTypeWeaverBuilder(_type);
             var typeDefinitionWeaver = new MixinsTypeDefinitionWeaver(mixinsMap);
+            var typeDefinition = typeDefinitionWeaver.Weave();
 
-            _methodWeaverHanlder = new AspectPipelineMethodWeaver(type);
-            //_typeDefinition = typeDefinitionWeaver.Weave();
-            _methodHandlers.Add(_methodWeaverHanlder);
+            mixinsMap.ForEach(map => {
+                builder.AddMixinTypeMap(map);
+                new CompositeTypeVisitor(_type, builder, typeDefinition).Visit();
+            });
 
-            Builder.AddMixinTypeMap(null);
+            return builder;
         }
 
-        public override void Visit(MethodInfo methodInfo) {
-            CompositeMethodWeaver compositeMethodWeaver = null;
-            var handlers = _methodHandlers.Select(handler => handler.Handle(methodInfo, _typeDefinition));
-            var mainWeaver = _methodWeaverHanlder.Handle(methodInfo, _typeDefinition);
-            var methodWeavers = new List<IMethodWeaver>() { mainWeaver };
-            
-            methodWeavers.AddRange(handlers) ;
-            compositeMethodWeaver = new CompositeMethodWeaver(methodInfo, Type, mainWeaver.MethodDefintionWeaver, methodWeavers);
+        public class CompositeTypeVisitor : AbstractTypeWeaverBuilderVisitor
+        {
+            private readonly IMethodWeaverHandler _methodWeaverHanlder = null;
+            private readonly List<IMethodWeaverHandler> _methodHandlers = null;
 
-            Builder.AddMethodWeaver(compositeMethodWeaver);
+            public CompositeTypeVisitor(Type type, ITypeWeaverBuilder builder, ITypeDefinition typeDefinition)
+                : base(type) {
+                Builder = builder;
+                TypeDefinition = typeDefinition;
+                _methodHandlers = new List<IMethodWeaverHandler>();
+                _methodWeaverHanlder = new AspectPipelineMethodWeaver(type);
+                _methodHandlers.Add(_methodWeaverHanlder);
+            }
+
+            public override void Visit(MethodInfo methodInfo) {
+                CompositeMethodWeaver compositeMethodWeaver = null;
+                var handlers = _methodHandlers.Select(handler => handler.Handle(methodInfo, TypeDefinition));
+                var mainWeaver = _methodWeaverHanlder.Handle(methodInfo, TypeDefinition);
+                var methodWeavers = new List<IMethodWeaver>() { mainWeaver };
+
+                methodWeavers.AddRange(handlers);
+                compositeMethodWeaver = new CompositeMethodWeaver(methodInfo, Type, mainWeaver.MethodDefintionWeaver, methodWeavers);
+
+                Builder.AddMethodWeaver(compositeMethodWeaver);
+            }
         }
     }
 }

@@ -9,9 +9,6 @@ namespace NCop.Core
 {
     public interface ITypeWeaverBuilderVisitor
     {
-        void Visit(Type type);
-        void Visit(MethodInfo method);
-        void Visit(PropertyInfo property);
         ITypeWeaverBuilder Visit();
     }
 }

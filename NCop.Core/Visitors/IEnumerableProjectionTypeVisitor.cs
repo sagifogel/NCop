@@ -6,9 +6,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NCop.Aspects.Engine
+namespace NCop.Core.Visitors
 {
-    public interface ITypeVisitor<T> : NCop.Core.ITypeVisitor<IEnumerable<T>>
+    public interface IEnumerableProjectionTypeVisitor<T> : IProjectionTypeVisitor<IEnumerable<T>>
     {
         
     }

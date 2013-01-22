@@ -4,10 +4,11 @@ using NCop.Aspects.Engine;
 using System.Reflection;
 using NCop.Core.Extensions;
 using System.Collections.Generic;
+using NCop.Core.Visitors;
 
 namespace NCop.Aspects.Aspects.Builders
 {
-    public class AttributeAspectBuilderProvider : IAspectBuilderProvider, NCop.Core.ITypeVisitor<bool>
+    public class AttributeAspectBuilderProvider : IAspectBuilderProvider, IProjectionTypeVisitor<bool>
     {
         private readonly IAspectBuilder _builder = new AttributeAspectBuilder();
 

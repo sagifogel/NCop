@@ -4,11 +4,10 @@ using System.Reflection;
 
 namespace NCop.Core.Weaving
 {
-    public abstract class   AbstractTypeWeaverBuilderVisitor : ITypeWeaverBuilderVisitor
+    public abstract class AbstractTypeWeaverBuilderVisitor : ITypeWeaverBuilderVisitor
     {
         public AbstractTypeWeaverBuilderVisitor(Type type) {
             Type = type;
-            Builder = GetTypeWeaverBuilder(type);
         }
 
         protected Type Type { get; private set; }
@@ -19,13 +18,11 @@ namespace NCop.Core.Weaving
 
         public virtual void Visit(Type type) { }
 
-        public virtual void Visit(MethodInfo method) { }
+        public virtual void Visit(MethodInfo methodInfo) { }
 
-        public virtual void Visit(PropertyInfo property) { }
+        public virtual void Visit(PropertyInfo propertyInfo) { }
 
-        protected abstract ITypeWeaverBuilder GetTypeWeaverBuilder(Type type);
-
-        protected void VisitChildren() {
+        protected virtual void VisitChildren() {
             Visit(Type);
             Type.GetMethods().ForEach(method => Visit(method));
             Type.GetProperties().ForEach(property => Visit(property));
