@@ -14,30 +14,26 @@ namespace NCop.Aspects.Aspects
     public class AspectsMap : IAspectsMap
     {
         private List<AspectMap> _map = null;
-        private AttributeTypeMatcher<AspectsAttribute> _matcher = null;
+        private AspectsAttributeTypeMatcher _matcher = null;
 
         public AspectsMap(Type type) {
             try {
-                _matcher = new AttributeTypeMatcher<AspectsAttribute>(type, (attr) => attr.Aspects);
-                _map = new List<AspectMap>(_matcher.Select(tuple => {
-                    return new AspectMap(tuple.Item1, tuple.Item2);
-                }));
-
+                _matcher = new AspectsAttributeTypeMatcher(type);
+                _map = new List<AspectMap>(_matcher.Select(tuple => new AspectMap(tuple.Item1, tuple.Item2)));
                 EnsureValidAspects(_map);
             }
             catch (MissingTypeException missingTypeException) {
                 throw new MissingAspectException(missingTypeException);
             }
-            catch (DuplicateTypeAnnotationException duplicateTypeAnnotationException) {
-                throw new DuplicateAspectException(duplicateTypeAnnotationException);
-            }
         }
 
         private static void EnsureValidAspects(IEnumerable<AspectMap> aspectsMap) {
-            aspectsMap.ForEach(aspect => {
-                if (!IsAspect(aspect.AspectType)) {
-                    throw new MissingAspectException(aspect.Contract.FullName);
-                }
+            aspectsMap.ForEach(aspects => {
+                aspects.AspectTypes.ForEach(aspect => {
+                    if (!IsAspect(aspect)) {
+                        throw new MissingAspectException(aspects.Contract.FullName);
+                    }
+                });
             });
         }
 

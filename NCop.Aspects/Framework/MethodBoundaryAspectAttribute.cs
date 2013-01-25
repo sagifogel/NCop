@@ -14,15 +14,15 @@ namespace NCop.Aspects.Framework
     public abstract class MethodBoundaryAspectAttribute : AspectAttribute, IOnMethodBoundryContract
     {
         [OnInvokeAdvice]
-        public abstract void OnInvoke(MethodExecution methodExecution);
+        public abstract void OnInvoke(IMethodExecution methodExecution);
 
         [OnFinallyAdvice]
-        public abstract void Finally(MethodExecution methodExecution);
+        public abstract void Finally(IMethodExecution methodExecution);
 
         [OnSuccessAdvice]
-        public abstract void OnSuccess(MethodExecution methodExecution);
+        public abstract void OnSuccess(IMethodExecution methodExecution);
 
         [OnErrorAdvice]
-        public abstract void OnError(MethodExecution methodExecution);
+        public abstract void OnError(IMethodExecution methodExecution);
     }
 }

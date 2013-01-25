@@ -12,6 +12,7 @@ namespace NCop.Aspects.Weaving
     {
         public AspectMethodWeaverHandler(Type type)
             : base(type) {
+
         }
 
         public override bool CanHandle {

@@ -11,15 +11,15 @@ namespace NCop.Aspects.Aspects
     public interface IOnMethodBoundryContract : IAspect
     {
         [OnInvokeAdvice]
-        void OnInvoke(MethodExecution methodExecution);
+        void OnInvoke(IMethodExecution methodExecution);
 
         [OnFinallyAdvice]
-        void Finally(MethodExecution methodExecution);
+        void Finally(IMethodExecution methodExecution);
 
         [OnSuccessAdvice]
-        void OnSuccess(MethodExecution methodExecution);
+        void OnSuccess(IMethodExecution methodExecution);
 
         [OnErrorAdvice]
-        void OnError(MethodExecution methodExecution);
+        void OnError(IMethodExecution methodExecution);
     }
 }

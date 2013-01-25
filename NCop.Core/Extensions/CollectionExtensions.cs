@@ -60,6 +60,16 @@ namespace NCop.Core.Extensions
             return source;
         }
 
+        public static IEnumerable<TSource> Concat<TSource>(this IEnumerable<TSource> source, params TSource[] second) {
+            foreach (var item in source) {
+                yield return item;
+            }
+
+            foreach (var item in second) {
+                yield return item;
+            }
+        }
+        
         public static Tuple<TSource, TProject> SelectFirst<TSource, TProject>(this IEnumerable<TSource> source, Func<TSource, TProject> selector, Func<TProject, bool> predicate) {
             foreach (var item in source) {
                 var projection = selector(item);

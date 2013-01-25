@@ -48,8 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttribueTypeMacher.cs" />
-    <Compile Include="AttributeTypeMatcher`1.cs" />
+    <Compile Include="AttributeTypeMatcher.cs" />
+    <Compile Include="ConcurrentDictionary.cs" />
     <Compile Include="Exceptions\AttributeNotFoundException.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
