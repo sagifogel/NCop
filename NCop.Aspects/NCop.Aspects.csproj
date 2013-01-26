@@ -187,7 +187,7 @@
     <Compile Include="Aspects\Builders\IAspectBuilderCollection.cs" />
     <Compile Include="Aspects\Builders\IAspectBuilderProvider.cs" />
     <Compile Include="Runtime\AspectsRuntimeSettings.cs" />
-    <Compile Include="Aspects\KnownAspectBuilders.cs" />
+    <Compile Include="Aspects\KnownAspects.cs" />
     <Compile Include="Weaving\AspectMethodWeaverHandler.cs" />
     <Compile Include="Weaving\Responsibility\AspectPipelineMethodWeaver.cs" />
     <Compile Include="Weaving\AspectTypeWeaverBuilderVisitor.cs" />

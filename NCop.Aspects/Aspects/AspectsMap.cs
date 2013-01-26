@@ -30,17 +30,11 @@ namespace NCop.Aspects.Aspects
         private static void EnsureValidAspects(IEnumerable<AspectMap> aspectsMap) {
             aspectsMap.ForEach(aspects => {
                 aspects.AspectTypes.ForEach(aspect => {
-                    if (!IsAspect(aspect)) {
+                    if (!KnownAspects.IsAspect(aspect)) {
                         throw new MissingAspectException(aspects.Contract.FullName);
                     }
                 });
             });
-        }
-
-        private static bool IsAspect(Type aspectType) {
-            return typeof(TypeLevelAspect).IsAssignableFrom(aspectType) ||
-                   aspectType.GetInterfaces()
-                             .Any(@interface => @interface.Equals(typeof(IAspectFilter)));
         }
 
         public int Count {
