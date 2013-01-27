@@ -1,8 +1,6 @@
 ﻿using NCop.Aspects.Weaving.Responsibility;
 using NCop.Core;
 using NCop.Core.Extensions;
-using NCop.Core.Mixin;
-using NCop.Core.Visitors;
 using NCop.Core.Weaving;
 using NCop.Mixins.Engine;
 using NCop.Mixins.Weaving;

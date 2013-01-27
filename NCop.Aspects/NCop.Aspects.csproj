@@ -85,7 +85,7 @@
     <Compile Include="Aspects\Builders\AttributeAspectBuilderProvider.cs" />
     <Compile Include="Aspects\Builders\TypeLevelAspectBuilder.cs" />
     <Compile Include="Aspects\Builders\TypeLevelAspectBuilderProvider.cs" />
-    <Compile Include="Aspects\IInterceptionConcern.cs" />
+    <Compile Include="Aspects\IMethodInterceptionContract.cs" />
     <Compile Include="Aspects\IOnMethodBoundryContract.cs" />
     <Compile Include="Aspects\TypeLevelAspect.cs" />
     <Compile Include="Advices\Advice.cs" />
@@ -167,7 +167,7 @@
     <Compile Include="Framework\MethodInterceptionAspectAttribute.cs" />
     <Compile Include="Aspects\Interception\MethodInterception.cs" />
     <Compile Include="Advices\OnErrorAdviceAttribute.cs" />
-    <Compile Include="Framework\MethodBoundaryAspectAttribute.cs" />
+    <Compile Include="Framework\OnMethodBoundaryAspectAttribute.cs" />
     <Compile Include="Aspects\PropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Aspects\Interception\SetPropertyInterception.cs" />
     <Compile Include="Framework\SetPropertyInterceptionAspectAttribute.cs" />

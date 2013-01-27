@@ -9,9 +9,9 @@ namespace NCop.Aspects.Framework
 {
     [LifetimeStrategy(KnownLifetimeStrategy.Singleton)]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
-    public class MethodInterceptionAspectAttribute : AspectAttribute, IMethodInterceptionContract
+    public abstract class MethodInterceptionAspectAttribute : AspectAttribute, IMethodInterceptionContract
     {
         [OnInvokeAdvice]
-        public virtual void OnInvoke(MethodInterception methodInterception) { }
+        public abstract void OnInvoke(IMethodInterception methodInterception);
     }
 }

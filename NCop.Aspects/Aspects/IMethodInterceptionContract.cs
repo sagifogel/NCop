@@ -11,6 +11,6 @@ namespace NCop.Aspects.Aspects
     public interface IMethodInterceptionContract : IAspect
     {
         [OnInvokeAdvice]
-        void OnInvoke(MethodInterception methodInterception);
+        void OnInvoke(IMethodInterception methodInterception);
     }
 }

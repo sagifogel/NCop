@@ -18,8 +18,9 @@ namespace NCop.Composite.Runtime
             });
 
             var weavers = composites.Select(composite => {
-                var builder = new CompositeTypeWeaverBuilderVisitor(composite).Visit();
-                
+                var visitor = new CompositeTypeWeaverBuilderVisitor(composite);
+                var builder = visitor.Visit();
+
                 return builder.Build();
             });
 
