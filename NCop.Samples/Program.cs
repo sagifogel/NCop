@@ -14,6 +14,7 @@ using NCop.IoC;
 using System.Collections.Generic;
 using NCop.Aspects.Weaving;
 using NCop.Weaving;
+using System.Threading;
 
 namespace NCop.Samples
 {
@@ -164,6 +165,10 @@ namespace NCop.Samples
                 aspectArgs.ReturnValue = developer.Code(aspectArgs.Arg1);
                 Aspects.traceAspect3.OnSuccess(aspectArgs);
             }
+            catch (Exception ex) {
+                aspectArgs.Exception = ex;
+                Aspects.traceAspect3.OnException(aspectArgs);
+            }
             finally {
                 Aspects.traceAspect3.OnExit(aspectArgs);
             }
@@ -172,8 +177,16 @@ namespace NCop.Samples
         }
 
         public string Code2(string sagi) {
-            var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(developer, MethodInterceptionBindingWeaver.singleton, sagi);
-            Aspects.traceAspect.OnInvoke(aspectArgs);
+            var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(developer, sagi);
+            Aspects.traceAspect3.OnEntry(aspectArgs);
+
+            try {
+                aspectArgs.ReturnValue = developer.Code(aspectArgs.Arg1);
+                Aspects.traceAspect3.OnSuccess(aspectArgs);
+            }
+            finally {
+                Aspects.traceAspect3.OnExit(aspectArgs);
+            }
 
             return aspectArgs.ReturnValue;
         }
@@ -184,57 +197,14 @@ namespace NCop.Samples
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
         [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
         new string Code(string s);
 
     }
 
     class Program
     {
-        public static void Create() {
-            AppDomain current = AppDomain.CurrentDomain;
-            AssemblyName myAsmName = new AssemblyName { Name = "AdderExceptionAsm" };
-            AssemblyBuilder myAsmBldr = current.DefineDynamicAssembly(myAsmName, AssemblyBuilderAccess.RunAndSave);
-            ModuleBuilder myModBldr = myAsmBldr.DefineDynamicModule(myAsmName.Name, myAsmName.Name + ".dll");
-            TypeBuilder myTypeBldr = myModBldr.DefineType("Adder");
-            Type[] adderParams = new Type[] { typeof(int), typeof(int) };
-            MethodBuilder adderBldr = myTypeBldr.DefineMethod("DoAdd", MethodAttributes.Public | MethodAttributes.Static, typeof(string), Type.EmptyTypes);
-            ILGenerator ilGen = adderBldr.GetILGenerator();
-            var typeofFunc = typeof(FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>);
-            var typeofAspects = typeof(TraceAspect3);
-            var local0 = ilGen.DeclareLocal(typeofFunc);
-
-            ilGen.Emit(OpCodes.Ldsfld, typeof(Aspects).GetField("mixin"));
-            ilGen.Emit(OpCodes.Ldarg_1);
-            ilGen.Emit(OpCodes.Newobj, typeofFunc.GetConstructors()[0]);
-            ilGen.Emit(OpCodes.Stloc_0);
-            ilGen.Emit(OpCodes.Ldsfld, typeof(Aspects).GetField("traceAspect3"));
-            ilGen.Emit(OpCodes.Ldloc_0);
-            ilGen.Emit(OpCodes.Callvirt, typeofAspects.GetMethod("OnEntry"));
-            ilGen.BeginExceptionBlock();
-            ilGen.Emit(OpCodes.Ldloc_0);
-            ilGen.Emit(OpCodes.Ldsfld, typeof(Aspects).GetField("mixin"));
-            ilGen.Emit(OpCodes.Ldloc_0);
-            ilGen.Emit(OpCodes.Callvirt, typeofFunc.GetMethod("get_Arg1"));
-            ilGen.Emit(OpCodes.Callvirt, typeof(CSharpDeveloperMixin).GetMethod("Code"));
-            ilGen.Emit(OpCodes.Callvirt, typeofFunc.GetMethod("set_ReturnValue"));
-            ilGen.Emit(OpCodes.Ldsfld, typeof(Aspects).GetField("traceAspect3"));
-            ilGen.Emit(OpCodes.Ldloc_0);
-            ilGen.Emit(OpCodes.Callvirt, typeofAspects.GetMethod("OnSuccess"));
-            ilGen.BeginFinallyBlock();
-            ilGen.Emit(OpCodes.Ldsfld, typeof(Aspects).GetField("traceAspect3"));
-            ilGen.Emit(OpCodes.Ldloc_0);
-            ilGen.Emit(OpCodes.Callvirt, typeofAspects.GetMethod("OnExit"));
-            ilGen.EndExceptionBlock();
-            ilGen.Emit(OpCodes.Ldloc_0);
-            ilGen.Emit(OpCodes.Callvirt, typeofFunc.GetMethod("get_ReturnValue"));
-            ilGen.Emit(OpCodes.Ret);
-            Type adderType = myTypeBldr.CreateType();
-
-            myAsmBldr.Save("s123.dll");
-        }
-
         static void Main(string[] args) {
-            Create();
             //new Person().Code(""); return;
             var container = new CompositeContainer();
             container.Configure();
@@ -284,6 +254,11 @@ namespace NCop.Samples
             base.OnExit(args);
         }
 
+        public override void OnException(FunctionExecutionArgs<string, string> args) {
+            Console.WriteLine("Code from TraceAspect3 OnException");
+            base.OnException(args);
+        }
+
         public override void OnSuccess(FunctionExecutionArgs<string, string> args) {
             Console.WriteLine("Code from TraceAspect3 OnSuccess");
             base.OnSuccess(args);
@@ -313,6 +288,7 @@ namespace NCop.Samples
     public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>
     {
         public override string Code(string s) {
+            throw new DivideByZeroException();
             return "Code";
         }
     }

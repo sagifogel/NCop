@@ -135,6 +135,7 @@
     <Compile Include="Weaving\AbstractArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractTopAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodInterceptionBindingWeaver.cs" />
+    <Compile Include="Weaving\BeginCatchBlockMethodScopeWeaver.cs" />
     <Compile Include="Weaving\BindingOnMethodExecutionArgumentsWeaver.cs" />
     <Compile Include="Weaving\EndExceptionBlockMethodScopeWeaver.cs" />
     <Compile Include="Weaving\FinallyMethodScopeWeaver.cs" />
@@ -475,6 +476,7 @@
     <Compile Include="Weaving\Expressions\TopBindingMethodInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\TopOnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\TryCatchFinallyAspectWeaver.cs" />
+    <Compile Include="Weaving\TryCatchFinallySettings.cs" />
     <Compile Include="Weaving\TryFinallyAspectWeaver.cs" />
     <Compile Include="Weaving\BeginExceptionBlockMethodScopeWeaver.cs" />
   </ItemGroup>

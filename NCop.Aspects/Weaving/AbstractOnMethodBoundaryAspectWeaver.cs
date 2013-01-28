@@ -49,9 +49,12 @@ namespace NCop.Aspects.Weaving
                 finallyWeavers.Add(selectedExpression.Reduce(adviceWeavingSettings));
 
                 if (adviceDiscoveryVistor.HasOnMethodExceptionAdvice) {
+                    var aspectMember = aspectRepository.GetAspectFieldByType(aspectDefinition.Aspect.AspectType);
+                    var settings = new TryCatchFinallySettings(ArgumentType, aspectMember, localBuilderRepository);
+
                     selectedExpression = ResolveOnMethodExceptionAdvice();
                     catchWeaver = selectedExpression.Reduce(adviceWeavingSettings);
-                    weaver = new TryCatchFinallyAspectWeaver(entryWeaver, tryWeavers, catchWeaver, finallyWeavers, returnValueWeaver);
+                    weaver = new TryCatchFinallyAspectWeaver(settings, entryWeaver, tryWeavers, catchWeaver, finallyWeavers, returnValueWeaver);
                 }
                 else {
                     weaver = new TryFinallyAspectWeaver(entryWeaver, tryWeavers, finallyWeavers, returnValueWeaver);
