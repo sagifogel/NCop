@@ -10,6 +10,10 @@ namespace NCop.Aspects.Advices
 {
     public class AdviceVisitor
     {
+        public IAdvice Visit(OnEntryAdviceAttribute advice) {
+            return advice;
+        }
+
         public IAdvice Visit(OnInvokeAdviceAttribute advice) {
             return advice;
         }
@@ -18,11 +22,11 @@ namespace NCop.Aspects.Advices
             return advice;
         }
 
-        public IAdvice Visit(OnErrorAdviceAttribute advice) {
+        public IAdvice Visit(OnExceptionAdviceAttribute advice) {
             return advice;
         }
 
-        public IAdvice Visit(OnFinallyAdviceAttribute advice) {
+        public IAdvice Visit(FinallyAdviceAttribute advice) {
             return advice;
         }
     }

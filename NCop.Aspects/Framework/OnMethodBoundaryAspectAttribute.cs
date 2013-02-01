@@ -11,18 +11,18 @@ namespace NCop.Aspects.Framework
 {
     [LifetimeStrategy(KnownLifetimeStrategy.Singleton)]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
-    public abstract class OnMethodBoundaryAspectAttribute : AspectAttribute, IOnMethodBoundryContract
+    public abstract class OnMethodBoundaryAspectAttribute : AspectAttribute, IOnMethodBoundryAspect
     {
         [OnInvokeAdvice]
-        public abstract void OnInvoke(IMethodExecution methodExecution);
+        public abstract void OnEntry(IMethodExecution methodExecution);
 
-        [OnFinallyAdvice]
-        public abstract void Finally(IMethodExecution methodExecution);
+        [FinallyAdvice]
+        public abstract void OnExit(IMethodExecution methodExecution);
 
         [OnSuccessAdvice]
         public abstract void OnSuccess(IMethodExecution methodExecution);
 
-        [OnErrorAdvice]
-        public abstract void OnError(IMethodExecution methodExecution);
+        [OnExceptionAdvice]
+        public abstract void OnException(IMethodExecution methodExecution);
     }
 }

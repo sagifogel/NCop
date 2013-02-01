@@ -8,7 +8,7 @@ using System.Text;
 
 namespace NCop.Aspects.Aspects
 {
-    public interface IMethodInterceptionContract : IAspect
+    public interface IMethodInterceptionAspect : IAspect
     {
         [OnInvokeAdvice]
         void OnInvoke(IMethodInterception methodInterception);

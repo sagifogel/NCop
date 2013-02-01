@@ -8,18 +8,18 @@ using System.Text;
 
 namespace NCop.Aspects.Aspects
 {
-    public interface IOnMethodBoundryContract : IAspect
+    public interface IOnMethodBoundryAspect : IAspect
     {
-        [OnInvokeAdvice]
-        void OnInvoke(IMethodExecution methodExecution);
+        [OnEntryAdvice]
+        void OnEntry(IMethodExecution methodExecution);
 
-        [OnFinallyAdvice]
-        void Finally(IMethodExecution methodExecution);
+        [FinallyAdvice]
+        void OnExit(IMethodExecution methodExecution);
 
         [OnSuccessAdvice]
         void OnSuccess(IMethodExecution methodExecution);
 
-        [OnErrorAdvice]
-        void OnError(IMethodExecution methodExecution);
+        [OnExceptionAdvice]
+        void OnException(IMethodExecution methodExecution);
     }
 }
