@@ -13,7 +13,7 @@ namespace NCop.Aspects.Framework
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
     public abstract class OnMethodBoundaryAspectAttribute : AspectAttribute, IOnMethodBoundryAspect
     {
-        [OnInvokeAdvice]
+        [OnEntryAdvice]
         public abstract void OnEntry(IMethodExecution methodExecution);
 
         [FinallyAdvice]
