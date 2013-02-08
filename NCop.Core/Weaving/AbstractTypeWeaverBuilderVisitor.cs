@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace NCop.Core.Weaving
 {
-    public abstract class AbstractTypeWeaverBuilderVisitor : ITypeWeaverBuilderVisitor
+    public abstract class AbstractTypeWeaverBuilderVisitor
     {
         public AbstractTypeWeaverBuilderVisitor(Type type) {
             Type = type;

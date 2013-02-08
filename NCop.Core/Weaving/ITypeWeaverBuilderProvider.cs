@@ -7,8 +7,8 @@ using System.Text;
 
 namespace NCop.Core
 {
-    public interface ITypeWeaverBuilderVisitor
+    public interface ITypeWeaverBuilderProvider
     {
-        ITypeWeaverBuilder Visit();
+        ITypeWeaverBuilder Builder { get; }
     }
 }

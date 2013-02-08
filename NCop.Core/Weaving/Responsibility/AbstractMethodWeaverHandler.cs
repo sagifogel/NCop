@@ -12,10 +12,10 @@ namespace NCop.Core.Weaving.Responsibility
             Type = type;
             TypeDefinition = TypeDefinition;
         }
-
-        public abstract bool CanHandle { get; }
-
+        
         protected Type Type { get; private set; }
+
+        public abstract bool CanHandle { get; protected set; }
 
         protected ITypeDefinition TypeDefinition { get; private set; }
 
@@ -25,7 +25,7 @@ namespace NCop.Core.Weaving.Responsibility
             return NextHandler = nextHandler;
         }
 
-        public IMethodWeaver Handle(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
+        public virtual IMethodWeaver Handle(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
             if (CanHandle) {
                 return HandleInternal(methodInfo, typeDefinition);
             }

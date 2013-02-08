@@ -101,7 +101,7 @@
     <Compile Include="Weaving\IFieldWeaver.cs" />
     <Compile Include="Weaving\InstanceFieldWeaver.cs" />
     <Compile Include="Weaving\ITypeDefinition.cs" />
-    <Compile Include="Weaving\ITypeVisitor.cs" />
+    <Compile Include="Weaving\ITypeWeaverBuilderProvider.cs" />
     <Compile Include="Weaving\MethodDecoratorScopeWeaver.cs" />
     <Compile Include="Weaving\MethodDecoratorWeaver.cs" />
     <Compile Include="Weaving\MixinTypeDefinition.cs" />
@@ -109,7 +109,6 @@
     <Compile Include="Weaving\IMethodWeaverHandler.cs" />
     <Compile Include="Weaving\Responsibility\MethodDecoratorWeaverHandler.cs" />
     <Compile Include="Weaving\Responsibility\AbstractMethodWeaverHandler.cs" />
-    <Compile Include="Weaving\Responsibility\NullObjectMethdodWeaverHanler.cs" />
     <Compile Include="Volatile.cs" />
     <Compile Include="Weaving\IMethodScopeWeaver.cs" />
     <Compile Include="Weaving\IMethodSignatureWeaver.cs" />

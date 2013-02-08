@@ -11,15 +11,12 @@ using System.Reflection;
 
 namespace NCop.Composite.Weaving
 {
-    public class CompositeTypeWeaverBuilderVisitor : ITypeWeaverBuilderVisitor
+    public class CompositeTypeWeaverBuilderProvider : ITypeWeaverBuilderProvider
     {
         private readonly Type _type = null;
+        private readonly ITypeWeaverBuilder _builder = null;
 
-        public CompositeTypeWeaverBuilderVisitor(Type type) {
-            _type = type;
-        }
-
-        public ITypeWeaverBuilder Visit() {
+        public CompositeTypeWeaverBuilderProvider(Type type) {
             var mixinsMap = new MixinsMap(_type);
             var builder = new MixinsTypeWeaverBuilder(_type);
             var typeDefinitionWeaver = new MixinsTypeDefinitionWeaver(mixinsMap);
@@ -29,8 +26,12 @@ namespace NCop.Composite.Weaving
                 builder.AddMixinTypeMap(map);
                 new CompositeTypeVisitor(_type, builder, typeDefinition).Visit();
             });
+        }
 
-            return builder;
+        public ITypeWeaverBuilder Builder {
+            get {
+                return _builder;
+            }
         }
 
         public class CompositeTypeVisitor : AbstractTypeWeaverBuilderVisitor

@@ -12,8 +12,7 @@ namespace NCop.Aspects.Weaving.Responsibility
         public AspectPipelineMethodWeaver(Type type) {
             _handler = new AspectMethodWeaverHandler(type);
 
-            _handler.SetNextHandler(new MethodDecoratorWeaverHandler(type))
-                    .SetNextHandler(new NullObjectMethdodWeaverHanler());
+            _handler.SetNextHandler(new MethodDecoratorWeaverHandler(type));
         }
 
 		public IMethodWeaver Handle(MethodInfo methodInfo, ITypeDefinition typeDefinition) {

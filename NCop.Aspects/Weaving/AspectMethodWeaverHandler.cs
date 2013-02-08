@@ -1,4 +1,5 @@
-﻿using NCop.Core.Weaving;
+﻿using NCop.Aspects.Aspects;
+using NCop.Core.Weaving;
 using NCop.Core.Weaving.Responsibility;
 using System;
 using System.Collections.Generic;
@@ -12,16 +13,12 @@ namespace NCop.Aspects.Weaving
     {
         public AspectMethodWeaverHandler(Type type)
             : base(type) {
-
+            CanHandle = KnownAspects.IsAspect(type);
         }
 
-        public override bool CanHandle {
-            get {
-                return true;
-            }
-        }
+        public override bool CanHandle { get; protected set; }
 
-		protected override IMethodWeaver HandleInternal(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
+        protected override IMethodWeaver HandleInternal(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
             return null;
         }
     }

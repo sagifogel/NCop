@@ -10,6 +10,6 @@ namespace NCop.Aspects.Aspects
 {
     public abstract class AspectAttribute : Attribute, IAspect
     {
-
+        public int AspectPriority { get; set; }
     }
 }
