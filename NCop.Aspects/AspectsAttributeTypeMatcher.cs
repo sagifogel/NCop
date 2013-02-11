@@ -1,13 +1,13 @@
-﻿using NCop.Core.Exceptions;
+﻿using NCop.Aspects.Framework;
+using NCop.Core;
+using NCop.Core.Exceptions;
 using NCop.Core.Extensions;
 using System;
-using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Concurrent;
-using NCop.Aspects.Framework;
 
-namespace NCop.Core
+namespace NCop.Aspects
 {
     public class AspectsAttributeTypeMatcher : Tuples<Type, IEnumerable<Type>>
     {

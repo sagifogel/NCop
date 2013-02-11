@@ -5,15 +5,16 @@ using System.Reflection;
 using NCop.Core.Extensions;
 using System.Collections.Generic;
 using NCop.Core.Visitors;
+using NCop.Aspects.Framework;
 
 namespace NCop.Aspects.Aspects.Builders
 {
-    public class AttributeAspectBuilderProvider : IAspectBuilderProvider, IProjectionTypeVisitor<bool>
+    public class AttributeAspectBuilderProvider : IAspectBuilderProvider
     {
         private readonly IAspectBuilder _builder = new AttributeAspectBuilder();
 
-        public bool CanBuild(Type type) {
-            return Visit(type);
+        public bool CanBuild(MethodInfo methodInfo) {
+            return methodInfo.IsDefined<AspectAttribute>();
         }
 
         public IAspectBuilder Builder {
@@ -22,26 +23,9 @@ namespace NCop.Aspects.Aspects.Builders
             }
         }
 
-        public BindingFlags Flags {
-            get {
-                return BindingFlags.Public | BindingFlags.Instance;
-            }
-        }
-
-        public bool Visit(Type type) {
-            return Visit(type.GetMethods()) || Visit(type.GetProperties());
-        }
-
-        public bool Visit(MethodInfo[] methods) {
-            return methods.Any(method => {
-                return method.IsDefined<AspectAttribute>();
-            });
-        }
-
-        public bool Visit(PropertyInfo[] properties) {
-            return properties.Any(property => {
-                return property.IsDefined<AspectAttribute>();
-            });
+        public bool CanBuildAspectFromType(Type aspectType) {
+            return aspectType.GetInterfaces()
+                             .Any(@interface => @interface.Equals(typeof(IAspectFilter)));
         }
     }
 }

@@ -1,12 +1,14 @@
 ﻿
 using NCop.Aspects.Engine;
 using System;
+using System.Reflection;
 
 namespace NCop.Aspects.Aspects.Builders
 {
     public interface IAspectBuilderProvider
     {
-        bool CanBuild(Type type);
         IAspectBuilder Builder { get; }
+        bool CanBuild(MethodInfo methodInfo);
+        bool CanBuildAspectFromType(Type aspectType);
     }
 }
