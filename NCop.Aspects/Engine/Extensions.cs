@@ -20,5 +20,9 @@ namespace NCop.Aspects.Extensions
         public static IAspectDefinitionCollection Build(this IAspectBuilder aspectBuilder, Func<IAspectDefinitionCollection> builder) {
             return builder();
         }
+
+        public static bool Is<TAspect>(this IAspect aspectBuilder) where TAspect : IAspect {
+            return typeof(TAspect).IsAssignableFrom(aspectBuilder.GetType());
+        }
     }
 }

@@ -2,7 +2,7 @@
 using NCop.Aspects.JoinPoints;
 using System.Reflection;
 
-namespace NCop.Aspects.Aspects.Interception
+namespace NCop.Aspects.Framework
 {
     public class GetPropertyInterception : IJoinPoint, IPropertyGetExecuter, IPreventable
     {

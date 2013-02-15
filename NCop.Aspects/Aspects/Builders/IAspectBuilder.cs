@@ -9,6 +9,6 @@ namespace NCop.Aspects.Aspects.Builders
 {
     public interface IAspectBuilder
     {
-        IAspectDefinitionCollection Build(Type type);
+        IAspectDefinitionCollection Build();
     }
 }

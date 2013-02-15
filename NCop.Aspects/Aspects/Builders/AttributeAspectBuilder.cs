@@ -11,18 +11,21 @@ using NCop.Aspects.JoinPoints;
 
 namespace NCop.Aspects.Aspects.Builders
 {
-    public class AttributeAspectBuilder : EnumerableProjectionTypeVisitor<Tuple<Type, JoinPointMetadata>>, IAspectBuilder
+    public class AttributeAspectBuilder : IAspectBuilder
     {
-        private Type _type = null;
+        private readonly MethodInfo _methodInfo = null;
         private AspectDefinitionBuilder _builder = AspectDefinitionBuilder.Instance;
 
-        public IAspectDefinitionCollection Build(Type type) {
-            _type = type;
+        public AttributeAspectBuilder(MethodInfo methodInfo) {
+            _methodInfo = methodInfo;
+        }
+
+        public IAspectDefinitionCollection Build() {
             return new AspectDefinitionCollection(BuildInternal());
         }
 
         private IEnumerable<IAspectDefinition> BuildInternal() {
-            return Visit(_type).Select(aspectTuple => {
+            return GetAspectMetadata().Select(aspectTuple => {
                 Type aspectType = aspectTuple.Item1;
 
                 Func<IAspectProvider> provider = () => {
@@ -34,20 +37,15 @@ namespace NCop.Aspects.Aspects.Builders
             });
         }
 
-        public override IEnumerable<Tuple<Type, JoinPointMetadata>> Visit(MethodInfo[] methods) {
-            var aspectAttributes = methods.Select(method => {
-                return new {
-                    JoinPoint = new MethodJoinPointMetadata(method) as JoinPointMetadata,
-                    Attributes = method.GetCustomAttributes<AspectAttribute>(true)
-                };
-            });
+        public IEnumerable<Tuple<Type, JoinPointMetadata>> GetAspectMetadata() {
+            var aspectAttributes = new {
+                JoinPoint = new MethodJoinPointMetadata(_methodInfo) as JoinPointMetadata,
+                Attributes = _methodInfo.GetCustomAttributes<AspectAttribute>(true)
+            };
 
-            return aspectAttributes.Where(aspect => !aspect.Attributes.IsNullOrEmpty())
-                                   .SelectMany(aspect => {
-                                       return aspect.Attributes.Select(a => {
-                                           return Tuple.Create(a.GetType(), aspect.JoinPoint);
-                                       });
-                                   });
+            return aspectAttributes.Attributes.Select(a => {
+                return Tuple.Create(a.GetType(), aspectAttributes.JoinPoint);
+            });
         }
     }
 }

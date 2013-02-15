@@ -8,8 +8,8 @@ namespace NCop.Aspects.Aspects
 {
     public class MethodAspectDefinition : AspectDefinition
     {
-        public MethodAspectDefinition(IAspectProvider aspectProvider, JoinPointMetadata joinPointMetadata)
-            : base(aspectProvider, joinPointMetadata) {
+        public MethodAspectDefinition(IAspectProvider aspectProvider, JoinPointMetadata joinPointMetadata, int aspectPriority)
+            : base(aspectProvider, joinPointMetadata, aspectPriority) {
         }
 
         protected override void BulidAdvices() {

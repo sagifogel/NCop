@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NCop.Aspects.Engine
+namespace NCop.Aspects.Framework
 {
-    public interface IMethodInterception : IMethodExecution, IPreventable
+    public interface IPropertySetExecuter
     {
-        object Proceed();
+        void ProceedSetValue();
     }
 }

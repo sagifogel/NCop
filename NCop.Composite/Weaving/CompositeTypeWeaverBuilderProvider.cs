@@ -17,13 +17,14 @@ namespace NCop.Composite.Weaving
 
         public CompositeTypeWeaverBuilderProvider(Type type) {
             var mixinsMap = new MixinsMap(type);
-            var builder = new MixinsTypeWeaverBuilder(type);
             var typeDefinitionWeaver = new MixinsTypeDefinitionWeaver(mixinsMap);
             var typeDefinition = typeDefinitionWeaver.Weave();
 
+            _builder = new MixinsTypeWeaverBuilder(type);
+
             mixinsMap.ForEach(map => {
-                builder.AddMixinTypeMap(map);
-                new CompositeTypeVisitor(type, builder, typeDefinition).Visit();
+                _builder.AddMixinTypeMap(map);
+                new CompositeTypeVisitor(type, _builder, typeDefinition).Visit();
             });
         }
 

@@ -1,5 +1,4 @@
 ﻿using NCop.Aspects.Advices;
-using NCop.Aspects.Aspects.Interception;
 using NCop.Aspects.Engine;
 using System;
 using NCop.Aspects.LifetimeStrategies;

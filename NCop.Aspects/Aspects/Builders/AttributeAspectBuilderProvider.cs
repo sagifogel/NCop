@@ -11,16 +11,12 @@ namespace NCop.Aspects.Aspects.Builders
 {
     public class AttributeAspectBuilderProvider : IAspectBuilderProvider
     {
-        private readonly IAspectBuilder _builder = new AttributeAspectBuilder();
-
         public bool CanBuild(MethodInfo methodInfo) {
             return methodInfo.IsDefined<AspectAttribute>();
         }
 
-        public IAspectBuilder Builder {
-            get {
-                return _builder;
-            }
+        public IAspectBuilder GetBuilder(MethodInfo methodInfo) {
+            return new AttributeAspectBuilder(methodInfo);
         }
 
         public bool CanBuildAspectFromType(Type aspectType) {

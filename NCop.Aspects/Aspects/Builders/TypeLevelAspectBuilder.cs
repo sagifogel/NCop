@@ -7,7 +7,7 @@ namespace NCop.Aspects.Aspects.Builders
 {
     public class TypeLevelAspectBuilder : IAspectBuilder
     {
-        public IAspectDefinitionCollection Build(Type type) {
+        public IAspectDefinitionCollection Build() {
             throw new NotImplementedException();
         }
     }

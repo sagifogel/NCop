@@ -30,17 +30,19 @@ namespace NCop.Aspects.Aspects
             return _knownProviders.Any(provider => provider.CanBuildAspectFromType(aspectType));
         }
 
-        public static IAspectBuilder MatchAspectBuilder(MethodInfo methodInfo) {
+        public static bool TryMatchAspectBuilder(MethodInfo methodInfo, out IAspectBuilder builder) {
             var matchedProvider = GetAspectProvider(methodInfo);
 
-            if (matchedProvider == null) {
-                throw new AspectBuilderNotFoundException(methodInfo.DeclaringType);
+            builder = null;
+
+            if (matchedProvider != null) {
+                builder = matchedProvider.GetBuilder(methodInfo);
             }
 
-            return matchedProvider.Builder;
+            return builder != null;
         }
 
-        public static IAspectBuilderProvider GetAspectProvider(MethodInfo methodInfo) {
+        private static IAspectBuilderProvider GetAspectProvider(MethodInfo methodInfo) {
             return _knownProviders.FirstOrDefault(provider => provider.CanBuild(methodInfo));
         }
     }

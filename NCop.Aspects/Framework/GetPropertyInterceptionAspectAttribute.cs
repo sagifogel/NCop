@@ -1,6 +1,5 @@
 ﻿using NCop.Aspects.Advices;
 using NCop.Aspects.Aspects;
-using NCop.Aspects.Aspects.Interception;
 
 namespace NCop.Aspects.Framework
 {

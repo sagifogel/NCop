@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using NCop.Aspects.Advices;
-using NCop.Aspects.Aspects.Interception;
 using NCop.Aspects.Engine;
 using NCop.Aspects.LifetimeStrategies;
 using System.Diagnostics;
 using NCop.Aspects.Aspects;
+using NCop.Aspects.Framework;
 
 namespace NCop.Aspects.Framework
 {
@@ -14,15 +14,15 @@ namespace NCop.Aspects.Framework
     public abstract class OnMethodBoundaryAspectAttribute : AspectAttribute, IOnMethodBoundryAspect
     {
         [OnEntryAdvice]
-        public abstract void OnEntry(IMethodExecution methodExecution);
+        public virtual void OnEntry(IMethodExecution methodExecution) { }
 
         [FinallyAdvice]
-        public abstract void OnExit(IMethodExecution methodExecution);
+        public virtual void OnExit(IMethodExecution methodExecution) { }
 
         [OnSuccessAdvice]
-        public abstract void OnSuccess(IMethodExecution methodExecution);
+        public virtual void OnSuccess(IMethodExecution methodExecution) { }
 
         [OnExceptionAdvice]
-        public abstract void OnException(IMethodExecution methodExecution);
+        public virtual void OnException(IMethodExecution methodExecution) { }
     }
 }

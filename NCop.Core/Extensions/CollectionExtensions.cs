@@ -69,8 +69,8 @@ namespace NCop.Core.Extensions
                 yield return item;
             }
         }
-        
-        public static Tuple<TSource, TProject> SelectFirst<TSource, TProject>(this IEnumerable<TSource> source, Func<TSource, TProject> selector, Func<TProject, bool> predicate) {
+
+        public static Tuple<TSource, TProject> SelectFirst<TSource, TProject>(this IEnumerable<TSource> source, Func<TProject, bool> predicate, Func<TSource, TProject> selector) {
             foreach (var item in source) {
                 var projection = selector(item);
 

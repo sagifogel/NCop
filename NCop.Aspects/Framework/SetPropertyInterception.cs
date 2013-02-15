@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NCop.Aspects.Aspects.Interception
+namespace NCop.Aspects.Framework
 {
     public class SetPropertyInterception : IJoinPoint, IPropertySetExecuter, IPreventable
     {

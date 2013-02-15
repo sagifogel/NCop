@@ -1,4 +1,5 @@
 ﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Aspects.Builders;
 using NCop.Core.Weaving;
 using NCop.Core.Weaving.Responsibility;
 using System;
@@ -13,13 +14,16 @@ namespace NCop.Aspects.Weaving
     {
         public AspectMethodWeaverHandler(Type type)
             : base(type) {
-            CanHandle = KnownAspects.IsAspect(type);
         }
 
-        public override bool CanHandle { get; protected set; }
+        public override IMethodWeaver Handle(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
+            IAspectBuilder aspectBuilder;
 
-        protected override IMethodWeaver HandleInternal(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
-            return null;
+            if (KnownAspects.TryMatchAspectBuilder(methodInfo, out aspectBuilder)) {
+                return new AspectStrategyWeaver(aspectBuilder);
+            }
+
+            return NextHandler.Handle(methodInfo, typeDefinition);
         }
     }
 }

@@ -4,7 +4,7 @@ using NCop.Core;
 using System.Linq;
 using NCop.Core.Extensions;
 
-namespace NCop.Composite.Runtime
+namespace NCop.Composite.Framework
 {
     public class CompositeRuntime : IRuntime
     {

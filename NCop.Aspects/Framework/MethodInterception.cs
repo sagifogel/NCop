@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace NCop.Aspects.Aspects.Interception
+namespace NCop.Aspects.Framework
 {
     public class MethodInterception : IJoinPoint, IMethodInterception
     {   

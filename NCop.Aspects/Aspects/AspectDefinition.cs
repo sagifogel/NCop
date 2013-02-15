@@ -20,8 +20,9 @@ namespace NCop.Aspects.Aspects
         protected readonly AdviceVisitor AdviceVisitor = new AdviceVisitor();
         protected readonly AdviceCollection AdviceCollection = new AdviceCollection();
 
-        public AspectDefinition(IAspectProvider provider, JoinPointMetadata joinPointMetadata) {
+        public AspectDefinition(IAspectProvider provider, JoinPointMetadata joinPointMetadata, int aspectPriority) {
             Aspect = provider.Aspect;
+            AspectPriority = aspectPriority;
             JoinPointMetadata = joinPointMetadata;
             BulidAdvices();
         }
@@ -34,6 +35,8 @@ namespace NCop.Aspects.Aspects
             }
         }
 
+        public int AspectPriority { get; private set; }
+        
         protected abstract void BulidAdvices();
-    }
+     }
 }

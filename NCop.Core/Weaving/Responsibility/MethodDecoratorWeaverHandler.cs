@@ -10,17 +10,10 @@ namespace NCop.Core.Weaving.Responsibility
     {
         public MethodDecoratorWeaverHandler(Type type)
             : base(type) {
-            CanHandle = true;
         }
-
-        public override bool CanHandle { get; protected set; }
 
         public override IMethodWeaver Handle(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
-            return HandleInternal(methodInfo, typeDefinition);
-        }
-
-        protected override IMethodWeaver HandleInternal(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
-            return new MethodDecoratorWeaver(methodInfo, Type);
+            return null;
         }
     }
 }

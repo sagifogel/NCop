@@ -7,7 +7,7 @@ namespace NCop.Aspects.Aspects.Builders
 {
     public interface IAspectBuilderProvider
     {
-        IAspectBuilder Builder { get; }
+        IAspectBuilder GetBuilder(MethodInfo methodInfo);
         bool CanBuild(MethodInfo methodInfo);
         bool CanBuildAspectFromType(Type aspectType);
     }

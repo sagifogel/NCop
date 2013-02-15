@@ -1,5 +1,4 @@
 ﻿using NCop.Aspects.Aspects;
-using NCop.Aspects.Aspects.Interception;
 using NCop.Aspects.Engine;
 using NCop.Aspects.JoinPoints;
 using System;
@@ -22,7 +21,7 @@ namespace NCop.Aspects.Aspects
         }
 
         public IAspectDefinition Visit(MethodJoinPointMetadata joinPoint, IAspectProvider aspectProvider) {
-            return new MethodAspectDefinition(aspectProvider, joinPoint);
+            return new MethodAspectDefinition(aspectProvider, joinPoint, 0);
         }
 
         public IAspectDefinition Visit(PropertyJoinPointMetadata joinPoint, IAspectProvider aspectProvider) {
