@@ -10,7 +10,7 @@ namespace NCop.Aspects.Framework
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
     public abstract class MethodInterceptionAspectAttribute : AspectAttribute, IMethodInterceptionAspect
     {
-        [OnInvokeAdvice]
+        [OnMethodInvokeAdvice]
         public abstract void OnInvoke(IMethodInterception methodInterception);
     }
 }

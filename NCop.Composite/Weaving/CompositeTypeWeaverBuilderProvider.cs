@@ -1,4 +1,5 @@
-﻿using NCop.Aspects.Weaving.Responsibility;
+﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Weaving.Responsibility;
 using NCop.Core;
 using NCop.Core.Extensions;
 using NCop.Core.Weaving;
@@ -19,13 +20,18 @@ namespace NCop.Composite.Weaving
             var mixinsMap = new MixinsMap(type);
             var typeDefinitionWeaver = new MixinsTypeDefinitionWeaver(mixinsMap);
             var typeDefinition = typeDefinitionWeaver.Weave();
+            var aspectMap = new AspectsMap(type);
 
             _builder = new MixinsTypeWeaverBuilder(type);
 
             mixinsMap.ForEach(map => {
                 _builder.AddMixinTypeMap(map);
-                new CompositeTypeVisitor(type, _builder, typeDefinition).Visit();
             });
+
+            aspectMap.SelectMany(map => map.AspectTypes)
+                     .ForEach(aspect => {
+                         new CompositeTypeVisitor(aspect, _builder, typeDefinition).Visit();
+                     });
         }
 
         public ITypeWeaverBuilder Builder {

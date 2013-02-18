@@ -10,7 +10,7 @@ namespace NCop.Aspects.Framework
 {
     public interface IMethodInterceptionAspect : IAspect
     {
-        [OnInvokeAdvice]
+        [OnMethodInvokeAdvice]
         void OnInvoke(IMethodInterception methodInterception);
     }
 }

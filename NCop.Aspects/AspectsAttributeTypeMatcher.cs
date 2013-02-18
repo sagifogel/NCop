@@ -18,13 +18,6 @@ namespace NCop.Aspects
             _registered = new ConcurrentDictionary<Type, List<Type>>();
             _immediateInterfaces = type.GetImmediateInterfaces().ToSet();
             RegisterTypesRecursively(type);
-
-            if (_registered.Count != _immediateInterfaces.Count) {
-                var missing = _immediateInterfaces.Except(_registered.Keys);
-
-                throw new MissingTypeException(missing.First().Name);
-            }
-
             Value = _registered.Select(kv => Tuple.Create(kv.Key, kv.Value.AsEnumerable()));
         }
 
@@ -32,7 +25,8 @@ namespace NCop.Aspects
             RegisterTypes(type);
 
             if (_immediateInterfaces.Count != _registered.Count) {
-                var leftToFind = _immediateInterfaces.Except(_registered.Keys);
+                var interfaces = type.GetImmediateInterfaces();
+                var leftToFind = interfaces.Except(_registered.Keys);
 
                 leftToFind.ForEach(@interface => {
                     RegisterTypesRecursively(@interface);

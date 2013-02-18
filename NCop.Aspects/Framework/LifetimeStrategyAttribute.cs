@@ -18,14 +18,14 @@ namespace NCop.Aspects.Framework
         private object _syncLock = new object();
         private ILifetimeStrategy _strategy = null;
         private KnownLifetimeStrategy _wellKnownLifetimeStrategy;
-        private static readonly string _liftimeStrategiesNamespace = "NCop.Aspects.LifetimeStrategies";
+        private static readonly string _lifetimeStrategiesNamespace = "NCop.Aspects.LifetimeStrategies";
 
         public LifetimeStrategyAttribute(KnownLifetimeStrategy lifetimeStrategy) {
             _wellKnownLifetimeStrategy = lifetimeStrategy;
         }
 
         private ILifetimeStrategy CreateLifetimeStrategy(Type type) {
-            var lifetimeStrategyRepresentation = string.Format("{0}.{1}LifetimeStrategy", _liftimeStrategiesNamespace, _wellKnownLifetimeStrategy);
+            var lifetimeStrategyRepresentation = string.Format("{0}.{1}LifetimeStrategy", _lifetimeStrategiesNamespace, _wellKnownLifetimeStrategy);
             var lifetimeStrategyType = Type.GetType(lifetimeStrategyRepresentation);
 
             return (ILifetimeStrategy)Activator.CreateInstance(lifetimeStrategyType, new object[] { new AspectByReflectionFactory(type) });

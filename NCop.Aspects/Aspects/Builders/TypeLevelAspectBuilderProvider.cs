@@ -8,7 +8,7 @@ namespace NCop.Aspects.Aspects.Builders
 {
     public class TypeLevelAspectBuilderProvider : IAspectBuilderProvider
     {
-        private readonly static Type _typeofTypeLevelAspect = typeof(TypeLevelAspect);
+        private readonly static Type _typeofTypeLevelAspect = typeof(TypeLevelAspectAttribute);
 
         public bool CanBuild(MethodInfo methodInfo) {
             return CanBuildAspectFromType(methodInfo.DeclaringType);

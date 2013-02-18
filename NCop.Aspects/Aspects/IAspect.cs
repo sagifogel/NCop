@@ -8,5 +8,6 @@ namespace NCop.Aspects.Aspects
 {
     public interface IAspect
     {
+        int AspectPriority { get; }
     }
 }

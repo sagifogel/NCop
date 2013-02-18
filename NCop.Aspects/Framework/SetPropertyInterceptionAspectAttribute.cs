@@ -10,7 +10,7 @@ namespace NCop.Aspects.Framework
 {
     public class SetPropertyInterceptionAspectAttribute : PropertyInterceptionAspectAttribute
     {
-        [OnInvokeAdvice]
+        [OnMethodInvokeAdvice]
         public virtual void OnInvoke(SetPropertyInterception setPropertyInterception) { }
     }
 }

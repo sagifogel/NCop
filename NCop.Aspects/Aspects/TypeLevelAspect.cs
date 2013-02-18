@@ -8,7 +8,7 @@ using System.Text;
 namespace NCop.Aspects.Aspects
 {
     [LifetimeStrategy(KnownLifetimeStrategy.Singleton)]
-    public abstract class TypeLevelAspect : IAspect
+    public abstract class TypeLevelAspectAttribute : AspectAttribute
     {
     }
 }

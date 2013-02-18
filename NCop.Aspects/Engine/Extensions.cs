@@ -10,8 +10,11 @@ namespace NCop.Aspects.Extensions
     public static class LifetimeStrategiesExtensions
     {
         public static ILifetimeStrategy GetLifetimeStrategy(this Type aspectType) {
-            return aspectType.GetCustomAttribute<LifetimeStrategyAttribute>(true)
-                             .GetLifetimeStrategy(aspectType);
+            var lifetimeStragtegy = aspectType.GetCustomAttribute<LifetimeStrategyAttribute>(true);
+
+            return lifetimeStragtegy != null ?
+                   lifetimeStragtegy.GetLifetimeStrategy(aspectType) :
+                   new SingletonLifetimeStrategy(new AspectByReflectionFactory(aspectType));
         }
     }
 

@@ -3,6 +3,7 @@ using NCop.Aspects.Engine;
 using NCop.Aspects.JoinPoints;
 using NCop.Core.Extensions;
 using System.Reflection;
+using System.Linq;
 
 namespace NCop.Aspects.Aspects
 {
@@ -14,7 +15,7 @@ namespace NCop.Aspects.Aspects
 
         protected override void BulidAdvices() {
             Aspect.GetType()
-                  .GetMethods(BindingFlags.Instance | BindingFlags.Public)
+                  .GetOverridenMethods()
                   .ForEach(method => {
                       method.GetCustomAttributes<AdviceAttribute>(true)
                             .ForEach(a => {

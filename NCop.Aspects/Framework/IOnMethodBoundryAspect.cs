@@ -10,16 +10,16 @@ namespace NCop.Aspects.Framework
 {
     public interface IOnMethodBoundryAspect : IAspect
     {
-        [OnEntryAdvice]
+        [OnMethodEntryAdvice]
         void OnEntry(IMethodExecution methodExecution);
 
         [FinallyAdvice]
         void OnExit(IMethodExecution methodExecution);
 
-        [OnSuccessAdvice]
+        [OnMethodSuccessAdvice]
         void OnSuccess(IMethodExecution methodExecution);
 
-        [OnExceptionAdvice]
+        [OnMethodExceptionAdvice]
         void OnException(IMethodExecution methodExecution);
     }
 }

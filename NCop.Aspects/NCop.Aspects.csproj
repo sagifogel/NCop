@@ -82,7 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Advices\AdviceVisitor.cs" />
-    <Compile Include="Advices\OnEntryAdviceAttribute.cs" />
+    <Compile Include="Advices\OnMethodEntryAdviceAttribute.cs" />
     <Compile Include="Aspects\Builders\AttributeAspectBuilderProvider.cs" />
     <Compile Include="Aspects\Builders\TypeLevelAspectBuilder.cs" />
     <Compile Include="Aspects\Builders\TypeLevelAspectBuilderProvider.cs" />
@@ -150,13 +150,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Framework\AspectOf.cs" />
     <Compile Include="Framework\AspectsAttribute.cs" />
     <Compile Include="Framework\IAspectFilter.cs" />
     <Compile Include="Aspects\JoinPointMetadataVisitor.cs" />
-    <Compile Include="Advices\OnInvokeAdviceAttribute.cs" />
+    <Compile Include="Advices\OnMethodInvokeAdviceAttribute.cs" />
     <Compile Include="Advices\FinallyAdviceAttribute.cs" />
-    <Compile Include="Advices\OnSuccessAdviceAttribute.cs" />
+    <Compile Include="Advices\OnMethodSuccessAdviceAttribute.cs" />
     <Compile Include="Aspects\AspectDefinitionCollection.cs" />
     <Compile Include="Aspects\IAspectVisitor.cs" />
     <Compile Include="Aspects\MethodAspectDefinition.cs" />
@@ -167,7 +166,7 @@
     <Compile Include="Framework\LifetimeStrategyAttribute.cs" />
     <Compile Include="Framework\MethodInterceptionAspectAttribute.cs" />
     <Compile Include="Framework\MethodInterception.cs" />
-    <Compile Include="Advices\OnExceptionAdviceAttribute.cs" />
+    <Compile Include="Advices\OnMethodExceptionAdviceAttribute.cs" />
     <Compile Include="Framework\OnMethodBoundaryAspectAttribute.cs" />
     <Compile Include="Aspects\PropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Framework\SetPropertyInterception.cs" />
