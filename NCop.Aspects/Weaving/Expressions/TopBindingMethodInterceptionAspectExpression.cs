@@ -19,13 +19,9 @@ namespace NCop.Aspects.Weaving.Expressions
         }
 
         public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
-            var clonedAspectWeavingSettings = aspectWeavingSettings.CloneWith(settings => {
-                settings.LocalBuilderRepository = new LocalBuilderRepository();
-            });
+            var bindingWeaver = new IsolatedMethodInterceptionBindingWeaver(aspectExpression, aspectDefinition, aspectWeavingSettings);
 
-            var bindingWeaver = new MethodInterceptionBindingWeaver(aspectExpression, aspectDefinition, clonedAspectWeavingSettings);
-
-            return new TopMethodInterceptionAspectWeaver(aspectDefinition, clonedAspectWeavingSettings, bindingWeaver.WeavedType);
+            return new TopBindingMethodInterceptionAspectWeaver(aspectDefinition, aspectWeavingSettings, bindingWeaver.WeavedType);
         }
     }
 }

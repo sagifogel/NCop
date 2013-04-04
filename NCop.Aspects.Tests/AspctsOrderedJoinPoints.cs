@@ -4,17 +4,27 @@ using System.Linq;
 using System.Text;
 using NCop.Aspects.Tests.Extensions;
 using System.Threading.Tasks;
+using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Tests
 {
-    public abstract class AbstrtactAspectOrderedJoinPoints : List<AspectJoinPoints>
+    public class ReturnValueAspectOrderedJoinPoints : AbstractAspectOrderedJoinPoints
+    {
+        public ReturnValueAspectOrderedJoinPoints(IEnumerable<AspectJoinPoints> joinPoints) {
+            var index = joinPoints.IndexOf(jp => jp == AspectJoinPoints.InMethod);
+
+            AddRange(joinPoints.Skip(index));
+        }
+    }
+
+    public abstract class AbstractAspectOrderedJoinPoints : List<AspectJoinPoints>
     {
         public override string ToString() {
             return this.Stringify();
         }
     }
 
-    public class OnMethodBoundaryAspectOrderedJoinPoints : AbstrtactAspectOrderedJoinPoints
+    public class OnMethodBoundaryAspectOrderedJoinPoints : AbstractAspectOrderedJoinPoints
     {
         public OnMethodBoundaryAspectOrderedJoinPoints() {
             Add(AspectJoinPoints.OnEntry);
@@ -28,7 +38,7 @@ namespace NCop.Aspects.Tests
         }
     }
 
-    public class MultipleOnMethodBoundaryAspectOrderedJoinPoints : AbstrtactAspectOrderedJoinPoints
+    public class MultipleOnMethodBoundaryAspectOrderedJoinPoints : AbstractAspectOrderedJoinPoints
     {
         public MultipleOnMethodBoundaryAspectOrderedJoinPoints() {
             Add(AspectJoinPoints.OnEntry);
@@ -44,7 +54,7 @@ namespace NCop.Aspects.Tests
         }
     }
 
-    public class MultipleInterceptionAspectOrderedJoinPoints : AbstrtactAspectOrderedJoinPoints
+    public class MultipleInterceptionAspectOrderedJoinPoints : AbstractAspectOrderedJoinPoints
     {
         public MultipleInterceptionAspectOrderedJoinPoints() {
             Add(AspectJoinPoints.OnInvoke);
@@ -54,7 +64,7 @@ namespace NCop.Aspects.Tests
         }
     }
 
-    public class AllAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect : AbstrtactAspectOrderedJoinPoints
+    public class AllAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect : AbstractAspectOrderedJoinPoints
     {
         public AllAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect() {
             Add(AspectJoinPoints.OnEntry);
@@ -65,7 +75,7 @@ namespace NCop.Aspects.Tests
         }
     }
 
-    public class AllAspectOrderedJoinPointsStartingWithInterceptionAspect : AbstrtactAspectOrderedJoinPoints
+    public class AllAspectOrderedJoinPointsStartingWithInterceptionAspect : AbstractAspectOrderedJoinPoints
     {
         public AllAspectOrderedJoinPointsStartingWithInterceptionAspect() {
             Add(AspectJoinPoints.OnInvoke);
@@ -76,7 +86,7 @@ namespace NCop.Aspects.Tests
         }
     }
 
-    public class WithExceptionFlowBehaviourContinueOnMethodBoundaryAspectOrderedJoinPoints : AbstrtactAspectOrderedJoinPoints
+    public class WithExceptionFlowBehaviourContinueOnMethodBoundaryAspectOrderedJoinPoints : AbstractAspectOrderedJoinPoints
     {
         public WithExceptionFlowBehaviourContinueOnMethodBoundaryAspectOrderedJoinPoints() {
             Add(AspectJoinPoints.OnEntry);
@@ -86,7 +96,7 @@ namespace NCop.Aspects.Tests
         }
     }
 
-    public class AlternateAspectOrderedJoinPointsStartingWithInterceptionAspect : AbstrtactAspectOrderedJoinPoints
+    public class AlternateAspectOrderedJoinPointsStartingWithInterceptionAspect : AbstractAspectOrderedJoinPoints
     {
         public AlternateAspectOrderedJoinPointsStartingWithInterceptionAspect() {
             Add(AspectJoinPoints.OnInvoke);
@@ -105,7 +115,7 @@ namespace NCop.Aspects.Tests
         }
     }
 
-    public class AlternateAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect : AbstrtactAspectOrderedJoinPoints
+    public class AlternateAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect : AbstractAspectOrderedJoinPoints
     {
         public AlternateAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect() {
             Add(AspectJoinPoints.OnEntry);
@@ -124,7 +134,7 @@ namespace NCop.Aspects.Tests
         }
     }
 
-    public class InterceptionAspectOrderedJoinPoints : AbstrtactAspectOrderedJoinPoints
+    public class InterceptionAspectOrderedJoinPoints : AbstractAspectOrderedJoinPoints
     {
         public InterceptionAspectOrderedJoinPoints() {
             Add(AspectJoinPoints.OnInvoke);

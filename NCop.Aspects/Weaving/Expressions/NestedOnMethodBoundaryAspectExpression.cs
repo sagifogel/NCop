@@ -11,18 +11,18 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal class NestedOnMethodBoundaryAspectExpression : AbstractAspectExpression
     {
-        private readonly IAspectDefinition previousAspectDefinition = null;
+        private readonly IAspectDefinition topAspectInScopeDefinition = null;
 
-        internal NestedOnMethodBoundaryAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectDefinition previousAspectDefinition)
+        internal NestedOnMethodBoundaryAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectDefinition topAspectInScopeDefinition)
             : base(aspectExpression, aspectDefinition) {
-            this.previousAspectDefinition = previousAspectDefinition;
+            this.topAspectInScopeDefinition = topAspectInScopeDefinition;
         }
 
         public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
-            var previousAspectArgsType = previousAspectDefinition.ToAspectArgumentImpl();
+            var topAspectInScopeArgType = topAspectInScopeDefinition.ToAspectArgumentImpl();
             var nestedWeaver = aspectExpression.Reduce(aspectWeavingSettings);
 
-            return new NestedOnMethodBoundaryAspectWeaver(previousAspectArgsType, nestedWeaver, aspectDefinition, aspectWeavingSettings);
+            return new NestedOnMethodBoundaryAspectWeaver(topAspectInScopeArgType, nestedWeaver, aspectDefinition, aspectWeavingSettings);
         }
     }
 }

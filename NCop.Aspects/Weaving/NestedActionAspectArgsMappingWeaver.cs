@@ -5,18 +5,18 @@ using System.Reflection.Emit;
 namespace NCop.Aspects.Weaving
 {
     internal class NestedActionAspectArgsMappingWeaver : AbstractAspectArgsMappingWeaver
-    {   
-        private readonly Type previousAspectArgType = null;
+    {
+        private readonly Type topAspectInScopeArgType = null;
 
-        internal NestedActionAspectArgsMappingWeaver(Type previousAspectArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsSettings argumentsSettings)
+        internal NestedActionAspectArgsMappingWeaver(Type topAspectInScopeArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsSettings argumentsSettings)
             : base(aspectWeavingSettings, argumentsSettings) {
-            this.previousAspectArgType = previousAspectArgType;
+            this.topAspectInScopeArgType = topAspectInScopeArgType;
         }
 
         protected override void WeaveAspectArg(ILGenerator ilGenerator) {
-            var previousAspectArgsLocalBuilder = localBuilderRepository.Get(previousAspectArgType);
+            var topAspectInScopeLocalBuilder = localBuilderRepository.Get(topAspectInScopeArgType);
 
-            ilGenerator.EmitLoadLocal(previousAspectArgsLocalBuilder);
+            ilGenerator.EmitLoadLocal(topAspectInScopeLocalBuilder);
         }
     }
 }

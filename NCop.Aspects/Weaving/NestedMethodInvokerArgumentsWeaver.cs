@@ -8,17 +8,17 @@ namespace NCop.Aspects.Weaving
 {
     internal class NestedMethodInvokerArgumentsWeaver : AbstractArgumentsWeaver
     {
-        private readonly Type previousAspectArgType = null;
+        private readonly Type topAspectInScopeArgType = null;
         private readonly IByRefArgumentsStoreWeaver byRefArgumentStoreWeaver = null;
 
-        internal NestedMethodInvokerArgumentsWeaver(Type previousAspectArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings)
+        internal NestedMethodInvokerArgumentsWeaver(Type topAspectInScopeArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings)
             : base(argumentWeavingSettings, aspectWeavingSettings) {
-            this.previousAspectArgType = previousAspectArgType;
+            this.topAspectInScopeArgType = topAspectInScopeArgType;
             byRefArgumentStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
         }
 
         public override void Weave(ILGenerator ilGenerator) {
-            var argsLocalBuilder = LocalBuilderRepository.Get(previousAspectArgType);
+            var argsLocalBuilder = LocalBuilderRepository.Get(topAspectInScopeArgType);
             var contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
             var methodImplParameters = WeavingSettings.MethodInfoImpl.GetParameters();
 
@@ -32,7 +32,7 @@ namespace NCop.Aspects.Weaving
                     ilGenerator.EmitLoadArg(argPosition);
                 }
                 else {
-                    var property = previousAspectArgType.GetProperty("Arg{0}".Fmt(argPosition));
+                    var property = topAspectInScopeArgType.GetProperty("Arg{0}".Fmt(argPosition));
 
                     ilGenerator.EmitLoadLocal(argsLocalBuilder);
                     ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());

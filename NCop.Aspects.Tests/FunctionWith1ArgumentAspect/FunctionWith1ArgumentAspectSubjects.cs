@@ -30,7 +30,7 @@ namespace NCop.Aspects.Tests.FunctionWith1ArgumentAspect.Subjects
         private string AddInMethodJoinPoint(List<AspectJoinPoints> joinPoints) {
             joinPoints.Add(AspectJoinPoints.InMethod);
 
-            return string.Join(":", joinPoints);
+            return AspectJoinPoints.InMethod.ToString();
         }
 
         public string InterceptionAspect(List<AspectJoinPoints> joinPoints) {
@@ -130,31 +130,31 @@ namespace NCop.Aspects.Tests.FunctionWith1ArgumentAspect.Subjects
     {
         public override void OnEntry(FunctionExecutionArgs<List<AspectJoinPoints>, string> args) {
             args.Arg1.Add(AspectJoinPoints.OnEntry);
-            base.OnEntry(args);
             args.AddToReturnValue(AspectJoinPoints.OnEntry);
+            base.OnEntry(args);
         }
 
         public override void OnSuccess(FunctionExecutionArgs<List<AspectJoinPoints>, string> args) {
             args.Arg1.Add(AspectJoinPoints.OnSuccess);
-            base.OnSuccess(args);
             args.AddToReturnValue(AspectJoinPoints.OnSuccess);
+            base.OnSuccess(args);
         }
 
         public override void OnException(FunctionExecutionArgs<List<AspectJoinPoints>, string> args) {
             var ex = args.Exception;
-            
-            base.OnException(args);
-            
+
             if (ex.IsNotNull() && ex.GetType() == typeof(Exception) && ex.Message.Equals("InMethodException")) {
                 args.Arg1.Add(AspectJoinPoints.OnException);
                 args.AddToReturnValue(AspectJoinPoints.OnException);
             }
+
+            base.OnException(args);
         }
 
         public override void OnExit(FunctionExecutionArgs<List<AspectJoinPoints>, string> args) {
             args.Arg1.Add(AspectJoinPoints.OnExit);
-            base.OnExit(args);
             args.AddToReturnValue(AspectJoinPoints.OnExit);
+            base.OnExit(args);
         }
     }
 
@@ -163,31 +163,32 @@ namespace NCop.Aspects.Tests.FunctionWith1ArgumentAspect.Subjects
         public override void OnEntry(FunctionExecutionArgs<List<AspectJoinPoints>, string> args) {
             args.FlowBehavior = FlowBehavior.Continue;
             args.Arg1.Add(AspectJoinPoints.OnEntry);
-            base.OnEntry(args);
             args.AddToReturnValue(AspectJoinPoints.OnEntry);
+            base.OnEntry(args);
         }
 
         public override void OnSuccess(FunctionExecutionArgs<List<AspectJoinPoints>, string> args) {
             args.Arg1.Add(AspectJoinPoints.OnSuccess);
-            base.OnSuccess(args);
             args.AddToReturnValue(AspectJoinPoints.OnSuccess);
+            base.OnSuccess(args);
         }
 
         public override void OnException(FunctionExecutionArgs<List<AspectJoinPoints>, string> args) {
             var ex = args.Exception;
-
-            base.OnException(args);
-
+            
             if (ex.IsNotNull() && ex.GetType() == typeof(Exception) && ex.Message.Equals("InMethodException")) {
                 args.Arg1.Add(AspectJoinPoints.OnException);
+                args.AddToReturnValue(AspectJoinPoints.InMethod);
                 args.AddToReturnValue(AspectJoinPoints.OnException);
             }
+            
+            base.OnException(args);
         }
 
         public override void OnExit(FunctionExecutionArgs<List<AspectJoinPoints>, string> args) {
             args.Arg1.Add(AspectJoinPoints.OnExit);
-            base.OnExit(args);
             args.AddToReturnValue(AspectJoinPoints.OnExit);
+            base.OnExit(args);
         }
     }
 
@@ -195,8 +196,8 @@ namespace NCop.Aspects.Tests.FunctionWith1ArgumentAspect.Subjects
     {
         public override void OnInvoke(FunctionInterceptionArgs<List<AspectJoinPoints>, string> args) {
             args.Arg1.Add(AspectJoinPoints.OnInvoke);
-            base.OnInvoke(args);
             args.AddToReturnValue(AspectJoinPoints.OnInvoke);
+            base.OnInvoke(args);
         }
     }
 }

@@ -9,19 +9,19 @@ namespace NCop.Aspects.Weaving.Expressions
     internal class MethodInvokerAspectExpression: IAspectExpression
     {
         private readonly IAspectDefinition aspectDefinition = null;
-        private readonly IAspectDefinition previousAspectDefinition = null;
+        private readonly IAspectDefinition topAspectInScopeDefinition = null;
         private readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
 
-        internal MethodInvokerAspectExpression(IAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentsWeavingSettings, IAspectDefinition previousAspectDefinition) {
+        internal MethodInvokerAspectExpression(IAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentsWeavingSettings, IAspectDefinition topAspectInScopeDefinition) {
             this.aspectDefinition = aspectDefinition;
-            this.previousAspectDefinition = previousAspectDefinition;
+            this.topAspectInScopeDefinition = topAspectInScopeDefinition;
             this.argumentsWeavingSettings = argumentsWeavingSettings;
         }
 
         public IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
-            var previousAspectArgsType = previousAspectDefinition.ToAspectArgumentImpl();
+            var topAspectInScopeArgType = topAspectInScopeDefinition.ToAspectArgumentImpl();
 
-            return new MethodInvokerAspectWeaver(previousAspectArgsType, aspectDefinition, aspectWeavingSettings, argumentsWeavingSettings);
+            return new MethodInvokerAspectWeaver(topAspectInScopeArgType, aspectDefinition, aspectWeavingSettings, argumentsWeavingSettings);
         }
     }
 }

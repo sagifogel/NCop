@@ -8,12 +8,12 @@ namespace NCop.Aspects.Weaving
 {
     internal class NestedFunctionAspectArgsMappingWeaver : AbstractAspectArgsMappingWeaver
     {
-        private readonly Type previousAspectArgType = null;
-        private LocalBuilder previousAspectArgsLocalBuilder = null;
+        private readonly Type topAspectInScopeArgType = null;
+        private LocalBuilder topAspectInScopeArgsLocalBuilder = null;
 
-        internal NestedFunctionAspectArgsMappingWeaver(Type previousAspectArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsSettings argumentsSettings)
+        internal NestedFunctionAspectArgsMappingWeaver(Type topAspectInScopeArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsSettings argumentsSettings)
             : base(aspectWeavingSettings, argumentsSettings) {
-            this.previousAspectArgType = previousAspectArgType;
+            this.topAspectInScopeArgType = topAspectInScopeArgType;
         }
 
         protected override void WeaveAspectArg(ILGenerator ilGenerator) {
@@ -21,13 +21,13 @@ namespace NCop.Aspects.Weaving
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
-            previousAspectArgsLocalBuilder = localBuilderRepository.Get(previousAspectArgType);
+            topAspectInScopeArgsLocalBuilder = localBuilderRepository.Get(topAspectInScopeArgType);
             
             return base.Weave(ilGenerator);
         }
 
         private void WeaveLoadPreviousAspectLocal(ILGenerator ilGenerator) {
-            ilGenerator.EmitLoadLocal(previousAspectArgsLocalBuilder);
+            ilGenerator.EmitLoadLocal(topAspectInScopeArgsLocalBuilder);
         }
     }
 }

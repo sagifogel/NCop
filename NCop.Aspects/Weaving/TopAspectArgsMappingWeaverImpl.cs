@@ -3,9 +3,9 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class FunctionAspectArgsMappingWeaver : AbstractAspectArgsMappingWeaver
+    internal class TopAspectArgsMappingWeaverImpl : AbstractAspectArgsMappingWeaver
     {
-        internal FunctionAspectArgsMappingWeaver(IAspectWeavingSettings aspectWeavingSettings, IArgumentsSettings argumentsSettings)
+        internal TopAspectArgsMappingWeaverImpl(IAspectWeavingSettings aspectWeavingSettings, IArgumentsSettings argumentsSettings)
             : base(aspectWeavingSettings, argumentsSettings) {
         }
 

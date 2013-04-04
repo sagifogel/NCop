@@ -12,18 +12,18 @@ namespace NCop.Aspects.Weaving
     {
         private readonly IArgumentsWeaver argumentsWeaver = null;
 
-        internal NestedMethodInterceptionAspectWeaver(Type previousAspectArgType, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal NestedMethodInterceptionAspectWeaver(Type topAspectInScopeArgType, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             var argumentWeavingSettings = aspectDefinition.ToArgumentsWeavingSettings();
 
             argumentWeavingSettings.BindingsDependency = weavedType;
-            argumentsWeaver = new NestedMethodIntercpetionArgumentsWeaver(previousAspectArgType, aspectWeavingSettings, argumentWeavingSettings);
+            argumentsWeaver = new NestedMethodIntercpetionArgumentsWeaver(topAspectInScopeArgType, aspectWeavingSettings, argumentWeavingSettings);
 
             if (argumentsWeavingSetings.IsFunction) {
-                methodScopeWeavers.Add(new NestedFunctionAspectArgsMappingWeaver(previousAspectArgType, aspectWeavingSettings, argumentsWeavingSetings));
+                methodScopeWeavers.Add(new NestedFunctionAspectArgsMappingWeaver(topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSetings));
             }
             else {
-                methodScopeWeavers.Add(new NestedActionAspectArgsMappingWeaver(previousAspectArgType, aspectWeavingSettings, argumentsWeavingSetings));
+                methodScopeWeavers.Add(new NestedActionAspectArgsMappingWeaver(topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSetings));
             }
 
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);

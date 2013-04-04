@@ -58,7 +58,7 @@ namespace NCop.Aspects.Tests
 
             CollectionAssert.AreEqual(list, joinPoints);
             CollectionAssert.DoesNotContain(list, AspectJoinPoints.OnException);
-            Assert.AreEqual(result, joinPoints.ToString());
+            Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
         [TestMethod]
@@ -69,7 +69,7 @@ namespace NCop.Aspects.Tests
             var result = instance.InterceptionAspect(list);
 
             CollectionAssert.AreEqual(list, joinPoints);
-            Assert.AreEqual(result, joinPoints.ToString());
+            Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
         [TestMethod]
@@ -77,10 +77,10 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith1ArgumentComposite>();
             var list = new List<AspectJoinPoints>();
             var joinPoints = new MultipleInterceptionAspectOrderedJoinPoints();
-            var result  = instance.MultipleInterceptionAspects(list);
+            var result = instance.MultipleInterceptionAspects(list);
 
             CollectionAssert.AreEqual(list, joinPoints);
-            Assert.AreEqual(result, joinPoints.ToString());
+            Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
         [TestMethod]
@@ -92,7 +92,7 @@ namespace NCop.Aspects.Tests
 
             CollectionAssert.AreEqual(list, joinPoints);
             CollectionAssert.DoesNotContain(list, AspectJoinPoints.OnException);
-            Assert.AreEqual(result, joinPoints.ToString());
+            Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
         [TestMethod]
@@ -103,7 +103,7 @@ namespace NCop.Aspects.Tests
             var result = instance.AllAspectsStartingWithInterception(list);
 
             CollectionAssert.AreEqual(list, joinPoints);
-            Assert.AreEqual(result, joinPoints.ToString());
+            Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
         [TestMethod]
@@ -115,9 +115,9 @@ namespace NCop.Aspects.Tests
 
             CollectionAssert.AreEqual(list, joinPoints);
             CollectionAssert.DoesNotContain(list, AspectJoinPoints.OnException);
-            Assert.AreEqual(result, joinPoints.ToString());
+            Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
-        
+
         [TestMethod]
         public void FunctionWith1Argument_AnnotatedWithAlternateAspectsStartingWithInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
             var instance = container.Resolve<IFunctionWith1ArgumentComposite>();
@@ -126,7 +126,7 @@ namespace NCop.Aspects.Tests
             var result = instance.AlternatelAspectsStartingWithInterception(list);
 
             CollectionAssert.AreEqual(list, joinPoints);
-            Assert.AreEqual(result, joinPoints.ToString());
+            Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
         [TestMethod]
@@ -138,7 +138,7 @@ namespace NCop.Aspects.Tests
 
             CollectionAssert.AreEqual(list, joinPoints);
             CollectionAssert.DoesNotContain(list, AspectJoinPoints.OnException);
-            Assert.AreEqual(result, joinPoints.ToString());
+            Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
         [TestMethod]

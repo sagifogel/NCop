@@ -9,21 +9,21 @@ namespace NCop.Aspects.Weaving
 {
     internal class MethodInvokerAspectWeaver : AbstractBranchedMethodScopeWeaver, IAspectWeaver
     {
-        private readonly Type previousAspectArgsType = null;
+        private readonly Type topAspectInScopeArgType = null;
         private readonly IArgumentsWeaver argumentsWeaver = null;
         private readonly ILocalBuilderRepository localBuilderRepository = null;
         private readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
         private readonly ICanEmitLocalBuilderByRefArgumentsWeaver byRefArgumentStoreWeaver = null;
 
-        internal MethodInvokerAspectWeaver(Type previousAspectArgsType, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
+        internal MethodInvokerAspectWeaver(Type topAspectInScopeArgType, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {
             var methodInfoImpl = aspectWeavingSettings.WeavingSettings.MethodInfoImpl;
 
-            this.previousAspectArgsType = previousAspectArgsType;
+            this.topAspectInScopeArgType = topAspectInScopeArgType;
             this.argumentsWeavingSettings = argumentsWeavingSettings;
             localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
-            byRefArgumentStoreWeaver = new MethodInvokerByRefArgumentsWeaver(previousAspectArgsType, methodInfoImpl, localBuilderRepository);
-            argumentsWeaver = new MethodInvokerArgumentsWeaver(previousAspectArgsType, aspectWeavingSettings, argumentsWeavingSettings, byRefArgumentStoreWeaver);
+            byRefArgumentStoreWeaver = new MethodInvokerByRefArgumentsWeaver(topAspectInScopeArgType, methodInfoImpl, localBuilderRepository);
+            argumentsWeaver = new MethodInvokerArgumentsWeaver(topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSettings, byRefArgumentStoreWeaver);
         }
 
         protected override ILGenerator WeaveAction(ILGenerator ilGenerator) {
@@ -36,8 +36,8 @@ namespace NCop.Aspects.Weaving
         }
 
         protected override ILGenerator WeaveFunction(ILGenerator ilGenerator) {
-            var setReturnValueWeaver = new SetReturnValueWeaver(previousAspectArgsType);
-            var argsImplLocalBuilder = localBuilderRepository.Get(previousAspectArgsType);
+            var setReturnValueWeaver = new SetReturnValueWeaver(topAspectInScopeArgType);
+            var argsImplLocalBuilder = localBuilderRepository.Get(topAspectInScopeArgType);
 
             byRefArgumentStoreWeaver.StoreArgsIfNeeded(ilGenerator);
             ilGenerator.EmitLoadLocal(argsImplLocalBuilder);

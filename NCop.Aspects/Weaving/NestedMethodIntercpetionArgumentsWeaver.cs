@@ -8,19 +8,19 @@ namespace NCop.Aspects.Weaving
 {
     internal class NestedMethodIntercpetionArgumentsWeaver : AbstractArgumentsWeaver
     {
-        private readonly Type previousAspectArgType = null;
+        private readonly Type topAspectInScopeArgType = null;
 
-        internal NestedMethodIntercpetionArgumentsWeaver(Type previousAspectArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings)
+        internal NestedMethodIntercpetionArgumentsWeaver(Type topAspectInScopeArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings)
             : base(argumentWeavingSettings, aspectWeavingSettings) {
-            this.previousAspectArgType = previousAspectArgType;
+            this.topAspectInScopeArgType = topAspectInScopeArgType;
         }
 
         public override void Weave(ILGenerator ilGenerator) {
             FieldBuilder contractFieldBuilder = null;
             var declaredLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
             var ctorInterceptionArgs = ArgumentType.GetConstructors()[0];
-            var argsLocalBuilder = LocalBuilderRepository.Get(previousAspectArgType);
-            var methodPropoertyInfo = previousAspectArgType.GetProperty("Method");
+            var argsLocalBuilder = LocalBuilderRepository.Get(topAspectInScopeArgType);
+            var methodPropoertyInfo = topAspectInScopeArgType.GetProperty("Method");
             
             LocalBuilderRepository.Add(declaredLocalBuilder);
             contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
@@ -31,7 +31,7 @@ namespace NCop.Aspects.Weaving
             ilGenerator.Emit(OpCodes.Ldsfld, BindingsDependency);
 
             Parameters.ForEach(1, (parameter, i) => {
-                var property = previousAspectArgType.GetProperty("Arg{0}".Fmt(i));
+                var property = topAspectInScopeArgType.GetProperty("Arg{0}".Fmt(i));
 
                 ilGenerator.EmitLoadLocal(argsLocalBuilder);
                 ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());

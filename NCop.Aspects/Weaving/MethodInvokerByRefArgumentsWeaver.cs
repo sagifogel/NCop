@@ -10,12 +10,12 @@ namespace NCop.Aspects.Weaving
     internal class MethodInvokerByRefArgumentsWeaver : AbstractByRefArgumentsStoreWeaver, ICanEmitLocalBuilderByRefArgumentsWeaver 
     {
         private LocalBuilder argsLocalBuilder;
-        private readonly Type previousAspectArgType = null;
+        private readonly Type topAspectInScopeArgType = null;
         protected readonly IDictionary<int, LocalBuilder> byRefParamslocalBuilderMap = null;
 
-        internal MethodInvokerByRefArgumentsWeaver(Type previousAspectArgType, MethodInfo methodInfoImpl, ILocalBuilderRepository localBuilderRepository)
+        internal MethodInvokerByRefArgumentsWeaver(Type topAspectInScopeArgType, MethodInfo methodInfoImpl, ILocalBuilderRepository localBuilderRepository)
             : base(methodInfoImpl, localBuilderRepository) {
-            this.previousAspectArgType = previousAspectArgType;
+            this.topAspectInScopeArgType = topAspectInScopeArgType;
             byRefParamslocalBuilderMap = new Dictionary<int, LocalBuilder>();
         }
 
@@ -24,13 +24,13 @@ namespace NCop.Aspects.Weaving
         }
 
         public override void StoreArgsIfNeeded(ILGenerator ilGenerator) {
-            argsLocalBuilder = localBuilderRepository.Get(previousAspectArgType);
+            argsLocalBuilder = localBuilderRepository.Get(topAspectInScopeArgType);
 
             parameters.ForEach(param => {
                 LocalBuilder localBuilder;
                 int argPosition = param.Position + 1;
                 Type parameterElementType = param.ParameterType.GetElementType();
-                var property = previousAspectArgType.GetProperty("Arg{0}".Fmt(argPosition));
+                var property = topAspectInScopeArgType.GetProperty("Arg{0}".Fmt(argPosition));
 
                 if (!byRefParamslocalBuilderMap.TryGetValue(argPosition, out localBuilder)) {
                     localBuilder = ilGenerator.DeclareLocal(parameterElementType);
@@ -47,7 +47,7 @@ namespace NCop.Aspects.Weaving
             byRefParamslocalBuilderMap.ForEach(keyValue => {
                 var argPosition = keyValue.Key;
                 var localBuilder = keyValue.Value;
-                var property = previousAspectArgType.GetProperty("Arg{0}".Fmt(argPosition));
+                var property = topAspectInScopeArgType.GetProperty("Arg{0}".Fmt(argPosition));
 
                 ilGenerator.EmitLoadLocal(argsLocalBuilder);
                 ilGenerator.EmitLoadLocal(localBuilder);
