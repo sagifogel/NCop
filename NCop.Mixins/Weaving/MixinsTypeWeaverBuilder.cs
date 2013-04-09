@@ -9,7 +9,7 @@ using System.Text;
 
 namespace NCop.Mixins.Weaving
 {
-    public class MixinsTypeWeaverBuilder : ITypeWeaverBuilder
+    public class MixinsTypeWeaverBuilder : ITypeWeaverBuilder, IMixinMapBag, IMethodWeaverBag
     {
         private readonly Type _type = null;
         private readonly List<MixinMap> _mixinsMap = null;
@@ -20,15 +20,15 @@ namespace NCop.Mixins.Weaving
             _mixinsMap = new List<MixinMap>();
             _methodWeavers = new List<IMethodWeaver>();
         }
-
-        public void AddMixinTypeMap(MixinMap mixinMap) {
-            _mixinsMap.Add(mixinMap);
-        }
-
-        public void AddMethodWeaver(IMethodWeaver methodWeaver) {
-            _methodWeavers.Add(methodWeaver);
-        }
         
+        public void Add(MixinMap item) {
+            _mixinsMap.Add(item);
+        }
+
+        public void Add(IMethodWeaver item) {
+            _methodWeavers.Add(item);
+        }
+
         public ITypeWeaver Build() {
             return new MixinsWeaverStrategy(_type, new MixinsMap(_mixinsMap), _methodWeavers);
         }

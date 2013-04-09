@@ -194,7 +194,6 @@
     <Compile Include="Weaving\FirstMethodInterceptionAspectStartegy.cs" />
     <Compile Include="Weaving\FirstOnMethodBoundryAspectStrategy.cs" />
     <Compile Include="Weaving\Responsibility\AspectPipelineMethodWeaver.cs" />
-    <Compile Include="Weaving\AspectTypeWeaverBuilderVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Exceptions\DuplicateAspectException.tt">

@@ -70,7 +70,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="IBag`1.cs" />
     <Compile Include="IRuntimeSettings.cs" />
+    <Compile Include="Runtime\IgnoredAssemblies.cs" />
     <Compile Include="Visitors\IEnumerableProjectionTypeVisitor.cs" />
     <Compile Include="Visitors\IProjectionTypeVisitor.cs" />
     <Compile Include="Collection.cs" />
@@ -95,13 +97,13 @@
     <Compile Include="Tuples.cs" />
     <Compile Include="Visitors\ITypeVisitor.cs" />
     <Compile Include="Weaving\AbstractMethodWeaver.cs" />
-    <Compile Include="Weaving\AbstractTypeWeaverBuilderVisitor.cs" />
+    <Compile Include="Weaving\IBuilder`1.cs" />
+    <Compile Include="Weaving\IMethodWeaverBag.cs" />
     <Compile Include="Weaving\MethodEndWeaver.cs" />
     <Compile Include="Weaving\IMethodEndWeaver.cs" />
     <Compile Include="Weaving\IFieldWeaver.cs" />
     <Compile Include="Weaving\InstanceFieldWeaver.cs" />
     <Compile Include="Weaving\ITypeDefinition.cs" />
-    <Compile Include="Weaving\ITypeWeaverBuilderProvider.cs" />
     <Compile Include="Weaving\MethodDecoratorScopeWeaver.cs" />
     <Compile Include="Weaving\MethodDecoratorWeaver.cs" />
     <Compile Include="Weaving\MixinTypeDefinition.cs" />

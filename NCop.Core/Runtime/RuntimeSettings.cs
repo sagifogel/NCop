@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Linq;
 using CSharpBinder = Microsoft.CSharp.RuntimeBinder;
 using NCop.Core.Extensions;
+using NCop.Core.Runtime;
 
 namespace NCop.Core
 {
@@ -11,20 +12,6 @@ namespace NCop.Core
     {
         protected IEnumerable<Assembly> ProtectedAssemblies = null;
         protected Lazy<IEnumerable<Assembly>> LazyAssemblies = null;
-
-        static RuntimeSettings() {
-            var objectPublicKeyToken = typeof(object).GetAssemblyPublicKeyToken();
-            var binderPublicKeyToken = typeof(CSharpBinder.Binder).GetAssemblyPublicKeyToken();
-
-            IgnoredAssemblies = AppDomain.CurrentDomain
-                                         .GetAssemblies()
-                                         .Where(assembly => {
-                                             return assembly.IsNCopAssembly() ||
-                                                    assembly.HasSamePublicKeyToken(objectPublicKeyToken) ||
-                                                    assembly.HasSamePublicKeyToken(binderPublicKeyToken);
-                                         })
-                                         .ToSet();
-        }
 
         public RuntimeSettings(IEnumerable<Assembly> assemblies = null) {
             ProtectedAssemblies = assemblies;
@@ -41,10 +28,8 @@ namespace NCop.Core
             get {
                 return AppDomain.CurrentDomain
                                 .GetAssemblies()
-                                .Where(assembly => !IgnoredAssemblies.Contains(assembly));
+                                .Where(assembly => !IgnoredAssemblies.Instance.Contains(assembly));
             }
         }
-
-        public static ISet<Assembly> IgnoredAssemblies { get; private set; }
     }
 }

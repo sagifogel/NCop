@@ -18,9 +18,9 @@ namespace NCop.Composite.Framework
             });
 
             var weavers = composites.Select(composite => {
-                var provider = new CompositeTypeWeaverBuilderProvider(composite);
+                var builder = new CompositeTypeWeaverBuilder(composite);
 
-                return provider.Builder.Build();
+                return builder.Build();
             });
 
             foreach (var weaver in weavers) {
