@@ -3,5 +3,4 @@ obj
 *.suo
 *.user
 TestResults
-*.Samples
 *Resharper*
