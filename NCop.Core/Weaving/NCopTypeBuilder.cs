@@ -10,14 +10,14 @@ namespace NCop.Core.Weaving
 {
 	public static class NCopTypeBuilder
 	{
-		public static TypeBuilder DefineType(Type interfaceType, TypeAttributes attr, Type[] interfaces, string name = null) {
-			name = name ?? string.Format("{0}.Proxies.{1}", NCopAssemblyBuilder.AssemblyName, interfaceType.FullName);
+		public static TypeBuilder DefineType(this Type interfaceType, TypeAttributes attr, IEnumerable<Type> interfaces, string name = null) {
+			name = name ?? string.Format("{0}.{1}", NCopAssemblyBuilder.AssemblyName, interfaceType.Name);
 
-			return NCopModuleBuilder.Instance.DefineType(name, attr, null, interfaces);
+			return NCopModuleBuilder.Instance.DefineType(name, attr, null, interfaces.ToArray());
 		}
 
 		public static FieldBuilder DefineField(this TypeBuilder typeBuilder, Type fieldType, FieldAttributes fieldAttributes, string name = null) {
-			name = name ?? string.Format("{0}.Proxies.{1}", NCopAssemblyBuilder.AssemblyName, fieldType.FullName);
+			name = name ?? string.Format("{0}.{1}", NCopAssemblyBuilder.AssemblyName, fieldType.Name);
 
 			return typeBuilder.DefineField(name, fieldType, fieldAttributes);
 		}

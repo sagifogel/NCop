@@ -51,7 +51,6 @@ namespace NCop.Core
             return target;
         }
 
-
 #endif
 
     }

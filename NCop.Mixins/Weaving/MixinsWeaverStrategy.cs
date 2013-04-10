@@ -23,7 +23,7 @@ namespace NCop.Mixins.Weaving
         }
 
         public void Weave() {
-            var mixinsTypeDefinitionWeaver = new MixinsTypeDefinitionWeaver(_mixinsMap);
+            var mixinsTypeDefinitionWeaver = new MixinsTypeDefinitionWeaver(_mixinsType, _mixinsMap);
             var typeDefinition = mixinsTypeDefinitionWeaver.Weave();
 
             _methodWeavers.ForEach(methodWeaver => {

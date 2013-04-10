@@ -19,7 +19,7 @@ namespace NCop.Composite.Weaving
 
         public CompositeTypeWeaverBuilder(Type type) {
             var mixinsMap = new MixinsMap(type);
-            var typeDefinitionWeaver = new MixinsTypeDefinitionWeaver(mixinsMap);
+            var typeDefinitionWeaver = new MixinsTypeDefinitionWeaver(type, mixinsMap);
             var typeDefinition = typeDefinitionWeaver.Weave();
             var aspectMap = new AspectsMap(type);
             

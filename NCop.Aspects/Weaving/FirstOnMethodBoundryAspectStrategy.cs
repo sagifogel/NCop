@@ -12,27 +12,32 @@ namespace NCop.Aspects.Weaving
         }
 
         public override IMethodEndWeaver MethodEndWeaver {
-            get { throw new NotImplementedException(); }
+            get {
+                return null;
+            }
         }
 
         public override IMethodScopeWeaver MethodScopeWeaver {
-            get { throw new NotImplementedException(); }
+            get {
+                return null;
+            }
         }
 
         public override IMethodSignatureWeaver MethodDefintionWeaver {
-            get { throw new NotImplementedException(); }
+            get {
+                return null;
+            }
         }
 
         public override MethodBuilder DefineMethod() {
-            throw new NotImplementedException();
+            return null;
         }
 
         public override void WeaveEndMethod(ILGenerator ilGenerator) {
-            throw new NotImplementedException();
         }
 
         public override ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition) {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

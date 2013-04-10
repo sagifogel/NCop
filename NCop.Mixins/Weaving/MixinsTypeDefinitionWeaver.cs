@@ -11,15 +11,20 @@ namespace NCop.Mixins.Weaving
 {
 	public class MixinsTypeDefinitionWeaver : ITypeDefinitionWeaver
 	{
+        private readonly Type _contract = null;
         private readonly IMixinsMap _mixinsMap = null;
 
-        public MixinsTypeDefinitionWeaver(IMixinsMap mixinMap) {
-			_mixinsMap = mixinMap;
+        public MixinsTypeDefinitionWeaver(Type contract, IMixinsMap mixinMap) {
+            _contract = contract;
+            _mixinsMap = mixinMap;
 		}
 
 		public Type Type { get; private set; }
 
         public ITypeDefinition Weave() {
+           var interfaces = _mixinsMap.Select(mixin => mixin.Contract);
+            var typeBuilder = _contract.DefineType(_contract.Attributes, interfaces);
+
             return null;
 		}
 	}
