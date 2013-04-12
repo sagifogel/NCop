@@ -4,36 +4,33 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading;
 
-namespace NCop.Core.Weaving.Proxies
+namespace NCop.Core.Weaving
 {
     internal sealed class NCopAssemblyBuilder
     {
-        private static readonly string _assemblyName = null;
+        private static readonly string _assemblyName = "NCop.Artifacts";
         private static readonly Lazy<AssemblyBuilder> _assemblyBuilder = null;
 
         private NCopAssemblyBuilder() { }
 
         static NCopAssemblyBuilder() {
-            _assemblyName = string.Format("{0}.Proxies", Path.GetFileNameWithoutExtension(typeof(NCopAssemblyBuilder).Namespace));
-            _assemblyBuilder = new Lazy<AssemblyBuilder>(CreateAssemblyBuilder);
+            _assemblyBuilder = new Lazy<AssemblyBuilder>(() => {
+                return AppDomain.CurrentDomain.DefineDynamicAssembly(
+                    new AssemblyName(_assemblyName),
+                    AssemblyBuilderAccess.Run);
+            });
         }
 
         internal static string AssemblyName {
-            get { 
-                return _assemblyName; 
+            get {
+                return _assemblyName;
             }
         }
 
         internal static AssemblyBuilder Instance {
-            get { 
-                return _assemblyBuilder.Value; 
+            get {
+                return _assemblyBuilder.Value;
             }
-        }
-
-        private static AssemblyBuilder CreateAssemblyBuilder() {
-            var name = new AssemblyName(_assemblyName);
-
-            return AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.Run);
         }
     }
 }

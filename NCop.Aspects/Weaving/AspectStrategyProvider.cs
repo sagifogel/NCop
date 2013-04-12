@@ -45,14 +45,14 @@ namespace NCop.Aspects.Weaving
             }
         }
 
-        public MethodBuilder DefineMethod() {
-            return _methodWeaver.DefineMethod();
-        }
-
         public void WeaveEndMethod(ILGenerator ilGenerator) {
             _methodWeaver.WeaveEndMethod(ilGenerator);
         }
 
+        public MethodBuilder DefineMethod(ITypeDefinition typeDefinition) {
+            return _methodWeaver.DefineMethod(typeDefinition);
+        }
+        
         public ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition) {
             return _methodWeaver.WeaveMethodScope(ilGenerator, typeDefinition);
         }

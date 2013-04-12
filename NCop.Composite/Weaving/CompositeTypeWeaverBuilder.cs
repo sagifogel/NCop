@@ -19,11 +19,10 @@ namespace NCop.Composite.Weaving
 
         public CompositeTypeWeaverBuilder(Type type) {
             var mixinsMap = new MixinsMap(type);
-            var typeDefinitionWeaver = new MixinsTypeDefinitionWeaver(type, mixinsMap);
-            var typeDefinition = typeDefinitionWeaver.Weave();
             var aspectMap = new AspectsMap(type);
-            
-            _builder = new MixinsTypeWeaverBuilder(type);
+            var factory = new MixinsTypeDefinitionWeaver(type, mixinsMap);
+
+            _builder = new MixinsTypeWeaverBuilder(type, factory);
 
             mixinsMap.ForEach(map => {
                 _builder.Add(map);
@@ -33,9 +32,9 @@ namespace NCop.Composite.Weaving
                      .ForEach(aspect => {
                          aspect.GetMethods()
                                .ForEach(methodInfo => {
-                                   var methodBuilder = new MethodWeaverBuilder(methodInfo, aspect, typeDefinition);
+                                   var methodBuilder = new MethodWeaverBuilder(methodInfo, aspect, factory);
                                    
-                                   _builder.Add(methodBuilder.Build());
+                                   _builder.Add(methodBuilder);
                                });
                      });
         }

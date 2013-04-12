@@ -29,13 +29,13 @@ namespace NCop.Aspects.Weaving
             }
         }
 
-        public override MethodBuilder DefineMethod() {
-            return null;
-        }
-
         public override void WeaveEndMethod(ILGenerator ilGenerator) {
         }
 
+        public override MethodBuilder DefineMethod(ITypeDefinition typeDefinition) {
+            return null;
+        }
+        
         public override ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition) {
             return null;
         }

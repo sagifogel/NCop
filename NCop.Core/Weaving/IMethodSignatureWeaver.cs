@@ -9,6 +9,6 @@ namespace NCop.Core.Weaving
 {
     public interface IMethodSignatureWeaver : IWeaver
     {
-        MethodBuilder Weave(MethodInfo methodInfo);
+        MethodBuilder Weave(MethodInfo methodInfo, ITypeDefinition typeDefinition);
     }
 }

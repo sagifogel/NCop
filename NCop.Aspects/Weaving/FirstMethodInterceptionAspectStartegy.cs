@@ -10,9 +10,13 @@ namespace NCop.Aspects.Weaving
         public FirstMethodInterceptionAspectStartegy(IAspectDefinitionCollection aspectsDefinition)
             : base(aspectsDefinition) {
         }
-
+        
         public override IMethodEndWeaver MethodEndWeaver {
             get { throw new NotImplementedException(); }
+        }
+
+        public override void WeaveEndMethod(ILGenerator ilGenerator) {
+            throw new NotImplementedException();
         }
 
         public override IMethodScopeWeaver MethodScopeWeaver {
@@ -23,14 +27,10 @@ namespace NCop.Aspects.Weaving
             get { throw new NotImplementedException(); }
         }
 
-        public override MethodBuilder DefineMethod() {
+        public override MethodBuilder DefineMethod(ITypeDefinition typeDefinition) {
             throw new NotImplementedException();
         }
-
-        public override void WeaveEndMethod(ILGenerator ilGenerator) {
-            throw new NotImplementedException();
-        }
-
+        
         public override ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition) {
             throw new NotImplementedException();
         }

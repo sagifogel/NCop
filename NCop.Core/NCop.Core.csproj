@@ -70,6 +70,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="IBag`1.cs" />
     <Compile Include="IRuntimeSettings.cs" />
     <Compile Include="Runtime\IgnoredAssemblies.cs" />
@@ -99,6 +100,8 @@
     <Compile Include="Weaving\AbstractMethodWeaver.cs" />
     <Compile Include="Weaving\IBuilder`1.cs" />
     <Compile Include="Weaving\IMethodWeaverBag.cs" />
+    <Compile Include="Weaving\IMethodWeaverBuilderBag.cs" />
+    <Compile Include="Weaving\ITypeDefinitionFactory.cs" />
     <Compile Include="Weaving\MethodEndWeaver.cs" />
     <Compile Include="Weaving\IMethodEndWeaver.cs" />
     <Compile Include="Weaving\IFieldWeaver.cs" />
@@ -125,7 +128,6 @@
     <Compile Include="Weaving\ISetPropertyWeaver.cs" />
     <Compile Include="Weaving\ITypeWeaver.cs" />
     <Compile Include="Weaving\IWeaver.cs" />
-    <Compile Include="Weaving\NCopTypeBuilder.cs" />
     <Compile Include="Weaving\MixinWeaverStrategy.cs" />
     <Compile Include="Weaving\MixinTypeWeaverBuilder.cs" />
   </ItemGroup>

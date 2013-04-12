@@ -11,9 +11,9 @@ namespace NCop.Core.Weaving
     {
         IMethodEndWeaver MethodEndWeaver { get; }
         IMethodScopeWeaver MethodScopeWeaver { get; }
-        IMethodSignatureWeaver MethodDefintionWeaver { get; }
-        MethodBuilder DefineMethod();
         void WeaveEndMethod(ILGenerator ilGenerator);
+        IMethodSignatureWeaver MethodDefintionWeaver { get; }
+        MethodBuilder DefineMethod(ITypeDefinition typeDefinition);
         ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition);
     }
 }

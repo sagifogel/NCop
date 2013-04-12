@@ -18,7 +18,7 @@ namespace NCop.Core.Weaving
         }
 
         public ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition) {
-            throw new NotImplementedException();
+            return iLGenerator;
         }
     }
 }

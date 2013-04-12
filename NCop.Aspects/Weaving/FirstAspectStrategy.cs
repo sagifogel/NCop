@@ -16,14 +16,14 @@ namespace NCop.Aspects.Weaving
 
         public abstract IMethodEndWeaver MethodEndWeaver { get; }
 
+        public abstract void WeaveEndMethod(ILGenerator ilGenerator);
+
         public abstract IMethodScopeWeaver MethodScopeWeaver { get; }
 
         public abstract IMethodSignatureWeaver MethodDefintionWeaver { get; }
 
-        public abstract MethodBuilder DefineMethod();
-
-        public abstract void WeaveEndMethod(ILGenerator ilGenerator);
-
+        public abstract MethodBuilder DefineMethod(ITypeDefinition typeDefinition); 
+        
         protected IAspectDefinitionCollection AspectsDefinition { get; private set; }
 
         public abstract ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition);

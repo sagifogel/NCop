@@ -5,7 +5,8 @@ using System.Text;
 
 namespace NCop.Core.Weaving
 {
-    public interface IMethodWeaverBuilderBag : IBag<IMethodWeaverBuilder>
+    public interface ITypeDefinitionFactory
     {
+        ITypeDefinition Resolve();
     }
 }

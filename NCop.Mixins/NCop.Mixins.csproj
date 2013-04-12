@@ -61,7 +61,6 @@
     </Compile>
     <Compile Include="Framework\MixinsAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Weaving\methodWeavers.cs" />
     <Compile Include="Weaving\MixinsTypeDefinition.cs" />
     <Compile Include="Weaving\MixinsTypeDefinitionWeaver.cs" />
     <Compile Include="Weaving\MixinsTypeWeaverBuilder.cs" />

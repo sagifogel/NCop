@@ -10,17 +10,15 @@ namespace NCop.Core
 {
     public class RuntimeSettings : IRuntimeSettings
     {
-        protected IEnumerable<Assembly> ProtectedAssemblies = null;
         protected Lazy<IEnumerable<Assembly>> LazyAssemblies = null;
 
         public RuntimeSettings(IEnumerable<Assembly> assemblies = null) {
-            ProtectedAssemblies = assemblies;
-            LazyAssemblies = new Lazy<IEnumerable<Assembly>>(() => AssembliesInternal);
+            LazyAssemblies = new Lazy<IEnumerable<Assembly>>(() => assemblies ?? AssembliesInternal);
         }
 
         public IEnumerable<Assembly> Assemblies {
             get {
-                return ProtectedAssemblies ?? LazyAssemblies.Value;
+                return LazyAssemblies.Value;
             }
         }
 

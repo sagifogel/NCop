@@ -9,28 +9,31 @@ using System.Text;
 
 namespace NCop.Mixins.Weaving
 {
-    public class MixinsTypeWeaverBuilder : ITypeWeaverBuilder, IMixinMapBag, IMethodWeaverBag
+    public class MixinsTypeWeaverBuilder : ITypeWeaverBuilder, IMixinMapBag, IMethodWeaverBuilderBag
     {
         private readonly Type _type = null;
         private readonly List<MixinMap> _mixinsMap = null;
-        private readonly List<IMethodWeaver> _methodWeavers = null;
+        private readonly ITypeDefinitionFactory _typeDefinitionFactory = null;
+        private readonly List<IMethodWeaverBuilder> _methodWeaversBuilders = null;
 
-        public MixinsTypeWeaverBuilder(Type type) {
+        public MixinsTypeWeaverBuilder(Type type, ITypeDefinitionFactory typeDefinitionFactory) {
             _type = type;
             _mixinsMap = new List<MixinMap>();
-            _methodWeavers = new List<IMethodWeaver>();
+            _methodWeaversBuilders = new List<IMethodWeaverBuilder>();
+            _typeDefinitionFactory = typeDefinitionFactory;
         }
-        
+
         public void Add(MixinMap item) {
             _mixinsMap.Add(item);
         }
 
-        public void Add(IMethodWeaver item) {
-            _methodWeavers.Add(item);
+        public void Add(IMethodWeaverBuilder item) {
+            _methodWeaversBuilders.Add(item);
         }
 
         public ITypeWeaver Build() {
-            return new MixinsWeaverStrategy(_type, new MixinsMap(_mixinsMap), _methodWeavers);
+            var methodWeavers = _methodWeaversBuilders.Select(methodBuilder => methodBuilder.Build());
+            return new MixinsWeaverStrategy(_typeDefinitionFactory, methodWeavers);
         }
     }
 }

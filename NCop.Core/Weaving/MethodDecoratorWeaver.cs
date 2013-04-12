@@ -16,8 +16,8 @@ namespace NCop.Core.Weaving
             MethodScopeWeaver = new MethodDecoratorScopeWeaver(methodInfo, decoratedType);
         }
 
-        public override MethodBuilder DefineMethod() {
-            return MethodDefintionWeaver.Weave(MethodInfo);
+        public override MethodBuilder DefineMethod(ITypeDefinition typeDefinition) {
+            return MethodDefintionWeaver.Weave(MethodInfo, typeDefinition);
         }
 
         public override ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition) {

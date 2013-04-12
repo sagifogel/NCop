@@ -4,6 +4,7 @@ using NCop.Mixins.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,14 +12,16 @@ namespace NCop.Samples
 {
     class Program
     {
+        private IDrummer _drummer;
+
         static void Main(string[] args) {
+            var type = typeof(DrummerMixin).GetMethod("Play");
             new CompositeRuntime().Run();
         }
     }
 
     public interface IDrummer
     {
-        int MyProperty { get; }
         void Play();
     }
 
@@ -30,12 +33,6 @@ namespace NCop.Samples
 
     public class DrummerMixin : IDrummer
     {
-        public int MyProperty {
-            get {
-                return 0;
-            }
-        }
-
         public void Play() {
         }
     }
@@ -75,12 +72,6 @@ namespace NCop.Samples
     {
         private IEngineer IEngineer;
         private IDrummer IDrummer;
-
-        public int MyProperty {
-            get {
-                throw new NotImplementedException();
-            }
-        }
 
         public PersonComposite() {
             this.IEngineer = (IEngineer)null;

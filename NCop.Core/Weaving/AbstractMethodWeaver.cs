@@ -18,16 +18,16 @@ namespace NCop.Core.Weaving
 
         protected MethodInfo MethodInfo { get; set; }
 
+        public abstract void WeaveEndMethod(ILGenerator ilGenerator);
+
         public IMethodEndWeaver MethodEndWeaver { get; protected set; }
 
         public IMethodScopeWeaver MethodScopeWeaver { get; protected set; }
 
+        public abstract MethodBuilder DefineMethod(ITypeDefinition typeDefinition);
+
         public IMethodSignatureWeaver MethodDefintionWeaver { get; protected set; }
 
-        public abstract MethodBuilder DefineMethod();
-
         public abstract ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition);
-
-        public abstract void WeaveEndMethod(ILGenerator ilGenerator);
     }
 }

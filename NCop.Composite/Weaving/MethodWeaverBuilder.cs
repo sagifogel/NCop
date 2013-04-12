@@ -1,5 +1,6 @@
 ﻿using NCop.Aspects.Weaving.Responsibility;
 using NCop.Core.Weaving;
+using NCop.Core.Weaving.Responsibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,20 +9,22 @@ using System.Text;
 
 namespace NCop.Composite.Weaving
 {
-    public class MethodWeaverBuilder : IBuilder<IMethodWeaver>
+    public class MethodWeaverBuilder : IMethodWeaverBuilder
     {
         private Type _type = null;
         private MethodInfo _methodInfo = null;
-        private ITypeDefinition _typeDefinition = null;
+        private ITypeDefinitionFactory _typeDefinitionFactory = null;
 
-        public MethodWeaverBuilder(MethodInfo methodInfo, Type type, ITypeDefinition typeDefinition) {
+        public MethodWeaverBuilder(MethodInfo methodInfo, Type type, ITypeDefinitionFactory typeDefinitionFactory) {
             _type = type;
             _methodInfo = methodInfo;
-            _typeDefinition = typeDefinition;
+            _typeDefinitionFactory = typeDefinitionFactory;
         }
 
         public IMethodWeaver Build() {
-            var methodWeaver = new AspectPipelineMethodWeaver(_type).Handle(_methodInfo, _typeDefinition);
+            var typeDefinition = _typeDefinitionFactory.Resolve();
+            var methodWeaver = new MethodDecoratorWeaver(_methodInfo, _type);
+            // TODO: change to new AspectPipelineMethodWeaver(_type).Handle(_methodInfo, typeDefinition);
 
             return new CompositeMethodWeaver(_methodInfo, _type, methodWeaver.MethodDefintionWeaver, new[] { methodWeaver });
         }
