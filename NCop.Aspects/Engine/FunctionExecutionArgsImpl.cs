@@ -7,7 +7,7 @@ using System.Text;
 
 namespace NCop.Aspects.Engine
 {
-    public class FunctionExecutionArgsImpl<TInstance, TResult> : FunctionExecutionArgs<TResult>
+    public class FunctionExecutionArgsImpl<TInstance, TResult> : FunctionExecutionArgs<TResult>, IFunctionArgs<TResult>
     {
         public FunctionExecutionArgsImpl(TInstance instance, MethodInfo method) {
             Method = method;

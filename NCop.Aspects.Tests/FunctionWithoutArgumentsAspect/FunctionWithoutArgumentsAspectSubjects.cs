@@ -183,6 +183,7 @@ namespace NCop.Aspects.Tests.FunctionWithoutArgumentAspect.Subjects
 
             if (ex.IsNotNull() && ex.GetType() == typeof(Exception) && ex.Message.Equals("InMethodException")) {
                 JoinPointsContainer.JoinPoints.Add(AspectJoinPoints.OnException);
+                args.AddToReturnValue(AspectJoinPoints.InMethod);
                 args.AddToReturnValue(AspectJoinPoints.OnException);
             }
 
