@@ -29,15 +29,11 @@ namespace NCop.Composite.Weaving
                 _builder.Add(map);
             });
 
-            aspectMap.SelectMany(map => map.AspectTypes)
-                     .ForEach(aspect => {
-                         aspect.GetMethods()
-                               .ForEach(methodInfo => {
-                                   var methodBuilder = new MethodWeaverBuilder(methodInfo, aspect, factory);
-                                   
-                                   _builder.Add(methodBuilder);
-                               });
-                     });
+            metohdJoiner.ForEach(tuple => {
+                var methodBuilder = new MethodWeaverBuilder(tuple.Item1, tuple.Item2, factory);
+
+                _builder.Add(methodBuilder);
+            });
         }
 
         public ITypeWeaver Build() {

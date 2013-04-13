@@ -18,7 +18,7 @@ namespace NCop.Aspects
             _registered = new ConcurrentDictionary<Type, List<Type>>();
             _immediateInterfaces = type.GetImmediateInterfaces().ToSet();
             RegisterTypesRecursively(type);
-            Value = _registered.Select(kv => Tuple.Create(kv.Key, kv.Value.AsEnumerable()));
+            Values = _registered.Select(kv => Tuple.Create(kv.Key, kv.Value.AsEnumerable()));
         }
 
         private void RegisterTypesRecursively(Type type) {

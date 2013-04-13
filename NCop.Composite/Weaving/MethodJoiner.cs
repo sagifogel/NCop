@@ -7,16 +7,30 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using NCop.Core.Extensions;
+using System.Collections;
 
 namespace NCop.Composite.Weaving
 {
-    public class MethodJoiner : Tuples<MethodInfo, MethodInfo>
+    public class MethodJoiner : Tuples<MethodInfo, Type>
     {
         public MethodJoiner(IAspectsMap aspectsMap, IMixinsMap mixinsMap) {
-            var map = aspectsMap.Join(mixinsMap,
+            var joined = aspectsMap.Join(mixinsMap,
                                        (aspect) => aspect.Contract,
                                        (mixin) => mixin.Contract,
-                                       (aspect, mixin) => Tuple.Create(aspect.AspectTypes, mixin.Implementation));
+                                       (aspect, mixin) => new {
+                                           Type = mixin.Implementation,
+                                           ContractMethods = aspect.Contract.GetMethods(),
+                                           ImplMethods = mixin.Implementation.GetMethods().ToSet()
+                                       });
+
+            Values = joined.Select(join => {
+                var methods = join.ContractMethods;
+                var result = methods.SelectFirst(join.ImplMethods,
+                                                (c, impl) => MethodMatch(c, impl),
+                                                (c, impl) => impl);
+
+                return Tuple.Create(result, join.Type);
+            });
         }
 
         private static bool MethodMatch(MethodInfo firstMethod, MethodInfo secondMethod) {

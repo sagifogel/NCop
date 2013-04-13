@@ -10,12 +10,6 @@ namespace NCop.Core.Weaving
 {
     public class MethodSignatureWeaver : IMethodSignatureWeaver
     {
-        //private MethodAttributes _attributes;
-
-        //public MethodSignatureWeaver(MethodAttributes attributes) {
-        //    _attributes = attributes;
-        //}
-
         public MethodBuilder Weave(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
             return typeDefinition.TypeBuilder.DefineMethod(methodInfo);
         }

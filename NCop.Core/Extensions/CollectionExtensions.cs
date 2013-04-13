@@ -70,16 +70,18 @@ namespace NCop.Core.Extensions
             }
         }
 
-        public static Tuple<TSource, TProject> SelectFirst<TSource, TProject>(this IEnumerable<TSource> source, Func<TProject, bool> predicate, Func<TSource, TProject> selector) {
-            foreach (var item in source) {
-                var projection = selector(item);
+        public static TResult SelectFirst<TOuter, TInner, TResult>(this IEnumerable<TOuter> outer, IEnumerable<TInner> inner, Func<TOuter, TInner, bool> predicate, Func<TOuter, TInner, TResult> selector) {
+            Func<TInner, TInner, bool> comparer = EqualityComparer<TInner>.Default.Equals;
 
-                if (predicate(projection)) {
-                    return Tuple.Create(item, projection);
+            foreach (var item in outer) {
+                TInner innerResult = inner.FirstOrDefault(innerItem => predicate(item, innerItem));
+
+                if (!comparer(innerResult, default(TInner))) {
+                    return selector(item, innerResult);
                 }
             }
 
-            return null;
+            return default(TResult);
         }
 
         public static IEnumerable<TSource> Distinct<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> predicate) {
