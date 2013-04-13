@@ -12,6 +12,7 @@ namespace NCop.Composite.Framework
 
         public void Run() {
             var settings = Settings ?? new RuntimeSettings();
+            
             var composites = settings.Assemblies.SelectMany(assembly => {
                 return assembly.GetTypes()
                                .Where(type => type.IsNCopDefined<CompositeAttribute>());

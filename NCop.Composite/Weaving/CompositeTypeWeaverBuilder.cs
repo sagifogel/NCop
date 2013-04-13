@@ -22,6 +22,11 @@ namespace NCop.Composite.Weaving
             var aspectMap = new AspectsMap(type);
             var factory = new MixinsTypeDefinitionWeaver(type, mixinsMap);
 
+            aspectMap.Join(mixinsMap,
+                           (aspect) => aspect.Contract,
+                           (mixin) => mixin.Contract,
+                           (a, m) => Tuple.Create(a, m));
+
             _builder = new MixinsTypeWeaverBuilder(type, factory);
 
             mixinsMap.ForEach(map => {

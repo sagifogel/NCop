@@ -97,6 +97,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Framework\CompositeRuntime.cs" />
     <Compile Include="Weaving\CompositeMethodWeaver.cs" />
+    <Compile Include="Weaving\JoinOfPair.cs" />
     <Compile Include="Weaving\MethodWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeTypeWeaverBuilder.cs" />
     <Compile Include="Weaving\MethodScopeWeaversQueue.cs" />

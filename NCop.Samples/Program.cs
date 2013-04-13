@@ -15,7 +15,6 @@ namespace NCop.Samples
         private IDrummer _drummer;
 
         static void Main(string[] args) {
-            var type = typeof(DrummerMixin).GetMethod("Play");
             new CompositeRuntime().Run();
         }
     }
