@@ -7,10 +7,11 @@ using System.Text;
 namespace NCop.IoC
 {
     public interface INCopContainer
-    {   
-        //IContainer ParentContainer { get; }
-        void Register<TService>(Func<INCopContainer, TService> factory, string name = null);
+    {
+        INCopContainer ParentContainer { get; }
         TService Resolve<TService>(string name = null);
-        //TService TryResolve<TService>(bool throwIf);
+        TService Resolve<TArg1, TService>(TArg1 arg1, string name = null);
+        void Register<TService>(Func<INCopContainer, TService> factory, string name = null);
+        void Register<TService, TArg1>(Func<INCopContainer, TArg1, TService> factory, string name = null);
     }
 }

@@ -1,6 +1,5 @@
 ﻿<#@ template language="C#" hostspecific="True" debug="True" #>
 <#@ output extension="cs" #>
-<#@ include file="T4Toolbox.tt" #>
 <#@ include file="NCopExceptionTemplate.tt" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>

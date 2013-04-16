@@ -2,11 +2,12 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
+<#@ include file="NCopCSharpTemplate.tt" #>
 <#+
 
-public class NCopExceptionTemplate : Template
+public class NCopExceptionTemplate : NCopCSharpTemplate
 {	
-	private string _name = System.IO.Path.GetFileNameWithoutExtension(TransformationContext.Host.TemplateFile);
+	private string _name = System.IO.Path.GetFileNameWithoutExtension(TransformationContext.Current.Host.TemplateFile);
 		
 	public string Namespace { get; set; }
 
@@ -78,7 +79,7 @@ using System.Runtime.Serialization;
 using System.Text;
 
 <#+ BuildArguments(); #>
-namespace <#= Namespace ?? TransformationContext.DefaultNamespace  #>
+namespace <#= Namespace ?? DefaultNamespace  #>
 {	
 	[Serializable]
 	public class <#=  _name #> : SystemException, ISerializable

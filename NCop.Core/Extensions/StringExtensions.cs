@@ -9,6 +9,10 @@ namespace NCop.Core.Extensions
     {
         private static readonly int _lowerCaseOffset = 'a' - 'A';
 
+        public static string Format(this string value, params object[] args) {
+            return string.Format(value, args);
+        }
+
         public static string ToCamelCase(this string value) {
             if (string.IsNullOrEmpty(value)) {
                 return value;

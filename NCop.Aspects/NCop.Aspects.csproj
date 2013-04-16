@@ -199,14 +199,17 @@
     <None Include="Exceptions\DuplicateAspectException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DuplicateAspectException.cs</LastGenOutput>
+      <LastOutputs>.\DuplicateAspectException.cs</LastOutputs>
     </None>
     <None Include="Exceptions\MissingAspectException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MissingAspectException.cs</LastGenOutput>
+      <LastOutputs>.\MissingAspectException.cs</LastOutputs>
     </None>
     <None Include="Exceptions\AspectBuilderNotFoundException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AspectBuilderNotFoundException.cs</LastGenOutput>
+      <LastOutputs>.\AspectBuilderNotFoundException.cs</LastOutputs>
     </None>
   </ItemGroup>
   <ItemGroup>

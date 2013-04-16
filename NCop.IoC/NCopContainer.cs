@@ -1,8 +1,10 @@
-﻿using System;
+﻿using NCop.IoC.Properties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using NCop.Core.Extensions;
 
 namespace NCop.IoC
 {
@@ -21,6 +23,8 @@ namespace NCop.IoC
         }
 
         public void Register(Type type, string name = null) {
+            Contracts.RequiersNotInterface(type, () => Resources.TypeIsInterface.Format(type));
+
             var ctor = type.GetConstructor(Type.EmptyTypes);
             var paramater = Expression.Parameter(typeof(INCopContainer), "container");
             var lambda = Expression.Lambda(

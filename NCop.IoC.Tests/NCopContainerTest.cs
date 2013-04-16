@@ -41,7 +41,7 @@ namespace NCop.IoC.Tests
         public void Resolve_UsingFactory_ReturnsTheInjectedValue() {
             var container = new NCopContainer();
 
-            container.Register<Foo>((c) => new Foo());
+            container.Register<Foo>();
             container.Register<IBar>((c) => new Bar(c.Resolve<Foo>()));
 
             Assert.IsNotNull(container.Resolve<IBar>());

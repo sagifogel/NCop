@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts.cs" />
     <Compile Include="Fluent\ICastable.cs" />
     <Compile Include="Fluent\IFlentInterface.cs" />
     <Compile Include="Fluent\ILifetimeStrategy.cs" />
@@ -62,6 +63,16 @@
     <Compile Include="INCopContainer.cs" />
     <Compile Include="NCopContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RegistraionException.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RegistraionException.tt</DependentUpon>
+    </Compile>
     <Compile Include="ServiceFactory.cs" />
     <Compile Include="ServiceKey.cs" />
   </ItemGroup>
@@ -70,6 +81,21 @@
       <Project>{ef89677e-7af0-4c80-b73f-aea357c5614c}</Project>
       <Name>NCop.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RegistraionException.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RegistraionException.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
