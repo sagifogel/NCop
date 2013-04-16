@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace NCop.IoC
@@ -15,8 +16,18 @@ namespace NCop.IoC
             }
         }
 
-        public void Register<TService>(Func<TService> factory, string name = null) {
-            services.Add(typeof(TService), factory);
+        public void Register<TService>(string name = null) {
+            Register(typeof(TService), name);
+        }
+
+        public void Register(Type type, string name = null) {
+            var ctor = type.GetConstructor(Type.EmptyTypes);
+            var paramater = Expression.Parameter(typeof(INCopContainer), "container");
+            var lambda = Expression.Lambda(
+                            Expression.New(ctor),
+                                paramater);
+
+            services.Add(type, lambda.Compile());
         }
 
         public void Register<TService>(Func<INCopContainer, TService> factory, string name = null) {
@@ -28,15 +39,15 @@ namespace NCop.IoC
         }
 
         public TService Resolve<TService>(string name = null) {
-            var factory = (Func<TService>)services[typeof(TService)];
+            var factory = (Func<INCopContainer, TService>)services[typeof(TService)];
 
-            return factory();
+            return factory(this);
         }
 
-        public TService Resolve<TService, TArg1>(TArg1 arg1, string name = null) {
-            var factory = (Func<TService>)services[typeof(TService)];
+        public TService Resolve<TArg1, TService>(TArg1 arg1, string name = null) {
+            var factory = (Func<INCopContainer, TArg1, TService>)services[typeof(TService)];
 
-            return factory();
+            return factory(this, arg1);
         }
     }
 }

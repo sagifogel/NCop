@@ -1,5 +1,6 @@
 ﻿using NCop.Aspects.Framework;
 using NCop.Composite.Framework;
+using NCop.IoC;
 using NCop.Mixins.Framework;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,25 @@ using System.Threading.Tasks;
 
 namespace NCop.Samples
 {
-    class Eng2 : IEngineer
+    public interface IFoo { }
+    public interface IBar { }
+    public class Foo : IFoo
     {
-        public void DoWork() {
-            throw new NotImplementedException();
+        public Foo() { }
+
+        public Foo(string name) {
+            Name = name;
+        }
+
+        public string Name { get; private set; }
+    }
+
+    public class Bar : IBar
+    {
+        private IFoo _foo;
+
+        public Bar(IFoo foo) {
+            _foo = foo;
         }
     }
 
@@ -22,13 +38,12 @@ namespace NCop.Samples
         private IDrummer _drummer;
 
         static void Main(string[] args) {
-            //new CompositeRuntime().Run();
-            //var container = new Container();
-            //container.Register<IEngineer>(new EngineerMixin());
-            //container.Register<IEngineer>((c) => new Eng2());
-            
-            //var d = container.Resolve<IDrummer>();
-            IDrummer d = null;
+            var container = new NCopContainer();
+
+            container.Register<Foo>();
+            container.Register<IBar>((c) => new Bar(c.Resolve<Foo>()));
+
+            var instance = container.Resolve<IBar>();
         }
     }
 
