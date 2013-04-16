@@ -10,12 +10,25 @@ using System.Threading.Tasks;
 
 namespace NCop.Samples
 {
+    class Eng2 : IEngineer
+    {
+        public void DoWork() {
+            throw new NotImplementedException();
+        }
+    }
+
     class Program
     {
         private IDrummer _drummer;
 
         static void Main(string[] args) {
-            new CompositeRuntime().Run();
+            //new CompositeRuntime().Run();
+            //var container = new Container();
+            //container.Register<IEngineer>(new EngineerMixin());
+            //container.Register<IEngineer>((c) => new Eng2());
+            
+            //var d = container.Resolve<IDrummer>();
+            IDrummer d = null;
         }
     }
 
@@ -32,6 +45,12 @@ namespace NCop.Samples
 
     public class DrummerMixin : IDrummer
     {
+        public IEngineer Engineer { get; set; }
+
+        public DrummerMixin(IEngineer engineer) {
+            Engineer = engineer;
+        }
+
         public void Play() {
         }
     }
