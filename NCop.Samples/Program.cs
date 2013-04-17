@@ -40,7 +40,7 @@ namespace NCop.Samples
         static void Main(string[] args) {
             var container = new NCopContainer();
 
-            container.Register<IFoo>();
+            container.Register<Foo>();
             container.Register<IBar>((c) => new Bar(c.Resolve<Foo>()));
 
             var instance = container.Resolve<IBar>();

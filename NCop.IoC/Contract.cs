@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NCop.IoC
 {
-    public class Contracts
+    public class Contract
     {
         public static void RequiersNotInterface(Type type, Func<string> messageFactory = null) {
             if (type.IsInterface) {

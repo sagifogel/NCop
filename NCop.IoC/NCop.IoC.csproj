@@ -55,7 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contracts.cs" />
+    <Compile Include="Contract.cs" />
     <Compile Include="Fluent\ICastable.cs" />
     <Compile Include="Fluent\IFlentInterface.cs" />
     <Compile Include="Fluent\ILifetimeStrategy.cs" />
@@ -73,8 +73,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RegistraionException.tt</DependentUpon>
     </Compile>
+    <Compile Include="ResolutionException.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResolutionException.tt</DependentUpon>
+    </Compile>
     <Compile Include="ServiceFactory.cs" />
-    <Compile Include="ServiceKey.cs" />
+    <Compile Include="Identifier.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NCop.Core\NCop.Core.csproj">
@@ -86,6 +91,10 @@
     <None Include="RegistraionException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>RegistraionException.cs</LastGenOutput>
+    </None>
+    <None Include="ResolutionException.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ResolutionException.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
