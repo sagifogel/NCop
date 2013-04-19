@@ -5,8 +5,10 @@ using NCop.Mixins.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NCop.Samples
@@ -15,7 +17,7 @@ namespace NCop.Samples
     public interface IBar { }
     public class Foo : IFoo
     {
-        public Foo() { }
+        public Foo() : this(DateTime.Now.ToString()) { }
 
         public Foo(string name) {
             Name = name;
@@ -33,18 +35,63 @@ namespace NCop.Samples
         }
     }
 
+    public interface IBaz
+    {
+    }
+    public class Baz : IBaz
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+
+        public Baz(string name, int age) {
+            Console.WriteLine("{0} is {1} years old", Name = name, Age = age);
+        }
+    }
+
     class Program
     {
         private IDrummer _drummer;
 
         static void Main(string[] args) {
-            var container = new NCopContainer();
+            //var container = new NCopContainer((reg) => {
+            //    reg.Register<Foo>().ToSelf().AsSingleton();
+            //    //reg.Register<IBaz, string, int>((c, n, a) => new Baz(n, a));
+            //});
 
-            container.Register<Foo>();
-            container.Register<IBar>((c) => new Bar(c.Resolve<Foo>()));
+            var ps = Expression.Parameter(typeof(int), "s");
+            var pt = Expression.Parameter(typeof(int), "t");
+            var ex2 = Expression.Lambda(
+            Expression.Quote(
+                Expression.Lambda(
+                    Expression.Add(ps, pt),
+                pt)),
+            ps);
 
-            var instance = container.Resolve<IBar>();
+            var f2a = (Func<int, Expression<Func<int, int>>>)ex2.Compile();
+            var f2b = f2a(200).Compile();
+            Console.WriteLine(f2b(123));
+
+
+            //var del = m.Compile();
+
+            //var first = del.Invoke(container);
+            //var second = del.Invoke(container);
+            ///var instance2 = container.Resolve<string, int, IBaz>("Sagi", 37); 
+            //var instance = container.Resolve<Foo>();
+            //Thread.Sleep(1000);
+            //var instance2 = container.Resolve<Foo>();
         }
+
+        //public static Expression<Func<INCopContainer, string>> Method() {
+        //    var param = Expression.Parameter(typeof(INCopContainer));
+        //    Expression<Func<INCopContainer, string>> dateEx = (c) => DateTime.Now.ToString();
+        //    Expression<Func<INCopContainer, string>> expr = (c) => Expression.Invoke(dateEx, Expression.Constant(c));
+            
+            
+        //    return Expression.Lambda<Func<INCopContainer, string>>(
+        //            Expression.Invoke(expr),
+        //            param);
+        //}
     }
 
     public interface IDrummer

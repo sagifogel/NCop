@@ -55,11 +55,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContainerRegistry.cs" />
     <Compile Include="Contract.cs" />
-    <Compile Include="Fluent\ICastable.cs" />
+    <Compile Include="Fluent\ICastableRegistration`1.cs" />
+    <Compile Include="Fluent\ICasted.cs" />
     <Compile Include="Fluent\IFlentInterface.cs" />
     <Compile Include="Fluent\ILifetimeStrategy.cs" />
+    <Compile Include="Fluent\IDescriptable.cs" />
+    <Compile Include="Fluent\IFluenatRegistration.cs" />
     <Compile Include="Fluent\IRegistration.cs" />
+    <Compile Include="Fluent\IRegistry.cs" />
+    <Compile Include="Fluent\Registration.cs" />
+    <Compile Include="Fluent\ExpressionRegistration`1.cs" />
     <Compile Include="INCopContainer.cs" />
     <Compile Include="NCopContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

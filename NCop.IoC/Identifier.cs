@@ -9,19 +9,21 @@ namespace NCop.IoC
     {
         private int hash = 0;
 
-        public Identifier(Type factoryType, string name) {
-            Name = name;
+        public Identifier(Type serviceType, Type factoryType, string name = null) {
             FactoryType = factoryType;
-            hash = factoryType.GetHashCode();
+            ServiceType = serviceType;
+            hash = FactoryType.GetHashCode() ^ ServiceType.GetHashCode();
 
-            if (name != null) {
-                hash ^= name.GetHashCode();
-            }
+            if (Name != null) {
+                hash ^= Name.GetHashCode();
+            };
         }
 
-        public Type FactoryType { get; private set; }
-
         public string Name { get; private set; }
+
+        public Type FactoryType { get; set; }
+
+        public Type ServiceType { get; private set; }
 
         public override bool Equals(object obj) {
             return Equals((Identifier)obj);
@@ -36,11 +38,15 @@ namespace NCop.IoC
         }
 
         public static bool Equals(Identifier obj1, Identifier obj2) {
-            if (ReferenceEquals(null, obj1) || ReferenceEquals(null, obj2)) {
+            if (ReferenceEquals(null, obj1) || ReferenceEquals(null, obj2) || !obj1.GetType().Equals(obj2.GetType())) {
                 return false;
             }
 
-            return obj1.FactoryType.Equals(obj2.FactoryType) && obj1.Name == obj2.Name;
+            if (ReferenceEquals(obj1, obj2)) {
+                return true;
+            }
+
+            return obj1.ServiceType.Equals(obj2.ServiceType) && obj1.FactoryType.Equals(obj2.FactoryType) && obj1.Name == obj2.Name;
         }
     }
 }

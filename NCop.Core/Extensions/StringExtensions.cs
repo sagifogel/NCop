@@ -70,5 +70,9 @@ namespace NCop.Core.Extensions
 
             return new StringBuilder(value.Substring(1)).ToString().ToLowercaseUnderscore();
         }
+
+        public static bool IsNullOrEmpty(this string value) {
+            return string.IsNullOrEmpty(value);
+        }
     }
 }

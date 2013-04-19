@@ -8,10 +8,10 @@ namespace NCop.IoC.Tests
     {
         public interface IFoo { }
         public interface IBar { }
-        public class Foo : IFoo 
+        public class Foo : IFoo
         {
-            public Foo() {            }
-            
+            public Foo() { }
+
             public Foo(string name) {
                 Name = name;
             }
@@ -29,9 +29,9 @@ namespace NCop.IoC.Tests
 
         [TestMethod]
         public void Resolve_UsingFactoryWithoutContainer_ReturnsTheInjectedValue() {
-            var container = new NCopContainer();
-
-            container.Register<IFoo>();
+            var container = new NCopContainer(registry => {
+                registry.Register<IFoo>();
+            });
             var instance = container.Resolve<IFoo>();
 
             Assert.IsNotNull(instance);
@@ -39,19 +39,20 @@ namespace NCop.IoC.Tests
 
         [TestMethod]
         public void Resolve_UsingFactory_ReturnsTheInjectedValue() {
-            var container = new NCopContainer();
-
-            container.Register<Foo>();
-            container.Register<IBar>((c) => new Bar(c.Resolve<Foo>()));
+            var container = new NCopContainer(registry => {
+                registry.Register<Foo>();
+                registry.Register<IBar>((c) => new Bar(c.Resolve<Foo>()));
+            });
 
             Assert.IsNotNull(container.Resolve<IBar>());
         }
 
         [TestMethod]
         public void Resolve_UsingFactoryWithTypedArgument_ReturnsTheInjectedValue() {
-            var container = new NCopContainer();
+            var container = new NCopContainer(registry => {
+                registry.Register<IFoo, string>((r, name) => new Foo(name));
+            });
 
-            container.Register<IFoo, string>((c, name) => new Foo(name));
             var instance = container.Resolve<string, IFoo>("Test");
 
             Assert.IsNotNull(instance);

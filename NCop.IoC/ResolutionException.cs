@@ -24,7 +24,7 @@ namespace NCop.IoC
 
 		public ResolutionException(Exception innerException) : this(_message, innerException) { }
 
-		public ResolutionException(string message, string parameterName) : base(message, parameterName) { }
+		public ResolutionException(string parameterName, string message = null) : base(message ?? _message, parameterName) { }
 
 		public ResolutionException(string message, Exception innerException) : base(message, innerException) { }
 

@@ -70,6 +70,10 @@ namespace NCop.Core.Extensions
             }
         }
 
+        public static IEnumerable<TSource> Concat<TSource>(this IEnumerable<TSource> source, TSource second) {
+            return source.Concat(new[] { second });
+        }
+
         public static TResult SelectFirst<TOuter, TInner, TResult>(this IEnumerable<TOuter> outer, IEnumerable<TInner> inner, Func<TOuter, TInner, bool> predicate, Func<TOuter, TInner, TResult> selector) {
             Func<TInner, TInner, bool> comparer = EqualityComparer<TInner>.Default.Equals;
 
@@ -133,8 +137,18 @@ namespace NCop.Core.Extensions
                     source.ToDictionary(local => keySelector(local), local => elementSelector(local)));
         }
 
-        public static ISet<TSourcve> ToSet<TSourcve>(this IEnumerable<TSourcve> source) {
-            return new HashSet<TSourcve>(source);
+        public static TValue SafeGetOrAdd<TKey, TValue>(this ConcurrentDictionary<TKey, Lazy<TValue>> source, TKey key, Func<TKey, TValue> valueFactory) {
+            return source.GetOrAdd(key, new Lazy<TValue>(() => valueFactory(key))).Value;
         }
+
+        public static TValue SafeAddOrUpdate<TKey, TValue>(this ConcurrentDictionary<TKey, Lazy<TValue>> source, TKey key, TValue addValue, Func<TKey, TValue> updateValueFactory) {
+            return source.AddOrUpdate(key, new NCop.Core.Lazy<TValue>(() => addValue), (k, lazy) => new NCop.Core.Lazy<TValue>(() => updateValueFactory(key))).Value;
+        }
+
+        public static ISet<TSource> ToSet<TSource>(this IEnumerable<TSource> source) {
+            var lazy = new Lazy<TSource>(() => default(TSource));
+            return new HashSet<TSource>(source);
+        }
+        ///(k, lazy) => new Lazy<TValue>((k, oldValue) => updateValueFactory(k, oldValue))
     }
 }

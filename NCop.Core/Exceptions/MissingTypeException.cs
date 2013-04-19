@@ -20,11 +20,11 @@ namespace NCop.Core.Exceptions
 	{
 		private static string _message = "Missing type annotation";
 		
-		public MissingTypeException(string parameterName) : base(_message, parameterName) { }
+		public MissingTypeException(string message = null) : base(message ?? _message) { }
 
 		public MissingTypeException(Exception innerException) : this(_message, innerException) { }
 
-		public MissingTypeException(string parameterName, string message) : base(message, parameterName) { }
+		public MissingTypeException(string parameterName, string message = null) : base(message ?? _message, parameterName) { }
 
 		public MissingTypeException(string message, Exception innerException) : base(message, innerException) { }
 

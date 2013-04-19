@@ -5,8 +5,8 @@ using System.Text;
 
 namespace NCop.IoC.Fluent
 {
-    public interface ILifetimeStrategy : IFlentInterface
+    public interface IDescriptable : IFlentInterface
     {
-        void AsSingleton();
+        ILifetimeStrategy Named(string name);
     }
 }

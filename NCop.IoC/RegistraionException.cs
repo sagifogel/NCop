@@ -24,7 +24,7 @@ namespace NCop.IoC
 
 		public RegistraionException(Exception innerException) : this(_message, innerException) { }
 
-		public RegistraionException(string message, string parameterName) : base(message, parameterName) { }
+		public RegistraionException(string parameterName, string message = null) : base(message ?? _message, parameterName) { }
 
 		public RegistraionException(string message, Exception innerException) : base(message, innerException) { }
 

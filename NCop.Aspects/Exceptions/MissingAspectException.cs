@@ -20,11 +20,11 @@ namespace NCop.Aspects.Exceptions
 	{
 		private static string _message = "Missing aspect annotation";
 		
-		public MissingAspectException(string parameterName) : base(_message, parameterName) { }
+		public MissingAspectException(string message = null) : base(message ?? _message) { }
 
 		public MissingAspectException(Exception innerException) : this(_message, innerException) { }
 
-		public MissingAspectException(string parameterName, string message) : base(message, parameterName) { }
+		public MissingAspectException(string parameterName, string message = null) : base(message ?? _message, parameterName) { }
 
 		public MissingAspectException(string message, Exception innerException) : base(message, innerException) { }
 

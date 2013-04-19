@@ -80,10 +80,12 @@
     <None Include="Exceptions\DuplicateMixinAnnotationException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DuplicateMixinAnnotationException.cs</LastGenOutput>
+      <LastOutputs>.\DuplicateMixinAnnotationException.cs</LastOutputs>
     </None>
     <None Include="Exceptions\MissingMixinException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MissingMixinException.cs</LastGenOutput>
+      <LastOutputs>.\MissingMixinException.cs</LastOutputs>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

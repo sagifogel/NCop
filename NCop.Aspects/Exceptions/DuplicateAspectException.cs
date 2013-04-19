@@ -20,11 +20,11 @@ namespace NCop.Aspects.Exceptions
 	{
 		private static string _message = "Duplicate type aspects has been found";
 		
-		public DuplicateAspectException(string parameterName) : base(_message, parameterName) { }
+		public DuplicateAspectException(string message = null) : base(message ?? _message) { }
 
 		public DuplicateAspectException(Exception innerException) : this(_message, innerException) { }
 
-		public DuplicateAspectException(string parameterName, string message) : base(message, parameterName) { }
+		public DuplicateAspectException(string parameterName, string message = null) : base(message ?? _message, parameterName) { }
 
 		public DuplicateAspectException(string message, Exception innerException) : base(message, innerException) { }
 

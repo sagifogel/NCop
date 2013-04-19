@@ -144,5 +144,9 @@ namespace NCop.Core.Extensions
 
             return typeBuilder.DefineField(name, fieldType, attributes.Value);
         }
+
+        public static bool IsNull(this object value) {
+            return object.ReferenceEquals(value, null);
+        }
     }
 }

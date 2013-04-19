@@ -42,7 +42,7 @@ namespace <#= Namespace ?? DefaultNamespace  #>
 
 		public <#= _name #>(Exception innerException) : this(_message, innerException) { }
 
-		public <#= _name #>(string message, string parameterName) : base(message, parameterName) { }
+		public <#= _name #>(string parameterName, string message = null) : base(message ?? _message, parameterName) { }
 
 		public <#= _name #>(string message, Exception innerException) : base(message, innerException) { }
 
