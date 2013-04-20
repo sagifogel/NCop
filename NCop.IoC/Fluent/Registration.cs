@@ -5,11 +5,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using NCop.Core.Extensions;
+using System.Runtime.CompilerServices;
 
 namespace NCop.IoC.Fluent
 {
     public class Registration : ILiftimeStrategyRegistration, IFactoryRegistration, IRegistration
-    {
+    {   
         public string Name { get; internal set; }
 
         public Type CastTo { get; internal set; }
@@ -30,18 +31,18 @@ namespace NCop.IoC.Fluent
             var container = Expression.Parameter(typeof(INCopContainer), "container");
             var @params = Func.Method
                               .GetParameters()
-                              .Skip(1)
+                              .Where(p => !p.ParameterType.Equals(typeof(Closure)))
                               .Select(p => p.ParameterType)
                               .Concat(Func.Method.ReturnType)
                               .ToArray();
 
-            var variable = Expression.Variable(Func.Method.ReturnType);
-            var freeVariable = Expression.Assign(variable, Expression.Invoke(Expression.Constant(Func), container));
-            var returnFreeVariable = Expression.Lambda(Expression.GetFuncType(variable.Type), Expression.Constant(freeVariable));
-            var funcType = Expression.GetFuncType(@params);
-            var lambda = Expression.Lambda(funcType,
-                                           Expression.Block(new[] { variable }, freeVariable, Expression.Invoke(returnFreeVariable)), 
-                                           container);
+            var invocation = Expression.Lambda(Expression.Invoke(Expression.Constant(Func), container), container);
+            var compiled = invocation.Compile();
+            var instance = compiled.DynamicInvoke(Container);
+            var lambda = Expression.Lambda(
+                            Expression.GetFuncType(@params),
+                            Expression.Constant(instance), 
+                            container);
 
             Func = lambda.Compile();
         }

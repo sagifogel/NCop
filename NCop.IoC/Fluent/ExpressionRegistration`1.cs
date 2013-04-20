@@ -71,7 +71,7 @@ namespace NCop.IoC.Fluent
             var castTo = typeof(TService);
             ExpressionRegistration<TCastable>.RequiersNotInterface(castTo);
 
-            return As(castTo);
+            return As(registration.CastTo = castTo);
         }
 
         private ICasted As(Type castTo) {

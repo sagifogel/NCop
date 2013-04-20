@@ -15,15 +15,20 @@ namespace NCop.Samples
 {
     public interface IFoo { }
     public interface IBar { }
+
     public class Foo : IFoo
     {
-        public Foo() : this(DateTime.Now.ToString()) { }
+        public Foo() : this(DateTime.Now) { }
 
-        public Foo(string name) {
-            Name = name;
+        public Foo(DateTime date) {
+            Date = date;
         }
 
-        public string Name { get; private set; }
+        public DateTime Date { get; private set; }
+    }
+
+    public class Foo2 : Foo
+    {
     }
 
     public class Bar : IBar
@@ -50,46 +55,18 @@ namespace NCop.Samples
 
     class Program
     {
-        private IDrummer _drummer;
-
         static void Main(string[] args) {
-            var parameter = Expression.Parameter(typeof(INCopContainer));
-
-            //Expression.Lambda<INCopContainer, IBaz>(
-            //        Expression.
-            //Expression.Coalesce(
-
             var container = new NCopContainer((reg) => {
-                reg.Register<Foo>().ToSelf();
-                //reg.Register<IBaz, string, int>((c, n, a) => new Baz(n, a));
-                reg.Register<Foo>((c) => new Foo("Sagi")).Named("Sagi");
+                reg.Register<IFoo>((c) => new Foo());
+                
+                //reg.Register<IFoo>((c) => new Foo2());
+                //reg.Register<IFoo>((c) => new Foo2()).AsSingleton();
+                //reg.Register<Foo>().ToSelf().AsSingleton();
+                //reg.Register<Foo>((c) => new Foo()).Named("Sagi").AsSingleton();
             });
 
-            var instance2 = container.Resolve<Foo>("Sagi");
+
             var instance = container.Resolve<Foo>();
-
-            //var ps = Expression.Parameter(typeof(int), "s");
-            //var pt = Expression.Parameter(typeof(int), "t");
-            //var ex2 = Expression.Lambda(
-            //Expression.Quote(
-            //    Expression.Lambda(
-            //        Expression.Add(ps, pt),
-            //    pt)),
-            //ps);
-
-            //var f2a = (Func<int, Expression<Func<int, int>>>)ex2.Compile();
-            //var f2b = f2a(200).Compile();
-            //Console.WriteLine(f2b(123));
-
-
-            //var del = m.Compile();
-
-            //var first = del.Invoke(container);
-            //var second = del.Invoke(container);
-            ///var instance2 = container.Resolve<string, int, IBaz>("Sagi", 37); 
-            //var instance = container.Resolve<Foo>();
-            //Thread.Sleep(1000);
-            //var instance2 = container.Resolve<Foo>();
         }
     }
 
