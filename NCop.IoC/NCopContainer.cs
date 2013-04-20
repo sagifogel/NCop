@@ -88,9 +88,14 @@ namespace NCop.IoC
 
         public TService ResolveImpl<TService, TFunc>(Func<TFunc, TService> factoryInvoker, string name = null) {
             var identifier = new Identifier(typeof(TService), typeof(TFunc), name);
-            var factory = (TFunc)services[identifier];
+            
+            object factory;
 
-            return factoryInvoker(factory);
+            if (!services.TryGetValue(identifier, out factory)) {
+                throw new ResolutionException(Resources.CouldNotResolveType.Format(identifier.ServiceType));
+            }
+
+            return factoryInvoker((TFunc)factory);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace NCop.IoC.Tests
 
         [TestMethod]
         [ExpectedException(typeof(RegistraionException))]
-        public void Resolve_UsingAutoFactory_ReturnsTheInjectedValue() {
+        public void Resolve_UsingAutoFactoryOfInterface_ThrowsRegistraionException() {
             var container = new NCopContainer(registry => {
                 registry.Register<IFoo>();
             });
@@ -93,6 +93,59 @@ namespace NCop.IoC.Tests
             var instatance2 = container.Resolve<Foo>();
 
             Assert.AreSame(instance, instatance2);
+        }
+
+        [TestMethod]
+        public void Resolve_UsingAsSingletonExpressionRegistrationWithFactory_ReturnsTheSameObjectForDifferentResolveCalls() {
+            var container = new NCopContainer(registry => {
+                registry.Register<Foo>((reg) => new Foo()).AsSingleton();
+            });
+
+            var instance = container.Resolve<Foo>();
+            var instatance2 = container.Resolve<Foo>();
+
+            Assert.AreSame(instance, instatance2);
+        }
+
+        [TestMethod]
+        public void Resolve_UsingAutoFactoryAndCastingWithAsExpressionAndAfterThatUsingTheAsSingletonExpressionRegistration_ReturnsTheSameObjectForDifferentResolveCalls() {
+            var container = new NCopContainer(registry => {
+                registry.Register<IFoo>().As<Foo>().AsSingleton();
+            });
+
+            var instance = container.Resolve<IFoo>();
+            var instatance2 = container.Resolve<IFoo>();
+
+            Assert.AreSame(instance, instatance2);
+        }
+
+        [TestMethod]
+        public void Resolve_UsingAutoFactoryThatBindsToSelf_ReturnsTheInjectedValue() {
+            var container = new NCopContainer(registry => {
+                registry.Register<Foo>().ToSelf();
+            });
+
+            var instance = container.Resolve<Foo>();
+            
+            Assert.IsNotNull(instance);
+            Assert.IsInstanceOfType(instance, typeof(Foo));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(RegistraionException))]
+        public void Resolve_UsingAutoFactoryOfInterfaceThatBindsToSelf_ThrowsRegistraionException() {
+            var container = new NCopContainer(registry => {
+                registry.Register<IFoo>().ToSelf();
+            });
+
+            var instance = container.Resolve<IFoo>();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ResolutionException))]
+        public void TryResolve_NotRegisteredService_ThrowsRegistraionException() {
+            var container = new NCopContainer(registry => { });
+            var instance = container.Resolve<IFoo>();
         }
     }
 }

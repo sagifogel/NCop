@@ -61,6 +61,15 @@ namespace NCop.IoC.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not resolve type {0}..
+        /// </summary>
+        internal static string CouldNotResolveType {
+            get {
+                return ResourceManager.GetString("CouldNotResolveType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not auto register type {0}. No parameterless constructor defined for this object..
         /// </summary>
         internal static string NoParameterlessConstructorFound {
