@@ -8,13 +8,12 @@ using System.Linq.Expressions;
 
 namespace NCop.IoC.Fluent
 {
-    public class ExpressionRegistration<TCastable> : IDescriptable, IRegistration, ICastableRegistration<TCastable>, ICasted
+    public class CastableRegistration<TCastable> : IDescriptable, IRegistration, ICastableRegistration<TCastable>, ICasted
     {
         private readonly Registration registration = null;
 
-        public ExpressionRegistration(INCopContainer container, Type serviceType, Type factoryType) {
+        public CastableRegistration(Type serviceType, Type factoryType) {
             registration = new Registration {
-                Container = container,
                 ServiceType = serviceType,
                 FactoryType = factoryType
             };
@@ -33,7 +32,7 @@ namespace NCop.IoC.Fluent
         public Delegate Func {
             get {
                 if (registration.Func.IsNull()) {
-                    ToSelf();   
+                    ToSelf();
                 }
 
                 return registration.Func;
@@ -52,6 +51,12 @@ namespace NCop.IoC.Fluent
             }
         }
 
+        public ReuseScope Scope {
+            get {
+                return registration.Scope;
+            }
+        }
+
         public void Named(string name) {
             registration.Named(name);
         }
@@ -59,13 +64,13 @@ namespace NCop.IoC.Fluent
         public void AsSingleton() {
             var type = registration.CastTo.IsNull() ? ServiceType : CastTo;
 
-            ExpressionRegistration<TCastable>.RequiersNotInterface(type);
+            CastableRegistration<TCastable>.RequiersNotInterface(type);
             As(type);
             registration.AsSingleton();
         }
 
         public ICasted ToSelf() {
-            ExpressionRegistration<TCastable>.RequiersNotInterface(ServiceType);
+            CastableRegistration<TCastable>.RequiersNotInterface(ServiceType);
             As(registration.CastTo = ServiceType);
 
             return this;
@@ -73,7 +78,7 @@ namespace NCop.IoC.Fluent
 
         public ICasted As<TService>() where TService : TCastable, new() {
             var castTo = typeof(TService);
-            ExpressionRegistration<TCastable>.RequiersNotInterface(castTo);
+            CastableRegistration<TCastable>.RequiersNotInterface(castTo);
 
             return As(registration.CastTo = castTo);
         }
@@ -102,7 +107,7 @@ namespace NCop.IoC.Fluent
             Contract.RequiersNotInterface(serviceType, () => new RegistraionException(Resources.TypeIsInterface.Format(serviceType)));
         }
 
-        ILifetimeStrategy IDescriptable.Named(string name) {
+        IReuseStrategy IDescriptable.Named(string name) {
             registration.Named(name);
 
             return this;

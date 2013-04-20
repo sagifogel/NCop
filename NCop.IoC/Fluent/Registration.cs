@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace NCop.IoC.Fluent
 {
-    public class Registration : ILiftimeStrategyRegistration, IFactoryRegistration, IRegistration
+    public class Registration : IReuseStrategyRegistration, IFactoryRegistration, IRegistration
     {   
         public string Name { get; internal set; }
 
@@ -21,37 +21,19 @@ namespace NCop.IoC.Fluent
 
         public Type ServiceType { get; internal set; }
 
+        public ReuseScope Scope { get; internal set; }
+
         public INCopContainer Container { get; internal set; }
 
-        public ILifetimeStrategy ToSelf() {
-            throw new NotImplementedException();
-        }
-
         public void AsSingleton() {
-            var container = Expression.Parameter(typeof(INCopContainer), "container");
-            var @params = Func.Method
-                              .GetParameters()
-                              .Where(p => !p.ParameterType.Equals(typeof(Closure)))
-                              .Select(p => p.ParameterType)
-                              .Concat(Func.Method.ReturnType)
-                              .ToArray();
-
-            var invocation = Expression.Lambda(Expression.Invoke(Expression.Constant(Func), container), container);
-            var compiled = invocation.Compile();
-            var instance = compiled.DynamicInvoke(Container);
-            var lambda = Expression.Lambda(
-                            Expression.GetFuncType(@params),
-                            Expression.Constant(instance), 
-                            container);
-
-            Func = lambda.Compile();
+            Scope = ReuseScope.Container;
         }
 
         public void Named(string name) {
             Name = name;
         }
 
-        ILifetimeStrategy IDescriptable.Named(string name) {
+        IReuseStrategy IDescriptable.Named(string name) {
             Named(name);
 
             return this;

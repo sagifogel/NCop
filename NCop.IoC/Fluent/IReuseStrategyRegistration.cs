@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NCop.IoC.Fluent
 {
-    public interface ILiftimeStrategyRegistration : IFluentInterface, IFluentRegistration, ICasted
+    public interface IReuseStrategyRegistration : IFluentInterface, IFluentRegistration, ICasted
     {
     }
 }

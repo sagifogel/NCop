@@ -12,11 +12,9 @@ namespace NCop.IoC
 {
     public class ContainerRegistry : IRegistry, IEnumerable<IRegistration>
     {
-        private readonly INCopContainer container = null;
         private readonly List<IFluentRegistration> registrations = null;
 
-        public ContainerRegistry(INCopContainer container) {
-            this.container = container;
+        public ContainerRegistry() {
             registrations = new List<IFluentRegistration>();
         }
 
@@ -25,11 +23,11 @@ namespace NCop.IoC
             var factoryType = typeof(Func<INCopContainer, TCastable>);
 
             return RegisterImpl<ICastableRegistration<TCastable>>(
-                     new ExpressionRegistration<TCastable>(container, serviceType, factoryType));
+                     new CastableRegistration<TCastable>(serviceType, factoryType));
         }
 
-        public ILiftimeStrategyRegistration Register<TService>(Func<INCopContainer, TService> factory) {
-            return RegisterImpl<ILiftimeStrategyRegistration>(typeof(TService), typeof(Func<INCopContainer, TService>), factory);
+        public IReuseStrategyRegistration Register<TService>(Func<INCopContainer, TService> factory) {
+            return RegisterImpl<IReuseStrategyRegistration>(typeof(TService), typeof(Func<INCopContainer, TService>), factory);
         }
 
         public IFactoryRegistration Register<TService, TArg1>(Func<INCopContainer, TArg1, TService> factory) {

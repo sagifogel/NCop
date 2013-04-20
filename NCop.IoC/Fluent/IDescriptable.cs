@@ -7,6 +7,6 @@ namespace NCop.IoC.Fluent
 {
     public interface IDescriptable : IFluentInterface
     {
-        ILifetimeStrategy Named(string name);
+        IReuseStrategy Named(string name);
     }
 }

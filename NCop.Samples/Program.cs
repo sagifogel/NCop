@@ -38,9 +38,11 @@ namespace NCop.Samples
     {
         static void Main(string[] args) {
             var container = new NCopContainer(registry => {
-                registry.Register<IFoo>();
+                registry.Register<Foo>().AsSingleton();
             });
-            var instance = container.Resolve<IFoo>();
+
+            var instance = container.Resolve<Foo>();
+            var instatance2 = container.Resolve<Foo>();
         }
     }
 

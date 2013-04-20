@@ -5,11 +5,11 @@ using System.Text;
 
 namespace NCop.IoC
 {
-    public class Identifier : IEquatable<Identifier>
+    public class ServiceKey : IEquatable<ServiceKey>
     {
         private int hash = 0;
 
-        public Identifier(Type serviceType, Type factoryType, string name = null) {
+        public ServiceKey(Type serviceType, Type factoryType, string name = null) {
             FactoryType = factoryType;
             ServiceType = serviceType;
             hash = FactoryType.GetHashCode() ^ ServiceType.GetHashCode();
@@ -27,18 +27,18 @@ namespace NCop.IoC
         public Type ServiceType { get; private set; }
 
         public override bool Equals(object obj) {
-            return Equals((Identifier)obj);
+            return Equals((ServiceKey)obj);
         }
 
         public override int GetHashCode() {
             return hash;
         }
 
-        public bool Equals(Identifier other) {
+        public bool Equals(ServiceKey other) {
             return Equals(this, other);
         }
 
-        public static bool Equals(Identifier obj1, Identifier obj2) {
+        public static bool Equals(ServiceKey obj1, ServiceKey obj2) {
             if (ReferenceEquals(null, obj1) || ReferenceEquals(null, obj2) || !obj1.GetType().Equals(obj2.GetType())) {
                 return false;
             }

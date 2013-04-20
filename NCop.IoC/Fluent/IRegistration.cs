@@ -20,5 +20,8 @@ namespace NCop.IoC.Fluent
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         Type ServiceType { get; }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        ReuseScope Scope { get; }
     }
 }

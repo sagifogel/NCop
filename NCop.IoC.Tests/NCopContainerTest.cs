@@ -126,7 +126,7 @@ namespace NCop.IoC.Tests
             });
 
             var instance = container.Resolve<Foo>();
-            
+
             Assert.IsNotNull(instance);
             Assert.IsInstanceOfType(instance, typeof(Foo));
         }
@@ -146,6 +146,22 @@ namespace NCop.IoC.Tests
         public void TryResolve_NotRegisteredService_ThrowsRegistraionException() {
             var container = new NCopContainer(registry => { });
             var instance = container.Resolve<IFoo>();
+        }
+
+        [TestMethod]
+        public void TryResolve_NotRegisteredService_DontThrowsRegistraionExceptionAndReturnsNull() {
+            var container = new NCopContainer(registry => { });
+            var instance = container.TryResolve<IFoo>();
+
+            Assert.IsNull(instance);
+        }
+
+        [TestMethod]
+        public void TryResolve_NotRegisteredServiceWithMultipuleArguments_DontThrowsRegistraionExceptionAndReturnsNull() {
+            var container = new NCopContainer(registry => { });
+            var instance = container.TryResolve<string, int, IFoo>("NCop", 9);
+
+            Assert.IsNull(instance);
         }
     }
 }

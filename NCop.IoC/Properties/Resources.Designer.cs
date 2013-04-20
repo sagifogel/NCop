@@ -86,5 +86,14 @@ namespace NCop.IoC.Properties {
                 return ResourceManager.GetString("TypeIsInterface", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknow resue scope..
+        /// </summary>
+        internal static string UnknownReuseScope {
+            get {
+                return ResourceManager.GetString("UnknownReuseScope", resourceCulture);
+            }
+        }
     }
 }

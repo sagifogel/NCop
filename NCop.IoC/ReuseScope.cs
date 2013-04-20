@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NCop.IoC.Fluent
+namespace NCop.IoC
 {
-    public interface ICasted : IFluentInterface, IDescriptable, IReuseStrategy
+    public enum ReuseScope
     {
+        None,
+        Container
     }
 }
