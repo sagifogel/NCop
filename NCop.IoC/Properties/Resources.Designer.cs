@@ -61,6 +61,15 @@ namespace NCop.IoC.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not auto register type {0}. No parameterless constructor defined for this object..
+        /// </summary>
+        internal static string NoParameterlessConstructorFound {
+            get {
+                return ResourceManager.GetString("NoParameterlessConstructorFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not register interface {0}..
         /// </summary>
         internal static string TypeIsInterface {

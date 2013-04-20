@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NCop.IoC.Fluent
 {
-    public interface ICasted : IFlentInterface, IDescriptable, ILifetimeStrategy
+    public interface ICasted : IFluentInterface, IDescriptable, ILifetimeStrategy
     {
     }
 }

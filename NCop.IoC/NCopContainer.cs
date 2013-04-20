@@ -21,7 +21,7 @@ namespace NCop.IoC
         }
 
         public NCopContainer(Action<IRegistry> registrationAction) {
-            var registry = new ContainerRegistry();
+            var registry = new ContainerRegistry(this);
 
             registrationAction(registry);
             Interlocked.CompareExchange(ref services, ResolveServices(registry), null);

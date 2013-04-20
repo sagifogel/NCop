@@ -7,7 +7,7 @@ using System.Text;
 namespace NCop.IoC.Fluent
 {   
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public interface IFlentInterface
+    public interface IFluentInterface
     {
         [EditorBrowsable(EditorBrowsableState.Never)]
         Type GetType();

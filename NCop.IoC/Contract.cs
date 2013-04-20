@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace NCop.IoC
@@ -17,7 +18,13 @@ namespace NCop.IoC
             where T : class
             where TException : Exception {
             if (ReferenceEquals(null, value)) {
-                Throw(exceptionFactory);
+                throw exceptionFactory();
+            }
+        }
+
+        public static void RequiersConstructorNotNull<TException>(ConstructorInfo ctor, Func<TException> exceptionFactory) where TException : Exception {
+            if (ReferenceEquals(null, ctor)) {
+                throw exceptionFactory();
             }
         }
 

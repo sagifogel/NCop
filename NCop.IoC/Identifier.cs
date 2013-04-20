@@ -13,6 +13,7 @@ namespace NCop.IoC
             FactoryType = factoryType;
             ServiceType = serviceType;
             hash = FactoryType.GetHashCode() ^ ServiceType.GetHashCode();
+            Name = name;
 
             if (Name != null) {
                 hash ^= Name.GetHashCode();

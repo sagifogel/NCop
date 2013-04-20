@@ -23,8 +23,8 @@ namespace NCop.IoC.Tests
 
         [TestMethod]
         public void SameTypesAndNameValuesInIdentifier_ReturnsAreEqual() {
-            var identifier1 = new Identifier(typeof(Action), typeof(Action), "first");
-            var identifier2 = new Identifier(typeof(Action), typeof(Action), "first");
+            var identifier1 = new Identifier(typeof(Action), typeof(Delegate), "first");
+            var identifier2 = new Identifier(typeof(Action), typeof(Delegate), "first");
 
 
             Assert.AreEqual(identifier1, identifier2);

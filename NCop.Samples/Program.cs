@@ -53,23 +53,33 @@ namespace NCop.Samples
         private IDrummer _drummer;
 
         static void Main(string[] args) {
-            //var container = new NCopContainer((reg) => {
-            //    reg.Register<Foo>().ToSelf().AsSingleton();
-            //    //reg.Register<IBaz, string, int>((c, n, a) => new Baz(n, a));
-            //});
+            var parameter = Expression.Parameter(typeof(INCopContainer));
 
-            var ps = Expression.Parameter(typeof(int), "s");
-            var pt = Expression.Parameter(typeof(int), "t");
-            var ex2 = Expression.Lambda(
-            Expression.Quote(
-                Expression.Lambda(
-                    Expression.Add(ps, pt),
-                pt)),
-            ps);
+            //Expression.Lambda<INCopContainer, IBaz>(
+            //        Expression.
+            //Expression.Coalesce(
 
-            var f2a = (Func<int, Expression<Func<int, int>>>)ex2.Compile();
-            var f2b = f2a(200).Compile();
-            Console.WriteLine(f2b(123));
+            var container = new NCopContainer((reg) => {
+                reg.Register<Foo>().ToSelf();
+                //reg.Register<IBaz, string, int>((c, n, a) => new Baz(n, a));
+                reg.Register<Foo>((c) => new Foo("Sagi")).Named("Sagi");
+            });
+
+            var instance2 = container.Resolve<Foo>("Sagi");
+            var instance = container.Resolve<Foo>();
+
+            //var ps = Expression.Parameter(typeof(int), "s");
+            //var pt = Expression.Parameter(typeof(int), "t");
+            //var ex2 = Expression.Lambda(
+            //Expression.Quote(
+            //    Expression.Lambda(
+            //        Expression.Add(ps, pt),
+            //    pt)),
+            //ps);
+
+            //var f2a = (Func<int, Expression<Func<int, int>>>)ex2.Compile();
+            //var f2b = f2a(200).Compile();
+            //Console.WriteLine(f2b(123));
 
 
             //var del = m.Compile();
@@ -81,17 +91,6 @@ namespace NCop.Samples
             //Thread.Sleep(1000);
             //var instance2 = container.Resolve<Foo>();
         }
-
-        //public static Expression<Func<INCopContainer, string>> Method() {
-        //    var param = Expression.Parameter(typeof(INCopContainer));
-        //    Expression<Func<INCopContainer, string>> dateEx = (c) => DateTime.Now.ToString();
-        //    Expression<Func<INCopContainer, string>> expr = (c) => Expression.Invoke(dateEx, Expression.Constant(c));
-            
-            
-        //    return Expression.Lambda<Func<INCopContainer, string>>(
-        //            Expression.Invoke(expr),
-        //            param);
-        //}
     }
 
     public interface IDrummer

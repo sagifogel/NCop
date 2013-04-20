@@ -8,7 +8,7 @@ using NCop.Core.Extensions;
 
 namespace NCop.IoC.Fluent
 {
-    public class Registration : IFluenatRegistration, IRegistration
+    public class Registration : ILiftimeStrategyRegistration, IFactoryRegistration, IRegistration
     {
         public string Name { get; internal set; }
 
@@ -19,6 +19,8 @@ namespace NCop.IoC.Fluent
         public Type FactoryType { get; internal set; }
 
         public Type ServiceType { get; internal set; }
+
+        public INCopContainer Container { get; internal set; }
 
         public ILifetimeStrategy ToSelf() {
             throw new NotImplementedException();
@@ -44,19 +46,14 @@ namespace NCop.IoC.Fluent
             Func = lambda.Compile();
         }
 
-        public ILifetimeStrategy Named(string name) {
+        public void Named(string name) {
             Name = name;
-            return this;
         }
 
-        public static Expression<Func<INCopContainer, string>> Method() {
-            string date = DateTime.Now.ToString();
-            var param = Expression.Parameter(typeof(INCopContainer));
+        ILifetimeStrategy IDescriptable.Named(string name) {
+            Named(name);
 
-            Expression<Func<string>> expr = () => date;
-            return Expression.Lambda<Func<INCopContainer, string>>(
-                    Expression.Invoke(expr),
-                    param);
+            return this;
         }
     }
 }
