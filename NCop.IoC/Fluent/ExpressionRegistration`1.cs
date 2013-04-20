@@ -32,6 +32,10 @@ namespace NCop.IoC.Fluent
 
         public Delegate Func {
             get {
+                if (registration.Func.IsNull()) {
+                    ToSelf();   
+                }
+
                 return registration.Func;
             }
         }

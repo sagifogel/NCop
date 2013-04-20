@@ -13,24 +13,18 @@ using System.Threading.Tasks;
 
 namespace NCop.Samples
 {
-    public interface IFoo { }
+    public interface IFoo { string Name { get; } }
     public interface IBar { }
-
     public class Foo : IFoo
     {
-        public Foo() : this(DateTime.Now) { }
+        public Foo() { }
 
-        public Foo(DateTime date) {
-            Date = date;
+        public Foo(string name) {
+            Name = name;
         }
 
-        public DateTime Date { get; private set; }
+        public string Name { get; private set; }
     }
-
-    public class Foo2 : Foo
-    {
-    }
-
     public class Bar : IBar
     {
         private IFoo _foo;
@@ -40,33 +34,13 @@ namespace NCop.Samples
         }
     }
 
-    public interface IBaz
-    {
-    }
-    public class Baz : IBaz
-    {
-        public string Name { get; set; }
-        public int Age { get; set; }
-
-        public Baz(string name, int age) {
-            Console.WriteLine("{0} is {1} years old", Name = name, Age = age);
-        }
-    }
-
     class Program
     {
         static void Main(string[] args) {
-            var container = new NCopContainer((reg) => {
-                reg.Register<IFoo>((c) => new Foo());
-                
-                //reg.Register<IFoo>((c) => new Foo2());
-                //reg.Register<IFoo>((c) => new Foo2()).AsSingleton();
-                //reg.Register<Foo>().ToSelf().AsSingleton();
-                //reg.Register<Foo>((c) => new Foo()).Named("Sagi").AsSingleton();
+            var container = new NCopContainer(registry => {
+                registry.Register<IFoo>();
             });
-
-
-            var instance = container.Resolve<Foo>();
+            var instance = container.Resolve<IFoo>();
         }
     }
 
