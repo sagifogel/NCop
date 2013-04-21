@@ -7,8 +7,8 @@ namespace NCop.IoC
 {
     internal class IdentityLifetimeStrategy : ILifetimeStrategy
     {
-        public TService Resolve<TService, TFunc>(TFunc factory, Func<TFunc, TService> factoryInvoker) {
-            return factoryInvoker(factory);
+        public TService Resolve<TService>(ResolveContext<TService> context) {
+            return context.Factory();
         }
     }
 }

@@ -5,8 +5,9 @@ using System.Text;
 
 namespace NCop.IoC.Fluent
 {
-    public interface IReuseStrategy : IFluentInterface
+    public interface IReuseContext : IFluentInterface
     {
-        IReuseContext AsSingleton();
+        void WithinHierarchy();
+        void WithinContainer();
     }
 }

@@ -61,12 +61,12 @@ namespace NCop.IoC.Fluent
             registration.Named(name);
         }
 
-        public void AsSingleton() {
+        public IReuseContext AsSingleton() {
             var type = registration.CastTo.IsNull() ? ServiceType : CastTo;
 
             CastableRegistration<TCastable>.RequiersNotInterface(type);
             As(type);
-            registration.AsSingleton();
+            return registration.AsSingleton();
         }
 
         public ICasted ToSelf() {

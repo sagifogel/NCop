@@ -9,8 +9,8 @@ using System.Runtime.CompilerServices;
 
 namespace NCop.IoC.Fluent
 {
-    public class Registration : IReuseStrategyRegistration, IFactoryRegistration, IRegistration
-    {   
+    public class Registration : IReuseStrategyRegistration, IFactoryRegistration, IRegistration, IReuseContext
+    {
         public string Name { get; internal set; }
 
         public Type CastTo { get; internal set; }
@@ -25,8 +25,9 @@ namespace NCop.IoC.Fluent
 
         public INCopContainer Container { get; internal set; }
 
-        public void AsSingleton() {
+        public IReuseContext AsSingleton() {
             Scope = ReuseScope.Container;
+            return this;
         }
 
         public void Named(string name) {
@@ -37,6 +38,14 @@ namespace NCop.IoC.Fluent
             Named(name);
 
             return this;
+        }
+
+        public void WithinHierarchy() {
+            Scope = ReuseScope.Hierarchy;
+        }
+
+        public void WithinContainer() {
+            Scope = ReuseScope.Container;
         }
     }
 }

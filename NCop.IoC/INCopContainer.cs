@@ -8,7 +8,6 @@ namespace NCop.IoC
 {
     public interface INCopContainer
     {
-        INCopContainer ParentContainer { get; }
         TService Resolve<TService>(string name = null);
         TService TryResolve<TService>(string name = null);
         TService Resolve<TArg1, TService>(TArg1 arg1, string name = null);

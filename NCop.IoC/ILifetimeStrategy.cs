@@ -7,6 +7,6 @@ namespace NCop.IoC
 {
     internal interface ILifetimeStrategy
     {
-        TService Resolve<TService, TFunc>(TFunc factory, Func<TFunc, TService> factoryInvoker);
+        TService Resolve<TService>(ResolveContext<TService> context) ;
     }
 }

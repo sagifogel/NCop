@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="AttributeTypeMatcher.cs" />
     <Compile Include="ConcurrentDictionary.cs" />
+    <Compile Include="Functional.cs" />
     <Compile Include="Exceptions\AttributeNotFoundException.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -20,12 +20,12 @@ namespace NCop.IoC
             };
         }
 
-        public string Name { get; private set; }
-
-        public Type FactoryType { get; set; }
-
-        public Type ServiceType { get; private set; }
-
+        internal string Name { get; private set; }
+        
+        internal Type FactoryType { get; set; }
+        
+        internal Type ServiceType { get; private set; }
+        
         public override bool Equals(object obj) {
             return Equals((ServiceKey)obj);
         }

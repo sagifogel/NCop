@@ -163,6 +163,57 @@ namespace NCop.IoC.Tests
 
             Assert.IsNull(instance);
         }
+
+        [TestMethod]
+        public void Resolve_InChildContainerUsesParentContainer_ReusesParentContainerAndReturnsTheReolvedObject() {
+            var container = new NCopContainer(registry => {
+                registry.Register<Foo>();
+            });
+
+            var childContainer = container.CreateChildContainer(registry => { });
+            var instance = childContainer.Resolve<Foo>();
+
+            Assert.IsNotNull(instance);
+        }
+
+        [TestMethod]
+        public void ResolveInChildContainerAndInParentContainer_UsingSingletonRegistrationInParentContainer_ReturnsTheSameInstance() {
+            var container = new NCopContainer(registry => {
+                registry.Register<Foo>().AsSingleton();
+            });
+
+            var childContainer = container.CreateChildContainer(registry => { });
+            var instance = container.Resolve<Foo>();
+            var instance2 = childContainer.Resolve<Foo>();
+
+            Assert.AreSame(instance, instance2);
+        }
+
+        [TestMethod]
+        public void ResolveInChildContainerAndInParentContainer_UsingAutoRegistrationInParentContainerAsSingletonReusedWithinContainer_ReturnsTheSameInstance() {
+            var container = new NCopContainer(registry => {
+                registry.Register<Foo>().AsSingleton().WithinHierarchy();
+            });
+
+            var childContainer = container.CreateChildContainer(registry => { });
+            var instance = container.Resolve<Foo>();
+            var instance2 = childContainer.Resolve<Foo>();
+
+            Assert.AreSame(instance, instance2);
+        }
+
+        [TestMethod]
+        public void ResolveInChildContainerAndInParentContainer_UsingAutoRegistrationInParentContainerAsSingletoneReusedWithinHierarchy_ReturnsNotTheSameInstance() {
+            var container = new NCopContainer(registry => {
+                registry.Register<Foo>().AsSingleton().WithinContainer();
+            });
+
+            var childContainer = container.CreateChildContainer(registry => { });
+            var instance = container.Resolve<Foo>();
+            var instance2 = childContainer.Resolve<Foo>();
+
+            Assert.AreNotSame(instance, instance2);
+        }
     }
 }
 

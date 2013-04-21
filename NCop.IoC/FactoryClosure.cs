@@ -5,10 +5,7 @@ using System.Text;
 
 namespace NCop.IoC
 {
-    public enum ReuseScope
+    class FactoryClosure
     {
-        None,
-        Container,
-        Hierarchy
     }
 }

@@ -7,22 +7,24 @@ using System.Text;
 using NCop.Core.Extensions;
 using System.Threading;
 using NCop.IoC.Fluent;
+using NCop.Core;
 
 namespace NCop.IoC
 {
     public class NCopContainer : INCopContainer
     {
-        private Dictionary<ServiceKey, ServiceEntry> services = null;
+        private Guid Guid = Guid.NewGuid();
+        private readonly NCopContainer parentContainer = null;
+        private readonly Dictionary<ServiceKey, ServiceEntry> services = null;
 
-        public INCopContainer ParentContainer {
-            get {
-                return null;
-            }
+        public NCopContainer(Action<IRegistry> registrationAction)
+            : this(registrationAction, null) {
         }
 
-        public NCopContainer(Action<IRegistry> registrationAction) {
+        internal NCopContainer(Action<IRegistry> registrationAction, NCopContainer parentContainer) {
             var registry = new ContainerRegistry();
 
+            this.parentContainer = parentContainer;
             registrationAction(registry);
             Interlocked.CompareExchange(ref services, ResolveServices(registry), null);
         }
@@ -30,8 +32,17 @@ namespace NCop.IoC
         private Dictionary<ServiceKey, ServiceEntry> ResolveServices(IEnumerable<IRegistration> registrations) {
             return registrations.ToDictionary(r => new ServiceKey(r.ServiceType, r.FactoryType, r.Name),
                                              (kv) => {
-                                                 return new ServiceEntry(kv.Func, kv.Scope.ToStrategy());
+                                                 return new ServiceEntry {
+                                                     Container = this,
+                                                     Scope = kv.Scope,
+                                                     Factory = kv.Func,
+                                                     LifetimeStrategy = kv.Scope.ToStrategy(this)
+                                                 };
                                              });
+        }
+
+        internal void LateRegister(ServiceKey key, ServiceEntry entry) {
+            services[key] = entry;
         }
 
         public TService Resolve<TService>(string name = null) {
@@ -143,6 +154,7 @@ namespace NCop.IoC
         }
 
         public TService ResolveImpl<TService, TFunc>(Func<TFunc, TService> factoryInvoker, string name = null, bool throwIfMissing = true) {
+            ResolveContext<TService> context = null;
             var identifier = new ServiceKey(typeof(TService), typeof(TFunc), name);
             ServiceEntry entry = GetEntry(identifier);
 
@@ -153,16 +165,33 @@ namespace NCop.IoC
 
                 return default(TService);
             }
+            
+            context = new ResolveContext<TService> { 
+                Entry = entry,
+                Key = identifier,
+                Container = this,
+                Factory = Functional.Curry(factoryInvoker, (TFunc)entry.Factory)
+            };
 
-            return entry.LifetimeStrategy.Resolve<TService, TFunc>((TFunc)entry.Factory, factoryInvoker);
+            return entry.LifetimeStrategy.Resolve(context);
+        }
+
+        internal bool TryGetEntry(ServiceKey key, out ServiceEntry entry) {
+            return (entry = GetEntry(key)) != null;
         }
 
         private ServiceEntry GetEntry(ServiceKey key) {
             ServiceEntry entry;
 
-            services.TryGetValue(key, out entry);
+            if (services.TryGetValue(key, out entry) || parentContainer.TryGetEntryWhenNotNull(key, out entry)) {
+                return entry;
+            }
 
             return entry;
+        }
+
+        public INCopContainer CreateChildContainer(Action<IRegistry> registrationAction) {
+            return new NCopContainer(registrationAction, this);
         }
     }
 }

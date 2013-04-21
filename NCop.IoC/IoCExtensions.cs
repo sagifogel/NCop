@@ -7,8 +7,8 @@ namespace NCop.IoC
 {
     public static class IoCExtensions
     {
-        internal static ILifetimeStrategy ToStrategy(this ReuseScope scope) {
-            return LifetimeStrategyFactory.Get(scope);
+        internal static ILifetimeStrategy ToStrategy(this ReuseScope scope, INCopContainer container) {
+            return LifetimeStrategyFactory.Get(scope, container);
         }
     }
 }
