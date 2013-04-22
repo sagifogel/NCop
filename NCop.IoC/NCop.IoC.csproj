@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractLifetimeStrategy.cs" />
     <Compile Include="ResolveContext`1.cs" />
     <Compile Include="ContainerSingletonStrategy.cs" />
     <Compile Include="Fluent\IReuseContext.cs" />

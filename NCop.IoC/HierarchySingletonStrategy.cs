@@ -7,18 +7,20 @@ using NCop.Core.Extensions;
 
 namespace NCop.IoC
 {
-    internal class HierarchySingletonStrategy : ILifetimeStrategy
-    {
-        private object instance = null;
+	internal class HierarchySingletonStrategy : AbstractLifetimeStrategy
+	{
+		internal HierarchySingletonStrategy(INCopContainer container = null)
+			: base(container) {
+		}
 
-        public TService Resolve<TService>(ResolveContext<TService> context) {
-            return (TService)(instance ?? CreateInstance(context.Factory));
-        }
-        
-        private object CreateInstance<TService>(Func<TService> factory) {
-            Interlocked.CompareExchange(ref instance, factory(), null);
+		public override TService Resolve<TService>(ResolveContext<TService> context) {
+			return (TService)(instance ?? CreateInstance(context.Factory));
+		}
 
-            return instance;
-        }
-    }
+		private object CreateInstance<TService>(Func<TService> factory) {
+			Interlocked.CompareExchange(ref instance, factory(), null);
+
+			return instance;
+		}
+	}
 }
