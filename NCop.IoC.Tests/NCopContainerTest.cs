@@ -10,22 +10,23 @@ namespace NCop.IoC.Tests
 	{
 		public interface IFoo { string Name { get; } }
 		public interface IBar { }
-		public class Foo : IFoo
-		{
-			private Guid Guid;
 
-			public Foo() { Guid = Guid.NewGuid(); }
+		public class Foo : IFoo, IDisposable
+		{
+            public bool IsDisposed { get; set; }
+
+			public Foo() { }
 
 			public Foo(string name) {
 				Name = name;
 			}
 
-			public override string ToString() {
-				return Guid.ToString();
-			}
-
 			public string Name { get; private set; }
-		}
+
+            public void Dispose() {
+                IsDisposed = true;    
+            }
+        }
 		public class Bar : IBar
 		{
 			private IFoo _foo;
@@ -200,7 +201,7 @@ namespace NCop.IoC.Tests
 		[TestMethod]
 		public void ResolveInChildContainerAndInParentContainer_UsingAutoRegistrationInParentContainerAsSingletonReusedWithinContainer_ReturnsTheSameInstance() {
 			var container = new NCopContainer(registry => {
-				registry.Register<Foo>().AsSingleton().WithinHierarchy();
+				registry.Register<Foo>().AsSingleton().ReusedWithinHierarchy();
 			});
 
 			var childContainer = container.CreateChildContainer(registry => { });
@@ -213,7 +214,7 @@ namespace NCop.IoC.Tests
 		[TestMethod]
 		public void ResolveInChildContainerAndInParentContainer_UsingAutoRegistrationInParentContainerAsSingletoneReusedWithinHierarchy_ReturnsNotTheSameInstance() {
 			var container = new NCopContainer(registry => {
-				registry.Register<Foo>().AsSingleton().WithinContainer();
+				registry.Register<Foo>().AsSingleton().ReusedWithinContainer();
 			});
 
 			var childContainer = container.CreateChildContainer(registry => { });
@@ -226,6 +227,19 @@ namespace NCop.IoC.Tests
 			Assert.AreNotSame(instance1, instance3);
 			Assert.AreSame(instance3, instance4);
 		}
+
+        [TestMethod]
+        public void DisposeResolveInChildContainerAndInParentContainer_UsingAutoRegistrationInParentContainerAsSingletonReusedWithinContainer_ReturnsTheSameInstance2() {
+            var container = new NCopContainer(registry => {
+                registry.Register<Foo>().OwnedByContainer();
+            });
+
+            var instance = container.Resolve<Foo>();
+
+            Assert.IsFalse(instance.IsDisposed);
+            container.Dispose();
+            Assert.IsTrue(instance.IsDisposed);
+        }
 	}
 }
 

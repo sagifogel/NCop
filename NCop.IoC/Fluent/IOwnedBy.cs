@@ -5,9 +5,9 @@ using System.Text;
 
 namespace NCop.IoC.Fluent
 {
-    public interface IReuseContext : IFluentInterface
+    public interface IOwnedBy : IFluentInterface
     {
-        void WithinHierarchy();
-        void WithinContainer();
+        void OwnedExternally();
+        void OwnedByContainer();
     }
 }

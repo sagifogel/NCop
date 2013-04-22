@@ -13,9 +13,9 @@ namespace NCop.IoC
 {
     public class NCopContainer : INCopContainer
     {
-        private Guid Guid = Guid.NewGuid();
         private readonly NCopContainer parentContainer = null;
         private readonly Dictionary<ServiceKey, ServiceEntry> services = null;
+        private readonly Stack<WeakReference> disposables = new Stack<WeakReference>();
 
         public NCopContainer(Action<IRegistry> registrationAction)
             : this(registrationAction, null) {
@@ -33,6 +33,7 @@ namespace NCop.IoC
             return registrations.ToDictionary(r => new ServiceKey(r.ServiceType, r.FactoryType, r.Name),
                                              (kv) => {
                                                  return new ServiceEntry {
+                                                     Owner = kv.Owner,
                                                      Container = this,
                                                      Scope = kv.Scope,
                                                      Factory = kv.Func,
@@ -165,15 +166,25 @@ namespace NCop.IoC
 
                 return default(TService);
             }
-            
-            context = new ResolveContext<TService> { 
+
+            context = new ResolveContext<TService> {
                 Entry = entry,
                 Key = identifier,
                 Container = this,
-                Factory = Functional.Curry(factoryInvoker, (TFunc)entry.Factory)
+                Factory = Functional.Curry(CreateInstance, entry, (TFunc)entry.Factory, factoryInvoker)
             };
 
             return entry.LifetimeStrategy.Resolve(context);
+        }
+
+        private TService CreateInstance<TService, TFunc>(ServiceEntry entry, TFunc factory, Func<TFunc, TService> factoryInvoker) {
+            var instance = factoryInvoker(factory);
+
+            if (entry.Owner == Owner.Container && instance is IDisposable) {
+                disposables.Push(new WeakReference(instance));
+            }
+
+            return instance;
         }
 
         internal bool TryGetEntry(ServiceKey key, out ServiceEntry entry) {
@@ -192,6 +203,16 @@ namespace NCop.IoC
 
         public INCopContainer CreateChildContainer(Action<IRegistry> registrationAction) {
             return new NCopContainer(registrationAction, this);
+        }
+
+        public void Dispose() {
+            while (disposables.Count > 0) {
+                var disposable = disposables.Pop();
+
+                if (disposable.IsAlive) {
+                    ((IDisposable)disposable.Target).Dispose();
+                }
+            }
         }
     }
 }

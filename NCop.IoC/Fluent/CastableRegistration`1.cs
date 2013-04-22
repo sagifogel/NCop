@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace NCop.IoC.Fluent
 {
-    public class CastableRegistration<TCastable> : IDescriptable, IRegistration, ICastableRegistration<TCastable>, ICasted
+    public class CastableRegistration<TCastable> : IDescriptable, IRegistration, ICastableRegistration<TCastable>, ICasted, IOwnedBy
     {
         private readonly Registration registration = null;
 
@@ -56,12 +56,18 @@ namespace NCop.IoC.Fluent
                 return registration.Scope;
             }
         }
+        
+        public Owner Owner {
+            get {
+                return registration.Owner;
+            }
+        }
 
         public void Named(string name) {
             registration.Named(name);
         }
 
-        public IReuseContext AsSingleton() {
+        public IReusedWithin AsSingleton() {
             var type = registration.CastTo.IsNull() ? ServiceType : CastTo;
 
             CastableRegistration<TCastable>.RequiersNotInterface(type);
@@ -111,6 +117,14 @@ namespace NCop.IoC.Fluent
             registration.Named(name);
 
             return this;
+        }
+
+        public void OwnedExternally() {
+            registration.OwnedExternally();
+        }
+
+        public void OwnedByContainer() {
+            registration.OwnedByContainer();
         }
     }
 }

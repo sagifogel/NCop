@@ -23,5 +23,8 @@ namespace NCop.IoC.Fluent
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         ReuseScope Scope { get; }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        Owner Owner { get; }
     }
 }

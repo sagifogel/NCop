@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NCop.IoC
 {
-    public interface INCopContainer
+    public interface INCopContainer : IDisposable
     {
         TService Resolve<TService>(string name = null);
         TService TryResolve<TService>(string name = null);

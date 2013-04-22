@@ -56,9 +56,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractLifetimeStrategy.cs" />
+    <Compile Include="Fluent\IOwnedBy.cs" />
+    <Compile Include="Owner.cs" />
     <Compile Include="ResolveContext`1.cs" />
     <Compile Include="ContainerSingletonStrategy.cs" />
-    <Compile Include="Fluent\IReuseContext.cs" />
+    <Compile Include="Fluent\IReusedWithin.cs" />
     <Compile Include="IdentityLifetimeStrategy.cs" />
     <Compile Include="IoCExtensions.cs" />
     <Compile Include="LifetimeStrategyFactory.cs" />

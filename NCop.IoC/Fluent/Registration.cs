@@ -9,11 +9,13 @@ using System.Runtime.CompilerServices;
 
 namespace NCop.IoC.Fluent
 {
-    public class Registration : IReuseStrategyRegistration, IFactoryRegistration, IRegistration, IReuseContext
+    public class Registration : IReuseStrategyRegistration, IFactoryRegistration, IRegistration, IReusedWithin
     {
         public string Name { get; internal set; }
 
         public Type CastTo { get; internal set; }
+
+        public Owner Owner { get; internal set; }
 
         public Delegate Func { get; internal set; }
 
@@ -22,10 +24,10 @@ namespace NCop.IoC.Fluent
         public Type ServiceType { get; internal set; }
 
         public ReuseScope Scope { get; internal set; }
-
+        
         public INCopContainer Container { get; internal set; }
 
-        public IReuseContext AsSingleton() {
+        public IReusedWithin AsSingleton() {
             Scope = ReuseScope.Hierarchy;
             return this;
         }
@@ -40,12 +42,24 @@ namespace NCop.IoC.Fluent
             return this;
         }
 
-        public void WithinHierarchy() {
+        public IOwnedBy ReusedWithinHierarchy() {
             Scope = ReuseScope.Hierarchy;
+            
+            return this;
         }
 
-        public void WithinContainer() {
+        public IOwnedBy ReusedWithinContainer() {
             Scope = ReuseScope.Container;
+            
+            return this;
+        }
+
+        public void OwnedByContainer() {
+            Owner = Owner.Container;
+        }
+
+        public void OwnedExternally() {
+            Owner = Owner.External;
         }
     }
 }

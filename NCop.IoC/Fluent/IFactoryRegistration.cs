@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NCop.IoC.Fluent
 {
-    public interface IFactoryRegistration : IFluentRegistration, IFreezableDescriptable
+    public interface IFactoryRegistration : IFluentRegistration, IFreezableDescriptable, IOwnedBy
     {
     }
 }

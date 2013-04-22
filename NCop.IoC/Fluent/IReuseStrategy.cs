@@ -7,6 +7,6 @@ namespace NCop.IoC.Fluent
 {
     public interface IReuseStrategy : IFluentInterface
     {
-        IReuseContext AsSingleton();
+        IReusedWithin AsSingleton();
     }
 }
