@@ -29,10 +29,10 @@ namespace NCop.IoC.Tests
         }
 		public class Bar : IBar
 		{
-			private IFoo _foo;
+            public Foo Foo { get; private set; }
 
 			public Bar(IFoo foo) {
-				_foo = foo;
+				Foo = foo;
 			}
 		}
 
@@ -229,7 +229,7 @@ namespace NCop.IoC.Tests
 		}
 
         [TestMethod]
-        public void DisposeResolveInChildContainerAndInParentContainer_UsingAutoRegistrationInParentContainerAsSingletonReusedWithinContainer_ReturnsTheSameInstance2() {
+        public void DisposeOfContainer_OfDisposableObjectWhichIsOwnedByContainer_ReturnsDispsoedIndication() {
             var container = new NCopContainer(registry => {
                 registry.Register<Foo>().OwnedByContainer();
             });
@@ -240,6 +240,30 @@ namespace NCop.IoC.Tests
             container.Dispose();
             Assert.IsTrue(instance.IsDisposed);
         }
+
+        [TestMethod]
+        public void DisposeOfContainer_OfDisposableObjectWhichIsOwnedExternally_ReturnsNotDispsoedIndication() {
+            var container = new NCopContainer(registry => {
+                registry.Register<Foo>().OwnedExternally();
+            });
+
+            var instance = container.Resolve<Foo>();
+
+            Assert.IsFalse(instance.IsDisposed);
+            container.Dispose();
+            Assert.IsFalse(instance.IsDisposed);
+        }
+
+        //[TestMethod]
+        //public void DisposeOfContainer_OfDisposableObjectWhichIsOwnedExternally_ReturnsNotDispsoedIndication() {
+        //    var container = new NCopContainer(registry => {
+        //        //registry.AutoWire<Bar>();
+        //    });
+
+        //    var instance = container.Resolve<Bar>();
+
+        //    Assert.IsNotNull(instance.Foo);
+        //}
 	}
 }
 
