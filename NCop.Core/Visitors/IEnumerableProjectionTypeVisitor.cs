@@ -10,6 +10,6 @@ namespace NCop.Core.Visitors
 {
     public interface IEnumerableProjectionTypeVisitor<T> : IProjectionTypeVisitor<IEnumerable<T>>
     {
-        
+
     }
 }

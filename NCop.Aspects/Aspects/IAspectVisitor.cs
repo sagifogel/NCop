@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Aspects
 {
-    public interface IAspectVisitor : IProjectionTypeVisitor<IAspect>
+    internal interface IAspectVisitor : IProjectionTypeVisitor<IAspect>
     {
     }
 }

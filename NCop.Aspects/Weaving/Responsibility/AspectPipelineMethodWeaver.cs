@@ -1,5 +1,5 @@
-﻿using NCop.Core.Weaving;
-using NCop.Core.Weaving.Responsibility;
+﻿using NCop.Weaving;
+using NCop.Weaving.Responsibility;
 using System;
 using System.Reflection;
 

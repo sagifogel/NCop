@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace NCop.Core.Visitors
 {
-    public interface ITypeVisitor
+    internal interface ITypeVisitor
     {
         void Visit(Type type);
         void Visit(MethodInfo method);

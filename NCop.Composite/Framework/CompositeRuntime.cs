@@ -3,6 +3,7 @@ using NCop.Composite.Weaving;
 using NCop.Core;
 using System.Linq;
 using NCop.Core.Extensions;
+using NCop.Core.Runtime;
 
 namespace NCop.Composite.Framework
 {

@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NCop.Core.Weaving;
+using NCop.Weaving;
 using System.Reflection.Emit;
 using NCop.Mixins.Engine;
 using NCop.Core.Extensions;
 
 namespace NCop.Mixins.Weaving
 {
-    public class MixinsTypeDefinition : ITypeDefinition
+    internal class MixinsTypeDefinition : ITypeDefinition
     {
-        private readonly IMixinsMap _mixinsMap = null;
-        private readonly Dictionary<Type, MixinTypeDefinition> _mixinTypeDefinition = null;
+        private readonly IMixinsMap mixinsMap = null;
+        private readonly Dictionary<Type, MixinTypeDefinition> mixinTypeDefinitions = null;
 
-        public MixinsTypeDefinition(Type mixinsType, IMixinsMap mixinsMap) {
+        internal MixinsTypeDefinition(Type mixinsType, IMixinsMap mixinsMap) {
             Type = mixinsType;
-            _mixinsMap = mixinsMap;
-            _mixinTypeDefinition = new Dictionary<Type, MixinTypeDefinition>();
+            this.mixinsMap = mixinsMap;
+            mixinTypeDefinitions = new Dictionary<Type, MixinTypeDefinition>();
             CreateTypeBuilder();
             CreateMixinTypeDefinitions();
         }
@@ -29,7 +29,7 @@ namespace NCop.Mixins.Weaving
         public FieldBuilder GetOrAddFieldBuilder(Type type) {
             MixinTypeDefinition mixinTypeDefinition;
 
-            if (_mixinTypeDefinition.TryGetValue(type, out mixinTypeDefinition)) {
+            if (mixinTypeDefinitions.TryGetValue(type, out mixinTypeDefinition)) {
                 return mixinTypeDefinition.GetOrAddFieldBuilder(type);
             }
 
@@ -37,16 +37,16 @@ namespace NCop.Mixins.Weaving
         }
 
         private void CreateTypeBuilder() {
-            var interfaces = _mixinsMap.Select(mixin => mixin.Contract);
+            var interfaces = mixinsMap.Select(mixin => mixin.Contract);
 
             TypeBuilder = typeof(object).DefineType(name: Type.ToUniqueName(), interfaces: interfaces);
         }
 
         private void CreateMixinTypeDefinitions() {
-            _mixinsMap.ForEach(mixin => {
+            mixinsMap.ForEach(mixin => {
                 var mixinTypeDefinition = new MixinTypeDefinition(mixin.Contract, TypeBuilder);
 
-                _mixinTypeDefinition.Add(mixin.Contract, mixinTypeDefinition);
+                mixinTypeDefinitions.Add(mixin.Contract, mixinTypeDefinition);
             });
         }
     }

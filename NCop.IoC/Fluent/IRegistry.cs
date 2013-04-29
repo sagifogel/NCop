@@ -8,6 +8,7 @@ namespace NCop.IoC.Fluent
     public interface IRegistry
     {
         ICastableRegistration<TCastable> Register<TCastable>();
+        ICastableRegistration<TCastable> RegisterAuto<TCastable>();
         IReuseStrategyRegistration Register<TService>(Func<INCopContainer, TService> factory);
         IFactoryRegistration Register<TService, TArg1>(Func<INCopContainer, TArg1, TService> factory);
         IFactoryRegistration Register<TService, TArg1, TArg2>(Func<INCopContainer, TArg1, TArg2, TService> factory);

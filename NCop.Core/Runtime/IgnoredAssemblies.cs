@@ -9,40 +9,40 @@ using System.Collections;
 
 namespace NCop.Core.Runtime
 {
-    public sealed class IgnoredAssemblies : IEnumerable<Assembly>
+    internal sealed class IgnoredAssemblies : IEnumerable<Assembly>
     {
-        private ISet<Assembly> _assemblies = null;
-        private static Lazy<IgnoredAssemblies> _ignoredAssemblies = new Lazy<IgnoredAssemblies>(() => new IgnoredAssemblies());
-        private string _objectPublicKeyToken = typeof(object).GetAssemblyPublicKeyToken();
-        private string _binderPublicKeyToken = typeof(CSharpBinder.Binder).GetAssemblyPublicKeyToken();
+        private ISet<Assembly> assemblies = null;
+        private static Lazy<IgnoredAssemblies> ignoredAssemblies = new Lazy<IgnoredAssemblies>(() => new IgnoredAssemblies());
+        private string objectPublicKeyToken = typeof(object).GetAssemblyPublicKeyToken();
+        private string binderPublicKeyToken = typeof(CSharpBinder.Binder).GetAssemblyPublicKeyToken();
 
         private IgnoredAssemblies() {
-            _assemblies = AppDomain.CurrentDomain
+            assemblies = AppDomain.CurrentDomain
                                         .GetAssemblies()
                                         .Where(assembly => {
                                             return assembly.IsNCopAssembly() ||
-                                                   assembly.HasSamePublicKeyToken(_objectPublicKeyToken) ||
-                                                   assembly.HasSamePublicKeyToken(_binderPublicKeyToken);
+                                                   assembly.HasSamePublicKeyToken(objectPublicKeyToken) ||
+                                                   assembly.HasSamePublicKeyToken(binderPublicKeyToken);
                                         })
                                         .ToSet();
         }
 
-        public static IgnoredAssemblies Instance {
+        internal static IgnoredAssemblies Instance {
             get {
-                return _ignoredAssemblies.Value;
+                return ignoredAssemblies.Value;
             }
         }
 
         public IEnumerator<Assembly> GetEnumerator() {
-            return _assemblies.GetEnumerator();
+            return assemblies.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
             return GetEnumerator();
         }
 
-        public bool Contains(Assembly assembly) {
-            return _assemblies.Contains(assembly);
+        internal bool Contains(Assembly assembly) {
+            return assemblies.Contains(assembly);
         }
     }
 }

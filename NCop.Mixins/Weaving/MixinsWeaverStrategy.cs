@@ -3,27 +3,27 @@ using System.Linq;
 using System.Reflection;
 using NCop.Core;
 using NCop.Core.Mixin;
-using NCop.Core.Weaving;
+using NCop.Weaving;
 using NCop.Core.Extensions;
 using System;
 using NCop.Mixins.Engine;
 
 namespace NCop.Mixins.Weaving
 {
-    public class MixinsWeaverStrategy : ITypeWeaver
+    internal class MixinsWeaverStrategy : ITypeWeaver
     {
-        private readonly IEnumerable<IMethodWeaver> _methodWeavers = null;
-        private readonly ITypeDefinitionFactory _typeDefinitionFactory = null;
+        private readonly IEnumerable<IMethodWeaver> methodWeavers = null;
+        private readonly ITypeDefinitionFactory typeDefinitionFactory = null;
 
-        public MixinsWeaverStrategy(ITypeDefinitionFactory typeDefinitionFactory, IEnumerable<IMethodWeaver> methodWeavers) {
-            _methodWeavers =  methodWeavers;
-            _typeDefinitionFactory = typeDefinitionFactory;
+        internal MixinsWeaverStrategy(ITypeDefinitionFactory typeDefinitionFactory, IEnumerable<IMethodWeaver> methodWeavers) {
+            this.methodWeavers =  methodWeavers;
+            this.typeDefinitionFactory = typeDefinitionFactory;
         }
 
         public void Weave() {
-            var typeDefinition = _typeDefinitionFactory.Resolve();
+            var typeDefinition = typeDefinitionFactory.Resolve();
 
-            _methodWeavers.ForEach(methodWeaver => {
+            methodWeavers.ForEach(methodWeaver => {
                 var methodBuilder = methodWeaver.DefineMethod(typeDefinition);
                 var ilGenerator = methodBuilder.GetILGenerator();
 

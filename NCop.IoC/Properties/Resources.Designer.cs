@@ -61,6 +61,15 @@ namespace NCop.IoC.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ambiguous constructor dependency was found for type {0}. Only one constructor can be annotated with DependencyAttribute attribute..
+        /// </summary>
+        internal static string AmbigiousConstructorDependency {
+            get {
+                return ResourceManager.GetString("AmbigiousConstructorDependency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not resolve type {0}..
         /// </summary>
         internal static string CouldNotResolveType {

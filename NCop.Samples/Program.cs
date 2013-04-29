@@ -1,6 +1,8 @@
 ﻿using NCop.Aspects.Framework;
+using NCop.Composite.Engine;
 using NCop.Composite.Framework;
 using NCop.IoC;
+using NCop.IoC.Framework;
 using NCop.Mixins.Framework;
 using System;
 using System.Collections.Generic;
@@ -13,36 +15,11 @@ using System.Threading.Tasks;
 
 namespace NCop.Samples
 {
-    public interface IFoo { string Name { get; } }
-    public interface IBar { }
-    public class Foo : IFoo
-    {
-        public Foo() { }
-
-        public Foo(string name) {
-            Name = name;
-        }
-
-        public string Name { get; private set; }
-    }
-    public class Bar : IBar
-    {
-        private IFoo _foo;
-
-        public Bar(IFoo foo) {
-            _foo = foo;
-        }
-    }
-
     class Program
     {
-        static void Main(string[] args) {
-            var container = new NCopContainer(registry => {
-                registry.Register<Foo>().AsSingleton();
-            });
 
-            var instance = container.Resolve<Foo>();
-            var instatance2 = container.Resolve<Foo>();
+        static void Main(string[] args) {
+            //NCop.
         }
     }
 
@@ -83,7 +60,7 @@ namespace NCop.Samples
     public interface IEngineerAspectFilter : IAspectFilter, IEngineer
     {
         [ProfilerAspect(AspectPriority = 1)]
-        void DoWork();
+        new void DoWork();
     }
 
     [Aspects(new Type[] { typeof(IEngineerAspectFilter) })]

@@ -18,13 +18,13 @@ namespace NCop.IoC
 	[Serializable]
 	public class RegistraionException : ArgumentException
 	{
-		private static string _message = "Type could not be registered";
+		private static string message = "Type could not be registered";
 		
-		public RegistraionException(string message = null) : base(message ?? _message) { }
+		public RegistraionException(string message = null) : base(message ?? RegistraionException.message) { }
 
-		public RegistraionException(Exception innerException) : this(_message, innerException) { }
+		public RegistraionException(Exception innerException) : this(message, innerException) { }
 
-		public RegistraionException(string parameterName, string message = null) : base(message ?? _message, parameterName) { }
+		public RegistraionException(string parameterName, string message = null) : base(message ?? RegistraionException.message, parameterName) { }
 
 		public RegistraionException(string message, Exception innerException) : base(message, innerException) { }
 

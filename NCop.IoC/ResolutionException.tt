@@ -1,6 +1,5 @@
 <#@ template language="C#" hostspecific="True" debug="True" #>
 <#@ output extension="cs" #>
-<#@ include file="T4Toolbox.tt" #>
 <#@ include file="$(SolutionDir)\NCop.Core\Exceptions\ArgumentExceptionTemplate.tt" #>
 <#
 	var template = new ArgumentExceptionTemplate();

@@ -18,13 +18,13 @@ namespace NCop.Mixins.Exceptions
 	[Serializable]
 	public class DuplicateMixinAnnotationException : ArgumentException
 	{
-		private static string _message = "Duplicate mixin annotation has been found";
+		private static string message = "Duplicate mixin annotation has been found";
 		
-		public DuplicateMixinAnnotationException(string message = null) : base(message ?? _message) { }
+		public DuplicateMixinAnnotationException(string message = null) : base(message ?? DuplicateMixinAnnotationException.message) { }
 
-		public DuplicateMixinAnnotationException(Exception innerException) : this(_message, innerException) { }
+		public DuplicateMixinAnnotationException(Exception innerException) : this(message, innerException) { }
 
-		public DuplicateMixinAnnotationException(string parameterName, string message = null) : base(message ?? _message, parameterName) { }
+		public DuplicateMixinAnnotationException(string parameterName, string message = null) : base(message ?? DuplicateMixinAnnotationException.message, parameterName) { }
 
 		public DuplicateMixinAnnotationException(string message, Exception innerException) : base(message, innerException) { }
 

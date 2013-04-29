@@ -8,32 +8,32 @@ namespace NCop.Composite.Engine
 {
     public sealed class WellKnownComposites
     {
-        private static readonly object _syncLock = new object();
-        private ISet<Type> _wellKnownCompositeTypes = new HashSet<Type>();
-        private static readonly Lazy<WellKnownComposites> _wellKnownComposites = null;
+        private static readonly object syncLock = new object();
+        private ISet<Type> wellKnownCompositeTypes = new HashSet<Type>();
+        private static readonly Lazy<WellKnownComposites> wellKnownComposites = null;
 
         static WellKnownComposites() {
-            _wellKnownComposites = new Lazy<WellKnownComposites>(() => new WellKnownComposites());
+            wellKnownComposites = new Lazy<WellKnownComposites>(() => new WellKnownComposites());
         }
 
         private WellKnownComposites() {
-            _wellKnownCompositeTypes = new HashSet<Type>(new[] { typeof(TransientCompositeAttribute) });
+            wellKnownCompositeTypes = new HashSet<Type>(new[] { typeof(TransientCompositeAttribute) });
         }
 
-        public static WellKnownComposites Instance {
+        internal static WellKnownComposites Instance {
             get {
-                return _wellKnownComposites.Value;
+                return wellKnownComposites.Value;
             }
         }
 
-        public void RegisterCompositeType(Type type) {
-            lock (_syncLock) {
-                _wellKnownCompositeTypes.Add(type);
+        public static void RegisterCompositeType(Type type) {
+            lock (syncLock) {
+                WellKnownComposites.Instance.wellKnownCompositeTypes.Add(type);
             }
         }
 
-        public bool Contains(Type type) {
-            return _wellKnownCompositeTypes.Contains(type);
+        internal bool Contains(Type type) {
+            return wellKnownCompositeTypes.Contains(type);
         }
     }
 }

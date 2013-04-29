@@ -49,7 +49,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttributeTypeMatcher.cs" />
-    <Compile Include="ConcurrentDictionary.cs" />
     <Compile Include="Functional.cs" />
     <Compile Include="Exceptions\AttributeNotFoundException.cs">
       <AutoGen>True</AutoGen>
@@ -66,9 +65,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Exceptions\NCopCSharpTemplate.tt">
-      <LastOutputs>.\NCopCSharpTemplate1.cs</LastOutputs>
-    </None>
     <Compile Include="Exceptions\TypeDefinitionInitializationException.cs">
       <DependentUpon>TypeDefinitionInitializationException.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -84,56 +80,14 @@
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="IReadOnlyCollection.cs" />
-    <Compile Include="IRuntime.cs" />
+    <Compile Include="Runtime\IRuntime.cs" />
     <Compile Include="Lazy.cs" />
     <Compile Include="Mixin\MixinMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runtime\RuntimeSettings.cs" />
-    <Compile Include="Synchronization\DowngradeableLocker.cs" />
-    <Compile Include="Synchronization\IDowngradeableLocker.cs" />
-    <Compile Include="Synchronization\ILocker.cs" />
-    <Compile Include="Synchronization\ILockerFinalizer.cs" />
-    <Compile Include="Synchronization\ILockIndicator.cs" />
-    <Compile Include="Synchronization\IUpgradeableLocker.cs" />
-    <Compile Include="Synchronization\LockerFinalizer.cs" />
-    <Compile Include="Synchronization\ReadLock.cs" />
-    <Compile Include="Synchronization\ReadWriteLocker.cs" />
-    <Compile Include="Synchronization\UpgradeableLocker.cs" />
     <Compile Include="Tuples.cs" />
     <Compile Include="Visitors\ITypeVisitor.cs" />
-    <Compile Include="Weaving\AbstractMethodWeaver.cs" />
-    <Compile Include="Weaving\IBuilder`1.cs" />
-    <Compile Include="Weaving\IMethodWeaverBag.cs" />
-    <Compile Include="Weaving\IMethodWeaverBuilderBag.cs" />
-    <Compile Include="Weaving\ITypeDefinitionFactory.cs" />
-    <Compile Include="Weaving\MethodEndWeaver.cs" />
-    <Compile Include="Weaving\IMethodEndWeaver.cs" />
-    <Compile Include="Weaving\IFieldWeaver.cs" />
-    <Compile Include="Weaving\InstanceFieldWeaver.cs" />
-    <Compile Include="Weaving\ITypeDefinition.cs" />
-    <Compile Include="Weaving\MethodDecoratorScopeWeaver.cs" />
-    <Compile Include="Weaving\MethodDecoratorWeaver.cs" />
-    <Compile Include="Weaving\MixinTypeDefinition.cs" />
-    <Compile Include="Weaving\Responsibility\IMethodWeaverChainer.cs" />
-    <Compile Include="Weaving\IMethodWeaverHandler.cs" />
-    <Compile Include="Weaving\Responsibility\MethodDecoratorWeaverHandler.cs" />
-    <Compile Include="Weaving\Responsibility\AbstractMethodWeaverHandler.cs" />
     <Compile Include="Volatile.cs" />
-    <Compile Include="Weaving\IMethodScopeWeaver.cs" />
-    <Compile Include="Weaving\IMethodSignatureWeaver.cs" />
-    <Compile Include="Weaving\IMethodWeaver.cs" />
-    <Compile Include="Weaving\ITypeDefinitionWeaver.cs" />
-    <Compile Include="Weaving\ITypeWeaverBuilder.cs" />
-    <Compile Include="Weaving\MethodSignatureWeaver.cs" />
-    <Compile Include="Weaving\MixinTypeDefinitionWeaver.cs" />
-    <Compile Include="Weaving\NCopAssemblyBuilder.cs" />
-    <Compile Include="Weaving\NCopModuleBuilder.cs" />
-    <Compile Include="Weaving\IGetPropertyWeaver.cs" />
-    <Compile Include="Weaving\ISetPropertyWeaver.cs" />
-    <Compile Include="Weaving\ITypeWeaver.cs" />
-    <Compile Include="Weaving\IWeaver.cs" />
-    <Compile Include="Weaving\MixinWeaverStrategy.cs" />
-    <Compile Include="Weaving\MixinTypeWeaverBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Exceptions\ArgumentExceptionTemplate.tt" />
@@ -162,9 +116,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Framework\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -11,9 +11,9 @@ using System.Collections;
 
 namespace NCop.Composite.Weaving
 {
-    public class MethodJoiner : Tuples<MethodInfo, Type>
+    internal class MethodJoiner : Tuples<MethodInfo, Type>
     {
-        public MethodJoiner(IAspectsMap aspectsMap, IMixinsMap mixinsMap) {
+        internal MethodJoiner(IAspectsMap aspectsMap, IMixinsMap mixinsMap) {
             var joined = aspectsMap.Join(mixinsMap,
                                        (aspect) => aspect.Contract,
                                        (mixin) => mixin.Contract,

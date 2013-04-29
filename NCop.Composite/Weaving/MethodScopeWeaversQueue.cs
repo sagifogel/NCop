@@ -1,20 +1,20 @@
-﻿using NCop.Core.Weaving;
+﻿using NCop.Weaving;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
 namespace NCop.Composite.Weaving
 {
-    public class MethodScopeWeaversQueue : IMethodScopeWeaver
+    internal class MethodScopeWeaversQueue : IMethodScopeWeaver
     {
-        private readonly Queue<IMethodScopeWeaver> _queue = null;
+        private readonly Queue<IMethodScopeWeaver> queue = null;
 
-        public MethodScopeWeaversQueue(IEnumerable<IMethodScopeWeaver> methodScopeWeavers) {
-            _queue = new Queue<IMethodScopeWeaver>(methodScopeWeavers);
+        internal MethodScopeWeaversQueue(IEnumerable<IMethodScopeWeaver> methodScopeWeavers) {
+            queue = new Queue<IMethodScopeWeaver>(methodScopeWeavers);
         }
 
         public ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition) {
-            while (_queue.Count > 0) {
-                _queue.Dequeue().Weave(iLGenerator, typeDefinition);
+            while (queue.Count > 0) {
+                queue.Dequeue().Weave(iLGenerator, typeDefinition);
             }
 
             return iLGenerator;

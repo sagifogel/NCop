@@ -7,6 +7,6 @@ namespace NCop.IoC.Fluent
 {
     public interface IFreezableDescriptable : IFluentInterface
     {
-        void Named(string name);
+        IOwnedBy Named(string name);
     }
 }

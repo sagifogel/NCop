@@ -1,5 +1,5 @@
 ﻿using NCop.Core.Extensions;
-using NCop.Core.Weaving;
+using NCop.Weaving;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +8,9 @@ using System.Reflection.Emit;
 
 namespace NCop.Composite.Weaving
 {
-    public class CompositeMethodWeaver : AbstractMethodWeaver
+    internal class CompositeMethodWeaver : AbstractMethodWeaver
     {
-        public CompositeMethodWeaver(MethodInfo methodInfo, Type type, IMethodSignatureWeaver methodDefinitionWeaver, IEnumerable<IMethodWeaver> methodWeavers)
+        internal CompositeMethodWeaver(MethodInfo methodInfo, Type type, IMethodSignatureWeaver methodDefinitionWeaver, IEnumerable<IMethodWeaver> methodWeavers)
             : base(methodInfo, type) {
             MethodDefintionWeaver = methodDefinitionWeaver;
             MethodScopeWeaver = new MethodScopeWeaversQueue(methodWeavers.Select(weaver => weaver.MethodScopeWeaver));

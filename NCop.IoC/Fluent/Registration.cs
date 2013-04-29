@@ -32,8 +32,10 @@ namespace NCop.IoC.Fluent
             return this;
         }
 
-        public void Named(string name) {
+        public IOwnedBy Named(string name) {
             Name = name;
+
+            return this;
         }
 
         IReuseStrategy IDescriptable.Named(string name) {

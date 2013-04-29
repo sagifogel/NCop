@@ -6,9 +6,9 @@ using System.Collections.Generic;
 
 namespace NCop.Composite.Engine
 {
-    public class CompositeMetadata
+    internal class CompositeMetadata
     {
-        public CompositeMetadata(Type compositeType) {
+        internal CompositeMetadata(Type compositeType) {
             Type = compositeType;
             Interfaces = compositeType.GetImmediateInterfaces();
             MixinsMap = new MixinsMap(compositeType);

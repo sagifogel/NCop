@@ -1,6 +1,6 @@
 ﻿using NCop.Core;
 using NCop.Core.Mixin;
-using NCop.Core.Weaving;
+using NCop.Weaving;
 using NCop.Mixins.Engine;
 using System;
 using System.Collections.Generic;
@@ -11,29 +11,29 @@ namespace NCop.Mixins.Weaving
 {
     public class MixinsTypeWeaverBuilder : ITypeWeaverBuilder, IMixinMapBag, IMethodWeaverBuilderBag
     {
-        private readonly Type _type = null;
-        private readonly List<MixinMap> _mixinsMap = null;
-        private readonly ITypeDefinitionFactory _typeDefinitionFactory = null;
-        private readonly List<IMethodWeaverBuilder> _methodWeaversBuilders = null;
+        private readonly Type type = null;
+        private readonly List<MixinMap> mixinsMap = null;
+        private readonly ITypeDefinitionFactory typeDefinitionFactory = null;
+        private readonly List<IMethodWeaverBuilder> methodWeaversBuilders = null;
 
         public MixinsTypeWeaverBuilder(Type type, ITypeDefinitionFactory typeDefinitionFactory) {
-            _type = type;
-            _mixinsMap = new List<MixinMap>();
-            _methodWeaversBuilders = new List<IMethodWeaverBuilder>();
-            _typeDefinitionFactory = typeDefinitionFactory;
+            this.type = type;
+            mixinsMap = new List<MixinMap>();
+            this.methodWeaversBuilders = new List<IMethodWeaverBuilder>();
+            this.typeDefinitionFactory = typeDefinitionFactory;
         }
 
         public void Add(MixinMap item) {
-            _mixinsMap.Add(item);
+            mixinsMap.Add(item);
         }
 
         public void Add(IMethodWeaverBuilder item) {
-            _methodWeaversBuilders.Add(item);
+            methodWeaversBuilders.Add(item);
         }
 
         public ITypeWeaver Build() {
-            var methodWeavers = _methodWeaversBuilders.Select(methodBuilder => methodBuilder.Build());
-            return new MixinsWeaverStrategy(_typeDefinitionFactory, methodWeavers);
+            var methodWeavers = methodWeaversBuilders.Select(methodBuilder => methodBuilder.Build());
+            return new MixinsWeaverStrategy(typeDefinitionFactory, methodWeavers);
         }
     }
 }

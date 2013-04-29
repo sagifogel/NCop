@@ -1,5 +1,4 @@
-﻿using NCop.Core.Weaving;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -15,7 +14,7 @@ namespace NCop.Core.Extensions
     public static class ReflectionUtils
     {
         internal static readonly string NCopToken = "5f8f9ac08842d356";
-        private static readonly Regex _publicKeyTokenValue = new Regex(@"PublicKeyToken=(?<PublicKeyTokenValue>[A-Fa-f0-9]{16})");
+        private static readonly Regex publicKeyTokenValue = new Regex(@"PublicKeyToken=(?<PublicKeyTokenValue>[A-Fa-f0-9]{16})");
 
 #if !NET_4_5
 
@@ -40,7 +39,7 @@ namespace NCop.Core.Extensions
         }
 
         public static string GetPublicKeyToken(this Assembly assembly) {
-            return _publicKeyTokenValue.Match(assembly.FullName).Groups["PublicKeyTokenValue"].Value;
+            return publicKeyTokenValue.Match(assembly.FullName).Groups["PublicKeyTokenValue"].Value;
         }
 
         public static bool HasSamePublicKeyToken(this Assembly assembly, string token) {
@@ -61,6 +60,10 @@ namespace NCop.Core.Extensions
 
         public static bool IsDefined<TAttribute>(this Type type, bool inherit = true) where TAttribute : Attribute {
             return type.IsDefined(typeof(TAttribute), inherit);
+        }
+
+        public static bool IsDefined<TAttribute>(this ConstructorInfo ctor, bool inherit = true) where TAttribute : Attribute {
+            return ctor.IsDefined(typeof(TAttribute), inherit);
         }
 
         public static bool IsDefined<TAttribute>(this MethodInfo method, bool inherit = true) where TAttribute : Attribute {
@@ -114,39 +117,49 @@ namespace NCop.Core.Extensions
             return builder;
         }
 
-        public static MethodBuilder DefineMethod(this TypeBuilder typeBuilder, MethodInfo methodInfo, MethodAttributes? attributes = null) {
-            var parametrTypes = methodInfo.GetParameters()
-                                          .Select(parameter => parameter.ParameterType);
-
-            attributes = attributes ?? methodInfo.Attributes & ~MethodAttributes.Abstract;
-
-            return typeBuilder.DefineMethod(methodInfo.Name, attributes.Value, methodInfo.ReturnType, parametrTypes.ToArray());
-        }
-
-        public static TypeBuilder DefineType(this Type parentType, string name = null, IEnumerable<Type> interfaces = null, TypeAttributes? attributes = null) {
-            name = name ?? parentType.ToUniqueName();
-            attributes = attributes ?? parentType.Attributes;
-
-            return NCopModuleBuilder.Instance
-                                    .DefineType(name, attributes.Value, parentType, interfaces.ToArray())
-                                    .SetCustomAttribute<CompilerGeneratedAttribute>()
-                                    .SetCustomAttribute<DebuggerNonUserCodeAttribute>();
-        }
-
-        public static string ToUniqueName(this Type type) {
-            return string.Format("<NCop>.{0}", type.FullName);
-        }
-
-        public static FieldBuilder DefineField(this TypeBuilder typeBuilder, Type fieldType, FieldAttributes? attributes = null) {
-            string name = fieldType.Name.ToUnderscoreFieldName();
-
-            attributes = attributes ?? FieldAttributes.Private;
-
-            return typeBuilder.DefineField(name, fieldType, attributes.Value);
-        }
-
         public static bool IsNull(this object value) {
             return object.ReferenceEquals(value, null);
+        }
+
+        public static PropertyInfo[] GetPublicProperties(this Type type) {
+            if (type.IsInterface) {
+                var propertyInfos = new List<PropertyInfo>();
+                var considered = new List<Type>();
+                var queue = new Queue<Type>();
+
+                considered.Add(type);
+                queue.Enqueue(type);
+
+                while (queue.Count > 0) {
+                    var subType = queue.Dequeue();
+
+                    foreach (var subInterface in subType.GetInterfaces()) {
+                        if (considered.Contains(subInterface)) {
+                            continue;
+                        }
+
+                        considered.Add(subInterface);
+                        queue.Enqueue(subInterface);
+                    }
+
+                    var typeProperties = subType.GetTypePublicProperties();
+                    var newPropertyInfos = typeProperties.Where(x => !propertyInfos.Contains(x));
+
+                    propertyInfos.InsertRange(0, newPropertyInfos);
+                }
+
+                return propertyInfos.ToArray();
+            }
+
+            return type.GetTypePublicProperties()
+                       .Where(t => t.GetIndexParameters().Length == 0)
+                       .ToArray();
+        }
+
+        internal static PropertyInfo[] GetTypePublicProperties(this Type subType) {
+            return subType.GetProperties(BindingFlags.FlattenHierarchy |
+                                         BindingFlags.Public |
+                                         BindingFlags.Instance);
         }
     }
 }

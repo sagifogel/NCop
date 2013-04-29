@@ -18,13 +18,13 @@ namespace NCop.Core.Exceptions
 	[Serializable]
 	public class MissingTypeException : ArgumentException
 	{
-		private static string _message = "Missing type annotation";
+		private static string message = "Missing type annotation";
 		
-		public MissingTypeException(string message = null) : base(message ?? _message) { }
+		public MissingTypeException(string message = null) : base(message ?? MissingTypeException.message) { }
 
-		public MissingTypeException(Exception innerException) : this(_message, innerException) { }
+		public MissingTypeException(Exception innerException) : this(message, innerException) { }
 
-		public MissingTypeException(string parameterName, string message = null) : base(message ?? _message, parameterName) { }
+		public MissingTypeException(string parameterName, string message = null) : base(message ?? MissingTypeException.message, parameterName) { }
 
 		public MissingTypeException(string message, Exception innerException) : base(message, innerException) { }
 

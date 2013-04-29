@@ -2,12 +2,12 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
-<#@ include file="NCopCSharpTemplate.tt" #>
+<#@ include file="T4Toolbox.tt" #>
 <#+
 
-public class NCopExceptionTemplate : NCopCSharpTemplate
+public class NCopExceptionTemplate : CSharpTemplate
 {	
-	private string _name = System.IO.Path.GetFileNameWithoutExtension(TransformationContext.Current.Host.TemplateFile);
+	private string name = System.IO.Path.GetFileNameWithoutExtension(TransformationContext.Current.Host.TemplateFile);
 		
 	public string Namespace { get; set; }
 
@@ -33,7 +33,7 @@ public class NCopExceptionTemplate : NCopCSharpTemplate
 	private void BuildArguments() {
 		if (Arguments != null) {
                 StringBuilder constructorBuilder = new StringBuilder("\n\t\t\t: base(null) {\n");
-                StringBuilder constructorArgumentsBuilder = new StringBuilder(string.Format("\n\t\tpublic {0}(", _name));
+                StringBuilder constructorArgumentsBuilder = new StringBuilder(string.Format("\n\t\tpublic {0}(", name));
                 StringBuilder protectedConstructorBuilder = new StringBuilder();
                 StringBuilder getObjectDataBuilder = new StringBuilder();
 				StringBuilder propertiesBuilder = new StringBuilder();
@@ -50,7 +50,7 @@ public class NCopExceptionTemplate : NCopCSharpTemplate
 											   .Append("\t\t\t}");
 
 					getObjectDataBuilder.AppendFormat("\n\t\t\tinfo.AddValue(\"{0}{1}\", {1}, typeof({2}));", KeyPrefix, camelCase, arg.Item2);
-					constructorBuilder.AppendFormat("\t\t\t_message = {0}", Message); 
+					constructorBuilder.AppendFormat("\t\t\tmessage = {0}", Message); 
 					constructorArgumentsBuilder = constructorArgumentsBuilder.Remove(constructorArgumentsBuilder.Length - 2, 2);
 					constructorBuilder.Append("\n\t\t}");
 					constructorArgumentsBuilder.Append(")").Append(constructorBuilder.ToString()).Append("\n\t\t}");
@@ -82,22 +82,22 @@ using System.Text;
 namespace <#= Namespace ?? DefaultNamespace  #>
 {	
 	[Serializable]
-	public class <#=  _name #> : SystemException, ISerializable
+	public class <#= name #> : SystemException, ISerializable
 	{
-        private readonly string _message = string.Empty;
-		private readonly bool _messageInitialized = false;
+        private readonly string message = string.Empty;
+		private readonly bool messageInitialized = false;
 
-        public <#=  _name #>(string message) 
+        public <#= name #>(string message) 
 		    : base(message) {
-            _messageInitialized = true;
+            messageInitialized = true;
         }
 
-        public <#=  _name #>(string message, Exception innerException) 
+        public <#= name #>(string message, Exception innerException) 
 		    : base(message, innerException) {
-            _messageInitialized = true;
+            messageInitialized = true;
         }
 		<#= _constructor #>
-		protected <#=  _name #>(SerializationInfo info, StreamingContext context)
+		protected <#= name #>(SerializationInfo info, StreamingContext context)
             : base(info, context) {
 <#+ if (Arguments != null) { #>
 			object value = null;
@@ -107,16 +107,16 @@ namespace <#= Namespace ?? DefaultNamespace  #>
                 throw new ArgumentNullException("info");
             }
 
-            _message = info.GetString("<#= KeyPrefix #>Message");<#= _protectedConstructor #>
+            message = info.GetString("<#= KeyPrefix #>Message");<#= _protectedConstructor #>
         }
 		<#= _properties #>
 		public override string Message {
             get {
-                if (_messageInitialized) {
+                if (messageInitialized) {
                     return base.Message;
                 }
 
-                return _message;
+                return message;
             }
         }
 

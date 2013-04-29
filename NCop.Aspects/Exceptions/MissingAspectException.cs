@@ -18,13 +18,13 @@ namespace NCop.Aspects.Exceptions
 	[Serializable]
 	public class MissingAspectException : ArgumentException
 	{
-		private static string _message = "Missing aspect annotation";
+		private static string message = "Missing aspect annotation";
 		
-		public MissingAspectException(string message = null) : base(message ?? _message) { }
+		public MissingAspectException(string message = null) : base(message ?? MissingAspectException.message) { }
 
-		public MissingAspectException(Exception innerException) : this(_message, innerException) { }
+		public MissingAspectException(Exception innerException) : this(message, innerException) { }
 
-		public MissingAspectException(string parameterName, string message = null) : base(message ?? _message, parameterName) { }
+		public MissingAspectException(string parameterName, string message = null) : base(message ?? MissingAspectException.message, parameterName) { }
 
 		public MissingAspectException(string message, Exception innerException) : base(message, innerException) { }
 

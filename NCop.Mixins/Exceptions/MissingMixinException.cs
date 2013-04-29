@@ -18,13 +18,13 @@ namespace NCop.Mixins.Exceptions
 	[Serializable]
 	public class MissingMixinException : ArgumentException
 	{
-		private static string _message = "Missing mixin annotation";
+		private static string message = "Missing mixin annotation";
 		
-		public MissingMixinException(string message = null) : base(message ?? _message) { }
+		public MissingMixinException(string message = null) : base(message ?? MissingMixinException.message) { }
 
-		public MissingMixinException(Exception innerException) : this(_message, innerException) { }
+		public MissingMixinException(Exception innerException) : this(message, innerException) { }
 
-		public MissingMixinException(string parameterName, string message = null) : base(message ?? _message, parameterName) { }
+		public MissingMixinException(string parameterName, string message = null) : base(message ?? MissingMixinException.message, parameterName) { }
 
 		public MissingMixinException(string message, Exception innerException) : base(message, innerException) { }
 

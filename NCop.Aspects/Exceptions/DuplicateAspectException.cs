@@ -18,13 +18,13 @@ namespace NCop.Aspects.Exceptions
 	[Serializable]
 	public class DuplicateAspectException : ArgumentException
 	{
-		private static string _message = "Duplicate type aspects has been found";
+		private static string message = "Duplicate type aspects has been found";
 		
-		public DuplicateAspectException(string message = null) : base(message ?? _message) { }
+		public DuplicateAspectException(string message = null) : base(message ?? DuplicateAspectException.message) { }
 
-		public DuplicateAspectException(Exception innerException) : this(_message, innerException) { }
+		public DuplicateAspectException(Exception innerException) : this(message, innerException) { }
 
-		public DuplicateAspectException(string parameterName, string message = null) : base(message ?? _message, parameterName) { }
+		public DuplicateAspectException(string parameterName, string message = null) : base(message ?? DuplicateAspectException.message, parameterName) { }
 
 		public DuplicateAspectException(string message, Exception innerException) : base(message, innerException) { }
 

@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AmbigiousConstructorDependency" xml:space="preserve">
+    <value>Ambiguous constructor dependency was found for type {0}. Only one constructor can be annotated with DependencyAttribute attribute.</value>
+  </data>
   <data name="CouldNotResolveType" xml:space="preserve">
     <value>Could not resolve type {0}.</value>
   </data>

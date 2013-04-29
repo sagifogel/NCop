@@ -26,6 +26,14 @@ namespace NCop.IoC
                      new CastableRegistration<TCastable>(serviceType, factoryType));
         }
 
+        public ICastableRegistration<TCastable> RegisterAuto<TCastable>() {
+            Type serviceType = typeof(TCastable);
+            var factoryType = typeof(Func<INCopContainer, TCastable>);
+
+            return RegisterImpl<AutoRegistration<TCastable>>(
+                     new AutoRegistration<TCastable>(serviceType, factoryType));
+        }
+
         public IReuseStrategyRegistration Register<TService>(Func<INCopContainer, TService> factory) {
             return RegisterImpl<IReuseStrategyRegistration>(typeof(TService), typeof(Func<INCopContainer, TService>), factory);
         }

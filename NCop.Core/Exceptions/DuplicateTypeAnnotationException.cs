@@ -18,13 +18,13 @@ namespace NCop.Core.Exceptions
 	[Serializable]
 	public class DuplicateTypeAnnotationException : ArgumentException
 	{
-		private static string _message = "Duplicate type annotation has been found";
+		private static string message = "Duplicate type annotation has been found";
 		
-		public DuplicateTypeAnnotationException(string message = null) : base(message ?? _message) { }
+		public DuplicateTypeAnnotationException(string message = null) : base(message ?? DuplicateTypeAnnotationException.message) { }
 
-		public DuplicateTypeAnnotationException(Exception innerException) : this(_message, innerException) { }
+		public DuplicateTypeAnnotationException(Exception innerException) : this(message, innerException) { }
 
-		public DuplicateTypeAnnotationException(string parameterName, string message = null) : base(message ?? _message, parameterName) { }
+		public DuplicateTypeAnnotationException(string parameterName, string message = null) : base(message ?? DuplicateTypeAnnotationException.message, parameterName) { }
 
 		public DuplicateTypeAnnotationException(string message, Exception innerException) : base(message, innerException) { }
 

@@ -7,9 +7,9 @@ using NCop.Core.Extensions;
 
 namespace NCop.Composite.Engine
 {
-    public static class CompositeExtensions
+    internal static class CompositeExtensions
     {
-        public static IEnumerable<CompositeMetadata> FilterComposites(IEnumerable<Assembly> assemblies) {
+        internal static IEnumerable<CompositeMetadata> FilterComposites(IEnumerable<Assembly> assemblies) {
             return assemblies.SelectMany(assembly => {
                 return assembly.GetTypes()
                                .Where(type => type.IsNCopDefined<CompositeAttribute>())

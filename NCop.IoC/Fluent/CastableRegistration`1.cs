@@ -10,74 +10,75 @@ namespace NCop.IoC.Fluent
 {
     public class CastableRegistration<TCastable> : IDescriptable, IRegistration, ICastableRegistration<TCastable>, ICasted, IOwnedBy
     {
-        private readonly Registration registration = null;
+        protected readonly Registration Registration = null;
 
         public CastableRegistration(Type serviceType, Type factoryType) {
-            registration = new Registration {
+            Registration = new Registration {
                 ServiceType = serviceType,
                 FactoryType = factoryType
             };
         }
 
         public string Name {
-            get { return registration.Name; }
+            get { return Registration.Name; }
         }
 
         public Type CastTo {
             get {
-                return registration.CastTo;
+                return Registration.CastTo;
             }
         }
 
         public Delegate Func {
             get {
-                if (registration.Func.IsNull()) {
+                if (Registration.Func.IsNull()) {
                     ToSelf();
                 }
 
-                return registration.Func;
+                return Registration.Func;
             }
         }
 
         public Type FactoryType {
             get {
-                return registration.FactoryType;
+                return Registration.FactoryType;
             }
         }
 
         public Type ServiceType {
             get {
-                return registration.ServiceType;
+                return Registration.ServiceType;
             }
         }
 
         public ReuseScope Scope {
             get {
-                return registration.Scope;
+                return Registration.Scope;
             }
         }
-        
+
         public Owner Owner {
             get {
-                return registration.Owner;
+                return Registration.Owner;
             }
         }
 
         public void Named(string name) {
-            registration.Named(name);
+            Registration.Named(name);
         }
 
         public IReusedWithin AsSingleton() {
-            var type = registration.CastTo.IsNull() ? ServiceType : CastTo;
+            var type = Registration.CastTo.IsNull() ? ServiceType : CastTo;
 
             CastableRegistration<TCastable>.RequiersNotInterface(type);
             As(type);
-            return registration.AsSingleton();
+            
+            return Registration.AsSingleton();
         }
 
         public ICasted ToSelf() {
             CastableRegistration<TCastable>.RequiersNotInterface(ServiceType);
-            As(registration.CastTo = ServiceType);
+            As(Registration.CastTo = ServiceType);
 
             return this;
         }
@@ -86,15 +87,16 @@ namespace NCop.IoC.Fluent
             var castTo = typeof(TService);
             CastableRegistration<TCastable>.RequiersNotInterface(castTo);
 
-            return As(registration.CastTo = castTo);
+            return As(Registration.CastTo = castTo);
         }
 
-        private ICasted As(Type castTo) {
+        protected virtual ICasted As(Type castTo) {
             var delegateType = Expression.GetFuncType(new[] { typeof(INCopContainer), ServiceType });
             var ctor = castTo.GetConstructor(Type.EmptyTypes);
 
             Contract.RequiersConstructorNotNull(ctor, () => {
                 var message = Resources.NoParameterlessConstructorFound.Format(ctor);
+                
                 return new RegistraionException(new MissingMethodException(message));
             });
 
@@ -104,7 +106,7 @@ namespace NCop.IoC.Fluent
                             Expression.New(ctor),
                                 paramater);
 
-            registration.Func = lambda.Compile();
+            Registration.Func = lambda.Compile();
 
             return this;
         }
@@ -114,17 +116,17 @@ namespace NCop.IoC.Fluent
         }
 
         IReuseStrategy IDescriptable.Named(string name) {
-            registration.Named(name);
+            Registration.Named(name);
 
             return this;
         }
 
         public void OwnedExternally() {
-            registration.OwnedExternally();
+            Registration.OwnedExternally();
         }
 
         public void OwnedByContainer() {
-            registration.OwnedByContainer();
+            Registration.OwnedByContainer();
         }
     }
 }

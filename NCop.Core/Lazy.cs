@@ -8,35 +8,35 @@ namespace NCop.Core
 {
     public sealed class Lazy<T>
     {
-        private bool _initialized = false;
-        private Func<T> _valueFactory = null;
-        private object _syncLock = new object();
-        private static T _instance = default(T);
+        private bool initialized = false;
+        private Func<T> valueFactory = null;
+        private object syncLock = new object();
+        private static T instance = default(T);
 
 #if NET_4_5
 
         public Lazy(Func<T> valueFactory) {
-            _valueFactory = valueFactory;
+            this.valueFactory = valueFactory;
         }
 
         public T Value {
             get {
-                return LazyInitializer.EnsureInitialized(ref _instance,
-                                                          ref _initialized,
-                                                          ref _syncLock,
-                                                          _valueFactory);
+                return LazyInitializer.EnsureInitialized(ref instance,
+                                                         ref initialized,
+                                                         ref syncLock,
+                                                         valueFactory);
             }
         }
   
 #elif NET_4_0
 
         public Lazy(Func<T> valueFactory) {
-            _valueFactory = valueFactory;
+            this.valueFactory = valueFactory;
         }
 
         public T Value {
             get {
-                return EnsureInitializedCore(ref _instance, ref _initialized, ref _syncLock, _valueFactory);
+                return EnsureInitializedCore(ref instance, ref initialized, ref syncLock, valueFactory);
             }
         }
 

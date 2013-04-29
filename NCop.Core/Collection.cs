@@ -14,9 +14,7 @@ namespace NCop.Core
 
         public Collection(IEnumerable<T> source) {
             source.ForEach(e => {
-                if (!ReferenceEquals(e, null)) {
-                    Add(e);
-                }
+                Add(e);
             });
         }
 

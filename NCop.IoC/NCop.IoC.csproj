@@ -56,7 +56,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractLifetimeStrategy.cs" />
+    <Compile Include="Fluent\AutoRegistration.cs" />
     <Compile Include="Fluent\IOwnedBy.cs" />
+    <Compile Include="Framework\DependencyAttribute.cs" />
+    <Compile Include="Framework\DependencyAware.cs" />
+    <Compile Include="Framework\IgnoreDependency.cs" />
     <Compile Include="Owner.cs" />
     <Compile Include="ResolveContext`1.cs" />
     <Compile Include="ContainerSingletonStrategy.cs" />

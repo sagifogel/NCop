@@ -7,7 +7,7 @@ namespace NCop.Core.Extensions
 {
     public static class StringExtensions
     {
-        private static readonly int _lowerCaseOffset = 'a' - 'A';
+        private static readonly int lowerCaseOffset = 'a' - 'A';
 
         public static string Format(this string value, params object[] args) {
             return string.Format(value, args);
@@ -29,7 +29,7 @@ namespace NCop.Core.Extensions
                 var c1isUpper = c1 >= 'A' && c1 <= 'Z';
 
                 if (firstPart && c0isUpper && (c1isUpper || i == 0)) {
-                    c0 = (char)(c0 + _lowerCaseOffset);
+                    c0 = (char)(c0 + lowerCaseOffset);
                 }
                 else {
                     firstPart = false;

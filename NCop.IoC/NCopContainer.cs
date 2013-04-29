@@ -15,6 +15,7 @@ namespace NCop.IoC
     {
         private readonly NCopContainer parentContainer = null;
         private readonly Dictionary<ServiceKey, ServiceEntry> services = null;
+        private Stack<NCopContainer> childContainers = new Stack<NCopContainer>();
         private readonly Stack<WeakReference> disposables = new Stack<WeakReference>();
 
         public NCopContainer(Action<IRegistry> registrationAction)
@@ -46,10 +47,18 @@ namespace NCop.IoC
             services[key] = entry;
         }
 
+        public TService Resolve<TService>() {
+            return Resolve<TService>(null);
+        }
+
         public TService Resolve<TService>(string name = null) {
             return ResolveImpl<TService, Func<INCopContainer, TService>>(factory => {
                 return factory(this);
             }, name);
+        }
+
+        public TService TryResolve<TService>() {
+            return TryResolve<TService>(null);
         }
 
         public TService TryResolve<TService>(string name = null) {
@@ -181,7 +190,9 @@ namespace NCop.IoC
             var instance = factoryInvoker(factory);
 
             if (entry.Owner == Owner.Container && instance is IDisposable) {
-                disposables.Push(new WeakReference(instance));
+                lock (disposables) {
+                    disposables.Push(new WeakReference(instance));
+                }
             }
 
             return instance;
@@ -202,15 +213,29 @@ namespace NCop.IoC
         }
 
         public INCopContainer CreateChildContainer(Action<IRegistry> registrationAction) {
-            return new NCopContainer(registrationAction, this);
+            NCopContainer container = null;
+
+            lock (childContainers) {
+                childContainers.Push(container = new NCopContainer(registrationAction, this));
+            }
+
+            return container;
         }
 
         public void Dispose() {
-            while (disposables.Count > 0) {
-                var disposable = disposables.Pop();
+            lock (disposables) {
+                while (disposables.Count > 0) {
+                    var disposable = disposables.Pop();
 
-                if (disposable.IsAlive) {
-                    ((IDisposable)disposable.Target).Dispose();
+                    if (disposable.IsAlive) {
+                        ((IDisposable)disposable.Target).Dispose();
+                    }
+                }
+            }
+
+            lock (childContainers) {
+                while (childContainers.Count > 0) {
+                    childContainers.Pop().Dispose();
                 }
             }
         }

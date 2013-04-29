@@ -118,6 +118,10 @@
       <Project>{cf04be7b-d2af-4218-8317-627ce2edc3f5}</Project>
       <Name>NCop.Mixins</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NCop.Weaving\NCop.Weaving.csproj">
+      <Project>{37218cf8-19a4-4614-9e83-b03375dc421a}</Project>
+      <Name>NCop.Weaving</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />

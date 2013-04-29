@@ -12,14 +12,14 @@ namespace NCop.Mixins.Engine
 {
     public class MixinsMap : IMixinsMap
     {
-        private readonly List<MixinMap> _map = null;
-        private AttributeTypeMatcher<MixinsAttribute> _matcher = null;
+        private readonly List<MixinMap> map = null;
+        private AttributeTypeMatcher<MixinsAttribute> matcher = null;
 
         public MixinsMap(Type type) {
             try {
-                _matcher = new AttributeTypeMatcher<MixinsAttribute>(type, (attr) => attr.Mixins);
-                _map = new List<MixinMap>(
-                    _matcher.Select(tuple => {
+                matcher = new AttributeTypeMatcher<MixinsAttribute>(type, (attr) => attr.Mixins);
+                map = new List<MixinMap>(
+                    matcher.Select(tuple => {
                         return new MixinMap(tuple.Item1, tuple.Item2);
                     })
                 );
@@ -33,17 +33,17 @@ namespace NCop.Mixins.Engine
         }
 
         public MixinsMap(IEnumerable<MixinMap> mixinsMap) {
-            _map = mixinsMap.ToList();
+            map = mixinsMap.ToList();
         }
 
         public int Count {
             get {
-                return _map.Count;
+                return map.Count;
             }
         }
 
         public IEnumerator<MixinMap> GetEnumerator() {
-            return _map.GetEnumerator();
+            return map.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() {

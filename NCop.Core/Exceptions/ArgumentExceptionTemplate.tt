@@ -1,20 +1,16 @@
 ﻿<#@ assembly name="EnvDTE" #>
-<#@ include file="NCopCSharpTemplate.tt" #>
 <#@ assembly name="Microsoft.VisualStudio.Shell.11.0" #>
 <#@ assembly name="Microsoft.VisualStudio.Shell.Interop" #>
 <#@ import namespace="EnvDTE" #>
 <#@ import namespace="Microsoft.VisualStudio.Shell" #>
 <#@ import namespace="Microsoft.VisualStudio.Shell.Interop" #>
+<#@ include file="NCopExceptionTemplate.tt" #>
 <#+
 
-public class ArgumentExceptionTemplate : NCopCSharpTemplate
+public class ArgumentExceptionTemplate : NCopExceptionTemplate
 {	
-	private string _name = System.IO.Path.GetFileNameWithoutExtension(TransformationContext.Current.Host.TemplateFile);
+	private string name = System.IO.Path.GetFileNameWithoutExtension(TransformationContext.Current.Host.TemplateFile);
 		
-	public string Message { get; set; }
-	
-	public string Namespace { get; set; }
-	
 	public override string TransformText()
 	{
 #>
@@ -34,19 +30,19 @@ using System.Text;
 namespace <#= Namespace ?? DefaultNamespace  #>
 {
 	[Serializable]
-	public class <#=  _name #> : ArgumentException
+	public class <#=  name #> : ArgumentException
 	{
-		private static string _message = "<#= Message #>";
+		private static string message = "<#= Message #>";
 		
-		public <#= _name #>(string message = null) : base(message ?? _message) { }
+		public <#= name #>(string message = null) : base(message ?? <#=  name #>.message) { }
 
-		public <#= _name #>(Exception innerException) : this(_message, innerException) { }
+		public <#= name #>(Exception innerException) : this(message, innerException) { }
 
-		public <#= _name #>(string parameterName, string message = null) : base(message ?? _message, parameterName) { }
+		public <#= name #>(string parameterName, string message = null) : base(message ?? <#=  name #>.message, parameterName) { }
 
-		public <#= _name #>(string message, Exception innerException) : base(message, innerException) { }
+		public <#= name #>(string message, Exception innerException) : base(message, innerException) { }
 
-		protected <#= _name #>(SerializationInfo info, StreamingContext context) : base(info, context) { }
+		protected <#= name #>(SerializationInfo info, StreamingContext context) : base(info, context) { }
 	}
 }
 	<#+

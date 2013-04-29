@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Pointcuts
 {
-    public interface IPointcutVisitor : IEnumerableProjectionTypeVisitor<IPointcut>
+    internal interface IPointcutVisitor : IEnumerableProjectionTypeVisitor<IPointcut>
     {
     }
 }
