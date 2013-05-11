@@ -29,7 +29,6 @@ namespace NCop.IoC.Tests
 
     public class PropertyDependency
     {
-        [Dependency]
         public IFoo Foo { get; set; }
     }
 
@@ -42,27 +41,27 @@ namespace NCop.IoC.Tests
         public IFoo Foo { get; private set; }
     }
 
-    public class AmbigousConstructor
+    public class AmbiguousConstructor
     {
-        public AmbigousConstructor(IFoo foo) {
+        public AmbiguousConstructor(IFoo foo) {
             Foo = foo;
         }
 
-        public AmbigousConstructor()
+        public AmbiguousConstructor()
             : this(new Foo()) {
         }
 
         public IFoo Foo { get; private set; }
     }
-
-    public class AmbigousConstructorFixedWithDependencyAttribute
+                 
+    public class AmbiguousConstructorFixedWithDependencyAttribute
     {   
         [Dependency]
-        public AmbigousConstructorFixedWithDependencyAttribute(IFoo foo) {
+        public AmbiguousConstructorFixedWithDependencyAttribute(IFoo foo) {
             Foo = foo;
         }
 
-        public AmbigousConstructorFixedWithDependencyAttribute()
+        public AmbiguousConstructorFixedWithDependencyAttribute()
             : this(new Foo()) {
         }
 
@@ -88,9 +87,9 @@ namespace NCop.IoC.Tests
 
     public class Bar : IBar
     {
+        [IgnoreDependency]
         public IFoo ByCtor { get; set; }
 
-        [Dependency]
         public IFoo ByProperty { get; set; }
 
         public Bar() {

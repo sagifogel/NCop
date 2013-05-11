@@ -38,7 +38,7 @@ namespace NCop.IoC.Fluent
             var ctorResolveMethodInfo = typeof(INCopContainer).GetMethod("Resolve", Type.EmptyTypes);
             var newExpression = NewExpression(ctorResolveMethodInfo, typeof(TService), containerParamater);
             var lambda = Expression.Lambda(
-                                  Expression.MemberInit(newExpression, assignments.ToArray()),
+                         Expression.MemberInit(newExpression, assignments.ToArray()),
                                   containerParamater);
 
             Registration.Func = lambda.Compile();

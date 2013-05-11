@@ -289,20 +289,20 @@ namespace NCop.IoC.Tests
         public void AutoRegister_OfTypeThatHasMoreThanOneConstructorAndWithoutDependencyAttribute_ThrowsRegistraionException() {
             var container = new NCopContainer(registry => {
                 registry.Register<IFoo>().As<Foo>();
-                registry.RegisterAuto<AmbigousConstructor>();
+                registry.RegisterAuto<AmbiguousConstructor>();
             });
 
-            var instance = container.Resolve<AmbigousConstructor>();
+            var instance = container.Resolve<AmbiguousConstructor>();
         }
 
         [TestMethod]
         public void AutoRegister_OfTypeThatHasMoreThanOneConstructorWithDependencyAttribute_ReturnsResolvedInstanceAndDontThrowsRegistraionException() {
             var container = new NCopContainer(registry => {
                 registry.Register<IFoo>().As<Foo>();
-                registry.RegisterAuto<AmbigousConstructorFixedWithDependencyAttribute>();
+                registry.RegisterAuto<AmbiguousConstructorFixedWithDependencyAttribute>();
             });
 
-            var instance = container.Resolve<AmbigousConstructorFixedWithDependencyAttribute>();
+            var instance = container.Resolve<AmbiguousConstructorFixedWithDependencyAttribute>();
 
             Assert.IsNotNull(instance);
             Assert.IsNotNull(instance.Foo);
