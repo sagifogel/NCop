@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NCop.IoC.Fluent
 {
-    public interface IFreezableDescriptable : IFluentInterface
+	public interface IDescriptableReturnsOwnedBy : IFluentInterface
     {
         IOwnedBy Named(string name);
     }

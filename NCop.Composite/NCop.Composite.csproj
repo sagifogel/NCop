@@ -93,6 +93,8 @@
     <Compile Include="Engine\WellKnownComposites.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\CompositeContainer.cs" />
+    <Compile Include="Framework\IgnoreRegistration.cs" />
     <Compile Include="Framework\TransientCompositeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Framework\CompositeRuntime.cs" />
@@ -113,6 +115,10 @@
     <ProjectReference Include="..\NCop.Core\NCop.Core.csproj">
       <Project>{ef89677e-7af0-4c80-b73f-aea357c5614c}</Project>
       <Name>NCop.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NCop.IoC\NCop.IoC.csproj">
+      <Project>{0b598341-32a5-4d5f-a11c-e37e5b4ef65d}</Project>
+      <Name>NCop.IoC</Name>
     </ProjectReference>
     <ProjectReference Include="..\NCop.Mixins\NCop.Mixins.csproj">
       <Project>{cf04be7b-d2af-4218-8317-627ce2edc3f5}</Project>

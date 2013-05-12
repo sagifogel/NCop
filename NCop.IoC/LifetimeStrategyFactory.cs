@@ -10,7 +10,7 @@ namespace NCop.IoC
 	{
 		private static IdentityLifetimeStrategy defaultLifetimeStrategy = new IdentityLifetimeStrategy();
 
-		public static ILifetimeStrategy Get(ReuseScope scope, INCopContainer container) {
+		public static ILifetimeStrategy Get(ReuseScope scope, AbstractContainer container) {
 			switch (scope) {
 				case ReuseScope.None:
 					return defaultLifetimeStrategy;

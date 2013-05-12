@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NCop.IoC.Framework
 {
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class IgnoreDependency : Attribute
     {
     }

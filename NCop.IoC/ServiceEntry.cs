@@ -5,15 +5,15 @@ using System.Text;
 
 namespace NCop.IoC
 {
-    internal class ServiceEntry
+    public class ServiceEntry
     {
         internal Owner Owner { get; set; }
         internal object Factory { get; set; }
         internal ReuseScope Scope { get; set; }
-        internal NCopContainer Container { get; set; }
+		internal AbstractContainer Container { get; set; }
         internal ILifetimeStrategy LifetimeStrategy { get; set; }
 
-        internal ServiceEntry CloneFor(NCopContainer container) {
+		internal ServiceEntry CloneFor(AbstractContainer container) {
             return new ServiceEntry {
                 Scope = Scope,
                 Owner = this.Owner,

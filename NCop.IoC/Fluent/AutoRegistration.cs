@@ -10,73 +10,73 @@ using NCop.IoC.Properties;
 
 namespace NCop.IoC.Fluent
 {
-    public class AutoRegistration<TService> : CastableRegistration<TService>
-    {
-        public AutoRegistration(Type serviceType, Type factoryType)
-            : base(serviceType, factoryType) {
-        }
+	public class AutoRegistration<TService> : CastableRegistration<TService>
+	{
+		public AutoRegistration(Type serviceType, Type factoryType)
+			: base(serviceType, factoryType) {
+		}
 
-        protected override ICasted As(Type castTo) {
-            var typeofService = typeof(TService);
-            var containerParamater = Expression.Parameter(typeof(INCopContainer), "container");
-            var tryResolveMethodInfo = typeof(INCopContainer).GetMethod("TryResolve", Type.EmptyTypes);
-            var ignoreTypeLevelDependency = typeofService.IsDefined<DependencyAware>();
-            var properties = typeofService.GetPublicProperties()
-                                          .Where(prop => prop.CanWrite)
-                                          .Where(prop => !prop.PropertyType.IsValueType)
-                                          .Where(prop => !prop.PropertyType.Equals(typeof(string)))
-                                          .Where(prop => !ignoreTypeLevelDependency && !prop.IsDefined<IgnoreDependency>() ||
-                                                         ignoreTypeLevelDependency && prop.IsDefined<DependencyAttribute>());
+		protected override ICasted As(Type castTo) {
+			var typeofService = typeof(TService);
+			var containerParamater = Expression.Parameter(typeof(INCopContainer), "container");
+			var tryResolveMethodInfo = typeof(INCopContainer).GetMethod("TryResolve", Type.EmptyTypes);
+			var dependencyAware = typeofService.IsDefined<DependencyAware>();
+			var properties = castTo.GetPublicProperties()
+								   .Where(prop => prop.CanWrite)
+								   .Where(prop => !prop.PropertyType.IsValueType)
+								   .Where(prop => !prop.PropertyType.Equals(typeof(string)))
+								   .Where(prop => !dependencyAware && !prop.IsDefined<IgnoreDependency>() ||
+												  dependencyAware && prop.IsDefined<DependencyAttribute>());
 
-            var assignments = properties.Select(prop => {
-                var type = prop.PropertyType;
-                var methodCallExpression = MethodCallExpression(tryResolveMethodInfo, type, containerParamater);
+			var assignments = properties.Select(prop => {
+				var type = prop.PropertyType;
+				var methodCallExpression = MethodCallExpression(tryResolveMethodInfo, type, containerParamater);
 
-                return Expression.Bind(prop, methodCallExpression);
-            });
+				return Expression.Bind(prop, methodCallExpression);
+			});
 
-            var ctorResolveMethodInfo = typeof(INCopContainer).GetMethod("Resolve", Type.EmptyTypes);
-            var newExpression = NewExpression(ctorResolveMethodInfo, typeof(TService), containerParamater);
-            var lambda = Expression.Lambda(
-                         Expression.MemberInit(newExpression, assignments.ToArray()),
-                                  containerParamater);
+			var ctorResolveMethodInfo = typeof(INCopContainer).GetMethod("Resolve", Type.EmptyTypes);
+			var newExpression = NewExpression(ctorResolveMethodInfo, castTo, containerParamater);
+			var lambda = Expression.Lambda(
+							Expression.MemberInit(newExpression, assignments.ToArray()),
+								  containerParamater);
 
-            Registration.Func = lambda.Compile();
+			Registration.Func = lambda.Compile();
 
-            return this;
-        }
+			return this;
+		}
 
-        private NewExpression NewExpression(MethodInfo methodInfo, Type type, ParameterExpression instance) {
-            var ctor = GetSingleConstructorOrAnnotated(type);
-            var @params = ctor.GetParameters()
-                              .Select(pi => {
-                                  return MethodCallExpression(methodInfo, pi.ParameterType, instance);
-                              });
+		private NewExpression NewExpression(MethodInfo methodInfo, Type type, ParameterExpression instance) {
+			var ctor = GetSingleConstructorOrAnnotated(type);
+			var @params = ctor.GetParameters()
+							  .Select(pi => {
+								  return MethodCallExpression(methodInfo, pi.ParameterType, instance);
+							  });
 
-            return Expression.New(ctor, @params.ToArray());
-        }
+			return Expression.New(ctor, @params.ToArray());
+		}
 
-        private MethodCallExpression MethodCallExpression(MethodInfo methodInfo, Type parameterType, ParameterExpression instance) {
-            var method = methodInfo.MakeGenericMethod(parameterType);
+		private MethodCallExpression MethodCallExpression(MethodInfo methodInfo, Type parameterType, ParameterExpression instance) {
+			var method = methodInfo.MakeGenericMethod(parameterType);
 
-            return Expression.Call(instance, method);
-        }
+			return Expression.Call(instance, method);
+		}
 
-        private ConstructorInfo GetSingleConstructorOrAnnotated(Type type) {
-            var ctors = type.GetConstructors();
+		private ConstructorInfo GetSingleConstructorOrAnnotated(Type type) {
+			var ctors = type.GetConstructors();
 
-            if (ctors.Length > 1) {
-                var dependentCtors = ctors.Where(ctor => ctor.IsDefined<DependencyAttribute>())
-                                          .ToArray();
+			if (ctors.Length > 1) {
+				var dependentCtors = ctors.Where(ctor => ctor.IsDefined<DependencyAttribute>())
+										  .ToArray();
 
-                if (dependentCtors.Length != 1) {
-                    throw new RegistraionException(Resources.AmbigiousConstructorDependency.Format(type));
-                }
+				if (dependentCtors.Length != 1) {
+					throw new RegistraionException(Resources.AmbigiousConstructorDependency.Format(type));
+				}
 
-                ctors = dependentCtors;
-            }
+				ctors = dependentCtors;
+			}
 
-            return ctors[0];
-        }
-    }
+			return ctors[0];
+		}
+	}
 }

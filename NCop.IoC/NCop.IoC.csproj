@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractContainer.cs" />
     <Compile Include="AbstractLifetimeStrategy.cs" />
     <Compile Include="Fluent\AutoRegistration.cs" />
     <Compile Include="Fluent\IOwnedBy.cs" />
@@ -76,7 +77,7 @@
     <Compile Include="Fluent\ICasted.cs" />
     <Compile Include="Fluent\IFluentRegistration.cs" />
     <Compile Include="Fluent\IReuseStrategyRegistration.cs" />
-    <Compile Include="Fluent\IFreezableDescriptable.cs" />
+    <Compile Include="Fluent\IDescriptableReturnsOwnedBy.cs" />
     <Compile Include="Fluent\IFluentInterface.cs" />
     <Compile Include="Fluent\IReuseStrategy.cs" />
     <Compile Include="Fluent\IDescriptable.cs" />

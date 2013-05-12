@@ -15,106 +15,125 @@ using System.Threading.Tasks;
 
 namespace NCop.Samples
 {
-    class Program
-    {
+	class Program
+	{
+		public interface IFoo
+		{
+			Baz MyProperty { get; }
+		}
 
-        static void Main(string[] args) {
-            //NCop.
-        }
-    }
+		public class Baz
+		{
+		}
 
-    public interface IDrummer
-    {
-        void Play();
-    }
+		public class Foo : IFoo
+		{
+			public Baz MyProperty { get; set; }
+		}
 
-    public interface IDrummerAspectFilter : IAspectFilter, IDrummer
-    {
-        [ProfilerAspect]
-        new void Play();
-    }
+		static void Main(string[] args) {
+			var container = new NCopContainer(r => {
+				r.RegisterAuto<Baz>();
+				r.RegisterAuto<IFoo>().As<Foo>();
+			});
 
-    public class DrummerMixin : IDrummer
-    {
-        public IEngineer Engineer { get; set; }
+			var resolved = container.Resolve<IFoo>();
+		}
+	}
 
-        public DrummerMixin(IEngineer engineer) {
-            Engineer = engineer;
-        }
+	[IgnoreRegistration]
+	public interface IDrummer
+	{
+		void Play();
+	}
 
-        public void Play() {
-        }
-    }
+	public interface IDrummerAspectFilter : IAspectFilter, IDrummer
+	{
+		[ProfilerAspect]
+		new void Play();
+	}
 
-    public class EngineerMixin : IEngineer
-    {
-        public void DoWork() {
-            throw new NotImplementedException();
-        }
+	public class DrummerMixin : IDrummer
+	{
+		public IEngineer Engineer { get; set; }
 
-        public object Clone() {
-            throw new NotImplementedException();
-        }
-    }
+		public DrummerMixin(IEngineer engineer) {
+			Engineer = engineer;
+		}
 
-    public interface IEngineerAspectFilter : IAspectFilter, IEngineer
-    {
-        [ProfilerAspect(AspectPriority = 1)]
-        new void DoWork();
-    }
+		public void Play() {
+		}
+	}
 
-    [Aspects(new Type[] { typeof(IEngineerAspectFilter) })]
-    [Mixins(new Type[] { typeof(EngineerMixin) })]
-    public interface IEngineer
-    {
-        void DoWork();
-    }
+	public class EngineerMixin : IEngineer
+	{
+		public void DoWork() {
+			throw new NotImplementedException();
+		}
 
-    [Mixins(new Type[] { typeof(DrummerMixin) })]
-    [TransientComposite]
-    [Aspects(new Type[] { typeof(IDrummerAspectFilter) })]
-    public interface IPersonComposite : IEngineer, IDrummer
-    {
-    }
+		public object Clone() {
+			throw new NotImplementedException();
+		}
+	}
 
-    public class PersonComposite : IPersonComposite, IEngineer, IDrummer
-    {
-        private IEngineer IEngineer;
-        private IDrummer IDrummer;
+	public interface IEngineerAspectFilter : IAspectFilter, IEngineer
+	{
+		[ProfilerAspect(AspectPriority = 1)]
+		new void DoWork();
+	}
 
-        public PersonComposite() {
-            this.IEngineer = (IEngineer)null;
-            this.IDrummer = (IDrummer)null;
-        }
+	[Aspects(new Type[] { typeof(IEngineerAspectFilter) })]
+	[Mixins(new Type[] { typeof(EngineerMixin) })]
+	public interface IEngineer
+	{
+		void DoWork();
+	}
 
-        public void DoWork() {
-            this.IEngineer.DoWork();
-        }
+	[TransientComposite]
+	[Mixins(new Type[] { typeof(DrummerMixin) })]
+	[Aspects(new Type[] { typeof(IDrummerAspectFilter) })]
+	public interface IPersonComposite : IEngineer, IDrummer
+	{
+	}
 
-        public void Play() {
-            this.IDrummer.Play();
-        }
-    }
+	public class PersonComposite : IPersonComposite, IEngineer, IDrummer
+	{
+		private IEngineer IEngineer;
+		private IDrummer IDrummer;
 
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property)]
-    public class ProfilerAspectAttribute : OnMethodBoundaryAspectAttribute
-    {
-        public ProfilerAspectAttribute() {
-        }
+		public PersonComposite() {
+			this.IEngineer = (IEngineer)null;
+			this.IDrummer = (IDrummer)null;
+		}
 
-        public override void OnEntry(IMethodExecution methodExecution) {
-        }
+		public void DoWork() {
+			this.IEngineer.DoWork();
+		}
 
-        public override void OnExit(IMethodExecution methodExecution) {
-            throw new NotImplementedException();
-        }
+		public void Play() {
+			this.IDrummer.Play();
+		}
+	}
 
-        public override void OnSuccess(IMethodExecution methodExecution) {
-            throw new NotImplementedException();
-        }
+	[AttributeUsage(AttributeTargets.Method | AttributeTargets.Property)]
+	public class ProfilerAspectAttribute : OnMethodBoundaryAspectAttribute
+	{
+		public ProfilerAspectAttribute() {
+		}
 
-        public override void OnException(IMethodExecution methodExecution) {
-            throw new NotImplementedException();
-        }
-    }
+		public override void OnEntry(IMethodExecution methodExecution) {
+		}
+
+		public override void OnExit(IMethodExecution methodExecution) {
+			throw new NotImplementedException();
+		}
+
+		public override void OnSuccess(IMethodExecution methodExecution) {
+			throw new NotImplementedException();
+		}
+
+		public override void OnException(IMethodExecution methodExecution) {
+			throw new NotImplementedException();
+		}
+	}
 }

@@ -9,10 +9,6 @@ namespace NCop.IoC
 {
 	internal class HierarchySingletonStrategy : AbstractLifetimeStrategy
 	{
-		internal HierarchySingletonStrategy(INCopContainer container = null)
-			: base(container) {
-		}
-
 		public override TService Resolve<TService>(ResolveContext<TService> context) {
 			return (TService)(instance ?? CreateInstance(context.Factory));
 		}

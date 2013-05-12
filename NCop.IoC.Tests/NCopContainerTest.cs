@@ -347,5 +347,18 @@ namespace NCop.IoC.Tests
             Assert.IsNotNull(instance.ByProperty);
             Assert.AreSame(instance.ByCtor, instance.ByProperty);
         }
+
+		[TestMethod]
+		public void AutoRegister_OfInterfaceAndCastingWithAsExpressionToConcreteTypeThatHasOneDependentProperty_ReturnsResolvedInstanceWithFilledProperty() {
+			var container = new NCopContainer(registry => {
+				registry.Register<Baz>().ToSelf();
+				registry.RegisterAuto<IFoo>().As<Boo>();
+			});
+
+			var instance = container.Resolve<IFoo>() as Boo;
+
+			Assert.IsNotNull(instance);
+			Assert.IsNotNull(instance.Baz);
+		}
     }
 }

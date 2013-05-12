@@ -10,6 +10,6 @@ namespace NCop.IoC
         internal ServiceKey Key { get; set; }
         internal ServiceEntry Entry { get; set; }
         internal Func<TService> Factory { get; set; }
-        internal NCopContainer Container { get; set; }
+		internal AbstractContainer Container { get; set; }
     }
 }
