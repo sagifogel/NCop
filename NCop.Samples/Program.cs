@@ -32,12 +32,10 @@ namespace NCop.Samples
 		}
 
 		static void Main(string[] args) {
-			var container = new NCopContainer(r => {
-				r.RegisterAuto<Baz>();
-				r.RegisterAuto<IFoo>().As<Foo>();
-			});
+            var container = new CompositeContainer();
 
-			var resolved = container.Resolve<IFoo>();
+            container.Configure(r => {
+            });
 		}
 	}
 

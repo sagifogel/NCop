@@ -7,9 +7,9 @@ using NCop.Core.Runtime;
 
 namespace NCop.Composite.Framework
 {
-    public class CompositeRuntime : IRuntime
+    internal class CompositeRuntime : IRuntime
     {
-        public RuntimeSettings Settings { get; set; }
+        internal RuntimeSettings Settings { get; set; }
 
         public void Run() {
             var settings = Settings ?? new RuntimeSettings();

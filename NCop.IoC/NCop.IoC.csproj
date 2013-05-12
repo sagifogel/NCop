@@ -69,7 +69,6 @@
     <Compile Include="IdentityLifetimeStrategy.cs" />
     <Compile Include="IoCExtensions.cs" />
     <Compile Include="LifetimeStrategyFactory.cs" />
-    <Compile Include="NCopContainerExtensions.cs" />
     <Compile Include="HierarchySingletonStrategy.cs" />
     <Compile Include="ContainerRegistry.cs" />
     <Compile Include="Contract.cs" />

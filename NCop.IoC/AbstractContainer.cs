@@ -11,7 +11,7 @@ using NCop.Core;
 
 namespace NCop.IoC
 {
-	public abstract class AbstractContainer : INCopContainer
+    public abstract class AbstractContainer : INCopContainer
 	{
 		protected readonly Dictionary<ServiceKey, ServiceEntry> services = null;
 		protected readonly Stack<WeakReference> disposables = new Stack<WeakReference>();
@@ -36,8 +36,10 @@ namespace NCop.IoC
 											 });
 		}
 
-		internal void LateRegister(ServiceKey key, ServiceEntry entry) {
-			services[key] = entry;
+		private void LateRegister(ServiceKey key, ServiceEntry entry) {
+            lock (services) {
+                services[key] = entry;
+            }
 		}
 
 		public TService Resolve<TService>() {
@@ -173,6 +175,7 @@ namespace NCop.IoC
 				Entry = entry,
 				Key = identifier,
 				Container = this,
+                Registry = LateRegister,
 				Factory = Functional.Curry(CreateInstance, entry, (TFunc)entry.Factory, factoryInvoker)
 			};
 
@@ -216,5 +219,5 @@ namespace NCop.IoC
 				}
 			}
 		}
-	}
+    }
 }
