@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NCop.IoC.Fluent
 {
-    public interface IRegistry
+    public interface IFluentRegistry
     {
         ICastableRegistration<TCastable> Register<TCastable>();
         ICastableRegistration<TCastable> RegisterAuto<TCastable>();

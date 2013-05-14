@@ -25,8 +25,6 @@ namespace NCop.IoC.Fluent
 
         public ReuseScope Scope { get; internal set; }
         
-        public INCopContainer Container { get; internal set; }
-
         public IReusedWithin AsSingleton() {
             Scope = ReuseScope.Hierarchy;
             return this;

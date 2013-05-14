@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using NCop.IoC;
 
 namespace NCop.Composite.Weaving
 {
@@ -17,13 +18,13 @@ namespace NCop.Composite.Weaving
     {
         private readonly MixinsTypeWeaverBuilder builder = null;
 
-        internal CompositeTypeWeaverBuilder(Type type) {
-            var mixinsMap = new MixinsMap(type);
-            var aspectMap = new AspectsMap(type);
-            var factory = new MixinsTypeDefinitionWeaver(type, mixinsMap);
+        internal CompositeTypeWeaverBuilder(Type compositeType, IRegistry registry) {
+            var mixinsMap = new MixinsMap(compositeType);
+            var aspectMap = new AspectsMap(compositeType);
+            var factory = new MixinsTypeDefinitionWeaver(compositeType, mixinsMap);
             var metohdJoiner = new MethodJoiner(aspectMap, mixinsMap);
 
-            builder = new MixinsTypeWeaverBuilder(type, factory);
+            builder = new MixinsTypeWeaverBuilder(compositeType, factory, registry);
 
             mixinsMap.ForEach(map => {
                 builder.Add(map);

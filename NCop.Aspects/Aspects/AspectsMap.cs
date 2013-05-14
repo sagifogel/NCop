@@ -16,9 +16,9 @@ namespace NCop.Aspects.Aspects
         private List<AspectMap> _map = null;
         private AspectsAttributeTypeMatcher _matcher = null;
 
-        public AspectsMap(Type type) {
+        public AspectsMap(Type compositeType) {
             try {
-                _matcher = new AspectsAttributeTypeMatcher(type);
+                _matcher = new AspectsAttributeTypeMatcher(compositeType);
                 _map = new List<AspectMap>(_matcher.Select(tuple => new AspectMap(tuple.Item1, tuple.Item2)));
                 EnsureValidAspects(_map);
             }

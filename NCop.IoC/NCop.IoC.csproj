@@ -57,11 +57,15 @@
   <ItemGroup>
     <Compile Include="AbstractContainer.cs" />
     <Compile Include="AbstractLifetimeStrategy.cs" />
+    <Compile Include="ReflectionRegistry.cs" />
     <Compile Include="Fluent\AutoRegistration.cs" />
     <Compile Include="Fluent\IOwnedBy.cs" />
+    <Compile Include="Fluent\ReflectionRegistration.cs" />
     <Compile Include="Framework\DependencyAttribute.cs" />
     <Compile Include="Framework\DependencyAware.cs" />
     <Compile Include="Framework\IgnoreDependency.cs" />
+    <Compile Include="IContainerConfigurator.cs" />
+    <Compile Include="IRegistry.cs" />
     <Compile Include="Owner.cs" />
     <Compile Include="ResolveContext`1.cs" />
     <Compile Include="ContainerSingletonStrategy.cs" />
@@ -82,7 +86,7 @@
     <Compile Include="Fluent\IDescriptable.cs" />
     <Compile Include="Fluent\IFactoryRegistration.cs" />
     <Compile Include="Fluent\IRegistration.cs" />
-    <Compile Include="Fluent\IRegistry.cs" />
+    <Compile Include="Fluent\IFluentRegistry.cs" />
     <Compile Include="Fluent\Registration.cs" />
     <Compile Include="Fluent\CastableRegistration`1.cs" />
     <Compile Include="INCopContainer.cs" />

@@ -37,9 +37,7 @@ namespace NCop.Mixins.Weaving
         }
 
         private void CreateTypeBuilder() {
-            var interfaces = mixinsMap.Select(mixin => mixin.Contract);
-
-            TypeBuilder = typeof(object).DefineType(name: Type.ToUniqueName(), interfaces: interfaces);
+            TypeBuilder = typeof(object).DefineType(name: Type.ToUniqueName(), interfaces: new[] { Type });
         }
 
         private void CreateMixinTypeDefinitions() {

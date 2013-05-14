@@ -121,6 +121,10 @@ namespace NCop.Core.Extensions
             return object.ReferenceEquals(value, null);
         }
 
+        public static bool IsNotNull(this object value) {
+            return !value.IsNull();
+        }
+
         public static PropertyInfo[] GetPublicProperties(this Type type) {
             if (type.IsInterface) {
                 var propertyInfos = new List<PropertyInfo>();

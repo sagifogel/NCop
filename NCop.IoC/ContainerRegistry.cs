@@ -10,7 +10,7 @@ using System.Collections;
 
 namespace NCop.IoC
 {
-    public class ContainerRegistry : IRegistry, IEnumerable<IRegistration>
+    public class ContainerRegistry : IFluentRegistry, IRegistry, IEnumerable<IRegistration>
     {
         private readonly List<IFluentRegistration> registrations = null;
 
@@ -82,6 +82,10 @@ namespace NCop.IoC
             registrations.Add(registration);
 
             return registration;
+        }
+
+        public void Register(Type concreteType, Type serviceType) {
+            RegisterImpl(new ReflectionRegistration(concreteType, serviceType));
         }
 
         public IEnumerator<IRegistration> GetEnumerator() {

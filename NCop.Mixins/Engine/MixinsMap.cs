@@ -15,9 +15,10 @@ namespace NCop.Mixins.Engine
         private readonly List<MixinMap> map = null;
         private AttributeTypeMatcher<MixinsAttribute> matcher = null;
 
-        public MixinsMap(Type type) {
+        public MixinsMap(Type compositeType) {
             try {
-                matcher = new AttributeTypeMatcher<MixinsAttribute>(type, (attr) => attr.Mixins);
+                CompositeType = compositeType;
+                matcher = new AttributeTypeMatcher<MixinsAttribute>(compositeType, (attr) => attr.Mixins);
                 map = new List<MixinMap>(
                     matcher.Select(tuple => {
                         return new MixinMap(tuple.Item1, tuple.Item2);
@@ -31,6 +32,8 @@ namespace NCop.Mixins.Engine
                 throw new DuplicateMixinAnnotationException(duplicateTypeAnnotationException);
             }
         }
+
+        public Type CompositeType { get; private set; }
 
         public MixinsMap(IEnumerable<MixinMap> mixinsMap) {
             map = mixinsMap.ToList();

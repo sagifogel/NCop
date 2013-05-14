@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NCop.IoC.Fluent
 {
-    public interface IFluentRegistration : IFluentInterface
+    public interface IFluentRegistration : IRegistration, IFluentInterface
     {
     }
 }

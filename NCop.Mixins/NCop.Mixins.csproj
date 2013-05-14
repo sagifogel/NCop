@@ -74,6 +74,10 @@
       <Project>{EF89677E-7AF0-4C80-B73F-AEA357C5614C}</Project>
       <Name>NCop.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NCop.IoC\NCop.IoC.csproj">
+      <Project>{0b598341-32a5-4d5f-a11c-e37e5b4ef65d}</Project>
+      <Name>NCop.IoC</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NCop.Weaving\NCop.Weaving.csproj">
       <Project>{37218cf8-19a4-4614-9e83-b03375dc421a}</Project>
       <Name>NCop.Weaving</Name>
