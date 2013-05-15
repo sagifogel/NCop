@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace NCop.IoC
 {
-    public class NCopContainer : AbstractContainer, IContainerConfigurator
+    public class NCopContainer : AbstractContainer, IContainerConfigurator<INCopContainer>
     {
         private int locked = 0;
         private readonly NCopContainer parentContainer = null;

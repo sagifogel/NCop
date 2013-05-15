@@ -96,5 +96,13 @@ namespace NCop.IoC
         IEnumerator IEnumerable.GetEnumerator() {
             return GetEnumerator();
         }
+
+        public bool Contains(Type serviceType) {
+            var factoryType = typeof(Func<,>).MakeGenericType(typeof(INCopContainer), serviceType);
+
+            return registrations.Any(registration => {
+                return registration.FactoryType.Equals(factoryType);
+            });
+        }
     }
 }

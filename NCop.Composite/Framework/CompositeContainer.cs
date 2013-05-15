@@ -9,7 +9,7 @@ using NCop.Core.Extensions;
 
 namespace NCop.Composite.Framework
 {
-    public class CompositeContainer : AbstractContainer, IContainerConfigurator
+    public class CompositeContainer : AbstractContainer, IContainerConfigurator<INCopContainer>
     {
         public CompositeContainer(RuntimeSettings settings = null) {
             var reflectionRegistry = new ReflectionRegistry(registry);

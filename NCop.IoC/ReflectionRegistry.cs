@@ -16,5 +16,9 @@ namespace NCop.IoC
         public void Register(Type concreteType, Type serviceType) {
             registry.Register(concreteType, serviceType);    
         }
+
+        public bool Contains(Type serviceType) {
+            return registry.Contains(serviceType);
+        }
     }
 }
