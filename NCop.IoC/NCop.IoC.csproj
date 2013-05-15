@@ -57,8 +57,6 @@
   <ItemGroup>
     <Compile Include="AbstractContainer.cs" />
     <Compile Include="AbstractLifetimeStrategy.cs" />
-    <Compile Include="IResolver.cs" />
-    <Compile Include="IWithArgumentsResolver.cs" />
     <Compile Include="Fluent\AutoRegistration.cs" />
     <Compile Include="Fluent\IOwnedBy.cs" />
     <Compile Include="Fluent\ReflectionRegistration.cs" />
