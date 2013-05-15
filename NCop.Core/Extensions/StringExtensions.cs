@@ -63,14 +63,6 @@ namespace NCop.Core.Extensions
             return stringBuilder.ToString();
         }
 
-        public static string ToUnderscoreFieldName(this string value) {
-            if (string.IsNullOrEmpty(value) || value.Length == 1) {
-                return value;
-            }
-
-            return new StringBuilder(value.Substring(1)).ToString().ToLowercaseUnderscore();
-        }
-
         public static bool IsNullOrEmpty(this string value) {
             return string.IsNullOrEmpty(value);
         }

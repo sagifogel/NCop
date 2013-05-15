@@ -35,7 +35,7 @@ namespace NCop.Samples
         static void Main(string[] args) {
             var container = new CompositeContainer();
             container.Configure();
-
+            
             var resolved = container.Resolve<IPersonComposite>();
         }
     }
@@ -54,12 +54,6 @@ namespace NCop.Samples
 
     public class DrummerMixin : IDrummer
     {
-        public IEngineer Engineer { get; set; }
-
-        public DrummerMixin(IEngineer engineer) {
-            Engineer = engineer;
-        }
-
         public void Play() {
         }
     }

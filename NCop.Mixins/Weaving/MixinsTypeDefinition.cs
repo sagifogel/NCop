@@ -6,6 +6,8 @@ using NCop.Weaving;
 using System.Reflection.Emit;
 using NCop.Mixins.Engine;
 using NCop.Core.Extensions;
+using System.Reflection;
+using NCop.Weaving.Extensions;
 
 namespace NCop.Mixins.Weaving
 {
@@ -20,6 +22,7 @@ namespace NCop.Mixins.Weaving
             mixinTypeDefinitions = new Dictionary<Type, MixinTypeDefinition>();
             CreateTypeBuilder();
             CreateMixinTypeDefinitions();
+            CreateDefaultConstructor();
         }
 
         public Type Type { get; private set; }
@@ -46,6 +49,28 @@ namespace NCop.Mixins.Weaving
 
                 mixinTypeDefinitions.Add(mixin.Contract, mixinTypeDefinition);
             });
+        }
+
+        private void CreateDefaultConstructor() {
+            var attr = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
+            var @params = mixinsMap.Select(map => map.Contract).ToArray();
+            var ctorBuilder = TypeBuilder.DefineConstructor(attr, CallingConventions.HasThis, @params);
+            var ilGenerator = ctorBuilder.GetILGenerator();
+
+            ilGenerator.Emit(OpCodes.Ldarg_0);
+            ilGenerator.Emit(OpCodes.Call, typeof(object).GetConstructor(Type.EmptyTypes));
+
+            mixinsMap.ForEach(1, (map, i) => {
+                var contractType = map.Contract;
+                var mixinTypeDefinition = mixinTypeDefinitions[contractType];
+                var fieldBuilder = mixinTypeDefinition.GetOrAddFieldBuilder(contractType);
+
+                ilGenerator.Emit(OpCodes.Ldarg_0);
+                ilGenerator.EmitLoadArg(i);
+                ilGenerator.Emit(OpCodes.Stfld, fieldBuilder);
+            });
+
+            ilGenerator.Emit(OpCodes.Ret);
         }
     }
 }

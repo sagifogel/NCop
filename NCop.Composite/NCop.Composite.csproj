@@ -95,6 +95,8 @@
     </Compile>
     <Compile Include="Framework\CompositeContainer.cs" />
     <Compile Include="Framework\IgnoreRegistration.cs" />
+    <Compile Include="Framework\NamedAttribute.cs" />
+    <Compile Include="Framework\SingletonAttribute.cs" />
     <Compile Include="Framework\TransientCompositeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Framework\CompositeRuntime.cs" />

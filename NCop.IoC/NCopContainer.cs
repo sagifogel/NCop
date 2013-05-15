@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace NCop.IoC
 {
-    public class NCopContainer : AbstractContainer, IContainerConfigurator<INCopContainer>
+    public class NCopContainer : AbstractContainer, IContainerConfigurator
     {
         private int locked = 0;
         private readonly NCopContainer parentContainer = null;
@@ -24,12 +24,10 @@ namespace NCop.IoC
             }
         }
 
-        public INCopContainer Configure(Action<IFluentRegistry> registrationAction = null) {
+        public void Configure(Action<IFluentRegistry> registrationAction = null) {
             if (Interlocked.CompareExchange(ref locked, 1, 0) == 0) {
                 base.ConfigureInternal(registrationAction);
             }
-
-            return this;
         }
 
         protected override ServiceEntry GetEntry(ServiceKey key) {

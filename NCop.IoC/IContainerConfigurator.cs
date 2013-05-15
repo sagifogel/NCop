@@ -6,8 +6,8 @@ using System.Text;
 
 namespace NCop.IoC
 {
-    public interface IContainerConfigurator<TContainer> where TContainer : INCopContainer
+    public interface IContainerConfigurator
     {
-        TContainer Configure(Action<IFluentRegistry> registrationAction = null);
+        void Configure(Action<IFluentRegistry> registrationAction = null);
     }
 }

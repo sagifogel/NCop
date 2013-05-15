@@ -36,6 +36,13 @@ namespace NCop.Mixins.Weaving
 
         public ITypeWeaver Build() {
             var methodWeavers = methodWeaversBuilders.Select(methodBuilder => methodBuilder.Build());
+
+            mixinsMap.ForEach(map => {
+                if (!registry.Contains(map.Contract)) {
+                    registry.Register(map.Implementation, map.Contract); 
+                }
+            });
+
             return new MixinsWeaverStrategy(typeDefinitionFactory, methodWeavers, registry);
         }
     }

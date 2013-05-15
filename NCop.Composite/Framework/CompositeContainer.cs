@@ -9,19 +9,16 @@ using NCop.Core.Extensions;
 
 namespace NCop.Composite.Framework
 {
-    public class CompositeContainer : AbstractContainer, IContainerConfigurator<INCopContainer>
+    public class CompositeContainer : AbstractNCopContainer, IContainerConfigurator
     {
         public CompositeContainer(RuntimeSettings settings = null) {
-            var reflectionRegistry = new ReflectionRegistry(registry);
-            var composite = new CompositeRuntime(settings, reflectionRegistry);
+            var composite = new CompositeRuntime(settings, registry);
 
             composite.Run();
         }
 
-        public INCopContainer Configure(Action<IFluentRegistry> registrationAction = null) {
+        public void Configure(Action<IFluentRegistry> registrationAction = null) {
             ConfigureInternal(registrationAction);
-
-            return this;
         }
     }
 }
