@@ -7,12 +7,12 @@ namespace NCop.Aspects.Aspects
 {
     public class AspectMap
     {
-        public AspectMap(Type contract, IEnumerable<Type> aspectTypes) {
-            Contract = contract;
+        public AspectMap(Type contractType, IEnumerable<Type> aspectTypes) {
+            ContractType = contractType;
             AspectTypes = aspectTypes;
         }
 
-        public Type Contract { get; private set; }
+        public Type ContractType { get; private set; }
 
         public IEnumerable<Type> AspectTypes { get; private set; }
     }

@@ -6,7 +6,6 @@ using NCop.Core.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace NCop.Aspects.Aspects
@@ -31,7 +30,7 @@ namespace NCop.Aspects.Aspects
             aspectsMap.ForEach(aspects => {
                 aspects.AspectTypes.ForEach(aspect => {
                     if (!KnownAspects.IsAspect(aspect)) {
-                        throw new MissingAspectException(aspects.Contract.FullName);
+                        throw new MissingAspectException(aspects.ContractType.FullName);
                     }
                 });
             });

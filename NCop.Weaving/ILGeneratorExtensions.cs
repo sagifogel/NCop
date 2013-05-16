@@ -55,7 +55,7 @@ namespace NCop.Weaving.Extensions
             bool isReferenceType = ignoreType || !localBuilder.LocalType.IsValueType;
 
             if (localBuilder.LocalIndex <= 255) {
-                if (isReferenceType) {
+                if (!isReferenceType) {
                     ILGenerator.EmitLoadLocalShortForm(localBuilder);
                 }
                 else {
@@ -63,7 +63,7 @@ namespace NCop.Weaving.Extensions
                 }
             }
             else {
-                ILGenerator.Emit(isReferenceType ? OpCodes.Ldloc : OpCodes.Ldloca, localBuilder);
+                ILGenerator.Emit(isReferenceType ? OpCodes.Ldloca : OpCodes.Ldloc, localBuilder);
             }
         }
 
@@ -116,54 +116,6 @@ namespace NCop.Weaving.Extensions
             else {
                 ILGenerator.Emit(OpCodes.Ldc_I4, value);
             }
-        }
-
-        public static void EmitDivision(this ILGenerator ILGenerator, Type leftType) {
-            ILGenerator.EmitUnsignedByType(OpCodes.Div, OpCodes.Div_Un, leftType);
-        }
-
-        public static void EmitAddition(this ILGenerator ILGenerator, Type leftType, Type rightType, bool isChecked) {
-            ILGenerator.EmitPossiblyOverflowOperation(OpCodes.Add, OpCodes.Add_Ovf_Un, OpCodes.Add_Ovf, leftType, rightType, isChecked);
-        }
-
-        public static void EmitSubtraction(this ILGenerator ILGenerator, Type leftType, Type rightType, bool isChecked) {
-            ILGenerator.EmitPossiblyOverflowOperation(OpCodes.Sub, OpCodes.Sub_Ovf_Un, OpCodes.Sub_Ovf, leftType, rightType, isChecked);
-        }
-
-        public static void EmitMultiplication(this ILGenerator ILGenerator, Type leftType, Type rightType, bool isChecked) {
-            ILGenerator.EmitPossiblyOverflowOperation(OpCodes.Mul, OpCodes.Mul_Ovf_Un, OpCodes.Mul_Ovf, leftType, rightType, isChecked);
-        }
-
-        public static void EmitGreaterThanOrEqual(this ILGenerator ILGenerator, Type leftType, Type rightType) {
-            ILGenerator.EmitGreater_LessThanOrEqual(OpCodes.Clt, OpCodes.Clt_Un, leftType, rightType);
-        }
-
-        public static void EmitLessThanOrEqual(this ILGenerator ILGenerator, Type leftType, Type rightType) {
-            ILGenerator.EmitGreater_LessThanOrEqual(OpCodes.Cgt, OpCodes.Cgt_Un, leftType, rightType);
-        }
-
-        public static void EmitLessThen(this ILGenerator ILGenerator, Type leftType) {
-            ILGenerator.EmitUnsignedByType(OpCodes.Clt, OpCodes.Clt_Un, leftType);
-        }
-
-        public static void EmitGreaterThan(this ILGenerator ILGenerator, Type leftType) {
-            ILGenerator.EmitUnsignedByType(OpCodes.Cgt, OpCodes.Cgt_Un, leftType);
-        }
-
-        public static void EmitModulu(this ILGenerator ILGenerator, Type leftType) {
-            ILGenerator.EmitUnsignedByType(OpCodes.Rem, OpCodes.Rem_Un, leftType);
-        }
-
-        public static void EmitRightShift(this ILGenerator ILGenerator, Type leftType) {
-            ILGenerator.EmitUnsignedByType(OpCodes.Shr, OpCodes.Shr_Un, leftType);
-        }
-
-        public static void EmitPostIncrement(this ILGenerator ILGenerator, Type type, bool isChecked) {
-            ILGenerator.EmitPostIncrement_Decreament(OpCodes.Add, OpCodes.Add_Ovf_Un, OpCodes.Add_Ovf, type, isChecked);
-        }
-
-        public static void EmitPostDecrement(this ILGenerator ILGenerator, Type type, bool isChecked) {
-            ILGenerator.EmitPostIncrement_Decreament(OpCodes.Sub, OpCodes.Sub_Ovf_Un, OpCodes.Sub_Ovf, type, isChecked);
         }
 
         private static void EmitPushIntegerShortTerm(this ILGenerator ILGenerator, int value) {
@@ -296,64 +248,6 @@ namespace NCop.Weaving.Extensions
             }
         }
 
-        private static void EmitGreater_LessThanOrEqual(this ILGenerator ILGenerator, OpCode signedOpCode, OpCode unsignedOpCode, Type leftType, Type rightType) {
-            if ((leftType.IsUnsigned() && rightType.IsUnsigned()) || leftType.IsFloatingPoint()) {
-                ILGenerator.Emit(unsignedOpCode);
-            }
-            else {
-                ILGenerator.Emit(signedOpCode);
-            }
-
-            ILGenerator.Emit(OpCodes.Ldc_I4_0);
-            ILGenerator.Emit(OpCodes.Ceq);
-        }
-
-        private static void EmitPossiblyOverflowOperation(this ILGenerator ILGenerator, OpCode signedOpCode, OpCode unsignedOverflowOpCode, OpCode signedOverflowOpCode, Type leftType, Type rightType, bool isChecked) {
-            if (isChecked) {
-                if (leftType.IsUnsigned() && rightType.IsUnsigned()) {
-                    ILGenerator.Emit(unsignedOverflowOpCode);
-                }
-                else if (leftType.IsFloatingPoint() || rightType.IsFloatingPoint()) {
-                    ILGenerator.Emit(signedOpCode);
-                }
-                else {
-                    ILGenerator.Emit(signedOverflowOpCode);
-                }
-            }
-            else {
-                ILGenerator.Emit(signedOpCode);
-            }
-        }
-
-        private static void EmitPostIncrement_Decreament(this ILGenerator ILGenerator, OpCode signedOpCode, OpCode unsignedOverflowOpCode, OpCode signedOverflowOpCode, Type type, bool isChecked) {
-            ILGenerator.Emit(OpCodes.Dup);
-            ILGenerator.Emit(OpCodes.Ldc_I4_1);
-
-            if (isChecked) {
-                if (type.IsUnsigned()) {
-                    ILGenerator.Emit(unsignedOverflowOpCode);
-                }
-                else if (type.IsFloatingPoint()) {
-                    ILGenerator.Emit(signedOpCode);
-                }
-                else {
-                    ILGenerator.Emit(signedOverflowOpCode);
-                }
-            }
-            else {
-                ILGenerator.Emit(signedOpCode);
-            }
-        }
-
-        private static void EmitUnsignedByType(this ILGenerator ILGenerator, OpCode signedOpCode, OpCode unsignedOpCode, Type type) {
-            if (type.IsUnsigned()) {
-                ILGenerator.Emit(unsignedOpCode);
-            }
-            else {
-                ILGenerator.Emit(signedOpCode);
-            }
-        }
-
         public static void EmitPrimitiveByTypeCode(this ILGenerator ILGenerator, object value, TypeCode typeCode) {
             switch (typeCode) {
                 case TypeCode.Byte:
@@ -447,72 +341,6 @@ namespace NCop.Weaving.Extensions
                         break;
                     }
             }
-        }
-
-        public static void EmitStoreElementByType(this ILGenerator ILGenerator, Type type) {
-            if (type.IsEnum || type.IsPrimitive && !type.Equals(typeof(IntPtr))) {
-                var typeCode = Type.GetTypeCode(type);
-
-                EmitStorePrimitiveElementByTypeCode(ILGenerator, typeCode);
-            }
-            else if (type.IsValueType || type.IsGenericParameter) {
-                ILGenerator.Emit(OpCodes.Stobj, type);
-            }
-            else {
-                ILGenerator.Emit(OpCodes.Stind_Ref);
-            }
-        }
-
-        public static void EmitLoadElementArrayIfNeeded(this ILGenerator ILGenerator, Type type) {
-            if (!type.IsEnum && !type.IsPrimitive && !type.Equals(typeof(IntPtr))) {
-                ILGenerator.Emit(OpCodes.Ldelema, type);
-            }
-        }
-
-        private static void EmitStorePrimitiveElementByTypeCode(this ILGenerator ILGenerator, TypeCode typeCode) {
-            switch (typeCode) {
-                case TypeCode.Byte:
-                case TypeCode.SByte:
-                case TypeCode.Boolean: {
-                        ILGenerator.Emit(OpCodes.Stelem_I1);
-                        break;
-                    }
-                case TypeCode.Int16:
-                case TypeCode.UInt16:
-                case TypeCode.Char: {
-                        ILGenerator.Emit(OpCodes.Stelem_I2);
-                        break;
-                    }
-                case TypeCode.Int32:
-                case TypeCode.UInt32: {
-                        ILGenerator.Emit(OpCodes.Stelem_I4);
-                        break;
-                    }
-                case TypeCode.Int64:
-                case TypeCode.UInt64: {
-                        ILGenerator.Emit(OpCodes.Stelem_I8);
-                        break;
-                    }
-                case TypeCode.Single: {
-                        ILGenerator.Emit(OpCodes.Stelem_R4);
-                        break;
-                    }
-                case TypeCode.Double: {
-                        ILGenerator.Emit(OpCodes.Stelem_R8);
-                        break;
-                    }
-                case TypeCode.String: {
-                        ILGenerator.Emit(OpCodes.Stelem_Ref);
-                        break;
-                    }
-            }
-        }
-
-        public static void EmitPrimitiveAndStoreElementByType(this ILGenerator ILGenerator, object value, Type type) {
-            var typeCode = Type.GetTypeCode(type);
-
-            EmitPrimitiveByTypeCode(ILGenerator, value, typeCode);
-            EmitStoreElementByType(ILGenerator, type);
         }
 
         private static void PushIntegerOpCode(this ILGenerator ilGenerator, long value) {

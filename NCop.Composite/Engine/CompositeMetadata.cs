@@ -9,13 +9,13 @@ namespace NCop.Composite.Engine
     internal class CompositeMetadata
     {
         internal CompositeMetadata(Type compositeType) {
-            Type = compositeType;
+            CompositeType = compositeType;
             Interfaces = compositeType.GetImmediateInterfaces();
             MixinsMap = new MixinsMap(compositeType);
             AspectsMap = new AspectsMap(compositeType);
         }
 
-        public Type Type { get; private set; }
+        public Type CompositeType { get; private set; }
 
         public IMixinsMap MixinsMap { get; private set; }
 

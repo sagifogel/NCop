@@ -7,13 +7,13 @@ namespace NCop.Core.Mixin
 {
     public class MixinMap
     {
-        public MixinMap(Type contract, Type implementation) {
-            Contract = contract;
-            Implementation = implementation;
+        public MixinMap(Type contractType, Type implementation) {
+            ContractType = contractType;
+            ImplementationType = implementation;
         }
 
-        public Type Contract { get; private set; }
+        public Type ContractType { get; private set; }
 
-        public Type Implementation { get; private set; }
+        public Type ImplementationType { get; private set; }
     }
 }

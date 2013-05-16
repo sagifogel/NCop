@@ -13,7 +13,7 @@ namespace NCop.Weaving
 
 		public MixinTypeDefinitionWeaver(MixinMap mixinMap) {
 			this.mixinMap = mixinMap;
-			Type = mixinMap.Contract;
+			Type = mixinMap.ContractType;
 		}
 
 		public Type Type { get; private set; }

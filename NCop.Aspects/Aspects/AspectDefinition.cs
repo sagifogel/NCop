@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections.Concurrent;
-using System.Threading.Tasks;
-using System.Diagnostics.Contracts;
-using NCop.Aspects.Pointcuts;
-using NCop.Aspects.Engine;
-using System.Reflection;
-using NCop.Aspects.Advices;
-using NCop.Core.Extensions;
+﻿using NCop.Aspects.Advices;
 using NCop.Aspects.JoinPoints;
 
 namespace NCop.Aspects.Aspects

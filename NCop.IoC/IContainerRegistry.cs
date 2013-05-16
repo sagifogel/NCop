@@ -6,9 +6,7 @@ using System.Text;
 
 namespace NCop.IoC
 {
-    public interface IRegistry
+    public interface IContainerRegistry : IFluentRegistry, IRegistry, IEnumerable<IRegistration>
     {
-        bool Contains(Type serviceType);
-        IRegistration Register(Type concreteType, Type serviceType);
     }
 }

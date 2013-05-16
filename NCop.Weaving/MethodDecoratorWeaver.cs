@@ -9,11 +9,11 @@ namespace NCop.Weaving
 {
     public class MethodDecoratorWeaver : AbstractMethodWeaver
     {
-        public MethodDecoratorWeaver(MethodInfo methodInfo, Type decoratedType)
-            : base(methodInfo, decoratedType) {
+        public MethodDecoratorWeaver(MethodInfo methodInfo, Type implementationType, Type contractType)
+            : base(methodInfo, implementationType, contractType) {
             MethodEndWeaver = new MethodEndWeaver();
             MethodDefintionWeaver = new MethodSignatureWeaver();
-            MethodScopeWeaver = new MethodDecoratorScopeWeaver(methodInfo, decoratedType);
+            MethodScopeWeaver = new MethodDecoratorScopeWeaver(methodInfo, implementationType, contractType);
         }
 
         public override MethodBuilder DefineMethod(ITypeDefinition typeDefinition) {

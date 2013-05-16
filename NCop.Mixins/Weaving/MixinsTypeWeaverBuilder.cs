@@ -38,8 +38,8 @@ namespace NCop.Mixins.Weaving
             var methodWeavers = methodWeaversBuilders.Select(methodBuilder => methodBuilder.Build());
 
             mixinsMap.ForEach(map => {
-                if (!registry.Contains(map.Contract)) {
-                    registry.Register(map.Implementation, map.Contract); 
+                if (!registry.Contains(map.ContractType)) {
+                    registry.Register(map.ImplementationType, map.ContractType); 
                 }
             });
 

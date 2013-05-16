@@ -13,12 +13,28 @@ namespace NCop.IoC
 {
     public abstract class AbstractNCopContainer : INCopContainer
     {
+        protected readonly IContainerRegistry registry = null;
         protected IDictionary<ServiceKey, ServiceEntry> services = null;
-        protected readonly ContainerRegistry registry = new ContainerRegistry();
         protected readonly Stack<WeakReference> disposables = new Stack<WeakReference>();
 
+        public AbstractNCopContainer() {
+            registry = CreateRegistry();
+        }
+
         protected IDictionary<ServiceKey, ServiceEntry> ResolveServices(IEnumerable<IRegistration> registrations) {
-            return registrations.ToDictionary(r => CreateServiceKey(r), r => CreateServiceEntry(r));
+            var dictionary = new Dictionary<ServiceKey, ServiceEntry>();
+
+            registrations.ForEach(registration => {
+                var serviceKey = CreateServiceKey(registration);
+
+                if (dictionary.ContainsKey(serviceKey)) {
+                    throw new RegistraionException(Resources.DuplicateRegistrationFound.Format(serviceKey.ServiceType));
+                }
+
+                dictionary.Add(serviceKey, CreateServiceEntry(registration));
+            });
+
+            return dictionary;
         }
 
         protected virtual void ConfigureInternal(Action<IFluentRegistry> registrationAction = null) {
@@ -27,6 +43,10 @@ namespace NCop.IoC
             }
 
             ConfigureInternal();
+        }
+
+        protected virtual IContainerRegistry CreateRegistry() {
+            return new ContainerRegistry();
         }
 
         protected internal void ConfigureInternal() {

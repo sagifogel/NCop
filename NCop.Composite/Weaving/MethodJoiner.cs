@@ -11,17 +11,15 @@ using System.Collections;
 
 namespace NCop.Composite.Weaving
 {
-    internal class MethodJoiner : Tuples<MethodInfo, Type>
+    internal class MethodJoiner : Tuples<MethodInfo, Type, Type>
     {
-        internal MethodJoiner(IAspectsMap aspectsMap, IMixinsMap mixinsMap) {
-            var joined = aspectsMap.Join(mixinsMap,
-                                       (aspect) => aspect.Contract,
-                                       (mixin) => mixin.Contract,
-                                       (aspect, mixin) => new {
-                                           Type = mixin.Implementation,
-                                           ContractMethods = aspect.Contract.GetMethods(),
-                                           ImplMethods = mixin.Implementation.GetMethods().ToSet()
-                                       });
+        internal MethodJoiner(IMixinsMap mixinsMap) {
+            var joined = mixinsMap.Select(mixin => new {
+                ContractType = mixin.ContractType,
+                ImplementationType = mixin.ImplementationType,
+                ContractMethods = mixin.ContractType.GetMethods(),
+                ImplMethods = mixin.ImplementationType.GetMethods().ToSet()
+            });
 
             Values = joined.Select(join => {
                 var methods = join.ContractMethods;
@@ -29,7 +27,7 @@ namespace NCop.Composite.Weaving
                                                 (c, impl) => MethodMatch(c, impl),
                                                 (c, impl) => impl);
 
-                return Tuple.Create(result, join.Type);
+                return Tuple.Create(result, join.ImplementationType, join.ContractType);
             });
         }
 

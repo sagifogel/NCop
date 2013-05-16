@@ -45,15 +45,15 @@ namespace NCop.Mixins.Weaving
 
         private void CreateMixinTypeDefinitions() {
             mixinsMap.ForEach(mixin => {
-                var mixinTypeDefinition = new MixinTypeDefinition(mixin.Contract, TypeBuilder);
+                var mixinTypeDefinition = new MixinTypeDefinition(mixin.ContractType, TypeBuilder);
 
-                mixinTypeDefinitions.Add(mixin.Contract, mixinTypeDefinition);
+                mixinTypeDefinitions.Add(mixin.ContractType, mixinTypeDefinition);
             });
         }
 
         private void CreateDefaultConstructor() {
             var attr = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
-            var @params = mixinsMap.Select(map => map.Contract).ToArray();
+            var @params = mixinsMap.Select(map => map.ContractType).ToArray();
             var ctorBuilder = TypeBuilder.DefineConstructor(attr, CallingConventions.HasThis, @params);
             var ilGenerator = ctorBuilder.GetILGenerator();
 
@@ -61,7 +61,7 @@ namespace NCop.Mixins.Weaving
             ilGenerator.Emit(OpCodes.Call, typeof(object).GetConstructor(Type.EmptyTypes));
 
             mixinsMap.ForEach(1, (map, i) => {
-                var contractType = map.Contract;
+                var contractType = map.ContractType;
                 var mixinTypeDefinition = mixinTypeDefinitions[contractType];
                 var fieldBuilder = mixinTypeDefinition.GetOrAddFieldBuilder(contractType);
 

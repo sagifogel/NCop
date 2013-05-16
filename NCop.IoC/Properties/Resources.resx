@@ -123,6 +123,9 @@
   <data name="CouldNotResolveType" xml:space="preserve">
     <value>Could not resolve type {0}.</value>
   </data>
+  <data name="DuplicateRegistrationFound" xml:space="preserve">
+    <value>Could not register type {0}. An item with the same key has already been added.</value>
+  </data>
   <data name="NoParameterlessConstructorFound" xml:space="preserve">
     <value>Could not auto register type {0}. No parameterless constructor defined for this object.</value>
   </data>

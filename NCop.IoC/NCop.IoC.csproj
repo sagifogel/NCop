@@ -64,6 +64,7 @@
     <Compile Include="Framework\DependencyAttribute.cs" />
     <Compile Include="Framework\DependencyAware.cs" />
     <Compile Include="Framework\IgnoreDependency.cs" />
+    <Compile Include="IContainerRegistry.cs" />
     <Compile Include="INCopArgumentsContainer.cs" />
     <Compile Include="IContainerConfigurator.cs" />
     <Compile Include="IRegistry.cs" />

@@ -17,7 +17,7 @@ namespace NCop.Mixins.Engine
 
         public MixinsMap(Type compositeType) {
             try {
-                CompositeType = compositeType;
+                compositeType = compositeType;
                 matcher = new AttributeTypeMatcher<MixinsAttribute>(compositeType, (attr) => attr.Mixins);
                 map = new List<MixinMap>(
                     matcher.Select(tuple => {
@@ -33,7 +33,7 @@ namespace NCop.Mixins.Engine
             }
         }
 
-        public Type CompositeType { get; private set; }
+        public Type compositeType { get; private set; }
 
         public MixinsMap(IEnumerable<MixinMap> mixinsMap) {
             map = mixinsMap.ToList();

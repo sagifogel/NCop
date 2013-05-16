@@ -79,6 +79,15 @@ namespace NCop.IoC.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not register type {0}. An item with the same key has already been added..
+        /// </summary>
+        internal static string DuplicateRegistrationFound {
+            get {
+                return ResourceManager.GetString("DuplicateRegistrationFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not auto register type {0}. No parameterless constructor defined for this object..
         /// </summary>
         internal static string NoParameterlessConstructorFound {

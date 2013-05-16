@@ -11,7 +11,7 @@ namespace NCop.Weaving
     {
         private MixinMap mixinMap = null;
         private readonly Type type = null;
-        private readonly List<IMethodWeaver> _methodWeavers = new List<IMethodWeaver>();
+        private readonly List<IMethodWeaver> methodWeavers = new List<IMethodWeaver>();
 
         public MixinTypeWeaverBuilder(Type type) {
             this.type = type;
@@ -22,13 +22,13 @@ namespace NCop.Weaving
         }
 
         public void AddMethodWeaver(IMethodWeaver methodWeaver) {
-            _methodWeavers.Add(methodWeaver);
+            methodWeavers.Add(methodWeaver);
         }
 
         public ITypeWeaver Build() {
             var typeDefinitionWeaver = new MixinTypeDefinitionWeaver(mixinMap);
 
-            return new MixinWeaverStrategy(typeDefinitionWeaver, _methodWeavers);
+            return new MixinWeaverStrategy(typeDefinitionWeaver, methodWeavers);
         }
     }
 }

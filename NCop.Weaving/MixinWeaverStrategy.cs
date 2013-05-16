@@ -13,6 +13,10 @@ namespace NCop.Weaving
             TypeDefinitionWeaver = typeDefinitionWeaver;
         }
 
+        public IEnumerable<IMethodWeaver> MethodWeavers { get; private set; }
+
+        public ITypeDefinitionWeaver TypeDefinitionWeaver { get; private set; }
+
         public void Weave() {
             var typeDefinition = TypeDefinitionWeaver.Weave();
 
@@ -24,9 +28,5 @@ namespace NCop.Weaving
                 methodWeaver.WeaveEndMethod(ilGenerator);
             });
         }
-
-        public IEnumerable<IMethodWeaver> MethodWeavers { get; private set; }
-
-        public ITypeDefinitionWeaver TypeDefinitionWeaver { get; private set; }
     }
 }

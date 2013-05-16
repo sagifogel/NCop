@@ -22,16 +22,16 @@ namespace NCop.Composite.Weaving
             var mixinsMap = new MixinsMap(compositeType);
             var aspectMap = new AspectsMap(compositeType);
             var factory = new MixinsTypeDefinitionWeaver(compositeType, mixinsMap);
-            var metohdJoiner = new MethodJoiner(aspectMap, mixinsMap);
+            var metohdJoiner = new MethodJoiner(mixinsMap);
 
             builder = new MixinsTypeWeaverBuilder(compositeType, factory, registry);
 
             mixinsMap.ForEach(map => {
-                builder.Add(map);
+                builder.Add(map);   
             });
 
             metohdJoiner.ForEach(tuple => {
-                var methodBuilder = new MethodWeaverBuilder(tuple.Item1, tuple.Item2, factory);
+                var methodBuilder = new MethodWeaverBuilder(tuple.Item1, tuple.Item2, tuple.Item3, factory);
 
                 builder.Add(methodBuilder);
             });

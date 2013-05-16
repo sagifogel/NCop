@@ -10,9 +10,9 @@ using System.Collections;
 
 namespace NCop.IoC
 {
-    public class ContainerRegistry : IFluentRegistry, IRegistry, IEnumerable<IRegistration>
+    public class ContainerRegistry : IContainerRegistry
     {
-        private readonly List<IFluentRegistration> registrations = null;
+        protected readonly List<IFluentRegistration> registrations = null;
 
         public ContainerRegistry() {
             registrations = new List<IFluentRegistration>();
@@ -84,8 +84,8 @@ namespace NCop.IoC
             return registration;
         }
 
-        public void Register(Type concreteType, Type serviceType) {
-            RegisterImpl(new ReflectionRegistration(concreteType, serviceType));
+        public virtual IRegistration Register(Type concreteType, Type serviceType) {
+            return RegisterImpl(new ReflectionRegistration(concreteType, serviceType));
         }
 
         public IEnumerator<IRegistration> GetEnumerator() {

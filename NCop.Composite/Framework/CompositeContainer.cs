@@ -6,6 +6,7 @@ using NCop.IoC;
 using NCop.IoC.Fluent;
 using NCop.Core;
 using NCop.Core.Extensions;
+using NCop.Composite.Engine;
 
 namespace NCop.Composite.Framework
 {
@@ -15,6 +16,10 @@ namespace NCop.Composite.Framework
             var composite = new CompositeRuntime(settings, registry);
 
             composite.Run();
+        }
+
+        protected override IContainerRegistry CreateRegistry() {
+            return new CompositeRegistry();
         }
 
         public void Configure(Action<IFluentRegistry> registrationAction = null) {

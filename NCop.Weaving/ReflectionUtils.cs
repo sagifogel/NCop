@@ -16,12 +16,13 @@ namespace NCop.Weaving
     public static class ReflectionUtils
     {   
         internal static MethodBuilder DefineMethod(this TypeBuilder typeBuilder, MethodInfo methodInfo, MethodAttributes? attributes = null) {
-            var parametrTypes = methodInfo.GetParameters()
-                                          .Select(parameter => parameter.ParameterType);
+            var parameterTypes = methodInfo.GetParameters()
+                                          .Select(parameter => parameter.ParameterType)
+                                          .ToArray();
 
             attributes = attributes ?? methodInfo.Attributes & ~MethodAttributes.Abstract;
 
-            return typeBuilder.DefineMethod(methodInfo.Name, attributes.Value, methodInfo.ReturnType, parametrTypes.ToArray());
+            return typeBuilder.DefineMethod(methodInfo.Name, attributes.Value, methodInfo.ReturnType, parameterTypes);
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]

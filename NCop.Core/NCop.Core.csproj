@@ -74,6 +74,7 @@
     <Compile Include="IBag`1.cs" />
     <Compile Include="IRuntimeSettings.cs" />
     <Compile Include="Runtime\IgnoredAssemblies.cs" />
+    <Compile Include="Tuple`3.cs" />
     <Compile Include="Visitors\IEnumerableProjectionTypeVisitor.cs" />
     <Compile Include="Visitors\IProjectionTypeVisitor.cs" />
     <Compile Include="Collection.cs" />
@@ -85,7 +86,7 @@
     <Compile Include="Mixin\MixinMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runtime\RuntimeSettings.cs" />
-    <Compile Include="Tuples.cs" />
+    <Compile Include="Tuples`2.cs" />
     <Compile Include="Visitors\ITypeVisitor.cs" />
     <Compile Include="Volatile.cs" />
   </ItemGroup>

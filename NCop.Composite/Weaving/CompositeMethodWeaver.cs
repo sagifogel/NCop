@@ -10,8 +10,8 @@ namespace NCop.Composite.Weaving
 {
     internal class CompositeMethodWeaver : AbstractMethodWeaver
     {
-        internal CompositeMethodWeaver(MethodInfo methodInfo, Type type, IMethodSignatureWeaver methodDefinitionWeaver, IEnumerable<IMethodWeaver> methodWeavers)
-            : base(methodInfo, type) {
+        internal CompositeMethodWeaver(MethodInfo methodInfo, Type implementationType, Type contractType, IMethodSignatureWeaver methodDefinitionWeaver, IEnumerable<IMethodWeaver> methodWeavers)
+            : base(methodInfo, implementationType, contractType) {
             MethodDefintionWeaver = methodDefinitionWeaver;
             MethodScopeWeaver = new MethodScopeWeaversQueue(methodWeavers.Select(weaver => weaver.MethodScopeWeaver));
             MethodEndWeaver = new MethodEndWeaver();

@@ -9,14 +9,17 @@ namespace NCop.Weaving
 {
     public abstract class AbstractMethodWeaver : IMethodWeaver
     {
-        public AbstractMethodWeaver(MethodInfo methodInfo, Type type) {
-            Type = type;
+        public AbstractMethodWeaver(MethodInfo methodInfo, Type implementationType, Type contractType) {
             MethodInfo = methodInfo;
+            ContractType = contractType;
+            ImplementationType = implementationType;
         }
 
-        protected Type Type { get; set; }
+        public Type ContractType { get; protected set; }
 
-        protected MethodInfo MethodInfo { get; set; }
+        public Type ImplementationType { get; protected set; }
+
+        public MethodInfo MethodInfo { get; protected set; }
 
         public abstract void WeaveEndMethod(ILGenerator ilGenerator);
 
