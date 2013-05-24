@@ -27,7 +27,7 @@ namespace NCop.Samples
         }
     }
 
-    [TransientComposite]
+    [SingletonComposite]
     [Mixins(typeof(DrummerMixin), typeof(DeveloperMixin))]
     public interface IPersonComposite : IDeveloperMixin, IDrummer
     {
@@ -36,12 +36,17 @@ namespace NCop.Samples
     public interface IDrummer
     {
         void Play(string song);
+        void Play2(int i);
     }
 
     public class DrummerMixin : IDrummer
     {
         public void Play(string song) {
             Console.WriteLine(song);
+        }
+        
+        public void Play2(int i) {
+            Console.WriteLine(i);
         }
     }
 
