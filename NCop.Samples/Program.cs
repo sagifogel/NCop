@@ -36,7 +36,7 @@ namespace NCop.Samples
     public interface IDrummer
     {
         void Play(string song);
-        void Play2(int i);
+        void Play(int i);
     }
 
     public class DrummerMixin : IDrummer
@@ -45,7 +45,7 @@ namespace NCop.Samples
             Console.WriteLine(song);
         }
         
-        public void Play2(int i) {
+        public void Play(int i) {
             Console.WriteLine(i);
         }
     }

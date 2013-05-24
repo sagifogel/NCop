@@ -74,15 +74,13 @@ namespace NCop.Core.Extensions
             return source.Concat(new[] { second });
         }
 
-        public static TResult SelectFirst<TOuter, TInner, TResult>(this IEnumerable<TOuter> outer, IEnumerable<TInner> inner, Func<TOuter, TInner, bool> predicate, Func<TOuter, TInner, TResult> selector) {
+        public static TResult SelectFirst<TItem, TInner, TResult>(this TItem item, IEnumerable<TInner> inner, Func<TItem, TInner, bool> predicate, Func<TItem, TInner, TResult> selector) {
             Func<TInner, TInner, bool> comparer = EqualityComparer<TInner>.Default.Equals;
 
-            foreach (var item in outer) {
-                TInner innerResult = inner.FirstOrDefault(innerItem => predicate(item, innerItem));
-
-                if (!comparer(innerResult, default(TInner))) {
-                    return selector(item, innerResult);
-                }
+            TInner innerResult = inner.FirstOrDefault(innerItem => predicate(item, innerItem));
+        
+            if (!comparer(innerResult, default(TInner))) {
+                return selector(item, innerResult);
             }
 
             return default(TResult);

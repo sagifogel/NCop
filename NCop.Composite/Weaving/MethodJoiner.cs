@@ -21,13 +21,16 @@ namespace NCop.Composite.Weaving
                 ImplMethods = mixin.ImplementationType.GetMethods().ToSet()
             });
 
-            Values = joined.Select(join => {
+            Values = joined.SelectMany(join => {
                 var methods = join.ContractMethods;
-                var result = methods.SelectFirst(join.ImplMethods,
-                                                (c, impl) => MethodMatch(c, impl),
-                                                (c, impl) => impl);
 
-                return Tuple.Create(result, join.ImplementationType, join.ContractType);
+                return methods.Select(method => {
+                    var result = method.SelectFirst(join.ImplMethods,
+                                                   (c, impl) => MethodMatch(c, impl),
+                                                   (c, impl) => impl);
+
+                    return Tuple.Create(result, join.ImplementationType, join.ContractType);
+                });
             });
         }
 

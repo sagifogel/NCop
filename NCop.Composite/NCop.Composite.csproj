@@ -88,7 +88,6 @@
     </Compile>
     <Compile Include="Engine\CompositeFrameworkRegistration.cs" />
     <Compile Include="Engine\CompositeRegistry.cs" />
-    <Compile Include="Extensions\CompositeMetadataMapper.cs" />
     <Compile Include="Engine\CompositeMetadata.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -135,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
