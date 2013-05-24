@@ -11,7 +11,7 @@ namespace NCop.Composite.Engine
             : base(concreteType, serviceType) {
             NamedAttribute namedAttribute = null;
 
-            if (concreteType.IsDefined<SingletonAttribute>() || serviceType.IsDefined<SingletonAttribute>()) {
+            if (concreteType.IsDefined<SingletonCompositeAttribute>() || serviceType.IsDefined<SingletonCompositeAttribute>()) {
                 AsSingleton();
             }
 
