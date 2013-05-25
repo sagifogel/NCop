@@ -2,9 +2,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
-<#@ include file="T4Toolbox.tt" #>
-<#+
-
+<#@ include file="T4Toolbox.tt" #><#+
 public class NCopExceptionTemplate : CSharpTemplate
 {	
 	private string name = System.IO.Path.GetFileNameWithoutExtension(TransformationContext.Current.Host.TemplateFile);
@@ -86,6 +84,12 @@ namespace <#= Namespace ?? DefaultNamespace  #>
 	{
         private readonly string message = string.Empty;
 		private readonly bool messageInitialized = false;
+		<#+ if (!string.IsNullOrEmpty(Message) && Arguments == null) {#>
+		
+		public <#= name #>() 
+		    : this("<#= Message #>") {
+        }
+		<#+}#>
 
         public <#= name #>(string message) 
 		    : base(message) {

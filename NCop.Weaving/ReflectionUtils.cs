@@ -10,19 +10,31 @@ using System.Runtime.CompilerServices;
 using System.Diagnostics;
 using System.ComponentModel;
 using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 
 namespace NCop.Weaving
 {
     public static class ReflectionUtils
-    {   
+    {
         internal static MethodBuilder DefineMethod(this TypeBuilder typeBuilder, MethodInfo methodInfo, MethodAttributes? attributes = null) {
-            var parameterTypes = methodInfo.GetParameters()
-                                          .Select(parameter => parameter.ParameterType)
-                                          .ToArray();
+            MethodBuilder methodBuilder = null;
+            var parameters = methodInfo.GetParameters();
+            var parametersTypes = parameters.Select(parameter => parameter.ParameterType)
+                                            .ToArray();
 
             attributes = attributes ?? methodInfo.Attributes & ~MethodAttributes.Abstract;
+            methodBuilder = typeBuilder.DefineMethod(methodInfo.Name, attributes.Value, methodInfo.ReturnType, parametersTypes);
+            
+            methodInfo.GetParameters()
+                       .ForEach(1, (parameter, i) => {
+                           var parameterBuilder = methodBuilder.DefineParameter(i, parameter.Attributes, parameter.Name);
 
-            return typeBuilder.DefineMethod(methodInfo.Name, attributes.Value, methodInfo.ReturnType, parameterTypes);
+                           if (parameter.IsOut) {
+                               parameterBuilder.SetCustomAttribute<OutAttribute>();
+                           }
+                       });
+
+            return methodBuilder;
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]

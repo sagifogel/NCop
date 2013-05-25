@@ -19,15 +19,18 @@ namespace NCop.Samples
 {
     class Program
     {
-        static void Main(string[] args) {
+        static void Main(string[] args){
             var container = new CompositeContainer();
             container.Configure();
             
             var composite = container.TryResolve<IPersonComposite>();
+
+            composite.Play2();
+
         }
     }
 
-    [SingletonComposite]
+    [TransientComposite]
     [Mixins(typeof(DrummerMixin), typeof(DeveloperMixin))]
     public interface IPersonComposite : IDeveloperMixin, IDrummer
     {
@@ -36,7 +39,7 @@ namespace NCop.Samples
     public interface IDrummer
     {
         void Play(string song);
-        void Play(int i);
+        void Play2(int i = 10);
     }
 
     public class DrummerMixin : IDrummer
@@ -44,9 +47,10 @@ namespace NCop.Samples
         public void Play(string song) {
             Console.WriteLine(song);
         }
-        
-        public void Play(int i) {
-            Console.WriteLine(i);
+
+        public void Play2(int i) {
+            i = 0;
+            Console.WriteLine(++i);
         }
     }
 

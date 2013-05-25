@@ -5,8 +5,8 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#
 	var template = new NCopExceptionTemplate();
-	template.Arguments = new Tuple<string, string>[] { Tuple.Create("type", "Type") };
-	template.Message = "string.Format(\"Could not found matching IAspectBuilder for type {0}\", Type.FullName);";
+	template.Arguments = new Tuple<string, string>[] { Tuple.Create("aspectType", "Type") };
+	template.Message = "string.Format(\"Could not found matching IAspectBuilder for type {0}\", aspectType.FullName);";
 	template.KeyPrefix = "Aspect";
     template.Render();
 #>

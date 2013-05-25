@@ -83,6 +83,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contract.cs" />
     <Compile Include="Engine\CompositeAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -93,6 +94,11 @@
     </Compile>
     <Compile Include="Engine\WellKnownComposites.cs">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exceptions\DuplicateCompositeAnnotationException.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DuplicateCompositeAnnotationException.tt</DependentUpon>
     </Compile>
     <Compile Include="Framework\CompositeContainer.cs" />
     <Compile Include="Framework\IgnoreRegistration.cs" />
@@ -133,8 +139,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Exceptions\" />
     <Folder Include="Extensions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Exceptions\DuplicateCompositeAnnotationException.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DuplicateCompositeAnnotationException.cs</LastGenOutput>
+      <LastOutputs>.\DuplicateCompositeAnnotationException.cs</LastOutputs>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

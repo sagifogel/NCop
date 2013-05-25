@@ -3,9 +3,10 @@ Mixins
 Properties
 Events
 Generics
-Out/ref parameters
+in/out parameters
 optional parametsrs?
 async/await?
+params
 
 Aspects
 ------------

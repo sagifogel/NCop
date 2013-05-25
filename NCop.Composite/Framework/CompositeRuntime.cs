@@ -7,6 +7,7 @@ using NCop.Core.Runtime;
 using NCop.IoC;
 using System;
 using NCop.IoC.Fluent;
+using NCop.Composite.Exceptions;
 
 namespace NCop.Composite.Framework
 {
@@ -16,18 +17,28 @@ namespace NCop.Composite.Framework
         private readonly RuntimeSettings settings = null;
 
         public CompositeRuntime(RuntimeSettings settings, IRegistry registry) {
-            this.registry = registry; 
+            this.registry = registry;
             this.settings = settings ?? new RuntimeSettings();
         }
 
         public void Run() {
             var composites = settings.Assemblies.SelectMany(assembly => {
                 return assembly.GetTypes()
-                               .Where(type => type.IsNCopDefined<CompositeAttribute>());
+                              .Select(type => new {
+                                  Type = type,
+                                  Attributes = type.GetCustomAttributesArray<CompositeAttribute>(true)
+                              })
+                              .Where(composite => composite.Attributes.Length > 0);
             });
 
             var weavers = composites.Select(composite => {
-                var builder = new CompositeTypeWeaverBuilder(composite, registry);
+                CompositeTypeWeaverBuilder builder = null;
+
+                if (composite.Attributes.Length > 1) {
+                    throw new DuplicateCompositeAnnotationException(composite.Type);
+                }
+
+                builder = new CompositeTypeWeaverBuilder(composite.Type, registry);
 
                 return builder.Build();
             });

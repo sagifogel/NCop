@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NCop.IoC
 {
-    public class Contract
+    public static class Contract
     {
         public static void RequiersNotInterface<TException>(Type type, Func<TException> exceptionFactory) where TException : Exception {
             if (type.IsInterface) {

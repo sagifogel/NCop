@@ -1,0 +1,10 @@
+<#@ template language="C#" hostspecific="True" debug="True" #>
+<#@ output extension="cs" #>
+<#@ include file="..\..\NCop.Core\Exceptions\NCopExceptionTemplate.tt" #>
+<#
+	var template = new NCopExceptionTemplate();
+	template.KeyPrefix = "Attribute";
+	template.Arguments = new Tuple<string, string>[] { Tuple.Create("compositeType", "Type") };
+	template.Message = "string.Format(\"Duplicate composition annotations were found for type {0}\", compositeType.FullName);";
+    template.Render();
+#>

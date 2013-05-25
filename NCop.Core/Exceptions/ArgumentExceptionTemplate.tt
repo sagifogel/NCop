@@ -4,9 +4,7 @@
 <#@ import namespace="EnvDTE" #>
 <#@ import namespace="Microsoft.VisualStudio.Shell" #>
 <#@ import namespace="Microsoft.VisualStudio.Shell.Interop" #>
-<#@ include file="NCopExceptionTemplate.tt" #>
-<#+
-
+<#@ include file="NCopExceptionTemplate.tt" #><#+
 public class ArgumentExceptionTemplate : NCopExceptionTemplate
 {	
 	private string name = System.IO.Path.GetFileNameWithoutExtension(TransformationContext.Current.Host.TemplateFile);

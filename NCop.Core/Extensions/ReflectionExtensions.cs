@@ -23,6 +23,10 @@ namespace NCop.Core.Extensions
                        .Cast<TAttribute>();
         }
 
+        public static TAttribute[] GetCustomAttributesArray<TAttribute>(this ICustomAttributeProvider type, bool inherit = true) {
+            return type.GetCustomAttributes<TAttribute>(inherit).ToArray();
+        }
+
         public static TAttribute GetCustomAttribute<TAttribute>(this ICustomAttributeProvider type, bool inherit = true) {
             return type.GetCustomAttributes<TAttribute>(inherit).FirstOrDefault();
         }
@@ -110,9 +114,17 @@ namespace NCop.Core.Extensions
         }
 
         public static TypeBuilder SetCustomAttribute<TAttribute>(this TypeBuilder builder) where TAttribute : Attribute {
+            return builder.SetCustomAttribute<TypeBuilder, TAttribute>(builder.SetCustomAttribute);
+        }
+
+        public static ParameterBuilder SetCustomAttribute<TAttribute>(this ParameterBuilder builder) where TAttribute : Attribute {
+            return builder.SetCustomAttribute<ParameterBuilder, TAttribute>(builder.SetCustomAttribute);
+        }
+
+        private static TBuilder SetCustomAttribute<TBuilder, TAttribute>(this TBuilder builder, Action<CustomAttributeBuilder> customBuilder) where TAttribute : Attribute {
             var ctor = typeof(TAttribute).GetConstructor(Type.EmptyTypes);
 
-            builder.SetCustomAttribute(new CustomAttributeBuilder(ctor, Type.EmptyTypes));
+            customBuilder(new CustomAttributeBuilder(ctor, Type.EmptyTypes));
 
             return builder;
         }

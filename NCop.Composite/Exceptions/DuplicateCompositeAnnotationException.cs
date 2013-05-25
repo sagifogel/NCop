@@ -11,31 +11,31 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace NCop.Aspects.Exceptions
+namespace NCop.Composite.Exceptions
 {	
 	[Serializable]
-	public class AspectBuilderNotFoundException : SystemException, ISerializable
+	public class DuplicateCompositeAnnotationException : SystemException, ISerializable
 	{
         private readonly string message = string.Empty;
 		private readonly bool messageInitialized = false;
 		
-        public AspectBuilderNotFoundException(string message) 
+        public DuplicateCompositeAnnotationException(string message) 
 		    : base(message) {
             messageInitialized = true;
         }
 
-        public AspectBuilderNotFoundException(string message, Exception innerException) 
+        public DuplicateCompositeAnnotationException(string message, Exception innerException) 
 		    : base(message, innerException) {
             messageInitialized = true;
         }
 		
-		public AspectBuilderNotFoundException(Type aspectType)
+		public DuplicateCompositeAnnotationException(Type compositeType)
 			: base(null) {
-			AspectType = aspectType;
-			message = string.Format("Could not found matching IAspectBuilder for type {0}", aspectType.FullName);
+			CompositeType = compositeType;
+			message = string.Format("Duplicate composition annotations were found for type {0}", compositeType.FullName);
 		}
 	
-		protected AspectBuilderNotFoundException(SerializationInfo info, StreamingContext context)
+		protected DuplicateCompositeAnnotationException(SerializationInfo info, StreamingContext context)
             : base(info, context) {
 			object value = null;
 
@@ -43,15 +43,15 @@ namespace NCop.Aspects.Exceptions
                 throw new ArgumentNullException("info");
             }
 
-            message = info.GetString("AspectMessage");
-			value = info.GetValue("AspectType", typeof(Type));
+            message = info.GetString("AttributeMessage");
+			value = info.GetValue("AttributeType", typeof(Type));
 
 			if (value != null) {
-				AspectType = (Type)value;
+				CompositeType = (Type)value;
 			}
         }
 		
-		public Type AspectType { get; protected set; }
+		public Type CompositeType { get; protected set; }
 
 		public override string Message {
             get {
@@ -69,8 +69,8 @@ namespace NCop.Aspects.Exceptions
             }
 
             base.GetObjectData(info, context);
-            info.AddValue("AspectMessage", Message);
-			info.AddValue("AspectAspectType", AspectType, typeof(Type));
+            info.AddValue("AttributeMessage", Message);
+			info.AddValue("AttributeCompositeType", CompositeType, typeof(Type));
         }
 	}	
 }
