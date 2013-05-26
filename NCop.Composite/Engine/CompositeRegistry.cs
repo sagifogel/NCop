@@ -12,14 +12,14 @@ namespace NCop.Composite.Engine
     internal class CompositeRegistry : ContainerRegistry
     {
         public override IRegistration Register(Type concreteType, Type serviceType) {
-            IFluentRegistration compositeRegistraion = null;
+            CompositeFrameworkRegistration compositeRegistration = null;
 
             if (!(concreteType.IsDefined<IgnoreRegistration>() || serviceType.IsDefined<IgnoreRegistration>())) {
-                compositeRegistraion = new CompositeFrameworkRegistration(concreteType, serviceType);
-                registrations.Add(compositeRegistraion);
+                compositeRegistration = new CompositeFrameworkRegistration(concreteType, serviceType);
+                registrations.Add(compositeRegistration);
             }
 
-            return compositeRegistraion;
+            return compositeRegistration;
         }
     }
 }

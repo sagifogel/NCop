@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace NCop.IoC.Fluent
 {
-    public class CastableRegistration<TCastable> : IDescriptable, IRegistration, ICastableRegistration<TCastable>, ICasted, IOwnedBy
+    public class CastableRegistration<TCastable> : IDescriptable, IRegistration, IFluentRegistration, ICastableRegistration<TCastable>, ICasted, IOwnedBy
     {
         protected readonly Registration Registration = null;
 

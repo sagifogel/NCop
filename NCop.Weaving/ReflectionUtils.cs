@@ -24,13 +24,20 @@ namespace NCop.Weaving
 
             attributes = attributes ?? methodInfo.Attributes & ~MethodAttributes.Abstract;
             methodBuilder = typeBuilder.DefineMethod(methodInfo.Name, attributes.Value, methodInfo.ReturnType, parametersTypes);
-            
+
             methodInfo.GetParameters()
                        .ForEach(1, (parameter, i) => {
                            var parameterBuilder = methodBuilder.DefineParameter(i, parameter.Attributes, parameter.Name);
 
-                           if (parameter.IsOut) {
+                           if (parameter.IsDefined<ParamArrayAttribute>()) {
+                               parameterBuilder.SetCustomAttribute<ParamArrayAttribute>();
+                           }
+                           else if (parameter.IsOut) {
                                parameterBuilder.SetCustomAttribute<OutAttribute>();
+                           }
+                           else if (parameter.IsOptional) {
+                               parameterBuilder.SetCustomAttribute<OptionalAttribute>()
+                                               .SetConstant(parameter.DefaultValue);
                            }
                        });
 
@@ -42,10 +49,7 @@ namespace NCop.Weaving
             name = name ?? parentType.ToUniqueName();
             attributes = attributes ?? parentType.Attributes;
 
-            return NCopModuleBuilder.Instance
-                                    .DefineType(name, attributes.Value, parentType, interfaces.ToArray())
-                                    .SetCustomAttribute<CompilerGeneratedAttribute>()
-                                    .SetCustomAttribute<DebuggerNonUserCodeAttribute>();
+            return NCopModuleBuilder.Instance.DefineType(name, attributes.Value, parentType, interfaces.ToArray());
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -58,17 +62,19 @@ namespace NCop.Weaving
             return type.FullName.ToUniqueName();
         }
 
-        internal static string ToFieldName(this Type type) {
-            string name = type.FullName;
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static string ToFieldName(this Type type) {
+            string name = type.Name;
 
-            if (type.IsInterface && name[0] == 'I') {
-                var builder = new StringBuilder();
+            if (type.IsInterface && name[0] == 'I' && name.Length > 2) {
+                var chars = name.Skip(2);
+                var builder = new StringBuilder().Append(char.ToLower(name[1]));
 
-                name.Skip(1).ForEach(c => builder.Append(c));
+                chars.ForEach(c => builder.Append(c));
                 name = builder.ToString();
             }
 
-            return name.ToUniqueName();
+            return name;
         }
 
         internal static FieldBuilder DefineField(this TypeBuilder typeBuilder, Type fieldType, FieldAttributes? attributes = null) {

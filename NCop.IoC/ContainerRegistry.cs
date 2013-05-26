@@ -18,6 +18,12 @@ namespace NCop.IoC
             registrations = new List<IFluentRegistration>();
         }
 
+        private IEnumerable<IRegistration> Registrations {
+            get { 
+                return registrations.Cast<IRegistration>(); 
+            }
+        }
+
         public ICastableRegistration<TCastable> Register<TCastable>() {
             Type serviceType = typeof(TCastable);
             var factoryType = typeof(Func<INCopContainer, TCastable>);
@@ -89,8 +95,7 @@ namespace NCop.IoC
         }
 
         public IEnumerator<IRegistration> GetEnumerator() {
-            return registrations.Cast<IRegistration>()
-                                .GetEnumerator();
+            return Registrations.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
@@ -100,7 +105,7 @@ namespace NCop.IoC
         public bool Contains(Type serviceType) {
             var factoryType = typeof(Func<,>).MakeGenericType(typeof(INCopContainer), serviceType);
 
-            return registrations.Any(registration => {
+            return Registrations.Any(registration => {
                 return registration.FactoryType.Equals(factoryType);
             });
         }

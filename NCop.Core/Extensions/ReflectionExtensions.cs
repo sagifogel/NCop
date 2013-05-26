@@ -70,6 +70,10 @@ namespace NCop.Core.Extensions
             return ctor.IsDefined(typeof(TAttribute), inherit);
         }
 
+        public static bool IsDefined<TAttribute>(this ParameterInfo parameter, bool inherit = true) where TAttribute : Attribute {
+            return parameter.IsDefined(typeof(TAttribute), inherit);
+        }
+
         public static bool IsDefined<TAttribute>(this MethodInfo method, bool inherit = true) where TAttribute : Attribute {
             return method.IsDefined(typeof(TAttribute), inherit);
         }

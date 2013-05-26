@@ -4,9 +4,7 @@ Properties
 Events
 Generics
 in/out parameters
-optional parametsrs?
 async/await?
-params
 
 Aspects
 ------------
