@@ -45,6 +45,13 @@ namespace NCop.Weaving
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
+        internal static MethodBuilder DefineParameterlessMethod(this TypeBuilder typeBuilder, MethodInfo methodInfo, MethodAttributes? attributes = null) {
+            attributes = attributes ?? methodInfo.Attributes & ~MethodAttributes.Abstract;
+            
+            return typeBuilder.DefineMethod(methodInfo.Name, attributes.Value, methodInfo.ReturnType, Type.EmptyTypes);
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static TypeBuilder DefineType(this Type parentType, string name = null, IEnumerable<Type> interfaces = null, TypeAttributes? attributes = null) {
             name = name ?? parentType.ToUniqueName();
             attributes = attributes ?? parentType.Attributes;

@@ -24,11 +24,11 @@ namespace NCop.Composite.Framework
         public void Run() {
             var composites = settings.Assemblies.SelectMany(assembly => {
                 return assembly.GetTypes()
-                              .Select(type => new {
-                                  Type = type,
-                                  Attributes = type.GetCustomAttributesArray<CompositeAttribute>(true)
-                              })
-                              .Where(composite => composite.Attributes.Length > 0);
+                               .Select(type => new {
+                                   Type = type,
+                                   Attributes = type.GetCustomAttributesArray<CompositeAttribute>(true)
+                               })
+                               .Where(composite => composite.Attributes.Length > 0);
             });
 
             var weavers = composites.Select(composite => {

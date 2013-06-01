@@ -11,14 +11,14 @@ using System.Collections;
 
 namespace NCop.Composite.Weaving
 {
-    internal class MethodJoiner : AbstractMethodJoiner
+    internal class PropertiesJoiner : AbstractMethodJoiner
     {
-        internal MethodJoiner(IMixinsMap mixinsMap) {
+        internal PropertiesJoiner(IMixinsMap mixinsMap) {
             var joined = mixinsMap.Select(mixin => new {
                 ContractType = mixin.ContractType,
                 ImplementationType = mixin.ImplementationType,
-                ContractMethods = mixin.ContractType.GetMethods(),
-                ImplMethods = mixin.ImplementationType.GetMethods().ToSet()
+                ContractMethods = ResolveProperties(mixin.ContractType),
+                ImplMethods = ResolveProperties(mixin.ImplementationType).ToSet()
             });
 
             Values = joined.SelectMany(join => {
@@ -32,6 +32,14 @@ namespace NCop.Composite.Weaving
                     return Tuple.Create(result, join.ImplementationType, join.ContractType);
                 });
             });
+        }
+
+        private static IEnumerable<MethodInfo> ResolveProperties(Type type) {
+            return type.GetProperties()
+                       .SelectMany(property => new[] { 
+                            property.GetGetMethod(),
+                            property.GetSetMethod()
+                       });
         }
     }
 }

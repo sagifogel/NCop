@@ -13,7 +13,7 @@ namespace NCop.Weaving
         public MixinTypeDefinition(Type mixinType, TypeBuilder typeBuilder) {
             Type = mixinType;
             TypeBuilder = typeBuilder;
-            fieldBuilder = typeBuilder.DefineField(mixinType);
+            fieldBuilder = new FieldWeaver(mixinType).Weave(typeBuilder);
 
             if (!mixinType.Equals(fieldBuilder.FieldType)) {
                 throw new TypeDefinitionInitializationException("Type of Mixin does not equals to the field type of the FieldBuilder");

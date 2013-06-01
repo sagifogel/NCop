@@ -6,16 +6,16 @@ using System.Text;
 
 namespace NCop.Weaving
 {
-    public class InstanceFieldWeaver : IFieldWeaver
+    public class FieldWeaver : IFieldWeaver
     {
-        public InstanceFieldWeaver(Type type) {
-            Type = type;
+        public FieldWeaver(Type type) {
+            FieldType = type;
         }
 
-        public Type Type { get; private set; }
+        public Type FieldType { get; private set; }
 
         public FieldBuilder Weave(TypeBuilder typeBuilder) {
-            throw new NotImplementedException();
+            return typeBuilder.DefineField(FieldType);
         }
     }
 }

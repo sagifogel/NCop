@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,11 +21,10 @@ namespace NCop.Samples
     class Program
     {
         static void Main(string[] args) {
-            IPersonComposite composite = null;
             var container = new CompositeContainer();
-
             container.Configure();
-            composite = container.TryResolve<IPersonComposite>();
+
+              var composite = container.TryResolve<IPersonComposite>();
             composite.Play("First", "Second", "Third");
         }
     }
@@ -37,6 +37,7 @@ namespace NCop.Samples
 
     public interface IDrummer
     {
+        int MyProperty { get; set; }
         void Play(params string[] songs);
     }
 
@@ -46,6 +47,8 @@ namespace NCop.Samples
             
             songs.ToList().ForEach(s => Console.WriteLine(s));
         }
+
+        public int MyProperty { get; set; }
     }
 
     public class DeveloperMixin : IDeveloperMixin

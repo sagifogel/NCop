@@ -5,6 +5,7 @@ Events
 Generics
 in/out parameters
 async/await?
+remove IReusedWithin from fluent interface for composite
 
 Aspects
 ------------

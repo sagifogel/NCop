@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NCop.Weaving
 {
-    public interface ISetPropertyWeaver : IWeaver
+    public interface ISetPropertyWeaver : IPropertyWeaver
     {
     }
 }

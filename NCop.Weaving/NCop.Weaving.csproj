@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GetPropertyDecoratorWeaver.cs" />
     <Compile Include="ILGeneratorExtensions.cs" />
+    <Compile Include="IPropertyWeaver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AbstractMethodWeaver.cs" />
     <Compile Include="IBuilder`1.cs" />
@@ -59,7 +61,7 @@
     <Compile Include="IMethodWeaverBag.cs" />
     <Compile Include="IMethodWeaverBuilderBag.cs" />
     <Compile Include="IMethodWeaverHandler.cs" />
-    <Compile Include="InstanceFieldWeaver.cs" />
+    <Compile Include="FieldWeaver.cs" />
     <Compile Include="ISetPropertyWeaver.cs" />
     <Compile Include="ITypeDefinition.cs" />
     <Compile Include="ITypeDefinitionFactory.cs" />
@@ -77,10 +79,12 @@
     <Compile Include="MixinWeaverStrategy.cs" />
     <Compile Include="NCopAssemblyBuilder.cs" />
     <Compile Include="NCopModuleBuilder.cs" />
+    <Compile Include="PropertyDecoratorWeaver.cs" />
     <Compile Include="ReflectionUtils.cs" />
     <Compile Include="Responsibility\AbstractMethodWeaverHandler.cs" />
     <Compile Include="Responsibility\IMethodWeaverChainer.cs" />
     <Compile Include="Responsibility\MethodDecoratorWeaverHandler.cs" />
+    <Compile Include="SetPropertyDecoratorWeaver.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NCop.Core\NCop.Core.csproj">
