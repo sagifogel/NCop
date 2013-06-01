@@ -46,14 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GetPropertyDecoratorWeaver.cs" />
+    <Compile Include="PropertyGetDecoratorWeaver.cs" />
+    <Compile Include="GetPropertySignatureWeaver.cs" />
     <Compile Include="ILGeneratorExtensions.cs" />
+    <Compile Include="IPropertyBag.cs" />
     <Compile Include="IPropertyWeaver.cs" />
+    <Compile Include="IPropertyWeaverBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AbstractMethodWeaver.cs" />
     <Compile Include="IBuilder`1.cs" />
     <Compile Include="IFieldWeaver.cs" />
-    <Compile Include="IGetPropertyWeaver.cs" />
+    <Compile Include="IPropertyGetWeaver.cs" />
     <Compile Include="IMethodEndWeaver.cs" />
     <Compile Include="IMethodScopeWeaver.cs" />
     <Compile Include="IMethodSignatureWeaver.cs" />
@@ -62,7 +65,7 @@
     <Compile Include="IMethodWeaverBuilderBag.cs" />
     <Compile Include="IMethodWeaverHandler.cs" />
     <Compile Include="FieldWeaver.cs" />
-    <Compile Include="ISetPropertyWeaver.cs" />
+    <Compile Include="IPropertySetWeaver.cs" />
     <Compile Include="ITypeDefinition.cs" />
     <Compile Include="ITypeDefinitionFactory.cs" />
     <Compile Include="ITypeDefinitionWeaver.cs" />
@@ -84,7 +87,7 @@
     <Compile Include="Responsibility\AbstractMethodWeaverHandler.cs" />
     <Compile Include="Responsibility\IMethodWeaverChainer.cs" />
     <Compile Include="Responsibility\MethodDecoratorWeaverHandler.cs" />
-    <Compile Include="SetPropertyDecoratorWeaver.cs" />
+    <Compile Include="PropertySetDecoratorWeaver.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NCop.Core\NCop.Core.csproj">

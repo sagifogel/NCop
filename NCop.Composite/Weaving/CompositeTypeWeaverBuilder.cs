@@ -24,16 +24,21 @@ namespace NCop.Composite.Weaving
             var factory = new MixinsTypeDefinitionWeaver(compositeType, mixinsMap);
             var methodJoiner = new MethodJoiner(mixinsMap);
             var propertiesJoiner = new PropertiesJoiner(mixinsMap);
-            var joiners = methodJoiner.Concat(propertiesJoiner);
-
+            
             builder = new MixinsTypeWeaverBuilder(compositeType, factory, registry);
 
             mixinsMap.ForEach(map => {
                 builder.Add(map);   
             });
 
-            joiners.ForEach(tuple => {
+            methodJoiner.ForEach(tuple => {
                 var methodBuilder = new MethodWeaverBuilder(tuple.Item1, tuple.Item2, tuple.Item3, factory);
+
+                builder.Add(methodBuilder);
+            });
+
+            propertiesJoiner.ForEach(tuple => {
+                var methodBuilder = new PropertyWeaverBuilder(tuple.Item1, tuple.Item2, tuple.Item3, factory);
 
                 builder.Add(methodBuilder);
             });

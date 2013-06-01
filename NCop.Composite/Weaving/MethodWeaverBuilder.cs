@@ -9,26 +9,18 @@ using System.Text;
 
 namespace NCop.Composite.Weaving
 {
-    public class MethodWeaverBuilder : IMethodWeaverBuilder
+    public class MethodWeaverBuilder : AbstractWeaverBuilder<MethodInfo, IMethodWeaver>, IMethodWeaverBuilder
     {
-        private Type contractType = null; 
-        private MethodInfo methodInfo = null;
-        private Type implementationType = null;
-        private ITypeDefinitionFactory typeDefinitionFactory = null;
-
-        public MethodWeaverBuilder(MethodInfo methodInfo, Type implementationType, Type contractType, ITypeDefinitionFactory typeDefinitionFactory) {
-            this.methodInfo = methodInfo;
-            this.contractType = contractType;
-            this.implementationType = implementationType;
-            this.typeDefinitionFactory = typeDefinitionFactory;
+        public MethodWeaverBuilder(MethodInfo methodInfo, Type implementationType, Type contractType, ITypeDefinitionFactory typeDefinitionFactory)
+            : base(methodInfo, implementationType, contractType, typeDefinitionFactory) {
         }
 
-        public IMethodWeaver Build() {
-            var typeDefinition = typeDefinitionFactory.Resolve();
-            var methodWeaver = new MethodDecoratorWeaver(methodInfo, implementationType, contractType);
+        public override IMethodWeaver Build() {
+            var typeDefinition = TypeDefinitionFactory.Resolve();
+            var methodWeaver = new MethodDecoratorWeaver(MemberInfo, ImplementationType, ContractType);
             // TODO: change to new AspectPipelineMethodWeaver(_type).Handle(_methodInfo, typeDefinition);
 
-            return new CompositeMethodWeaver(methodInfo, implementationType, contractType, methodWeaver.MethodDefintionWeaver, new[] { methodWeaver });
+            return new CompositeMethodWeaver(MemberInfo, ImplementationType, ContractType, methodWeaver.MethodDefintionWeaver, new[] { methodWeaver });
         }
     }
 }

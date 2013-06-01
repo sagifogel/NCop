@@ -7,10 +7,7 @@ using System.Text;
 
 namespace NCop.Weaving
 {
-    public class GetPropertyDecoratorWeaver : IGetPropertyWeaver
+    public interface IPropertyGetWeaver : IMethodWeaver
     {
-        public void Weave(MethodInfo methodInfo) {
-            throw new NotImplementedException();
-        }
     }
 }

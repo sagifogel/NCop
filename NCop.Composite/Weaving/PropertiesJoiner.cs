@@ -11,35 +11,45 @@ using System.Collections;
 
 namespace NCop.Composite.Weaving
 {
-    internal class PropertiesJoiner : AbstractMethodJoiner
+    internal class PropertiesJoiner : Tuples<PropertyInfo, Type, Type>
     {
         internal PropertiesJoiner(IMixinsMap mixinsMap) {
             var joined = mixinsMap.Select(mixin => new {
                 ContractType = mixin.ContractType,
                 ImplementationType = mixin.ImplementationType,
-                ContractMethods = ResolveProperties(mixin.ContractType),
-                ImplMethods = ResolveProperties(mixin.ImplementationType).ToSet()
+                ContractProperties = mixin.ContractType.GetProperties(),
+                ImplProperties = mixin.ImplementationType.GetProperties().ToSet()
             });
 
             Values = joined.SelectMany(join => {
-                var methods = join.ContractMethods;
+                var properties = join.ContractProperties;
 
-                return methods.Select(method => {
-                    var result = method.SelectFirst(join.ImplMethods,
-                                                   (c, impl) => MethodMatch(c, impl),
-                                                   (c, impl) => impl);
+                return properties.Select(property => {
+                    var result = property.SelectFirst(join.ImplProperties,
+                                                     (c, impl) => PropertyMatch(c, impl),
+                                                     (c, impl) => impl);
 
                     return Tuple.Create(result, join.ImplementationType, join.ContractType);
                 });
             });
         }
 
-        private static IEnumerable<MethodInfo> ResolveProperties(Type type) {
-            return type.GetProperties()
-                       .SelectMany(property => new[] { 
-                            property.GetGetMethod(),
-                            property.GetSetMethod()
-                       });
+        protected static bool PropertyMatch(PropertyInfo firstProperty, PropertyInfo secondProperty) {
+            if (!firstProperty.Name.Equals(secondProperty.Name) || !AccessModifierMatch(firstProperty, secondProperty)) {
+                return false;
+            }
+
+            return firstProperty.PropertyType.Equals(secondProperty.PropertyType) ||
+                    GenericComparer.Compare(firstProperty.PropertyType, secondProperty.PropertyType);
+        }
+
+        protected static bool AccessModifierMatch(PropertyInfo firstProperty, PropertyInfo secondProperty) {
+            if (firstProperty.CanRead && !secondProperty.CanRead || !firstProperty.CanRead && secondProperty.CanRead ||
+                            firstProperty.CanWrite && !secondProperty.CanWrite || firstProperty.CanRead && !secondProperty.CanWrite) {
+                return false;
+            }
+
+            return true;
         }
     }
 }

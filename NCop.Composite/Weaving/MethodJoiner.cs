@@ -11,7 +11,7 @@ using System.Collections;
 
 namespace NCop.Composite.Weaving
 {
-    internal class MethodJoiner : AbstractMethodJoiner
+    internal class MethodJoiner : Tuples<MethodInfo, Type, Type>
     {
         internal MethodJoiner(IMixinsMap mixinsMap) {
             var joined = mixinsMap.Select(mixin => new {
@@ -32,6 +32,35 @@ namespace NCop.Composite.Weaving
                     return Tuple.Create(result, join.ImplementationType, join.ContractType);
                 });
             });
+        }
+
+        protected static bool MethodMatch(MethodInfo firstMethod, MethodInfo secondMethod) {
+            if (!firstMethod.Name.Equals(secondMethod.Name) || !MatchReturnType(firstMethod.ReturnType, secondMethod.ReturnType)) {
+                return false;
+            }
+
+            return MatchParameters(firstMethod.GetParameters(), secondMethod.GetParameters());
+        }
+
+        protected static bool MatchParameters(ParameterInfo[] firstParameters, ParameterInfo[] secondParameters) {
+            if (firstParameters.Length != secondParameters.Length) {
+                return false;
+            }
+
+            return firstParameters.All((p, i) => {
+                return MatchParameter(p, secondParameters[i]);
+            });
+        }
+
+        protected static bool MatchReturnType(Type firstReturnType, Type secondReturnType) {
+            return firstReturnType.Name.Equals(secondReturnType.Name) || GenericComparer.Compare(firstReturnType, secondReturnType);
+        }
+
+        protected static bool MatchParameter(ParameterInfo firstParameter, ParameterInfo secondParameter) {
+            var firstParameterType = firstParameter.ParameterType;
+            var secondParameterType = secondParameter.ParameterType;
+
+            return firstParameterType.Equals(secondParameterType) || GenericComparer.Compare(firstParameterType, secondParameterType);
         }
     }
 }
