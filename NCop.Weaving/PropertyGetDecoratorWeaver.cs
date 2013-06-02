@@ -11,18 +11,9 @@ namespace NCop.Weaving
     {
         public PropertyGetDecoratorWeaver(MethodInfo methodInfo, Type implementationType, Type contractType)
             : base(methodInfo, implementationType, contractType) {
-        }
-
-        public override void WeaveEndMethod(ILGenerator ilGenerator) {
-            throw new NotImplementedException();
-        }
-
-        public override MethodBuilder DefineMethod(ITypeDefinition typeDefinition) {
-            throw new NotImplementedException();
-        }
-
-        public override ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition) {
-            throw new NotImplementedException();
+			MethodEndWeaver = new MethodEndWeaver();
+			MethodDefintionWeaver = new PropertyGetSignatureWeaver();
+			MethodScopeWeaver = new PropertyGetDecoratorScopeWeaver(methodInfo, implementationType, contractType);
         }
     }
 }

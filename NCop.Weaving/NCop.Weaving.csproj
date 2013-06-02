@@ -46,8 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractMethodScopeWeaver.cs" />
+    <Compile Include="PropertyGetDecoratorScopeWeaver.cs" />
     <Compile Include="PropertyGetDecoratorWeaver.cs" />
-    <Compile Include="GetPropertySignatureWeaver.cs" />
+    <Compile Include="PropertyGetSignatureWeaver.cs" />
     <Compile Include="ILGeneratorExtensions.cs" />
     <Compile Include="IPropertyBag.cs" />
     <Compile Include="IPropertyWeaver.cs" />

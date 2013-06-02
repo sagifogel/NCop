@@ -9,22 +9,36 @@ namespace NCop.Weaving
 {
     public class PropertyDecoratorWeaver : IPropertyWeaver
     {
-        private Type ContractType = null;
-        private Type ImplementationType = null;
-        private PropertyInfo MemberInfo = null;
+        private Type contractType = null;
+        private Type implementationType = null;
+        private PropertyInfo propertyInfo = null;
+		private IPropertyGetWeaver getWeaver = null;
+		private IPropertySetWeaver setWeaver = null;
 
-        public PropertyDecoratorWeaver(PropertyInfo memberInfo, Type implementationType, Type contractType) {
-            MemberInfo = memberInfo;
-            ContractType = contractType;
-            ImplementationType = implementationType;
+		public PropertyDecoratorWeaver(PropertyInfo propertyInfo, Type implementationType, Type contractType) {
+			this.propertyInfo = propertyInfo;
+            this.contractType = contractType;
+            this.implementationType = implementationType;
+
+			if (propertyInfo.CanRead) {
+				getWeaver = new PropertyGetDecoratorWeaver(propertyInfo.GetGetMethod(), implementationType, contractType);
+			}
+
+			if (propertyInfo.CanWrite) {
+				setWeaver = new PropertySetDecoratorWeaver(propertyInfo.GetSetMethod(), implementationType, contractType);
+			}
         }
 
         public IPropertyGetWeaver PropertyGetWeaver {
-            get { throw new NotImplementedException(); }
+            get { 
+				return getWeaver; 
+			}
         }
 
         public IPropertySetWeaver PropertySetWeaver {
-            get { throw new NotImplementedException(); }
+            get {
+				return setWeaver;
+			}
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace NCop.Weaving
 {
-    public class GetPropertySignatureWeaver : IMethodSignatureWeaver
+    public class PropertyGetSignatureWeaver : IMethodSignatureWeaver
     {
         public MethodBuilder Weave(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
             return typeDefinition.TypeBuilder.DefineParameterlessMethod(methodInfo);
