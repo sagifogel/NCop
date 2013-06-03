@@ -27,16 +27,16 @@ namespace NCop.Weaving
 
         public IMethodSignatureWeaver MethodDefintionWeaver { get; protected set; }
 
-		public virtual MethodBuilder DefineMethod(ITypeDefinition typeDefinition) {
-			return MethodDefintionWeaver.Weave(MethodInfo, typeDefinition);
-		}
+        public virtual MethodBuilder DefineMethod(ITypeDefinition typeDefinition) {
+            return MethodDefintionWeaver.Weave(MethodInfo, typeDefinition);
+        }
 
-		public virtual ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition) {
-			return MethodScopeWeaver.Weave(ilGenerator, typeDefinition);
-		}
+        public virtual ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition) {
+            return MethodScopeWeaver.Weave(ilGenerator, typeDefinition);
+        }
 
-		public virtual void WeaveEndMethod(ILGenerator ilGenerator) {
-			MethodEndWeaver.Weave(MethodInfo, ilGenerator);
-		}
+        public virtual void WeaveEndMethod(ILGenerator ilGenerator) {
+            MethodEndWeaver.Weave(MethodInfo, ilGenerator);
+        }
     }
 }

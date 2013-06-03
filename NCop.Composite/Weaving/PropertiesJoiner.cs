@@ -51,5 +51,9 @@ namespace NCop.Composite.Weaving
 
             return true;
         }
+
+        internal void ForEach(Action<Tuple<PropertyInfo, Type, Type>, int> action) {
+            throw new NotImplementedException();
+        }
     }
 }

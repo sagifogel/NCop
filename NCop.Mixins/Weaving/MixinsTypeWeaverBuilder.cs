@@ -35,13 +35,29 @@ namespace NCop.Mixins.Weaving
         public void Add(IMethodWeaverBuilder item) {
             methodWeaversBuilders.Add(item);
         }
-        
+
         public void Add(IPropertyWeaverBuilder item) {
             propertyWeaversBuilders.Add(item);
         }
 
         public ITypeWeaver Build() {
-            var methodWeavers = methodWeaversBuilders.Select(methodBuilder => methodBuilder.Build());
+            var methodWeavers = new List<IMethodWeaver>();
+
+            methodWeaversBuilders.ForEach(methodBuilder => {
+                methodWeavers.Add(methodBuilder.Build());
+            });
+
+            propertyWeaversBuilders.ForEach(propertyBuilder => {
+                var propertyWeaver = propertyBuilder.Build();
+
+                if (propertyWeaver.CanRead) {
+                    methodWeavers.Add(propertyWeaver.GetGetMethod());
+                }
+
+                if (propertyWeaver.CanWrite) {
+                    methodWeavers.Add(propertyWeaver.GetSetMethod());
+                }
+            });
 
             mixinsMap.ForEach(map => {
                 if (!registry.Contains(map.ContractType)) {
@@ -51,7 +67,5 @@ namespace NCop.Mixins.Weaving
 
             return new MixinsWeaverStrategy(typeDefinitionFactory, methodWeavers, registry);
         }
-
-       
     }
 }

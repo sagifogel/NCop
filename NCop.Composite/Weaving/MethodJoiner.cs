@@ -12,13 +12,18 @@ using System.Collections;
 namespace NCop.Composite.Weaving
 {
     internal class MethodJoiner : Tuples<MethodInfo, Type, Type>
-    {
+    {   
+
         internal MethodJoiner(IMixinsMap mixinsMap) {
+            Func<MethodInfo, bool> methodPredicate = (methodInfo) =>{
+                return !methodInfo.IsSpecialName;
+            };
+
             var joined = mixinsMap.Select(mixin => new {
                 ContractType = mixin.ContractType,
                 ImplementationType = mixin.ImplementationType,
-                ContractMethods = mixin.ContractType.GetMethods(),
-                ImplMethods = mixin.ImplementationType.GetMethods().ToSet()
+                ContractMethods = mixin.ContractType.GetMethods().Where(methodPredicate),
+                ImplMethods = mixin.ImplementationType.GetMethods().ToSet(methodPredicate)
             });
 
             Values = joined.SelectMany(join => {

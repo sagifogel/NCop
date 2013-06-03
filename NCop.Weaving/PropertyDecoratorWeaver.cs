@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -12,33 +13,43 @@ namespace NCop.Weaving
         private Type contractType = null;
         private Type implementationType = null;
         private PropertyInfo propertyInfo = null;
-		private IPropertyGetWeaver getWeaver = null;
-		private IPropertySetWeaver setWeaver = null;
 
-		public PropertyDecoratorWeaver(PropertyInfo propertyInfo, Type implementationType, Type contractType) {
-			this.propertyInfo = propertyInfo;
+        public PropertyDecoratorWeaver(PropertyInfo propertyInfo, Type implementationType, Type contractType) {
             this.contractType = contractType;
+            this.propertyInfo = propertyInfo;
             this.implementationType = implementationType;
-
-			if (propertyInfo.CanRead) {
-				getWeaver = new PropertyGetDecoratorWeaver(propertyInfo.GetGetMethod(), implementationType, contractType);
-			}
-
-			if (propertyInfo.CanWrite) {
-				setWeaver = new PropertySetDecoratorWeaver(propertyInfo.GetSetMethod(), implementationType, contractType);
-			}
         }
 
-        public IPropertyGetWeaver PropertyGetWeaver {
-            get { 
-				return getWeaver; 
-			}
+        public IMethodWeaver GetGetMethod() {
+            if (propertyInfo.CanRead) {
+                var getMethod = propertyInfo.GetGetMethod();
+
+                return new PropertyGetDecoratorWeaver(getMethod, implementationType, contractType);
+            }
+
+            return null;
         }
 
-        public IPropertySetWeaver PropertySetWeaver {
+        public IMethodWeaver GetSetMethod() {
+            if (propertyInfo.CanWrite) {
+                var getMethod = propertyInfo.GetSetMethod();
+
+                return new PropertySetDecoratorWeaver(getMethod, implementationType, contractType);
+            }
+
+            return null;
+        }
+
+        public bool CanRead {
             get {
-				return setWeaver;
-			}
+                return propertyInfo.CanRead;     
+            }
+        }
+
+        public bool CanWrite {
+            get {
+                return propertyInfo.CanWrite;
+            }
         }
     }
 }

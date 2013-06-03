@@ -38,9 +38,9 @@ namespace NCop.Composite.Weaving
             });
 
             propertiesJoiner.ForEach(tuple => {
-                var methodBuilder = new PropertyWeaverBuilder(tuple.Item1, tuple.Item2, tuple.Item3, factory);
+                var propertyBuilder = new PropertyWeaverBuilder(tuple.Item1, tuple.Item2, tuple.Item3, factory);
 
-                builder.Add(methodBuilder);
+                builder.Add(propertyBuilder);
             });
         }
 

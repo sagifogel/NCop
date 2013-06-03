@@ -78,7 +78,7 @@ namespace NCop.Core.Extensions
             Func<TInner, TInner, bool> comparer = EqualityComparer<TInner>.Default.Equals;
 
             TInner innerResult = inner.FirstOrDefault(innerItem => predicate(item, innerItem));
-        
+
             if (!comparer(innerResult, default(TInner))) {
                 return selector(item, innerResult);
             }
@@ -143,10 +143,12 @@ namespace NCop.Core.Extensions
             return source.AddOrUpdate(key, new NCop.Core.Lazy<TValue>(() => addValue), (k, lazy) => new NCop.Core.Lazy<TValue>(() => updateValueFactory(key))).Value;
         }
 
-        public static ISet<TSource> ToSet<TSource>(this IEnumerable<TSource> source) {
-            var lazy = new Lazy<TSource>(() => default(TSource));
+        public static ISet<TSource> ToSet<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate = null) {
+            if (predicate != null) {
+                source = source.Where(predicate);
+            }
+
             return new HashSet<TSource>(source);
         }
-        ///(k, lazy) => new Lazy<TValue>((k, oldValue) => updateValueFactory(k, oldValue))
     }
 }

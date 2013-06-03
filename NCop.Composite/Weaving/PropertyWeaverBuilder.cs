@@ -7,18 +7,16 @@ using System.Text;
 
 namespace NCop.Composite.Weaving
 {
-    public class PropertyWeaverBuilder : AbstractWeaverBuilder<PropertyInfo, IPropertyWeaver>, IPropertyWeaverBuilder
+    public class PropertyWeaverBuilder : AbstractWeaverBuilder<PropertyInfo>, IPropertyWeaverBuilder
     {
-         public PropertyWeaverBuilder(PropertyInfo propertyInfo, Type implementationType, Type contractType, ITypeDefinitionFactory typeDefinitionFactory)
+        public PropertyWeaverBuilder(PropertyInfo propertyInfo, Type implementationType, Type contractType, ITypeDefinitionFactory typeDefinitionFactory)
             : base(propertyInfo, implementationType, contractType, typeDefinitionFactory) {
         }
 
-         public override IPropertyWeaver Build() {
-             var typeDefinition = TypeDefinitionFactory.Resolve();
-             var methodWeaver = new PropertyDecoratorWeaver(MemberInfo, ImplementationType, ContractType);
-             // TODO: change to new AspectPipelinePropertyWeaver(_type).Handle(_methodInfo, typeDefinition);
+        public IPropertyWeaver Build() {
+            var typeDefinition = TypeDefinitionFactory.Resolve();
 
-             return null;// new CompositeMethodWeaver(MemberInfo, ImplementationType, ContractType, methodWeaver.MethodDefintionWeaver, new[] { methodWeaver });
+            return new PropertyDecoratorWeaver(MemberInfo, ImplementationType, ContractType);
         }
     }
 }

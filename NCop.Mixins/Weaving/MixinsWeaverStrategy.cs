@@ -35,7 +35,6 @@ namespace NCop.Mixins.Weaving
                 methodWeaver.WeaveEndMethod(ilGenerator);
             });
 
-
             weavedType = typeDefinition.TypeBuilder.CreateType();
             registry.Register(weavedType, typeDefinition.Type);
         }

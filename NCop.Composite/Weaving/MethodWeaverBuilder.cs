@@ -9,13 +9,13 @@ using System.Text;
 
 namespace NCop.Composite.Weaving
 {
-    public class MethodWeaverBuilder : AbstractWeaverBuilder<MethodInfo, IMethodWeaver>, IMethodWeaverBuilder
+    public class MethodWeaverBuilder : AbstractWeaverBuilder<MethodInfo>, IMethodWeaverBuilder
     {
         public MethodWeaverBuilder(MethodInfo methodInfo, Type implementationType, Type contractType, ITypeDefinitionFactory typeDefinitionFactory)
             : base(methodInfo, implementationType, contractType, typeDefinitionFactory) {
         }
 
-        public override IMethodWeaver Build() {
+        public IMethodWeaver Build() {
             var typeDefinition = TypeDefinitionFactory.Resolve();
             var methodWeaver = new MethodDecoratorWeaver(MemberInfo, ImplementationType, ContractType);
             // TODO: change to new AspectPipelineMethodWeaver(_type).Handle(_methodInfo, typeDefinition);

@@ -16,30 +16,29 @@ namespace NCop.Weaving
 {
     public static class ReflectionUtils
     {
-        internal static MethodBuilder DefineMethod(this TypeBuilder typeBuilder, MethodInfo methodInfo, MethodAttributes? attributes = null) {
+        public static MethodBuilder DefineMethod(this TypeBuilder typeBuilder, MethodInfo methodInfo, MethodAttributes? attributes = null, ParameterInfo[] parameters = null) {
+            Type[] parametersTypes = null;
             MethodBuilder methodBuilder = null;
-            var parameters = methodInfo.GetParameters();
-            var parametersTypes = parameters.Select(parameter => parameter.ParameterType)
-                                            .ToArray();
 
+            parameters = parameters ?? methodInfo.GetParameters();
+            parametersTypes = parameters.Select(parameter => parameter.ParameterType).ToArray();
             attributes = attributes ?? methodInfo.Attributes & ~MethodAttributes.Abstract;
             methodBuilder = typeBuilder.DefineMethod(methodInfo.Name, attributes.Value, methodInfo.ReturnType, parametersTypes);
 
-            methodInfo.GetParameters()
-                       .ForEach(1, (parameter, i) => {
-                           var parameterBuilder = methodBuilder.DefineParameter(i, parameter.Attributes, parameter.Name);
+            parameters.ForEach(1, (parameter, i) => {
+                var parameterBuilder = methodBuilder.DefineParameter(i, parameter.Attributes, parameter.Name);
 
-                           if (parameter.IsDefined<ParamArrayAttribute>()) {
-                               parameterBuilder.SetCustomAttribute<ParamArrayAttribute>();
-                           }
-                           else if (parameter.IsOut) {
-                               parameterBuilder.SetCustomAttribute<OutAttribute>();
-                           }
-                           else if (parameter.IsOptional) {
-                               parameterBuilder.SetCustomAttribute<OptionalAttribute>()
-                                               .SetConstant(parameter.DefaultValue);
-                           }
-                       });
+                if (parameter.IsDefined<ParamArrayAttribute>()) {
+                    parameterBuilder.SetCustomAttribute<ParamArrayAttribute>();
+                }
+                else if (parameter.IsOut) {
+                    parameterBuilder.SetCustomAttribute<OutAttribute>();
+                }
+                else if (parameter.IsOptional) {
+                    parameterBuilder.SetCustomAttribute<OptionalAttribute>()
+                                    .SetConstant(parameter.DefaultValue);
+                }
+            });
 
             return methodBuilder;
         }
@@ -47,8 +46,17 @@ namespace NCop.Weaving
         [EditorBrowsable(EditorBrowsableState.Never)]
         internal static MethodBuilder DefineParameterlessMethod(this TypeBuilder typeBuilder, MethodInfo methodInfo, MethodAttributes? attributes = null) {
             attributes = attributes ?? methodInfo.Attributes & ~MethodAttributes.Abstract;
-            
+
             return typeBuilder.DefineMethod(methodInfo.Name, attributes.Value, methodInfo.ReturnType, Type.EmptyTypes);
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static PropertyBuilder DefineProperty(this TypeBuilder typeBuilder, PropertyInfo propertyInfo, string name = null, PropertyAttributes? attributes = null, Type propertyType = null) {
+            name = name ?? propertyInfo.Name;
+            attributes = attributes ?? propertyInfo.Attributes;
+            propertyType = propertyType ?? propertyInfo.PropertyType;
+
+            return typeBuilder.DefineProperty(name, attributes.Value, propertyType, Type.EmptyTypes);
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]

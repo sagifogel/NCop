@@ -7,9 +7,7 @@ using System.Text;
 
 namespace NCop.Composite.Weaving
 {
-    public abstract class AbstractWeaverBuilder<TMember, TWeaver> 
-        where TMember : MemberInfo
-        where TWeaver : IWeaver
+    public abstract class AbstractWeaverBuilder<TMember> where TMember : MemberInfo
     {
         protected Type ContractType = null;
         protected TMember MemberInfo = null;
@@ -22,7 +20,5 @@ namespace NCop.Composite.Weaving
             ImplementationType = implementationType;
             TypeDefinitionFactory = typeDefinitionFactory;
         }
-
-        public abstract TWeaver Build();
     }
 }

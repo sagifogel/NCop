@@ -24,7 +24,7 @@ namespace NCop.Samples
             var container = new CompositeContainer();
             container.Configure();
 
-              var composite = container.TryResolve<IPersonComposite>();
+            var composite = container.TryResolve<IPersonComposite>();
             composite.Play("First", "Second", "Third");
         }
     }
@@ -44,7 +44,7 @@ namespace NCop.Samples
     public class DrummerMixin : IDrummer
     {
         public void Play(params string[] songs) {
-            
+
             songs.ToList().ForEach(s => Console.WriteLine(s));
         }
 

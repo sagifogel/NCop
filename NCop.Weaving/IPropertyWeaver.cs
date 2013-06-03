@@ -9,7 +9,9 @@ namespace NCop.Weaving
 {
     public interface IPropertyWeaver : IWeaver
     {
-        IPropertyGetWeaver PropertyGetWeaver { get; }
-        IPropertySetWeaver PropertySetWeaver { get; }
+        bool CanRead { get; }
+        bool CanWrite { get; }
+        IMethodWeaver GetGetMethod();
+        IMethodWeaver GetSetMethod();
     }
 }

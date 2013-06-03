@@ -85,6 +85,8 @@
     <Compile Include="NCopAssemblyBuilder.cs" />
     <Compile Include="NCopModuleBuilder.cs" />
     <Compile Include="PropertyDecoratorWeaver.cs" />
+    <Compile Include="PropertySetDecoratorScopeWeaver.cs" />
+    <Compile Include="PropertySetSignatureWeaver.cs" />
     <Compile Include="ReflectionUtils.cs" />
     <Compile Include="Responsibility\AbstractMethodWeaverHandler.cs" />
     <Compile Include="Responsibility\IMethodWeaverChainer.cs" />
