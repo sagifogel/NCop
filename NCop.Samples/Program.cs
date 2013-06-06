@@ -1,20 +1,7 @@
-﻿using NCop.Aspects.Framework;
-using NCop.Composite.Engine;
-using NCop.Composite.Framework;
-using NCop.Core;
-using NCop.IoC;
-using NCop.IoC.Framework;
+﻿using NCop.Composite.Framework;
 using NCop.Mixins.Framework;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace NCop.Samples
 {
@@ -24,42 +11,60 @@ namespace NCop.Samples
             var container = new CompositeContainer();
             container.Configure();
 
-            var composite = container.TryResolve<IPersonComposite>();
-            composite.Play("First", "Second", "Third");
+            var person1 = container.TryResolve<IPersonComposite>("C#");
+            var person2 = container.TryResolve<IPersonComposite>("JavaScript");
+
+            Console.WriteLine(person1.Code());
+            Console.WriteLine(person2.Code());
         }
     }
 
-    [TransientComposite]
-    [Mixins(typeof(DrummerMixin), typeof(DeveloperMixin))]
-    public interface IPersonComposite : IDeveloperMixin, IDrummer
+    [Named("JavaScript")]
+    [Mixins(typeof(JavaScriptDeveloperMixin))]
+    [TransientComposite(As = typeof(IPersonComposite))]
+    public interface IJavaScriptPerson : IPersonComposite
     {
     }
 
-    public interface IDrummer
+    [Named("C#")]
+    [Mixins(typeof(CSharpDeveloperMixin))]
+    [TransientComposite(As = typeof(IPersonComposite))]
+    public interface ICSharpPerson : IPersonComposite
     {
-        int MyProperty { get; set; }
-        void Play(params string[] songs);
     }
 
-    public class DrummerMixin : IDrummer
+    public interface IPersonComposite : IDeveloper
     {
-        public void Play(params string[] songs) {
-
-            songs.ToList().ForEach(s => Console.WriteLine(s));
-        }
-
-        public int MyProperty { get; set; }
     }
 
-    public class DeveloperMixin : IDeveloperMixin
+    public class CSharpDeveloperMixin : IDeveloper
     {
-        public int DoWork() {
-            return 50;
+        public string Code() {
+            return "I am coding in C#";
         }
     }
 
-    public interface IDeveloperMixin
+    public class JavaScriptDeveloperMixin : IDeveloper
     {
-        int DoWork();
+        public string Code() {
+            return "I am coding in JavaScript";
+        }
+    }
+
+    public class Worker : IWorker
+    {
+        public void Work() {
+            Console.WriteLine("Working");
+        }
+    }
+
+    public interface IWorker
+    {
+        void Work();
+    }
+
+    public interface IDeveloper
+    {
+        string Code();
     }
 }

@@ -10,29 +10,41 @@ namespace NCop.Core
     public class AttributeTypeMatcher<TAttribute> : IEnumerable<Tuple<Type, Type>>
         where TAttribute : Attribute
     {
-        private ISet<Type> immediateInterfaces = null;
+        private ISet<Type> interfaces = null;
         private ISet<Type> registered = new HashSet<Type>();
         private Func<TAttribute, Type[]> typeFactory = null;
         private List<Tuple<Type, Type>> map = new List<Tuple<Type, Type>>();
 
         public AttributeTypeMatcher(Type type, Func<TAttribute, Type[]> typeFactory) {
             this.typeFactory = typeFactory;
-            immediateInterfaces = type.GetImmediateInterfaces().ToSet();
+            interfaces = type.GetInterfaces().ToSet();
             map.AddRange(FindTypesRecursively(type));
 
-            if (map.Count != immediateInterfaces.Count) {
-                var missing = immediateInterfaces.Except(map.Select(m => m.Item1));
+            if (map.Count != GetMapCount(interfaces.Concat(type))) {
+                var missing = interfaces.Except(map.Select(m => m.Item1));
 
                 throw new MissingTypeException(missing.First().Name);
             }
         }
 
+        private int GetMapCount(IEnumerable<Type> interfaces) {
+            var attributes = interfaces.SelectMany(@interface => {
+                var attrs = @interface.GetCustomAttributesArray<TAttribute>();
+
+                return attrs.SelectMany(attr => {
+                    return typeFactory(attr);
+                });
+            });
+
+            return new HashSet<Type>(attributes).Count;
+        }
+
         private IEnumerable<Tuple<Type, Type>> FindTypesRecursively(Type type) {
             var types = FindTypes(type);
 
-            if (immediateInterfaces.Count != registered.Count) {
-                var interfaces = type.GetImmediateInterfaces();
-                var leftToFind = interfaces.Except(registered);
+            if (interfaces.Count != registered.Count) {
+                var immediateInterfaces = type.GetImmediateInterfaces();
+                var leftToFind = immediateInterfaces.Except(registered);
 
                 types = types.Concat(leftToFind.SelectMany(@interface => {
                     return FindTypesRecursively(@interface);
@@ -50,7 +62,7 @@ namespace NCop.Core
                 typeFactory(attribute).ForEach(t => {
                     t.GetImmediateInterfaces()
                      .ForEach(@interface => {
-                         if (immediateInterfaces.Contains(@interface)) {
+                         if (interfaces.Contains(@interface)) {
                              var tuple = Tuple.Create(@interface, t);
 
                              if (!registered.Add(@interface)) {

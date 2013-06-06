@@ -100,6 +100,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DuplicateCompositeAnnotationException.tt</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="Framework\CompositeContainer.cs" />
     <Compile Include="Framework\IgnoreRegistration.cs" />
     <Compile Include="Framework\NamedAttribute.cs" />
@@ -142,9 +143,7 @@
       <Name>NCop.Weaving</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Exceptions\DuplicateCompositeAnnotationException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

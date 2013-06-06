@@ -12,6 +12,6 @@ namespace NCop.Mixins.Framework
             Mixins = mixins;
         }
 
-        public Type[] Mixins { get; private set; }
+        internal Type[] Mixins { get; private set; }
     }
 }

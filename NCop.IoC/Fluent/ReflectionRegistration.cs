@@ -8,8 +8,11 @@ namespace NCop.IoC.Fluent
 {
     public class ReflectionRegistration : AutoRegistration<object>
     {
+        protected Type ConcreteType = null;
+
         public ReflectionRegistration(Type concreteType, Type serviceType)
             : base(serviceType, MakeFactoryType(serviceType)) {
+            ConcreteType = concreteType;
             As(Registration.CastTo = concreteType);
         }
 

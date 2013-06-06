@@ -1,7 +1,6 @@
 Mixins
 ------------
 Properties
-Events
 Generics
 in/out parameters
 async/await?

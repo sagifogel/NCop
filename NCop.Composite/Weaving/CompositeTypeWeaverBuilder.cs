@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NCop.IoC;
+using NCop.Composite.Extensions;
 
 namespace NCop.Composite.Weaving
 {
@@ -24,11 +25,11 @@ namespace NCop.Composite.Weaving
             var factory = new MixinsTypeDefinitionWeaver(compositeType, mixinsMap);
             var methodJoiner = new MethodJoiner(mixinsMap);
             var propertiesJoiner = new PropertiesJoiner(mixinsMap);
-            
+
             builder = new MixinsTypeWeaverBuilder(compositeType, factory, registry);
 
             mixinsMap.ForEach(map => {
-                builder.Add(map);   
+                builder.Add(map);
             });
 
             methodJoiner.ForEach(tuple => {

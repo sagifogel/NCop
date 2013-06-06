@@ -7,19 +7,33 @@ namespace NCop.Composite.Engine
 {
     public class CompositeFrameworkRegistration : ReflectionRegistration
     {
-        public CompositeFrameworkRegistration(Type concreteType, Type serviceType)
-            : base(concreteType, serviceType) {
+        private Type actualServiceType = null;
+
+        public CompositeFrameworkRegistration(Type concreteType, Type serviceType, Type castAs = null)
+            : base(concreteType, castAs ?? serviceType) {
             NamedAttribute namedAttribute = null;
 
-            if (concreteType.IsDefined<SingletonCompositeAttribute>() || serviceType.IsDefined<SingletonCompositeAttribute>()) {
+            actualServiceType = serviceType;
+
+            if (IsSingletonComposite()) {
                 AsSingleton();
             }
 
-            namedAttribute = concreteType.GetCustomAttribute<NamedAttribute>() ?? serviceType.GetCustomAttribute<NamedAttribute>();
-
-            if (namedAttribute.IsNotNull() && namedAttribute.Name.IsNotNullOrEmpty()) {
+            if (TryGetNamedAttribute(out namedAttribute)) {
                 Named(namedAttribute.Name);
             }
+        }
+
+        private bool IsSingletonComposite() {
+            return ConcreteType.IsDefined<SingletonCompositeAttribute>() ||
+                   ServiceType.IsDefined<SingletonCompositeAttribute>();
+        }
+
+        private bool TryGetNamedAttribute(out NamedAttribute namedAttribute) {
+            namedAttribute = ConcreteType.GetCustomAttribute<NamedAttribute>() ??
+                             actualServiceType.GetCustomAttribute<NamedAttribute>();
+
+            return namedAttribute.IsNotNull();
         }
     }
 }
