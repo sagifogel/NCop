@@ -8,6 +8,10 @@ namespace NCop.Composite.Engine
     [AttributeUsage(AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
     public abstract class CompositeAttribute : Attribute
     {
-        public Type As { get; set; }
+		public CompositeAttribute(Type castAs = null) {
+			As = castAs;
+		}       
+		
+		internal Type As { get; set; }
     }
 }

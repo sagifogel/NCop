@@ -6,7 +6,11 @@ using System.Text;
 
 namespace NCop.Composite.Framework
 {
-    public class TransientCompositeAttribute : CompositeAttribute
-    {
-    }
+	public class TransientCompositeAttribute : CompositeAttribute
+	{
+		public TransientCompositeAttribute(Type castAs = null)
+			: base(castAs) {
+
+		}
+	}
 }

@@ -11,14 +11,14 @@ namespace NCop.Composite.Tests
     {   
         [Named("JavaScript")]
         [Mixins(typeof(JavaScriptDeveloperMixin))]
-        [TransientComposite(As = typeof(IPersonComposite))]
+        [TransientComposite(typeof(IPersonComposite))]
         public interface IJavaScriptPerson : IPersonComposite
         {
         }
 
         [Named("C#")]
         [Mixins(typeof(CSharpDeveloperMixin))]
-        [TransientComposite(As = typeof(IPersonComposite))]
+        [TransientComposite(typeof(IPersonComposite))]
         public interface ICSharpPerson : IPersonComposite
         {
         }
