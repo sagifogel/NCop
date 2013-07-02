@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace NCop.Core
 {
@@ -77,6 +78,18 @@ namespace NCop.Core
 
 			return typeMap.NullCoalesce();
 		}
+
+
+        private bool IsCovariant(Type first, Type inspected) {
+            if (inspected.IsGenericTypeDefinition) {
+                var genericDefinition = inspected.GetGenericTypeDefinition();
+                var genericArguments = genericDefinition.GetGenericArguments();
+                
+                return (genericArguments.First().GenericParameterAttributes & GenericParameterAttributes.Covariant) != GenericParameterAttributes.Covariant;
+            }
+
+            return false;
+        }
 
 		public int Count {
 			get {

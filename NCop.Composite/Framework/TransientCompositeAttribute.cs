@@ -10,7 +10,6 @@ namespace NCop.Composite.Framework
 	{
 		public TransientCompositeAttribute(Type castAs = null)
 			: base(castAs) {
-
 		}
 	}
 }

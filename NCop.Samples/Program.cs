@@ -5,66 +5,80 @@ using System.Linq;
 
 namespace NCop.Samples
 {
-	class Program
-	{
-		static void Main(string[] args) {
-			var container = new CompositeContainer();
-			container.Configure();
+    class Program
+    {
+        static void Main(string[] args) {
+            var container = new CompositeContainer();
+            container.Configure();
+            var person = container.TryResolve<IPersonComposite>();
 
-			var person1 = container.TryResolve<IPersonComposite>("C#");
-			var person2 = container.TryResolve<IPersonComposite>("JavaScript");
+            Console.WriteLine(person.Code());
+        }
+    }
 
-			Console.WriteLine(person1.Code());
-			Console.WriteLine(person2.Code());
-		}
-	}
+    [Mixins(typeof(CSharpDeveloperMixin))]
+    [TransientComposite(typeof(IPersonComposite))]
+    public interface IPersonComposite : IDeveloper<CSharpLanguage>
+    {
+    }
 
-	[Named("JavaScript")]
-	[Mixins(typeof(JavaScriptDeveloperMixin), typeof(Worker))]
-	[TransientComposite(typeof(IPersonComposite))]
-	public interface IJavaScriptPerson : IPersonComposite
-	{
-	}
+    public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>
+    {
+        public override string Code() {
+            return "I am coding in " + base.Code();
+        }
+    }
 
-	[Named("C#")]
-	[Mixins(typeof(CSharpDeveloperMixin), typeof(Worker))]
-	[TransientComposite(typeof(IPersonComposite))]
-	public interface ICSharpPerson : IPersonComposite
-	{
-	}
+    public class JavaScriptDeveloperMixin : AbstractDeveloper<JavaScriptLanguage>
+    {
+        public override string Code() {
+            return "I am coding in " + base.Code();
+        }
+    }
 
-	public interface IPersonComposite : IDeveloper, IWorker
-	{
-	}
+    public abstract class AbstractDeveloper<TLanguage> : IDeveloper<TLanguage> where TLanguage : ILanguage, new()
+    {
+        protected ILanguage Language = new TLanguage();
 
-	public class CSharpDeveloperMixin : IDeveloper
-	{
-		public string Code() {
-			return "I am coding in C#";
-		}
-	}
+        public virtual string Code() {
+            return Language.Description.ToString();
+        }
+    }
 
-	public class JavaScriptDeveloperMixin : IDeveloper
-	{
-		public string Code() {
-			return "I am coding in JavaScript";
-		}
-	}
+    public interface ILanguage
+    {
+        string Description { get; }
+    }
 
-	public class Worker : IWorker
-	{
-		public void Work() {
-			Console.WriteLine("Working");
-		}
-	}
+    public class CSharpLanguage : ILanguage
+    {
+        public virtual string Description {
+            get {
+                return "C#";
+            }
+        }
+    }
 
-	public interface IWorker
-	{
-		void Work();
-	}
+    public class JavaScriptLanguage : ILanguage
+    {
+        public string Description {
+            get {
+                return "JavaScript";
+            }
+        }
+    }
 
-	public interface IDeveloper
-	{
-		string Code();
-	}
+    public class CSharpLanguage5 : CSharpLanguage
+    {
+        public override string Description {
+            get {
+                return "C# 5";
+            }
+        }
+    }
+
+    public interface IDeveloper<out TLanguage> where TLanguage : ILanguage
+    {
+        string Code();
+    }
 }
