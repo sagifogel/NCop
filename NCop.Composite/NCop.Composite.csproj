@@ -110,7 +110,6 @@
     <Compile Include="Framework\CompositeRuntime.cs" />
     <Compile Include="Weaving\AbstractWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeMethodWeaver.cs" />
-    <Compile Include="Weaving\GenericComparer.cs" />
     <Compile Include="Weaving\MethodJoiner.cs" />
     <Compile Include="Weaving\MethodWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeTypeWeaverBuilder.cs" />

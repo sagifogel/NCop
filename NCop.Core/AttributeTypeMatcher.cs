@@ -63,7 +63,7 @@ namespace NCop.Core
 				typeFactory(attribute).ForEach(t => {
 					t.GetImmediateInterfaces()
 					 .ForEach(@interface => {
-						 if (interfaces.Contains(@interface)) {
+						 if (interfaces.Contains(@interface) || interfaces.HasCovariantType(@interface)) {
 							 var tuple = Tuple.Create(@interface, t);
 
 							 if (!registered.Add(@interface)) {
@@ -78,18 +78,6 @@ namespace NCop.Core
 
 			return typeMap.NullCoalesce();
 		}
-
-
-        private bool IsCovariant(Type first, Type inspected) {
-            if (inspected.IsGenericTypeDefinition) {
-                var genericDefinition = inspected.GetGenericTypeDefinition();
-                var genericArguments = genericDefinition.GetGenericArguments();
-                
-                return (genericArguments.First().GenericParameterAttributes & GenericParameterAttributes.Covariant) != GenericParameterAttributes.Covariant;
-            }
-
-            return false;
-        }
 
 		public int Count {
 			get {

@@ -40,7 +40,7 @@ namespace NCop.Composite.Weaving
             }
 
             return firstProperty.PropertyType.Equals(secondProperty.PropertyType) ||
-                    GenericComparer.Compare(firstProperty.PropertyType, secondProperty.PropertyType);
+                    TypeComparer.Compare(firstProperty.PropertyType, secondProperty.PropertyType);
         }
 
         protected static bool AccessModifierMatch(PropertyInfo firstProperty, PropertyInfo secondProperty) {
