@@ -9,9 +9,9 @@ namespace NCop.Weaving
 {
     public abstract class AbstractMethodWeaver : IMethodWeaver
     {
-        public AbstractMethodWeaver(MethodInfo methodInfo, Type implementationType, Type contractType) {
-            MethodInfo = methodInfo;
+        public AbstractMethodWeaver(MethodInfo methodInfoImpl, Type implementationType, Type contractType) {
             ContractType = contractType;
+            MethodInfoImpl = methodInfoImpl;
             ImplementationType = implementationType;
         }
 
@@ -19,7 +19,7 @@ namespace NCop.Weaving
 
         public Type ImplementationType { get; protected set; }
 
-        public MethodInfo MethodInfo { get; protected set; }
+        public MethodInfo MethodInfoImpl { get; protected set; }
 
         public IMethodEndWeaver MethodEndWeaver { get; protected set; }
 
@@ -28,7 +28,7 @@ namespace NCop.Weaving
         public IMethodSignatureWeaver MethodDefintionWeaver { get; protected set; }
 
         public virtual MethodBuilder DefineMethod(ITypeDefinition typeDefinition) {
-            return MethodDefintionWeaver.Weave(MethodInfo, typeDefinition);
+            return MethodDefintionWeaver.Weave(MethodInfoImpl, typeDefinition);
         }
 
         public virtual ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition) {
@@ -36,7 +36,7 @@ namespace NCop.Weaving
         }
 
         public virtual void WeaveEndMethod(ILGenerator ilGenerator) {
-            MethodEndWeaver.Weave(MethodInfo, ilGenerator);
+            MethodEndWeaver.Weave(MethodInfoImpl, ilGenerator);
         }
     }
 }

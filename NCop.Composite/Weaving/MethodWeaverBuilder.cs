@@ -11,16 +11,16 @@ namespace NCop.Composite.Weaving
 {
     public class MethodWeaverBuilder : AbstractWeaverBuilder<MethodInfo>, IMethodWeaverBuilder
     {
-        public MethodWeaverBuilder(MethodInfo methodInfo, Type implementationType, Type contractType, ITypeDefinitionFactory typeDefinitionFactory)
-            : base(methodInfo, implementationType, contractType, typeDefinitionFactory) {
+        public MethodWeaverBuilder(MethodInfo methodInfoImpl, Type implementationType, Type contractType, ITypeDefinitionFactory typeDefinitionFactory)
+            : base(methodInfoImpl, implementationType, contractType, typeDefinitionFactory) {
         }
 
         public IMethodWeaver Build() {
             var typeDefinition = TypeDefinitionFactory.Resolve();
-            var methodWeaver = new MethodDecoratorWeaver(MemberInfo, ImplementationType, ContractType);
+            var methodWeaver = new MethodDecoratorWeaver(MemberInfoImpl, ImplementationType, ContractType);
             // TODO: change to new AspectPipelineMethodWeaver(_type).Handle(_methodInfo, typeDefinition);
 
-            return new CompositeMethodWeaver(MemberInfo, ImplementationType, ContractType, methodWeaver.MethodDefintionWeaver, new[] { methodWeaver });
+            return new CompositeMethodWeaver(MemberInfoImpl, ImplementationType, ContractType, methodWeaver.MethodDefintionWeaver, new[] { methodWeaver });
         }
     }
 }

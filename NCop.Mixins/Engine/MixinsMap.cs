@@ -30,6 +30,9 @@ namespace NCop.Mixins.Engine
             catch (DuplicateTypeAnnotationException duplicateTypeAnnotationException) {
                 throw new DuplicateMixinAnnotationException(duplicateTypeAnnotationException);
             }
+            catch (TypeDefinitionInitializationException typeDefinitionInitializationException) {
+                throw new MixinAnnotationException(typeDefinitionInitializationException);
+            }
         }
 
         public Type compositeType { get; private set; }

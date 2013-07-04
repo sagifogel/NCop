@@ -8,7 +8,38 @@ namespace NCop.Composite.Tests
 {
     [TestClass]
     public class CompositeContainerTest
-    {   
+    {
+        private TestContext testContextInstance;
+        private static CompositeContainer container = null;
+
+        /// <summary>
+        ///Gets or sets the test context which provides
+        ///information about and functionality for the current test run.
+        ///</summary>
+        public TestContext TestContext {
+            get {
+                return testContextInstance;
+            }
+            set {
+                testContextInstance = value;
+            }
+        }
+
+        #region Additional test attributes
+        
+        [ClassInitialize()]
+        public static void MyClassInitialize(TestContext testContext) {
+            container = new CompositeContainer();
+            container.Configure();
+        }
+
+        [ClassCleanup()]
+        public static void MyClassCleanup() {
+            container.Dispose();
+        }
+
+        #endregion
+
         [Named("JavaScript")]
         [Mixins(typeof(JavaScriptDeveloperMixin))]
         [TransientComposite(typeof(IPersonComposite))]
@@ -23,15 +54,40 @@ namespace NCop.Composite.Tests
         {
         }
 
+        [TransientComposite]
+        [Mixins(typeof(GenericCovariantDeveloper<CSharpLanguage>))]
+        public interface ICovariantCSharpDeveloper : ICovariantDeveloper<MSILLanguage>
+        {
+        }
+
+        //[TransientComposite]
+        [Mixins(typeof(GenericContraVariantDeveloper<CSharpLanguage>))]
+        public interface IContraVariantCSharpDeveloper : IContraVariantDeveloper<MSILLanguage>
+        {
+        }
+        
         [TestMethod]
         public void CompositeContainerSameTypeRegistration_HavingTwoDifferentInterfacesAnnotatedWithDiffrentNamedAttributeAndSameCompositeAttributeCastedToDerivedType_ReturnsDiffrentTypes() {
-            var container = new CompositeContainer();
-            container.Configure();
-
             var person2 = container.TryResolve<IPersonComposite>("C#");
             var person1 = container.TryResolve<IPersonComposite>("JavaScript");
 
             Assert.AreNotEqual(person1, person2);
+        }
+
+        [TestMethod]
+        public void CompositeContainerGenericTypeRegistration_HavingACovariantIterfaceOfADerivedMixin_WeavesTheObjectProperly() {
+            var person = container.TryResolve<ICovariantCSharpDeveloper>();
+
+            Assert.IsNotNull(person);
+            Assert.AreEqual(person.Code(), "C#");
+        }
+
+        [TestMethod]
+        public void CompositeContainerGenericTypeRegistration_HavingAContravariantIterfaceOfADerivedMixin_WeavesTheObjectProperly() {
+            var person = container.TryResolve<IContraVariantCSharpDeveloper>();
+
+            Assert.IsNotNull(person);
+            Assert.AreEqual(person.Code(new CSharpLanguage()), "C#");
         }
     }
 }

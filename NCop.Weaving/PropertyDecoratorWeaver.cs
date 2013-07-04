@@ -12,29 +12,29 @@ namespace NCop.Weaving
     {
         private Type contractType = null;
         private Type implementationType = null;
-        private PropertyInfo propertyInfo = null;
+        private PropertyInfo propertyInfoImpl = null;
 
-        public PropertyDecoratorWeaver(PropertyInfo propertyInfo, Type implementationType, Type contractType) {
+        public PropertyDecoratorWeaver(PropertyInfo propertyInfoImpl, Type implementationType, Type contractType) {
             this.contractType = contractType;
-            this.propertyInfo = propertyInfo;
+            this.propertyInfoImpl = propertyInfoImpl;
             this.implementationType = implementationType;
         }
 
         public IMethodWeaver GetGetMethod() {
-            if (propertyInfo.CanRead) {
-                var getMethod = propertyInfo.GetGetMethod();
+            if (propertyInfoImpl.CanRead) {
+                var getMethodImpl = propertyInfoImpl.GetGetMethod();
 
-                return new PropertyGetDecoratorWeaver(getMethod, implementationType, contractType);
+                return new PropertyGetDecoratorWeaver(getMethodImpl, implementationType, contractType);
             }
 
             return null;
         }
 
         public IMethodWeaver GetSetMethod() {
-            if (propertyInfo.CanWrite) {
-                var getMethod = propertyInfo.GetSetMethod();
+            if (propertyInfoImpl.CanWrite) {
+                var setMethodImpl = propertyInfoImpl.GetSetMethod();
 
-                return new PropertySetDecoratorWeaver(getMethod, implementationType, contractType);
+                return new PropertySetDecoratorWeaver(setMethodImpl, implementationType, contractType);
             }
 
             return null;
@@ -42,13 +42,13 @@ namespace NCop.Weaving
 
         public bool CanRead {
             get {
-                return propertyInfo.CanRead;     
+                return propertyInfoImpl.CanRead;     
             }
         }
 
         public bool CanWrite {
             get {
-                return propertyInfo.CanWrite;
+                return propertyInfoImpl.CanWrite;
             }
         }
     }

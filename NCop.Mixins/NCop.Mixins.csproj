@@ -59,6 +59,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Exceptions\MixinAnnotationException.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MixinAnnotationException.tt</DependentUpon>
+    </Compile>
     <Compile Include="Framework\MixinsAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Weaving\MixinsTypeDefinition.cs" />
@@ -94,6 +99,11 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MissingMixinException.cs</LastGenOutput>
       <LastOutputs>.\MissingMixinException.cs</LastOutputs>
+    </None>
+    <None Include="Exceptions\MixinAnnotationException.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MixinAnnotationException.cs</LastGenOutput>
+      <LastOutputs>.\MixinAnnotationException.cs</LastOutputs>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

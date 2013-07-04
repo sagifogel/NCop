@@ -10,13 +10,13 @@ namespace NCop.Composite.Weaving
     public abstract class AbstractWeaverBuilder<TMember> where TMember : MemberInfo
     {
         protected Type ContractType = null;
-        protected TMember MemberInfo = null;
+        protected TMember MemberInfoImpl = null;
         protected Type ImplementationType = null;
         protected ITypeDefinitionFactory TypeDefinitionFactory = null;
 
-        public AbstractWeaverBuilder(TMember memberInfo, Type implementationType, Type contractType, ITypeDefinitionFactory typeDefinitionFactory) {
+        public AbstractWeaverBuilder(TMember memberInfoImpl, Type implementationType, Type contractType, ITypeDefinitionFactory typeDefinitionFactory) {
             ContractType = contractType;
-            MemberInfo = memberInfo;
+            MemberInfoImpl = memberInfoImpl;
             ImplementationType = implementationType;
             TypeDefinitionFactory = typeDefinitionFactory;
         }

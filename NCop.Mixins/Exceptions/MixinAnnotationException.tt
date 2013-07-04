@@ -1,0 +1,9 @@
+<#@ template language="C#" hostspecific="True" debug="True" #>
+<#@ output extension="cs" #>
+<#@ include file="..\..\NCop.Core\Exceptions\ArgumentExceptionTemplate.tt" #>
+<#
+	var template = new ArgumentExceptionTemplate();
+    template.Message = "Illegal Annotation exception";
+	template.Namespace = "NCop.Mixins.Exceptions";
+    template.Render();
+#>

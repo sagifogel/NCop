@@ -10,15 +10,15 @@ namespace NCop.Composite.Weaving
 {
     internal class CompositeMethodWeaver : AbstractMethodWeaver
     {
-        internal CompositeMethodWeaver(MethodInfo methodInfo, Type implementationType, Type contractType, IMethodSignatureWeaver methodDefinitionWeaver, IEnumerable<IMethodWeaver> methodWeavers)
-            : base(methodInfo, implementationType, contractType) {
+        internal CompositeMethodWeaver(MethodInfo methodInfoImpl, Type implementationType, Type contractType, IMethodSignatureWeaver methodDefinitionWeaver, IEnumerable<IMethodWeaver> methodWeavers)
+            : base(methodInfoImpl, implementationType, contractType) {
             MethodDefintionWeaver = methodDefinitionWeaver;
             MethodScopeWeaver = new MethodScopeWeaversQueue(methodWeavers.Select(weaver => weaver.MethodScopeWeaver));
             MethodEndWeaver = new MethodEndWeaver();
         }
 
         public override MethodBuilder DefineMethod(ITypeDefinition typeDefinition) {
-            return MethodDefintionWeaver.Weave(MethodInfo, typeDefinition);
+            return MethodDefintionWeaver.Weave(MethodInfoImpl, typeDefinition);
         }
 
         public override ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition) {
@@ -26,7 +26,7 @@ namespace NCop.Composite.Weaving
         }
 
         public override void WeaveEndMethod(ILGenerator ilGenerator) {
-            MethodEndWeaver.Weave(MethodInfo, ilGenerator);
+            MethodEndWeaver.Weave(MethodInfoImpl, ilGenerator);
         }
     }
 }

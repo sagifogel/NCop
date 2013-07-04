@@ -1,5 +1,6 @@
 ﻿using NCop.Core.Exceptions;
 using NCop.Core.Extensions;
+using NCop.Core.Properties;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -60,11 +61,17 @@ namespace NCop.Core
 			var attribute = type.GetCustomAttribute<TAttribute>();
 
 			if (attribute != null) {
-				typeFactory(attribute).ForEach(t => {
-					t.GetImmediateInterfaces()
+				typeFactory(attribute).ForEach(implementationType => {
+                    if (implementationType.IsAbstract) {
+                        var message = Resources.AbstracClassAnnotationIsNotSupported.Format(implementationType);
+
+                        throw new TypeDefinitionInitializationException(message);
+                    }
+
+					implementationType.GetImmediateInterfaces()
 					 .ForEach(@interface => {
 						 if (interfaces.Contains(@interface) || interfaces.HasCovariantType(@interface)) {
-							 var tuple = Tuple.Create(@interface, t);
+							 var tuple = Tuple.Create(@interface, implementationType);
 
 							 if (!registered.Add(@interface)) {
 								 throw new DuplicateTypeAnnotationException(@interface.FullName);

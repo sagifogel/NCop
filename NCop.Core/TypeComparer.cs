@@ -11,19 +11,21 @@ namespace NCop.Core
 	{
 		public static bool Compare(Type firstType, Type secondType) {
 			if (firstType.IsGenericType && secondType.IsGenericType) {
-				Tuple<Type, Type> tupleArgs = null;
 				var firstGenericDefinition = firstType.GetGenericTypeDefinition();
 				var secondGenericDefinition = secondType.GetGenericTypeDefinition();
-				var firstGenericAguments = secondGenericDefinition.GetGenericArguments();
-				var firstArguments = secondType.GetGenericArguments();
-				var secondArguments = firstType.GetGenericArguments();
-				var arguments = firstGenericAguments.Select((arg, i) => {
-					var covariantAttr = arg.GenericParameterAttributes & GenericParameterAttributes.Covariant;
+				var firstGenericArguments = firstGenericDefinition.GetGenericArguments();
+                var secondGenericArguments = secondGenericDefinition.GetGenericArguments();
+				var firstArguments = firstType.GetGenericArguments();
+				var secondArguments = secondType.GetGenericArguments();
 
-					return new {
+                var arguments = firstGenericArguments.Select((arg, i) => {
+					var covariantAttr = arg.GenericParameterAttributes & GenericParameterAttributes.Covariant;
+                    var contravariantAttr = arg.GenericParameterAttributes & GenericParameterAttributes.Contravariant;
+					
+                    return new {
 						Position = i,
 						Type = arg,
-						IsCovariant = covariantAttr == GenericParameterAttributes.Covariant
+						IsCovariant = covariantAttr == GenericParameterAttributes.Covariant,
 					};
 				});
 				
@@ -33,7 +35,7 @@ namespace NCop.Core
 
 				return arguments.All(arg => {
 					if (arg.IsCovariant) {
-						return firstArguments[arg.Position].IsAssignableFrom(secondArguments[arg.Position]);
+                        return secondArguments[arg.Position].IsAssignableFrom(firstArguments[arg.Position]);
 					}
 
 					return Compare(firstArguments[arg.Position], secondArguments[arg.Position]);
