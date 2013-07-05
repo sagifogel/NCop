@@ -15,15 +15,25 @@ namespace NCop.Composite.Tests
         string Code();
     }
 
-    public interface IContraVariantDeveloper<in T>
+    public interface IDeveloper<T>
     {
-        string Code(T language);
+        string Code();
     }
 
-    public class GenericContraVariantDeveloper<T> : IContraVariantDeveloper<T>
+    public class GenericCSharpDeveloperImpl : IDeveloper<CSharpLanguage>
+    {
+        public string Code() {
+            return new CSharpLanguage().Name;
+        }
+    }
+
+
+    public class GenericDeveloper<T> : IDeveloper<T>
         where T : MSILLanguage, new()
     {
-        public string Code(T langugae) {
+        private MSILLanguage langugae = new T();
+
+        public string Code() {
             return langugae.Name;
         }
     }

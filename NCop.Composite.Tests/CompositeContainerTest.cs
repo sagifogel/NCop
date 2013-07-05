@@ -60,9 +60,15 @@ namespace NCop.Composite.Tests
         {
         }
 
-        //[TransientComposite]
-        [Mixins(typeof(GenericContraVariantDeveloper<CSharpLanguage>))]
-        public interface IContraVariantCSharpDeveloper : IContraVariantDeveloper<MSILLanguage>
+        [TransientComposite]
+        [Mixins(typeof(GenericDeveloper<CSharpLanguage>))]
+        public interface IGenericDeveloperWithCSharpArgument : IDeveloper<CSharpLanguage>
+        {
+        }
+
+        [TransientComposite]
+        [Mixins(typeof(GenericCSharpDeveloperImpl))]
+        public interface IGenericCSharpDeveloper : IDeveloper<CSharpLanguage>
         {
         }
         
@@ -75,7 +81,7 @@ namespace NCop.Composite.Tests
         }
 
         [TestMethod]
-        public void CompositeContainerGenericTypeRegistration_HavingACovariantIterfaceOfADerivedMixin_WeavesTheObjectProperly() {
+        public void CompositeContainerGenericTypeRegistration_OfATypeThatHasAGenericArgumnetThatIsMoreDerviedFromTheContrartItImplementsAndTheContractIsCovariant_WeavesTheObjectProperly() {
             var person = container.TryResolve<ICovariantCSharpDeveloper>();
 
             Assert.IsNotNull(person);
@@ -83,11 +89,11 @@ namespace NCop.Composite.Tests
         }
 
         [TestMethod]
-        public void CompositeContainerGenericTypeRegistration_HavingAContravariantIterfaceOfADerivedMixin_WeavesTheObjectProperly() {
-            var person = container.TryResolve<IContraVariantCSharpDeveloper>();
+        public void CompositeContainerTypeRegistration_OfANonGenericTypeThatImplementsAGenericContractThatHavASpeificGenericArgumnet_WeavesTheObjectProperly() {
+            var person = container.TryResolve<IGenericCSharpDeveloper>();
 
             Assert.IsNotNull(person);
-            Assert.AreEqual(person.Code(new CSharpLanguage()), "C#");
+            Assert.AreEqual(person.Code(), "C#");
         }
     }
 }
