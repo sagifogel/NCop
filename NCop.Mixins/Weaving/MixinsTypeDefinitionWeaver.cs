@@ -9,7 +9,7 @@ namespace NCop.Mixins.Weaving
     {
         private readonly Type contractType = null;
         private readonly IMixinsMap mixinsMap = null;
-        private NCop.Core.Lazy<ITypeDefinition> typeDefinitionFactory = null;
+        private readonly NCop.Core.Lazy<ITypeDefinition> typeDefinitionFactory = null;
 
         public MixinsTypeDefinitionWeaver(Type contractType, IMixinsMap mixinsMap) {
             this.contractType = contractType;

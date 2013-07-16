@@ -1,7 +1,4 @@
 Mixins
 ------------
-async/await?
-remove IReusedWithin from fluent interface for composite
-
 Aspects
 ------------

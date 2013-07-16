@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NCop.IoC
 {
-    public abstract class AbstractContainer : AbstractNCopContainer, INCopArgumentsContainer
+    public abstract class AbstractArgumentsContainer : AbstractNCopContainer, INCopArgumentsContainer
     {
         public TService Resolve<TArg1, TService>(TArg1 arg1, string name = null) {
             return ResolveImpl<TService, Func<INCopContainer, TArg1, TService>>(factory => {

@@ -120,6 +120,9 @@
   <data name="AmbigiousConstructorDependency" xml:space="preserve">
     <value>Ambiguous constructor dependency was found for type {0}. Only one constructor can be annotated with DependencyAttribute attribute.</value>
   </data>
+  <data name="ContainerNotConfigured" xml:space="preserve">
+    <value>Container is yet to be configured.</value>
+  </data>
   <data name="CouldNotResolveType" xml:space="preserve">
     <value>Could not resolve type {0}.</value>
   </data>

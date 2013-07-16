@@ -6,17 +6,17 @@ using System.Threading;
 
 namespace NCop.IoC
 {
-    public class NCopContainer : AbstractContainer, IContainerConfigurator
+    public class NCopContainer : AbstractArgumentsContainer, IContainerConfigurator<IArgumentsFluentRegistry>
     {
         private int locked = 0;
         private readonly NCopContainer parentContainer = null;
         private Stack<NCopContainer> childContainers = new Stack<NCopContainer>();
 
-        public NCopContainer(Action<IFluentRegistry> registrationAction = null)
+        public NCopContainer(Action<IArgumentsFluentRegistry> registrationAction = null)
             : this(registrationAction, null) {
         }
 
-        internal NCopContainer(Action<IFluentRegistry> registrationAction, NCopContainer parentContainer) {
+        internal NCopContainer(Action<IArgumentsFluentRegistry> registrationAction, NCopContainer parentContainer) {
             this.parentContainer = parentContainer;
 
             if (registrationAction.IsNotNull()) {
@@ -24,9 +24,13 @@ namespace NCop.IoC
             }
         }
 
-        public void Configure(Action<IFluentRegistry> registrationAction = null) {
+        public void Configure(Action<IArgumentsFluentRegistry> registrationAction = null) {
             if (Interlocked.CompareExchange(ref locked, 1, 0) == 0) {
-                base.ConfigureInternal(registrationAction);
+                if (registrationAction.IsNotNull()) {
+                    registrationAction(registry);
+                }
+
+                ConfigureInternal();
             }
         }
 
@@ -40,7 +44,7 @@ namespace NCop.IoC
             return entry;
         }
 
-        public INCopContainer CreateChildContainer(Action<IFluentRegistry> registrationAction = null) {
+        public INCopContainer CreateChildContainer(Action<IArgumentsFluentRegistry> registrationAction = null) {
             NCopContainer container = null;
 
             lock (childContainers) {

@@ -56,9 +56,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractNCopContainer.cs" />
-    <Compile Include="AbstractContainer.cs" />
+    <Compile Include="AbstractArgumentsContainer.cs" />
     <Compile Include="AbstractLifetimeStrategy.cs" />
     <Compile Include="Fluent\AutoRegistration.cs" />
+    <Compile Include="Fluent\IArgumentsFluentRegistry.cs" />
     <Compile Include="Fluent\IOwnedBy.cs" />
     <Compile Include="Fluent\ReflectionRegistration.cs" />
     <Compile Include="Framework\DependencyAttribute.cs" />

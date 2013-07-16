@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Data.SqlClient;
 using System.Collections.Generic;
+using NCop.IoC.Fluent;
 
 namespace NCop.Samples
 {
@@ -14,10 +15,9 @@ namespace NCop.Samples
             container.Configure();
             var person = container.TryResolve<IPersonComposite>();
 
-            Console.WriteLine(person.Code(new CSharpLanguage5()));
+            Console.WriteLine(person.Code());
         }
     }
-
 
     public class GenericCovariantDeveloper<T> : IDeveloper<T>
         where T : ILanguage, new()
@@ -29,16 +29,9 @@ namespace NCop.Samples
         }
     }
 
-    public class GenericContraVariantDeveloper : IContraVariantDeveloper<CSharpLanguage5>
-    {
-        public string Code(CSharpLanguage5 language) {
-            return language.Description;
-        }
-    }
-
     [TransientComposite]
-    [Mixins(typeof(GenericContraVariantDeveloper))]
-    public interface IPersonComposite : IContraVariantDeveloper<ILanguage>
+    [Mixins(typeof(CSharpDeveloperMixin))]
+    public interface IPersonComposite : IDeveloper<ILanguage>
     {
     }
 
@@ -62,7 +55,7 @@ namespace NCop.Samples
         ILanguage language = new TLanguage();
 
         public virtual string Code() {
-            return language.Description.ToString();
+            return "I am coding in " + language.Description.ToString();
         }
     }
 
@@ -103,18 +96,8 @@ namespace NCop.Samples
         string Code();
     }
 
-    public interface IContraVariantDeveloper<in TLanguage>
-    {
-        string Code(TLanguage lanuage);
-    }
-
     public interface IDeveloper
     {
         string Code();
-    }
-
-    public interface IDeveloper2<in TLanguage>
-    {
-        string Code(TLanguage language);
     }
 }

@@ -37,14 +37,6 @@ namespace NCop.IoC
             return dictionary;
         }
 
-        protected virtual void ConfigureInternal(Action<IFluentRegistry> registrationAction = null) {
-            if (registrationAction.IsNotNull()) {
-                registrationAction(registry);
-            }
-
-            ConfigureInternal();
-        }
-
         protected virtual IContainerRegistry CreateRegistry() {
             return new ContainerRegistry();
         }
@@ -136,8 +128,13 @@ namespace NCop.IoC
         protected virtual ServiceEntry GetEntry(ServiceKey key) {
             ServiceEntry entry;
 
-            if (services.TryGetValue(key, out entry)) {
-                return entry;
+            try {
+                if (services.TryGetValue(key, out entry)) {
+                    return entry;
+                }
+            }
+            catch (NullReferenceException ex) {
+                throw new ResolutionException(Resources.ContainerNotConfigured, ex);
             }
 
             return entry;
