@@ -3,34 +3,34 @@ using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading;
+using NCop.Core.Extensions;
 
 namespace NCop.Weaving
 {
-    internal sealed class NCopAssemblyBuilder
+    internal sealed class NCopAssemblyBuilder : IBuilder<AssemblyBuilder>
     {
-        private static readonly string assemblyName = "NCop.Artifacts";
-        private static readonly Lazy<AssemblyBuilder> assemblyBuilder = null;
+        private static int assembly = 0;
+        private string assemblyName = null;
+        private AssemblyBuilder builder = null;
+        private static readonly string assemblyNamePrefix = "NCop.Artifacts";
 
-        private NCopAssemblyBuilder() { }
-
-        static NCopAssemblyBuilder() {
-            assemblyBuilder = new Lazy<AssemblyBuilder>(() => {
-                return AppDomain.CurrentDomain.DefineDynamicAssembly(
-                    new AssemblyName(assemblyName),
-                    AssemblyBuilderAccess.Run);
-            });
+        public NCopAssemblyBuilder() {
+            assemblyName = "{0}<{1}>".Fmt(assemblyNamePrefix, Guid.NewGuid().ToString());
         }
 
-        internal static string AssemblyName {
+        internal string AssemblyName {
             get {
                 return assemblyName;
             }
         }
 
-        internal static AssemblyBuilder Instance {
-            get {
-                return assemblyBuilder.Value;
-            }
+        public AssemblyBuilder Build() {
+            return builder ?? (builder = BuildInternal());
+        }
+
+        private AssemblyBuilder BuildInternal() {
+            var assemblyName = new AssemblyName(AssemblyName);
+            return AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
         }
     }
 }

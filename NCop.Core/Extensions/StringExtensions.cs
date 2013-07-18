@@ -9,7 +9,7 @@ namespace NCop.Core.Extensions
     {
         private static readonly int lowerCaseOffset = 'a' - 'A';
 
-        public static string Format(this string value, params object[] args) {
+        public static string Fmt(this string value, params object[] args) {
             return string.Format(value, args);
         }
 

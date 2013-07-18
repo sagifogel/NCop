@@ -215,6 +215,7 @@ namespace NCop.Composite.Tests
             var instance = container.Resolve<Foo>();
             var instance2 = childContainer.Resolve<Foo>();
 
+
             Assert.AreSame(instance, instance2);
         }
 

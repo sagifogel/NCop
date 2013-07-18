@@ -1,30 +1,17 @@
 ﻿using System;
 using System.Reflection.Emit;
 using System.Threading;
+using NCop.Core.Extensions;
 
 namespace NCop.Weaving
 {
-    internal sealed class NCopModuleBuilder
+    internal sealed class NCopModuleBuilder : IBuilder<ModuleBuilder>
     {
-        private static readonly Lazy<ModuleBuilder> moduleBuilder = null;
+        public ModuleBuilder Build() {
+            var assemblyBuilder = new NCopAssemblyBuilder();
+            string assemblyName = "{0}.dll".Fmt(assemblyBuilder.AssemblyName);
 
-        private NCopModuleBuilder() { }
-
-        static NCopModuleBuilder() {
-            moduleBuilder = new Lazy<ModuleBuilder>(CreateAssemblyBuilder);
-        }
-
-        internal static ModuleBuilder Instance {
-            get {
-                return moduleBuilder.Value;
-            }
-        }
-
-        private static ModuleBuilder CreateAssemblyBuilder() {
-            var assemblyBuilder = NCopAssemblyBuilder.Instance;
-            string assemblyName = string.Format("{0}.dll", NCopAssemblyBuilder.AssemblyName);
-
-            return assemblyBuilder.DefineDynamicModule(assemblyName, false);
+            return assemblyBuilder.Build().DefineDynamicModule(assemblyName, false);
         }
     }
 }

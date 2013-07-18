@@ -95,7 +95,7 @@ namespace NCop.IoC.Fluent
             var ctor = castTo.GetConstructor(Type.EmptyTypes);
 
             Contract.RequiersConstructorNotNull(ctor, () => {
-                var message = Resources.NoParameterlessConstructorFound.Format(ctor);
+                var message = Resources.NoParameterlessConstructorFound.Fmt(ctor);
                 
                 return new RegistraionException(new MissingMethodException(message));
             });
@@ -112,7 +112,7 @@ namespace NCop.IoC.Fluent
         }
 
         private static void RequiersNotInterface(Type serviceType) {
-            Contract.RequiersNotInterface(serviceType, () => new RegistraionException(Resources.TypeIsInterface.Format(serviceType)));
+            Contract.RequiersNotInterface(serviceType, () => new RegistraionException(Resources.TypeIsInterface.Fmt(serviceType)));
         }
 
         IReuseStrategy IDescriptable.Named(string name) {

@@ -28,7 +28,7 @@ namespace NCop.IoC
                 var serviceKey = CreateServiceKey(registration);
 
                 if (dictionary.ContainsKey(serviceKey)) {
-                    throw new RegistraionException(Resources.DuplicateRegistrationFound.Format(serviceKey.ServiceType));
+                    throw new RegistraionException(Resources.DuplicateRegistrationFound.Fmt(serviceKey.ServiceType));
                 }
 
                 dictionary.Add(serviceKey, CreateServiceEntry(registration));
@@ -92,7 +92,7 @@ namespace NCop.IoC
 
             if (entry.IsNull()) {
                 if (throwIfMissing) {
-                    throw new ResolutionException(Resources.CouldNotResolveType.Format(identifier.ServiceType));
+                    throw new ResolutionException(Resources.CouldNotResolveType.Fmt(identifier.ServiceType));
                 }
 
                 return default(TService);

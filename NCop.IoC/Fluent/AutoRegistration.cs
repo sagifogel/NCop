@@ -70,7 +70,7 @@ namespace NCop.IoC.Fluent
 										  .ToArray();
 
 				if (dependentCtors.Length != 1) {
-					throw new RegistraionException(Resources.AmbigiousConstructorDependency.Format(type));
+					throw new RegistraionException(Resources.AmbigiousConstructorDependency.Fmt(type));
 				}
 
 				ctors = dependentCtors;

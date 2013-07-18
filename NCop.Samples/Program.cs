@@ -5,17 +5,31 @@ using System.Linq;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 using NCop.IoC.Fluent;
+using System.Threading.Tasks;
 
 namespace NCop.Samples
 {
     class Program
     {
-        static void Main(string[] args) {
-            var container = new CompositeContainer();
-            container.Configure();
-            var person = container.TryResolve<IPersonComposite>();
+        static List<CompositeContainer> containers = new List<CompositeContainer>();
 
+        static void Main(string[] args) {
+           
+            Parallel.ForEach(Enumerable.Range(0, 10), i => {
+                var container = new CompositeContainer();
+                container.Configure();
+
+                lock (containers) {
+                    containers.Add(container);
+                }
+            });
+
+            var person = containers[0].TryResolve<IPersonComposite>();
             Console.WriteLine(person.Code());
+        }
+
+        async static Task<CompositeContainer> GetComposite() {
+            return await new Task<CompositeContainer>(() => new CompositeContainer());
         }
     }
 

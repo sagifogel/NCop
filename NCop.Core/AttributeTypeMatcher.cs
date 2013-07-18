@@ -63,7 +63,7 @@ namespace NCop.Core
 			if (attribute != null) {
 				typeFactory(attribute).ForEach(implementationType => {
                     if (implementationType.IsAbstract) {
-                        var message = Resources.AbstracClassAnnotationIsNotSupported.Format(implementationType);
+                        var message = Resources.AbstracClassAnnotationIsNotSupported.Fmt(implementationType);
 
                         throw new TypeDefinitionInitializationException(message);
                     }
