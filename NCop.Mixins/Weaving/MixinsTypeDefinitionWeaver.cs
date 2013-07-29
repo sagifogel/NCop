@@ -9,20 +9,18 @@ namespace NCop.Mixins.Weaving
     {
         private readonly Type contractType = null;
         private readonly IMixinsMap mixinsMap = null;
-        private readonly NCop.Core.Lazy<ITypeDefinition> typeDefinitionFactory = null;
+        private readonly ITypeDefinition typeDefinitionFactory = null;
 
         public MixinsTypeDefinitionWeaver(Type contractType, IMixinsMap mixinsMap) {
             this.contractType = contractType;
             this.mixinsMap = mixinsMap;
-            typeDefinitionFactory = new Core.Lazy<ITypeDefinition>(() => {
-                return new MixinsTypeDefinition(contractType, mixinsMap);
-            });
+            typeDefinitionFactory = new MixinsTypeDefinition(contractType, mixinsMap);
         }
 
         public Type Type { get; private set; }
 
         public ITypeDefinition Weave() {
-            return typeDefinitionFactory.Value;
+            return typeDefinitionFactory;
         }
 
         public ITypeDefinition Resolve() {

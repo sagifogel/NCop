@@ -35,11 +35,11 @@ namespace NCop.Composite.Framework
             return new CompositeRegistry();
         }
 
-        public CompositeContainer CreateChildContainer() {
+		public CompositeContainer CreateChildContainer(RuntimeSettings childContainerSettings = null) {
             CompositeContainer container = null;
 
             lock (childContainers) {
-                childContainers.Push(container = new CompositeContainer(this, settings));
+				childContainers.Push(container = new CompositeContainer(this, childContainerSettings));
             }
 
             return container;
