@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Aspects
 {
-    public interface IAspect
-    {
-        int AspectPriority { get; }
-    }
+	public interface IAspect
+	{
+		Type AspectType { get; }
+		int AspectPriority { get; }
+	}
 }

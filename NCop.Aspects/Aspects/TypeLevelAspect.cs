@@ -7,8 +7,11 @@ using System.Text;
 
 namespace NCop.Aspects.Aspects
 {
-    [LifetimeStrategy(KnownLifetimeStrategy.Singleton)]
-    public abstract class TypeLevelAspectAttribute : AspectAttribute
-    {
-    }
+	[LifetimeStrategy(KnownLifetimeStrategy.Singleton)]
+	public abstract class TypeLevelAspectAttribute : AspectAttribute
+	{
+		public TypeLevelAspectAttribute(Type aspectType)
+			: base(aspectType) {
+		}
+	}
 }

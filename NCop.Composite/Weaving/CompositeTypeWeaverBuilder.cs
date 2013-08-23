@@ -21,7 +21,7 @@ namespace NCop.Composite.Weaving
 
         internal CompositeTypeWeaverBuilder(Type compositeType, IRegistry registry) {
             var mixinsMap = new MixinsMap(compositeType);
-            var aspectMap = new AspectsMap(compositeType);
+            var aspectsMap = new AspectsMap(compositeType);
             var factory = new MixinsTypeDefinitionWeaver(compositeType, mixinsMap);
             var methodJoiner = new MethodJoiner(mixinsMap);
             var propertiesJoiner = new PropertiesJoiner(mixinsMap);

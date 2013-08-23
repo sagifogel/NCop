@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Framework
 {
-    public interface IMethodInterception : IMethodExecution, IPreventable
+    public interface IMethodInterception : IPreventable
     {
         object Proceed();
     }

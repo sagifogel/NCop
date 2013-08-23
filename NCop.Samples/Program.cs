@@ -6,6 +6,8 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using NCop.IoC.Fluent;
 using System.Threading.Tasks;
+using NCop.Aspects.Framework;
+using NCop.Aspects.Aspects;
 
 namespace NCop.Samples
 {
@@ -14,7 +16,7 @@ namespace NCop.Samples
 		static void Main(string[] args) {
 			var container = new CompositeContainer();
 			container.Configure();
-			
+
 			var person = container.TryResolve<IPersonComposite>();
 			Console.WriteLine(person.Code());
 		}
@@ -30,10 +32,18 @@ namespace NCop.Samples
 		}
 	}
 
+	public class TraceAspect : OnMethodBoundaryAspectImpl<string>
+	{
+		public override void OnEntry(MethodExecutionArgs<string> args) {
+		}
+	}
+
 	[TransientComposite]
 	[Mixins(typeof(CSharpDeveloperMixin))]
 	public interface IPersonComposite : IDeveloper<ILanguage>
 	{
+		[OnMethodBoundaryAspect(typeof(TraceAspect))]
+		string Code();
 	}
 
 	public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>

@@ -10,40 +10,40 @@ using System.Text;
 
 namespace NCop.Aspects.Aspects
 {
-    public static class KnownAspects
-    {
-        private static ISet<IAspectBuilderProvider> _knownProviders = null;
+	public static class KnownAspects
+	{
+		private static ISet<IAspectBuilderProvider> _knownProviders = null;
 
-        static KnownAspects() {
-            _knownProviders = new HashSet<IAspectBuilderProvider>(
-                new IAspectBuilderProvider[]{
+		static KnownAspects() {
+			_knownProviders = new HashSet<IAspectBuilderProvider>(
+				new IAspectBuilderProvider[]{
                         new AttributeAspectBuilderProvider(),
                         new TypeLevelAspectBuilderProvider()
                 });
-        }
+		}
 
-        public static void RegisterKnownBuilder(IAspectBuilderProvider provider) {
-            _knownProviders.Add(provider);
-        }
+		public static void RegisterKnownBuilder(IAspectBuilderProvider provider) {
+			_knownProviders.Add(provider);
+		}
 
-        public static bool IsAspect(Type aspectType) {
-            return _knownProviders.Any(provider => provider.CanBuildAspectFromType(aspectType));
-        }
+		public static bool IsAspect(Type aspectType) {
+			return _knownProviders.Any(provider => provider.CanBuildAspectFromType(aspectType));
+		}
 
-        public static bool TryMatchAspectBuilder(MethodInfo methodInfo, out IAspectBuilder builder) {
-            var matchedProvider = GetAspectProvider(methodInfo);
+		public static bool TryMatchAspectBuilder(MethodInfo methodInfo, out IAspectBuilder builder) {
+			var matchedProvider = GetAspectProvider(methodInfo);
 
-            builder = null;
+			builder = null;
 
-            if (matchedProvider != null) {
-                builder = matchedProvider.GetBuilder(methodInfo);
-            }
+			if (matchedProvider != null) {
+				builder = matchedProvider.GetBuilder(methodInfo);
+			}
 
-            return builder != null;
-        }
+			return builder != null;
+		}
 
-        private static IAspectBuilderProvider GetAspectProvider(MethodInfo methodInfo) {
-            return _knownProviders.FirstOrDefault(provider => provider.CanBuild(methodInfo));
-        }
-    }
+		private static IAspectBuilderProvider GetAspectProvider(MethodInfo methodInfo) {
+			return _knownProviders.FirstOrDefault(provider => provider.CanBuild(methodInfo));
+		}
+	}
 }

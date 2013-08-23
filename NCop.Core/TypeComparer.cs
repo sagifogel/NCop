@@ -20,7 +20,6 @@ namespace NCop.Core
 
                 var arguments = firstGenericArguments.Select((arg, i) => {
 					var covariantAttr = arg.GenericParameterAttributes & GenericParameterAttributes.Covariant;
-                    var contravariantAttr = arg.GenericParameterAttributes & GenericParameterAttributes.Contravariant;
 					
                     return new {
 						Position = i,

@@ -1,16 +1,18 @@
-﻿using NCop.Aspects.Advices;
+﻿using System;
+using NCop.Aspects.Advices;
 using NCop.Aspects.Engine;
-using System;
 using NCop.Aspects.LifetimeStrategies;
+using System.Diagnostics;
 using NCop.Aspects.Aspects;
+using NCop.Aspects.Framework;
 
 namespace NCop.Aspects.Framework
 {
 	[LifetimeStrategy(KnownLifetimeStrategy.Singleton)]
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-	public class MethodInterceptionAspectAttribute : AspectAttribute
+	public class OnMethodBoundaryAspectAttribute : AspectAttribute
 	{
-		public MethodInterceptionAspectAttribute(Type aspectType)
+		public OnMethodBoundaryAspectAttribute(Type aspectType)
 			: base(aspectType) {
 		}
 	}
