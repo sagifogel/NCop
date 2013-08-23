@@ -14,16 +14,9 @@ namespace NCop.Samples
 		static void Main(string[] args) {
 			var container = new CompositeContainer();
 			container.Configure();
-
-			var childContainer = container.CreateChildContainer();
-
-			childContainer.Configure();
-			var person = childContainer.TryResolve<IPersonComposite>();
+			
+			var person = container.TryResolve<IPersonComposite>();
 			Console.WriteLine(person.Code());
-		}
-
-		async static Task<CompositeContainer> GetComposite() {
-			return await new Task<CompositeContainer>(() => new CompositeContainer());
 		}
 	}
 
