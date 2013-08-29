@@ -8,6 +8,7 @@ using NCop.Mixins.Engine;
 using NCop.Core.Extensions;
 using System.Reflection;
 using NCop.Weaving.Extensions;
+using NCop.Core.Engine;
 
 namespace NCop.Mixins.Weaving
 {

@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\IMixinsMap.cs" />
     <Compile Include="Engine\IMixinMapBag.cs" />
     <Compile Include="Engine\MixinsMap.cs" />
     <Compile Include="Exceptions\DuplicateMixinAnnotationException.cs">

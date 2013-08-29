@@ -1,13 +1,7 @@
-﻿using NCop.Composite.Framework;
-using NCop.Mixins.Framework;
-using System;
-using System.Linq;
-using System.Data.SqlClient;
-using System.Collections.Generic;
-using NCop.IoC.Fluent;
-using System.Threading.Tasks;
+﻿using System;
 using NCop.Aspects.Framework;
-using NCop.Aspects.Aspects;
+using NCop.Composite.Framework;
+using NCop.Mixins.Framework;
 
 namespace NCop.Samples
 {
@@ -42,12 +36,13 @@ namespace NCop.Samples
 	[Mixins(typeof(CSharpDeveloperMixin))]
 	public interface IPersonComposite : IDeveloper<ILanguage>
 	{
-		[OnMethodBoundaryAspect(typeof(TraceAspect))]
-		string Code();
+		//[OnMethodBoundaryAspect(typeof(TraceAspect))]
+		//string Code();
 	}
 
 	public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>
 	{
+		//[OnMethodBoundaryAspect(typeof(TraceAspect))]
 		public override string Code() {
 			return "I am coding in " + base.Code();
 		}

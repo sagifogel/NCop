@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace NCop.Core.Visitors
 {
-    public interface IEnumerableProjectionTypeVisitor<T> : IProjectionTypeVisitor<IEnumerable<T>>
-    {
+	public interface IEnumerableProjectionTypeVisitor<T> : IProjectionTypeVisitor<IEnumerable<T>>
+	{
 
-    }
+	}
 }

@@ -121,8 +121,8 @@
     <Compile Include="Aspects\AspectMap.cs" />
     <Compile Include="Aspects\AspectsMap.cs" />
     <Compile Include="Aspects\IAspectsMap.cs" />
-    <Compile Include="AspectsAttributeTypeMatcher.cs" />
-    <Compile Include="Engine\EnumerableProjectionTypeVisitor.cs" />
+    <Compile Include="Engine\AspectsAttributeTypeMatcher.cs" />
+    <Compile Include="Engine\IAspectsTypeVisitor.cs" />
     <Compile Include="Exceptions\AspectBuilderNotFoundException.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

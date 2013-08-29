@@ -1,17 +1,11 @@
-﻿using NCop.Aspects.Aspects;
-using NCop.Aspects.Weaving.Responsibility;
-using NCop.Core;
+﻿using System;
+using NCop.Aspects.Aspects;
+using NCop.Composite.Engine;
 using NCop.Core.Extensions;
-using NCop.Core.Mixin;
-using NCop.Weaving;
+using NCop.IoC;
 using NCop.Mixins.Engine;
 using NCop.Mixins.Weaving;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using NCop.IoC;
-using NCop.Composite.Extensions;
+using NCop.Weaving;
 
 namespace NCop.Composite.Weaving
 {
@@ -21,9 +15,9 @@ namespace NCop.Composite.Weaving
 
         internal CompositeTypeWeaverBuilder(Type compositeType, IRegistry registry) {
             var mixinsMap = new MixinsMap(compositeType);
-            var aspectsMap = new AspectsMap(compositeType);
+			var methodJoiner = new MethodJoiner(compositeType, mixinsMap) as IMethodJoiner;
+			var aspectsMap = new AspectsMap(compositeType, null);
             var factory = new MixinsTypeDefinitionWeaver(compositeType, mixinsMap);
-            var methodJoiner = new MethodJoiner(mixinsMap);
             var propertiesJoiner = new PropertiesJoiner(mixinsMap);
 
             builder = new MixinsTypeWeaverBuilder(compositeType, factory, registry);
@@ -32,8 +26,8 @@ namespace NCop.Composite.Weaving
                 builder.Add(map);
             });
 
-            methodJoiner.ForEach(tuple => {
-                var methodBuilder = new MethodWeaverBuilder(tuple.Item1, tuple.Item2, tuple.Item3, factory);
+            methodJoiner.ForEach(joinedMethod => {
+                var methodBuilder = new MethodWeaverBuilder(joinedMethod.ImplementationMethod, joinedMethod.ImplementationType, joinedMethod.ContractType, factory);
 
                 builder.Add(methodBuilder);
             });

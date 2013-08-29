@@ -71,6 +71,10 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="IGroupedMethod.cs" />
+    <Compile Include="IGroupedMethodsCollection.cs" />
+    <Compile Include="MethodComparer.cs" />
+    <Compile Include="Mixin\IMixinsMap.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

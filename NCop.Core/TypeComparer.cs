@@ -22,8 +22,8 @@ namespace NCop.Core
 					var covariantAttr = arg.GenericParameterAttributes & GenericParameterAttributes.Covariant;
 					
                     return new {
-						Position = i,
 						Type = arg,
+						Position = i,
 						IsCovariant = covariantAttr == GenericParameterAttributes.Covariant,
 					};
 				});
@@ -42,8 +42,8 @@ namespace NCop.Core
 			}
 
 			if (firstType.HasElementType && secondType.HasElementType) {
-				Type firstElementType = firstType.GetElementType();
-				Type secondElementType = secondType.GetElementType();
+				var firstElementType = firstType.GetElementType();
+				var secondElementType = secondType.GetElementType();
 
 				return Compare(firstElementType, secondElementType);
 			}

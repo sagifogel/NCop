@@ -2,6 +2,7 @@
 using NCop.Weaving;
 using NCop.Mixins.Engine;
 using System;
+using NCop.Core.Engine;
 
 namespace NCop.Mixins.Weaving
 {
