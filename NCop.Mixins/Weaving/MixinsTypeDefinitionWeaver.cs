@@ -2,17 +2,16 @@
 using NCop.Weaving;
 using NCop.Mixins.Engine;
 using System;
-using NCop.Core.Engine;
 
 namespace NCop.Mixins.Weaving
 {
     public class MixinsTypeDefinitionWeaver : ITypeDefinitionWeaver, ITypeDefinitionFactory
     {
         private readonly Type contractType = null;
-        private readonly IMixinsMap mixinsMap = null;
+        private readonly ITypeMap mixinsMap = null;
         private readonly ITypeDefinition typeDefinitionFactory = null;
 
-        public MixinsTypeDefinitionWeaver(Type contractType, IMixinsMap mixinsMap) {
+        public MixinsTypeDefinitionWeaver(Type contractType, ITypeMap mixinsMap) {
             this.contractType = contractType;
             this.mixinsMap = mixinsMap;
             typeDefinitionFactory = new MixinsTypeDefinition(contractType, mixinsMap);

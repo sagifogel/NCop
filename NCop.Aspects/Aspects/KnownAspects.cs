@@ -26,8 +26,8 @@ namespace NCop.Aspects.Aspects
 			_knownProviders.Add(provider);
 		}
 
-		public static bool IsAspect(Type aspectType) {
-			return _knownProviders.Any(provider => provider.CanBuildAspectFromType(aspectType));
+		public static bool IsAspect(IAspect aspect) {
+			return _knownProviders.Any(provider => provider.CanBuildAspectFromType(aspect.AspectType));
 		}
 
 		public static bool TryMatchAspectBuilder(MethodInfo methodInfo, out IAspectBuilder builder) {

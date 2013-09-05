@@ -1,27 +1,25 @@
 ﻿using NCop.Core;
 using NCop.Core.Exceptions;
-using NCop.Core.Mixin;
 using NCop.Mixins.Exceptions;
 using NCop.Mixins.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NCop.Core.Engine;
 
 namespace NCop.Mixins.Engine
 {
-    public class MixinsMap : IMixinsMap
+    public class MixinsMap : ITypeMap
     {
-        private readonly List<MixinMap> map = null;
+        private readonly List<TypeMap> map = null;
         private AttributeTypeMatcher<MixinsAttribute> matcher = null;
 
         public MixinsMap(Type compositeType) {
             try {
                 matcher = new AttributeTypeMatcher<MixinsAttribute>(compositeType, (attr) => attr.Mixins);
-                map = new List<MixinMap>(
+                map = new List<TypeMap>(
                     matcher.Select(tuple => {
-                        return new MixinMap(tuple.Item1, tuple.Item2);
+                        return new TypeMap(tuple.Item1, tuple.Item2);
                     })
                 );
             }
@@ -38,7 +36,7 @@ namespace NCop.Mixins.Engine
 
         public Type compositeType { get; private set; }
 
-        public MixinsMap(IEnumerable<MixinMap> mixinsMap) {
+        public MixinsMap(IEnumerable<TypeMap> mixinsMap) {
             map = mixinsMap.ToList();
         }
 
@@ -48,7 +46,7 @@ namespace NCop.Mixins.Engine
             }
         }
 
-        public IEnumerator<MixinMap> GetEnumerator() {
+        public IEnumerator<TypeMap> GetEnumerator() {
             return map.GetEnumerator();
         }
 

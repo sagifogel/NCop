@@ -7,7 +7,7 @@ using System.Text;
 
 namespace NCop.Core
 {
-    public interface IReadOnlyCollection<T> : IEnumerable<T>
+    public interface IReadOnlyCollection<out T> : IEnumerable<T>
     {
         int Count { get; }
     }

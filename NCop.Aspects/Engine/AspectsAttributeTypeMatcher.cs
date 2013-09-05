@@ -6,27 +6,26 @@ using System.Reflection;
 using NCop.Aspects.Aspects;
 using NCop.Aspects.Framework;
 using NCop.Core;
-using NCop.Core.Engine;
 using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Engine
 {
-	public class AspectAttributeTypeMatcher : Tuples<Type, IEnumerable<MemberInfo>>
+	public class AspectAttributeTypeMatcher : Tuples<MemberInfo, IEnumerable<IAspect>>
 	{
-		//private Dictionary<Type, Tuple<MemberInfo, IEnumerable<IAspect>>> registered = null;
-
-		public AspectAttributeTypeMatcher(Type compositeType, IGroupedMethodsCollection groupedMethods) {
-			AspectAttribute attribute = null;
-
-			//registered = new ConcurrentDictionary<Type, Tuple<MemberInfo, IEnumerable<IAspect>>>();
-			attribute = compositeType.GetCustomAttribute<AspectAttribute>();
+		public AspectAttributeTypeMatcher(Type compositeType, IEnumerable<IAspect> aspectMembers) {
+			var attribute = compositeType.GetCustomAttribute<AspectAttribute>();
 
 			if (attribute.IsNotNull()) {
 				return;
 			}
 
-			groupedMethods.ForEach(group => {
-			});
+			//Values = aspectMembers.Select(aspect => {
+			//	var aspects = aspect.Members.SelectMany(method => {
+			//		return method.GetCustomAttributes<IAspect>();
+			//	});
+
+			//	return Tuple.Create(aspect.Target, aspects);
+			//});
 		}
 	}
 }

@@ -1,15 +1,15 @@
 ﻿using System.Reflection.Emit;
-using NCop.Core.Mixin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NCop.Core;
 
 namespace NCop.Weaving
 {
     public class MixinTypeWeaverBuilder : ITypeWeaverBuilder
     {
-        private MixinMap mixinMap = null;
+        private TypeMap mixinMap = null;
         private readonly Type type = null;
         private readonly List<IMethodWeaver> methodWeavers = new List<IMethodWeaver>();
 
@@ -17,7 +17,7 @@ namespace NCop.Weaving
             this.type = type;
         }
 
-        public void AddMixinTypeMap(MixinMap mixinMap) {
+        public void AddMixinTypeMap(TypeMap mixinMap) {
             this.mixinMap = mixinMap;
         }
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using NCop.Aspects.Aspects;
+using NCop.Aspects.Engine;
 using NCop.Composite.Engine;
+using NCop.Core;
 using NCop.Core.Extensions;
 using NCop.IoC;
 using NCop.Mixins.Engine;
@@ -15,10 +17,10 @@ namespace NCop.Composite.Weaving
 
         internal CompositeTypeWeaverBuilder(Type compositeType, IRegistry registry) {
             var mixinsMap = new MixinsMap(compositeType);
-			var methodJoiner = new MethodJoiner(compositeType, mixinsMap) as IMethodJoiner;
-			var aspectsMap = new AspectsMap(compositeType, null);
+			var mappedMethods = new CompositeMemberMapper(compositeType, mixinsMap);
+			//var aspectsMap = new AspectsMap(compositeType, methodJoiner);
             var factory = new MixinsTypeDefinitionWeaver(compositeType, mixinsMap);
-            var propertiesJoiner = new PropertiesJoiner(mixinsMap);
+            var propertiesJoiner = new PropertyMapper(mixinsMap);
 
             builder = new MixinsTypeWeaverBuilder(compositeType, factory, registry);
 
@@ -26,17 +28,17 @@ namespace NCop.Composite.Weaving
                 builder.Add(map);
             });
 
-            methodJoiner.ForEach(joinedMethod => {
-                var methodBuilder = new MethodWeaverBuilder(joinedMethod.ImplementationMethod, joinedMethod.ImplementationType, joinedMethod.ContractType, factory);
+			//mappedMethods.ForEach(mappedMethod => {
+			//	var methodBuilder = new MethodWeaverBuilder(mappedMethod.ImplementationMethod, mappedMethod.ImplementationType, mappedMethod.ContractType, factory);
 
-                builder.Add(methodBuilder);
-            });
+			//	builder.Add(methodBuilder);
+			//});
 
-            propertiesJoiner.ForEach(tuple => {
-                var propertyBuilder = new PropertyWeaverBuilder(tuple.Item1, tuple.Item2, tuple.Item3, factory);
+			//propertiesJoiner.ForEach(tuple => {
+			//	var propertyBuilder = new PropertyWeaverBuilder(tuple.Item1, tuple.Item2, tuple.Item3, factory);
 
-                builder.Add(propertyBuilder);
-            });
+			//	builder.Add(propertyBuilder);
+			//});
         }
 
         public ITypeWeaver Build() {

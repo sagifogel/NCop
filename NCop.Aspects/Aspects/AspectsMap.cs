@@ -8,20 +8,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NCop.Aspects.Engine;
-using NCop.Core.Engine;
 
 namespace NCop.Aspects.Aspects
 {
 	public class AspectsMap : IAspectsMap
 	{
-		private List<AspectMap> _map = null;
-		private AspectAttributeTypeMatcher _matcher = null;
+		private List<AspectMap> map = null;
+		private AspectAttributeTypeMatcher matcher = null;
 
-		public AspectsMap(Type compositeType, IGroupedMethodsCollection groupedMethods) {
+		public AspectsMap(Type compositeType, IEnumerable<IAspect> aspectMembers) {
 			try {
-				_matcher = new AspectAttributeTypeMatcher(compositeType, groupedMethods);
-				//_map = new List<AspectMap>(_matcher.Select(tuple => new AspectMap(tuple.Item1, tuple.Item2)));
-				EnsureValidAspects(_map);
+				matcher = new AspectAttributeTypeMatcher(compositeType, aspectMembers);
+				map = new List<AspectMap>(matcher.Select(tuple => new AspectMap(tuple.Item1, tuple.Item2)));
+				EnsureValidAspects(map);
 			}
 			catch (MissingTypeException missingTypeException) {
 				throw new MissingAspectException(missingTypeException);
@@ -30,9 +29,9 @@ namespace NCop.Aspects.Aspects
 
 		private static void EnsureValidAspects(IEnumerable<AspectMap> aspectsMap) {
 			aspectsMap.ForEach(aspects => {
-				aspects.AspectTypes.ForEach(aspect => {
+				aspects.Aspects.ForEach(aspect => {
 					if (!KnownAspects.IsAspect(aspect)) {
-						throw new MissingAspectException(aspects.ContractType.FullName);
+						throw new MissingAspectException(aspect.AspectType.FullName);
 					}
 				});
 			});
@@ -40,12 +39,12 @@ namespace NCop.Aspects.Aspects
 
 		public int Count {
 			get {
-				return _map.Count;
+				return map.Count;
 			}
 		}
 
 		public IEnumerator<AspectMap> GetEnumerator() {
-			return _map.GetEnumerator();
+			return map.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator() {

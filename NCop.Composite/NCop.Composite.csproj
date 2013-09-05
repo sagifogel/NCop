@@ -83,11 +83,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\AbstractCompositeMemberMap.cs" />
+    <Compile Include="Engine\CompositeMethodMap.cs" />
+    <Compile Include="Engine\CompositeMemberMapper.cs" />
     <Compile Include="Engine\CompositeAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Engine\CompositeFrameworkRegistration.cs" />
+    <Compile Include="Engine\CompositePropertyMap.cs" />
     <Compile Include="Engine\CompositeRegistry.cs" />
+    <Compile Include="Engine\ICompositeMethodMap.cs" />
+    <Compile Include="Engine\ICompositeMethodMapper.cs" />
+    <Compile Include="Engine\ICompositePropertyMap.cs" />
+    <Compile Include="Engine\ICompositePropertyMapper.cs" />
+    <Compile Include="Engine\IHasCompositeMember.cs" />
     <Compile Include="Engine\WellKnownComposites.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -106,13 +115,9 @@
     <Compile Include="Framework\CompositeRuntime.cs" />
     <Compile Include="Weaving\AbstractWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeMethodWeaver.cs" />
-    <Compile Include="Engine\IMethodJoiner.cs" />
-    <Compile Include="Engine\JoinedMethods.cs" />
-    <Compile Include="Engine\MethodJoiner.cs" />
     <Compile Include="Weaving\MethodWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeTypeWeaverBuilder.cs" />
     <Compile Include="Weaving\MethodScopeWeaversQueue.cs" />
-    <Compile Include="Engine\PropertiesJoiner.cs" />
     <Compile Include="Weaving\PropertyWeaverBuilder.cs" />
   </ItemGroup>
   <ItemGroup>

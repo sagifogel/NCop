@@ -86,6 +86,9 @@
     <Compile Include="Aspects\Builders\AttributeAspectBuilderProvider.cs" />
     <Compile Include="Aspects\Builders\TypeLevelAspectBuilder.cs" />
     <Compile Include="Aspects\Builders\TypeLevelAspectBuilderProvider.cs" />
+    <Compile Include="Engine\IAspectMembers`1.cs" />
+    <Compile Include="Engine\IAspectsMethods.cs" />
+    <Compile Include="Engine\IAspectsProperties.cs" />
     <Compile Include="Framework\IOnMethodBoundryAspect.cs" />
     <Compile Include="Framework\OnMethodBoundaryAspectImpl.cs" />
     <Compile Include="Framework\MethodExecutionArgs`2.cs" />

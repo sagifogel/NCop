@@ -6,8 +6,7 @@ using System.Text;
 
 namespace NCop.Core
 {
-	public interface IGroupedMethods : IReadOnlyCollection<MethodInfo>
+	public interface IPropertyMap : IMemberMap<PropertyInfo>
 	{
-		MethodInfo GroupedByMethod { get; }
 	}
 }

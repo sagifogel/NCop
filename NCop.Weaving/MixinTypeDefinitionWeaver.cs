@@ -1,17 +1,17 @@
-﻿using NCop.Core.Mixin;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
+using NCop.Core;
 
 namespace NCop.Weaving
 {
 	public class MixinTypeDefinitionWeaver : ITypeDefinitionWeaver
 	{
-		private readonly MixinMap mixinMap = null;
+		private readonly TypeMap mixinMap = null;
 
-		public MixinTypeDefinitionWeaver(MixinMap mixinMap) {
+		public MixinTypeDefinitionWeaver(TypeMap mixinMap) {
 			this.mixinMap = mixinMap;
 			Type = mixinMap.ContractType;
 		}

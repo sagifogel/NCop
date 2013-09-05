@@ -9,7 +9,6 @@ namespace NCop.Weaving
 {
     internal sealed class NCopAssemblyBuilder : IBuilder<AssemblyBuilder>
     {
-        private static int assembly = 0;
         private string assemblyName = null;
         private AssemblyBuilder builder = null;
         private static readonly string assemblyNamePrefix = "NCop.Artifacts";

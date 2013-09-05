@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace NCop.Aspects.Aspects
 {
-    public class AspectMap
-    {
-        public AspectMap(Type contractType, IEnumerable<Type> aspectTypes) {
-            ContractType = contractType;
-            AspectTypes = aspectTypes;
-        }
+	public class AspectMap
+	{
+		public AspectMap(MemberInfo member, IEnumerable<IAspect> aspects) {
+			Member = member;
+			Aspects = aspects;
+		}
 
-        public Type ContractType { get; private set; }
-
-        public IEnumerable<Type> AspectTypes { get; private set; }
-    }
+		public MemberInfo Member { get; private set; }
+		public IEnumerable<IAspect> Aspects { get; private set; }
+	}
 }

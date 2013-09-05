@@ -8,16 +8,16 @@ using NCop.Mixins.Engine;
 using NCop.Core.Extensions;
 using System.Reflection;
 using NCop.Weaving.Extensions;
-using NCop.Core.Engine;
+using NCop.Core;
 
 namespace NCop.Mixins.Weaving
 {
     internal class MixinsTypeDefinition : ITypeDefinition
     {
-        private readonly IMixinsMap mixinsMap = null;
+        private readonly ITypeMap mixinsMap = null;
         private readonly Dictionary<Type, MixinTypeDefinition> mixinTypeDefinitions = null;
 
-        internal MixinsTypeDefinition(Type mixinsType, IMixinsMap mixinsMap) {
+        internal MixinsTypeDefinition(Type mixinsType, ITypeMap mixinsMap) {
             Type = mixinsType;
             this.mixinsMap = mixinsMap;
             mixinTypeDefinitions = new Dictionary<Type, MixinTypeDefinition>();

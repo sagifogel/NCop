@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Reflection;
 using NCop.Aspects.Framework;
 using NCop.Composite.Framework;
 using NCop.Mixins.Framework;
@@ -36,8 +39,8 @@ namespace NCop.Samples
 	[Mixins(typeof(CSharpDeveloperMixin))]
 	public interface IPersonComposite : IDeveloper<ILanguage>
 	{
-		//[OnMethodBoundaryAspect(typeof(TraceAspect))]
-		//string Code();
+		[OnMethodBoundaryAspect(typeof(TraceAspect))]
+		new string Code();
 	}
 
 	public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>

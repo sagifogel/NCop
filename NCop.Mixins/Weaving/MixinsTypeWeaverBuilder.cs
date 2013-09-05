@@ -1,5 +1,4 @@
 ﻿using NCop.Core;
-using NCop.Core.Mixin;
 using NCop.Weaving;
 using NCop.Mixins.Engine;
 using System;
@@ -14,7 +13,7 @@ namespace NCop.Mixins.Weaving
     {
         private readonly Type type = null;
         private readonly IRegistry registry = null;
-        private readonly List<MixinMap> mixinsMap = null;
+        private readonly List<TypeMap> mixinsMap = null;
         private readonly ITypeDefinitionFactory typeDefinitionFactory = null;
         private readonly List<IMethodWeaverBuilder> methodWeaversBuilders = null;
         private readonly List<IPropertyWeaverBuilder> propertyWeaversBuilders = null;
@@ -22,13 +21,13 @@ namespace NCop.Mixins.Weaving
         public MixinsTypeWeaverBuilder(Type type, ITypeDefinitionFactory typeDefinitionFactory, IRegistry registry) {
             this.type = type;
             this.registry = registry;
-            mixinsMap = new List<MixinMap>();
+            mixinsMap = new List<TypeMap>();
             methodWeaversBuilders = new List<IMethodWeaverBuilder>();
             propertyWeaversBuilders = new List<IPropertyWeaverBuilder>();
             this.typeDefinitionFactory = typeDefinitionFactory;
         }
 
-        public void Add(MixinMap item) {
+        public void Add(TypeMap item) {
             mixinsMap.Add(item);
         }
 

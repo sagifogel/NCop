@@ -71,15 +71,25 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="IGroupedMethod.cs" />
-    <Compile Include="IGroupedMethodsCollection.cs" />
+    <Compile Include="IMemberMapper.cs" />
+    <Compile Include="IMemberMap.cs" />
+    <Compile Include="IMethodMap.cs" />
+    <Compile Include="IMethodMapper.cs" />
+    <Compile Include="IPropertyMap.cs" />
+    <Compile Include="IPropertyMapper.cs" />
     <Compile Include="MethodComparer.cs" />
-    <Compile Include="Mixin\IMixinsMap.cs" />
+    <Compile Include="ITypeMap.cs" />
+    <Compile Include="MemberMap.cs" />
+    <Compile Include="MethodMap.cs" />
+    <Compile Include="MethodMapper.cs" />
+    <Compile Include="PropertyMap.cs" />
+    <Compile Include="PropertyMapper.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="PropertyComparer.cs" />
     <Compile Include="TypeComparer.cs" />
     <Compile Include="IBag`1.cs" />
     <Compile Include="IRuntimeSettings.cs" />
@@ -93,7 +103,7 @@
     <Compile Include="IReadOnlyCollection.cs" />
     <Compile Include="Runtime\IRuntime.cs" />
     <Compile Include="Lazy.cs" />
-    <Compile Include="Mixin\MixinMap.cs" />
+    <Compile Include="TypeMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runtime\RuntimeSettings.cs" />
     <Compile Include="Tuples`2.cs" />

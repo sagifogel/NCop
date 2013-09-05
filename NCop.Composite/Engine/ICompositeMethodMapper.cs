@@ -6,7 +6,7 @@ using NCop.Core;
 
 namespace NCop.Composite.Engine
 {
-	public interface IMethodJoiner : IReadOnlyCollection<JoinedMethods>
+	internal interface ICompositeMethodMapper : IReadOnlyCollection<ICompositeMethodMap>
 	{
 	}
 }

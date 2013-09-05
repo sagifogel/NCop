@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Reflection;
 using NCop.Core;
-using NCop.Core.Mixin;
 using NCop.Weaving;
 using NCop.Core.Extensions;
 using System;
