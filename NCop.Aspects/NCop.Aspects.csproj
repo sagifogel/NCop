@@ -91,7 +91,7 @@
     <Compile Include="Engine\IAspectMembers`1.cs" />
     <Compile Include="Engine\IAspectsMethods.cs" />
     <Compile Include="Engine\IAspectsProperties.cs" />
-    <Compile Include="Framework\OnMethodBoundryAspectAttribute.cs" />
+    <Compile Include="Framework\OnMethodBoundaryAspectAttribute.cs" />
     <Compile Include="Framework\IOnMethodBoundryAspect.cs" />
     <Compile Include="Framework\OnFunctionBoundaryAspectImpl.cs" />
     <Compile Include="Framework\FunctionExecutionArgs`2.cs" />

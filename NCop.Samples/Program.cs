@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Reflection;
 using NCop.Aspects.Framework;
 using NCop.Composite.Framework;
 using NCop.Mixins.Framework;
-using NCop.IoC;
 
 namespace NCop.Samples
 {
@@ -13,54 +9,101 @@ namespace NCop.Samples
 	{
 		static void Main(string[] args) {
 			var container = new CompositeContainer();
-
 			container.Configure();
-			var a = container.Resolve<IAlaaGandrey>();
+
+			var person = container.TryResolve<IPersonComposite>();
+			Console.WriteLine(person.Code());
 		}
 	}
 
-	public class TraceAspect : OnFunctionBoundaryAspectImpl<bool>
+	public class GenericCovariantDeveloper<T> : IDeveloper<T>
+		where T : ILanguage, new()
 	{
-		public override void OnEntry(FunctionExecutionArgs<bool> args) {
+		private T langugae = new T();
+
+		public string Code() {
+			return langugae.Description;
+		}
+	}
+
+	public class TraceAspect : OnFunctionBoundaryAspectImpl<string>
+	{
+		public override void OnEntry(FunctionExecutionArgs<string> args) {
 		}
 	}
 
 	[TransientComposite]
-	[Mixins(typeof(Husband), typeof(CSharpDeveloper))]
-	public interface IAlaaGandrey : IHusband, IDeveloper
+	[Mixins(typeof(CSharpDeveloperMixin))]
+	public interface IPersonComposite : IDeveloper<ILanguage>
 	{
-		[OnMethodBoundryAspectAttribute(typeof(TraceAspect))]
-		new bool TakeGarbage();
+		[OnMethodBoundaryAspectAttribute(typeof(TraceAspect))]
+		new string Code();
 	}
 
-	public interface IHusband
+	public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>
 	{
-		bool TakeGarbage();
+		[OnMethodBoundaryAspectAttribute(typeof(TraceAspect))]
+		public override string Code() {
+			return "I am coding in " + base.Code();
+		}
+	}
+
+	public class JavaScriptDeveloperMixin : AbstractDeveloper<JavaScriptLanguage>
+	{
+		public override string Code() {
+			return "I am coding in " + base.Code();
+		}
+	}
+
+	public abstract class AbstractDeveloper<TLanguage> : IDeveloper<TLanguage>
+		where TLanguage : ILanguage, new()
+	{
+		ILanguage language = new TLanguage();
+
+		public virtual string Code() {
+			return "I am coding in " + language.Description.ToString();
+		}
+	}
+
+	public interface ILanguage
+	{
+		string Description { get; }
+	}
+
+	public class CSharpLanguage : ILanguage
+	{
+		public virtual string Description {
+			get {
+				return "C#";
+			}
+		}
+	}
+
+	public class JavaScriptLanguage : ILanguage
+	{
+		public string Description {
+			get {
+				return "JavaScript";
+			}
+		}
+	}
+
+	public class CSharpLanguage5 : CSharpLanguage
+	{
+		public override string Description {
+			get {
+				return "C# 5";
+			}
+		}
+	}
+
+	public interface IDeveloper<out TLanguage>
+	{
+		string Code();
 	}
 
 	public interface IDeveloper
 	{
-		string Develop();
-	}
-
-	public class CSharpDeveloper : IDeveloper
-	{
-		public string Develop() {
-			return "CSharp";
-		}
-	}
-
-	public class JavaScriptDeveloper : IDeveloper
-	{
-		public string Develop() {
-			return "JS";
-		}
-	}
-
-	public class Husband : IHusband
-	{
-		public bool TakeGarbage() {
-			return true;
-		}
+		string Code();
 	}
 }
