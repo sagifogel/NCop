@@ -11,8 +11,8 @@ namespace NCop.Aspects.JoinPoints
 {
     public class MethodJoinPointMetadata : JoinPointMetadata
     {
-        public MethodJoinPointMetadata(MethodInfo method)
-            : base(method) {
+		public MethodJoinPointMetadata(MemberInfo memberInfo)
+            : base(memberInfo) {
         }
 
         public override IAspectDefinition Accept(JoinPointMetadataVisitor visitor, IAspectProvider aspectProvider) {

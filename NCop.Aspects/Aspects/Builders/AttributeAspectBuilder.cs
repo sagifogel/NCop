@@ -13,11 +13,11 @@ namespace NCop.Aspects.Aspects.Builders
 {
     public class AttributeAspectBuilder : IAspectBuilder
     {
-        private readonly MethodInfo _methodInfo = null;
-        private AspectDefinitionBuilder _builder = AspectDefinitionBuilder.Instance;
+		private readonly MemberInfo memberInfo = null;
+        private AspectDefinitionBuilder builder = AspectDefinitionBuilder.Instance;
 
-        public AttributeAspectBuilder(MethodInfo methodInfo) {
-            _methodInfo = methodInfo;
+		public AttributeAspectBuilder(MemberInfo memberInfo) {
+			this.memberInfo = memberInfo;
         }
 
         public IAspectDefinitionCollection Build() {
@@ -33,14 +33,14 @@ namespace NCop.Aspects.Aspects.Builders
                     return new AttributeAspectProvider(type);
                 };
 
-                return _builder.BuildDefinition(aspectType, provider, aspectTuple.Item2);
+                return builder.BuildDefinition(aspectType, provider, aspectTuple.Item2);
             });
         }
 
         public IEnumerable<Tuple<Type, JoinPointMetadata>> GetAspectMetadata() {
             var aspectAttributes = new {
-                JoinPoint = new MethodJoinPointMetadata(_methodInfo) as JoinPointMetadata,
-                Attributes = _methodInfo.GetCustomAttributes<AspectAttribute>(true)
+				JoinPoint = new MethodJoinPointMetadata(memberInfo) as JoinPointMetadata,
+				Attributes = memberInfo.GetCustomAttributes<AspectAttribute>(true)
             };
 
             return aspectAttributes.Attributes.Select(a => {

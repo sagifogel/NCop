@@ -4,10 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using NCop.Core;
 using NCop.Core.Extensions;
+using NCop.Aspects.Engine;
+using System.Reflection;
 
 namespace NCop.Composite.Engine
 {
-	public class CompositeMemberMapper
+	public class CompositeMemberMapper : IAspectMemebrsCollection
 	{
 		private List<ICompositeMethodMap> mappedMethods = null;
 		private List<ICompositePropertyMap> mappedProperties = null;
@@ -33,14 +35,14 @@ namespace NCop.Composite.Engine
 											  map.ContractMember);
 			});
 
-			mappedMethods = mappedMethodsEnumerable.Cast<ICompositeMethodMap>().ToList();
+			mappedMethods = mappedMethodsEnumerable.ToListOf<ICompositeMethodMap>();
 		}
 
 		private void MapProperties(Type compositeType, ITypeMap mixinsMap) {
 			var compositeProperties = compositeType.GetProperties();
 			var propertyMapper = new PropertyMapper(mixinsMap);
 
-			var mappedMethodsEnumerable = propertyMapper.Select(map => {
+			var mappedPropertiesEnumerable = propertyMapper.Select(map => {
 				var compositeMethod = compositeProperties.FirstOrDefault(m => {
 					return m.IsMatchedTo(map.ContractMember);
 				});
@@ -52,7 +54,7 @@ namespace NCop.Composite.Engine
 												map.ContractMember);
 			});
 
-			mappedMethods = mappedMethodsEnumerable.Cast<ICompositeMethodMap>().ToList();
+			mappedProperties = mappedPropertiesEnumerable.ToListOf<ICompositePropertyMap>();
 		}
 
 		public IEnumerable<ICompositeMethodMap> Methods {
@@ -65,6 +67,23 @@ namespace NCop.Composite.Engine
 			get {
 				return mappedProperties;
 			}
+		}
+
+		public int Count {
+			get {
+				return mappedMethods.Count + mappedProperties.Count;
+			}
+		}
+
+		public IEnumerator<IAspectMembers<MemberInfo>> GetEnumerator() {
+			var aspectsMethods = mappedMethods.Cast<IAspectMembers<MemberInfo>>();
+			var aspectsProperties = mappedProperties.Cast<IAspectMembers<MemberInfo>>();
+
+			return aspectsMethods.Concat(aspectsProperties).GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator() {
+			return GetEnumerator();
 		}
 	}
 }

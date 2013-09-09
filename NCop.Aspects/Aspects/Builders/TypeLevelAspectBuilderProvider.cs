@@ -10,11 +10,11 @@ namespace NCop.Aspects.Aspects.Builders
     {
         private readonly static Type _typeofTypeLevelAspect = typeof(TypeLevelAspectAttribute);
 
-        public bool CanBuild(MethodInfo methodInfo) {
-            return CanBuildAspectFromType(methodInfo.DeclaringType);
+		public bool CanBuild(MemberInfo memberInfo) {
+			return CanBuildAspectFromType(memberInfo.DeclaringType);
         }
 
-        public IAspectBuilder GetBuilder(MethodInfo methodInfo) {
+		public IAspectBuilder GetBuilder(MemberInfo memberInfo) {
             return new TypeLevelAspectBuilder();
         }
 

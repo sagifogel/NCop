@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NCop.Aspects.Engine;
+using System.Reflection;
 
 namespace NCop.Aspects.Aspects
 {
@@ -16,7 +17,7 @@ namespace NCop.Aspects.Aspects
 		private List<AspectMap> map = null;
 		private AspectAttributeTypeMatcher matcher = null;
 
-		public AspectsMap(Type compositeType, IEnumerable<IAspect> aspectMembers) {
+		public AspectsMap(Type compositeType, IAspectMemebrsCollection aspectMembers) {
 			try {
 				matcher = new AspectAttributeTypeMatcher(compositeType, aspectMembers);
 				map = new List<AspectMap>(matcher.Select(tuple => new AspectMap(tuple.Item1, tuple.Item2)));

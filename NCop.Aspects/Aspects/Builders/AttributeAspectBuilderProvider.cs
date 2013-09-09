@@ -11,17 +11,17 @@ namespace NCop.Aspects.Aspects.Builders
 {
     public class AttributeAspectBuilderProvider : IAspectBuilderProvider
     {
-        public bool CanBuild(MethodInfo methodInfo) {
-            return methodInfo.IsDefined<AspectAttribute>();
+		public bool CanBuild(MemberInfo memberInfo) {
+			return memberInfo.IsDefined<AspectAttribute>();
         }
 
-        public IAspectBuilder GetBuilder(MethodInfo methodInfo) {
-            return new AttributeAspectBuilder(methodInfo);
+		public IAspectBuilder GetBuilder(MemberInfo memberInfo) {
+			return new AttributeAspectBuilder(memberInfo);
         }
 
         public bool CanBuildAspectFromType(Type aspectType) {
             return aspectType.GetInterfaces()
-                             .Any(@interface => @interface.Equals(typeof(IAspectFilter)));
+							 .Any(@interface => @interface.Equals(typeof(IAspect)));
         }
     }
 }

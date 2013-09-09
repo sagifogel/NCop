@@ -10,6 +10,6 @@ namespace NCop.Composite.Engine
 	{
 		public CompositePropertyMap(Type contractType, Type implementationType, PropertyInfo contractProperty, PropertyInfo implementationProperty, PropertyInfo compositeProperty)
 			: base(contractType, implementationType, contractProperty, implementationProperty, compositeProperty) {
-			}
+		}
 	}
 }

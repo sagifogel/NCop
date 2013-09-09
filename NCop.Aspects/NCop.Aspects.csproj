@@ -86,28 +86,29 @@
     <Compile Include="Aspects\Builders\AttributeAspectBuilderProvider.cs" />
     <Compile Include="Aspects\Builders\TypeLevelAspectBuilder.cs" />
     <Compile Include="Aspects\Builders\TypeLevelAspectBuilderProvider.cs" />
+    <Compile Include="Engine\AspectMembers.cs" />
+    <Compile Include="Engine\AspectMemebrsCollection.cs" />
     <Compile Include="Engine\IAspectMembers`1.cs" />
     <Compile Include="Engine\IAspectsMethods.cs" />
     <Compile Include="Engine\IAspectsProperties.cs" />
+    <Compile Include="Framework\OnMethodBoundryAspectAttribute.cs" />
     <Compile Include="Framework\IOnMethodBoundryAspect.cs" />
-    <Compile Include="Framework\OnMethodBoundaryAspectImpl.cs" />
-    <Compile Include="Framework\MethodExecutionArgs`2.cs" />
-    <Compile Include="Framework\MethodExecutionArgs`3.cs" />
-    <Compile Include="Framework\MethodExecutionArgs`4.cs" />
-    <Compile Include="Framework\MethodExecutionArgs`5.cs" />
-    <Compile Include="Framework\MethodExecutionArgs`6.cs" />
-    <Compile Include="Framework\MethodExecutionArgs`7.cs" />
-    <Compile Include="Framework\MethodExecutionArgs`8.cs" />
-    <Compile Include="Framework\OnMethodBoundaryAspectImpl`2.cs" />
-    <Compile Include="Framework\OnMethodBoundaryAspectImpl`3.cs" />
-    <Compile Include="Framework\OnMethodBoundaryAspectImpl`4.cs" />
-    <Compile Include="Framework\OnMethodBoundaryAspectImpl`5.cs" />
-    <Compile Include="Framework\OnMethodBoundaryAspectImpl`6.cs" />
-    <Compile Include="Framework\OnMethodBoundaryAspectImpl`7.cs" />
-    <Compile Include="Framework\OnMethodBoundaryAspectImpl`8.cs" />
-    <Compile Include="Framework\IOnMethodBoundaryAspect.cs" />
-    <Compile Include="Framework\IOnMethodBoundryAspect`1.cs" />
-    <Compile Include="Framework\MethodExecutionArgs.cs" />
+    <Compile Include="Framework\OnFunctionBoundaryAspectImpl.cs" />
+    <Compile Include="Framework\FunctionExecutionArgs`2.cs" />
+    <Compile Include="Framework\FunctionExecutionArgs`3.cs" />
+    <Compile Include="Framework\FunctionExecutionArgs`4.cs" />
+    <Compile Include="Framework\FunctionExecutionArgs`5.cs" />
+    <Compile Include="Framework\FunctionExecutionArgs`6.cs" />
+    <Compile Include="Framework\FunctionExecutionArgs`7.cs" />
+    <Compile Include="Framework\FunctionExecutionArgs`8.cs" />
+    <Compile Include="Framework\OnFunctionBoundaryAspectImpl`2.cs" />
+    <Compile Include="Framework\OnFunctionBoundaryAspectImpl`3.cs" />
+    <Compile Include="Framework\OnFunctionBoundaryAspectImpl`4.cs" />
+    <Compile Include="Framework\OnFunctionBoundaryAspectImpl`5.cs" />
+    <Compile Include="Framework\OnFunctionBoundaryAspectImpl`6.cs" />
+    <Compile Include="Framework\OnFunctionBoundaryAspectImpl`7.cs" />
+    <Compile Include="Framework\OnFunctionBoundaryAspectImpl`8.cs" />
+    <Compile Include="Framework\FunctionExecutionArgs.cs" />
     <Compile Include="Framework\FlowBehavior.cs" />
     <Compile Include="Framework\IMethodInterceptionAspect.cs" />
     <Compile Include="Aspects\TypeLevelAspect.cs" />
@@ -132,7 +133,7 @@
       <DependentUpon>AspectBuilderNotFoundException.tt</DependentUpon>
     </Compile>
     <Compile Include="Framework\AspectMixin.cs" />
-    <Compile Include="Framework\MethodExecutionArgs`1.cs" />
+    <Compile Include="Framework\FunctionExecutionArgs`1.cs" />
     <Compile Include="JoinPoints\EventJoinPointMetadata.cs" />
     <Compile Include="Engine\Extensions.cs" />
     <Compile Include="Pointcuts\FieldJoinPointMetadata.cs" />
@@ -173,7 +174,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Framework\AspectsAttribute.cs" />
-    <Compile Include="Framework\IAspectFilter.cs" />
     <Compile Include="Aspects\JoinPointMetadataVisitor.cs" />
     <Compile Include="Advices\OnMethodInvokeAdviceAttribute.cs" />
     <Compile Include="Advices\FinallyAdviceAttribute.cs" />
@@ -188,7 +188,7 @@
     <Compile Include="Framework\MethodInterceptionAspectAttribute.cs" />
     <Compile Include="Framework\MethodInterception.cs" />
     <Compile Include="Advices\OnMethodExceptionAdviceAttribute.cs" />
-    <Compile Include="Framework\OnMethodBoundaryAspectImpl`1.cs" />
+    <Compile Include="Framework\OnFunctionBoundaryAspectImpl`1.cs" />
     <Compile Include="Aspects\PropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Framework\SetPropertyInterception.cs" />
     <Compile Include="Framework\SetPropertyInterceptionAspectAttribute.cs" />

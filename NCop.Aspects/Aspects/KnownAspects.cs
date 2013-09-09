@@ -12,10 +12,10 @@ namespace NCop.Aspects.Aspects
 {
 	public static class KnownAspects
 	{
-		private static ISet<IAspectBuilderProvider> _knownProviders = null;
+		private static ISet<IAspectBuilderProvider> knownProviders = null;
 
 		static KnownAspects() {
-			_knownProviders = new HashSet<IAspectBuilderProvider>(
+			knownProviders = new HashSet<IAspectBuilderProvider>(
 				new IAspectBuilderProvider[]{
                         new AttributeAspectBuilderProvider(),
                         new TypeLevelAspectBuilderProvider()
@@ -23,27 +23,31 @@ namespace NCop.Aspects.Aspects
 		}
 
 		public static void RegisterKnownBuilder(IAspectBuilderProvider provider) {
-			_knownProviders.Add(provider);
+			knownProviders.Add(provider);
 		}
 
 		public static bool IsAspect(IAspect aspect) {
-			return _knownProviders.Any(provider => provider.CanBuildAspectFromType(aspect.AspectType));
+			Func<IAspectBuilderProvider, bool> canBuildFrom = builder => {
+				return builder.CanBuildAspectFromType(aspect.GetType());
+			};
+
+			return knownProviders.Any(canBuildFrom);
 		}
 
-		public static bool TryMatchAspectBuilder(MethodInfo methodInfo, out IAspectBuilder builder) {
-			var matchedProvider = GetAspectProvider(methodInfo);
+		public static bool TryMatchAspectBuilder(MemberInfo memberInfo, out IAspectBuilder builder) {
+			var matchedProvider = GetAspectProvider(memberInfo);
 
 			builder = null;
 
 			if (matchedProvider != null) {
-				builder = matchedProvider.GetBuilder(methodInfo);
+				builder = matchedProvider.GetBuilder(memberInfo);
 			}
 
 			return builder != null;
 		}
 
-		private static IAspectBuilderProvider GetAspectProvider(MethodInfo methodInfo) {
-			return _knownProviders.FirstOrDefault(provider => provider.CanBuild(methodInfo));
+		private static IAspectBuilderProvider GetAspectProvider(MemberInfo memberInfo) {
+			return knownProviders.FirstOrDefault(provider => provider.CanBuild(memberInfo));
 		}
 	}
 }

@@ -19,7 +19,7 @@ namespace NCop.Aspects.Weaving
             _aspects = aspectBuilder.Build();
             aspectDefinition = _aspects.First();
 
-            if (aspectDefinition.Aspect.Is<IOnMethodBoundryAspect>()) {
+			if (aspectDefinition.Aspect.Is<OnMethodBoundryAspectAttribute>()) {
                 _methodWeaver = new FirstOnMethodBoundryAspectStrategy(_aspects);
             }
             else {

@@ -10,9 +10,9 @@ namespace NCop.Aspects.Framework
 {
 	[LifetimeStrategy(KnownLifetimeStrategy.Singleton)]
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-	public class OnMethodBoundaryAspectAttribute : AspectAttribute
+	public class OnMethodBoundryAspectAttribute : AspectAttribute
 	{
-		public OnMethodBoundaryAspectAttribute(Type aspectType)
+		public OnMethodBoundryAspectAttribute(Type aspectType)
 			: base(aspectType) {
 		}
 	}

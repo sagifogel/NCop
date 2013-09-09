@@ -12,20 +12,14 @@ namespace NCop.Aspects.Engine
 {
 	public class AspectAttributeTypeMatcher : Tuples<MemberInfo, IEnumerable<IAspect>>
 	{
-		public AspectAttributeTypeMatcher(Type compositeType, IEnumerable<IAspect> aspectMembers) {
-			var attribute = compositeType.GetCustomAttribute<AspectAttribute>();
+		public AspectAttributeTypeMatcher(Type compositeType, IAspectMemebrsCollection aspectMembers) {
+			Values = aspectMembers.Select(aspect => {
+				var aspects = aspect.Members.SelectMany(method => {
+					return method.GetCustomAttributes<IAspect>();
+				});
 
-			if (attribute.IsNotNull()) {
-				return;
-			}
-
-			//Values = aspectMembers.Select(aspect => {
-			//	var aspects = aspect.Members.SelectMany(method => {
-			//		return method.GetCustomAttributes<IAspect>();
-			//	});
-
-			//	return Tuple.Create(aspect.Target, aspects);
-			//});
+				return Tuple.Create(aspect.Target, aspects);
+			});
 		}
 	}
 }
