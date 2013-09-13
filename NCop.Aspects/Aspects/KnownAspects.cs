@@ -17,7 +17,7 @@ namespace NCop.Aspects.Aspects
 		static KnownAspects() {
 			knownProviders = new HashSet<IAspectBuilderProvider>(
 				new IAspectBuilderProvider[]{
-                        new AttributeAspectBuilderProvider(),
+                        new MemberLevelAspectBuilderProvider(),
                         new TypeLevelAspectBuilderProvider()
                 });
 		}
@@ -26,9 +26,9 @@ namespace NCop.Aspects.Aspects
 			knownProviders.Add(provider);
 		}
 
-		public static bool IsAspect(IAspect aspect) {
+		public static bool EnsureValidAspect(IAspect aspect) {
 			Func<IAspectBuilderProvider, bool> canBuildFrom = builder => {
-				return builder.CanBuildAspectFromType(aspect.GetType());
+				return builder.CanBuildAspectFromType(aspect);
 			};
 
 			return knownProviders.Any(canBuildFrom);

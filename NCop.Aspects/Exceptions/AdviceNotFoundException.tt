@@ -1,0 +1,12 @@
+<#@ template language="C#" hostspecific="True" debug="True" #>
+<#@ output extension="cs" #>
+<#@ include file="..\..\NCop.Core\Exceptions\NCopExceptionTemplate.tt" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#
+	var template = new NCopExceptionTemplate();
+	template.Arguments = new Tuple<string, string>[] { Tuple.Create("aspectType", "Type") };
+	template.Message = "string.Format(\"Could not find any advices on aspect {0}.\", aspectType.FullName);";
+	template.KeyPrefix = "Aspect";
+    template.Render();
+#>

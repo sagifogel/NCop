@@ -187,5 +187,9 @@ namespace NCop.Core.Extensions
 		public static bool IsCovariantTo(this Type type, Type inspected) {
 			return TypeComparer.Compare(type, inspected);
 		}
+
+		public static bool HasReturnType(this MethodInfo methodInfo) {
+			return !methodInfo.ReturnType.Equals(typeof(void));
+		}
 	}
 }

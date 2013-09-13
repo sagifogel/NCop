@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NCop.Composite.Engine
 {
-    [AttributeUsage(AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Interface)]
     public abstract class CompositeAttribute : Attribute
     {
 		public CompositeAttribute(Type castAs = null) {

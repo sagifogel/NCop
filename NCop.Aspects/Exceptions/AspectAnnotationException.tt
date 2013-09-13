@@ -3,6 +3,7 @@
 <#@ include file="..\..\NCop.Core\Exceptions\ArgumentExceptionTemplate.tt" #>
 <#
 	var template = new ArgumentExceptionTemplate();
-    template.Message = "Missing aspect annotation";
+    template.Message = "Illegal Annotation exception";
+	template.Namespace = "NCop.Aspects.Exceptions";
     template.Render();
 #>

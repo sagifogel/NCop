@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Advices
 {
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property, AllowMultiple = false)]
     public abstract class AdviceAttribute : Attribute, IAdvice, IAcceptsVisitor<IAdvice, AdviceVisitor>
     {
         public abstract IAdvice Accept(AdviceVisitor visitor);

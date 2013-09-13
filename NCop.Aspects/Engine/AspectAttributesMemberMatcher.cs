@@ -10,9 +10,9 @@ using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Engine
 {
-	public class AspectAttributeTypeMatcher : Tuples<MemberInfo, IEnumerable<IAspect>>
+	public class AspectAttributesMemberMatcher : Tuples<MemberInfo, IEnumerable<IAspect>>
 	{
-		public AspectAttributeTypeMatcher(Type compositeType, IAspectMemebrsCollection aspectMembers) {
+		public AspectAttributesMemberMatcher(Type compositeType, IAspectMemebrsCollection aspectMembers) {
 			Values = aspectMembers.Select(aspect => {
 				var aspects = aspect.Members.SelectMany(method => {
 					return method.GetCustomAttributes<IAspect>();

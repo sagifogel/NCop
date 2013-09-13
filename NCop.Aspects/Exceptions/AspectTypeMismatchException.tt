@@ -2,7 +2,7 @@
 <#@ output extension="cs" #>
 <#@ include file="..\..\NCop.Core\Exceptions\ArgumentExceptionTemplate.tt" #>
 <#
-	var template = new ArgumentExceptionTemplate();
-    template.Message = "Duplicate type aspects has been found";
+	var template = new NCopExceptionTemplate();
+	template.KeyPrefix = "Mismatch";
     template.Render();
 #>

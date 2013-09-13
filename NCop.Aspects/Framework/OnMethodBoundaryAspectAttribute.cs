@@ -8,8 +8,7 @@ using NCop.Aspects.Framework;
 
 namespace NCop.Aspects.Framework
 {
-	[LifetimeStrategy(KnownLifetimeStrategy.Singleton)]
-	[AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
+	[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
 	public class OnMethodBoundaryAspectAttribute : AspectAttribute
 	{
 		public OnMethodBoundaryAspectAttribute(Type aspectType)

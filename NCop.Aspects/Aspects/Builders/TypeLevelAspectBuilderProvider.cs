@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Aspects.Builders
 {
-    public class TypeLevelAspectBuilderProvider : IAspectBuilderProvider
-    {
-        private readonly static Type _typeofTypeLevelAspect = typeof(TypeLevelAspectAttribute);
+	public class TypeLevelAspectBuilderProvider : IAspectBuilderProvider
+	{
+		private readonly static Type typeofTypeLevelAspect = typeof(TypeLevelAspectAttribute);
 
 		public bool CanBuild(MemberInfo memberInfo) {
-			return CanBuildAspectFromType(memberInfo.DeclaringType);
+			var aspectAttribute = memberInfo.DeclaringType.GetCustomAttribute<AspectAttribute>();
+			
+			return CanBuildAspectFromType(aspectAttribute);
         }
 
 		public IAspectBuilder GetBuilder(MemberInfo memberInfo) {
-            return new TypeLevelAspectBuilder();
-        }
+			return new TypeLevelAspectBuilder();
+		}
 
-        public bool CanBuildAspectFromType(Type aspectType) {
-            return _typeofTypeLevelAspect.IsAssignableFrom(aspectType);
-        }
-    }
+		public bool CanBuildAspectFromType(IAspect aspect) {
+			return typeofTypeLevelAspect.IsAssignableFrom(aspect.AspectType);
+		}
+	}
 }

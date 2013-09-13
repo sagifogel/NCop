@@ -11,12 +11,12 @@ using NCop.Aspects.JoinPoints;
 
 namespace NCop.Aspects.Aspects.Builders
 {
-    public class AttributeAspectBuilder : IAspectBuilder
+    public class MemberLevelAspectBuilder : IAspectBuilder
     {
 		private readonly MemberInfo memberInfo = null;
         private AspectDefinitionBuilder builder = AspectDefinitionBuilder.Instance;
 
-		public AttributeAspectBuilder(MemberInfo memberInfo) {
+		public MemberLevelAspectBuilder(MemberInfo memberInfo) {
 			this.memberInfo = memberInfo;
         }
 

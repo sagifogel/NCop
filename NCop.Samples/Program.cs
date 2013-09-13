@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
+using NCop.Aspects.Aspects;
 using NCop.Aspects.Framework;
 using NCop.Composite.Framework;
 using NCop.Mixins.Framework;
@@ -36,23 +39,19 @@ namespace NCop.Samples
 	[Mixins(typeof(CSharpDeveloperMixin))]
 	public interface IPersonComposite : IDeveloper<ILanguage>
 	{
-		[OnMethodBoundaryAspectAttribute(typeof(TraceAspect))]
-		new string Code();
 	}
 
 	public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>
 	{
 		[OnMethodBoundaryAspectAttribute(typeof(TraceAspect))]
 		public override string Code() {
-			return "I am coding in " + base.Code();
+			return base.Code();
 		}
 	}
 
 	public class JavaScriptDeveloperMixin : AbstractDeveloper<JavaScriptLanguage>
 	{
-		public override string Code() {
-			return "I am coding in " + base.Code();
-		}
+		
 	}
 
 	public abstract class AbstractDeveloper<TLanguage> : IDeveloper<TLanguage>

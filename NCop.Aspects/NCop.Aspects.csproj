@@ -83,16 +83,23 @@
   <ItemGroup>
     <Compile Include="Advices\AdviceVisitor.cs" />
     <Compile Include="Advices\OnMethodEntryAdviceAttribute.cs" />
-    <Compile Include="Aspects\Builders\AttributeAspectBuilderProvider.cs" />
+    <Compile Include="Aspects\Builders\MemberLevelAspectBuilderProvider.cs" />
     <Compile Include="Aspects\Builders\TypeLevelAspectBuilder.cs" />
     <Compile Include="Aspects\Builders\TypeLevelAspectBuilderProvider.cs" />
     <Compile Include="Engine\AspectMembers.cs" />
     <Compile Include="Engine\AspectMemebrsCollection.cs" />
+    <Compile Include="Engine\AspectTypeMethodValidator.cs" />
+    <Compile Include="Engine\AspectValidator.cs" />
     <Compile Include="Engine\IAspectMembers`1.cs" />
     <Compile Include="Engine\IAspectsMethods.cs" />
     <Compile Include="Engine\IAspectsProperties.cs" />
+    <Compile Include="Exceptions\AspectAnnotationException.cs">
+      <DependentUpon>AspectAnnotationException.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Framework\MethodExecutionArgs.cs" />
     <Compile Include="Framework\OnMethodBoundaryAspectAttribute.cs" />
-    <Compile Include="Framework\IOnMethodBoundryAspect.cs" />
     <Compile Include="Framework\OnFunctionBoundaryAspectImpl.cs" />
     <Compile Include="Framework\FunctionExecutionArgs`2.cs" />
     <Compile Include="Framework\FunctionExecutionArgs`3.cs" />
@@ -110,7 +117,6 @@
     <Compile Include="Framework\OnFunctionBoundaryAspectImpl`8.cs" />
     <Compile Include="Framework\FunctionExecutionArgs.cs" />
     <Compile Include="Framework\FlowBehavior.cs" />
-    <Compile Include="Framework\IMethodInterceptionAspect.cs" />
     <Compile Include="Aspects\TypeLevelAspect.cs" />
     <Compile Include="Advices\Advice.cs" />
     <Compile Include="Advices\AdviceAttribute.cs" />
@@ -125,7 +131,7 @@
     <Compile Include="Aspects\AspectMap.cs" />
     <Compile Include="Aspects\AspectsMap.cs" />
     <Compile Include="Aspects\IAspectsMap.cs" />
-    <Compile Include="Engine\AspectsAttributeTypeMatcher.cs" />
+    <Compile Include="Engine\AspectAttributesMemberMatcher.cs" />
     <Compile Include="Engine\IAspectsTypeVisitor.cs" />
     <Compile Include="Exceptions\AspectBuilderNotFoundException.cs">
       <AutoGen>True</AutoGen>
@@ -147,13 +153,10 @@
     <Compile Include="JoinPoints\IJoinPoint.cs" />
     <Compile Include="LifetimeStrategies\ILifetimeStrategy.cs" />
     <Compile Include="LifetimeStrategies\ILifetimeStrategyProvider.cs" />
-    <Compile Include="Framework\IMethodInterception.cs" />
     <Compile Include="Pointcuts\IPointcut.cs" />
     <Compile Include="Pointcuts\IPointcutCollection.cs" />
     <Compile Include="Pointcuts\IPointcutStore.cs" />
     <Compile Include="Engine\IPreventable.cs" />
-    <Compile Include="Framework\IPropertyGetExecuter.cs" />
-    <Compile Include="Framework\IPropertySetExecuter.cs" />
     <Compile Include="JoinPoints\JoinPointMetadata.cs" />
     <Compile Include="JoinPoints\MethodJoinPointMetadata.cs" />
     <Compile Include="Advices\IAdvice.cs" />
@@ -163,13 +166,13 @@
     <Compile Include="Aspects\IAspectDefinitionCollection.cs" />
     <Compile Include="Pointcuts\PointcutCollection.cs" />
     <Compile Include="JoinPoints\PropertyJoinPointMetadata.cs" />
-    <Compile Include="Exceptions\DuplicateAspectException.cs">
-      <DependentUpon>DuplicateAspectException.tt</DependentUpon>
+    <Compile Include="Exceptions\AspectTypeMismatchException.cs">
+      <DependentUpon>AspectTypeMismatchException.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Exceptions\MissingAspectException.cs">
-      <DependentUpon>MissingAspectException.tt</DependentUpon>
+    <Compile Include="Exceptions\AdviceNotFoundException.cs">
+      <DependentUpon>AdviceNotFoundException.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -183,14 +186,11 @@
     <Compile Include="Aspects\MethodAspectDefinition.cs" />
     <Compile Include="Framework\EventInterceptionAspectAttribute.cs" />
     <Compile Include="Framework\GetPropertyInterceptionAspectAttribute.cs" />
-    <Compile Include="Framework\GetPropertyInterception.cs" />
     <Compile Include="Framework\LifetimeStrategyAttribute.cs" />
     <Compile Include="Framework\MethodInterceptionAspectAttribute.cs" />
-    <Compile Include="Framework\MethodInterception.cs" />
     <Compile Include="Advices\OnMethodExceptionAdviceAttribute.cs" />
     <Compile Include="Framework\OnFunctionBoundaryAspectImpl`1.cs" />
     <Compile Include="Aspects\PropertyInterceptionAspectAttribute.cs" />
-    <Compile Include="Framework\SetPropertyInterception.cs" />
     <Compile Include="Framework\SetPropertyInterceptionAspectAttribute.cs" />
     <Compile Include="LifetimeStrategies\AbstractLifetimeStrategy.cs" />
     <Compile Include="Aspects\AspectDefinition.cs" />
@@ -204,6 +204,11 @@
     <Compile Include="Pointcuts\IPointcutVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Aspects\AspectBuilderCollection.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Runtime\AspectsRuntime.cs" />
     <Compile Include="Aspects\Builders\IAspectBuilderCollection.cs" />
     <Compile Include="Aspects\Builders\IAspectBuilderProvider.cs" />
@@ -217,20 +222,25 @@
     <Compile Include="Weaving\Responsibility\AspectPipelineMethodWeaver.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Exceptions\DuplicateAspectException.tt">
+    <None Include="Exceptions\AspectTypeMismatchException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DuplicateAspectException.cs</LastGenOutput>
-      <LastOutputs>.\DuplicateAspectException.cs</LastOutputs>
+      <LastGenOutput>AspectTypeMismatchException.cs</LastGenOutput>
+      <LastOutputs>.\AspectTypeMismatchException.cs</LastOutputs>
     </None>
-    <None Include="Exceptions\MissingAspectException.tt">
+    <None Include="Exceptions\AdviceNotFoundException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MissingAspectException.cs</LastGenOutput>
-      <LastOutputs>.\MissingAspectException.cs</LastOutputs>
+      <LastGenOutput>AdviceNotFoundException.cs</LastGenOutput>
+      <LastOutputs>.\AdviceNotFoundException.cs</LastOutputs>
     </None>
     <None Include="Exceptions\AspectBuilderNotFoundException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AspectBuilderNotFoundException.cs</LastGenOutput>
       <LastOutputs>.\AspectBuilderNotFoundException.cs</LastOutputs>
+    </None>
+    <None Include="Exceptions\AspectAnnotationException.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AspectAnnotationException.cs</LastGenOutput>
+      <LastOutputs>.\AspectAnnotationException.cs</LastOutputs>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -246,7 +256,12 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

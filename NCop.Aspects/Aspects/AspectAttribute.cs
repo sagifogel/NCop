@@ -14,7 +14,6 @@ namespace NCop.Aspects.Aspects
 		}
 
 		public int AspectPriority { get; set; }
-		
 		public Type AspectType { get; private set; }
 	}
 }
