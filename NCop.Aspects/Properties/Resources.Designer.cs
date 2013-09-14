@@ -61,11 +61,11 @@ namespace NCop.Aspects.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to OnMethodBoundaryAspect is valid only for methods .
+        ///   Looks up a localized string similar to OnActionBoundaryAspcets are valid only on method that has return type of  void. Use one of the OnFunctionBoundaryAspcets types..
         /// </summary>
-        internal static string AspectCouldOnlyBeDecoratedOnMethods {
+        internal static string ActionAspecMismatch {
             get {
-                return ResourceManager.GetString("AspectCouldOnlyBeDecoratedOnMethods", resourceCulture);
+                return ResourceManager.GetString("ActionAspecMismatch", resourceCulture);
             }
         }
         
@@ -84,6 +84,15 @@ namespace NCop.Aspects.Properties {
         internal static string AspectReturnTypeMismatch {
             get {
                 return ResourceManager.GetString("AspectReturnTypeMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OnFunctionBoundaryAspcets are valid only on method that has return type other than void. Use one of the OnActionBoundaryAspect types..
+        /// </summary>
+        internal static string FunctionAspecMismatch {
+            get {
+                return ResourceManager.GetString("FunctionAspecMismatch", resourceCulture);
             }
         }
     }

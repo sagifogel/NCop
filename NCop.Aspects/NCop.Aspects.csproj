@@ -98,7 +98,27 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Framework\ActionExecutionArgs.cs" />
+    <Compile Include="Framework\ActionExecutionArgs`1.cs" />
+    <Compile Include="Framework\ActionExecutionArgs`2.cs" />
+    <Compile Include="Framework\ActionExecutionArgs`3.cs" />
+    <Compile Include="Framework\ActionExecutionArgs`4.cs" />
+    <Compile Include="Framework\ActionExecutionArgs`5.cs" />
+    <Compile Include="Framework\ActionExecutionArgs`6.cs" />
+    <Compile Include="Framework\ActionExecutionArgs`7.cs" />
+    <Compile Include="Framework\ActionExecutionArgs`8.cs" />
+    <Compile Include="Framework\IActionExecutionArgs.cs" />
+    <Compile Include="Framework\IFunctionExecutionArgs.cs" />
+    <Compile Include="Framework\OnActionBoundaryAspectImpl`1.cs" />
+    <Compile Include="Framework\OnActionBoundaryAspectImpl`2.cs" />
+    <Compile Include="Framework\OnActionBoundaryAspectImpl`3.cs" />
+    <Compile Include="Framework\OnActionBoundaryAspectImpl`4.cs" />
+    <Compile Include="Framework\OnActionBoundaryAspectImpl`5.cs" />
+    <Compile Include="Framework\OnActionBoundaryAspectImpl`6.cs" />
+    <Compile Include="Framework\OnActionBoundaryAspectImpl`7.cs" />
+    <Compile Include="Framework\OnActionBoundaryAspectImpl`8.cs" />
     <Compile Include="Framework\MethodExecutionArgs.cs" />
+    <Compile Include="Framework\OnActionBoundaryAspectImpl.cs" />
     <Compile Include="Framework\OnMethodBoundaryAspectAttribute.cs" />
     <Compile Include="Framework\OnFunctionBoundaryAspectImpl.cs" />
     <Compile Include="Framework\FunctionExecutionArgs`2.cs" />

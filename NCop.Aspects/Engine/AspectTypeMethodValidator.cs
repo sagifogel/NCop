@@ -18,12 +18,12 @@ namespace NCop.Aspects.Engine
 	{
 		public static void ValidateMethodAspect(IAspect aspect, MethodInfo methodInfo) {
 			MethodInfo method = null;
+			Type argumentsType = null;
 			Type[] genericArguments = null;
-			var aspectType = aspect.AspectType;
 			Type[] comparedTypes = Type.EmptyTypes;
 			ParameterInfo[] methodParameters = null;
 			ParameterInfo[] aspectParameters = null;
-			var overridenMethods = aspectType.GetOverridenMethods();
+			var overridenMethods = aspect.AspectType.GetOverridenMethods();
 
 			if (overridenMethods.Length == 0) {
 				throw new AdviceNotFoundException(aspect.GetType());
@@ -37,11 +37,16 @@ namespace NCop.Aspects.Engine
 			}
 
 			methodParameters = methodInfo.GetParameters();
-			genericArguments = aspectParameters[0].ParameterType.GetGenericArguments();
+			argumentsType = aspectParameters[0].ParameterType;
+			genericArguments = argumentsType.GetGenericArguments();
 
 			if (methodInfo.HasReturnType()) {
 				int argumentsLength = 0;
 				Type aspectReturnType = null;
+
+				if (typeof(IActionExecutionArgs).IsAssignableFrom(argumentsType)) {
+					throw new AspectAnnotationException(Resources.FunctionAspecMismatch);
+				}
 
 				if (genericArguments.Length == 0) {
 					throw new AspectTypeMismatchException(Resources.AspectReturnTypeMismatch.Fmt(methodInfo.Name));
@@ -61,6 +66,10 @@ namespace NCop.Aspects.Engine
 			}
 			else {
 				comparedTypes = genericArguments;
+
+				if (typeof(IFunctionExecutionArgs).IsAssignableFrom(argumentsType)) {
+					throw new AspectAnnotationException(Resources.FunctionAspecMismatch);
+				}
 			}
 
 			if (!ValidateParameters(methodParameters, comparedTypes)) {

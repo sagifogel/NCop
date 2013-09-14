@@ -68,8 +68,8 @@ namespace NCop.Aspects.Tests
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(AspectTypeMismatchException))]
-		public void MethodThatHasReturnTypeOfVoidWithOnMethodBoundaryAspectAttribute_DecoratedWithFunctionAspect_ThrowsAspectTypeMismatchException() {
+		[ExpectedException(typeof(AspectAnnotationException))]
+		public void ParameterlessWithReturnTypeMethodWithOnMethodBoundaryAspectAttribute_DecoratedWithFunctionAspect_ThrowsAspectAnnotationException() {
 			var method = GetMethod("MethodWithStringParamAndVoidReturnType");
 			var aspect = new OnMethodBoundaryAspectAttribute(typeof(TestAspect));
 
@@ -95,9 +95,18 @@ namespace NCop.Aspects.Tests
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(AspectTypeMismatchException))]
-		public void MethodWithNoParametersWithOnMethodBoundaryAspectAttribute_DecoratedWithFunctionAspectThatHasAtLeastOneParameter_ThrowsAspectTypeMismatchException() {
+		[ExpectedException(typeof(AspectAnnotationException))]
+		public void ParameterslessMethodOnNoReturnTypeWithOnMethodBoundaryAspectAttribute_DecoratedWithFunctionAspect_ThrowsAspectAnnotationException() {
 			var method = GetMethod("MethodWithoutParams");
+			var aspect = new OnMethodBoundaryAspectAttribute(typeof(TestAspect));
+
+			AspectTypeMethodValidator.ValidateMethodAspect(aspect, method);
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(AspectTypeMismatchException))]
+		public void ParameterslessMethodWithOnMethodBoundaryAspectAttribute_DecoratedWithFunctionAspectThatHasAtLeastOneParameter_ThrowsAspectTypeMismatchException() {
+			var method = GetMethod("MethodWithoutParamsWithReturnType");
 			var aspect = new OnMethodBoundaryAspectAttribute(typeof(TestAspect));
 
 			AspectTypeMethodValidator.ValidateMethodAspect(aspect, method);

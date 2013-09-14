@@ -6,9 +6,8 @@ using System.Text;
 
 namespace NCop.Aspects.Framework
 {
-	public class FunctionExecutionArgs<TResult> : MethodExecutionArgs
+	public class FunctionExecutionArgs<TResult> : MethodExecutionArgs, IFunctionExecutionArgs
 	{
 		public TResult ReturnType { get; private set; }
-		public object[] Arguments { get; protected set; }
 	}
 }

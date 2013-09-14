@@ -15,7 +15,7 @@ namespace NCop.Samples
 			container.Configure();
 
 			var person = container.TryResolve<IPersonComposite>();
-			Console.WriteLine(person.Code());
+			person.Code("CSharp");
 		}
 	}
 
@@ -24,14 +24,14 @@ namespace NCop.Samples
 	{
 		private T langugae = new T();
 
-		public string Code() {
-			return langugae.Description;
+		public void Code(string code) {
+			 Console.WriteLine(code);
 		}
 	}
 
-	public class TraceAspect : OnFunctionBoundaryAspectImpl<string>
+	public class TraceAspect : OnActionBoundaryAspectImpl<string>
 	{
-		public override void OnEntry(FunctionExecutionArgs<string> args) {
+		public override void OnEntry(ActionExecutionArgs<string> args) {
 		}
 	}
 
@@ -42,10 +42,11 @@ namespace NCop.Samples
 	}
 
 	public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>
-	{
-		[OnMethodBoundaryAspectAttribute(typeof(TraceAspect))]
-		public override string Code() {
-			return base.Code();
+	{	
+		[OnMethodBoundaryAspect(typeof(TraceAspect))]
+		public override void Code(string code)
+		{
+			base.Code(code);
 		}
 	}
 
@@ -59,8 +60,8 @@ namespace NCop.Samples
 	{
 		ILanguage language = new TLanguage();
 
-		public virtual string Code() {
-			return "I am coding in " + language.Description.ToString();
+		public virtual void Code(string code) {
+			Console.WriteLine("I am coding in " + language.Description.ToString());
 		}
 	}
 
@@ -98,11 +99,11 @@ namespace NCop.Samples
 
 	public interface IDeveloper<out TLanguage>
 	{
-		string Code();
+		void Code(string code);
 	}
 
 	public interface IDeveloper
 	{
-		string Code();
+		void Code(string code);
 	}
 }
