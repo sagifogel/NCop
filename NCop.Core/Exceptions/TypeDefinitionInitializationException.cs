@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using NCop.Core.Extensions;
 
 namespace NCop.Core.Exceptions
 {	
@@ -29,15 +30,6 @@ namespace NCop.Core.Exceptions
             messageInitialized = true;
         }
 		
-		protected TypeDefinitionInitializationException(SerializationInfo info, StreamingContext context)
-            : base(info, context) {
-
-            if (info == null) {
-                throw new ArgumentNullException("info");
-            }
-
-            message = info.GetString("TypeDefinitionMessage");
-        }
 		
 		public override string Message {
             get {
@@ -47,6 +39,16 @@ namespace NCop.Core.Exceptions
 
                 return message;
             }
+        }
+		
+		protected TypeDefinitionInitializationException(SerializationInfo info, StreamingContext context)
+            : base(info, context) {
+
+            if (info == null) {
+                throw new ArgumentNullException("info");
+            }
+
+            message = info.GetString("TypeDefinitionMessage");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context) {

@@ -101,10 +101,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="RegistraionException.cs">
+    <Compile Include="RegistrationException.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>RegistraionException.tt</DependentUpon>
+      <DependentUpon>RegistrationException.tt</DependentUpon>
     </Compile>
     <Compile Include="ResolutionException.cs">
       <AutoGen>True</AutoGen>
@@ -122,9 +122,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="RegistraionException.tt">
+    <None Include="RegistrationException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>RegistraionException.cs</LastGenOutput>
+      <LastGenOutput>RegistrationException.cs</LastGenOutput>
     </None>
     <None Include="ResolutionException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

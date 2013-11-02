@@ -33,8 +33,8 @@ namespace NCop.Composite.Tests
         #endregion
 
         [TestMethod]
-        [ExpectedException(typeof(RegistraionException))]
-        public void Resolve_UsingAutoFactoryOfInterface_ThrowsRegistraionException() {
+        [ExpectedException(typeof(RegistrationException))]
+        public void Resolve_UsingAutoFactoryOfInterface_ThrowsRegistrationException() {
             var container = new CompositeContainer();
 
             container.Configure(registry => {
@@ -141,8 +141,8 @@ namespace NCop.Composite.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(RegistraionException))]
-        public void Resolve_UsingAutoFactoryOfInterfaceThatBindsToSelf_ThrowsRegistraionException() {
+        [ExpectedException(typeof(RegistrationException))]
+        public void Resolve_UsingAutoFactoryOfInterfaceThatBindsToSelf_ThrowsRegistrationException() {
             var container = new CompositeContainer();
 
             container.Configure(registry => {
@@ -154,7 +154,7 @@ namespace NCop.Composite.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ResolutionException))]
-        public void TryResolve_NotRegisteredService_ThrowsRegistraionException() {
+        public void TryResolve_NotRegisteredService_ThrowsRegistrationException() {
             var container = new CompositeContainer();
             container.Configure();
 
@@ -162,7 +162,7 @@ namespace NCop.Composite.Tests
         }
 
         [TestMethod]
-        public void TryResolve_NotRegisteredService_DontThrowsRegistraionExceptionAndReturnsNull() {
+        public void TryResolve_NotRegisteredService_DontThrowsRegistrationExceptionAndReturnsNull() {
             var container = new CompositeContainer();
             
             container.Configure(registry => {
@@ -315,8 +315,8 @@ namespace NCop.Composite.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(RegistraionException))]
-        public void AutoRegister_OfTypeThatHasMoreThanOneConstructorAndWithoutDependencyAttribute_ThrowsRegistraionException() {
+        [ExpectedException(typeof(RegistrationException))]
+        public void AutoRegister_OfTypeThatHasMoreThanOneConstructorAndWithoutDependencyAttribute_ThrowsRegistrationException() {
             var container = new CompositeContainer();
 
             container.Configure(registry => {
@@ -328,7 +328,7 @@ namespace NCop.Composite.Tests
         }
 
         [TestMethod]
-        public void AutoRegister_OfTypeThatHasMoreThanOneConstructorWithDependencyAttribute_ReturnsResolvedInstanceAndDontThrowsRegistraionException() {
+        public void AutoRegister_OfTypeThatHasMoreThanOneConstructorWithDependencyAttribute_ReturnsResolvedInstanceAndDontThrowsRegistrationException() {
             var container = new CompositeContainer();
 
             container.Configure(registry => {

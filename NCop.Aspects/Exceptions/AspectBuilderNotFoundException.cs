@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Exceptions
 {	
@@ -32,9 +33,21 @@ namespace NCop.Aspects.Exceptions
 		public AspectBuilderNotFoundException(Type aspectType)
 			: base(null) {
 			AspectType = aspectType;
-			message = string.Format("Could not found matching IAspectBuilder for type {0}", aspectType.FullName);
+			message = "Could not found matching IAspectBuilder for type {0}".Fmt(aspectType.FullName);
 		}
 	
+		public Type AspectType { get; protected set; }
+
+		public override string Message {
+            get {
+                if (messageInitialized) {
+                    return base.Message;
+                }
+
+                return message;
+            }
+        }
+		
 		protected AspectBuilderNotFoundException(SerializationInfo info, StreamingContext context)
             : base(info, context) {
 			object value = null;
@@ -49,18 +62,6 @@ namespace NCop.Aspects.Exceptions
 			if (value != null) {
 				AspectType = (Type)value;
 			}
-        }
-		
-		public Type AspectType { get; protected set; }
-
-		public override string Message {
-            get {
-                if (messageInitialized) {
-                    return base.Message;
-                }
-
-                return message;
-            }
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context) {

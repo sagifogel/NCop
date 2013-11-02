@@ -15,11 +15,11 @@ public class NCopExceptionTemplate : CSharpTemplate
 
 	public IEnumerable<Tuple<string, string>> Arguments { get; set; }
 
-	private string _properties = string.Empty;
-	private string _constructor = string.Empty;
-	private string _getObjectData = string.Empty;
-	private string _constructorArguments = string.Empty;
-	private string _protectedConstructor = string.Empty;
+	private string properties = string.Empty;
+	private string constructor = string.Empty;
+	private string getObjectData = string.Empty;
+	private string constructorArguments = string.Empty;
+	private string protectedConstructor = string.Empty;
 	
 	private string ToCamelCase(string value) {
 		string first = value.First().ToString().ToUpper();
@@ -40,7 +40,7 @@ public class NCopExceptionTemplate : CSharpTemplate
                     string camelCase = ToCamelCase(arg.Item1);
                     constructorBuilder.AppendFormat("\t\t\t{0} = {1};\n", camelCase, arg.Item1);
                     constructorArgumentsBuilder.AppendFormat("{0} {1}, ", arg.Item2, arg.Item1);
-					propertiesBuilder.AppendFormat("\n\t\tpublic {0} {1}", arg.Item2, camelCase).Append(" { get; protected set; }");
+					propertiesBuilder.AppendFormat("public {0} {1}", arg.Item2, camelCase).Append(" { get; protected set; }");
 					protectedConstructorBuilder.Append("\n\t\t\tvalue = ")
 											   .AppendFormat("info.GetValue(\"{0}{1}\", typeof({1}));\n", KeyPrefix, arg.Item2)
 											   .Append("\n\t\t\tif (value != null) {\n\t\t\t")
@@ -52,10 +52,10 @@ public class NCopExceptionTemplate : CSharpTemplate
 					constructorArgumentsBuilder = constructorArgumentsBuilder.Remove(constructorArgumentsBuilder.Length - 2, 2);
 					constructorBuilder.Append("\n\t\t}");
 					constructorArgumentsBuilder.Append(")").Append(constructorBuilder.ToString()).Append("\n\t\t}");
-					_constructor = constructorArgumentsBuilder.Remove(constructorArgumentsBuilder.Length - 2, 2).ToString();
-					_properties = propertiesBuilder.Append(Environment.NewLine).ToString();
-					_protectedConstructor = protectedConstructorBuilder.ToString();
-					_getObjectData = getObjectDataBuilder.ToString();
+					constructor = constructorArgumentsBuilder.Remove(constructorArgumentsBuilder.Length - 2, 2).ToString();
+					properties = propertiesBuilder.Append(Environment.NewLine).ToString();
+					protectedConstructor = protectedConstructorBuilder.ToString();
+					getObjectData = getObjectDataBuilder.ToString();
 				}
             }
 	}
@@ -75,6 +75,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using NCop.Core.Extensions;
 
 <#+ BuildArguments(); #>
 namespace <#= Namespace ?? DefaultNamespace  #>
@@ -100,7 +101,18 @@ namespace <#= Namespace ?? DefaultNamespace  #>
 		    : base(message, innerException) {
             messageInitialized = true;
         }
-		<#= _constructor #>
+		<#= constructor #>
+		<#= properties #>
+		public override string Message {
+            get {
+                if (messageInitialized) {
+                    return base.Message;
+                }
+
+                return message;
+            }
+        }
+		
 		protected <#= name #>(SerializationInfo info, StreamingContext context)
             : base(info, context) {
 <#+ if (Arguments != null) { #>
@@ -111,17 +123,7 @@ namespace <#= Namespace ?? DefaultNamespace  #>
                 throw new ArgumentNullException("info");
             }
 
-            message = info.GetString("<#= KeyPrefix #>Message");<#= _protectedConstructor #>
-        }
-		<#= _properties #>
-		public override string Message {
-            get {
-                if (messageInitialized) {
-                    return base.Message;
-                }
-
-                return message;
-            }
+            message = info.GetString("<#= KeyPrefix #>Message");<#= protectedConstructor #>
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context) {
@@ -130,7 +132,7 @@ namespace <#= Namespace ?? DefaultNamespace  #>
             }
 
             base.GetObjectData(info, context);
-            info.AddValue("<#= KeyPrefix #>Message", Message);<#= _getObjectData #>
+            info.AddValue("<#= KeyPrefix #>Message", Message);<#= getObjectData #>
         }
 	}	
 }<#+ return this.GenerationEnvironment.ToString();	}}#>

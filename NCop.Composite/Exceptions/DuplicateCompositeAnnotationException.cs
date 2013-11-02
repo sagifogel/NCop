@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using NCop.Core.Extensions;
 
 namespace NCop.Composite.Exceptions
 {	
@@ -35,6 +36,18 @@ namespace NCop.Composite.Exceptions
 			message = string.Format("Duplicate composition annotations were found for type {0}", compositeType.FullName);
 		}
 	
+		public Type CompositeType { get; protected set; }
+
+		public override string Message {
+            get {
+                if (messageInitialized) {
+                    return base.Message;
+                }
+
+                return message;
+            }
+        }
+		
 		protected DuplicateCompositeAnnotationException(SerializationInfo info, StreamingContext context)
             : base(info, context) {
 			object value = null;
@@ -49,18 +62,6 @@ namespace NCop.Composite.Exceptions
 			if (value != null) {
 				CompositeType = (Type)value;
 			}
-        }
-		
-		public Type CompositeType { get; protected set; }
-
-		public override string Message {
-            get {
-                if (messageInitialized) {
-                    return base.Message;
-                }
-
-                return message;
-            }
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context) {

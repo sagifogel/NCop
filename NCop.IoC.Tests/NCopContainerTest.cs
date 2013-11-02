@@ -10,8 +10,8 @@ namespace NCop.IoC.Tests
     public class NCopContainerTest
     {
         [TestMethod]
-        [ExpectedException(typeof(RegistraionException))]
-        public void Resolve_UsingAutoFactoryOfInterface_ThrowsRegistraionException() {
+        [ExpectedException(typeof(RegistrationException))]
+        public void Resolve_UsingAutoFactoryOfInterface_ThrowsRegistrationException() {
             var container = new NCopContainer(registry => {
                 registry.Register<IFoo>();
             });
@@ -114,8 +114,8 @@ namespace NCop.IoC.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(RegistraionException))]
-        public void Resolve_UsingAutoFactoryOfInterfaceThatBindsToSelf_ThrowsRegistraionException() {
+        [ExpectedException(typeof(RegistrationException))]
+        public void Resolve_UsingAutoFactoryOfInterfaceThatBindsToSelf_ThrowsRegistrationException() {
             var container = new NCopContainer(registry => {
                 registry.Register<IFoo>().ToSelf();
             });
@@ -125,13 +125,13 @@ namespace NCop.IoC.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ResolutionException))]
-        public void TryResolve_NotRegisteredService_ThrowsRegistraionException() {
+        public void TryResolve_NotRegisteredService_ThrowsRegistrationException() {
             var container = new NCopContainer(registry => { });
             var instance = container.Resolve<IFoo>();
         }
 
         [TestMethod]
-        public void TryResolve_NotRegisteredService_DontThrowsRegistraionExceptionAndReturnsNull() {
+        public void TryResolve_NotRegisteredService_DontThrowsRegistrationExceptionAndReturnsNull() {
             var container = new NCopContainer(registry => { });
             var instance = container.TryResolve<IFoo>();
 
@@ -139,7 +139,7 @@ namespace NCop.IoC.Tests
         }
 
         [TestMethod]
-        public void TryResolve_NotRegisteredServiceWithMultipuleArguments_DontThrowsRegistraionExceptionAndReturnsNull() {
+        public void TryResolve_NotRegisteredServiceWithMultipuleArguments_DontThrowsRegistrationExceptionAndReturnsNull() {
             var container = new NCopContainer(registry => { });
             var instance = container.TryResolve<string, int, IFoo>("NCop", 9);
 
@@ -285,8 +285,8 @@ namespace NCop.IoC.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(RegistraionException))]
-        public void AutoRegister_OfTypeThatHasMoreThanOneConstructorAndWithoutDependencyAttribute_ThrowsRegistraionException() {
+        [ExpectedException(typeof(RegistrationException))]
+        public void AutoRegister_OfTypeThatHasMoreThanOneConstructorAndWithoutDependencyAttribute_ThrowsRegistrationException() {
             var container = new NCopContainer(registry => {
                 registry.Register<IFoo>().As<Foo>();
                 registry.RegisterAuto<AmbiguousConstructor>();
@@ -296,7 +296,7 @@ namespace NCop.IoC.Tests
         }
 
         [TestMethod]
-        public void AutoRegister_OfTypeThatHasMoreThanOneConstructorWithDependencyAttribute_ReturnsResolvedInstanceAndDontThrowsRegistraionException() {
+        public void AutoRegister_OfTypeThatHasMoreThanOneConstructorWithDependencyAttribute_ReturnsResolvedInstanceAndDontThrowsRegistrationException() {
             var container = new NCopContainer(registry => {
                 registry.Register<IFoo>().As<Foo>();
                 registry.RegisterAuto<AmbiguousConstructorFixedWithDependencyAttribute>();

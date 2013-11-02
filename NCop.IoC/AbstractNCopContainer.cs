@@ -28,7 +28,7 @@ namespace NCop.IoC
                 var serviceKey = CreateServiceKey(registration);
 
                 if (dictionary.ContainsKey(serviceKey)) {
-                    throw new RegistraionException(Resources.DuplicateRegistrationFound.Fmt(serviceKey.ServiceType));
+                    throw new RegistrationException(Resources.DuplicateRegistrationFound.Fmt(serviceKey.ServiceType));
                 }
 
                 dictionary.Add(serviceKey, CreateServiceEntry(registration));

@@ -99,7 +99,7 @@ namespace NCop.IoC.Fluent
 			Contract.RequiersConstructorNotNull(ctor, () => {
 				var message = Resources.NoParameterlessConstructorFound.Fmt(ctor);
 
-				return new RegistraionException(new MissingMethodException(message));
+				return new RegistrationException(new MissingMethodException(message));
 			});
 
 			var paramater = Expression.Parameter(typeof(INCopContainer), "container");
@@ -114,7 +114,7 @@ namespace NCop.IoC.Fluent
 		}
 
 		private static void RequiersNotInterface(Type serviceType) {
-			Contract.RequiersNotInterface(serviceType, () => new RegistraionException(Resources.TypeIsInterface.Fmt(serviceType)));
+			Contract.RequiersNotInterface(serviceType, () => new RegistrationException(Resources.TypeIsInterface.Fmt(serviceType)));
 		}
 
 		IReuseStrategy IDescriptable.Named(string name) {
