@@ -8,7 +8,7 @@ using NCop.Aspects.Framework;
 
 namespace NCop.Aspects.Framework
 {
-    public abstract class OnFunctionBoundaryAspectImpl<TArg1, TArg2, TArg3, TArg4, TResult>
+    public abstract class OnFunctionBoundaryAspect<TArg1, TArg2, TArg3, TArg4, TResult>
     {	
 		[OnMethodEntryAdvice]
 		public virtual void OnEntry(FunctionExecutionArgs<TArg1, TArg2, TArg3, TArg4, TResult> args) { }

@@ -29,9 +29,10 @@ namespace NCop.Samples
 		}
 	}
 
-	public class TraceAspect : OnActionBoundaryAspectImpl<string>
+	public class TraceAspect : OnActionBoundaryAspect<string>
 	{
 		public override void OnEntry(ActionExecutionArgs<string> args) {
+			base.OnEntry(args);
 		}
 	}
 

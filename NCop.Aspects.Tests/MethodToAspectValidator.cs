@@ -10,27 +10,27 @@ namespace NCop.Aspects.Tests
 	[TestClass]
 	public class MethodToAspectValidator
 	{
-		public class TestAspect : OnFunctionBoundaryAspectImpl<string, bool>
+		public class TestAspect : OnFunctionBoundaryAspect<string, bool>
 		{
 			public override void OnEntry(FunctionExecutionArgs<string, bool> args) {
 			}
 		}
-		public class TestAspect2 : OnFunctionBoundaryAspectImpl<bool>
+		public class TestAspect2 : OnFunctionBoundaryAspect<bool>
 		{
 			public override void OnEntry(FunctionExecutionArgs<bool> args) {
 			}
 		}
-		public class TestAspect3 : OnFunctionBoundaryAspectImpl<string, string>
+		public class TestAspect3 : OnFunctionBoundaryAspect<string, string>
 		{
 			public override void OnEntry(FunctionExecutionArgs<string, string> args) {
 			}
 		}
-		public class TestAspect4 : OnFunctionBoundaryAspectImpl<int, bool>
+		public class TestAspect4 : OnFunctionBoundaryAspect<int, bool>
 		{
 			public override void OnEntry(FunctionExecutionArgs<int, bool> args) {
 			}
 		}
-		public class NoAdviceAspect : OnFunctionBoundaryAspectImpl<string, string>
+		public class NoAdviceAspect : OnFunctionBoundaryAspect<string, string>
 		{
 		}
 
