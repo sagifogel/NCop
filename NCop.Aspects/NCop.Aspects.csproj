@@ -86,18 +86,56 @@
     <Compile Include="Aspects\Builders\MemberLevelAspectBuilderProvider.cs" />
     <Compile Include="Aspects\Builders\TypeLevelAspectBuilder.cs" />
     <Compile Include="Aspects\Builders\TypeLevelAspectBuilderProvider.cs" />
+    <Compile Include="Engine\ActionInterceptionArgsImpl.cs" />
     <Compile Include="Engine\AspectMembers.cs" />
     <Compile Include="Engine\AspectMemebrsCollection.cs" />
     <Compile Include="Engine\AspectTypeMethodValidator.cs" />
     <Compile Include="Engine\AspectValidator.cs" />
+    <Compile Include="Engine\ActionInterceptionArgsImpl`1.cs" />
+    <Compile Include="Engine\ActionInterceptionArgsImpl`2.cs" />
+    <Compile Include="Engine\ActionInterceptionArgsImpl`3.cs" />
+    <Compile Include="Engine\ActionInterceptionArgsImpl`4.cs" />
+    <Compile Include="Engine\ActionInterceptionArgsImpl`5.cs" />
+    <Compile Include="Engine\ActionInterceptionArgsImpl`6.cs" />
+    <Compile Include="Engine\ActionInterceptionArgsImpl`7.cs" />
+    <Compile Include="Engine\ActionInterceptionArgsImpl`8.cs" />
+    <Compile Include="Engine\IFuncBinding`1.cs" />
+    <Compile Include="Engine\IFuncBinding`2.cs" />
+    <Compile Include="Engine\IFuncBinding`4.cs" />
+    <Compile Include="Engine\IFuncBinding`5.cs" />
+    <Compile Include="Engine\IFuncBinding`6.cs" />
+    <Compile Include="Engine\IFuncBinding`7.cs" />
+    <Compile Include="Engine\IFuncBinding`8.cs" />
+    <Compile Include="Engine\IFuncBinding`3.cs" />
+    <Compile Include="Engine\IActionBinding`2.cs" />
+    <Compile Include="Engine\IActionBinding`8.cs" />
+    <Compile Include="Engine\IActionBinding`7.cs" />
+    <Compile Include="Engine\IActionBinding`6.cs" />
+    <Compile Include="Engine\IActionBinding`5.cs" />
+    <Compile Include="Engine\IActionBinding`4.cs" />
+    <Compile Include="Engine\IActionBinding`3.cs" />
+    <Compile Include="Engine\IActionBinding`1.cs" />
+    <Compile Include="Engine\FunctionInterceptionArgsImpl.cs" />
+    <Compile Include="Engine\FunctionInterceptionArgsImpl`1.cs" />
+    <Compile Include="Engine\FunctionInterceptionArgsImpl`2.cs" />
+    <Compile Include="Engine\FunctionInterceptionArgsImpl`3.cs" />
+    <Compile Include="Engine\FunctionInterceptionArgsImpl`4.cs" />
+    <Compile Include="Engine\FunctionInterceptionArgsImpl`5.cs" />
+    <Compile Include="Engine\FunctionInterceptionArgsImpl`6.cs" />
+    <Compile Include="Engine\FunctionInterceptionArgsImpl`7.cs" />
+    <Compile Include="Engine\FunctionInterceptionArgsImpl`8.cs" />
     <Compile Include="Engine\IAspectMembers`1.cs" />
     <Compile Include="Engine\IAspectsMethods.cs" />
     <Compile Include="Engine\IAspectsProperties.cs" />
+    <Compile Include="Engine\IActionBinding.cs" />
+    <Compile Include="Engine\IFuncBinding.cs" />
+    <Compile Include="Engine\IInterceptionArgs.cs" />
     <Compile Include="Exceptions\AspectAnnotationException.cs">
       <DependentUpon>AspectAnnotationException.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Extensions\AspectBuilderExtensions.cs" />
     <Compile Include="Framework\ActionExecutionArgs.cs" />
     <Compile Include="Framework\ActionExecutionArgs`1.cs" />
     <Compile Include="Framework\ActionExecutionArgs`2.cs" />
@@ -109,6 +147,7 @@
     <Compile Include="Framework\ActionExecutionArgs`8.cs" />
     <Compile Include="Framework\Arguments.cs" />
     <Compile Include="Framework\GenericActionExecutionArgs.cs" />
+    <Compile Include="Framework\GenericFunctionExecutionArgs.cs" />
     <Compile Include="Framework\IActionExecutionArgs.cs" />
     <Compile Include="Framework\IFunctionExecutionArgs.cs" />
     <Compile Include="Framework\OnActionBoundaryAspect`1.cs" />

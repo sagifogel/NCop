@@ -45,7 +45,7 @@ namespace NCop.Aspects.Engine
 				Type aspectReturnType = null;
 
 				if (typeof(IActionExecutionArgs).IsAssignableFrom(argumentsType)) {
-					throw new AspectAnnotationException(Resources.FunctionAspecMismatch);
+					throw new AspectAnnotationException(Resources.FunctionAspectMismatch);
 				}
 
 				if (genericArguments.Length == 0) {
@@ -68,7 +68,7 @@ namespace NCop.Aspects.Engine
 				comparedTypes = genericArguments;
 
 				if (typeof(IFunctionExecutionArgs).IsAssignableFrom(argumentsType)) {
-					throw new AspectAnnotationException(Resources.FunctionAspecMismatch);
+					throw new AspectAnnotationException(Resources.FunctionAspectMismatch);
 				}
 			}
 

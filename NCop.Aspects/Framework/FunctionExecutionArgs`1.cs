@@ -5,8 +5,8 @@ using System.Text;
 
 namespace NCop.Aspects.Framework
 {
-	public class FunctionExecutionArgs<TArg1, TResult> : FunctionExecutionArgs<TResult>
+	public abstract class FunctionExecutionArgs<TArg1, TResult> : FunctionExecutionArgs<TResult>
 	{
-		public TArg1 Arg1 { get; private set; }
+        public TArg1 Arg1 { get; protected set; }
 	}
 }

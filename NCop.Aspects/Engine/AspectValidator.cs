@@ -11,7 +11,7 @@ namespace NCop.Aspects.Engine
 		public static void ValidateAspect(IAspect aspect, MemberInfo memberInfo) {
 			if (aspect.IsMethodLevelAspect()) {
 				if (memberInfo.MemberType != MemberTypes.Method) {
-					throw new AspectAnnotationException(Resources.FunctionAspecMismatch);
+					throw new AspectAnnotationException(Resources.FunctionAspectMismatch);
 				}
 
 				AspectTypeMethodValidator.ValidateMethodAspect(aspect, memberInfo as MethodInfo);

@@ -5,6 +5,7 @@ using NCop.Composite.Engine;
 using NCop.Core;
 using NCop.Core.Extensions;
 using NCop.IoC;
+using System.Linq;
 using NCop.Mixins.Engine;
 using NCop.Mixins.Weaving;
 using NCop.Weaving;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NCop.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace NCop.Aspects.Framework
 {
-	public class Arguments : IEnumerable<object>
+    public class Arguments : IReadOnlyCollection<object>
 	{
 		public static Arguments Empty = new Arguments();
 		private readonly List<object> arguments = null;
@@ -30,5 +31,11 @@ namespace NCop.Aspects.Framework
 		IEnumerator IEnumerable.GetEnumerator() {
 			return GetEnumerator();
 		}
-	}
+
+        public int Count {
+            get { 
+                return arguments.Count; 
+            }
+        }
+    }
 }

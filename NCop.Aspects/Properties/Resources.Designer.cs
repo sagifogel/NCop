@@ -63,9 +63,9 @@ namespace NCop.Aspects.Properties {
         /// <summary>
         ///   Looks up a localized string similar to OnActionBoundaryAspcets are valid only on method that has return type of  void. Use one of the OnFunctionBoundaryAspcets types..
         /// </summary>
-        internal static string ActionAspecMismatch {
+        internal static string ActionAspectMismatch {
             get {
-                return ResourceManager.GetString("ActionAspecMismatch", resourceCulture);
+                return ResourceManager.GetString("ActionAspectMismatch", resourceCulture);
             }
         }
         
@@ -90,9 +90,9 @@ namespace NCop.Aspects.Properties {
         /// <summary>
         ///   Looks up a localized string similar to OnFunctionBoundaryAspcets are valid only on method that has return type other than void. Use one of the OnActionBoundaryAspect types..
         /// </summary>
-        internal static string FunctionAspecMismatch {
+        internal static string FunctionAspectMismatch {
             get {
-                return ResourceManager.GetString("FunctionAspecMismatch", resourceCulture);
+                return ResourceManager.GetString("FunctionAspectMismatch", resourceCulture);
             }
         }
     }

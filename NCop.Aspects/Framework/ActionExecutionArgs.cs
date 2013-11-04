@@ -5,7 +5,8 @@ using System.Text;
 
 namespace NCop.Aspects.Framework
 {
-	public class ActionExecutionArgs : MethodExecutionArgs, IActionExecutionArgs
-	{
-	}
+    public abstract class ActionExecutionArgs : MethodExecutionArgs, IActionExecutionArgs
+    {   
+        public abstract void Proceed();
+    }
 }

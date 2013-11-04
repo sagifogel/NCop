@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ActionAspecMismatch" xml:space="preserve">
+  <data name="ActionAspectMismatch" xml:space="preserve">
     <value>OnActionBoundaryAspcets are valid only on method that has return type of  void. Use one of the OnFunctionBoundaryAspcets types.</value>
   </data>
   <data name="AspectParametersMismatach" xml:space="preserve">
@@ -126,7 +126,7 @@
   <data name="AspectReturnTypeMismatch" xml:space="preserve">
     <value>Method {0} has a different return type than the return type of one of its annotated aspects.</value>
   </data>
-  <data name="FunctionAspecMismatch" xml:space="preserve">
+  <data name="FunctionAspectMismatch" xml:space="preserve">
     <value>OnFunctionBoundaryAspcets are valid only on method that has return type other than void. Use one of the OnActionBoundaryAspect types.</value>
   </data>
 </root>
