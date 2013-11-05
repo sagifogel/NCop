@@ -9,9 +9,9 @@ namespace NCop.Aspects.Engine
 {
     public class FunctionInterceptionArgsImpl<TResult> : FunctionExecutionArgs<TResult>, IInterceptable
 	{
-        private readonly IFuncBinding<TResult> funcBinding = null;
+        private readonly IFunctionBinding<TResult> funcBinding = null;
 
-        public FunctionInterceptionArgsImpl(object instance, IFuncBinding<TResult> funcBinding) {
+        public FunctionInterceptionArgsImpl(object instance, IFunctionBinding<TResult> funcBinding) {
             Instance = instance;
             this.funcBinding = funcBinding;
         }

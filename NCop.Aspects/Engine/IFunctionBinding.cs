@@ -5,8 +5,8 @@ using System.Text;
 
 namespace NCop.Aspects.Engine
 {
-    public interface IFuncBinding<TArg1, TResult>
+    public interface IFunctionBinding<TResult>
     {
-        TResult Invoke(ref object instance, TArg1 arg1);
+        TResult Invoke(ref object instance);
     }
 }

@@ -8,9 +8,9 @@ namespace NCop.Aspects.Engine
 {
     public class FunctionInterceptionArgsImpl<TArg1, TArg2, TResult> : FunctionExecutionArgs<TArg1, TArg2, TResult>, IInterceptable
     {
-        private readonly IFuncBinding<TArg1, TArg2, TResult> funcBinding = null;
+        private readonly IFunctionBinding<TArg1, TArg2, TResult> funcBinding = null;
 
-        public FunctionInterceptionArgsImpl(object instance, IFuncBinding<TArg1, TArg2, TResult> funcBinding, TArg1 arg1, TArg2 arg2) {
+        public FunctionInterceptionArgsImpl(object instance, IFunctionBinding<TArg1, TArg2, TResult> funcBinding, TArg1 arg1, TArg2 arg2) {
             Arg1 = arg1;
             Arg2 = arg2;
             Instance = instance;
