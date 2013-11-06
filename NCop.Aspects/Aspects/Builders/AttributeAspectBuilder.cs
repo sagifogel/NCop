@@ -30,7 +30,7 @@ namespace NCop.Aspects.Aspects.Builders
 
                 Func<IAspectProvider> provider = () => {
                     var type = aspectType;
-                    return new AttributeAspectProvider(type);
+                    return null;//new AttributeAspectProvider(type);
                 };
 
                 return builder.BuildDefinition(aspectType, provider, aspectTuple.Item2);

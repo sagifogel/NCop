@@ -18,8 +18,7 @@ namespace NCop.Composite.Weaving
         public IMethodWeaver Build() {
             var typeDefinition = TypeDefinitionFactory.Resolve();
             var methodWeaver = new MethodDecoratorWeaver(MemberInfoImpl, ImplementationType, ContractType);
-            // TODO: change to new AspectPipelineMethodWeaver(_type).Handle(_methodInfo, typeDefinition);
-
+            
             return new CompositeMethodWeaver(MemberInfoImpl, ImplementationType, ContractType, methodWeaver.MethodDefintionWeaver, new[] { methodWeaver });
         }
     }

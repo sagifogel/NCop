@@ -10,16 +10,16 @@ using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Engine
 {
-	public class AspectAttributesMemberMatcher : Tuples<MemberInfo, IEnumerable<IAspect>>
-	{
-		public AspectAttributesMemberMatcher(Type compositeType, IAspectMemebrsCollection aspectMembers) {
-			Values = aspectMembers.Select(aspect => {
-				var aspects = aspect.Members.SelectMany(method => {
-					return method.GetCustomAttributes<IAspect>();
-				});
+    public class AspectAttributesMemberMatcher : Tuples<MemberInfo, IEnumerable<IAspect>>
+    {
+        public AspectAttributesMemberMatcher(Type compositeType, IAspectMemebrsCollection aspectMembers) {
+            Values = aspectMembers.Select(aspect => {
+                var aspects = aspect.Members.SelectMany(method => {
+                    return method.GetCustomAttributes<IAspect>();
+                });
 
-				return Tuple.Create(aspect.Target, aspects);
-			});
-		}
-	}
+                return Tuple.Create(aspect.Target, aspects);
+            });
+        }
+    }
 }

@@ -28,13 +28,21 @@ namespace NCop.Samples
 			 Console.WriteLine(code);
 		}
 	}
-
-	public class TraceAspect : OnActionBoundaryAspect<string>
+       
+    public class TraceAspect : OnActionBoundaryAspect<string>
 	{
 		public override void OnEntry(ActionExecutionArgs<string> args) {
 			base.OnEntry(args);
 		}
 	}
+
+    [PerThreadAspect]
+    public class TraceAspect2 : OnActionBoundaryAspect<string>
+    {
+        public override void OnEntry(ActionExecutionArgs<string> args) {
+            base.OnEntry(args);
+        }
+    }
 
 	[TransientComposite]
 	[Mixins(typeof(CSharpDeveloperMixin))]
@@ -45,6 +53,7 @@ namespace NCop.Samples
 	public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>
 	{	
 		[OnMethodBoundaryAspect(typeof(TraceAspect))]
+        [OnMethodBoundaryAspect(typeof(TraceAspect2))]
 		public override void Code(string code)
 		{
 			base.Code(code);

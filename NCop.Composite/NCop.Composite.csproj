@@ -93,7 +93,6 @@
     <Compile Include="Engine\CompositePropertyMap.cs" />
     <Compile Include="Engine\CompositeRegistry.cs" />
     <Compile Include="Engine\ICompositeMethodMap.cs" />
-    <Compile Include="Engine\ICompositeMethodMapper.cs" />
     <Compile Include="Engine\ICompositePropertyMap.cs" />
     <Compile Include="Engine\ICompositePropertyMapper.cs" />
     <Compile Include="Engine\IHasCompositeMember.cs" />

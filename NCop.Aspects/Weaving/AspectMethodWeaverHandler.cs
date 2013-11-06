@@ -17,13 +17,9 @@ namespace NCop.Aspects.Weaving
         }
 
         public override IMethodWeaver Handle(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
-            IAspectBuilder aspectBuilder;
+            IAspectBuilder aspectBuilder = null;
 
-            if (KnownAspects.TryMatchAspectBuilder(methodInfo, out aspectBuilder)) {
-                return new AspectStrategyWeaver(aspectBuilder);
-            }
-
-            return NextHandler.Handle(methodInfo, typeDefinition);
+            return new AspectStrategyWeaver(aspectBuilder);
         }
     }
 }

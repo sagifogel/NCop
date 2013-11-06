@@ -83,10 +83,32 @@
   <ItemGroup>
     <Compile Include="Advices\AdviceVisitor.cs" />
     <Compile Include="Advices\OnMethodEntryAdviceAttribute.cs" />
-    <Compile Include="Aspects\Builders\MemberLevelAspectBuilderProvider.cs" />
-    <Compile Include="Aspects\Builders\TypeLevelAspectBuilder.cs" />
-    <Compile Include="Aspects\Builders\TypeLevelAspectBuilderProvider.cs" />
+    <Compile Include="Aspects\AspectBuilderCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Aspects\Builders\AttributeAspectBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Aspects\Builders\IAspectBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Aspects\Builders\IAspectBuilderCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Aspects\Builders\IAspectBuilderProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Aspects\Builders\MemberLevelAspectBuilderProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Aspects\Builders\TypeLevelAspectBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Aspects\Builders\TypeLevelAspectBuilderProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Engine\ActionInterceptionArgsImpl.cs" />
+    <Compile Include="Engine\AspectLifetimeStrategyAttribute.cs" />
     <Compile Include="Engine\AspectMembers.cs" />
     <Compile Include="Engine\AspectMemebrsCollection.cs" />
     <Compile Include="Engine\AspectTypeMethodValidator.cs" />
@@ -130,12 +152,16 @@
     <Compile Include="Engine\IActionBinding.cs" />
     <Compile Include="Engine\IFunctionBinding.cs" />
     <Compile Include="Engine\IInterceptionArgs.cs" />
+    <Compile Include="Engine\ILifetimeStrategyProvider.cs" />
+    <Compile Include="Engine\LifetimeStrategy.cs" />
     <Compile Include="Exceptions\AspectAnnotationException.cs">
       <DependentUpon>AspectAnnotationException.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Extensions\AspectBuilderExtensions.cs" />
+    <Compile Include="Extensions\AspectBuilderExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Framework\ActionExecutionArgs.cs" />
     <Compile Include="Framework\ActionExecutionArgs`1.cs" />
     <Compile Include="Framework\ActionExecutionArgs`2.cs" />
@@ -205,8 +231,6 @@
     <Compile Include="Aspects\AspectCollection.cs" />
     <Compile Include="Aspects\AspectDefinitionBuilder.cs" />
     <Compile Include="Aspects\AspectDefinitionRepository.cs" />
-    <Compile Include="Aspects\Builders\AttributeAspectBuilder.cs" />
-    <Compile Include="Aspects\AttributeAspectProvider.cs" />
     <Compile Include="Aspects\AspectMap.cs" />
     <Compile Include="Aspects\AspectsMap.cs" />
     <Compile Include="Aspects\IAspectsMap.cs" />
@@ -219,19 +243,18 @@
     </Compile>
     <Compile Include="Framework\AspectMixin.cs" />
     <Compile Include="Framework\FunctionExecutionArgs`1.cs" />
+    <Compile Include="Framework\PerThreadAspectAttribute.cs" />
+    <Compile Include="Framework\SingletonAspectAttribute.cs" />
+    <Compile Include="Framework\TransientAspectAttribute.cs" />
     <Compile Include="JoinPoints\EventJoinPointMetadata.cs" />
-    <Compile Include="Engine\Extensions.cs" />
     <Compile Include="Pointcuts\FieldJoinPointMetadata.cs" />
     <Compile Include="Engine\IAcceptsVisitor.cs" />
     <Compile Include="Engine\IAcceptsVisitor`1.cs" />
-    <Compile Include="Aspects\Builders\IAspectBuilder.cs" />
     <Compile Include="Aspects\IAspectCollection.cs" />
     <Compile Include="Aspects\IAspectFactory.cs" />
     <Compile Include="Aspects\IAspectProvider.cs" />
     <Compile Include="Engine\IInvocationJoinPoint.cs" />
     <Compile Include="JoinPoints\IJoinPoint.cs" />
-    <Compile Include="LifetimeStrategies\ILifetimeStrategy.cs" />
-    <Compile Include="LifetimeStrategies\ILifetimeStrategyProvider.cs" />
     <Compile Include="Pointcuts\IPointcut.cs" />
     <Compile Include="Pointcuts\IPointcutCollection.cs" />
     <Compile Include="Pointcuts\IPointcutStore.cs" />
@@ -265,36 +288,28 @@
     <Compile Include="Aspects\MethodAspectDefinition.cs" />
     <Compile Include="Framework\EventInterceptionAspectAttribute.cs" />
     <Compile Include="Framework\GetPropertyInterceptionAspectAttribute.cs" />
-    <Compile Include="Framework\LifetimeStrategyAttribute.cs" />
     <Compile Include="Framework\MethodInterceptionAspectAttribute.cs" />
     <Compile Include="Advices\OnMethodExceptionAdviceAttribute.cs" />
     <Compile Include="Framework\OnFunctionBoundaryAspect`1.cs" />
     <Compile Include="Aspects\PropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Framework\SetPropertyInterceptionAspectAttribute.cs" />
-    <Compile Include="LifetimeStrategies\AbstractLifetimeStrategy.cs" />
     <Compile Include="Aspects\AspectDefinition.cs" />
-    <Compile Include="LifetimeStrategies\KnownLifetimeStrategy.cs" />
-    <Compile Include="LifetimeStrategies\PerThreadLifetimeStrategy.cs" />
-    <Compile Include="LifetimeStrategies\SingletonLifetimeStrategy.cs" />
-    <Compile Include="LifetimeStrategies\TransientLifetimeStrategy.cs" />
     <Compile Include="Pointcuts\MethodCallPointcut.cs" />
     <Compile Include="Pointcuts\MethodPointcutAttribute.cs" />
     <Compile Include="Pointcuts\AbstractPointcutAttribute.cs" />
     <Compile Include="Pointcuts\IPointcutVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Aspects\AspectBuilderCollection.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Runtime\AspectsRuntime.cs" />
-    <Compile Include="Aspects\Builders\IAspectBuilderCollection.cs" />
-    <Compile Include="Aspects\Builders\IAspectBuilderProvider.cs" />
     <Compile Include="Runtime\AspectsRuntimeSettings.cs" />
-    <Compile Include="Aspects\KnownAspects.cs" />
     <Compile Include="Weaving\AspectMethodWeaverHandler.cs" />
-    <Compile Include="Weaving\AspectStrategyProvider.cs" />
+    <Compile Include="Weaving\AspectStrategyProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Weaving\FirstAspectStrategy.cs" />
     <Compile Include="Weaving\FirstMethodInterceptionAspectStartegy.cs" />
     <Compile Include="Weaving\FirstOnMethodBoundryAspectStrategy.cs" />
