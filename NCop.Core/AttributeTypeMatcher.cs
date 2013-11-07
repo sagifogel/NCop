@@ -9,95 +9,95 @@ using System.Reflection;
 
 namespace NCop.Core
 {
-	public class AttributeTypeMatcher<TAttribute> : IEnumerable<Tuple<Type, Type>>
-		where TAttribute : Attribute
-	{
-		private ISet<Type> interfaces = null;
-		private ISet<Type> registered = new HashSet<Type>();
-		private Func<TAttribute, Type[]> typeFactory = null;
-		private List<Tuple<Type, Type>> map = new List<Tuple<Type, Type>>();
+    public class AttributeTypeMatcher<TAttribute> : IEnumerable<Tuple<Type, Type>>
+        where TAttribute : Attribute
+    {
+        private ISet<Type> interfaces = null;
+        private ISet<Type> registered = new HashSet<Type>();
+        private Func<TAttribute, Type[]> typeFactory = null;
+        private List<Tuple<Type, Type>> map = new List<Tuple<Type, Type>>();
 
-		public AttributeTypeMatcher(Type type, Func<TAttribute, Type[]> typeFactory) {
-			ISet<Type> mappedInterfaces = null;
-			
-			this.typeFactory = typeFactory;
-			interfaces = type.GetInterfaces().ToSet();
-			map.AddRange(FindTypesRecursively(type));
-			mappedInterfaces = GetMappedInterfaces(interfaces.Concat(type));
+        public AttributeTypeMatcher(Type type, Func<TAttribute, Type[]> typeFactory) {
+            ISet<Type> mappedInterfaces = null;
 
-			if (map.Count != mappedInterfaces.Count) {
-				var missing = mappedInterfaces.Except(map.Select(m => m.Item1));
+            this.typeFactory = typeFactory;
+            interfaces = type.GetInterfaces().ToSet();
+            map.AddRange(FindTypesRecursively(type));
+            mappedInterfaces = GetMappedInterfaces(interfaces.Concat(type));
 
-				throw new MissingTypeException(missing.First().Name);
-			}
-		}
+            if (map.Count != mappedInterfaces.Count) {
+                var missing = mappedInterfaces.Except(map.Select(m => m.Item1));
 
-		private ISet<Type> GetMappedInterfaces(IEnumerable<Type> interfaces) {
-			var attributes = interfaces.Where(@interface => {
-				return !@interface.GetImmediateInterfaces()
-								  .Any();
-			});
+                throw new MissingTypeException(missing.First().Name);
+            }
+        }
 
-			return new HashSet<Type>(attributes);
-		}
+        private ISet<Type> GetMappedInterfaces(IEnumerable<Type> interfaces) {
+            var attributes = interfaces.Where(@interface => {
+                return !@interface.GetImmediateInterfaces()
+                                  .Any();
+            });
 
-		private IEnumerable<Tuple<Type, Type>> FindTypesRecursively(Type type) {
-			var types = FindTypes(type);
+            return new HashSet<Type>(attributes);
+        }
 
-			if (interfaces.Count != registered.Count) {
-				var immediateInterfaces = type.GetImmediateInterfaces();
-				var leftToFind = immediateInterfaces.Except(registered);
+        private IEnumerable<Tuple<Type, Type>> FindTypesRecursively(Type type) {
+            var types = FindTypes(type);
 
-				types = types.Concat(leftToFind.SelectMany(@interface => {
-					return FindTypesRecursively(@interface);
-				}));
-			}
+            if (interfaces.Count != registered.Count) {
+                var immediateInterfaces = type.GetImmediateInterfaces();
+                var leftToFind = immediateInterfaces.Except(registered);
 
-			return types;
-		}
+                types = types.Concat(leftToFind.SelectMany(@interface => {
+                    return FindTypesRecursively(@interface);
+                }));
+            }
 
-		private IEnumerable<Tuple<Type, Type>> FindTypes(Type type) {
-			var typeMap = new List<Tuple<Type, Type>>();
-			var attribute = type.GetCustomAttribute<TAttribute>();
+            return types;
+        }
 
-			if (attribute != null) {
-				typeFactory(attribute).ForEach(implementationType => {
+        private IEnumerable<Tuple<Type, Type>> FindTypes(Type type) {
+            var typeMap = new List<Tuple<Type, Type>>();
+            var attribute = type.GetCustomAttribute<TAttribute>();
+
+            if (attribute != null) {
+                typeFactory(attribute).ForEach(implementationType => {
                     if (implementationType.IsAbstract) {
                         var message = Resources.AbstracClassAnnotationIsNotSupported.Fmt(implementationType);
 
                         throw new TypeDefinitionInitializationException(message);
                     }
 
-					implementationType.GetImmediateInterfaces()
-					 .ForEach(@interface => {
-						 if (interfaces.Contains(@interface) || interfaces.HasCovariantType(@interface)) {
-							 var tuple = Tuple.Create(@interface, implementationType);
+                    implementationType.GetImmediateInterfaces()
+                                      .ForEach(@interface => {
+                                          if (interfaces.Contains(@interface) || interfaces.HasCovariantType(@interface)) {
+                                              var tuple = Tuple.Create(@interface, implementationType);
 
-							 if (!registered.Add(@interface)) {
-								 throw new DuplicateTypeAnnotationException(@interface.FullName);
-							 }
+                                              if (!registered.Add(@interface)) {
+                                                  throw new DuplicateTypeAnnotationException(@interface.FullName);
+                                              }
 
-							 typeMap.Add(tuple);
-						 }
-					 });
-				});
-			}
+                                              typeMap.Add(tuple);
+                                          }
+                                      });
+                });
+            }
 
-			return typeMap.NullCoalesce();
-		}
+            return typeMap.NullCoalesce();
+        }
 
-		public int Count {
-			get {
-				return map.Count;
-			}
-		}
+        public int Count {
+            get {
+                return map.Count;
+            }
+        }
 
-		public IEnumerator<Tuple<Type, Type>> GetEnumerator() {
-			return map.GetEnumerator();
-		}
+        public IEnumerator<Tuple<Type, Type>> GetEnumerator() {
+            return map.GetEnumerator();
+        }
 
-		IEnumerator IEnumerable.GetEnumerator() {
-			return GetEnumerator();
-		}
-	}
+        IEnumerator IEnumerable.GetEnumerator() {
+            return GetEnumerator();
+        }
+    }
 }

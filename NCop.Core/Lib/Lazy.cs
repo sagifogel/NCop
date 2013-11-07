@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace NCop.Core
+namespace NCop.Core.Lib
 {
     public sealed class Lazy<T>
     {

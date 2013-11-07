@@ -4,9 +4,8 @@ using System.Reflection;
 using System.Linq;
 using CSharpBinder = Microsoft.CSharp.RuntimeBinder;
 using NCop.Core.Extensions;
-using NCop.Core.Runtime;
 
-namespace NCop.Core
+namespace NCop.Core.Runtime
 {
     public class RuntimeSettings : IRuntimeSettings
     {

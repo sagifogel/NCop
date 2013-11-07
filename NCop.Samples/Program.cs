@@ -4,37 +4,42 @@ using System.Reflection;
 using NCop.Aspects.Aspects;
 using NCop.Aspects.Framework;
 using NCop.Composite.Framework;
+using NCop.Core.Extensions;
 using NCop.Mixins.Framework;
+using NCop.Aspects.Advices;
 
 namespace NCop.Samples
 {
-	class Program
-	{
-		static void Main(string[] args) {
-			var container = new CompositeContainer();
-			container.Configure();
+    class Program
+    {
+        static void Main(string[] args) {
+            var methods = typeof(TraceAspect).GetOverridenMethods();
+            var first = methods.Select(m => new { Method = m, Advice = m.GetCustomAttribute<AdviceAttribute>() });
 
-			var person = container.TryResolve<IPersonComposite>();
-			person.Code("CSharp");
-		}
-	}
+            var container = new CompositeContainer();
+            container.Configure();
 
-	public class GenericCovariantDeveloper<T> : IDeveloper<T>
-		where T : ILanguage, new()
-	{
-		private T langugae = new T();
+            var person = container.TryResolve<IPersonComposite>();
+            person.Code("CSharp");
+        }
+    }
 
-		public void Code(string code) {
-			 Console.WriteLine(code);
-		}
-	}
-       
-    public class TraceAspect : OnActionBoundaryAspect<string>
-	{
-		public override void OnEntry(ActionExecutionArgs<string> args) {
-			base.OnEntry(args);
-		}
-	}
+    public class GenericCovariantDeveloper<T> : IDeveloper<T>
+        where T : ILanguage, new()
+    {
+        private T langugae = new T();
+
+        public void Code(string code) {
+            Console.WriteLine(code);
+        }
+    }
+
+    public class TraceAspect : ActionInterceptionAspect<string>
+    {
+        public override void OnInvoke(ActionInterceptionArgs<string> args) {
+            base.OnInvoke(args);
+        }
+    }
 
     [PerThreadAspect]
     public class TraceAspect2 : OnActionBoundaryAspect<string>
@@ -44,76 +49,76 @@ namespace NCop.Samples
         }
     }
 
-	[TransientComposite]
-	[Mixins(typeof(CSharpDeveloperMixin))]
-	public interface IPersonComposite : IDeveloper<ILanguage>
-	{
-	}
-
-	public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>
-	{	
-		[OnMethodBoundaryAspect(typeof(TraceAspect))]
+    [TransientComposite]
+    [Mixins(typeof(CSharpDeveloperMixin))]
+    public interface IPersonComposite : IDeveloper<ILanguage>
+    {
+        [OnMethodBoundaryAspect(typeof(TraceAspect))]
         [OnMethodBoundaryAspect(typeof(TraceAspect2))]
-		public override void Code(string code)
-		{
-			base.Code(code);
-		}
-	}
+        new void Code(string code);
+    }
 
-	public class JavaScriptDeveloperMixin : AbstractDeveloper<JavaScriptLanguage>
-	{
-		
-	}
+    public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>
+    {
+        public override void Code(string code) {
+            base.Code(code);
+        }
+    }
 
-	public abstract class AbstractDeveloper<TLanguage> : IDeveloper<TLanguage>
-		where TLanguage : ILanguage, new()
-	{
-		ILanguage language = new TLanguage();
+    public class JavaScriptDeveloperMixin : AbstractDeveloper<JavaScriptLanguage>
+    {
 
-		public virtual void Code(string code) {
-			Console.WriteLine("I am coding in " + language.Description.ToString());
-		}
-	}
+    }
 
-	public interface ILanguage
-	{
-		string Description { get; }
-	}
+    public abstract class AbstractDeveloper<TLanguage> : IDeveloper<TLanguage>
+        where TLanguage : ILanguage, new()
+    {
+        ILanguage language = new TLanguage();
 
-	public class CSharpLanguage : ILanguage
-	{
-		public virtual string Description {
-			get {
-				return "C#";
-			}
-		}
-	}
+        public virtual void Code(string code) {
+            Console.WriteLine("I am coding in " + language.Description.ToString());
+        }
+    }
 
-	public class JavaScriptLanguage : ILanguage
-	{
-		public string Description {
-			get {
-				return "JavaScript";
-			}
-		}
-	}
+    public interface ILanguage
+    {
+        string Description { get; }
+    }
 
-	public class CSharpLanguage5 : CSharpLanguage
-	{
-		public override string Description {
-			get {
-				return "C# 5";
-			}
-		}
-	}
+    public class CSharpLanguage : ILanguage
+    {
+        public virtual string Description {
+            get {
+                return "C#";
+            }
+        }
+    }
 
-	public interface IDeveloper<out TLanguage>
-	{
-		void Code(string code);
-	}
+    public class JavaScriptLanguage : ILanguage
+    {
+        public string Description {
+            get {
+                return "JavaScript";
+            }
+        }
+    }
 
-	public interface IDeveloper
-	{
-		void Code(string code);
-	}
+    public class CSharpLanguage5 : CSharpLanguage
+    {
+        public override string Description {
+            get {
+                return "C# 5";
+            }
+        }
+    }
+
+    public interface IDeveloper<out TLanguage>
+    {
+        void Code(string code);
+    }
+
+    public interface IDeveloper
+    {
+        void Code(string code);
+    }
 }

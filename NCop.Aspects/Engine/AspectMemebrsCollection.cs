@@ -7,7 +7,7 @@ using NCop.Core;
 
 namespace NCop.Aspects.Engine
 {
-	public interface IAspectMemebrsCollection : IReadOnlyCollection<IAspectMembers<MemberInfo>>
-	{
-	}
+    public interface IAspectMemebrsCollection : IReadOnlyCollection<IAspectMembers<MemberInfo>>
+    {
+    }
 }

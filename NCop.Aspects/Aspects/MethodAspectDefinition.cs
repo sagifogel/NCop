@@ -1,16 +1,12 @@
 ﻿using NCop.Aspects.Advices;
-using NCop.Aspects.Engine;
-using NCop.Aspects.JoinPoints;
 using NCop.Core.Extensions;
-using System.Reflection;
-using System.Linq;
 
 namespace NCop.Aspects.Aspects
 {
     public class MethodAspectDefinition : AspectDefinition
     {
-        public MethodAspectDefinition(IAspectProvider aspectProvider, JoinPointMetadata joinPointMetadata, int aspectPriority)
-            : base(aspectProvider, joinPointMetadata, aspectPriority) {
+        public MethodAspectDefinition(IAspect aspect)
+            : base(aspect) {
         }
 
         protected override void BulidAdvices() {
@@ -18,10 +14,10 @@ namespace NCop.Aspects.Aspects
                   .GetOverridenMethods()
                   .ForEach(method => {
                       method.GetCustomAttributes<AdviceAttribute>(true)
-                            .ForEach(a => {
-                                var advice = a.Accept(AdviceVisitor);
+                            .ForEach(advice => {
+                                var adviceDefinition = new AdviceDefinition(advice, method);
 
-                                AdviceCollection.Add(advice);
+                                advices.Add(adviceDefinition);
                             });
                   });
         }

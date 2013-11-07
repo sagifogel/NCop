@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NCop.Core
+namespace NCop.Core.Lib
 {
     public class Tuples<T1, T2, T3> : IEnumerable<Tuple<T1, T2, T3>>
     {

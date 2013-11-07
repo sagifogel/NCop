@@ -126,23 +126,6 @@ namespace NCop.Core.Extensions
             return index;
         }
 
-        public static ConcurrentDictionary<TKey, TSource> ToThreadSafeDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector) {
-            return ToThreadSafeDictionary(source, local => keySelector(local), local => local);
-        }
-
-        public static ConcurrentDictionary<TKey, TValue> ToThreadSafeDictionary<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> elementSelector) {
-            return new ConcurrentDictionary<TKey, TValue>(
-                    source.ToDictionary(local => keySelector(local), local => elementSelector(local)));
-        }
-
-        public static TValue SafeGetOrAdd<TKey, TValue>(this ConcurrentDictionary<TKey, Lazy<TValue>> source, TKey key, Func<TKey, TValue> valueFactory) {
-            return source.GetOrAdd(key, new Lazy<TValue>(() => valueFactory(key))).Value;
-        }
-
-        public static TValue SafeAddOrUpdate<TKey, TValue>(this ConcurrentDictionary<TKey, Lazy<TValue>> source, TKey key, TValue addValue, Func<TKey, TValue> updateValueFactory) {
-            return source.AddOrUpdate(key, new NCop.Core.Lazy<TValue>(() => addValue), (k, lazy) => new NCop.Core.Lazy<TValue>(() => updateValueFactory(key))).Value;
-        }
-
         public static ISet<TSource> ToSet<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate = null) {
             if (predicate != null) {
                 source = source.Where(predicate);

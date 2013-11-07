@@ -23,7 +23,6 @@ namespace NCop.Aspects.Extensions
 
             return typeof(OnMethodBoundaryAspectAttribute).IsAssignableFrom(type) ||
                    typeof(MethodInterceptionAspectAttribute).IsAssignableFrom(type);
-
         }
     }
 }

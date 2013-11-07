@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NCop.Core.Extensions;
 using mscorlib = System.Collections.ObjectModel;
 
-namespace NCop.Core
+namespace NCop.Core.Lib
 {
     public class Collection<T> : mscorlib.Collection<T>
     {

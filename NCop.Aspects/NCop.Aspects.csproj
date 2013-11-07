@@ -81,12 +81,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Advices\AdviceDefinition.cs" />
     <Compile Include="Advices\AdviceVisitor.cs" />
+    <Compile Include="Advices\AviceDefinitionCollection.cs" />
+    <Compile Include="Advices\IAdviceDefinition.cs" />
+    <Compile Include="Advices\IAviceDefinitionCollection.cs" />
     <Compile Include="Advices\OnMethodEntryAdviceAttribute.cs" />
     <Compile Include="Aspects\AspectBuilderCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Aspects\Builders\AttributeAspectBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Aspects\Builders\IAspectBuilder.cs">
@@ -96,9 +97,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Aspects\Builders\IAspectBuilderProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Aspects\Builders\MemberLevelAspectBuilderProvider.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Aspects\Builders\TypeLevelAspectBuilder.cs">
@@ -172,6 +170,7 @@
     <Compile Include="Framework\ActionExecutionArgs`7.cs" />
     <Compile Include="Framework\ActionExecutionArgs`8.cs" />
     <Compile Include="Framework\ActionIntercaptionArgs`8.cs" />
+    <Compile Include="Framework\ActionInterceptionAspect.cs" />
     <Compile Include="Framework\Arguments.cs" />
     <Compile Include="Framework\ActionIntercaptionArgs`1.cs" />
     <Compile Include="Framework\ActionIntercaptionArgs`2.cs" />
@@ -181,6 +180,23 @@
     <Compile Include="Framework\ActionIntercaptionArgs`6.cs" />
     <Compile Include="Framework\ActionIntercaptionArgs`7.cs" />
     <Compile Include="Framework\ActionIntercaptionArgs.cs" />
+    <Compile Include="Framework\ActionInterceptionAspect`1.cs" />
+    <Compile Include="Framework\ActionInterceptionAspect`2.cs" />
+    <Compile Include="Framework\ActionInterceptionAspect`3.cs" />
+    <Compile Include="Framework\ActionInterceptionAspect`4.cs" />
+    <Compile Include="Framework\ActionInterceptionAspect`5.cs" />
+    <Compile Include="Framework\ActionInterceptionAspect`6.cs" />
+    <Compile Include="Framework\ActionInterceptionAspect`7.cs" />
+    <Compile Include="Framework\ActionInterceptionAspect`8.cs" />
+    <Compile Include="Framework\FunctionInterceptionAspect`1.cs" />
+    <Compile Include="Framework\FunctionInterceptionAspect`2.cs" />
+    <Compile Include="Framework\FunctionInterceptionAspect`3.cs" />
+    <Compile Include="Framework\FunctionInterceptionAspect`4.cs" />
+    <Compile Include="Framework\FunctionInterceptionAspect`5.cs" />
+    <Compile Include="Framework\FunctionInterceptionAspect`6.cs" />
+    <Compile Include="Framework\FunctionInterceptionAspect`7.cs" />
+    <Compile Include="Framework\FunctionInterceptionAspect`8.cs" />
+    <Compile Include="Framework\FunctionInterceptionAspect.cs" />
     <Compile Include="Framework\FunctionIntercaptionArgs.cs" />
     <Compile Include="Framework\FunctionIntercaptionArgs`1.cs" />
     <Compile Include="Framework\FunctionIntercaptionArgs`2.cs" />
@@ -229,7 +245,6 @@
     <Compile Include="Aspects\AspectAttribute.cs" />
     <Compile Include="Aspects\AspectByReflectionFactory.cs" />
     <Compile Include="Aspects\AspectCollection.cs" />
-    <Compile Include="Aspects\AspectDefinitionBuilder.cs" />
     <Compile Include="Aspects\AspectDefinitionRepository.cs" />
     <Compile Include="Aspects\AspectMap.cs" />
     <Compile Include="Aspects\AspectsMap.cs" />
@@ -246,28 +261,17 @@
     <Compile Include="Framework\PerThreadAspectAttribute.cs" />
     <Compile Include="Framework\SingletonAspectAttribute.cs" />
     <Compile Include="Framework\TransientAspectAttribute.cs" />
-    <Compile Include="JoinPoints\EventJoinPointMetadata.cs" />
-    <Compile Include="Pointcuts\FieldJoinPointMetadata.cs" />
     <Compile Include="Engine\IAcceptsVisitor.cs" />
     <Compile Include="Engine\IAcceptsVisitor`1.cs" />
     <Compile Include="Aspects\IAspectCollection.cs" />
     <Compile Include="Aspects\IAspectFactory.cs" />
     <Compile Include="Aspects\IAspectProvider.cs" />
-    <Compile Include="Engine\IInvocationJoinPoint.cs" />
-    <Compile Include="JoinPoints\IJoinPoint.cs" />
-    <Compile Include="Pointcuts\IPointcut.cs" />
-    <Compile Include="Pointcuts\IPointcutCollection.cs" />
-    <Compile Include="Pointcuts\IPointcutStore.cs" />
     <Compile Include="Engine\IPreventable.cs" />
-    <Compile Include="JoinPoints\JoinPointMetadata.cs" />
-    <Compile Include="JoinPoints\MethodJoinPointMetadata.cs" />
     <Compile Include="Advices\IAdvice.cs" />
     <Compile Include="Advices\IAdviceCollection.cs" />
     <Compile Include="Aspects\IAspect.cs" />
     <Compile Include="Aspects\IAspectDefinition.cs" />
     <Compile Include="Aspects\IAspectDefinitionCollection.cs" />
-    <Compile Include="Pointcuts\PointcutCollection.cs" />
-    <Compile Include="JoinPoints\PropertyJoinPointMetadata.cs" />
     <Compile Include="Exceptions\AspectTypeMismatchException.cs">
       <DependentUpon>AspectTypeMismatchException.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -279,7 +283,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Framework\AspectsAttribute.cs" />
-    <Compile Include="Aspects\JoinPointMetadataVisitor.cs" />
     <Compile Include="Advices\OnMethodInvokeAdviceAttribute.cs" />
     <Compile Include="Advices\FinallyAdviceAttribute.cs" />
     <Compile Include="Advices\OnMethodSuccessAdviceAttribute.cs" />
@@ -294,10 +297,6 @@
     <Compile Include="Aspects\PropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Framework\SetPropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Aspects\AspectDefinition.cs" />
-    <Compile Include="Pointcuts\MethodCallPointcut.cs" />
-    <Compile Include="Pointcuts\MethodPointcutAttribute.cs" />
-    <Compile Include="Pointcuts\AbstractPointcutAttribute.cs" />
-    <Compile Include="Pointcuts\IPointcutVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

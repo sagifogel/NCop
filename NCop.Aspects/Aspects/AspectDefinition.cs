@@ -1,31 +1,36 @@
 ﻿using NCop.Aspects.Advices;
-using NCop.Aspects.JoinPoints;
+using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Aspects
 {
-    public abstract class AspectDefinition : IAspectDefinition
+    public class AspectDefinition : IAspectDefinition
     {
-        protected readonly JoinPointMetadata JoinPointMetadata = null;
-        protected readonly AdviceVisitor AdviceVisitor = new AdviceVisitor();
-        protected readonly AdviceCollection AdviceCollection = new AdviceCollection();
+        protected readonly AdviceDefinitionCollection advices = null;
 
-        public AspectDefinition(IAspectProvider provider, JoinPointMetadata joinPointMetadata, int aspectPriority) {
-            Aspect = provider.Aspect;
-            AspectPriority = aspectPriority;
-            JoinPointMetadata = joinPointMetadata;
+        public AspectDefinition(IAspect aspect) {
+            Aspect = aspect;
+            advices = new AdviceDefinitionCollection();
+            
             BulidAdvices();
         }
 
         public IAspect Aspect { get; private set; }
 
-        public IAdviceCollection Advices {
+        public IAdviceDefinitionCollection Advices {
             get {
-                return AdviceCollection;
+                return advices;
             }
         }
 
-        public int AspectPriority { get; private set; }
-        
-        protected abstract void BulidAdvices();
-     }
+        protected virtual void BulidAdvices() {
+            Aspect.AspectType
+                  .GetOverridenMethods()
+                  .ForEach(method => {
+                      var advice = method.GetCustomAttribute<AdviceAttribute>(true);
+                      var adviceDefinition = new AdviceDefinition(advice, method);
+
+                      advices.Add(adviceDefinition);
+                  });
+        }
+    }
 }

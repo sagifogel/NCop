@@ -5,7 +5,6 @@ namespace NCop.Aspects.Aspects
     public interface IAspectDefinition
     {
         IAspect Aspect { get; }
-        int AspectPriority { get; }
-        IAdviceCollection Advices { get; }
+        IAdviceDefinitionCollection Advices { get; }
     }
 }

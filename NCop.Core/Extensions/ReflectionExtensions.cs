@@ -11,7 +11,7 @@ using CSharpBinder = Microsoft.CSharp.RuntimeBinder;
 
 namespace NCop.Core.Extensions
 {
-	public static class ReflectionUtils
+    public static class ReflectionExtensions
 	{
 		internal static readonly string NCopToken = "5f8f9ac08842d356";
 		private static readonly Regex publicKeyTokenValue = new Regex(@"PublicKeyToken=(?<PublicKeyTokenValue>[A-Fa-f0-9]{16})");

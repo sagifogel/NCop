@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 
-namespace NCop.Core
+namespace NCop.Core.Lib
 {
     public class Tuples<T1, T2> : IEnumerable<Tuple<T1, T2>>
     {

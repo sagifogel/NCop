@@ -8,6 +8,7 @@ using NCop.Core;
 using NCop.Core.Extensions;
 using NCop.Composite.Engine;
 using System.Threading;
+using NCop.Core.Runtime;
 
 namespace NCop.Composite.Framework
 {
@@ -24,7 +25,6 @@ namespace NCop.Composite.Framework
 
         internal CompositeContainer(CompositeContainer parentContainer, RuntimeSettings settings = null) {
             this.parentContainer = parentContainer;
-
             var composite = new CompositeRuntime(settings, registry);
             this.settings = settings;
 
