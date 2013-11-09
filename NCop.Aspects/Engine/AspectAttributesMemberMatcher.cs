@@ -12,7 +12,7 @@ namespace NCop.Aspects.Engine
 {
     public class AspectAttributesMemberMatcher : Tuples<MemberInfo, IEnumerable<IAspectDefinition>>
     {
-        public AspectAttributesMemberMatcher(Type compositeType, IAspectMemebrsCollection aspectMembersCollection) {
+        public AspectAttributesMemberMatcher(Type aspectDeclaringType, IAspectMemebrsCollection aspectMembersCollection) {
             Values = aspectMembersCollection.Select(aspectMembers => {
                 var aspects = aspectMembers.Members.SelectMany(member => {
                     return member.GetCustomAttributes<IAspect>()

@@ -83,9 +83,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\AbstractCompositeMemberMap.cs" />
-    <Compile Include="Engine\CompositeMethodMap.cs" />
     <Compile Include="Engine\CompositeMemberMapper.cs" />
+    <Compile Include="Engine\CompositeMethodMap.cs" />
     <Compile Include="Engine\CompositeAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -95,7 +94,7 @@
     <Compile Include="Engine\ICompositeMethodMap.cs" />
     <Compile Include="Engine\ICompositePropertyMap.cs" />
     <Compile Include="Engine\ICompositePropertyMapper.cs" />
-    <Compile Include="Engine\IHasCompositeMember.cs" />
+    <Compile Include="Engine\IHasAspectDefinition.cs" />
     <Compile Include="Engine\WellKnownComposites.cs">
       <SubType>Code</SubType>
     </Compile>

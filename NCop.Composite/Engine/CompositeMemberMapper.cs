@@ -6,84 +6,79 @@ using NCop.Core;
 using NCop.Core.Extensions;
 using NCop.Aspects.Engine;
 using System.Reflection;
+using NCop.Aspects.Aspects;
 
 namespace NCop.Composite.Engine
 {
-	public class CompositeMemberMapper : IAspectMemebrsCollection
-	{
-		private List<ICompositeMethodMap> mappedMethods = null;
-		private List<ICompositePropertyMap> mappedProperties = null;
+    public class CompositeMemberMapper : IAspectMemebrsCollection
+    {
+        private List<ICompositeMethodMap> mappedMethods = null;
+        private List<ICompositePropertyMap> mappedProperties = null;
 
-		public CompositeMemberMapper(Type compositeType, ITypeMap mixinsMap) {
-			MapMethods(compositeType, mixinsMap);
-			MapProperties(compositeType, mixinsMap);
-		}
+        public CompositeMemberMapper(IAspectsMap aspectMap, IAspectMemebrsCollection aspectMembersCollection) {
+            MapMethods(aspectMap, aspectMembersCollection.Methods);
+            MapProperties(aspectMap, aspectMembersCollection.Properties);
+        }
 
-		private void MapMethods(Type compositeType, ITypeMap mixinsMap) {
-			var compositeMethods = compositeType.GetMethods();
-			var methodMapper = new MethodMapper(mixinsMap);
+        private void MapMethods(IAspectsMap aspectsMap, IEnumerable<IAspectMethodMap> aspetMappedMethods) {
+            var mappedMethodsEnumerable = from mapped in aspetMappedMethods
+                                          from aspectMap in aspectsMap.Where(map => {
+                                              var method = map.Member as MethodInfo;
 
-			var mappedMethodsEnumerable = methodMapper.Select(map => {
-				var compositeMethod = compositeMethods.FirstOrDefault(m => {
-					return m.IsMatchedTo(map.ContractMember);
-				});
+                                              return method.IsMatchedTo(mapped.ImplementationMember);
+                                          }).DefaultIfEmpty()
+                                          select new CompositeMethodMap(mapped.ContractType,
+                                                                        mapped.ImplementationType,
+                                                                        mapped.ContractMember,
+                                                                        mapped.ImplementationMember,
+                                                                        aspectMap.Aspects);
 
-				return new CompositeMethodMap(map.ContractType,
-											  map.ImplementationType,
-											  compositeMethod,
-											  map.ImplementationMember,
-											  map.ContractMember);
-			});
+            mappedMethods = mappedMethodsEnumerable.ToListOf<ICompositeMethodMap>();
+        }
 
-			mappedMethods = mappedMethodsEnumerable.ToListOf<ICompositeMethodMap>();
-		}
+        private void MapProperties(IAspectsMap aspectsMap, IEnumerable<IAspectPropertyMap> aspectMappedProperties) {
+            var mappedPropertiesEnumerable = from mapped in aspectMappedProperties
+                                             from aspectMap in aspectsMap.Where(map => {
+                                                 var method = map.Member as PropertyInfo;
 
-		private void MapProperties(Type compositeType, ITypeMap mixinsMap) {
-			var compositeProperties = compositeType.GetProperties();
-			var propertyMapper = new PropertyMapper(mixinsMap);
+                                                 return method.IsMatchedTo(mapped.ImplementationMember);
+                                             }).DefaultIfEmpty()
+                                             select new CompositePropertyMap(mapped.ContractType,
+                                                                             mapped.ImplementationType,
+                                                                             mapped.ContractMember,
+                                                                             mapped.ImplementationMember,
+                                                                             aspectMap.Aspects);
 
-			var mappedPropertiesEnumerable = propertyMapper.Select(map => {
-				var compositeMethod = compositeProperties.FirstOrDefault(m => {
-					return m.IsMatchedTo(map.ContractMember);
-				});
+            mappedProperties = mappedPropertiesEnumerable.ToListOf<ICompositePropertyMap>();
+        }
 
-				return new CompositePropertyMap(map.ContractType,
-												map.ImplementationType,
-												compositeMethod,
-												map.ImplementationMember,
-												map.ContractMember);
-			});
+        public IEnumerable<IAspectMethodMap> Methods {
+            get {
+                return mappedMethods;
+            }
+        }
 
-			mappedProperties = mappedPropertiesEnumerable.ToListOf<ICompositePropertyMap>();
-		}
+        public IEnumerable<IAspectPropertyMap> Properties {
+            get {
+                return mappedProperties;
+            }
+        }
 
-		public IEnumerable<ICompositeMethodMap> Methods {
-			get {
-				return mappedMethods;
-			}
-		}
+        public int Count {
+            get {
+                return mappedMethods.Count + mappedProperties.Count;
+            }
+        }
 
-		public IEnumerable<ICompositePropertyMap> Properties {
-			get {
-				return mappedProperties;
-			}
-		}
+        public IEnumerator<IAspectMembers<MemberInfo>> GetEnumerator() {
+            var aspectsMethods = mappedMethods.Cast<IAspectMembers<MemberInfo>>();
+            var aspectsProperties = mappedProperties.Cast<IAspectMembers<MemberInfo>>();
 
-		public int Count {
-			get {
-				return mappedMethods.Count + mappedProperties.Count;
-			}
-		}
+            return aspectsMethods.Concat(aspectsProperties).GetEnumerator();
+        }
 
-		public IEnumerator<IAspectMembers<MemberInfo>> GetEnumerator() {
-			var aspectsMethods = mappedMethods.Cast<IAspectMembers<MemberInfo>>();
-			var aspectsProperties = mappedProperties.Cast<IAspectMembers<MemberInfo>>();
-
-			return aspectsMethods.Concat(aspectsProperties).GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator() {
-			return GetEnumerator();
-		}
-	}
+        IEnumerator IEnumerable.GetEnumerator() {
+            return GetEnumerator();
+        }
+    }
 }

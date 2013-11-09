@@ -12,37 +12,38 @@ using NCop.Weaving;
 
 namespace NCop.Composite.Weaving
 {
-	internal class CompositeTypeWeaverBuilder : ITypeWeaverBuilder
-	{
-		private readonly MixinsTypeWeaverBuilder builder = null;
+    internal class CompositeTypeWeaverBuilder : ITypeWeaverBuilder
+    {
+        private readonly MixinsTypeWeaverBuilder builder = null;
 
-		internal CompositeTypeWeaverBuilder(Type compositeType, IRegistry registry) {
-			var mixinsMap = new MixinsMap(compositeType);
-			var mappedMembers = new CompositeMemberMapper(compositeType, mixinsMap);
-			var aspectsMap = new AspectsMap(compositeType, mappedMembers);
-			var factory = new MixinsTypeDefinitionWeaver(compositeType, mixinsMap);
+        internal CompositeTypeWeaverBuilder(Type compositeType, IRegistry registry) {
+            var mixinsMap = new MixinsMap(compositeType);
+            var aspectMappedMembers = new AspectMemberMapper(compositeType, mixinsMap);
+            var aspectsMap = new AspectsMap(compositeType, aspectMappedMembers);
+            var factory = new MixinsTypeDefinitionWeaver(compositeType, mixinsMap);
+            var compositeMappedMembers = new CompositeMemberMapper(aspectsMap, aspectMappedMembers);
 
-			builder = new MixinsTypeWeaverBuilder(compositeType, factory, registry);
+            builder = new MixinsTypeWeaverBuilder(compositeType, factory, registry);
 
-			mixinsMap.ForEach(map => {
-				builder.Add(map);
-			});
+            mixinsMap.ForEach(map => {
+                builder.Add(map);
+            });
 
-			mappedMembers.Methods.ForEach(mappedMethod => {
-				var methodBuilder = new MethodWeaverBuilder(mappedMethod.ImplementationMember, mappedMethod.ImplementationType, mappedMethod.ContractType, factory);
+            compositeMappedMembers.Methods.ForEach(mappedMethod => {
+                var methodBuilder = new MethodWeaverBuilder(mappedMethod.ImplementationMember, mappedMethod.ImplementationType, mappedMethod.ContractType, factory);
 
-				builder.Add(methodBuilder);
-			});
+                builder.Add(methodBuilder);
+            });
 
-			mappedMembers.Properties.ForEach(mappedParoperty => {
-				var propertyBuilder = new PropertyWeaverBuilder(mappedParoperty.ImplementationMember, mappedParoperty.ImplementationType, mappedParoperty.ContractType, factory);
+            compositeMappedMembers.Properties.ForEach(mappedParoperty => {
+                var propertyBuilder = new PropertyWeaverBuilder(mappedParoperty.ImplementationMember, mappedParoperty.ImplementationType, mappedParoperty.ContractType, factory);
 
-				builder.Add(propertyBuilder);
-			});
-		}
+                builder.Add(propertyBuilder);
+            });
+        }
 
-		public ITypeWeaver Build() {
-			return builder.Build();
-		}
-	}
+        public ITypeWeaver Build() {
+            return builder.Build();
+        }
+    }
 }

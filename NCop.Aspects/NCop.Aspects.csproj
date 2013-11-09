@@ -109,6 +109,8 @@
     <Compile Include="Engine\AspectLifetimeStrategyAttribute.cs" />
     <Compile Include="Engine\AspectMembers.cs" />
     <Compile Include="Engine\AspectMemebrsCollection.cs" />
+    <Compile Include="Engine\AspectMethodMap.cs" />
+    <Compile Include="Engine\AspectPropertyMap.cs" />
     <Compile Include="Engine\AspectTypeMethodValidator.cs" />
     <Compile Include="Engine\AspectValidator.cs" />
     <Compile Include="Engine\ActionInterceptionArgsImpl`1.cs" />
@@ -119,6 +121,11 @@
     <Compile Include="Engine\ActionInterceptionArgsImpl`6.cs" />
     <Compile Include="Engine\ActionInterceptionArgsImpl`7.cs" />
     <Compile Include="Engine\ActionInterceptionArgsImpl`8.cs" />
+    <Compile Include="Engine\AspectMemberMapper.cs" />
+    <Compile Include="Engine\IAspectMethodMap.cs" />
+    <Compile Include="Engine\IAspectMethodMapCollection.cs" />
+    <Compile Include="Engine\IAspectPropertyMap.cs" />
+    <Compile Include="Engine\IAspectPropertyMapCollection.cs" />
     <Compile Include="Engine\IFunctionBinding`1.cs" />
     <Compile Include="Engine\IFunctionBinding`2.cs" />
     <Compile Include="Engine\IFunctionBinding`4.cs" />

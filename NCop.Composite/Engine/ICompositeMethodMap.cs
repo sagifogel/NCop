@@ -8,8 +8,8 @@ using NCop.Core;
 
 namespace NCop.Composite.Engine
 {
-	public interface ICompositeMethodMap : IAspectMembers<MethodInfo>, IMemberMap<MethodInfo>, IHasCompositeMember<MethodInfo>
+    public interface ICompositeMethodMap : IAspectMethodMap, IHasAspectDefinitions
 	{
-
+       
 	}
 }

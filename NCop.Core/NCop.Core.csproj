@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractMemberMap.cs" />
     <Compile Include="AttributeTypeMatcher.cs" />
     <Compile Include="Functional.cs" />
     <Compile Include="Exceptions\AttributeNotFoundException.cs">
