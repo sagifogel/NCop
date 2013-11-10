@@ -10,12 +10,12 @@ using NCop.Aspects.Aspects;
 
 namespace NCop.Composite.Engine
 {
-    public class CompositeMethodMap : AbstractMemberMap<MethodInfo>, IHasAspectDefinitions
+    public class CompositeMethodMap : AbstractMemberMap<MethodInfo>, ICompositeMethodMap
     {
         public CompositeMethodMap(Type contractType, Type implementationType, MethodInfo contractMethod, MethodInfo implementationMethod, IEnumerable<IAspectDefinition> aspectDefinitions)
             : base(contractType, implementationType, contractMethod, implementationMethod) {
             AspectDefinitions = aspectDefinitions;
-            HasAspectDefinitions = !aspectDefinitions.IsNullOrEmpty();
+            HasAspectDefinitions = aspectDefinitions.IsNotNullOrEmpty();
         }
 
         public bool HasAspectDefinitions { get; private set; }

@@ -10,12 +10,12 @@ using System.Text;
 
 namespace NCop.Composite.Engine
 {
-    public class CompositePropertyMap : AbstractMemberMap<PropertyInfo>, IHasAspectDefinitions
+    public class CompositePropertyMap : AbstractMemberMap<PropertyInfo>, ICompositePropertyMap
     {
         public CompositePropertyMap(Type contractType, Type implementationType, PropertyInfo contractProperty, PropertyInfo implementationProperty, IEnumerable<IAspectDefinition> aspectDefinitions)
             : base(contractType, implementationType, contractProperty, implementationProperty) {
             AspectDefinitions = aspectDefinitions;
-            HasAspectDefinitions = !aspectDefinitions.IsNullOrEmpty();
+            HasAspectDefinitions = aspectDefinitions.IsNotNullOrEmpty();
         }
 
         public bool HasAspectDefinitions { get; private set; }

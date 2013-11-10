@@ -35,7 +35,7 @@ namespace NCop.Aspects.Engine
                                            aspectMethod);
             });
 
-            mappedMethods = mappedMethodsEnumerable.ToListOf<IAspectMethodMap>();
+            mappedMethods = mappedMethodsEnumerable.ToList<IAspectMethodMap>();
         }
 
         private void MapProperties(Type aspectDeclaringType, ITypeMap typeMap) {
@@ -54,7 +54,7 @@ namespace NCop.Aspects.Engine
                                              aspectProperty);
             });
 
-            mappedProperties = mappedPropertiesEnumerable.ToListOf<IAspectPropertyMap>();
+            mappedProperties = mappedPropertiesEnumerable.ToList<IAspectPropertyMap>();
         }
 
         public IEnumerable<IAspectMethodMap> Methods {
@@ -76,10 +76,9 @@ namespace NCop.Aspects.Engine
         }
 
         public IEnumerator<IAspectMembers<MemberInfo>> GetEnumerator() {
-            var aspectsMethods = mappedMethods.Cast<IAspectMembers<MemberInfo>>();
             var aspectsProperties = mappedProperties.Cast<IAspectMembers<MemberInfo>>();
 
-            return aspectsMethods.Concat(aspectsProperties).GetEnumerator();
+            return mappedMethods.Concat(aspectsProperties).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() {

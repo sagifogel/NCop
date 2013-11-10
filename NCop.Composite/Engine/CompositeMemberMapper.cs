@@ -10,7 +10,7 @@ using NCop.Aspects.Aspects;
 
 namespace NCop.Composite.Engine
 {
-    public class CompositeMemberMapper : IAspectMemebrsCollection
+    public class CompositeMemberMapper : ICompositeMemberCollection
     {
         private List<ICompositeMethodMap> mappedMethods = null;
         private List<ICompositePropertyMap> mappedProperties = null;
@@ -52,13 +52,13 @@ namespace NCop.Composite.Engine
             mappedProperties = mappedPropertiesEnumerable.ToListOf<ICompositePropertyMap>();
         }
 
-        public IEnumerable<IAspectMethodMap> Methods {
+        public IEnumerable<ICompositeMethodMap> Methods {
             get {
                 return mappedMethods;
             }
         }
 
-        public IEnumerable<IAspectPropertyMap> Properties {
+        public IEnumerable<ICompositePropertyMap> Properties {
             get {
                 return mappedProperties;
             }

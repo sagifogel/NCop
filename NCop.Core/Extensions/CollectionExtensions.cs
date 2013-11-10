@@ -48,6 +48,10 @@ namespace NCop.Core.Extensions
             return !source.Any();
         }
 
+        public static bool IsNotNullOrEmpty<TSource>(this IEnumerable<TSource> source) {
+            return !source.IsNullOrEmpty();
+        }
+
         public static IEnumerable<TSource> NullCoalesce<TSource>(this IEnumerable<TSource> source) {
             return source ?? Enumerable.Empty<TSource>();
         }

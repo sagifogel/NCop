@@ -8,7 +8,7 @@ using NCop.Core;
 
 namespace NCop.Composite.Engine
 {
-    public interface ICompositePropertyMap : IAspectPropertyMap, IHasAspectDefinitions
+    public interface ICompositePropertyMap : IAspectMembers<PropertyInfo>, IMemberMap<PropertyInfo>, IHasAspectDefinitions
     {
     }
 }

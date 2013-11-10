@@ -12,19 +12,7 @@ namespace NCop.Samples
 {
     class Program
     {
-        static int[] places = { 1, 2, 3, 4, 5, 6, 7, 8 };
-        static int[] cities = { 1, 2, 3, 4, 5, 6 };
-        
         static void Main(string[] args) {
-            var join = places.GroupJoin(cities,
-                                       p1 => p1,
-                                       c1 => c1,
-                                       (p2, c2s) => new {
-                                           Place = p2,
-                                           CityName = c2s.Count() == 0 ? -1
-                                                      : c2s.First()
-                                       });
-
             var container = new CompositeContainer();
             container.Configure();
 

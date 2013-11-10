@@ -91,9 +91,12 @@
     <Compile Include="Engine\CompositeFrameworkRegistration.cs" />
     <Compile Include="Engine\CompositePropertyMap.cs" />
     <Compile Include="Engine\CompositeRegistry.cs" />
+    <Compile Include="Engine\ICompositeMemberCollection.cs" />
     <Compile Include="Engine\ICompositeMethodMap.cs" />
+    <Compile Include="Engine\ICompositeMethodMapCollection.cs" />
     <Compile Include="Engine\ICompositePropertyMap.cs" />
     <Compile Include="Engine\ICompositePropertyMapper.cs" />
+    <Compile Include="Engine\ICompositePropertyMapCollection.cs" />
     <Compile Include="Engine\IHasAspectDefinition.cs" />
     <Compile Include="Engine\WellKnownComposites.cs">
       <SubType>Code</SubType>

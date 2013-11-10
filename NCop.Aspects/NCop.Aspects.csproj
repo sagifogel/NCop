@@ -108,7 +108,7 @@
     <Compile Include="Engine\ActionInterceptionArgsImpl.cs" />
     <Compile Include="Engine\AspectLifetimeStrategyAttribute.cs" />
     <Compile Include="Engine\AspectMembers.cs" />
-    <Compile Include="Engine\AspectMemebrsCollection.cs" />
+    <Compile Include="Engine\IAspectMemebrsCollection.cs" />
     <Compile Include="Engine\AspectMethodMap.cs" />
     <Compile Include="Engine\AspectPropertyMap.cs" />
     <Compile Include="Engine\AspectTypeMethodValidator.cs" />
