@@ -47,8 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractMethodScopeWeaver.cs" />
-    <Compile Include="AbstractTypeWeaverBuilder.cs" />
-    <Compile Include="PropertyEndWeaver.cs" />
     <Compile Include="PropertyGetDecoratorScopeWeaver.cs" />
     <Compile Include="PropertyGetDecoratorWeaver.cs" />
     <Compile Include="PropertyGetSignatureWeaver.cs" />

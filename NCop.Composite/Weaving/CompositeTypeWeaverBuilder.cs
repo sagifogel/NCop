@@ -29,14 +29,14 @@ namespace NCop.Composite.Weaving
                 builder.Add(map);
             });
 
-            compositeMappedMembers.Methods.ForEach(compositeMethodMap => {
-                var methodBuilder = new CompositeMethodWeaverBuilder(compositeMethodMap, factory);
+            compositeMappedMembers.Methods.ForEach(mappedMethod => {
+                var methodBuilder = new MethodWeaverBuilder(mappedMethod.ImplementationMember, mappedMethod.ImplementationType, mappedMethod.ContractType, factory);
 
                 builder.Add(methodBuilder);
             });
 
-            compositeMappedMembers.Properties.ForEach(compositePropertyMap => {
-                var propertyBuilder = new CompositePropertyWeaverBuilder(compositePropertyMap, factory);
+            compositeMappedMembers.Properties.ForEach(mappedParoperty => {
+                var propertyBuilder = new PropertyWeaverBuilder(mappedParoperty.ImplementationMember, mappedParoperty.ImplementationType, mappedParoperty.ContractType, factory);
 
                 builder.Add(propertyBuilder);
             });

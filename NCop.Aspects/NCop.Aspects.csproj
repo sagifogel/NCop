@@ -315,7 +315,6 @@
     </Compile>
     <Compile Include="Runtime\AspectsRuntime.cs" />
     <Compile Include="Runtime\AspectsRuntimeSettings.cs" />
-    <Compile Include="Weaving\AspectExpressionBuilder.cs" />
     <Compile Include="Weaving\AspectMethodWeaverHandler.cs" />
     <Compile Include="Weaving\AspectStrategyProvider.cs">
       <SubType>Code</SubType>

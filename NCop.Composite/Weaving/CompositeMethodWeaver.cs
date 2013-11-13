@@ -1,5 +1,4 @@
-﻿using NCop.Aspects.Aspects;
-using NCop.Core.Extensions;
+﻿using NCop.Core.Extensions;
 using NCop.Weaving;
 using System;
 using System.Collections.Generic;
@@ -11,10 +10,10 @@ namespace NCop.Composite.Weaving
 {
     internal class CompositeMethodWeaver : AbstractMethodWeaver
     {
-        internal CompositeMethodWeaver(IEnumerable<IAspectDefinition> aspectDefinition, MethodInfo methodInfoImpl, Type implementationType, Type contractType)
+        internal CompositeMethodWeaver(MethodInfo methodInfoImpl, Type implementationType, Type contractType, IMethodSignatureWeaver methodDefinitionWeaver, IEnumerable<IMethodWeaver> methodWeavers)
             : base(methodInfoImpl, implementationType, contractType) {
-            MethodDefintionWeaver = new MethodSignatureWeaver();
-            MethodScopeWeaver = new MethodDecoratorScopeWeaver(methodInfoImpl, implementationType, contractType);
+            MethodDefintionWeaver = methodDefinitionWeaver;
+            MethodScopeWeaver = new MethodScopeWeaversQueue(methodWeavers.Select(weaver => weaver.MethodScopeWeaver));
             MethodEndWeaver = new MethodEndWeaver();
         }
 

@@ -42,7 +42,7 @@ namespace NCop.Weaving
 
         public bool CanRead {
             get {
-                return propertyInfoImpl.CanRead;
+                return propertyInfoImpl.CanRead;     
             }
         }
 

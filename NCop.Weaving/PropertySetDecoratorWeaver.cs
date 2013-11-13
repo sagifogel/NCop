@@ -11,7 +11,7 @@ namespace NCop.Weaving
     {
         public PropertySetDecoratorWeaver(MethodInfo methodInfoImpl, Type implementationType, Type contractType)
             : base(methodInfoImpl, implementationType, contractType) {
-            MethodEndWeaver = new PropertyEndWeaver();
+            MethodEndWeaver = new MethodEndWeaver();
             MethodDefintionWeaver = new PropertySetSignatureWeaver();
             MethodScopeWeaver = new PropertySetDecoratorScopeWeaver(methodInfoImpl, implementationType, contractType);
         }
