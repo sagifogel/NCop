@@ -6,9 +6,9 @@ using System.Text;
 
 namespace NCop.Aspects.Framework
 {
-    public abstract class FunctionInterceptionAspect<TInstance, TArg1, TResult>
+    public abstract class FunctionInterceptionAspect<TArg1, TResult>
     {
         [OnMethodInvokeAdvice]
-        public abstract TResult OnInvoke(FunctionInterceptionArgs<TInstance, TArg1, TResult> args);
+        public abstract TResult OnInvoke(FunctionInterceptionArgs<TArg1, TResult> args);
     }
 }

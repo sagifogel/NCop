@@ -7,5 +7,6 @@ namespace NCop.Aspects.Framework
 {
 	public interface IActionExecutionArgs
 	{
+        FlowBehavior FlowBehavior { get; }
 	}
 }

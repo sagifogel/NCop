@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace NCop.Composite.Weaving
+namespace NCop.Weaving
 {
     public abstract class AbstractWeaverBuilder<TMember> where TMember : MemberInfo
     {

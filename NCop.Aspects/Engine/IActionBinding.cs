@@ -5,8 +5,8 @@ using System.Text;
 
 namespace NCop.Aspects.Engine
 {
-    public interface IActionBinding<TInstance>
+    public interface IActionBinding
     {
-        void Invoke(ref TInstance instance);
+        void Invoke(ref object instance);
     }
 }

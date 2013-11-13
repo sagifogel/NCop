@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NCop.Aspects.Engine
 {
-    public class FunctionInterceptionArgsImpl<TInstance, TArg1, TArg2, TResult> : FunctionExecutionArgs<TInstance, TArg1, TArg2, TResult>, IInterceptable
+    public class FunctionInterceptionArgsImpl<TArg1, TArg2, TResult> : FunctionInterceptionArgs<TArg1, TArg2, TResult>, IInterceptable
     {
         private readonly IFunctionBinding<TArg1, TArg2, TResult> funcBinding = null;
 
@@ -17,7 +17,7 @@ namespace NCop.Aspects.Engine
             this.funcBinding = funcBinding;
         }
 
-        public void Proceed() {
+        public override void Proceed() {
             var instance = Instance;
 
             funcBinding.Invoke(ref instance, Arg1, Arg2);

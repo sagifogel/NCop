@@ -6,19 +6,19 @@ using NCop.Aspects.Advices;
 
 namespace NCop.Aspects.Framework
 {
-	public class OnActionBoundaryAspect<TInstance>
+	public class OnActionBoundaryAspect
 	{
 		[OnMethodEntryAdvice]
-		public virtual void OnEntry(ActionExecutionArgs<TInstance> args) { }
+		public virtual void OnEntry(ActionExecutionArgs args) { }
 
 		[FinallyAdvice]
-        public virtual void OnExit(ActionExecutionArgs<TInstance> args) { }
+        public virtual void OnExit(ActionExecutionArgs args) { }
 
 		[OnMethodSuccessAdvice]
-        public virtual void OnSuccess(ActionExecutionArgs<TInstance> args) { }
+        public virtual void OnSuccess(ActionExecutionArgs args) { }
 
 		[OnMethodExceptionAdvice]
-        public virtual void OnException(ActionExecutionArgs<TInstance> args) { }
+        public virtual void OnException(ActionExecutionArgs args) { }
 	
 	}
 }

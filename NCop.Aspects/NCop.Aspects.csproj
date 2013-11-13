@@ -216,10 +216,12 @@
     <Compile Include="Framework\GenericActionExecutionArgs.cs" />
     <Compile Include="Framework\GenericFunctionExecutionArgs.cs" />
     <Compile Include="Framework\IActionExecutionArgs.cs" />
-    <Compile Include="Framework\IAdviceArgs.cs" />
+    <Compile Include="Engine\IAdviceArgs.cs" />
     <Compile Include="Framework\IFunctionExecutionArgs.cs" />
     <Compile Include="Framework\IMethodExecutionArgs.cs" />
-    <Compile Include="Framework\MethodExecutionArgs.cs" />
+    <Compile Include="Engine\InterceptionArgs.cs" />
+    <Compile Include="Engine\ExecutionArgs.cs" />
+    <Compile Include="Framework\MethodInterceptionArgs.cs" />
     <Compile Include="Framework\OnActionBoundaryAspect`1.cs" />
     <Compile Include="Framework\OnActionBoundaryAspect`2.cs" />
     <Compile Include="Framework\OnActionBoundaryAspect`3.cs" />
@@ -228,7 +230,7 @@
     <Compile Include="Framework\OnActionBoundaryAspect`6.cs" />
     <Compile Include="Framework\OnActionBoundaryAspect`7.cs" />
     <Compile Include="Framework\OnActionBoundaryAspect`8.cs" />
-    <Compile Include="Framework\AdviceArgs.cs" />
+    <Compile Include="Engine\AdviceArgs.cs" />
     <Compile Include="Framework\OnActionBoundaryAspect.cs" />
     <Compile Include="Framework\OnMethodBoundaryAspectAttribute.cs" />
     <Compile Include="Framework\OnFunctionBoundaryAspect.cs" />
@@ -315,14 +317,6 @@
     </Compile>
     <Compile Include="Runtime\AspectsRuntime.cs" />
     <Compile Include="Runtime\AspectsRuntimeSettings.cs" />
-    <Compile Include="Weaving\AspectMethodWeaverHandler.cs" />
-    <Compile Include="Weaving\AspectStrategyProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Weaving\FirstAspectStrategy.cs" />
-    <Compile Include="Weaving\FirstMethodInterceptionAspectStartegy.cs" />
-    <Compile Include="Weaving\FirstOnMethodBoundryAspectStrategy.cs" />
-    <Compile Include="Weaving\Responsibility\AspectPipelineMethodWeaver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Exceptions\AspectTypeMismatchException.tt">
@@ -364,6 +358,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Weaving\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

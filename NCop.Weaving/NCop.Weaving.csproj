@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractMethodScopeWeaver.cs" />
+    <Compile Include="AbstractTypeWeaverBuilder.cs" />
+    <Compile Include="AbstractWeaverBuilder.cs" />
+    <Compile Include="PropertyEndWeaver.cs" />
     <Compile Include="PropertyGetDecoratorScopeWeaver.cs" />
     <Compile Include="PropertyGetDecoratorWeaver.cs" />
     <Compile Include="PropertyGetSignatureWeaver.cs" />
@@ -88,9 +91,6 @@
     <Compile Include="PropertySetDecoratorScopeWeaver.cs" />
     <Compile Include="PropertySetSignatureWeaver.cs" />
     <Compile Include="ReflectionUtils.cs" />
-    <Compile Include="Responsibility\AbstractMethodWeaverHandler.cs" />
-    <Compile Include="Responsibility\IMethodWeaverChainer.cs" />
-    <Compile Include="Responsibility\MethodDecoratorWeaverHandler.cs" />
     <Compile Include="PropertySetDecoratorWeaver.cs" />
   </ItemGroup>
   <ItemGroup>

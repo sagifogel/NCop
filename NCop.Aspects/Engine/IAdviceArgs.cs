@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace NCop.Aspects.Framework
+namespace NCop.Aspects.Engine
 {
     public interface IAdviceArgs
     {

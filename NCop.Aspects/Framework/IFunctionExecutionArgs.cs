@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NCop.Aspects.Framework
 {
-	public interface IFunctionExecutionArgs
+    public interface IFunctionExecutionArgs : IMethodExecutionArgs
 	{
 	}
 }

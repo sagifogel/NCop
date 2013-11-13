@@ -6,11 +6,11 @@ using System.Text;
 
 namespace NCop.Aspects.Engine
 {
-    public class ActionInterceptionArgsImpl<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5> : ActionExecutionArgs<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5>
+    public class ActionInterceptionArgsImpl<TArg1, TArg2, TArg3, TArg4, TArg5> : ActionInterceptionArgs<TArg1, TArg2, TArg3, TArg4, TArg5>
     {
-        private readonly IActionBinding<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5> actionBinding = null;
+        private readonly IActionBinding<TArg1, TArg2, TArg3, TArg4, TArg5> actionBinding = null;
 
-        public ActionInterceptionArgsImpl(TInstance instance, IActionBinding<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5> actionBinding, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5) {
+        public ActionInterceptionArgsImpl(object instance, IActionBinding<TArg1, TArg2, TArg3, TArg4, TArg5> actionBinding, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5) {
             Arg1 = arg1;
             Arg2 = arg2;
             Arg3 = arg3;

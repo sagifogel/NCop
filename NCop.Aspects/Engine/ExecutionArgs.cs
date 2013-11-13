@@ -1,12 +1,12 @@
-﻿using System;
+﻿using NCop.Aspects.Engine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace NCop.Aspects.Engine
 {
-    public interface IActionBinding<TArg1>
+    public class ExecutionArgs : AdviceArgs
     {
-        void Invoke(ref object instance, TArg1 arg1);
     }
 }

@@ -6,8 +6,7 @@ using System.Text;
 
 namespace NCop.Aspects.Framework
 {
-    public abstract class ActionExecutionArgs : ExecutionArgs, IActionExecutionArgs
+    public abstract class MethodInterceptionArgs : InterceptionArgs
     {
-        public FlowBehavior FlowBehavior { get; protected set; }
     }
 }
