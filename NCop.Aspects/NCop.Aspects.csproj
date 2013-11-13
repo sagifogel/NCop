@@ -216,7 +216,10 @@
     <Compile Include="Framework\GenericActionExecutionArgs.cs" />
     <Compile Include="Framework\GenericFunctionExecutionArgs.cs" />
     <Compile Include="Framework\IActionExecutionArgs.cs" />
+    <Compile Include="Framework\IAdviceArgs.cs" />
     <Compile Include="Framework\IFunctionExecutionArgs.cs" />
+    <Compile Include="Framework\IMethodExecutionArgs.cs" />
+    <Compile Include="Framework\MethodExecutionArgs.cs" />
     <Compile Include="Framework\OnActionBoundaryAspect`1.cs" />
     <Compile Include="Framework\OnActionBoundaryAspect`2.cs" />
     <Compile Include="Framework\OnActionBoundaryAspect`3.cs" />
@@ -225,7 +228,7 @@
     <Compile Include="Framework\OnActionBoundaryAspect`6.cs" />
     <Compile Include="Framework\OnActionBoundaryAspect`7.cs" />
     <Compile Include="Framework\OnActionBoundaryAspect`8.cs" />
-    <Compile Include="Framework\MethodExecutionArgs.cs" />
+    <Compile Include="Framework\AdviceArgs.cs" />
     <Compile Include="Framework\OnActionBoundaryAspect.cs" />
     <Compile Include="Framework\OnMethodBoundaryAspectAttribute.cs" />
     <Compile Include="Framework\OnFunctionBoundaryAspect.cs" />

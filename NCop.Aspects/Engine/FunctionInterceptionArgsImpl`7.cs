@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NCop.Aspects.Engine
 {
-    public class FunctionInterceptionArgsImpl<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> : FunctionExecutionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>, IInterceptable
+    public class FunctionInterceptionArgsImpl<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> : FunctionExecutionArgs<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>, IInterceptable
     {
         private IFunctionBinding<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> funcBinding = null;
 

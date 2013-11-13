@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NCop.Aspects.Framework
 {
-	public abstract class ActionInterceptionArgs : MethodExecutionArgs
+    public abstract class ActionInterceptionArgs<TInstance> : AdviceArgs<TInstance>
 	{
 	}
 }
