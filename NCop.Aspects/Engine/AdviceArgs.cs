@@ -8,8 +8,8 @@ namespace NCop.Aspects.Engine
 {
     public abstract class AdviceArgs : IAdviceArgs
     {
-        public object Instance { get; protected set; }
-        public MethodBase Method { get; protected set; }
-        public Exception Exception { get; protected set; }
+        public object Instance { get; set; }
+        public MethodBase Method { get; set; }
+        public Exception Exception { get; set; }
     }
 }

@@ -9,6 +9,6 @@ namespace NCop.Aspects.Framework
 {
     public abstract class GenericActionExecutionArgs : AdviceArgs
 	{
-		public Arguments Arguments { get; protected set; }
+		public Arguments Arguments { get; set; }
     }
 }

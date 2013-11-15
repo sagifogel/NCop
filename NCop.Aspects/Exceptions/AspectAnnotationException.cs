@@ -16,7 +16,7 @@ namespace NCop.Aspects.Exceptions
 	[Serializable]
 	public class AspectAnnotationException : ArgumentException
 	{
-		private static string message = "Illegal Annotation exception";
+		private static string message = "Illegal annotation exception";
 		
 		public AspectAnnotationException(string message = null) : base(message ?? AspectAnnotationException.message) { }
 

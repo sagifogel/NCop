@@ -7,17 +7,57 @@ using NCop.Composite.Framework;
 using NCop.Core.Extensions;
 using NCop.Mixins.Framework;
 using NCop.Aspects.Advices;
+using NCop.Aspects.Engine;
 
 namespace NCop.Samples
 {
+    public class FunctionBinding : IFunctionBinding<string, bool>
+    {
+        private Func<string, bool> factory = null;
+
+        public FunctionBinding(Func<string, bool> factory) {
+            this.factory = factory;
+        }
+        public bool Invoke(ref object instance, string arg1) {
+            var args = new FunctionExecutionArgsImpl<string, bool>(instance, arg1);
+
+            Program.traceAspect2.OnEntry(args);
+
+            try {
+                args.ReturnValue = factory(arg1);
+                Program.traceAspect2.OnSuccess(args);
+            }
+            catch (Exception) {
+                Program.traceAspect2.OnException(args);
+                throw;
+            }
+            finally {
+                Program.traceAspect2.OnExit(args);
+            }
+
+            return args.ReturnValue;
+        }
+    }
+
     class Program
     {
-        static void Main(string[] args) {
-            var container = new CompositeContainer();
-            container.Configure();
+        public static TraceAspect traceAspect = new TraceAspect();
+        public static TraceAspect2 traceAspect2 = new TraceAspect2();
 
-            var person = container.TryResolve<IPersonComposite>();
-            person.Code("CSharp");
+        static void Main(string[] args) {
+            //var container = new CompositeContainer();
+            //container.Configure();
+            Code("sdasdadasd");
+            //var person = container.TryResolve<IPersonComposite>();
+            //person.Code("CSharp");
+        }
+
+        private static void Code(string code) {
+            var instance = new CSharpDeveloperMixin();
+            var bindings = new FunctionBinding(instance.Code);
+            var arguments = new FunctionInterceptionArgsImpl<string, bool>(instance, bindings, code);
+
+            traceAspect.OnInvoke(arguments);
         }
     }
 
@@ -26,22 +66,25 @@ namespace NCop.Samples
     {
         private T langugae = new T();
 
-        public void Code(string code) {
+        public bool Code(string code) {
             Console.WriteLine(code);
+
+            return false;
         }
     }
 
-    public class TraceAspect : ActionInterceptionAspect<string>
+    public class TraceAspect : FunctionInterceptionAspect<string, bool>
     {
-        public override void OnInvoke(ActionInterceptionArgs<string> args) {
-            base.OnInvoke(args);
+        public override bool OnInvoke(FunctionInterceptionArgs<string, bool> args) {
+            Console.WriteLine("TraceAspect.OnInvoke");
+            return base.OnInvoke(args);
         }
     }
 
     [PerThreadAspect]
-    public class TraceAspect2 : OnActionBoundaryAspect<string>
+    public class TraceAspect2 : OnFunctionBoundaryAspect<string, bool>
     {
-        public override void OnEntry(ActionExecutionArgs<string> args) {
+        public override void OnEntry(FunctionExecutionArgs<string, bool> args) {
             base.OnEntry(args);
         }
     }
@@ -50,15 +93,15 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
-        [OnMethodBoundaryAspect(typeof(TraceAspect))]
-        [OnMethodBoundaryAspect(typeof(TraceAspect2))]
+        [OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 2)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
         new void Code(string code);
     }
 
     public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>
     {
-        public override void Code(string code) {
-            base.Code(code);
+        public override bool Code(string code) {
+            return base.Code(code);
         }
     }
 
@@ -72,8 +115,9 @@ namespace NCop.Samples
     {
         ILanguage language = new TLanguage();
 
-        public virtual void Code(string code) {
+        public virtual bool Code(string code) {
             Console.WriteLine("I am coding in " + language.Description.ToString());
+            return false;
         }
     }
 
@@ -111,7 +155,7 @@ namespace NCop.Samples
 
     public interface IDeveloper<out TLanguage>
     {
-        void Code(string code);
+        bool Code(string code);
     }
 
     public interface IDeveloper

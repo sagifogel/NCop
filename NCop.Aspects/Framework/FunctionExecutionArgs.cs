@@ -9,7 +9,7 @@ namespace NCop.Aspects.Framework
 {
     public abstract class FunctionExecutionArgs<TResult> : ExecutionArgs, IFunctionExecutionArgs
 	{
-		public TResult ReturnValue { get; protected set; }
-        public FlowBehavior FlowBehavior { get; protected set; }
+		public TResult ReturnValue { get; set; }
+        public FlowBehavior FlowBehavior { get; set; }
     }
 }

@@ -108,6 +108,15 @@
     <Compile Include="Engine\ActionInterceptionArgsImpl.cs" />
     <Compile Include="Engine\AspectLifetimeStrategyAttribute.cs" />
     <Compile Include="Engine\AspectMembers.cs" />
+    <Compile Include="Engine\FunctionExecutionArgsImpl`4.cs" />
+    <Compile Include="Engine\FunctionExecutionArgsImpl`3.cs" />
+    <Compile Include="Engine\FunctionExecutionArgsImpl`2.cs" />
+    <Compile Include="Engine\FunctionExecutionArgsImpl`1.cs" />
+    <Compile Include="Engine\FunctionExecutionArgsImpl`5.cs" />
+    <Compile Include="Engine\FunctionExecutionArgsImpl`6.cs" />
+    <Compile Include="Engine\FunctionExecutionArgsImpl`7.cs" />
+    <Compile Include="Engine\FunctionExecutionArgsImpl`8.cs" />
+    <Compile Include="Engine\FunctionExecutionArgsImpl.cs" />
     <Compile Include="Engine\IAspectMemebrsCollection.cs" />
     <Compile Include="Engine\AspectMethodMap.cs" />
     <Compile Include="Engine\AspectPropertyMap.cs" />
@@ -158,6 +167,8 @@
     <Compile Include="Engine\IFunctionBinding.cs" />
     <Compile Include="Engine\IInterceptionArgs.cs" />
     <Compile Include="Engine\ILifetimeStrategyProvider.cs" />
+    <Compile Include="Engine\IMethodInterceptionAspect.cs" />
+    <Compile Include="Engine\IOnMethodBoundaryAspect.cs" />
     <Compile Include="Engine\LifetimeStrategy.cs" />
     <Compile Include="Exceptions\AspectAnnotationException.cs">
       <DependentUpon>AspectAnnotationException.tt</DependentUpon>

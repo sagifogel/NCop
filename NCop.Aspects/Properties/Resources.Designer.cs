@@ -95,5 +95,23 @@ namespace NCop.Aspects.Properties {
                 return ResourceManager.GetString("FunctionAspectMismatch", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MethodInterceptionAspectAttribute can only be initialized with IMethodInterceptionAspect as an aspect type..
+        /// </summary>
+        internal static string MethodInterceptionAspectAttributeErrorInitialization {
+            get {
+                return ResourceManager.GetString("MethodInterceptionAspectAttributeErrorInitialization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OnMethodBoundaryAspectAttribute can only be initialized with IOnMethodBoundaryAspect as an aspect type..
+        /// </summary>
+        internal static string OnMethodBoundaryAspectAttributeErrorInitialization {
+            get {
+                return ResourceManager.GetString("OnMethodBoundaryAspectAttributeErrorInitialization", resourceCulture);
+            }
+        }
     }
 }

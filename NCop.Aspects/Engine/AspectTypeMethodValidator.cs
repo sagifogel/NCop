@@ -14,78 +14,90 @@ using NCop.Aspects.Aspects;
 
 namespace NCop.Aspects.Engine
 {
-	public static class AspectTypeMethodValidator
-	{
-		public static void ValidateMethodAspect(IAspect aspect, MethodInfo methodInfo) {
-			MethodInfo method = null;
-			Type argumentsType = null;
-			Type[] genericArguments = null;
-			Type[] comparedTypes = Type.EmptyTypes;
-			ParameterInfo[] methodParameters = null;
-			ParameterInfo[] aspectParameters = null;
-			var overridenMethods = aspect.AspectType.GetOverridenMethods();
+    public static class AspectTypeMethodValidator
+    {
+        public static void ValidateMethodAspect(IAspect aspect, MethodInfo methodInfo) {
+            MethodInfo method = null;
+            Type argumentsType = null;
+            Type[] genericArguments = null;
+            Type[] comparedTypes = Type.EmptyTypes;
+            ParameterInfo[] methodParameters = null;
+            ParameterInfo[] aspectParameters = null;
+            var overridenMethods = aspect.AspectType.GetOverridenMethods();
 
-			if (overridenMethods.Length == 0) {
-				throw new AdviceNotFoundException(aspect.GetType());
-			}
+            if (overridenMethods.Length == 0) {
+                throw new AdviceNotFoundException(aspect.GetType());
+            }
 
-			method = overridenMethods[0];
-			aspectParameters = method.GetParameters();
+            if (aspect.Is<OnMethodBoundaryAspectAttribute>() && !typeof(IOnMethodBoundaryAspect).IsAssignableFrom(aspect.AspectType)) {
+                var argumentException = new ArgumentException(Resources.OnMethodBoundaryAspectAttributeErrorInitialization, "aspectType");
+                
+                throw new AspectAnnotationException(argumentException);
+            }
 
-			if (aspectParameters.Length == 0) {
-				throw new AspectTypeMismatchException(Resources.AspectParametersMismatach.Fmt(methodInfo.Name));
-			}
+            if (aspect.Is<MethodInterceptionAspectAttribute>() && !typeof(IMethodInterceptionAspect).IsAssignableFrom(aspect.AspectType)) {
+                var argumentException = new ArgumentException(Resources.MethodInterceptionAspectAttributeErrorInitialization, "aspectType");
 
-			methodParameters = methodInfo.GetParameters();
-			argumentsType = aspectParameters[0].ParameterType;
-			genericArguments = argumentsType.GetGenericArguments();
+                throw new AspectAnnotationException(argumentException);
+            }
 
-			if (methodInfo.HasReturnType()) {
-				int argumentsLength = 0;
-				Type aspectReturnType = null;
+            method = overridenMethods[0];
+            aspectParameters = method.GetParameters();
 
-				if (typeof(IActionExecutionArgs).IsAssignableFrom(argumentsType)) {
-					throw new AspectAnnotationException(Resources.FunctionAspectMismatch);
-				}
+            if (aspectParameters.Length == 0) {
+                throw new AspectTypeMismatchException(Resources.AspectParametersMismatach.Fmt(methodInfo.Name));
+            }
 
-				if (genericArguments.Length == 0) {
-					throw new AspectTypeMismatchException(Resources.AspectReturnTypeMismatch.Fmt(methodInfo.Name));
-				}
+            methodParameters = methodInfo.GetParameters();
+            argumentsType = aspectParameters[0].ParameterType;
+            genericArguments = argumentsType.GetGenericArguments();
 
-				argumentsLength = genericArguments.Length - 1;
-				aspectReturnType = genericArguments[argumentsLength];
+            if (methodInfo.HasReturnType()) {
+                int argumentsLength = 0;
+                Type aspectReturnType = null;
 
-				if (genericArguments.Length > 1) {
-					comparedTypes = genericArguments.Take(argumentsLength)
-													.ToArray();
-				}
+                if (typeof(IActionExecutionArgs).IsAssignableFrom(argumentsType)) {
+                    throw new AspectAnnotationException(Resources.FunctionAspectMismatch);
+                }
 
-				if (!ValidateReturnType(methodInfo.ReturnType, aspectReturnType)) {
-					throw new AspectTypeMismatchException(Resources.AspectReturnTypeMismatch.Fmt(methodInfo.Name));
-				}
-			}
-			else {
-				comparedTypes = genericArguments;
+                if (genericArguments.Length == 0) {
+                    throw new AspectTypeMismatchException(Resources.AspectReturnTypeMismatch.Fmt(methodInfo.Name));
+                }
 
-				if (typeof(IFunctionExecutionArgs).IsAssignableFrom(argumentsType)) {
-					throw new AspectAnnotationException(Resources.FunctionAspectMismatch);
-				}
-			}
+                argumentsLength = genericArguments.Length - 1;
+                aspectReturnType = genericArguments[argumentsLength];
 
-			if (!ValidateParameters(methodParameters, comparedTypes)) {
-				throw new AspectTypeMismatchException(Resources.AspectParametersMismatach.Fmt(methodInfo.Name));
-			}
-		}
+                if (genericArguments.Length > 1) {
+                    comparedTypes = genericArguments.Take(argumentsLength)
+                                                    .ToArray();
+                }
 
-		private static bool ValidateParameters(ParameterInfo[] methodParameters, Type[] comparedTypes) {
-			return methodParameters.Length == comparedTypes.Length &&
-				   methodParameters.All((p, i) => {
-					   return p.ParameterType.Equals(comparedTypes[i]);
-				   });
-		}
+                if (!ValidateReturnType(methodInfo.ReturnType, aspectReturnType)) {
+                    throw new AspectTypeMismatchException(Resources.AspectReturnTypeMismatch.Fmt(methodInfo.Name));
+                }
+            }
+            else {
+                comparedTypes = genericArguments;
 
-		private static bool ValidateReturnType(Type methodReturnType, Type aspectReturnType) {
-			return methodReturnType.Equals(aspectReturnType);
-		}
-	}
+                if (typeof(IFunctionExecutionArgs).IsAssignableFrom(argumentsType)) {
+                    throw new AspectAnnotationException(Resources.FunctionAspectMismatch);
+                }
+            }
+
+            if (!ValidateParameters(methodParameters, comparedTypes)) {
+                throw new AspectTypeMismatchException(Resources.AspectParametersMismatach.Fmt(methodInfo.Name));
+            }
+        }
+
+        private static bool ValidateParameters(ParameterInfo[] methodParameters, Type[] comparedTypes) {
+            return methodParameters.Length == comparedTypes.Length &&
+                   methodParameters.All((p, i) => {
+                       return p.ParameterType.Equals(comparedTypes[i]);
+                   });
+        }
+
+        private static bool ValidateReturnType(Type methodReturnType, Type aspectReturnType) {
+            return methodReturnType.Equals(aspectReturnType);
+        }
+    }
 }

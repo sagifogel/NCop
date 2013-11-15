@@ -129,4 +129,10 @@
   <data name="FunctionAspectMismatch" xml:space="preserve">
     <value>OnFunctionBoundaryAspcets are valid only on method that has return type other than void. Use one of the OnActionBoundaryAspect types.</value>
   </data>
+  <data name="MethodInterceptionAspectAttributeErrorInitialization" xml:space="preserve">
+    <value>MethodInterceptionAspectAttribute can only be initialized with IMethodInterceptionAspect as an aspect type.</value>
+  </data>
+  <data name="OnMethodBoundaryAspectAttributeErrorInitialization" xml:space="preserve">
+    <value>OnMethodBoundaryAspectAttribute can only be initialized with IOnMethodBoundaryAspect as an aspect type.</value>
+  </data>
 </root>

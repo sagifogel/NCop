@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NCop.Aspects.Advices;
+using NCop.Aspects.Engine;
 
 namespace NCop.Aspects.Framework
 {
-	public class OnActionBoundaryAspect
+    public class OnActionBoundaryAspect : IOnMethodBoundaryAspect
 	{
 		[OnMethodEntryAdvice]
 		public virtual void OnEntry(ActionExecutionArgs args) { }

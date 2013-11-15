@@ -10,6 +10,13 @@ namespace NCop.Aspects.Tests
     [TestClass]
     public class MethodToAspectValidator
     {
+        public class TestInterceptionAspect : FunctionInterceptionAspect<string, bool>
+        {
+            public override bool OnInvoke(FunctionInterceptionArgs<string, bool> args) {
+                return true;
+            }
+        }
+
         public class TestAspect : OnFunctionBoundaryAspect<string, bool>
         {
             public override void OnEntry(FunctionExecutionArgs<string, bool> args) {
@@ -59,6 +66,24 @@ namespace NCop.Aspects.Tests
         public void MethodWithOnMethodBoundaryAspectAttribute_DecoratedWithMatchedFunctionAspects_ReturnsNoErrorFromValidation() {
             var method = GetMethod("MethodWithStringParamAndBoolReturnType");
             var aspect = new OnMethodBoundaryAspectAttribute(typeof(TestAspect));
+
+            AspectTypeMethodValidator.ValidateMethodAspect(aspect, method);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(AspectAnnotationException))]
+        public void OnMethodBoundaryAspectAttribute_GivenAnInterceptionAspectTypeAsAnArgument_ThrowsAspectAnnotationException() {
+            var method = GetMethod("MethodWithStringParamAndBoolReturnType");
+            var aspect = new OnMethodBoundaryAspectAttribute(typeof(TestInterceptionAspect));
+
+            AspectTypeMethodValidator.ValidateMethodAspect(aspect, method);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(AspectAnnotationException))]
+        public void MethodInterceptionAspectAttribute_GivenAnOnMethodBoundaryAspectTypeAsAnArgument_ThrowsAspectAnnotationException() {
+            var method = GetMethod("MethodWithStringParamAndBoolReturnType");
+            var aspect = new MethodInterceptionAspectAttribute(typeof(TestAspect));
 
             AspectTypeMethodValidator.ValidateMethodAspect(aspect, method);
         }

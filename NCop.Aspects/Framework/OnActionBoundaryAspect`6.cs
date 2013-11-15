@@ -7,7 +7,7 @@ using NCop.Aspects.Framework;
 
 namespace NCop.Aspects.Framework
 {
-    public abstract class OnActionBoundaryAspect<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> : ActionExecutionArgs<TArg1, TArg2, TArg3, TArg4, TArg5>
+    public abstract class OnActionBoundaryAspect<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> : IOnMethodBoundaryAspect
     {	
 		[OnMethodEntryAdvice]
 		public virtual void OnEntry(ActionExecutionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>  args) { }

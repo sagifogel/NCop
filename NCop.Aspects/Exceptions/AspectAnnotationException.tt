@@ -3,7 +3,7 @@
 <#@ include file="..\..\NCop.Core\Exceptions\ArgumentExceptionTemplate.tt" #>
 <#
 	var template = new ArgumentExceptionTemplate();
-    template.Message = "Illegal Annotation exception";
+    template.Message = "Illegal annotation exception";
 	template.Namespace = "NCop.Aspects.Exceptions";
     template.Render();
 #>
