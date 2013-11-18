@@ -18,8 +18,6 @@ namespace NCop.Aspects.Engine
             Arg7 = arg7;
             Instance = instance;
         }
-
-        public TArg7 Arg7 { get; private set; }
     }
 }
 

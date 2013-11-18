@@ -3,6 +3,8 @@ using System.Reflection.Emit;
 using NCop.Core.Exceptions;
 using NCop.Weaving;
 using NCop.Core.Extensions;
+using NCop.Weaving.Properties;
+using NCop.Mixins.Exceptions;
 
 namespace NCop.Weaving
 {
@@ -16,7 +18,9 @@ namespace NCop.Weaving
             fieldBuilder = new FieldWeaver(mixinType).Weave(typeBuilder);
 
             if (!mixinType.Equals(fieldBuilder.FieldType)) {
-                throw new TypeDefinitionInitializationException("Type of Mixin does not equal to the field type of the FieldBuilder");
+                var message = Resources.MixinTypeDiffersFromFieldBuilderType.Fmt(mixinType.FullName, fieldBuilder.FieldType);
+                
+                throw new TypeDefinitionInitializationException(message);
             }
         }
 
@@ -24,12 +28,14 @@ namespace NCop.Weaving
 
         public TypeBuilder TypeBuilder { get; private set; }
 
-        public FieldBuilder GetOrAddFieldBuilder(Type type) {
-            if (Type.Equals(type)) {
-                return fieldBuilder;
+        public FieldBuilder GetFieldBuilder(Type mixinType) {
+            if (!Type.Equals(mixinType)) {
+                var message = Resources.CouldNotFindFieldBuilderByType.Fmt(mixinType.FullName);
+
+                throw new MissingFieldBuilderException(message);
             }
 
-            return null;
+            return fieldBuilder;
         }
     }
 }

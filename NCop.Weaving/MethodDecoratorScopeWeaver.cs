@@ -16,7 +16,7 @@ namespace NCop.Weaving
         }
 
         public override ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition) {
-            FieldBuilder fieldBuilder = typeDefinition.GetOrAddFieldBuilder(ContractType);
+            FieldBuilder fieldBuilder = typeDefinition.GetFieldBuilder(ContractType);
 
             iLGenerator.EmitLoadArg(0);
             iLGenerator.Emit(OpCodes.Ldfld, fieldBuilder);

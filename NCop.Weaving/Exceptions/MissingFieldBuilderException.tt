@@ -1,0 +1,9 @@
+<#@ template language="C#" debug="True" #>
+<#@ output extension="cs" #>
+<#@ include file="..\..\NCop.Core\Exceptions\ArgumentExceptionTemplate.tt" #>
+<#
+	var template = new ArgumentExceptionTemplate();
+    template.Message = "Missing field Builder";
+	template.Namespace = "NCop.Mixins.Exceptions";
+    template.Render();
+#>

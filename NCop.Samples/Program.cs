@@ -18,12 +18,15 @@ namespace NCop.Samples
         public FunctionBinding(Func<string, bool> factory) {
             this.factory = factory;
         }
+
         public bool Invoke(ref object instance, string arg1) {
             var args = new FunctionExecutionArgsImpl<string, bool>(instance, arg1);
 
             Program.traceAspect2.OnEntry(args);
 
             try {
+                var args2 = new FunctionInterceptionArgsImpl<string, bool>(instance, this, arg1);
+                Program.traceAspect.OnInvoke(args2);
                 args.ReturnValue = factory(arg1);
                 Program.traceAspect2.OnSuccess(args);
             }
@@ -43,13 +46,15 @@ namespace NCop.Samples
     {
         public static TraceAspect traceAspect = new TraceAspect();
         public static TraceAspect2 traceAspect2 = new TraceAspect2();
+        public static TraceAspect2 traceAspect3 = new TraceAspect2();
 
         static void Main(string[] args) {
-            //var container = new CompositeContainer();
-            //container.Configure();
-            Code("sdasdadasd");
+            var container = new CompositeContainer();
+            container.Configure();
             //var person = container.TryResolve<IPersonComposite>();
             //person.Code("CSharp");
+
+            Code("sdasdadasd");
         }
 
         private static void Code(string code) {
@@ -77,7 +82,9 @@ namespace NCop.Samples
     {
         public override bool OnInvoke(FunctionInterceptionArgs<string, bool> args) {
             Console.WriteLine("TraceAspect.OnInvoke");
-            return base.OnInvoke(args);
+            args.Proceed();
+
+            return args.ReturnValue;
         }
     }
 
@@ -94,8 +101,11 @@ namespace NCop.Samples
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
         [OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 2)]
+        [OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 4)]
         [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
-        new void Code(string code);
+        [OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 3)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        new bool Code(string code);
     }
 
     public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>

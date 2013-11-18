@@ -9,18 +9,21 @@ using NCop.Core.Extensions;
 using System.Reflection;
 using NCop.Weaving.Extensions;
 using NCop.Core;
+using System.Collections.Concurrent;
+using NCop.Mixins.Exceptions;
+using NCop.Weaving.Properties;
 
 namespace NCop.Mixins.Weaving
 {
     internal class MixinsTypeDefinition : ITypeDefinition
     {
         private readonly ITypeMap mixinsMap = null;
-        private readonly Dictionary<Type, MixinTypeDefinition> mixinTypeDefinitions = null;
+        private readonly ConcurrentDictionary<Type, MixinTypeDefinition> mixinTypeDefinitions = null;
 
         internal MixinsTypeDefinition(Type mixinsType, ITypeMap mixinsMap) {
             Type = mixinsType;
             this.mixinsMap = mixinsMap;
-            mixinTypeDefinitions = new Dictionary<Type, MixinTypeDefinition>();
+            mixinTypeDefinitions = new ConcurrentDictionary<Type, MixinTypeDefinition>();
             CreateTypeBuilder();
             CreateMixinTypeDefinitions();
             CreateDefaultConstructor();
@@ -30,14 +33,14 @@ namespace NCop.Mixins.Weaving
 
         public TypeBuilder TypeBuilder { get; private set; }
 
-        public FieldBuilder GetOrAddFieldBuilder(Type type) {
+        public FieldBuilder GetFieldBuilder(Type type) {
             MixinTypeDefinition mixinTypeDefinition;
 
-            if (mixinTypeDefinitions.TryGetValue(type, out mixinTypeDefinition)) {
-                return mixinTypeDefinition.GetOrAddFieldBuilder(type);
+            if (!mixinTypeDefinitions.TryGetValue(type, out mixinTypeDefinition)) {
+                throw new MissingFieldBuilderException(Resources.CouldNotFindFieldBuilderByType.Fmt(type.FullName));
             }
 
-            return null;
+            return mixinTypeDefinition.GetFieldBuilder(type);
         }
 
         private void CreateTypeBuilder() {
@@ -48,7 +51,7 @@ namespace NCop.Mixins.Weaving
             mixinsMap.ForEach(mixin => {
                 var mixinTypeDefinition = new MixinTypeDefinition(mixin.ContractType, TypeBuilder);
 
-                mixinTypeDefinitions.Add(mixin.ContractType, mixinTypeDefinition);
+                mixinTypeDefinitions.GetOrAdd(mixin.ContractType, mixinTypeDefinition);
             });
         }
 
@@ -64,7 +67,7 @@ namespace NCop.Mixins.Weaving
             mixinsMap.ForEach(1, (map, i) => {
                 var contractType = map.ContractType;
                 var mixinTypeDefinition = mixinTypeDefinitions[contractType];
-                var fieldBuilder = mixinTypeDefinition.GetOrAddFieldBuilder(contractType);
+                var fieldBuilder = mixinTypeDefinition.GetFieldBuilder(contractType);
 
                 ilGenerator.Emit(OpCodes.Ldarg_0);
                 ilGenerator.EmitLoadArg(i);

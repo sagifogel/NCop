@@ -49,6 +49,16 @@
     <Compile Include="AbstractMethodScopeWeaver.cs" />
     <Compile Include="AbstractTypeWeaverBuilder.cs" />
     <Compile Include="AbstractWeaverBuilder.cs" />
+    <Compile Include="Exceptions\MissingFieldBuilderException.cs">
+      <DependentUpon>MissingFieldBuilderException.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="PropertyEndWeaver.cs" />
     <Compile Include="PropertyGetDecoratorScopeWeaver.cs" />
     <Compile Include="PropertyGetDecoratorWeaver.cs" />
@@ -100,7 +110,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Exceptions\MissingFieldBuilderException.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MissingFieldBuilderException.cs</LastGenOutput>
+      <LastOutputs>.\MissingFieldBuilderException.cs</LastOutputs>
+    </None>
     <None Include="NCop.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

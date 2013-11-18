@@ -87,7 +87,6 @@
       <Name>NCop.Weaving</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="Exceptions\DuplicateMixinAnnotationException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

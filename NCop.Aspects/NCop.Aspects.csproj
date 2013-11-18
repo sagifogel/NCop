@@ -117,6 +117,15 @@
     <Compile Include="Engine\FunctionExecutionArgsImpl`7.cs" />
     <Compile Include="Engine\FunctionExecutionArgsImpl`8.cs" />
     <Compile Include="Engine\FunctionExecutionArgsImpl.cs" />
+    <Compile Include="Engine\IActionBinding.cs" />
+    <Compile Include="Engine\IActionBinding`1.cs" />
+    <Compile Include="Engine\IActionBinding`2.cs" />
+    <Compile Include="Engine\IActionBinding`3.cs" />
+    <Compile Include="Engine\IActionBinding`4.cs" />
+    <Compile Include="Engine\IActionBinding`5.cs" />
+    <Compile Include="Engine\IActionBinding`6.cs" />
+    <Compile Include="Engine\IActionBinding`7.cs" />
+    <Compile Include="Engine\IActionBinding`8.cs" />
     <Compile Include="Engine\IAspectMemebrsCollection.cs" />
     <Compile Include="Engine\AspectMethodMap.cs" />
     <Compile Include="Engine\AspectPropertyMap.cs" />
@@ -135,22 +144,6 @@
     <Compile Include="Engine\IAspectMethodMapCollection.cs" />
     <Compile Include="Engine\IAspectPropertyMap.cs" />
     <Compile Include="Engine\IAspectPropertyMapCollection.cs" />
-    <Compile Include="Engine\IFunctionBinding`1.cs" />
-    <Compile Include="Engine\IFunctionBinding`2.cs" />
-    <Compile Include="Engine\IFunctionBinding`4.cs" />
-    <Compile Include="Engine\IFunctionBinding`5.cs" />
-    <Compile Include="Engine\IFunctionBinding`6.cs" />
-    <Compile Include="Engine\IFunctionBinding`7.cs" />
-    <Compile Include="Engine\IFunctionBinding`8.cs" />
-    <Compile Include="Engine\IFunctionBinding`3.cs" />
-    <Compile Include="Engine\IActionBinding`2.cs" />
-    <Compile Include="Engine\IActionBinding`8.cs" />
-    <Compile Include="Engine\IActionBinding`7.cs" />
-    <Compile Include="Engine\IActionBinding`6.cs" />
-    <Compile Include="Engine\IActionBinding`5.cs" />
-    <Compile Include="Engine\IActionBinding`4.cs" />
-    <Compile Include="Engine\IActionBinding`3.cs" />
-    <Compile Include="Engine\IActionBinding`1.cs" />
     <Compile Include="Engine\FunctionInterceptionArgsImpl.cs" />
     <Compile Include="Engine\FunctionInterceptionArgsImpl`1.cs" />
     <Compile Include="Engine\FunctionInterceptionArgsImpl`2.cs" />
@@ -163,8 +156,15 @@
     <Compile Include="Engine\IAspectMembers`1.cs" />
     <Compile Include="Engine\IAspectsMethods.cs" />
     <Compile Include="Engine\IAspectsProperties.cs" />
-    <Compile Include="Engine\IActionBinding.cs" />
     <Compile Include="Engine\IFunctionBinding.cs" />
+    <Compile Include="Engine\IFunctionBinding`1.cs" />
+    <Compile Include="Engine\IFunctionBinding`2.cs" />
+    <Compile Include="Engine\IFunctionBinding`3.cs" />
+    <Compile Include="Engine\IFunctionBinding`4.cs" />
+    <Compile Include="Engine\IFunctionBinding`5.cs" />
+    <Compile Include="Engine\IFunctionBinding`6.cs" />
+    <Compile Include="Engine\IFunctionBinding`7.cs" />
+    <Compile Include="Engine\IFunctionBinding`8.cs" />
     <Compile Include="Engine\IInterceptionArgs.cs" />
     <Compile Include="Engine\ILifetimeStrategyProvider.cs" />
     <Compile Include="Engine\IMethodInterceptionAspect.cs" />
@@ -328,6 +328,10 @@
     </Compile>
     <Compile Include="Runtime\AspectsRuntime.cs" />
     <Compile Include="Runtime\AspectsRuntimeSettings.cs" />
+    <Compile Include="Weaving\AspectMethodWeaver.cs" />
+    <Compile Include="Weaving\Expressions\IAspectExpression.cs" />
+    <Compile Include="Weaving\Expressions\AspectExpressionBuilder.cs" />
+    <Compile Include="Weaving\Expressions\WeavingExpression.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Exceptions\AspectTypeMismatchException.tt">
@@ -370,9 +374,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Weaving\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

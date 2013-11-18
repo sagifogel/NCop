@@ -10,6 +10,6 @@ namespace NCop.Weaving
     {
 		Type Type { get; }
         TypeBuilder TypeBuilder { get; }
-        FieldBuilder GetOrAddFieldBuilder(Type type);
+        FieldBuilder GetFieldBuilder(Type type);
     }
 }
