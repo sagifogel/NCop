@@ -6,8 +6,10 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal interface IAspectExpression
+    internal class FinallyAdviceExpression : IExpressionReducer
     {
-        IAspectExpression Expression { get; set; }
+        public IMethodScopeWeaver Reduce() {
+            throw new NotImplementedException();
+        }
     }
 }

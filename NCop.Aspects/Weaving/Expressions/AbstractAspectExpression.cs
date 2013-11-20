@@ -7,7 +7,7 @@ using NCop.Weaving;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-	internal abstract class AbstractAspectExpression : IAspectExpression
+    internal abstract class AbstractAspectExpression : IAspectExpression, IExpressionReducer
 	{
 		private readonly IAspectDefinition aspectDefinition = null;
 
