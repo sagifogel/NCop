@@ -25,14 +25,14 @@ namespace NCop.Aspects.Weaving.Expressions
 
 		private void BuildExpressionTree(Queue<IAspectDefinition> aspectsQueue) {
 			IAspectExpression current = null;
-			var visitor = new AspectAttributeVisitor();
+			var visitor = new AspectVisitor();
 			var aspectDefinition = aspectsQueue.Dequeue();
 
-			Expression = current = visitor.Visit(aspectDefinition);
+            Expression = current = aspectDefinition.Accept(visitor);
 
 			while (aspectsQueue.Count > 0) {
-				aspectDefinition = aspectsQueue.Dequeue();	
-				current.Expression = visitor.Visit(aspectDefinition);
+				aspectDefinition = aspectsQueue.Dequeue();
+                current.Expression = aspectDefinition.Accept(visitor);
 				current = current.Expression;
 			}
 		}

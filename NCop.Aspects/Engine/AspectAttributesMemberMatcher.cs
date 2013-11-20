@@ -15,8 +15,18 @@ namespace NCop.Aspects.Engine
         public AspectAttributesMemberMatcher(Type aspectDeclaringType, IAspectMemebrsCollection aspectMembersCollection) {
             Values = aspectMembersCollection.Select(aspectMembers => {
                 var aspects = aspectMembers.Members.SelectMany(member => {
-                    return member.GetCustomAttributes<IAspect>()
-                                 .Select(aspectAttr => new AspectDefinition(aspectAttr) as IAspectDefinition);
+                    var onMethodBoundaryAspects = member.GetCustomAttributes<OnMethodBoundaryAspectAttribute>();
+                    var methodInterceptionAspects = member.GetCustomAttributes<MethodInterceptionAspectAttribute>();
+                    var onMethodBoundaryAspectDefinitions = onMethodBoundaryAspects.Select(aspect => {
+                        return new OnMethodBoundaryAspectDefinition(aspect);
+                    });
+
+                    var methodInterceptionAspectDefinitions = methodInterceptionAspects.Select(aspect => {
+                        return new MethodInterceptionAspectDefinition(aspect);
+                    });
+
+                    return methodInterceptionAspectDefinitions.Cast<IAspectDefinition>()
+                                                              .Concat(onMethodBoundaryAspectDefinitions);
                 });
 
                 return Tuple.Create(aspectMembers.Target, aspects);

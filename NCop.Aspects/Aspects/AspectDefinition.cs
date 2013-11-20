@@ -3,30 +3,23 @@ using NCop.Aspects.Engine;
 using NCop.Core.Extensions;
 using NCop.Aspects.Extensions;
 using NCop.Aspects.Framework;
+using NCop.Aspects.Weaving.Expressions;
 
 namespace NCop.Aspects.Aspects
 {
-	public class AspectDefinition : IAspectDefinition
+	internal abstract class AspectDefinition : IAspectDefinition, IAcceptsVisitor<IAspectExpression, AspectVisitor>
 	{
 		protected readonly AdviceDefinitionCollection advices = null;
 
-		public AspectDefinition(IAspect aspect) {
+        internal AspectDefinition(IAspect aspect) {
 			Aspect = aspect;
 			advices = new AdviceDefinitionCollection();
-
-			if (aspect.Is<OnMethodBoundaryAspectAttribute>()) {
-				AspectType = AspectType.OnMethodBoundaryAspect;
-			}
-			else {
-				AspectType = AspectType.MethodInterceptionAspect;
-			}
-
 			BulidAdvices();
 		}
 
 		public IAspect Aspect { get; private set; }
 
-		public AspectType AspectType { get; private set; }
+		public abstract AspectType AspectType { get; }
 
 		public IAdviceDefinitionCollection Advices {
 			get {
@@ -44,5 +37,7 @@ namespace NCop.Aspects.Aspects
 					  advices.Add(adviceDefinition);
 				  });
 		}
-	}
+
+        public abstract IAspectExpression Accept(AspectVisitor visitor);
+    }
 }

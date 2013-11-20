@@ -105,6 +105,7 @@
     <Compile Include="Aspects\Builders\TypeLevelAspectBuilderProvider.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Aspects\OnMethodBoundaryAspectDefinition.cs" />
     <Compile Include="Engine\ActionInterceptionArgsImpl.cs" />
     <Compile Include="Engine\AspectLifetimeStrategyAttribute.cs" />
     <Compile Include="Engine\AspectMembers.cs" />
@@ -312,7 +313,7 @@
     <Compile Include="Advices\OnMethodSuccessAdviceAttribute.cs" />
     <Compile Include="Aspects\AspectDefinitionCollection.cs" />
     <Compile Include="Aspects\IAspectVisitor.cs" />
-    <Compile Include="Aspects\MethodAspectDefinition.cs" />
+    <Compile Include="Aspects\MethodInterceptionAspectDefinition.cs" />
     <Compile Include="Framework\EventInterceptionAspectAttribute.cs" />
     <Compile Include="Framework\GetPropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Framework\MethodInterceptionAspectAttribute.cs" />
@@ -331,7 +332,7 @@
     <Compile Include="Runtime\AspectsRuntimeSettings.cs" />
     <Compile Include="Weaving\AspectMethodWeaver.cs" />
     <Compile Include="Weaving\Expressions\AbstractAspectExpression.cs" />
-    <Compile Include="Weaving\Expressions\AspectAttributeVisitor.cs" />
+    <Compile Include="Weaving\Expressions\AspectVisitor.cs" />
     <Compile Include="Weaving\Expressions\FinallyAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\IAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\AspectExpressionBuilder.cs" />
