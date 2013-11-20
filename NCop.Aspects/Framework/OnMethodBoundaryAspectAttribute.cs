@@ -4,6 +4,7 @@ using NCop.Aspects.Engine;
 using System.Diagnostics;
 using NCop.Aspects.Aspects;
 using NCop.Aspects.Framework;
+using NCop.Aspects.Weaving.Expressions;
 
 namespace NCop.Aspects.Framework
 {

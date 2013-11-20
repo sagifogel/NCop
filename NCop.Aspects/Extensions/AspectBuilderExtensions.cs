@@ -14,8 +14,8 @@ namespace NCop.Aspects.Extensions
             return builder();
         }
 
-        public static bool Is<TAspect>(this IAspect aspectBuilder) where TAspect : IAspect {
-            return typeof(TAspect).IsAssignableFrom(aspectBuilder.GetType());
+        public static bool Is<TAspect>(this IAspect aspect) where TAspect : IAspect {
+            return typeof(TAspect).IsAssignableFrom(aspect.GetType());
         }
 
         public static bool IsMethodLevelAspect(this IAspect aspect) {

@@ -108,6 +108,7 @@
     <Compile Include="Engine\ActionInterceptionArgsImpl.cs" />
     <Compile Include="Engine\AspectLifetimeStrategyAttribute.cs" />
     <Compile Include="Engine\AspectMembers.cs" />
+    <Compile Include="Engine\AspectType.cs" />
     <Compile Include="Engine\FunctionExecutionArgsImpl`4.cs" />
     <Compile Include="Engine\FunctionExecutionArgsImpl`3.cs" />
     <Compile Include="Engine\FunctionExecutionArgsImpl`2.cs" />
@@ -329,9 +330,12 @@
     <Compile Include="Runtime\AspectsRuntime.cs" />
     <Compile Include="Runtime\AspectsRuntimeSettings.cs" />
     <Compile Include="Weaving\AspectMethodWeaver.cs" />
+    <Compile Include="Weaving\Expressions\AbstractAspectExpression.cs" />
+    <Compile Include="Weaving\Expressions\AspectAttributeVisitor.cs" />
     <Compile Include="Weaving\Expressions\IAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\AspectExpressionBuilder.cs" />
-    <Compile Include="Weaving\Expressions\WeavingExpression.cs" />
+    <Compile Include="Weaving\Expressions\MethodInterceptionAspectExpression.cs" />
+    <Compile Include="Weaving\Expressions\OnMethodBoundaryAspectExpression.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Exceptions\AspectTypeMismatchException.tt">
