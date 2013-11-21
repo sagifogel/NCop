@@ -2,13 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class FinallyAdviceExpression : IExpressionReducer
+    internal class FinallyAdviceExpression : AbstractAdviceExpression
     {
-        public IMethodScopeWeaver Reduce() {
+        public FinallyAdviceExpression(MethodInfo adviceMethod)
+            : base(adviceMethod) {
+        }
+
+        public override IMethodScopeWeaver Reduce() {
             throw new NotImplementedException();
         }
     }

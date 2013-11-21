@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NCop.Core.Extensions;
+using System.Reflection;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
@@ -13,6 +15,8 @@ namespace NCop.Aspects.Weaving.Expressions
         internal OnMethodBoundaryAspectExpression(IAspectDefinition aspectDefinition)
             : base(aspectDefinition) {
             var adviceVisitor = new AdviceVisitor();
+            var advices = aspectDefinition.Advices.Select(advice => advice.Advice);
+            var advicesExpressions = advices.Select(advice => advice.Accept(adviceVisitor)).ToList();
         }
 
         public override IMethodScopeWeaver Reduce() {

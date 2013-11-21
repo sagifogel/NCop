@@ -24,7 +24,7 @@ namespace NCop.Aspects.Weaving.Expressions
 		}
 
 		private void BuildExpressionTree(Queue<IAspectDefinition> aspectsQueue) {
-			IAspectExpression current = null;
+			IHasAspectExpression current = null;
 			var visitor = new AspectVisitor();
 			var aspectDefinition = aspectsQueue.Dequeue();
 

@@ -6,8 +6,8 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    public interface IAspectExpression
+    public interface IHasAspectExpression
     {
-        IAspectExpression Expression { get; set; }
+        IHasAspectExpression Expression { get; set; }
     }
 }

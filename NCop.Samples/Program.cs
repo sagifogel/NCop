@@ -94,6 +94,18 @@ namespace NCop.Samples
         public override void OnEntry(FunctionExecutionArgs<string, bool> args) {
             base.OnEntry(args);
         }
+
+        public override void OnSuccess(FunctionExecutionArgs<string, bool> args) {
+            base.OnSuccess(args);
+        }
+
+        public override void OnException(FunctionExecutionArgs<string, bool> args) {
+            base.OnException(args);
+        }
+
+        public override void OnExit(FunctionExecutionArgs<string, bool> args) {
+            base.OnExit(args);
+        }
     }
 
     [TransientComposite]

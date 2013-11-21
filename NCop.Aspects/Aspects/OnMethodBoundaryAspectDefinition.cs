@@ -17,7 +17,7 @@ namespace NCop.Aspects.Aspects
             this.aspect = aspect;
         }
 
-        public override IAspectExpression Accept(AspectVisitor visitor) {
+        public override IHasAspectExpression Accept(AspectVisitor visitor) {
             return visitor.Visit(aspect).Invoke(this);
         }
 

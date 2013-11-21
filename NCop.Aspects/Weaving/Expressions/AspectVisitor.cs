@@ -10,13 +10,13 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     public class AspectVisitor
     {
-        public Func<IAspectDefinition, IAspectExpression> Visit(OnMethodBoundaryAspectAttribute aspect) {
+        public Func<IAspectDefinition, IHasAspectExpression> Visit(OnMethodBoundaryAspectAttribute aspect) {
             return (IAspectDefinition aspectDefinition) => {
                 return new OnMethodBoundaryAspectExpression(aspectDefinition);
             };
         }
 
-        public Func<IAspectDefinition, IAspectExpression> Visit(MethodInterceptionAspectAttribute aspect) {
+        public Func<IAspectDefinition, IHasAspectExpression> Visit(MethodInterceptionAspectAttribute aspect) {
             return (IAspectDefinition aspectDefinition) => {
                 return new MethodInterceptionAspectExpression(aspectDefinition);
             };

@@ -4,15 +4,16 @@ using System.Linq;
 using System.Text;
 using NCop.Aspects.Aspects;
 using NCop.Weaving;
+using System.Reflection;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal abstract class AbstractAspectExpression : IAspectExpression, IExpressionReducer
+    internal abstract class AbstractAspectExpression : IHasAspectExpression, IExpressionReducer
 	{
 		private readonly IAspectDefinition aspectDefinition = null;
 
 		internal AbstractAspectExpression(IAspectDefinition aspectDefinition) {
-			this.aspectDefinition = aspectDefinition;
+            this.aspectDefinition = aspectDefinition;
 		}
 
 		internal AbstractAspectExpression() {
@@ -20,6 +21,6 @@ namespace NCop.Aspects.Weaving.Expressions
 
 		public abstract IMethodScopeWeaver Reduce();
 
-		public IAspectExpression Expression { get; set; }
+		public IHasAspectExpression Expression { get; set; }
 	}
 }

@@ -1,8 +1,11 @@
 ﻿using NCop.Aspects.Aspects;
 using NCop.Aspects.Engine;
+using NCop.Aspects.Weaving.Expressions;
+using NCop.Weaving;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,24 +13,34 @@ namespace NCop.Aspects.Advices
 {
     public class AdviceVisitor
     {
-        public IAdvice Visit(OnMethodEntryAdviceAttribute advice) {
-            return advice;
+        public Func<MethodInfo, IExpressionReducer> Visit(OnMethodEntryAdviceAttribute advice) {
+            return (adviceMethod) => {
+                return new OnMethodEntryAdviceExpression(adviceMethod);
+            };
         }
 
-        public IAdvice Visit(OnMethodInvokeAdviceAttribute advice) {
-            return advice;
+        public Func<MethodInfo, IExpressionReducer> Visit(OnMethodInvokeAdviceAttribute advice) {
+            return (adviceMethod) => {
+                return new OnMethodInvokeAdviceExpression(adviceMethod);
+            };
         }
 
-        public IAdvice Visit(OnMethodSuccessAdviceAttribute advice) {
-            return advice;
+        public Func<MethodInfo, IExpressionReducer> Visit(OnMethodSuccessAdviceAttribute advice) {
+            return (adviceMethod) => {
+                return new OnMethodSuccessAdviceExpression(adviceMethod);
+            };
         }
 
-        public IAdvice Visit(OnMethodExceptionAdviceAttribute advice) {
-            return advice;
+        public Func<MethodInfo, IExpressionReducer> Visit(OnMethodExceptionAdviceAttribute advice) {
+            return (adviceMethod) => {
+                return new OnMethodExceptionAdviceExpression(adviceMethod);
+            };
         }
 
-        public IAdvice Visit(FinallyAdviceAttribute advice) {
-            return advice;
+        public Func<MethodInfo, IExpressionReducer> Visit(FinallyAdviceAttribute advice) {
+            return (adviceMethod) => {
+                return new FinallyAdviceExpression(adviceMethod);
+            };
         }
     }
 }

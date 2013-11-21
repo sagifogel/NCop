@@ -1,6 +1,7 @@
 ﻿using NCop.Aspects.Advices;
 using NCop.Aspects.Aspects;
 using NCop.Aspects.Engine;
+using NCop.Aspects.Weaving.Expressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,8 @@ using System.Threading.Tasks;
 namespace NCop.Aspects.Advices
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property, AllowMultiple = false)]
-    public abstract class AdviceAttribute : Attribute, IAdvice, IAcceptsVisitor<IAdvice, AdviceVisitor>
+    public abstract class AdviceAttribute : Attribute, IAdvice
     {
-        public abstract IAdvice Accept(AdviceVisitor visitor);
+        public abstract IExpressionReducer Accept(AdviceVisitor visitor);
     }
 }
