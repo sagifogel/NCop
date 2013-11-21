@@ -4,16 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using NCop.Aspects.Advices;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
     internal abstract class AbstractAdviceExpression : IExpressionReducer
     {
-        protected MethodInfo adviceMethod = null;
+		protected readonly IAdviceDefinition adviceDefinition = null;
 
-        public AbstractAdviceExpression(MethodInfo adviceMethod) {
-            this.adviceMethod = adviceMethod;
+        public AbstractAdviceExpression(IAdviceDefinition adviceDefinition) {
+			this.adviceDefinition = adviceDefinition;
         }
+
+		protected abstract AdviceType AdviceType { get; }
 
         public abstract IMethodScopeWeaver Reduce();
     }

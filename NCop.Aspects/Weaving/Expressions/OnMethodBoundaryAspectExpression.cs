@@ -15,7 +15,7 @@ namespace NCop.Aspects.Weaving.Expressions
         internal OnMethodBoundaryAspectExpression(IAspectDefinition aspectDefinition)
             : base(aspectDefinition) {
             var adviceVisitor = new AdviceVisitor();
-            var advices = aspectDefinition.Advices.Select(advice => advice.Advice);
+			var advices = aspectDefinition.Advices;
             var advicesExpressions = advices.Select(advice => advice.Accept(adviceVisitor)).ToList();
         }
 

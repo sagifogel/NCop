@@ -17,7 +17,8 @@ namespace NCop.Aspects.Engine
                 var aspects = aspectMembers.Members.SelectMany(member => {
                     var onMethodBoundaryAspects = member.GetCustomAttributes<OnMethodBoundaryAspectAttribute>();
                     var methodInterceptionAspects = member.GetCustomAttributes<MethodInterceptionAspectAttribute>();
-                    var onMethodBoundaryAspectDefinitions = onMethodBoundaryAspects.Select(aspect => {
+                    
+					var onMethodBoundaryAspectDefinitions = onMethodBoundaryAspects.Select(aspect => {
                         return new OnMethodBoundaryAspectDefinition(aspect);
                     });
 

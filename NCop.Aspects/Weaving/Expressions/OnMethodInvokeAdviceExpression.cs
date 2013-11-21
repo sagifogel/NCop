@@ -4,14 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using NCop.Aspects.Advices;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
     internal class OnMethodInvokeAdviceExpression : AbstractAdviceExpression
     {
-        public OnMethodInvokeAdviceExpression(MethodInfo adviceMethod)
-            : base(adviceMethod) {
+		public OnMethodInvokeAdviceExpression(IAdviceDefinition adviceDefinition)
+			: base(adviceDefinition) {
         }
+
+		protected override AdviceType AdviceType {
+			get {
+				return AdviceType.OnMethodInvokeAdvice;
+			}
+		}
 
         public override IMethodScopeWeaver Reduce() {
             throw new NotImplementedException();

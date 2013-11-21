@@ -81,12 +81,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Advices\AdviceDefinition.cs" />
-    <Compile Include="Advices\AdviceVisitor.cs" />
+    <Compile Include="Advices\AbstractAdviceDefinition.cs" />
+    <Compile Include="Advices\AdviceType.cs" />
+    <Compile Include="Weaving\Expressions\AdviceVisitor.cs" />
     <Compile Include="Advices\AviceDefinitionCollection.cs" />
+    <Compile Include="Advices\FinallyAdviceDefinition.cs" />
     <Compile Include="Advices\IAdviceDefinition.cs" />
     <Compile Include="Advices\IAviceDefinitionCollection.cs" />
     <Compile Include="Advices\OnMethodEntryAdviceAttribute.cs" />
+    <Compile Include="Advices\OnMethodEntryAdviceDefinition.cs" />
+    <Compile Include="Advices\OnMethodExceptionAdviceDefinition.cs" />
+    <Compile Include="Advices\OnMethodInvokeAdviceDefinition.cs" />
+    <Compile Include="Advices\OnMethodSuccessAdviceDefinition.cs" />
     <Compile Include="Aspects\AspectBuilderCollection.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -320,7 +326,7 @@
     <Compile Include="Framework\OnFunctionBoundaryAspect`1.cs" />
     <Compile Include="Aspects\PropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Framework\SetPropertyInterceptionAspectAttribute.cs" />
-    <Compile Include="Aspects\AspectDefinition.cs" />
+    <Compile Include="Aspects\AbstractAspectDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

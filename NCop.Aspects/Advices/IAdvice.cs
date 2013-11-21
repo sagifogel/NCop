@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Advices
 {
-    public interface IAdvice : IAcceptsVisitor<IExpressionReducer, AdviceVisitor>
+    public interface IAdvice
     {
     }
 }
