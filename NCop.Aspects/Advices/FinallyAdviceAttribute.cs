@@ -6,8 +6,5 @@ namespace NCop.Aspects.Advices
 {
     public sealed class FinallyAdviceAttribute : AdviceAttribute
     {
-        public override IExpressionReducer Accept(AdviceVisitor visitor) {
-            return visitor.Visit(this).Invoke(null);
-        }
     }
 }

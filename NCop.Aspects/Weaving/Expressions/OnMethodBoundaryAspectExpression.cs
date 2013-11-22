@@ -12,11 +12,8 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal class OnMethodBoundaryAspectExpression : AbstractAspectExpression
     {
-        internal OnMethodBoundaryAspectExpression(IAspectDefinition aspectDefinition)
-            : base(aspectDefinition) {
-            var adviceVisitor = new AdviceVisitor();
-			var advices = aspectDefinition.Advices;
-            var advicesExpressions = advices.Select(advice => advice.Accept(adviceVisitor)).ToList();
+        internal OnMethodBoundaryAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition = null)
+            : base(expression, aspectDefinition) {
         }
 
         public override IMethodScopeWeaver Reduce() {

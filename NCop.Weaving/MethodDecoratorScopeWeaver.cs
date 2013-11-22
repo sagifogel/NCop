@@ -21,13 +21,13 @@ namespace NCop.Weaving
             iLGenerator.EmitLoadArg(0);
             iLGenerator.Emit(OpCodes.Ldfld, fieldBuilder);
 
-            MethodInfo.GetParameters()
+            MethodInfoImpl.GetParameters()
                       .Select(p => p.ParameterType)
                       .ForEach(1, (paramType, i) => {
                           iLGenerator.EmitLoadArg(i);
                       });
 
-            iLGenerator.Emit(OpCodes.Callvirt, MethodInfo);
+            iLGenerator.Emit(OpCodes.Callvirt, MethodInfoImpl);
 
             return iLGenerator;
         }

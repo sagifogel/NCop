@@ -6,31 +6,31 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     public class AdviceVisitor
     {
-		public Func<IAdviceDefinition, IExpressionReducer> Visit(OnMethodEntryAdviceAttribute advice) {
+		public Func<IAdviceDefinition, IAspectExpression> Visit(OnMethodEntryAdviceAttribute advice) {
 			return (adviceDefinition) => {
 				return new OnMethodEntryAdviceExpression(adviceDefinition);
             };
         }
 
-        public Func<IAdviceDefinition, IExpressionReducer> Visit(OnMethodInvokeAdviceAttribute advice) {
+        public Func<IAdviceDefinition, IAspectExpression> Visit(OnMethodInvokeAdviceAttribute advice) {
 			return (adviceDefinition) => {
 				return new OnMethodInvokeAdviceExpression(adviceDefinition);
             };
         }
 
-		public Func<IAdviceDefinition, IExpressionReducer> Visit(OnMethodSuccessAdviceAttribute advice) {
+        public Func<IAdviceDefinition, IAspectExpression> Visit(OnMethodSuccessAdviceAttribute advice) {
 			return (adviceDefinition) => {
 				return new OnMethodSuccessAdviceExpression(adviceDefinition);
             };
         }
 
-		public Func<IAdviceDefinition, IExpressionReducer> Visit(OnMethodExceptionAdviceAttribute advice) {
+        public Func<IAdviceDefinition, IAspectExpression> Visit(OnMethodExceptionAdviceAttribute advice) {
 			return (adviceDefinition) => {
 				return new OnMethodExceptionAdviceExpression(adviceDefinition);
             };
         }
 
-		public Func<IAdviceDefinition, IExpressionReducer> Visit(FinallyAdviceAttribute advice) {
+        public Func<IAdviceDefinition, IAspectExpression> Visit(FinallyAdviceAttribute advice) {
 			return (adviceDefinition) => {
 				return new FinallyAdviceExpression(adviceDefinition);
             };

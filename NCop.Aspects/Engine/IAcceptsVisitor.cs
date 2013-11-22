@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NCop.Aspects.Engine
 {
-    public interface IAcceptsVisitor<out TResult, TVisitor>
+    public interface IAcceptsVisitor<TVisitor, out TResult>
     {
         TResult Accept(TVisitor visitor);
     }

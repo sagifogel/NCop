@@ -83,6 +83,8 @@
   <ItemGroup>
     <Compile Include="Advices\AbstractAdviceDefinition.cs" />
     <Compile Include="Advices\AdviceType.cs" />
+    <Compile Include="Weaving\Expressions\AspectDecoratorExpression.cs" />
+    <Compile Include="Weaving\Expressions\AspectNodeExpressionBuilder.cs" />
     <Compile Include="Weaving\Expressions\AdviceVisitor.cs" />
     <Compile Include="Advices\AviceDefinitionCollection.cs" />
     <Compile Include="Advices\FinallyAdviceDefinition.cs" />
@@ -338,11 +340,12 @@
     <Compile Include="Weaving\AspectMethodWeaver.cs" />
     <Compile Include="Weaving\Expressions\AbstractAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\AbstractAspectExpression.cs" />
+    <Compile Include="Weaving\Expressions\AspectExpressionTreeBuilder.cs" />
     <Compile Include="Weaving\Expressions\AspectVisitor.cs" />
     <Compile Include="Weaving\Expressions\FinallyAdviceExpression.cs" />
-    <Compile Include="Weaving\Expressions\IHasAspectExpression.cs" />
-    <Compile Include="Weaving\Expressions\AspectExpressionBuilder.cs" />
-    <Compile Include="Weaving\Expressions\IExpressionReducer.cs" />
+    <Compile Include="Weaving\Expressions\IAspectExpression.cs" />
+    <Compile Include="Weaving\Expressions\AspectExpression.cs" />
+    <Compile Include="Weaving\Expressions\IAspectExpressionBuilder.cs" />
     <Compile Include="Weaving\Expressions\MethodInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\OnMethodBoundaryAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\OnMethodEntryAdviceExpression.cs" />

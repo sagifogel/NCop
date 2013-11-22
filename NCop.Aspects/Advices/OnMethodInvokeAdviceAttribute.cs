@@ -6,8 +6,5 @@ namespace NCop.Aspects.Advices
 {
     public sealed class OnMethodInvokeAdviceAttribute : AdviceAttribute
     {
-        public override IExpressionReducer Accept(AdviceVisitor visitor) {
-            return visitor.Visit(this).Invoke(null);
-        }
     }
 }

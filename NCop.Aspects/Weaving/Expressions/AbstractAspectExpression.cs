@@ -5,22 +5,28 @@ using System.Text;
 using NCop.Aspects.Aspects;
 using NCop.Weaving;
 using System.Reflection;
+using NCop.Aspects.Advices;
+using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal abstract class AbstractAspectExpression : IHasAspectExpression, IExpressionReducer
-	{
-		private readonly IAspectDefinition aspectDefinition = null;
+    internal abstract class AbstractAspectExpression : IAspectExpression
+    {
+        private readonly AdviceVisitor visitor = new AdviceVisitor();
+        protected readonly IAspectDefinition aspectDefinition = null;
+        protected readonly IEnumerable<IAspectExpression> adviceExpressions = null;
 
-		internal AbstractAspectExpression(IAspectDefinition aspectDefinition) {
-            this.aspectDefinition = aspectDefinition;
-		}
+        internal AbstractAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition = null) {
+            this.Expression = expression;
 
-		internal AbstractAspectExpression() {
-		}
+            if (aspectDefinition.IsNotNull()) {
+                this.aspectDefinition = aspectDefinition;
+                this.adviceExpressions = aspectDefinition.Advices.Select(advice => advice.Accept(visitor));
+            }
+        }
 
-		public abstract IMethodScopeWeaver Reduce();
+        internal IAspectExpression Expression { get; set; }
 
-		public IHasAspectExpression Expression { get; set; }
-	}
+        public abstract IMethodScopeWeaver Reduce();
+    }
 }

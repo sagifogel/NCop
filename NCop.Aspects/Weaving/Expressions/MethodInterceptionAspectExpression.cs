@@ -9,12 +9,12 @@ namespace NCop.Aspects.Weaving.Expressions
 {
 	internal class MethodInterceptionAspectExpression : AbstractAspectExpression
 	{
-		internal MethodInterceptionAspectExpression(IAspectDefinition aspectDefinition)
-			: base(aspectDefinition) {
+        internal MethodInterceptionAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition = null)
+			: base(expression, aspectDefinition) {
 		}
 
 		public override IMethodScopeWeaver Reduce() {
-			throw new NotImplementedException();
+            return null;
 		}
 	}
 }

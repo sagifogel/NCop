@@ -20,7 +20,7 @@ namespace NCop.Weaving
 
 			iLGenerator.EmitLoadArg(0);
 			iLGenerator.Emit(OpCodes.Ldfld, fieldBuilder);
-			iLGenerator.Emit(OpCodes.Callvirt, MethodInfo);
+			iLGenerator.Emit(OpCodes.Callvirt, MethodInfoImpl);
 
 			return iLGenerator;
 		}

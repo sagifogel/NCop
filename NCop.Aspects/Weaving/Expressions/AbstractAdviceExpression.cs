@@ -8,16 +8,18 @@ using NCop.Aspects.Advices;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal abstract class AbstractAdviceExpression : IExpressionReducer
+    internal abstract class AbstractAdviceExpression : IAspectExpression
     {
-		protected readonly IAdviceDefinition adviceDefinition = null;
+        protected readonly IAdviceDefinition adviceDefinition = null;
 
         public AbstractAdviceExpression(IAdviceDefinition adviceDefinition) {
-			this.adviceDefinition = adviceDefinition;
+            this.adviceDefinition = adviceDefinition;
         }
 
-		protected abstract AdviceType AdviceType { get; }
+        protected abstract AdviceType AdviceType { get; }
 
         public abstract IMethodScopeWeaver Reduce();
+
+        public IEnumerable<IAspectExpression> Expressions { get; private set; }
     }
 }

@@ -7,8 +7,5 @@ namespace NCop.Aspects.Advices
 {
     public sealed class OnMethodExceptionAdviceAttribute : AdviceAttribute
     {
-        public override IExpressionReducer Accept(AdviceVisitor visitor) {
-            return visitor.Visit(this).Invoke(null);
-        }
     }
 }

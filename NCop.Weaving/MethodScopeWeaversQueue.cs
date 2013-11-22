@@ -4,11 +4,11 @@ using System.Reflection.Emit;
 
 namespace NCop.Composite.Weaving
 {
-    internal class MethodScopeWeaversQueue : IMethodScopeWeaver
+    public class MethodScopeWeaversQueue : IMethodScopeWeaver
     {
         private readonly Queue<IMethodScopeWeaver> queue = null;
 
-        internal MethodScopeWeaversQueue(IEnumerable<IMethodScopeWeaver> methodScopeWeavers) {
+        public MethodScopeWeaversQueue(IEnumerable<IMethodScopeWeaver> methodScopeWeavers) {
             queue = new Queue<IMethodScopeWeaver>(methodScopeWeavers);
         }
 

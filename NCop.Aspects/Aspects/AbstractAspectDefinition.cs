@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace NCop.Aspects.Aspects
 {
-	internal abstract class AbstractAspectDefinition : IAspectDefinition, IAcceptsVisitor<IHasAspectExpression, AspectVisitor>
+	internal abstract class AbstractAspectDefinition : IAspectDefinition
 	{
 		protected readonly AdviceDefinitionCollection advices = null;
 
@@ -42,6 +42,7 @@ namespace NCop.Aspects.Aspects
 		}
 
 		protected abstract void BulidAdvices();
-		public abstract IHasAspectExpression Accept(AspectVisitor visitor);
-	}
+
+        public abstract IAspectExpressionBuilder Accept(AspectVisitor visitor);
+    }
 }

@@ -4,7 +4,7 @@ using NCop.Aspects.Weaving.Expressions;
 
 namespace NCop.Aspects.Aspects
 {
-    public interface IAspectDefinition : IAcceptsVisitor<IHasAspectExpression, AspectVisitor>
+    public interface IAspectDefinition : IAcceptsVisitor<AspectVisitor, IAspectExpressionBuilder>
     {
         IAspect Aspect { get; }
         AspectType AspectType { get; }

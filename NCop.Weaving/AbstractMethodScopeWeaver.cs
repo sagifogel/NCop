@@ -10,12 +10,12 @@ namespace NCop.Weaving
 	public abstract class AbstractMethodScopeWeaver : IMethodScopeWeaver
 	{
 		protected readonly Type ContractType = null;
-        protected readonly MethodInfo MethodInfo = null;
         protected readonly Type ImplementationType = null;
+        protected readonly MethodInfo MethodInfoImpl = null;
 
-		public AbstractMethodScopeWeaver(MethodInfo methodInfo, Type implementationType, Type contractType) {
-            MethodInfo = methodInfo;
+		public AbstractMethodScopeWeaver(MethodInfo methodInfoImpl, Type implementationType, Type contractType) {
             ContractType = contractType;
+            MethodInfoImpl = methodInfoImpl;
             ImplementationType = implementationType;
         }
 

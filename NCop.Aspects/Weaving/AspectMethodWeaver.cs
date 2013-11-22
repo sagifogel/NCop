@@ -9,11 +9,15 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving
 {
-	public class AspectMethodWeaver : AbstractMethodWeaver
-	{
-		public AspectMethodWeaver(IEnumerable<IAspectDefinition> aspectDefinitions, MethodInfo methodInfoImpl, Type implementationType, Type contractType)
-			: base(methodInfoImpl, implementationType, contractType) {
-			var aspectBuilder = new AspectExpression(aspectDefinitions);
-		}
-	}
+    public class AspectMethodWeaver : AbstractMethodWeaver
+    {
+        public AspectMethodWeaver(IEnumerable<IAspectDefinition> aspectDefinitions, MethodInfo methodInfoImpl, Type implementationType, Type contractType)
+            : base(methodInfoImpl, implementationType, contractType) {
+            var aspectExpression = new AspectExpressionTreeBuilder(aspectDefinitions, methodInfoImpl, implementationType, contractType).Build();
+           
+            MethodDefintionWeaver = new MethodSignatureWeaver();
+            MethodScopeWeaver = aspectExpression.Reduce();
+            MethodEndWeaver = new MethodEndWeaver();
+        }
+    }
 }

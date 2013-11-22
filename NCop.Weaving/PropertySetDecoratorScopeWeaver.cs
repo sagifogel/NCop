@@ -22,7 +22,7 @@ namespace NCop.Weaving
 
             iLGenerator.Emit(OpCodes.Ldfld, fieldBuilder);
             iLGenerator.EmitLoadArg(1);
-            iLGenerator.Emit(OpCodes.Callvirt, MethodInfo);
+            iLGenerator.Emit(OpCodes.Callvirt, MethodInfoImpl);
 
             return iLGenerator;
         }
