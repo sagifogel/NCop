@@ -10,7 +10,7 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal class OnMethodExceptionAdviceExpression : AbstractAdviceExpression
     {
-		public OnMethodExceptionAdviceExpression(IAdviceDefinition adviceDefinition)
+        internal OnMethodExceptionAdviceExpression(IAdviceDefinition adviceDefinition)
 			: base(adviceDefinition) {
         }
 
@@ -19,8 +19,8 @@ namespace NCop.Aspects.Weaving.Expressions
 				return AdviceType.OnMethodExceptionAdvice;
 			}
 		}
-		
-		public override IMethodScopeWeaver Reduce() {
+
+        public override IMethodScopeWeaver Reduce(IMethodLocalsWeaver localWeavers) {
             throw new NotImplementedException();
         }
     }

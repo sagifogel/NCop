@@ -10,7 +10,7 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal class FinallyAdviceExpression : AbstractAdviceExpression
     {
-		public FinallyAdviceExpression(IAdviceDefinition adviceDefinition)
+        internal FinallyAdviceExpression(IAdviceDefinition adviceDefinition)
 			: base(adviceDefinition) {
         }
 
@@ -20,7 +20,7 @@ namespace NCop.Aspects.Weaving.Expressions
 			}
 		}
 
-        public override IMethodScopeWeaver Reduce() {
+        public override IMethodScopeWeaver Reduce(IMethodLocalsWeaver localWeavers) {
             throw new NotImplementedException();
         }
     }

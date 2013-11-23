@@ -6,33 +6,33 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     public class AdviceVisitor
     {
-		public Func<IAdviceDefinition, IAspectExpression> Visit(OnMethodEntryAdviceAttribute advice) {
-			return (adviceDefinition) => {
-				return new OnMethodEntryAdviceExpression(adviceDefinition);
+        internal Func<IAdviceDefinition, IAdviceExpression> Visit(OnMethodEntryAdviceAttribute advice) {
+            return (adviceDefinition) => {
+                return new OnMethodEntryAdviceExpression(adviceDefinition);
             };
         }
 
-        public Func<IAdviceDefinition, IAspectExpression> Visit(OnMethodInvokeAdviceAttribute advice) {
-			return (adviceDefinition) => {
-				return new OnMethodInvokeAdviceExpression(adviceDefinition);
+        internal Func<IAdviceDefinition, IAdviceExpression> Visit(OnMethodInvokeAdviceAttribute advice) {
+            return (adviceDefinition) => {
+                return new OnMethodInvokeAdviceExpression(adviceDefinition);
             };
         }
 
-        public Func<IAdviceDefinition, IAspectExpression> Visit(OnMethodSuccessAdviceAttribute advice) {
-			return (adviceDefinition) => {
-				return new OnMethodSuccessAdviceExpression(adviceDefinition);
+        internal Func<IAdviceDefinition, IAdviceExpression> Visit(OnMethodSuccessAdviceAttribute advice) {
+            return (adviceDefinition) => {
+                return new OnMethodSuccessAdviceExpression(adviceDefinition);
             };
         }
 
-        public Func<IAdviceDefinition, IAspectExpression> Visit(OnMethodExceptionAdviceAttribute advice) {
-			return (adviceDefinition) => {
-				return new OnMethodExceptionAdviceExpression(adviceDefinition);
+        internal Func<IAdviceDefinition, IAdviceExpression> Visit(OnMethodExceptionAdviceAttribute advice) {
+            return (adviceDefinition) => {
+                return new OnMethodExceptionAdviceExpression(adviceDefinition);
             };
         }
 
-        public Func<IAdviceDefinition, IAspectExpression> Visit(FinallyAdviceAttribute advice) {
-			return (adviceDefinition) => {
-				return new FinallyAdviceExpression(adviceDefinition);
+        internal Func<IAdviceDefinition, IAdviceExpression> Visit(FinallyAdviceAttribute advice) {
+            return (adviceDefinition) => {
+                return new FinallyAdviceExpression(adviceDefinition);
             };
         }
     }

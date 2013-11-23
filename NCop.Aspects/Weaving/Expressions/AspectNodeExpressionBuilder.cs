@@ -11,7 +11,7 @@ namespace NCop.Aspects.Weaving.Expressions
     {
         private readonly Func<IAspectExpression, IAspectExpression> expressionBuilderFactory = null;
 
-        public AspectNodeExpressionBuilder(Func<IAspectExpression, IAspectExpression> expressionBuilderFactory) {
+        internal AspectNodeExpressionBuilder(Func<IAspectExpression, IAspectExpression> expressionBuilderFactory) {
             this.expressionBuilderFactory = expressionBuilderFactory;
         }
 

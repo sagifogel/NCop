@@ -14,7 +14,7 @@ namespace NCop.Aspects.Weaving.Expressions
     {
         private readonly AdviceVisitor visitor = new AdviceVisitor();
         protected readonly IAspectDefinition aspectDefinition = null;
-        protected readonly IEnumerable<IAspectExpression> adviceExpressions = null;
+        protected readonly IEnumerable<IAdviceExpression> adviceExpressions = null;
 
         internal AbstractAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition = null) {
             this.Expression = expression;

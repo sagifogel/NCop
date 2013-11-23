@@ -12,7 +12,7 @@ namespace NCop.Aspects.Weaving.Expressions
     {
         private readonly IMethodScopeWeaver weaver = null;
 
-        public AspectDecoratorExpression(MethodInfo methodImplementation, Type implementationType, Type contractType) {
+        internal AspectDecoratorExpression(MethodInfo methodImplementation, Type implementationType, Type contractType) {
             weaver = new MethodDecoratorScopeWeaver(methodImplementation, implementationType, contractType);
         }
 

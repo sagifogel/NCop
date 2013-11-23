@@ -16,7 +16,7 @@ namespace NCop.Aspects.Advices
 			this.advice = advice;
 		}
 
-        public override IAspectExpression Accept(AdviceVisitor visitor) {
+        public override IAdviceExpression Accept(AdviceVisitor visitor) {
 			return visitor.Visit(advice).Invoke(this);	
 		}
 	}

@@ -12,6 +12,6 @@ namespace NCop.Aspects.Advices
 
         public IAdvice Advice { get; private set; }
         public MethodInfo AdviceMethod { get; private set; }
-        public abstract IAspectExpression Accept(AdviceVisitor visitor);
-	}
+        public abstract IAdviceExpression Accept(AdviceVisitor visitor);
+    }
 }

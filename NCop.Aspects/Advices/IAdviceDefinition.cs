@@ -8,7 +8,7 @@ using NCop.Aspects.Weaving.Expressions;
 
 namespace NCop.Aspects.Advices
 {
-    public interface IAdviceDefinition : IAcceptsVisitor<AdviceVisitor, IAspectExpression>
+    public interface IAdviceDefinition : IAcceptsVisitor<AdviceVisitor, IAdviceExpression>
     {
         IAdvice Advice { get; }
         MethodInfo AdviceMethod { get; }

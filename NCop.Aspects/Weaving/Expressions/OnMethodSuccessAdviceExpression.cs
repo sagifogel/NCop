@@ -8,21 +8,20 @@ using NCop.Aspects.Advices;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-	internal class OnMethodSuccessAdviceExpression : AbstractAdviceExpression
-	{
-		public OnMethodSuccessAdviceExpression(IAdviceDefinition adviceDefinition)
-			: base(adviceDefinition) {
-		}
+    internal class OnMethodSuccessAdviceExpression : AbstractAdviceExpression
+    {
+        internal OnMethodSuccessAdviceExpression(IAdviceDefinition adviceDefinition)
+            : base(adviceDefinition) {
+        }
 
-		protected override AdviceType AdviceType {
-			get {
-				return AdviceType.OnMethodSuccessAdvice;
-			}
-		}
+        protected override AdviceType AdviceType {
+            get {
+                return AdviceType.OnMethodSuccessAdvice;
+            }
+        }
 
-		public override IMethodScopeWeaver Reduce() {
-			throw new NotImplementedException();
-		}
-
-	}
+        public override IMethodScopeWeaver Reduce(IMethodLocalsWeaver localWeavers) {
+            throw new NotImplementedException();
+        }
+    }
 }

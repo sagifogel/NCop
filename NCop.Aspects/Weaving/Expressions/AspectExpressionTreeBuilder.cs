@@ -14,7 +14,7 @@ namespace NCop.Aspects.Weaving.Expressions
         private readonly IAspectExpression decoratorAspect = null;
         private readonly Stack<IAspectDefinition> aspectsStack = null;
 
-        public AspectExpressionTreeBuilder(IEnumerable<IAspectDefinition> aspectDefinitions, MethodInfo methodInfoImpl, Type implementationType, Type contractType) {
+        internal AspectExpressionTreeBuilder(IEnumerable<IAspectDefinition> aspectDefinitions, MethodInfo methodInfoImpl, Type implementationType, Type contractType) {
             var aspectsByPriority = aspectDefinitions.OrderBy(aspect => aspect.Aspect.AspectPriority)
                                                      .ThenBy(aspect => {
                                                          var value = aspect.Aspect is OnMethodBoundaryAspectAttribute;
