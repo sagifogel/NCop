@@ -17,7 +17,7 @@ namespace NCop.Aspects.Weaving.Expressions
         }
 
         public override IMethodScopeWeaver Reduce() {
-            throw new NotImplementedException();
+            return new OnMethodBoundaryAspectWeaver(expression, aspectDefinition);
         }
     }
 }

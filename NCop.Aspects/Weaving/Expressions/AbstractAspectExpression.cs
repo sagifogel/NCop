@@ -12,20 +12,13 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal abstract class AbstractAspectExpression : IAspectExpression
     {
-        private readonly AdviceVisitor visitor = new AdviceVisitor();
+        protected readonly IAspectExpression expression = null;
         protected readonly IAspectDefinition aspectDefinition = null;
-        protected readonly IEnumerable<IAdviceExpression> adviceExpressions = null;
 
         internal AbstractAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition = null) {
-            this.Expression = expression;
-
-            if (aspectDefinition.IsNotNull()) {
-                this.aspectDefinition = aspectDefinition;
-                this.adviceExpressions = aspectDefinition.Advices.Select(advice => advice.Accept(visitor));
-            }
+            this.expression = expression;
+            this.aspectDefinition = aspectDefinition;                            
         }
-
-        internal IAspectExpression Expression { get; set; }
 
         public abstract IMethodScopeWeaver Reduce();
     }

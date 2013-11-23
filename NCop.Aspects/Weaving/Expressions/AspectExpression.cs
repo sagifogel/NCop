@@ -17,7 +17,7 @@ namespace NCop.Aspects.Weaving.Expressions
         }
 
         public override IMethodScopeWeaver Reduce() {
-            return Expression.Reduce();
+            return expression.Reduce();
         }
     }
 }

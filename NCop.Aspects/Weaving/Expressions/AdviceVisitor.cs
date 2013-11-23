@@ -6,6 +6,12 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     public class AdviceVisitor
     {
+        internal Func<IAdviceDefinition, IAdviceExpression> Visit(FinallyAdviceAttribute advice) {
+            return (adviceDefinition) => {
+                return new FinallyAdviceExpression(adviceDefinition);
+            };
+        }
+        
         internal Func<IAdviceDefinition, IAdviceExpression> Visit(OnMethodEntryAdviceAttribute advice) {
             return (adviceDefinition) => {
                 return new OnMethodEntryAdviceExpression(adviceDefinition);
@@ -27,12 +33,6 @@ namespace NCop.Aspects.Weaving.Expressions
         internal Func<IAdviceDefinition, IAdviceExpression> Visit(OnMethodExceptionAdviceAttribute advice) {
             return (adviceDefinition) => {
                 return new OnMethodExceptionAdviceExpression(adviceDefinition);
-            };
-        }
-
-        internal Func<IAdviceDefinition, IAdviceExpression> Visit(FinallyAdviceAttribute advice) {
-            return (adviceDefinition) => {
-                return new FinallyAdviceExpression(adviceDefinition);
             };
         }
     }

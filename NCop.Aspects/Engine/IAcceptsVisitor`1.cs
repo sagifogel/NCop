@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    public interface IAcceptsVisitor<out TResult, TVisitor, in S>
+    public interface IAcceptsVisitor<TVisitor>
     {
-        TResult Accept(TVisitor visitor, S value);
+        void Accept(TVisitor visitor);
     }
 }

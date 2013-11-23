@@ -18,6 +18,6 @@ namespace NCop.Aspects.Weaving.Expressions
 
         protected abstract AdviceType AdviceType { get; }
 
-        public abstract IMethodScopeWeaver Reduce(IMethodLocalsWeaver localWeavers);
+        public abstract IMethodScopeWeaver Reduce(IMethodLocalWeaver aspetArgsLocalWeaver);
     }
 }

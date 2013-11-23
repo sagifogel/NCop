@@ -83,6 +83,8 @@
   <ItemGroup>
     <Compile Include="Advices\AbstractAdviceDefinition.cs" />
     <Compile Include="Advices\AdviceType.cs" />
+    <Compile Include="Weaving\AbstractMethodAspectWeaver.cs" />
+    <Compile Include="Weaving\AdviceDiscoveryVisitor.cs" />
     <Compile Include="Weaving\Expressions\AspectDecoratorExpression.cs" />
     <Compile Include="Weaving\Expressions\AspectNodeExpressionBuilder.cs" />
     <Compile Include="Weaving\Expressions\AdviceVisitor.cs" />
@@ -353,6 +355,11 @@
     <Compile Include="Weaving\Expressions\OnMethodExceptionAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\OnMethodInvokeAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\OnMethodSuccessAdviceExpression.cs" />
+    <Compile Include="Weaving\MethodInterceptionAspectWeaver.cs" />
+    <Compile Include="Weaving\AspectArgsLateLocalWeaver.cs" />
+    <Compile Include="Weaving\OnMethodBoundaryAspectWeaver.cs" />
+    <Compile Include="Weaving\TryCatchFinallyAspectWeaver.cs" />
+    <Compile Include="Weaving\TryFinallyAspectWeaver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Exceptions\AspectTypeMismatchException.tt">

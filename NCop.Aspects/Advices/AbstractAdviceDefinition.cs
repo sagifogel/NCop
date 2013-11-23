@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using NCop.Aspects.Weaving.Expressions;
+using NCop.Aspects.Weaving;
 
 namespace NCop.Aspects.Advices
 {
@@ -13,5 +14,6 @@ namespace NCop.Aspects.Advices
         public IAdvice Advice { get; private set; }
         public MethodInfo AdviceMethod { get; private set; }
         public abstract IAdviceExpression Accept(AdviceVisitor visitor);
+        public abstract void Accept(AdviceDiscoveryVisitor visitor);
     }
 }

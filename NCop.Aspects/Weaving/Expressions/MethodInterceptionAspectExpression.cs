@@ -7,14 +7,14 @@ using NCop.Weaving;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-	internal class MethodInterceptionAspectExpression : AbstractAspectExpression
-	{
+    internal class MethodInterceptionAspectExpression : AbstractAspectExpression
+    {
         internal MethodInterceptionAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition = null)
-			: base(expression, aspectDefinition) {
-		}
+            : base(expression, aspectDefinition) {
+        }
 
-		public override IMethodScopeWeaver Reduce() {
-            return null;
-		}
-	}
+        public override IMethodScopeWeaver Reduce() {
+            return new MethodInterceptionAspectWeaver(expression, aspectDefinition);
+        }
+    }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using NCop.Aspects.Weaving.Expressions;
+using NCop.Aspects.Weaving;
 
 namespace NCop.Aspects.Advices
 {
@@ -19,5 +20,9 @@ namespace NCop.Aspects.Advices
         public override IAdviceExpression Accept(AdviceVisitor visitor) {
 			return visitor.Visit(advice).Invoke(this);
 		}
+
+        public override void Accept(AdviceDiscoveryVisitor visitor) {
+            visitor.Visit(advice);
+        }
 	}
 }
