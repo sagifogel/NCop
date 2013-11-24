@@ -9,36 +9,38 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
+using NCop.Aspects.Framework;
+using NCop.Aspects.Engine;
+using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-    public class MethodInterceptionAspectWeaver : AbstractMethodAspectWeaver
-    {
-        internal MethodInterceptionAspectWeaver(IAspectExpression expression, IAspectDefinition aspectDefinition)
-            : base(expression, aspectDefinition) {
-            IAdviceExpression selectedExpression = null;
-            var invokeWeavers = new List<IMethodScopeWeaver>();
-            var localWeaver = new AspectArgsLocalWeaver(null);
+	public class MethodInterceptionAspectWeaver : AbstractMethodAspectWeaver
+	{
+		internal MethodInterceptionAspectWeaver(IAspectExpression expression, IAspectDefinition aspectDefinition)
+			: base(expression, aspectDefinition) {
+			IAdviceExpression selectedExpression = null;
+			var invokeWeavers = new List<IMethodScopeWeaver>();
+			var localWeaver = new AspectArgsLocalWeaver(GetArgumentsType());
 
-            selectedExpression = ResolveOnMethodEntryAdvice();
-            invokeWeavers.Add(selectedExpression.Reduce(localWeaver));
+			selectedExpression = ResolveOnMethodEntryAdvice();
+			invokeWeavers.Add(selectedExpression.Reduce(localWeaver));
+			weaver = new MethodScopeWeaversQueue(invokeWeavers);
+		}
 
-            weaver = new MethodScopeWeaversQueue(invokeWeavers);
-        }
+		private IAdviceExpression ResolveOnMethodEntryAdvice() {
+			IAdviceDefinition selectedAdviceDefinition = null;
+			Func<IAdviceDefinition, IAdviceExpression> adviceExpressionFactory = null;
+			var onMethodInvokeAdvice = adviceDiscoveryVistor.OnMethodInvokeAdvice;
 
-        private IAdviceExpression ResolveOnMethodEntryAdvice() {
-            IAdviceDefinition selectedAdviceDefinition = null;
-            Func<IAdviceDefinition, IAdviceExpression> adviceExpressionFactory = null;
-            var onMethodInvokeAdvice = adviceDiscoveryVistor.OnMethodInvokeAdvice;
+			adviceExpressionFactory = adviceVisitor.Visit(adviceDiscoveryVistor.OnMethodInvokeAdvice);
+			selectedAdviceDefinition = advices.First(advice => advice.Advice.Equals(onMethodInvokeAdvice));
 
-            adviceExpressionFactory = adviceVisitor.Visit(adviceDiscoveryVistor.OnMethodInvokeAdvice);
-            selectedAdviceDefinition = advices.First(advice => advice.Advice.Equals(onMethodInvokeAdvice));
+			return adviceExpressionFactory(selectedAdviceDefinition);
+		}
 
-            return adviceExpressionFactory(selectedAdviceDefinition);
-        }
-
-        public override ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition) {
-            return weaver.Weave(iLGenerator, typeDefinition);
-        }
-    }
+		public override ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition) {
+			return weaver.Weave(iLGenerator, typeDefinition);
+		}
+	}
 }

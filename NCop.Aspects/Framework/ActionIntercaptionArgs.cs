@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NCop.Aspects.Framework
 {
-    public abstract class ActionInterceptionArgs : InterceptionArgs
+	public abstract class ActionInterceptionArgs : InterceptionArgs, IActionInterceptionArgs
 	{
 	}
 }

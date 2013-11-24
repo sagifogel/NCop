@@ -8,21 +8,21 @@ using System.Text;
 
 namespace NCop.Aspects.Extensions
 {
-    public static class AspectBuilderExtensions
-    {
-        public static IAspectDefinitionCollection Build(this IAspectBuilder aspectBuilder, Func<IAspectDefinitionCollection> builder) {
-            return builder();
-        }
+	public static class AspectBuilderExtensions
+	{
+		public static IAspectDefinitionCollection Build(this IAspectBuilder aspectBuilder, Func<IAspectDefinitionCollection> builder) {
+			return builder();
+		}
 
-        public static bool Is<TAspect>(this IAspect aspect) where TAspect : IAspect {
-            return typeof(TAspect).IsAssignableFrom(aspect.GetType());
-        }
+		public static bool Is<TAspect>(this IAspect aspect) where TAspect : IAspect {
+			return typeof(TAspect).IsAssignableFrom(aspect.GetType());
+		}
 
-        public static bool IsMethodLevelAspect(this IAspect aspect) {
-            var type = aspect.GetType();
+		public static bool IsMethodLevelAspect(this IAspect aspect) {
+			var type = aspect.GetType();
 
-            return typeof(OnMethodBoundaryAspectAttribute).IsAssignableFrom(type) ||
-                   typeof(MethodInterceptionAspectAttribute).IsAssignableFrom(type);
-        }
-    }
+			return typeof(OnMethodBoundaryAspectAttribute).IsAssignableFrom(type) ||
+				   typeof(MethodInterceptionAspectAttribute).IsAssignableFrom(type);
+		}
+	}
 }

@@ -83,6 +83,22 @@
   <ItemGroup>
     <Compile Include="Advices\AbstractAdviceDefinition.cs" />
     <Compile Include="Advices\AdviceType.cs" />
+    <Compile Include="Engine\ActionExecutionArgsImpl`2.cs" />
+    <Compile Include="Engine\ActionExecutionArgsImpl`3.cs" />
+    <Compile Include="Engine\ActionExecutionArgsImpl`4.cs" />
+    <Compile Include="Engine\ActionExecutionArgsImpl`5.cs" />
+    <Compile Include="Engine\ActionExecutionArgsImpl`6.cs" />
+    <Compile Include="Engine\ActionExecutionArgsImpl`7.cs" />
+    <Compile Include="Engine\ActionExecutionArgsImpl`8.cs" />
+    <Compile Include="Engine\ActionExecutionArgsImpl`1.cs" />
+    <Compile Include="Engine\ActionExecutionArgsImpl.cs" />
+    <Compile Include="Extensions\AspectArgsResolver.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AspectArgsResolver.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Framework\IActionInterceptionArgs.cs" />
+    <Compile Include="Framework\IFunctionInterceptionArgs.cs" />
     <Compile Include="Weaving\AbstractMethodAspectWeaver.cs" />
     <Compile Include="Weaving\AdviceDiscoveryVisitor.cs" />
     <Compile Include="Weaving\Expressions\AspectDecoratorExpression.cs" />
@@ -381,6 +397,11 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AspectAnnotationException.cs</LastGenOutput>
       <LastOutputs>.\AspectAnnotationException.cs</LastOutputs>
+    </None>
+    <None Include="Extensions\AspectArgsResolver.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AspectArgsResolver.cs</LastGenOutput>
+      <LastOutputs>.\AspectArgsResolver.cs</LastOutputs>
     </None>
   </ItemGroup>
   <ItemGroup>
