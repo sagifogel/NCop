@@ -8,6 +8,6 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     public interface IAdviceExpression
     {
-        IMethodScopeWeaver Reduce(IMethodLocalWeaver aspetArgsLocalWeaver);
+        IMethodScopeWeaver Reduce(IMethodLocalWeaver aspectArgsLocalWeaver);
     }
 }

@@ -20,8 +20,8 @@ namespace NCop.Aspects.Weaving.Expressions
 			}
 		}
 
-        public override IMethodScopeWeaver Reduce(IMethodLocalWeaver aspetArgsLocalWeaver) {
-            throw new NotImplementedException();
+        public override IMethodScopeWeaver Reduce(IMethodLocalWeaver aspectArgsLocalWeaver) {
+            return new FinallyAdviceWeaver(aspectArgsLocalWeaver);
         }
     }
 }

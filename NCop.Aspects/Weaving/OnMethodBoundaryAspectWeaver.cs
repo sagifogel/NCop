@@ -97,9 +97,9 @@ namespace NCop.Aspects.Weaving
             return adviceExpressionFactory(selectedAdviceDefinition);
         }
 
-		protected override Type GetArgumentsType() {
-			return null;
-		}
+        protected override Type GetArgumentsType() {
+            return null;
+        }
 
         public override ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition) {
             return weaver.Weave(iLGenerator, typeDefinition);
