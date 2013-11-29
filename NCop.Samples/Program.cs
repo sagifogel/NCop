@@ -11,58 +11,59 @@ using NCop.Aspects.Engine;
 
 namespace NCop.Samples
 {
-    public class FunctionBinding : IFunctionBinding<string, bool>
+    internal static class Aspects
     {
-        private Func<string, bool> factory = null;
+        internal static TraceAspect traceAspect = new TraceAspect();
+        internal static TraceAspect2 traceAspect2 = new TraceAspect2();
+        internal static TraceAspect2 traceAspect3 = new TraceAspect2();
+    }
 
-        public FunctionBinding(Func<string, bool> factory) {
-            this.factory = factory;
-        }
+    public class FunctionBinding : IFunctionBinding<Test, string, bool>
+    {
+        public bool Invoke(ref Test instance, string arg1) {
+            var args = new FunctionExecutionArgsImpl<Test, string, bool>(instance, arg1);
 
-        public bool Invoke(ref object instance, string arg1) {
-            var args = new FunctionExecutionArgsImpl<string, bool>(instance, arg1);
-
-            Program.traceAspect2.OnEntry(args);
+            Aspects.traceAspect2.OnEntry(args);
 
             try {
-                var args2 = new FunctionInterceptionArgsImpl<string, bool>(instance, this, arg1);
-                Program.traceAspect.OnInvoke(args2);
-                args.ReturnValue = factory(arg1);
-                Program.traceAspect2.OnSuccess(args);
+                args.ReturnValue = ((Test)instance).SayHello(arg1);
+                Aspects.traceAspect2.OnSuccess(args);
             }
             catch (Exception) {
-                Program.traceAspect2.OnException(args);
+                Aspects.traceAspect2.OnException(args);
                 throw;
             }
             finally {
-                Program.traceAspect2.OnExit(args);
+                Aspects.traceAspect2.OnExit(args);
             }
 
             return args.ReturnValue;
         }
     }
 
+    public class Test 
+    {
+        public bool SayHello(string name) {
+            var bindings = new FunctionBinding();
+            var arguments = new FunctionInterceptionArgsImpl<Test, string, bool>(this, bindings, name);
+
+            return true;//Aspects.traceAspect.OnInvoke(arguments);
+        }
+
+        internal bool __SayHello__(string name) {
+            Console.WriteLine("Hello", name);
+
+            return true;
+        }
+    }
+
     class Program
     {
-        public static TraceAspect traceAspect = new TraceAspect();
-        public static TraceAspect2 traceAspect2 = new TraceAspect2();
-        public static TraceAspect2 traceAspect3 = new TraceAspect2();
-
         static void Main(string[] args) {
             var container = new CompositeContainer();
             container.Configure();
             //var person = container.TryResolve<IPersonComposite>();
             //person.Code("CSharp");
-
-            Code("sdasdadasd");
-        }
-
-        private static void Code(string code) {
-            var instance = new CSharpDeveloperMixin();
-            var bindings = new FunctionBinding(instance.Code);
-            var arguments = new FunctionInterceptionArgsImpl<string, bool>(instance, bindings, code);
-
-            traceAspect.OnInvoke(arguments);
         }
     }
 
@@ -112,11 +113,11 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
-        [OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 2)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 4)]
+        //[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 2)]
+        //[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 4)]
         [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 3)]
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        //[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 3)]
+        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
         new bool Code(string code);
     }
 

@@ -7,19 +7,18 @@ using System.Text;
 
 namespace NCop.Aspects.Engine
 {
-    public class FunctionInterceptionArgsImpl<TResult> : FunctionInterceptionArgs<TResult>, IInterceptable
+    public class FunctionInterceptionArgsImpl<TInstance, TResult> : FunctionInterceptionArgs<TResult>, IInterceptable
 	{
-        private readonly IFunctionBinding<TResult> funcBinding = null;
+        private TInstance instance = default(TInstance);
+        private readonly IFunctionBinding<TInstance, TResult> funcBinding = null;
 
-        public FunctionInterceptionArgsImpl(object instance, IFunctionBinding<TResult> funcBinding) {
-            Instance = instance;
+        public FunctionInterceptionArgsImpl(TInstance instance, IFunctionBinding<TInstance, TResult> funcBinding) {
             this.funcBinding = funcBinding;
+            Instance = this.instance = instance;
         }
 
         public override void Proceed() {
-            var instance = Instance;
-
-            ReturnValue = funcBinding.Invoke(ref instance);
+            ReturnValue = funcBinding.Invoke(ref this.instance);
         }
     }
 }

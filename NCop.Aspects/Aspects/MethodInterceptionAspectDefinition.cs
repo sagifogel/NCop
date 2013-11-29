@@ -8,33 +8,33 @@ using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Aspects
 {
-	internal class MethodInterceptionAspectDefinition : AbstractAspectDefinition
-	{
-		private readonly MethodInterceptionAspectAttribute aspect = null;
+    internal class MethodInterceptionAspectDefinition : AbstractAspectDefinition
+    {
+        private readonly MethodInterceptionAspectAttribute aspect = null;
 
-		internal MethodInterceptionAspectDefinition(MethodInterceptionAspectAttribute aspect)
-			: base(aspect) {
-			this.aspect = aspect;
-		}
+        internal MethodInterceptionAspectDefinition(MethodInterceptionAspectAttribute aspect, Type aspectDeclaringType)
+            : base(aspect, aspectDeclaringType) {
+            this.aspect = aspect;
+        }
 
-		public override AspectType AspectType {
-			get {
-				return AspectType.MethodInterceptionAspect;
-			}
-		}
+        public override AspectType AspectType {
+            get {
+                return AspectType.MethodInterceptionAspect;
+            }
+        }
 
-		protected override void BulidAdvices() {
-			Aspect.AspectType
-				 .GetOverridenMethods()
-				 .ForEach(method => {
-					 TryBulidAdvice<OnMethodInvokeAdviceAttribute>(method, (advice, mi) => {
-						 return new OnMethodInvokeAdviceDefinition(advice, mi);
-					 });
-				 });
-		}
+        protected override void BulidAdvices() {
+            Aspect.AspectType
+                 .GetOverridenMethods()
+                 .ForEach(method => {
+                     TryBulidAdvice<OnMethodInvokeAdviceAttribute>(method, (advice, mi) => {
+                         return new OnMethodInvokeAdviceDefinition(advice, mi);
+                     });
+                 });
+        }
 
         public override IAspectExpressionBuilder Accept(AspectVisitor visitor) {
-			return visitor.Visit(aspect).Invoke(this);
-		}
-	}
+            return visitor.Visit(aspect).Invoke(this);
+        }
+    }
 }

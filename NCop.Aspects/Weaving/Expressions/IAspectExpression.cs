@@ -8,6 +8,6 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     public interface IAspectExpression
     {
-        IMethodScopeWeaver Reduce();
+        IAspcetWeaver Reduce(IAspectWeaverSettings settings);
     }
 }

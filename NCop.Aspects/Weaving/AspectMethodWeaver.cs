@@ -11,12 +11,12 @@ namespace NCop.Aspects.Weaving
 {
     public class AspectMethodWeaver : AbstractMethodWeaver
     {
-        public AspectMethodWeaver(IEnumerable<IAspectDefinition> aspectDefinitions, MethodInfo methodInfoImpl, Type implementationType, Type contractType)
+        public AspectMethodWeaver(IAspectDefinitionCollection aspectDefinitions, MethodInfo methodInfoImpl, Type implementationType, Type contractType)
             : base(methodInfoImpl, implementationType, contractType) {
             var aspectExpression = new AspectExpressionTreeBuilder(aspectDefinitions, methodInfoImpl, implementationType, contractType).Build();
            
             MethodDefintionWeaver = new MethodSignatureWeaver();
-            MethodScopeWeaver = aspectExpression.Reduce();
+            MethodScopeWeaver = aspectExpression.Reduce(AspectWeaverSettings.Empty);
             MethodEndWeaver = new MethodEndWeaver();
         }
     }

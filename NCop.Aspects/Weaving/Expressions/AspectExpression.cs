@@ -10,14 +10,21 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class AspectExpression : AbstractAspectExpression
+    internal class AspectExpression : IAspectExpression
     {
-        internal AspectExpression(IAspectExpression expression)
-            : base(expression) {
-        }
+        private readonly IContextWeaver contextWeaver = null;
+        private readonly IAspectExpression expression = null;
+        private readonly IAspectDefinitionCollection aspectDefinitions = null;
 
-        public override IMethodScopeWeaver Reduce() {
-            return expression.Reduce();
+        internal AspectExpression(Type contractType, IAspectExpression expression, IAspectDefinitionCollection aspectDefinitions) {
+            this.expression = expression;
+            contextWeaver = new ThisContextWeaver(contractType);
+            this.aspectDefinitions = aspectDefinitions;
+        }
+        public IAspcetWeaver Reduce(IAspectWeaverSettings settings) {
+            var aspectRepository = new AspectsAttributeWeaver(aspectDefinitions);
+
+            return new AspectExpressionWeaver(expression, aspectRepository, settings);
         }
     }
 }

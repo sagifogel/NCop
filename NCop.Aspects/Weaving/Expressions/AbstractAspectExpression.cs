@@ -17,9 +17,9 @@ namespace NCop.Aspects.Weaving.Expressions
 
         internal AbstractAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition = null) {
             this.expression = expression;
-            this.aspectDefinition = aspectDefinition;                            
+            this.aspectDefinition = aspectDefinition;
         }
 
-        public abstract IMethodScopeWeaver Reduce();
+        public abstract IAspcetWeaver Reduce(IAspectWeaverSettings settings);
     }
 }

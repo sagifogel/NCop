@@ -11,16 +11,21 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal class AspectExpressionTreeBuilder : IBuilder<IAspectExpression>
     {
+        private readonly Type contractType = null;
+        private IAspectRepository repository = null;
         private readonly IAspectExpression decoratorAspect = null;
         private readonly Stack<IAspectDefinition> aspectsStack = null;
+        private readonly IAspectDefinitionCollection aspectDefinitions = null;
 
-        internal AspectExpressionTreeBuilder(IEnumerable<IAspectDefinition> aspectDefinitions, MethodInfo methodInfoImpl, Type implementationType, Type contractType) {
+        internal AspectExpressionTreeBuilder(IAspectDefinitionCollection aspectDefinitions, MethodInfo methodInfoImpl, Type implementationType, Type contractType) {
             var aspectsByPriority = aspectDefinitions.OrderBy(aspect => aspect.Aspect.AspectPriority)
                                                      .ThenBy(aspect => {
                                                          var value = aspect.Aspect is OnMethodBoundaryAspectAttribute;
                                                          return Convert.ToInt32(!value);
                                                      });
 
+            this.contractType = contractType;
+            this.aspectDefinitions = aspectDefinitions;
             aspectsStack = new Stack<IAspectDefinition>(aspectsByPriority);
             decoratorAspect = new AspectDecoratorExpression(methodInfoImpl, implementationType, contractType);
         }
@@ -40,7 +45,7 @@ namespace NCop.Aspects.Weaving.Expressions
                 aspectExpression = builder.Build(aspectExpression);
             }
 
-            return new AspectExpression(aspectExpression);
+            return new AspectExpression(contractType, aspectExpression, aspectDefinitions);
         }
     }
 }

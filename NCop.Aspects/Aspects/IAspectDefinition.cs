@@ -1,6 +1,7 @@
 ﻿using NCop.Aspects.Advices;
 using NCop.Aspects.Engine;
 using NCop.Aspects.Weaving.Expressions;
+using System;
 
 namespace NCop.Aspects.Aspects
 {
@@ -8,6 +9,7 @@ namespace NCop.Aspects.Aspects
     {
         IAspect Aspect { get; }
         AspectType AspectType { get; }
+        Type AspectDeclaringType { get; }
         IAdviceDefinitionCollection Advices { get; }
     }
 }

@@ -54,6 +54,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="IContextWeaver.cs" />
     <Compile Include="IMethodLocalWeaver.cs" />
     <Compile Include="MethodScopeWeaversQueue.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -104,6 +105,7 @@
     <Compile Include="PropertySetSignatureWeaver.cs" />
     <Compile Include="ReflectionUtils.cs" />
     <Compile Include="PropertySetDecoratorWeaver.cs" />
+    <Compile Include="ThisContextWeaver.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NCop.Core\NCop.Core.csproj">

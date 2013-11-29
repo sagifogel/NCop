@@ -13,8 +13,9 @@ namespace NCop.Aspects.Aspects
 	{
 		protected readonly AdviceDefinitionCollection advices = null;
 
-		internal AbstractAspectDefinition(IAspect aspect) {
+        internal AbstractAspectDefinition(IAspect aspect, Type aspectDeclaringType) {
 			Aspect = aspect;
+            AspectDeclaringType = aspectDeclaringType;
 			advices = new AdviceDefinitionCollection();
 			BulidAdvices();
 		}
@@ -22,6 +23,8 @@ namespace NCop.Aspects.Aspects
 		public IAspect Aspect { get; private set; }
 
 		public abstract AspectType AspectType { get; }
+    
+        public Type AspectDeclaringType { get ; private set; }
 
 		public IAdviceDefinitionCollection Advices {
 			get {

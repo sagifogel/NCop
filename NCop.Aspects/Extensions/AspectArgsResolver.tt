@@ -30,12 +30,12 @@ namespace NCop.Aspects.Extensions
 			funcInterceptionArgsMap = new Dictionary<int, Type>();
 			actionInterceptionArgsMap = new Dictionary<int, Type>();
 
-			actionExecutionArgsMap.Add(0, typeof(ActionExecutionArgsImpl));	
-			actionInterceptionArgsMap.Add(0, typeof(ActionInterceptionArgsImpl));
+			actionExecutionArgsMap.Add(0, typeof(ActionExecutionArgsImpl<>));	
+			actionInterceptionArgsMap.Add(0, typeof(ActionInterceptionArgsImpl<>));
 
 <#
 foreach (var i in Enumerable.Range(1, 8)) {
-	string commas = string.Concat(Enumerable.Repeat(",", i - 1));
+	string commas = string.Concat(Enumerable.Repeat(",", i));
 #>
 			actionExecutionArgsMap.Add(<#= i #>, typeof(ActionExecutionArgsImpl<<#= commas #>>));	
 			funcExecutionArgsMap.Add(<#= i #>, typeof(FunctionExecutionArgsImpl<<#=commas#>>));	

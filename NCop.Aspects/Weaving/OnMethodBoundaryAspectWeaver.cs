@@ -15,14 +15,15 @@ namespace NCop.Aspects.Weaving
 {
     public class OnMethodBoundaryAspectWeaver : AbstractMethodAspectWeaver
     {
-        internal OnMethodBoundaryAspectWeaver(IAspectExpression expression, IAspectDefinition aspectDefinition)
-            : base(expression, aspectDefinition) {
+        internal OnMethodBoundaryAspectWeaver(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeaverSettings settings)
+            : base(expression, aspectDefinition, settings) {
             IAdviceExpression selectedExpression = null;
-            var localWeaver = new AspectArgsLocalWeaver(null);
             var entryWeavers = new List<IMethodScopeWeaver>();
             var catchWeavers = new List<IMethodScopeWeaver>();
             var finallyWeavers = new List<IMethodScopeWeaver>();
-            var tryWeavers = new List<IMethodScopeWeaver> { expression.Reduce() };
+            var localWeaver = new AspectArgsLocalWeaver(GetArgumentsType());
+            var newSettings = new AspectWeaverSettings { AspectRepository = aspectRepository };
+            var tryWeavers = new List<IMethodScopeWeaver> { expression.Reduce(newSettings) };
 
             if (adviceDiscoveryVistor.HasOnMethodEntryAdvice) {
                 selectedExpression = ResolveOnMethodEntryAdvice();
@@ -97,11 +98,8 @@ namespace NCop.Aspects.Weaving
             return adviceExpressionFactory(selectedAdviceDefinition);
         }
 
-        protected override Type GetArgumentsType() {
-            return null;
-        }
-
         public override ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition) {
+
             return weaver.Weave(iLGenerator, typeDefinition);
         }
     }

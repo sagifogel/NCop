@@ -12,13 +12,13 @@ namespace NCop.Composite.Engine
 {
     public class CompositePropertyMap : AbstractMemberMap<PropertyInfo>, ICompositePropertyMap
     {
-        public CompositePropertyMap(Type contractType, Type implementationType, PropertyInfo contractProperty, PropertyInfo implementationProperty, IEnumerable<IAspectDefinition> aspectDefinitions)
+        public CompositePropertyMap(Type contractType, Type implementationType, PropertyInfo contractProperty, PropertyInfo implementationProperty, IAspectDefinitionCollection aspectDefinitions)
             : base(contractType, implementationType, contractProperty, implementationProperty) {
             AspectDefinitions = aspectDefinitions;
             HasAspectDefinitions = aspectDefinitions.IsNotNullOrEmpty();
         }
 
         public bool HasAspectDefinitions { get; private set; }
-        public IEnumerable<IAspectDefinition> AspectDefinitions { get; private set; }
+        public IAspectDefinitionCollection AspectDefinitions { get; private set; }
     }
 }

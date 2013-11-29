@@ -10,6 +10,6 @@ namespace NCop.Composite.Engine
     public interface IHasAspectDefinitions
     {
         bool HasAspectDefinitions { get; }
-        IEnumerable<IAspectDefinition> AspectDefinitions { get; }
+        IAspectDefinitionCollection AspectDefinitions { get; }
     }
 }

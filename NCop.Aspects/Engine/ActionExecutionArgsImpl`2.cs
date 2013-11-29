@@ -6,7 +6,7 @@ using NCop.Aspects.Framework;
 
 namespace NCop.Aspects.Engine
 {
-	public class ActionExecutionArgsImpl<TArg1, TArg2> : ActionExecutionArgs<TArg1, TArg2>
+    public class ActionExecutionArgsImpl<TInstance, TArg1, TArg2> : ActionExecutionArgs<TArg1, TArg2>
 	{
 	}
 }

@@ -45,6 +45,7 @@ namespace NCop.Aspects.Weaving
 
         internal void Visit(OnMethodSuccessAdviceAttribute advice) {
             OnMethodSuccessAdvice = advice;
+            HasOnMethodSuccessAdvice = true;
         }
 
         internal void Visit(OnMethodExceptionAdviceAttribute advice) {

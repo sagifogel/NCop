@@ -25,48 +25,48 @@ namespace NCop.Aspects.Extensions
 			funcInterceptionArgsMap = new Dictionary<int, Type>();
 			actionInterceptionArgsMap = new Dictionary<int, Type>();
 
-			actionExecutionArgsMap.Add(0, typeof(ActionExecutionArgsImpl));	
-			actionInterceptionArgsMap.Add(0, typeof(ActionInterceptionArgsImpl));
+			actionExecutionArgsMap.Add(0, typeof(ActionExecutionArgsImpl<>));	
+			actionInterceptionArgsMap.Add(0, typeof(ActionInterceptionArgsImpl<>));
 
-			actionExecutionArgsMap.Add(1, typeof(ActionExecutionArgsImpl<>));	
-			funcExecutionArgsMap.Add(1, typeof(FunctionExecutionArgsImpl<>));	
-			actionInterceptionArgsMap.Add(1, typeof(ActionInterceptionArgsImpl<>));	
-			funcInterceptionArgsMap.Add(1, typeof(FunctionInterceptionArgsImpl<>));							
+			actionExecutionArgsMap.Add(1, typeof(ActionExecutionArgsImpl<,>));	
+			funcExecutionArgsMap.Add(1, typeof(FunctionExecutionArgsImpl<,>));	
+			actionInterceptionArgsMap.Add(1, typeof(ActionInterceptionArgsImpl<,>));	
+			funcInterceptionArgsMap.Add(1, typeof(FunctionInterceptionArgsImpl<,>));							
 
-			actionExecutionArgsMap.Add(2, typeof(ActionExecutionArgsImpl<,>));	
-			funcExecutionArgsMap.Add(2, typeof(FunctionExecutionArgsImpl<,>));	
-			actionInterceptionArgsMap.Add(2, typeof(ActionInterceptionArgsImpl<,>));	
-			funcInterceptionArgsMap.Add(2, typeof(FunctionInterceptionArgsImpl<,>));							
+			actionExecutionArgsMap.Add(2, typeof(ActionExecutionArgsImpl<,,>));	
+			funcExecutionArgsMap.Add(2, typeof(FunctionExecutionArgsImpl<,,>));	
+			actionInterceptionArgsMap.Add(2, typeof(ActionInterceptionArgsImpl<,,>));	
+			funcInterceptionArgsMap.Add(2, typeof(FunctionInterceptionArgsImpl<,,>));							
 
-			actionExecutionArgsMap.Add(3, typeof(ActionExecutionArgsImpl<,,>));	
-			funcExecutionArgsMap.Add(3, typeof(FunctionExecutionArgsImpl<,,>));	
-			actionInterceptionArgsMap.Add(3, typeof(ActionInterceptionArgsImpl<,,>));	
-			funcInterceptionArgsMap.Add(3, typeof(FunctionInterceptionArgsImpl<,,>));							
+			actionExecutionArgsMap.Add(3, typeof(ActionExecutionArgsImpl<,,,>));	
+			funcExecutionArgsMap.Add(3, typeof(FunctionExecutionArgsImpl<,,,>));	
+			actionInterceptionArgsMap.Add(3, typeof(ActionInterceptionArgsImpl<,,,>));	
+			funcInterceptionArgsMap.Add(3, typeof(FunctionInterceptionArgsImpl<,,,>));							
 
-			actionExecutionArgsMap.Add(4, typeof(ActionExecutionArgsImpl<,,,>));	
-			funcExecutionArgsMap.Add(4, typeof(FunctionExecutionArgsImpl<,,,>));	
-			actionInterceptionArgsMap.Add(4, typeof(ActionInterceptionArgsImpl<,,,>));	
-			funcInterceptionArgsMap.Add(4, typeof(FunctionInterceptionArgsImpl<,,,>));							
+			actionExecutionArgsMap.Add(4, typeof(ActionExecutionArgsImpl<,,,,>));	
+			funcExecutionArgsMap.Add(4, typeof(FunctionExecutionArgsImpl<,,,,>));	
+			actionInterceptionArgsMap.Add(4, typeof(ActionInterceptionArgsImpl<,,,,>));	
+			funcInterceptionArgsMap.Add(4, typeof(FunctionInterceptionArgsImpl<,,,,>));							
 
-			actionExecutionArgsMap.Add(5, typeof(ActionExecutionArgsImpl<,,,,>));	
-			funcExecutionArgsMap.Add(5, typeof(FunctionExecutionArgsImpl<,,,,>));	
-			actionInterceptionArgsMap.Add(5, typeof(ActionInterceptionArgsImpl<,,,,>));	
-			funcInterceptionArgsMap.Add(5, typeof(FunctionInterceptionArgsImpl<,,,,>));							
+			actionExecutionArgsMap.Add(5, typeof(ActionExecutionArgsImpl<,,,,,>));	
+			funcExecutionArgsMap.Add(5, typeof(FunctionExecutionArgsImpl<,,,,,>));	
+			actionInterceptionArgsMap.Add(5, typeof(ActionInterceptionArgsImpl<,,,,,>));	
+			funcInterceptionArgsMap.Add(5, typeof(FunctionInterceptionArgsImpl<,,,,,>));							
 
-			actionExecutionArgsMap.Add(6, typeof(ActionExecutionArgsImpl<,,,,,>));	
-			funcExecutionArgsMap.Add(6, typeof(FunctionExecutionArgsImpl<,,,,,>));	
-			actionInterceptionArgsMap.Add(6, typeof(ActionInterceptionArgsImpl<,,,,,>));	
-			funcInterceptionArgsMap.Add(6, typeof(FunctionInterceptionArgsImpl<,,,,,>));							
+			actionExecutionArgsMap.Add(6, typeof(ActionExecutionArgsImpl<,,,,,,>));	
+			funcExecutionArgsMap.Add(6, typeof(FunctionExecutionArgsImpl<,,,,,,>));	
+			actionInterceptionArgsMap.Add(6, typeof(ActionInterceptionArgsImpl<,,,,,,>));	
+			funcInterceptionArgsMap.Add(6, typeof(FunctionInterceptionArgsImpl<,,,,,,>));							
 
-			actionExecutionArgsMap.Add(7, typeof(ActionExecutionArgsImpl<,,,,,,>));	
-			funcExecutionArgsMap.Add(7, typeof(FunctionExecutionArgsImpl<,,,,,,>));	
-			actionInterceptionArgsMap.Add(7, typeof(ActionInterceptionArgsImpl<,,,,,,>));	
-			funcInterceptionArgsMap.Add(7, typeof(FunctionInterceptionArgsImpl<,,,,,,>));							
+			actionExecutionArgsMap.Add(7, typeof(ActionExecutionArgsImpl<,,,,,,,>));	
+			funcExecutionArgsMap.Add(7, typeof(FunctionExecutionArgsImpl<,,,,,,,>));	
+			actionInterceptionArgsMap.Add(7, typeof(ActionInterceptionArgsImpl<,,,,,,,>));	
+			funcInterceptionArgsMap.Add(7, typeof(FunctionInterceptionArgsImpl<,,,,,,,>));							
 
-			actionExecutionArgsMap.Add(8, typeof(ActionExecutionArgsImpl<,,,,,,,>));	
-			funcExecutionArgsMap.Add(8, typeof(FunctionExecutionArgsImpl<,,,,,,,>));	
-			actionInterceptionArgsMap.Add(8, typeof(ActionInterceptionArgsImpl<,,,,,,,>));	
-			funcInterceptionArgsMap.Add(8, typeof(FunctionInterceptionArgsImpl<,,,,,,,>));							
+			actionExecutionArgsMap.Add(8, typeof(ActionExecutionArgsImpl<,,,,,,,,>));	
+			funcExecutionArgsMap.Add(8, typeof(FunctionExecutionArgsImpl<,,,,,,,,>));	
+			actionInterceptionArgsMap.Add(8, typeof(ActionInterceptionArgsImpl<,,,,,,,,>));	
+			funcInterceptionArgsMap.Add(8, typeof(FunctionInterceptionArgsImpl<,,,,,,,,>));							
 		}
 
 		internal static Type MakeGenericArgsType(this Type argumentsType, params Type[] typeArguments) {

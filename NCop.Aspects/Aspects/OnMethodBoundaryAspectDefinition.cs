@@ -14,8 +14,8 @@ namespace NCop.Aspects.Aspects
     {
         private readonly OnMethodBoundaryAspectAttribute aspect = null;
 
-        internal OnMethodBoundaryAspectDefinition(OnMethodBoundaryAspectAttribute aspect)
-            : base(aspect) {
+        internal OnMethodBoundaryAspectDefinition(OnMethodBoundaryAspectAttribute aspect, Type aspectDeclaringType)
+            : base(aspect, aspectDeclaringType) {
             this.aspect = aspect;
         }
 

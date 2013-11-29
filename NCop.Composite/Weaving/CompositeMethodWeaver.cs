@@ -14,7 +14,7 @@ namespace NCop.Composite.Weaving
     {
         private readonly AspectMethodWeaver methodWeaver = null;
 
-        internal CompositeMethodWeaver(IEnumerable<IAspectDefinition> aspectDefinition, MethodInfo methodInfoImpl, Type implementationType, Type contractType)
+        internal CompositeMethodWeaver(IAspectDefinitionCollection aspectDefinition, MethodInfo methodInfoImpl, Type implementationType, Type contractType)
             : base(methodInfoImpl, implementationType, contractType) {
             methodWeaver = new AspectMethodWeaver(aspectDefinition, methodInfoImpl, implementationType, contractType);
             MethodDefintionWeaver = methodWeaver.MethodDefintionWeaver;
