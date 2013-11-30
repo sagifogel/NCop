@@ -22,9 +22,7 @@ namespace NCop.Aspects.Weaving.Expressions
             this.aspectDefinitions = aspectDefinitions;
         }
         public IAspcetWeaver Reduce(IAspectWeaverSettings settings) {
-            var aspectRepository = new AspectsAttributeWeaver(aspectDefinitions);
-
-            return new AspectExpressionWeaver(expression, aspectRepository, settings);
+            return new AspectsWeaver(expression, aspectDefinitions, contextWeaver);
         }
     }
 }

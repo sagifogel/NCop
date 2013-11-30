@@ -12,7 +12,6 @@ namespace NCop.Aspects.Weaving.Expressions
     internal class AspectExpressionTreeBuilder : IBuilder<IAspectExpression>
     {
         private readonly Type contractType = null;
-        private IAspectRepository repository = null;
         private readonly IAspectExpression decoratorAspect = null;
         private readonly Stack<IAspectDefinition> aspectsStack = null;
         private readonly IAspectDefinitionCollection aspectDefinitions = null;

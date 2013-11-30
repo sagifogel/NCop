@@ -102,7 +102,7 @@
     <Compile Include="Weaving\AbstractMethodAspectWeaver.cs" />
     <Compile Include="Weaving\AdviceDiscoveryVisitor.cs" />
     <Compile Include="Weaving\AbstractAdviceWeaver.cs" />
-    <Compile Include="Weaving\AspectExpressionWeaver.cs" />
+    <Compile Include="Weaving\AspectsWeaver.cs" />
     <Compile Include="Weaving\AspectsAttributeWeaver.cs" />
     <Compile Include="Weaving\AspectDecoratorWeaver.cs" />
     <Compile Include="Weaving\AspectWeaverSettings.cs" />

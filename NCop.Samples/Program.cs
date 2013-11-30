@@ -41,7 +41,7 @@ namespace NCop.Samples
         }
     }
 
-    public class Test 
+    public class Test
     {
         public bool SayHello(string name) {
             var bindings = new FunctionBinding();

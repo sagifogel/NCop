@@ -65,7 +65,11 @@ namespace NCop.Weaving
             name = name ?? parentType.ToUniqueName();
             attributes = attributes ?? parentType.Attributes;
 
-            return moudleBuilder.DefineType(name, attributes.Value, parentType, interfaces.ToArray());
+            if (interfaces.IsNotNullOrEmpty()) {
+                return moudleBuilder.DefineType(name, attributes.Value, parentType, interfaces.ToArray());
+            }
+
+            return moudleBuilder.DefineType(name, attributes.Value, parentType);
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -93,8 +97,8 @@ namespace NCop.Weaving
             return name;
         }
 
-        internal static FieldBuilder DefineField(this TypeBuilder typeBuilder, Type fieldType, FieldAttributes? attributes = null) {
-            string name = fieldType.ToFieldName();
+        internal static FieldBuilder DefineField(this TypeBuilder typeBuilder, Type fieldType, string fieldName = null, FieldAttributes? attributes = null) {
+            string name = fieldName ?? fieldType.ToFieldName();
 
             attributes = attributes ?? FieldAttributes.Private;
 
