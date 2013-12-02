@@ -39,15 +39,19 @@ namespace NCop.Aspects.Weaving
             return adviceExpressionFactory(selectedAdviceDefinition);
         }
 
-        protected virtual Type GetArgumentsType() {
-            var aspectType = aspectDefinition.Aspect.AspectType;
-            var overridenMethods = aspectType.GetOverridenMethods();
-            var adviceMethod = overridenMethods.First();
-            var argumentsType = adviceMethod.GetParameters().First().ParameterType;
+        protected virtual Type MakeGenericArgumentType(Type argumentsType) {
             var genericArguments = argumentsType.GetGenericArguments();
             var genericArgumentsWithContext = new[] { aspectDefinition.AspectDeclaringType }.Concat(genericArguments);
 
             return argumentsType.MakeGenericArgsType(genericArgumentsWithContext.ToArray());
+        }
+
+        protected virtual Type GetArgumentType() {
+            var aspectType = aspectDefinition.Aspect.AspectType;
+            var overridenMethods = aspectType.GetOverridenMethods();
+            var adviceMethod = overridenMethods.First();
+            
+            return adviceMethod.GetParameters().First().ParameterType;
         }
 
         public abstract ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition);

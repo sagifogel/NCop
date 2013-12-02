@@ -23,7 +23,7 @@ namespace NCop.Aspects.Weaving
         public virtual ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition) {
             var weavers = entryWeavers.Concat(tryWeavers).Concat(finallyWeavers);
             var weaver = new MethodScopeWeaversQueue(weavers);
-            
+
             return weaver.Weave(iLGenerator, typeDefinition);
         }
     }

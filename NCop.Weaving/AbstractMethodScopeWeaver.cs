@@ -14,11 +14,14 @@ namespace NCop.Weaving
         protected readonly MethodInfo MethodInfoImpl = null;
 
 		public AbstractMethodScopeWeaver(MethodInfo methodInfoImpl, Type implementationType, Type contractType) {
+            Name = methodInfoImpl.Name;
             ContractType = contractType;
             MethodInfoImpl = methodInfoImpl;
             ImplementationType = implementationType;
         }
 
         public abstract ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition);
-	}
+
+        public string Name { get; private set; }
+    }
 }

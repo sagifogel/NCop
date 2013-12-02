@@ -87,6 +87,11 @@ namespace NCop.Aspects.Extensions
 			}
 
 			return type.MakeGenericType(typeArguments);
-		}	
+		}
+
+		internal static bool IsFunctionAspectArgs(this Type argumentsType) {
+			return typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType) ||
+				   typeof(IFunctionExecutionArgs).IsAssignableFrom(argumentsType);
+		}
 	}
 }

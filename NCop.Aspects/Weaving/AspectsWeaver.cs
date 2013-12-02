@@ -33,5 +33,7 @@ namespace NCop.Aspects.Weaving
 
             return weaver.Weave(iLGenerator, typeDefinition);
         }
+
+        public string Name { get; private set; }
     }
 }

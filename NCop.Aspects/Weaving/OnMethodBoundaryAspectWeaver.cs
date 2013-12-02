@@ -21,7 +21,7 @@ namespace NCop.Aspects.Weaving
             var entryWeavers = new List<IMethodScopeWeaver>();
             var catchWeavers = new List<IMethodScopeWeaver>();
             var finallyWeavers = new List<IMethodScopeWeaver>();
-            var localWeaver = new AspectArgsLocalWeaver(GetArgumentsType());
+            var localWeaver = new AspectArgsLocalWeaver(GetArgumentType());
             var newSettings = new AspectWeaverSettings { AspectRepository = aspectRepository };
             var tryWeavers = new List<IMethodScopeWeaver> { expression.Reduce(newSettings) };
 

@@ -8,6 +8,7 @@ using NCop.Core.Extensions;
 using NCop.Mixins.Framework;
 using NCop.Aspects.Advices;
 using NCop.Aspects.Engine;
+using System.Runtime.CompilerServices;
 
 namespace NCop.Samples
 {
@@ -16,6 +17,12 @@ namespace NCop.Samples
         internal static TraceAspect traceAspect = new TraceAspect();
         internal static TraceAspect2 traceAspect2 = new TraceAspect2();
         internal static TraceAspect2 traceAspect3 = new TraceAspect2();
+
+        static Aspects() {
+            traceAspect = new TraceAspect();
+            traceAspect2 = new TraceAspect2();
+            traceAspect3 = new TraceAspect2();
+        }
     }
 
     public class FunctionBinding : IFunctionBinding<Test, string, bool>

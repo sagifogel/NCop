@@ -66,6 +66,11 @@ foreach (var i in Enumerable.Range(1, 8)) {
 			}
 
 			return type.MakeGenericType(typeArguments);
-		}	
+		}
+
+		internal static bool IsFunctionAspectArgs(this Type argumentsType) {
+			return typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType) ||
+				   typeof(IFunctionExecutionArgs).IsAssignableFrom(argumentsType);
+		}
 	}
 }

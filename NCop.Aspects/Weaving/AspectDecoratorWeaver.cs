@@ -13,11 +13,14 @@ namespace NCop.Aspects.Weaving
         private readonly IMethodScopeWeaver weaver = null;
 
         public AspectDecoratorWeaver(MethodInfo methodImplementation, Type implementationType, Type contractType) {
+            Name = methodImplementation.Name;
             weaver = new MethodDecoratorScopeWeaver(methodImplementation, implementationType, contractType);
         }
 
         public ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition) {
             return weaver.Weave(iLGenerator, typeDefinition);
         }
+
+        public string Name { get; private set; }
     }
 }

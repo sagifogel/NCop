@@ -97,6 +97,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AspectArgsResolver.tt</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\MethodBindingResolver.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MethodBindingResolver.tt</DependentUpon>
+    </Compile>
     <Compile Include="Framework\IActionInterceptionArgs.cs" />
     <Compile Include="Framework\IFunctionInterceptionArgs.cs" />
     <Compile Include="Weaving\AbstractMethodAspectWeaver.cs" />
@@ -381,11 +386,13 @@
     <Compile Include="Weaving\IAspcetWeaver.cs" />
     <Compile Include="Weaving\IAspectRepository.cs" />
     <Compile Include="Weaving\IAspectWeaverSettings.cs" />
+    <Compile Include="Weaving\IMethodBindingWeaver.cs" />
     <Compile Include="Weaving\MethodInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\AspectArgsLateLocalWeaver.cs" />
     <Compile Include="Weaving\OnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\OnMethodEntryAdviceWeaver.cs" />
     <Compile Include="Weaving\OnMethodExceptionAdviceWeaver.cs" />
+    <Compile Include="Weaving\OnMethodInvokeBindingWeaver.cs" />
     <Compile Include="Weaving\OnMethodInvokeWeaver.cs" />
     <Compile Include="Weaving\OnMethodSuccessAdviceWeaver.cs" />
     <Compile Include="Weaving\TryCatchFinallyAspectWeaver.cs" />
@@ -416,6 +423,11 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AspectArgsResolver.cs</LastGenOutput>
       <LastOutputs>.\AspectArgsResolver.cs</LastOutputs>
+    </None>
+    <None Include="Extensions\MethodBindingResolver.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MethodBindingResolver.cs</LastGenOutput>
+      <LastOutputs>.\MethodBindingResolver.cs</LastOutputs>
     </None>
   </ItemGroup>
   <ItemGroup>

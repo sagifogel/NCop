@@ -12,23 +12,38 @@ using System.Text;
 using NCop.Aspects.Framework;
 using NCop.Aspects.Engine;
 using NCop.Core.Extensions;
+using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
     public class MethodInterceptionAspectWeaver : AbstractMethodAspectWeaver
     {
         private readonly IMethodScopeWeaver nestedScopeWeaver = null;
+        private readonly OnMethodInvokeBindingWeaver bindingWeaver = null;
 
         internal MethodInterceptionAspectWeaver(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeaverSettings settings)
             : base(expression, aspectDefinition, settings) {
+            Type genericMethodBinding = null;
+            var argumentType = GetArgumentType();
             IAdviceExpression selectedExpression = null;
+            var argumentTypes = MakeGenericArgumentType(argumentType);
             var invokeWeavers = new List<IMethodScopeWeaver>();
-            var localWeaver = new AspectArgsLocalWeaver(GetArgumentsType());
+            var localWeaver = new AspectArgsLocalWeaver(argumentTypes);
             var newSettings = new AspectWeaverSettings { AspectRepository = aspectRepository };
+            var genericArguments = argumentTypes.GetGenericArguments();
+
+            if (argumentType.IsFunctionAspectArgs()) {
+                genericMethodBinding = argumentType.MakeGenericFunctionBinding(genericArguments);
+            }
+            else {
+                genericMethodBinding = argumentType.MakeGenericActionBinding(genericArguments);
+            }
 
             selectedExpression = ResolveOnMethodInvokeAdvice();
-            invokeWeavers.Add(selectedExpression.Reduce(localWeaver));
             nestedScopeWeaver = expression.Reduce(newSettings);
+            bindingWeaver = new OnMethodInvokeBindingWeaver(genericMethodBinding, nestedScopeWeaver);
+            invokeWeavers.Add(selectedExpression.Reduce(localWeaver));
+
             weaver = new MethodScopeWeaversQueue(invokeWeavers);
         }
 
