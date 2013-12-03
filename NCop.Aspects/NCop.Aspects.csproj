@@ -111,6 +111,7 @@
     <Compile Include="Weaving\AspectsAttributeWeaver.cs" />
     <Compile Include="Weaving\AspectDecoratorWeaver.cs" />
     <Compile Include="Weaving\AspectWeaverSettings.cs" />
+    <Compile Include="Weaving\BindingSettings.cs" />
     <Compile Include="Weaving\Expressions\AbstractAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\AspectDecoratorExpression.cs" />
     <Compile Include="Weaving\Expressions\AspectNodeExpressionBuilder.cs" />

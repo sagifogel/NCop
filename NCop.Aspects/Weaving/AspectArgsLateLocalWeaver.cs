@@ -10,14 +10,15 @@ namespace NCop.Aspects.Weaving
     public class AspectArgsLocalWeaver : IMethodLocalWeaver
     {
         private LocalBuilder weaver = null;
-        private readonly Type onMethodBoundaryArgsType = null;
 
-        public AspectArgsLocalWeaver(Type onMethodBoundaryArgsType) {
-            this.onMethodBoundaryArgsType = onMethodBoundaryArgsType;
+        public AspectArgsLocalWeaver(Type argsType) {
+            ArgsType = argsType;
         }
 
+        public Type ArgsType { get; private set; }
+
         public LocalBuilder Weave(ILGenerator ilGenerator) {
-            return weaver ?? (weaver = ilGenerator.DeclareLocal(onMethodBoundaryArgsType));
+            return weaver ?? (weaver = ilGenerator.DeclareLocal(ArgsType));
         }
     }
 }

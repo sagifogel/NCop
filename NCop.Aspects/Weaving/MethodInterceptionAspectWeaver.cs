@@ -23,28 +23,27 @@ namespace NCop.Aspects.Weaving
 
         internal MethodInterceptionAspectWeaver(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeaverSettings settings)
             : base(expression, aspectDefinition, settings) {
-			bool isFunctionBinding = false;
-			Type genericMethodBinding = null;
             var argumentType = GetArgumentType();
             IAdviceExpression selectedExpression = null;
-			var invokeWeavers = new List<IMethodScopeWeaver>();
-			var argumentTypes = MakeGenericArgumentType(argumentType);
-            var localWeaver = new AspectArgsLocalWeaver(argumentTypes);
+            var invokeWeavers = new List<IMethodScopeWeaver>();
+            var argumentTypes = MakeGenericArgumentType(argumentType);
+            var argsWeaver = new AspectArgsLocalWeaver(argumentTypes);
             var genericArguments = argumentTypes.GetGenericArguments();
-			var newSettings = new AspectWeaverSettings { AspectRepository = aspectRepository };
+            var aspectSettings = new AspectWeaverSettings { AspectRepository = aspectRepository };
+            var bindingSettings = new BindingSettings { ArgumentsWeaver = argsWeaver };
 
             if (argumentType.IsFunctionAspectArgs()) {
-				isFunctionBinding = true;
-                genericMethodBinding = argumentType.MakeGenericFunctionBinding(genericArguments);
+                bindingSettings.IsFunction = true;
+                bindingSettings.BindingType = argumentType.MakeGenericFunctionBinding(genericArguments);
             }
             else {
-                genericMethodBinding = argumentType.MakeGenericActionBinding(genericArguments);
+                bindingSettings.BindingType = argumentType.MakeGenericActionBinding(genericArguments);
             }
 
             selectedExpression = ResolveOnMethodInvokeAdvice();
-            nestedScopeWeaver = expression.Reduce(newSettings);
-			bindingWeaver = new OnMethodInvokeBindingWeaver(genericMethodBinding, isFunctionBinding, nestedScopeWeaver);
-            invokeWeavers.Add(selectedExpression.Reduce(localWeaver));
+            nestedScopeWeaver = expression.Reduce(aspectSettings);
+            bindingWeaver = new OnMethodInvokeBindingWeaver(bindingSettings, nestedScopeWeaver);
+            invokeWeavers.Add(selectedExpression.Reduce(argsWeaver));
 
             weaver = new MethodScopeWeaversQueue(invokeWeavers);
         }
@@ -61,7 +60,7 @@ namespace NCop.Aspects.Weaving
         }
 
         public override ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition) {
-			var member = bindingWeaver.Weave();
+            var member = bindingWeaver.Weave();
 
             return weaver.Weave(iLGenerator, typeDefinition);
         }

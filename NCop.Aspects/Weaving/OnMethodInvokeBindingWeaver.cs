@@ -21,13 +21,11 @@ namespace NCop.Aspects.Weaving
 	{
 		private static int bindingCounter = 1;
 		private FieldBuilder fieldBuilder = null;
-		private readonly Type bindingType = null;
-		private readonly bool isFunctionBinding = false;
+        private readonly BindingSettings bindingSettings = null;
 		private readonly IMethodScopeWeaver methodScopeWeaver = null;
 
-		internal OnMethodInvokeBindingWeaver(Type bindingType, bool isFunctionBinding, IMethodScopeWeaver methodScopeWeaver) {
-			this.bindingType = bindingType;
-			this.isFunctionBinding = isFunctionBinding;
+        internal OnMethodInvokeBindingWeaver(BindingSettings bindingSettings, IMethodScopeWeaver methodScopeWeaver) {
+            this.bindingSettings = bindingSettings;
 			this.methodScopeWeaver = methodScopeWeaver;
 		}
 
@@ -49,10 +47,11 @@ namespace NCop.Aspects.Weaving
 			Type[] parametersTypes = null;
 			Type returnType = typeof(void);
 			ILGenerator ilGenerator = null;
+            LocalBuilder argsBuilder = null;
 			var methodAttr = MethodAttributes.Public | MethodAttributes.Final | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual;
-			var arguments = bindingType.GetGenericArguments();
+            var arguments = bindingSettings.BindingType.GetGenericArguments();
 
-			if (isFunctionBinding) {
+            if (bindingSettings.IsFunction) {
 				int length = arguments.Length - 1;
 
 				returnType = arguments.Last();
@@ -64,6 +63,7 @@ namespace NCop.Aspects.Weaving
 			}
 
 			ilGenerator = typeBuilder.DefineMethod("Invoke", methodAttr, returnType, parametersTypes).GetILGenerator();
+            argsBuilder = bindingSettings.ArgumentsWeaver.Weave(ilGenerator);
 		}
 
 		private void WeaveConstructors(TypeBuilder typeBuilder) {
@@ -87,7 +87,7 @@ namespace NCop.Aspects.Weaving
 		private TypeBuilder WeaveTypeBuilder() {
 			var attrs = TypeAttributes.NotPublic | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit;
 
-			return typeof(object).DefineType("MethodBinding_{0}".Fmt(bindingCounter).ToUniqueName(), interfaces: new[] { bindingType }, attributes: attrs);
+            return typeof(object).DefineType("MethodBinding_{0}".Fmt(bindingCounter).ToUniqueName(), interfaces: new[] { bindingSettings.BindingType }, attributes: attrs);
 		}
 	}
 }
