@@ -23,16 +23,18 @@ namespace NCop.Aspects.Weaving
 
         internal MethodInterceptionAspectWeaver(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeaverSettings settings)
             : base(expression, aspectDefinition, settings) {
-            Type genericMethodBinding = null;
+			bool isFunctionBinding = false;
+			Type genericMethodBinding = null;
             var argumentType = GetArgumentType();
             IAdviceExpression selectedExpression = null;
-            var argumentTypes = MakeGenericArgumentType(argumentType);
-            var invokeWeavers = new List<IMethodScopeWeaver>();
+			var invokeWeavers = new List<IMethodScopeWeaver>();
+			var argumentTypes = MakeGenericArgumentType(argumentType);
             var localWeaver = new AspectArgsLocalWeaver(argumentTypes);
-            var newSettings = new AspectWeaverSettings { AspectRepository = aspectRepository };
             var genericArguments = argumentTypes.GetGenericArguments();
+			var newSettings = new AspectWeaverSettings { AspectRepository = aspectRepository };
 
             if (argumentType.IsFunctionAspectArgs()) {
+				isFunctionBinding = true;
                 genericMethodBinding = argumentType.MakeGenericFunctionBinding(genericArguments);
             }
             else {
@@ -41,7 +43,7 @@ namespace NCop.Aspects.Weaving
 
             selectedExpression = ResolveOnMethodInvokeAdvice();
             nestedScopeWeaver = expression.Reduce(newSettings);
-            bindingWeaver = new OnMethodInvokeBindingWeaver(genericMethodBinding, nestedScopeWeaver);
+			bindingWeaver = new OnMethodInvokeBindingWeaver(genericMethodBinding, isFunctionBinding, nestedScopeWeaver);
             invokeWeavers.Add(selectedExpression.Reduce(localWeaver));
 
             weaver = new MethodScopeWeaversQueue(invokeWeavers);
@@ -59,6 +61,8 @@ namespace NCop.Aspects.Weaving
         }
 
         public override ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition) {
+			var member = bindingWeaver.Weave();
+
             return weaver.Weave(iLGenerator, typeDefinition);
         }
     }

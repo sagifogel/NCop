@@ -17,43 +17,77 @@ using NCop.Weaving.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class OnMethodInvokeBindingWeaver : IMethodBindingWeaver
-    {
-        private static int bindingCounter = 1;
-        private readonly Type bindingType = null; 
-        private readonly IMethodScopeWeaver methodScopeWeaver = null;
+	internal class OnMethodInvokeBindingWeaver : IMethodBindingWeaver
+	{
+		private static int bindingCounter = 1;
+		private FieldBuilder fieldBuilder = null;
+		private readonly Type bindingType = null;
+		private readonly bool isFunctionBinding = false;
+		private readonly IMethodScopeWeaver methodScopeWeaver = null;
 
-        internal OnMethodInvokeBindingWeaver(Type bindingType, IMethodScopeWeaver methodScopeWeaver) {
-            this.bindingType = bindingType;
-            this.methodScopeWeaver = methodScopeWeaver;
-        }
+		internal OnMethodInvokeBindingWeaver(Type bindingType, bool isFunctionBinding, IMethodScopeWeaver methodScopeWeaver) {
+			this.bindingType = bindingType;
+			this.isFunctionBinding = isFunctionBinding;
+			this.methodScopeWeaver = methodScopeWeaver;
+		}
 
-        public MemberInfo Weave() {
-            Type bindingMethodType = null;
-            MemberInfo weavedMember = null;
-            var fieldBuilders = new List<FieldBuilder>();
-            var attrs = TypeAttributes.NotPublic | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit;
-            var typeBuilder = bindingType.DefineType("MethodBinding_{0}".Fmt(bindingCounter).ToUniqueName(), attributes: attrs);
-            var fieldAttrs = FieldAttributes.FamANDAssem | FieldAttributes.Static;
-            var ctorAttrs = MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
-            var cctor = typeBuilder.DefineConstructor(ctorAttrs | MethodAttributes.Static | MethodAttributes.PrivateScope, CallingConventions.Standard, Type.EmptyTypes).GetILGenerator();
-            var defaultCtor = typeBuilder.DefineConstructor(ctorAttrs, CallingConventions.Standard, Type.EmptyTypes).GetILGenerator();
-            var bindingTypeCtor = bindingType.GetConstructor(Type.EmptyTypes);
-            var fieldBuilder = typeBuilder.DefineField("singleton", typeBuilder, fieldAttrs);
+		public MemberInfo Weave() {
+			MemberInfo weavedMember = null;
+			Type bindingMethodType = null;
+			var typeBuilder = WeaveTypeBuilder();
 
-            defaultCtor.EmitLoadArg(0);
-            defaultCtor.Emit(OpCodes.Call, bindingTypeCtor);
-            defaultCtor.Emit(OpCodes.Ret);
+			WeaveConstructors(typeBuilder);
+			WeaveInvokeMethod(typeBuilder);
+			bindingMethodType = typeBuilder.CreateType();
+			weavedMember = bindingMethodType.GetField(fieldBuilder.Name, BindingFlags.NonPublic | BindingFlags.Static);
+			Interlocked.Increment(ref bindingCounter);
 
-            cctor.Emit(OpCodes.Newobj, typeBuilder);
-            cctor.Emit(OpCodes.Stsfld, fieldBuilder);
-            cctor.Emit(OpCodes.Ret);
+			return weavedMember;
+		}
 
-            bindingMethodType = typeBuilder.CreateType();
-            weavedMember = bindingMethodType.GetField(fieldBuilder.Name, BindingFlags.NonPublic | BindingFlags.Static);
-            Interlocked.Increment(ref bindingCounter);
+		private void WeaveInvokeMethod(TypeBuilder typeBuilder) {
+			Type[] parametersTypes = null;
+			Type returnType = typeof(void);
+			ILGenerator ilGenerator = null;
+			var methodAttr = MethodAttributes.Public | MethodAttributes.Final | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual;
+			var arguments = bindingType.GetGenericArguments();
 
-            return weavedMember;
-        }
-    }
+			if (isFunctionBinding) {
+				int length = arguments.Length - 1;
+
+				returnType = arguments.Last();
+				parametersTypes = new Type[length];
+				Array.Copy(arguments, 0, parametersTypes, 0, length);
+			}
+			else {
+				parametersTypes = arguments;
+			}
+
+			ilGenerator = typeBuilder.DefineMethod("Invoke", methodAttr, returnType, parametersTypes).GetILGenerator();
+		}
+
+		private void WeaveConstructors(TypeBuilder typeBuilder) {
+			var fieldAttrs = FieldAttributes.FamANDAssem | FieldAttributes.Static;
+			var ctorAttrs = MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
+			var cctor = typeBuilder.DefineConstructor(ctorAttrs | MethodAttributes.Static | MethodAttributes.PrivateScope, CallingConventions.Standard, Type.EmptyTypes).GetILGenerator();
+			var defaultCtor = typeBuilder.DefineConstructor(ctorAttrs, CallingConventions.Standard, Type.EmptyTypes).GetILGenerator();
+			var bindingTypeCtor = typeof(object).GetConstructor(Type.EmptyTypes);
+
+			fieldBuilder = typeBuilder.DefineField("singleton", typeBuilder, fieldAttrs);
+
+			defaultCtor.EmitLoadArg(0);
+			defaultCtor.Emit(OpCodes.Call, bindingTypeCtor);
+			defaultCtor.Emit(OpCodes.Ret);
+
+			cctor.Emit(OpCodes.Newobj, typeBuilder);
+			cctor.Emit(OpCodes.Stsfld, fieldBuilder);
+			cctor.Emit(OpCodes.Ret);
+		}
+
+		private TypeBuilder WeaveTypeBuilder() {
+			var attrs = TypeAttributes.NotPublic | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit;
+
+			return typeof(object).DefineType("MethodBinding_{0}".Fmt(bindingCounter).ToUniqueName(), interfaces: new[] { bindingType }, attributes: attrs);
+		}
+	}
 }
