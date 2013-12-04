@@ -19,7 +19,7 @@ namespace NCop.Aspects.Weaving
     public class MethodInterceptionAspectWeaver : AbstractMethodAspectWeaver
     {
         private readonly IMethodScopeWeaver nestedScopeWeaver = null;
-        private readonly OnMethodInvokeBindingWeaver bindingWeaver = null;
+        private readonly OnMethodInterceptionBindingWeaver bindingWeaver = null;
 
         internal MethodInterceptionAspectWeaver(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeaverSettings settings)
             : base(expression, aspectDefinition, settings) {
@@ -42,7 +42,7 @@ namespace NCop.Aspects.Weaving
 
             selectedExpression = ResolveOnMethodInvokeAdvice();
             nestedScopeWeaver = expression.Reduce(aspectSettings);
-            bindingWeaver = new OnMethodInvokeBindingWeaver(bindingSettings, nestedScopeWeaver);
+            bindingWeaver = new OnMethodInterceptionBindingWeaver(bindingSettings, nestedScopeWeaver);
             invokeWeavers.Add(selectedExpression.Reduce(argsWeaver));
 
             weaver = new MethodScopeWeaversQueue(invokeWeavers);
@@ -59,10 +59,10 @@ namespace NCop.Aspects.Weaving
             return adviceExpressionFactory(selectedAdviceDefinition);
         }
 
-        public override ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition) {
+        public override ILGenerator Weave(ILGenerator iLGenerator) {
             var member = bindingWeaver.Weave();
 
-            return weaver.Weave(iLGenerator, typeDefinition);
+            return weaver.Weave(iLGenerator);
         }
     }
 }

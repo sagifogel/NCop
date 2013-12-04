@@ -17,11 +17,11 @@ namespace NCop.Aspects.Weaving
             this.catchWeavers = catchWeavers;
         }
 
-        public override ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition) {
+        public override ILGenerator Weave(ILGenerator iLGenerator) {
             var weavers = entryWeavers.Concat(tryWeavers).Concat(catchWeavers).Concat(finallyWeavers);
             var weaver = new MethodScopeWeaversQueue(weavers);
 
-            return weaver.Weave(iLGenerator, typeDefinition);
+            return weaver.Weave(iLGenerator);
         }
     }
 }

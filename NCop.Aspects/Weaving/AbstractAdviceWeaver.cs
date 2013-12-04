@@ -15,6 +15,6 @@ namespace NCop.Aspects.Weaving
             this.aspectArgsLocalWeaver = aspectArgsLocalWeaver;
         }
 
-        public abstract ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition);
+        public abstract ILGenerator Weave(ILGenerator iLGenerator);
     }
 }

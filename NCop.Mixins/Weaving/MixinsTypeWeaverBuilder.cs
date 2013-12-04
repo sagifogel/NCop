@@ -14,8 +14,8 @@ namespace NCop.Mixins.Weaving
         protected readonly IRegistry registry = null;
         protected readonly List<TypeMap> mixinsMap = null;
 
-        public MixinsTypeWeaverBuilder(Type type, ITypeDefinitionFactory typeDefinitionFactory, IRegistry registry)
-            : base(type, typeDefinitionFactory) {
+        public MixinsTypeWeaverBuilder(Type type, ITypeDefinition typeDefinition, IRegistry registry)
+            : base(type, typeDefinition) {
             this.registry = registry;
             mixinsMap = new List<TypeMap>();
         }
@@ -35,7 +35,7 @@ namespace NCop.Mixins.Weaving
         }
 
         public override ITypeWeaver CreateTypeWeaver() {
-            return new MixinsWeaverStrategy(typeDefinitionFactory, methodWeavers, registry);
+            return new MixinsWeaverStrategy(typeDefinition, methodWeavers, registry);
         }
     }
 }

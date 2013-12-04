@@ -9,19 +9,19 @@ namespace NCop.Weaving
 {
     public class MethodDecoratorWeaver : AbstractMethodWeaver
     {
-        public MethodDecoratorWeaver(MethodInfo methodInfoImpl, Type implementationType, Type contractType)
-            : base(methodInfoImpl, implementationType, contractType) {
+		public MethodDecoratorWeaver(IWeavingSettings weavingSettings)
+			: base(weavingSettings) {
             MethodEndWeaver = new MethodEndWeaver();
             MethodDefintionWeaver = new MethodSignatureWeaver();
-            MethodScopeWeaver = new MethodDecoratorScopeWeaver(methodInfoImpl, implementationType, contractType);
+			MethodScopeWeaver = new MethodDecoratorScopeWeaver(weavingSettings);
         }
 
-        public override MethodBuilder DefineMethod(ITypeDefinition typeDefinition) {
-            return MethodDefintionWeaver.Weave(MethodInfoImpl, typeDefinition);
+        public override MethodBuilder DefineMethod() {
+            return MethodDefintionWeaver.Weave(MethodInfoImpl, TypeDefinition);
         }
 
-        public override ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition) {
-            return MethodScopeWeaver.Weave(ilGenerator, typeDefinition);
+        public override ILGenerator WeaveMethodScope(ILGenerator ilGenerator) {
+            return MethodScopeWeaver.Weave(ilGenerator);
         }
 
         public override void WeaveEndMethod(ILGenerator ilGenerator) {

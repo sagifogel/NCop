@@ -5,7 +5,7 @@ using System;
 
 namespace NCop.Mixins.Weaving
 {
-    public class MixinsTypeDefinitionWeaver : ITypeDefinitionWeaver, ITypeDefinitionFactory
+    public class MixinsTypeDefinitionWeaver : ITypeDefinitionWeaver
     {
         private readonly Type contractType = null;
         private readonly ITypeMap mixinsMap = null;
@@ -21,10 +21,6 @@ namespace NCop.Mixins.Weaving
 
         public ITypeDefinition Weave() {
             return typeDefinition;
-        }
-
-        public ITypeDefinition Resolve() {
-            return Weave();
         }
     }
 }

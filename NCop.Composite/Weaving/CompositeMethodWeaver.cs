@@ -10,28 +10,28 @@ using System.Reflection.Emit;
 
 namespace NCop.Composite.Weaving
 {
-    internal class CompositeMethodWeaver : AbstractMethodWeaver
-    {
-        private readonly AspectMethodWeaver methodWeaver = null;
+	internal class CompositeMethodWeaver : AbstractMethodWeaver
+	{
+		private readonly AspectMethodWeaver methodWeaver = null;
 
-        internal CompositeMethodWeaver(IAspectDefinitionCollection aspectDefinition, MethodInfo methodInfoImpl, Type implementationType, Type contractType)
-            : base(methodInfoImpl, implementationType, contractType) {
-            methodWeaver = new AspectMethodWeaver(aspectDefinition, methodInfoImpl, implementationType, contractType);
-            MethodDefintionWeaver = methodWeaver.MethodDefintionWeaver;
-            MethodScopeWeaver = methodWeaver.MethodScopeWeaver;
-            MethodEndWeaver = methodWeaver.MethodEndWeaver;
-        }
+		internal CompositeMethodWeaver(IAspectDefinitionCollection aspectDefinition, IWeavingSettings weavingSettings)
+			: base(weavingSettings) {
+			methodWeaver = new AspectMethodWeaver(aspectDefinition, weavingSettings);
+			MethodDefintionWeaver = methodWeaver.MethodDefintionWeaver;
+			MethodScopeWeaver = methodWeaver.MethodScopeWeaver;
+			MethodEndWeaver = methodWeaver.MethodEndWeaver;
+		}
 
-        public override MethodBuilder DefineMethod(ITypeDefinition typeDefinition) {
-            return MethodDefintionWeaver.Weave(MethodInfoImpl, typeDefinition);
-        }
+		public override MethodBuilder DefineMethod() {
+			return MethodDefintionWeaver.Weave(MethodInfoImpl, TypeDefinition);
+		}
 
-        public override ILGenerator WeaveMethodScope(ILGenerator ilGenerator, ITypeDefinition typeDefinition) {
-            return MethodScopeWeaver.Weave(ilGenerator, typeDefinition);
-        }
+		public override ILGenerator WeaveMethodScope(ILGenerator ilGenerator) {
+			return MethodScopeWeaver.Weave(ilGenerator);
+		}
 
-        public override void WeaveEndMethod(ILGenerator ilGenerator) {
-            MethodEndWeaver.Weave(MethodInfoImpl, ilGenerator);
-        }
-    }
+		public override void WeaveEndMethod(ILGenerator ilGenerator) {
+			MethodEndWeaver.Weave(MethodInfoImpl, ilGenerator);
+		}
+	}
 }

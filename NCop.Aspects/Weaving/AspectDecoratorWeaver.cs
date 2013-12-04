@@ -12,13 +12,13 @@ namespace NCop.Aspects.Weaving
     {
         private readonly IMethodScopeWeaver weaver = null;
 
-        public AspectDecoratorWeaver(MethodInfo methodImplementation, Type implementationType, Type contractType) {
-            Name = methodImplementation.Name;
-            weaver = new MethodDecoratorScopeWeaver(methodImplementation, implementationType, contractType);
+		public AspectDecoratorWeaver(IWeavingSettings weavingSettings) {
+			Name = weavingSettings.MethodInfoImpl.Name;
+			weaver = new MethodDecoratorScopeWeaver(weavingSettings);
         }
 
-        public ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition) {
-            return weaver.Weave(iLGenerator, typeDefinition);
+        public ILGenerator Weave(ILGenerator iLGenerator) {
+            return weaver.Weave(iLGenerator);
         }
 
         public string Name { get; private set; }

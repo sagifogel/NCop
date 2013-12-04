@@ -98,9 +98,8 @@ namespace NCop.Aspects.Weaving
             return adviceExpressionFactory(selectedAdviceDefinition);
         }
 
-        public override ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition) {
-
-            return weaver.Weave(iLGenerator, typeDefinition);
+        public override ILGenerator Weave(ILGenerator iLGenerator) {
+            return weaver.Weave(iLGenerator);
         }
     }
 }

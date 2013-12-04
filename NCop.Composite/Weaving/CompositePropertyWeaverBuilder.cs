@@ -13,19 +13,18 @@ namespace NCop.Composite.Weaving
     {
         private readonly ICompositePropertyMap compositePropertyMap = null;
 
-        public CompositePropertyWeaverBuilder(ICompositePropertyMap compositePropertyMap, ITypeDefinitionFactory typeDefinitionFactory)
-            : base(compositePropertyMap.ImplementationMember, compositePropertyMap.ImplementationType, compositePropertyMap.ContractType, typeDefinitionFactory) {
+        public CompositePropertyWeaverBuilder(ICompositePropertyMap compositePropertyMap, ITypeDefinition typeDefinition)
+            : base(compositePropertyMap.ImplementationMember, compositePropertyMap.ImplementationType, compositePropertyMap.ContractType, typeDefinition) {
             this.compositePropertyMap = compositePropertyMap;
         }
 
         public IPropertyWeaver Build() {
-            var typeDefinition = TypeDefinitionFactory.Resolve();
-
             if (compositePropertyMap.HasAspectDefinitions) {
-                return new PropertyDecoratorWeaver(MemberInfoImpl, ImplementationType, ContractType);
+
+				return new PropertyDecoratorWeaver(MemberInfoImpl, ImplementationType, ContractType, TypeDefinition);
             }
 
-            return new PropertyDecoratorWeaver(MemberInfoImpl, ImplementationType, ContractType);
+			return new PropertyDecoratorWeaver(MemberInfoImpl, ImplementationType, ContractType, TypeDefinition);
         }
     }
 }

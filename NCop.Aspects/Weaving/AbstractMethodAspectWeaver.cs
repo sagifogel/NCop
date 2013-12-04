@@ -54,6 +54,6 @@ namespace NCop.Aspects.Weaving
             return adviceMethod.GetParameters().First().ParameterType;
         }
 
-        public abstract ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition);
+        public abstract ILGenerator Weave(ILGenerator iLGenerator);
     }
 }

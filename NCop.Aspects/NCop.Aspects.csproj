@@ -393,7 +393,7 @@
     <Compile Include="Weaving\OnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\OnMethodEntryAdviceWeaver.cs" />
     <Compile Include="Weaving\OnMethodExceptionAdviceWeaver.cs" />
-    <Compile Include="Weaving\OnMethodInvokeBindingWeaver.cs" />
+    <Compile Include="Weaving\OnMethodInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\OnMethodInvokeWeaver.cs" />
     <Compile Include="Weaving\OnMethodSuccessAdviceWeaver.cs" />
     <Compile Include="Weaving\TryCatchFinallyAspectWeaver.cs" />

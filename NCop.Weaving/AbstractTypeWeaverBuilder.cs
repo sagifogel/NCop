@@ -8,17 +8,17 @@ namespace NCop.Weaving
     public abstract class AbstractTypeWeaverBuilder : ITypeWeaverBuilder, IMethodWeaverBuilderBag, IPropertyWeaverBag
     {
         protected readonly Type type = null;
-        protected readonly List<IMethodWeaver> methodWeavers = null;
-        protected readonly ITypeDefinitionFactory typeDefinitionFactory = null;
+		protected readonly ITypeDefinition typeDefinition = null;
+		protected readonly List<IMethodWeaver> methodWeavers = null;
         protected readonly List<IMethodWeaverBuilder> methodWeaversBuilders = null;
         protected readonly List<IPropertyWeaverBuilder> propertyWeaversBuilders = null;
 
-        public AbstractTypeWeaverBuilder(Type type, ITypeDefinitionFactory typeDefinitionFactory) {
+        public AbstractTypeWeaverBuilder(Type type, ITypeDefinition typeDefinition) {
             this.type = type;
             methodWeavers = new List<IMethodWeaver>();
             methodWeaversBuilders = new List<IMethodWeaverBuilder>();
             propertyWeaversBuilders = new List<IPropertyWeaverBuilder>();
-            this.typeDefinitionFactory = typeDefinitionFactory;
+            this.typeDefinition = typeDefinition;
         }
 
         public void Add(IMethodWeaverBuilder item) {

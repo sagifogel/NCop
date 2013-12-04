@@ -10,11 +10,12 @@ namespace NCop.Weaving
 {
     public class PropertyDecoratorWeaver : IPropertyWeaver
     {
-        private Type contractType = null;
-        private Type implementationType = null;
-        private PropertyInfo propertyInfoImpl = null;
+        private readonly Type contractType = null;
+        private readonly Type implementationType = null;
+		private readonly PropertyInfo propertyInfoImpl = null;
+		private readonly ITypeDefinition typeDefinition = null;
 
-        public PropertyDecoratorWeaver(PropertyInfo propertyInfoImpl, Type implementationType, Type contractType) {
+        public PropertyDecoratorWeaver(PropertyInfo propertyInfoImpl, Type implementationType, Type contractType, ITypeDefinition typeDefinition) {
             this.contractType = contractType;
             this.propertyInfoImpl = propertyInfoImpl;
             this.implementationType = implementationType;
@@ -23,8 +24,9 @@ namespace NCop.Weaving
         public IMethodWeaver GetGetMethod() {
             if (propertyInfoImpl.CanRead) {
                 var getMethodImpl = propertyInfoImpl.GetGetMethod();
-
-                return new PropertyGetDecoratorWeaver(getMethodImpl, implementationType, contractType);
+				var weavingSettings = new WeavingSettings(getMethodImpl, implementationType, contractType, typeDefinition);
+				
+				return new PropertyGetDecoratorWeaver(weavingSettings);
             }
 
             return null;
@@ -33,8 +35,9 @@ namespace NCop.Weaving
         public IMethodWeaver GetSetMethod() {
             if (propertyInfoImpl.CanWrite) {
                 var setMethodImpl = propertyInfoImpl.GetSetMethod();
+				var weavingSettings = new WeavingSettings(setMethodImpl, implementationType, contractType, typeDefinition);
 
-                return new PropertySetDecoratorWeaver(setMethodImpl, implementationType, contractType);
+				return new PropertySetDecoratorWeaver(weavingSettings);
             }
 
             return null;

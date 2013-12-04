@@ -56,6 +56,8 @@
     </Compile>
     <Compile Include="IContextWeaver.cs" />
     <Compile Include="IMethodLocalWeaver.cs" />
+    <Compile Include="IWeavingSettings.cs" />
+    <Compile Include="WeavingSettings.cs" />
     <Compile Include="MethodScopeWeaversQueue.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -85,7 +87,6 @@
     <Compile Include="FieldWeaver.cs" />
     <Compile Include="IPropertySetWeaver.cs" />
     <Compile Include="ITypeDefinition.cs" />
-    <Compile Include="ITypeDefinitionFactory.cs" />
     <Compile Include="ITypeDefinitionWeaver.cs" />
     <Compile Include="ITypeWeaver.cs" />
     <Compile Include="ITypeWeaverBuilder.cs" />

@@ -13,7 +13,7 @@ namespace NCop.Aspects.Weaving
             : base(aspectArgsLocalWeaver) {
         }
 
-        public override ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition) {
+        public override ILGenerator Weave(ILGenerator iLGenerator) {
             throw new NotImplementedException();
         }
     }

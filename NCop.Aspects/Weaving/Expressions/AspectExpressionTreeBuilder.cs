@@ -9,42 +9,42 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class AspectExpressionTreeBuilder : IBuilder<IAspectExpression>
-    {
-        private readonly Type contractType = null;
-        private readonly IAspectExpression decoratorAspect = null;
-        private readonly Stack<IAspectDefinition> aspectsStack = null;
-        private readonly IAspectDefinitionCollection aspectDefinitions = null;
+	internal class AspectExpressionTreeBuilder : IBuilder<IAspectExpression>
+	{
+		private readonly IWeavingSettings weavingSettings = null; 
+		private readonly IAspectExpression decoratorAspect = null;
+		private readonly Stack<IAspectDefinition> aspectsStack = null;
+		private readonly IAspectDefinitionCollection aspectDefinitions = null;
 
-        internal AspectExpressionTreeBuilder(IAspectDefinitionCollection aspectDefinitions, MethodInfo methodInfoImpl, Type implementationType, Type contractType) {
-            var aspectsByPriority = aspectDefinitions.OrderBy(aspect => aspect.Aspect.AspectPriority)
-                                                     .ThenBy(aspect => {
-                                                         var value = aspect.Aspect is OnMethodBoundaryAspectAttribute;
-                                                         return Convert.ToInt32(!value);
-                                                     });
+		internal AspectExpressionTreeBuilder(IAspectDefinitionCollection aspectDefinitions, IWeavingSettings weavingSettings) {
+			var aspectsByPriority = aspectDefinitions.OrderBy(aspect => aspect.Aspect.AspectPriority)
+													 .ThenBy(aspect => {
+														 var value = aspect.Aspect is OnMethodBoundaryAspectAttribute;
+														 return Convert.ToInt32(!value);
+													 });
 
-            this.contractType = contractType;
-            this.aspectDefinitions = aspectDefinitions;
-            aspectsStack = new Stack<IAspectDefinition>(aspectsByPriority);
-            decoratorAspect = new AspectDecoratorExpression(methodInfoImpl, implementationType, contractType);
-        }
+			this.weavingSettings = weavingSettings;
+			this.aspectDefinitions = aspectDefinitions;
+			aspectsStack = new Stack<IAspectDefinition>(aspectsByPriority);
+			decoratorAspect = new AspectDecoratorExpression(weavingSettings);
+		}
 
-        public IAspectExpression Build() {
-            var visitor = new AspectVisitor();
-            IAspectExpressionBuilder builder = null;
-            IAspectExpression aspectExpression = null;
-            var aspectDefinition = aspectsStack.Pop();
+		public IAspectExpression Build() {
+			var visitor = new AspectVisitor();
+			IAspectExpressionBuilder builder = null;
+			IAspectExpression aspectExpression = null;
+			var aspectDefinition = aspectsStack.Pop();
 
-            builder = aspectDefinition.Accept(visitor);
-            aspectExpression = builder.Build(decoratorAspect);
+			builder = aspectDefinition.Accept(visitor);
+			aspectExpression = builder.Build(decoratorAspect);
 
-            while (aspectsStack.Count > 0) {
-                aspectDefinition = aspectsStack.Pop();
-                builder = aspectDefinition.Accept(visitor);
-                aspectExpression = builder.Build(aspectExpression);
-            }
+			while (aspectsStack.Count > 0) {
+				aspectDefinition = aspectsStack.Pop();
+				builder = aspectDefinition.Accept(visitor);
+				aspectExpression = builder.Build(aspectExpression);
+			}
 
-            return new AspectExpression(contractType, aspectExpression, aspectDefinitions);
-        }
-    }
+			return new AspectExpression(weavingSettings.ContractType, aspectExpression, aspectDefinitions);
+		}
+	}
 }

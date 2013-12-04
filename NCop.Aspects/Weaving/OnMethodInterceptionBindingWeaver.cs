@@ -17,15 +17,15 @@ using NCop.Weaving.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-	internal class OnMethodInvokeBindingWeaver : IMethodBindingWeaver
+	internal class OnMethodInterceptionBindingWeaver : IMethodBindingWeaver, ITypeDefinition
 	{
 		private static int bindingCounter = 1;
 		private FieldBuilder fieldBuilder = null;
-        private readonly BindingSettings bindingSettings = null;
+		private readonly BindingSettings bindingSettings = null;
 		private readonly IMethodScopeWeaver methodScopeWeaver = null;
 
-        internal OnMethodInvokeBindingWeaver(BindingSettings bindingSettings, IMethodScopeWeaver methodScopeWeaver) {
-            this.bindingSettings = bindingSettings;
+		internal OnMethodInterceptionBindingWeaver(BindingSettings bindingSettings, IMethodScopeWeaver methodScopeWeaver) {
+			this.bindingSettings = bindingSettings;
 			this.methodScopeWeaver = methodScopeWeaver;
 		}
 
@@ -43,15 +43,22 @@ namespace NCop.Aspects.Weaving
 			return weavedMember;
 		}
 
+		private TypeBuilder WeaveTypeBuilder() {
+			var attrs = TypeAttributes.NotPublic | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit;
+
+			return TypeBuilder = typeof(object).DefineType("MethodBinding_{0}".Fmt(bindingCounter).ToUniqueName(), new[] { bindingSettings.BindingType }, attrs);
+		}
+
 		private void WeaveInvokeMethod(TypeBuilder typeBuilder) {
 			Type[] parametersTypes = null;
 			Type returnType = typeof(void);
 			ILGenerator ilGenerator = null;
-            LocalBuilder argsBuilder = null;
+			LocalBuilder argsBuilder = null;
+			LocalBuilder returnTypeBuilder = null;
 			var methodAttr = MethodAttributes.Public | MethodAttributes.Final | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual;
-            var arguments = bindingSettings.BindingType.GetGenericArguments();
+			var arguments = bindingSettings.BindingType.GetGenericArguments();
 
-            if (bindingSettings.IsFunction) {
+			if (bindingSettings.IsFunction) {
 				int length = arguments.Length - 1;
 
 				returnType = arguments.Last();
@@ -62,8 +69,24 @@ namespace NCop.Aspects.Weaving
 				parametersTypes = arguments;
 			}
 
+			parametersTypes[0] = parametersTypes[0].MakeByRefType();
 			ilGenerator = typeBuilder.DefineMethod("Invoke", methodAttr, returnType, parametersTypes).GetILGenerator();
-            argsBuilder = bindingSettings.ArgumentsWeaver.Weave(ilGenerator);
+			argsBuilder = bindingSettings.ArgumentsWeaver.Weave(ilGenerator);
+
+			if (bindingSettings.IsFunction) {
+				returnTypeBuilder = ilGenerator.DeclareLocal(returnType);
+			}
+
+			ilGenerator.EmitLoadArg(1);
+			ilGenerator.Emit(OpCodes.Ldind_Ref);
+
+			parametersTypes.ForEach(1, (parameter, i) => {
+				ilGenerator.EmitLoadArg(i);
+			});
+
+			ilGenerator.Emit(OpCodes.Newobj, bindingSettings.ArgumentsWeaver.ArgsType);
+			ilGenerator.EmitStoreLocal(argsBuilder);
+			methodScopeWeaver.Weave(ilGenerator);
 		}
 
 		private void WeaveConstructors(TypeBuilder typeBuilder) {
@@ -84,10 +107,16 @@ namespace NCop.Aspects.Weaving
 			cctor.Emit(OpCodes.Ret);
 		}
 
-		private TypeBuilder WeaveTypeBuilder() {
-			var attrs = TypeAttributes.NotPublic | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit;
+		public Type Type {
+			get {
+				return TypeBuilder;
+			}
+		}
 
-            return typeof(object).DefineType("MethodBinding_{0}".Fmt(bindingCounter).ToUniqueName(), interfaces: new[] { bindingSettings.BindingType }, attributes: attrs);
+		public TypeBuilder TypeBuilder { get; private set; }
+
+		public FieldBuilder GetFieldBuilder(Type type) {
+			return null;
 		}
 	}
 }

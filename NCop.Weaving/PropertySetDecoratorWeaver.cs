@@ -9,11 +9,11 @@ namespace NCop.Weaving
 {
     public class PropertySetDecoratorWeaver : AbstractMethodWeaver, IPropertySetWeaver
     {
-        public PropertySetDecoratorWeaver(MethodInfo methodInfoImpl, Type implementationType, Type contractType)
-            : base(methodInfoImpl, implementationType, contractType) {
+		public PropertySetDecoratorWeaver(IWeavingSettings weavingSettings)
+            : base(weavingSettings) {
             MethodEndWeaver = new MethodEndWeaver();
             MethodDefintionWeaver = new PropertySetSignatureWeaver();
-            MethodScopeWeaver = new PropertySetDecoratorScopeWeaver(methodInfoImpl, implementationType, contractType);
+			MethodScopeWeaver = new PropertySetDecoratorScopeWeaver(weavingSettings);
         }
     }
 }

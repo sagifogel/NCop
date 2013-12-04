@@ -11,12 +11,12 @@ namespace NCop.Weaving
 {
     public class PropertySetDecoratorScopeWeaver : AbstractMethodScopeWeaver
     {
-        public PropertySetDecoratorScopeWeaver(MethodInfo methodInfo, Type implementationType, Type contractType)
-            : base(methodInfo, implementationType, contractType) {
+		public PropertySetDecoratorScopeWeaver(IWeavingSettings weavingSettings)
+            : base(weavingSettings) {
         }
 
-        public override ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition) {
-            FieldBuilder fieldBuilder = typeDefinition.GetFieldBuilder(ContractType);
+        public override ILGenerator Weave(ILGenerator iLGenerator) {
+            FieldBuilder fieldBuilder = TypeDefinition.GetFieldBuilder(ContractType);
 
             iLGenerator.EmitLoadArg(0);
 

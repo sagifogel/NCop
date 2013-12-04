@@ -69,8 +69,9 @@ namespace NCop.Samples
         static void Main(string[] args) {
             var container = new CompositeContainer();
             container.Configure();
-            //var person = container.TryResolve<IPersonComposite>();
-            //person.Code("CSharp");
+            
+			var person = container.TryResolve<IPersonComposite>();
+            person.Code("CSharp");
         }
     }
 

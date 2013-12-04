@@ -7,21 +7,40 @@ using System.Text;
 
 namespace NCop.Weaving
 {
-	public abstract class AbstractMethodScopeWeaver : IMethodScopeWeaver
+	public abstract class AbstractMethodScopeWeaver : IMethodScopeWeaver, IWeavingSettings
 	{
-		protected readonly Type ContractType = null;
-        protected readonly Type ImplementationType = null;
-        protected readonly MethodInfo MethodInfoImpl = null;
+		private readonly IWeavingSettings weavingSettings = null;
 
-		public AbstractMethodScopeWeaver(MethodInfo methodInfoImpl, Type implementationType, Type contractType) {
-            Name = methodInfoImpl.Name;
-            ContractType = contractType;
-            MethodInfoImpl = methodInfoImpl;
-            ImplementationType = implementationType;
-        }
+		public AbstractMethodScopeWeaver(IWeavingSettings weavingSettings) {
+			this.weavingSettings = weavingSettings;
+		}
 
-        public abstract ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition);
+		public Type ContractType {
+			get {
+				return weavingSettings.ContractType;
+			}
+		}
 
-        public string Name { get; private set; }
-    }
+		public Type ImplementationType {
+			get {
+				return weavingSettings.ImplementationType;
+			}
+		}
+
+		public MethodInfo MethodInfoImpl {
+			get {
+				return weavingSettings.MethodInfoImpl;
+			}
+		}
+
+		public ITypeDefinition TypeDefinition {
+			get {
+				return weavingSettings.TypeDefinition;
+			}
+		}
+
+		public abstract ILGenerator Weave(ILGenerator iLGenerator);
+
+		public string Name { get; private set; }
+	}
 }

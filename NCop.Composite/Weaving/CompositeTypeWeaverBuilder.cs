@@ -16,27 +16,28 @@ namespace NCop.Composite.Weaving
     {
         private readonly MixinsTypeWeaverBuilder builder = null;
 
-        internal CompositeTypeWeaverBuilder(Type compositeType, IRegistry registry) {
+		internal CompositeTypeWeaverBuilder(Type compositeType, IRegistry registry) {
             var mixinsMap = new MixinsMap(compositeType);
             var aspectMappedMembers = new AspectMemberMapper(compositeType, mixinsMap);
             var aspectsMap = new AspectsMap(compositeType, aspectMappedMembers);
-            var factory = new MixinsTypeDefinitionWeaver(compositeType, mixinsMap);
+            var typeDefinitionWeaver = new MixinsTypeDefinitionWeaver(compositeType, mixinsMap);
             var compositeMappedMembers = new CompositeMemberMapper(aspectsMap, aspectMappedMembers);
+			var typeDefinition = typeDefinitionWeaver.Weave();
 
-            builder = new MixinsTypeWeaverBuilder(compositeType, factory, registry);
+			builder = new MixinsTypeWeaverBuilder(compositeType, typeDefinition, registry);
 
             mixinsMap.ForEach(map => {
                 builder.Add(map);
             });
 
             compositeMappedMembers.Methods.ForEach(compositeMethodMap => {
-                var methodBuilder = new CompositeMethodWeaverBuilder(compositeMethodMap, factory);
+				var methodBuilder = new CompositeMethodWeaverBuilder(compositeMethodMap, typeDefinition);
 
                 builder.Add(methodBuilder);
             });
 
             compositeMappedMembers.Properties.ForEach(compositePropertyMap => {
-                var propertyBuilder = new CompositePropertyWeaverBuilder(compositePropertyMap, factory);
+				var propertyBuilder = new CompositePropertyWeaverBuilder(compositePropertyMap, typeDefinition);
 
                 builder.Add(propertyBuilder);
             });

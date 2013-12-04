@@ -25,13 +25,13 @@ namespace NCop.Aspects.Weaving
             };
         }
 
-        public ILGenerator Weave(ILGenerator iLGenerator, ITypeDefinition typeDefinition) {
+        public ILGenerator Weave(ILGenerator iLGenerator) {
             IAspcetWeaver weaver = null;
 
             aspectAttributeWeaver.Weave();
             weaver = expression.Reduce(settings);
 
-            return weaver.Weave(iLGenerator, typeDefinition);
+            return weaver.Weave(iLGenerator);
         }
 
         public string Name { get; private set; }

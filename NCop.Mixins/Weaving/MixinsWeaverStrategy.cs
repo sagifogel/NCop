@@ -14,23 +14,22 @@ namespace NCop.Mixins.Weaving
     {
         private readonly IRegistry registry = null;
         private readonly IEnumerable<IMethodWeaver> methodWeavers = null;
-        private readonly ITypeDefinitionFactory typeDefinitionFactory = null;
+        private readonly ITypeDefinition typeDefinition = null;
 
-        internal MixinsWeaverStrategy(ITypeDefinitionFactory typeDefinitionFactory, IEnumerable<IMethodWeaver> methodWeavers, IRegistry registry) {
+        internal MixinsWeaverStrategy(ITypeDefinition typeDefinition, IEnumerable<IMethodWeaver> methodWeavers, IRegistry registry) {
             this.registry = registry;
             this.methodWeavers = methodWeavers;
-            this.typeDefinitionFactory = typeDefinitionFactory;
+            this.typeDefinition = typeDefinition;
         }
 
         public void Weave() {
             Type weavedType = null;
-            var typeDefinition = typeDefinitionFactory.Resolve();
-
+            
             methodWeavers.ForEach(methodWeaver => {
-                var methodBuilder = methodWeaver.DefineMethod(typeDefinition);
+                var methodBuilder = methodWeaver.DefineMethod();
                 var ilGenerator = methodBuilder.GetILGenerator();
 
-                methodWeaver.WeaveMethodScope(ilGenerator, typeDefinition);
+                methodWeaver.WeaveMethodScope(ilGenerator);
                 methodWeaver.WeaveEndMethod(ilGenerator);
             });
 

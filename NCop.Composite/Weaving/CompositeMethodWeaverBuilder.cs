@@ -12,19 +12,19 @@ namespace NCop.Composite.Weaving
     {
         private readonly ICompositeMethodMap compositeMethodMap = null;
 
-        public CompositeMethodWeaverBuilder(ICompositeMethodMap compositeMethodMap, ITypeDefinitionFactory typeDefinitionFactory)
-            : base(compositeMethodMap.ImplementationMember, compositeMethodMap.ImplementationType, compositeMethodMap.ContractType, typeDefinitionFactory) {
+        public CompositeMethodWeaverBuilder(ICompositeMethodMap compositeMethodMap, ITypeDefinition typeDefinition)
+            : base(compositeMethodMap.ImplementationMember, compositeMethodMap.ImplementationType, compositeMethodMap.ContractType, typeDefinition) {
             this.compositeMethodMap = compositeMethodMap;
         }
 
         public IMethodWeaver Build() {
-            var typeDefinition = TypeDefinitionFactory.Resolve();
-
-            if (compositeMethodMap.HasAspectDefinitions) {
-                return new CompositeMethodWeaver(compositeMethodMap.AspectDefinitions, MemberInfoImpl, ImplementationType, ContractType);
+			var weavingSettings = new WeavingSettings(MemberInfoImpl, ImplementationType, ContractType, TypeDefinition);
+            
+			if (compositeMethodMap.HasAspectDefinitions) {
+				return new CompositeMethodWeaver(compositeMethodMap.AspectDefinitions, weavingSettings);
             }
 
-            return new MethodDecoratorWeaver(MemberInfoImpl, ImplementationType, ContractType);
+			return new MethodDecoratorWeaver(weavingSettings);
         }
     }
 }

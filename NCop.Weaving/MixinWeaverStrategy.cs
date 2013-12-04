@@ -21,10 +21,10 @@ namespace NCop.Weaving
             var typeDefinition = TypeDefinitionWeaver.Weave();
 
             MethodWeavers.ForEach(methodWeaver => {
-                var methodBuilder = methodWeaver.DefineMethod(typeDefinition);
+                var methodBuilder = methodWeaver.DefineMethod();
                 var ilGenerator = methodBuilder.GetILGenerator();
 
-                methodWeaver.WeaveMethodScope(ilGenerator, typeDefinition);
+                methodWeaver.WeaveMethodScope(ilGenerator);
                 methodWeaver.WeaveEndMethod(ilGenerator);
             });
         }

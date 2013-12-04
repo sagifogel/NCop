@@ -12,8 +12,8 @@ namespace NCop.Aspects.Weaving.Expressions
     {
         private readonly IAspcetWeaver weaver = null;
 
-        internal AspectDecoratorExpression(MethodInfo methodImplementation, Type implementationType, Type contractType) {
-            weaver = new AspectDecoratorWeaver(methodImplementation, implementationType, contractType);
+		internal AspectDecoratorExpression(IWeavingSettings weavingSettings) {
+			weaver = new AspectDecoratorWeaver(weavingSettings);
         }
 
         public IAspcetWeaver Reduce(IAspectWeaverSettings settings) {
