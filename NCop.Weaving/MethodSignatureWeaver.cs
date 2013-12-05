@@ -8,10 +8,14 @@ using NCop.Core.Extensions;
 
 namespace NCop.Weaving
 {
-    public class MethodSignatureWeaver : IMethodSignatureWeaver
-    {
-        public MethodBuilder Weave(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
-            return typeDefinition.TypeBuilder.DefineMethod(methodInfo);
-        }
-    }
+	public class MethodSignatureWeaver : AbstractMemberSignatureWeaver
+	{
+		public MethodSignatureWeaver(ITypeDefinition typeDefinition)
+			: base(typeDefinition) {
+		}
+
+		public override MethodBuilder Weave(MethodInfo methodInfo) {
+			return typeDefinition.TypeBuilder.DefineMethod(methodInfo);
+		}
+	}
 }

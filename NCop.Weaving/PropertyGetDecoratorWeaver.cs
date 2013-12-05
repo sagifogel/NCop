@@ -12,8 +12,8 @@ namespace NCop.Weaving
 		public PropertyGetDecoratorWeaver(IWeavingSettings weavingSettings)
 			: base(weavingSettings) {
             MethodEndWeaver = new MethodEndWeaver();
-            MethodDefintionWeaver = new PropertyGetSignatureWeaver();
 			MethodScopeWeaver = new PropertyGetDecoratorScopeWeaver(weavingSettings);
-        }
+			MethodDefintionWeaver = new PropertyGetSignatureWeaver(weavingSettings.TypeDefinition);
+		}
     }
 }

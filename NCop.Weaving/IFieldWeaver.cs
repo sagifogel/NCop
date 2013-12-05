@@ -8,6 +8,6 @@ namespace NCop.Weaving
 {
     public interface IFieldWeaver : IWeaver
     {
-        FieldBuilder Weave(TypeBuilder typeBuilder);
+        FieldBuilder Weave();
     }
 }

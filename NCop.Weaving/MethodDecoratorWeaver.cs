@@ -12,12 +12,12 @@ namespace NCop.Weaving
 		public MethodDecoratorWeaver(IWeavingSettings weavingSettings)
 			: base(weavingSettings) {
             MethodEndWeaver = new MethodEndWeaver();
-            MethodDefintionWeaver = new MethodSignatureWeaver();
 			MethodScopeWeaver = new MethodDecoratorScopeWeaver(weavingSettings);
-        }
+			MethodDefintionWeaver = new MethodSignatureWeaver(weavingSettings.TypeDefinition);
+		}
 
         public override MethodBuilder DefineMethod() {
-            return MethodDefintionWeaver.Weave(MethodInfoImpl, TypeDefinition);
+            return MethodDefintionWeaver.Weave(MethodInfoImpl);
         }
 
         public override ILGenerator WeaveMethodScope(ILGenerator ilGenerator) {

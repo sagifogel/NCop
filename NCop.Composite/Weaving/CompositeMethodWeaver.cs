@@ -23,7 +23,7 @@ namespace NCop.Composite.Weaving
 		}
 
 		public override MethodBuilder DefineMethod() {
-			return MethodDefintionWeaver.Weave(MethodInfoImpl, TypeDefinition);
+			return MethodDefintionWeaver.Weave(MethodInfoImpl);
 		}
 
 		public override ILGenerator WeaveMethodScope(ILGenerator ilGenerator) {

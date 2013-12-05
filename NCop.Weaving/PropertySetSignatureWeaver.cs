@@ -7,10 +7,14 @@ using System.Text;
 
 namespace NCop.Weaving
 {
-    public class PropertySetSignatureWeaver : IMethodSignatureWeaver
-    {
-        public MethodBuilder Weave(MethodInfo methodInfo, ITypeDefinition typeDefinition) {
-            return typeDefinition.TypeBuilder.DefineMethod(methodInfo);
-        }
-    }
+	public class PropertySetSignatureWeaver : AbstractMemberSignatureWeaver
+	{
+		public PropertySetSignatureWeaver(ITypeDefinition typeDefinition)
+			: base(typeDefinition) {
+		}
+
+		public override MethodBuilder Weave(MethodInfo methodInfo) {
+			return typeDefinition.TypeBuilder.DefineMethod(methodInfo);
+		}
+	}
 }

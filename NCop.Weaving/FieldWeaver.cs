@@ -8,13 +8,16 @@ namespace NCop.Weaving
 {
     public class FieldWeaver : IFieldWeaver
     {
-        public FieldWeaver(Type type) {
+		private readonly TypeBuilder typeBuilder = null;
+
+		public FieldWeaver(TypeBuilder typeBuilder, Type type) {
             FieldType = type;
+			this.typeBuilder = typeBuilder;
         }
 
         public Type FieldType { get; private set; }
 
-        public FieldBuilder Weave(TypeBuilder typeBuilder) {
+        public FieldBuilder Weave() {
             return typeBuilder.DefineField(FieldType);
         }
     }

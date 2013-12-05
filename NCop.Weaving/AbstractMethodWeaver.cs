@@ -46,7 +46,7 @@ namespace NCop.Weaving
 		public IMethodSignatureWeaver MethodDefintionWeaver { get; protected set; }
 
 		public virtual MethodBuilder DefineMethod() {
-			return MethodDefintionWeaver.Weave(MethodInfoImpl, TypeDefinition);
+			return MethodDefintionWeaver.Weave(MethodInfoImpl);
 		}
 
 		public virtual ILGenerator WeaveMethodScope(ILGenerator ilGenerator) {
