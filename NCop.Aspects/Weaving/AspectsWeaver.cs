@@ -11,29 +11,22 @@ namespace NCop.Aspects.Weaving
 {
     internal class AspectsWeaver : IAspcetWeaver
     {
+        private IAspcetWeaver weaver = null;
         private readonly IAspectExpression expression = null;
-        private readonly IAspectWeaverSettings settings = null;
+        private readonly IAspectWeavingSettings settings = null;
         private readonly AspectsAttributeWeaver aspectAttributeWeaver = null;
 
-        public AspectsWeaver(IAspectExpression expression, IAspectDefinitionCollection aspectDefinitions, IContextWeaver contextWeaver) {
+        public AspectsWeaver(IAspectExpression expression, IAspectDefinitionCollection aspectDefinitions, IAspectArgumentWeaver argumentsWeaver) {
             this.expression = expression;
             aspectAttributeWeaver = new AspectsAttributeWeaver(aspectDefinitions);
-
-            this.settings = new AspectWeaverSettings {
-                ContextWeaver = contextWeaver,
-                AspectRepository = aspectAttributeWeaver
-            };
+            this.settings = new AspectWeavingSettings(argumentsWeaver, aspectAttributeWeaver);
         }
 
-        public ILGenerator Weave(ILGenerator iLGenerator) {
-            IAspcetWeaver weaver = null;
-
+        public ILGenerator Weave(ILGenerator ilGenerator) {
             aspectAttributeWeaver.Weave();
             weaver = expression.Reduce(settings);
 
-            return weaver.Weave(iLGenerator);
+            return weaver.Weave(ilGenerator);
         }
-
-        public string Name { get; private set; }
     }
 }

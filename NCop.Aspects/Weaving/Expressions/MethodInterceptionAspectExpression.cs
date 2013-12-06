@@ -13,7 +13,7 @@ namespace NCop.Aspects.Weaving.Expressions
             : base(expression, aspectDefinition) {
         }
 
-        public override IAspcetWeaver Reduce(IAspectWeaverSettings settings) {
+        public override IAspcetWeaver Reduce(IAspectWeavingSettings settings) {
             return new MethodInterceptionAspectWeaver(expression, aspectDefinition, settings);
         }
     }

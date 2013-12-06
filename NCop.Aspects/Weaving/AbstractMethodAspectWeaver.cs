@@ -10,20 +10,20 @@ using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-    public abstract class AbstractMethodAspectWeaver : IAspcetWeaver
+    internal abstract class AbstractMethodAspectWeaver : IAspcetWeaver
     {
         protected IMethodScopeWeaver weaver = null;
-        protected readonly IContextWeaver contextWeaver = null;
         protected readonly IAspectRepository aspectRepository = null;
         protected readonly IAspectDefinition aspectDefinition = null;
         protected readonly IAdviceDefinitionCollection advices = null;
         protected readonly AdviceVisitor adviceVisitor = new AdviceVisitor();
+        protected readonly IAspectArgumentWeaver aspectArgumentsWeaver = null;
         protected readonly AdviceDiscoveryVisitor adviceDiscoveryVistor = new AdviceDiscoveryVisitor();
 
-        public AbstractMethodAspectWeaver(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeaverSettings settings) {
+        internal AbstractMethodAspectWeaver(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings) {
             advices = aspectDefinition.Advices;
             this.aspectRepository = settings.AspectRepository;
-            this.contextWeaver = settings.ContextWeaver ?? new FirstArgRefContextWeaver();
+            this.aspectArgumentsWeaver = settings.ArgumentsWeaver;
             aspectDefinition.Advices.ForEach(advice => advice.Accept(adviceDiscoveryVistor));
             this.aspectDefinition = aspectDefinition;
         }
@@ -39,21 +39,13 @@ namespace NCop.Aspects.Weaving
             return adviceExpressionFactory(selectedAdviceDefinition);
         }
 
-        protected virtual Type MakeGenericArgumentType(Type argumentsType) {
+        protected virtual Type ToImplArgumentType(Type argumentsType) {
             var genericArguments = argumentsType.GetGenericArguments();
             var genericArgumentsWithContext = new[] { aspectDefinition.AspectDeclaringType }.Concat(genericArguments);
 
             return argumentsType.MakeGenericArgsType(genericArgumentsWithContext.ToArray());
         }
 
-        protected virtual Type GetArgumentType() {
-            var aspectType = aspectDefinition.Aspect.AspectType;
-            var overridenMethods = aspectType.GetOverridenMethods();
-            var adviceMethod = overridenMethods.First();
-            
-            return adviceMethod.GetParameters().First().ParameterType;
-        }
-
-        public abstract ILGenerator Weave(ILGenerator iLGenerator);
+        public abstract ILGenerator Weave(ILGenerator ilGenerator);
     }
 }

@@ -8,9 +8,9 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving
 {
-    public interface IAspectWeaverSettings
+    public interface IAspectWeavingSettings
     {
-        IContextWeaver ContextWeaver { get; }
         IAspectRepository AspectRepository { get; }
+        IAspectArgumentWeaver ArgumentsWeaver { get; }
     }
 }

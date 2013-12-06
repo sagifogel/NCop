@@ -39,7 +39,7 @@ namespace NCop.Weaving
 			}
 		}
 
-		public abstract ILGenerator Weave(ILGenerator iLGenerator);
+		public abstract ILGenerator Weave(ILGenerator ilGenerator);
 
 		public string Name { get; private set; }
 	}

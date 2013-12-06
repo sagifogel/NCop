@@ -104,13 +104,17 @@
     </Compile>
     <Compile Include="Framework\IActionInterceptionArgs.cs" />
     <Compile Include="Framework\IFunctionInterceptionArgs.cs" />
+    <Compile Include="Weaving\AbstractAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodAspectWeaver.cs" />
+    <Compile Include="Weaving\AbstractMethodBindingWeaver.cs" />
     <Compile Include="Weaving\AdviceDiscoveryVisitor.cs" />
     <Compile Include="Weaving\AbstractAdviceWeaver.cs" />
+    <Compile Include="Weaving\AdviceWeavingSettings.cs" />
+    <Compile Include="Weaving\AspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\AspectsWeaver.cs" />
     <Compile Include="Weaving\AspectsAttributeWeaver.cs" />
     <Compile Include="Weaving\AspectDecoratorWeaver.cs" />
-    <Compile Include="Weaving\AspectWeaverSettings.cs" />
+    <Compile Include="Weaving\AspectWeavingSettings.cs" />
     <Compile Include="Weaving\BindingSettings.cs" />
     <Compile Include="Weaving\Expressions\AbstractAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\AspectDecoratorExpression.cs" />
@@ -383,13 +387,15 @@
     <Compile Include="Weaving\Expressions\OnMethodInvokeAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\OnMethodSuccessAdviceExpression.cs" />
     <Compile Include="Weaving\FinallyAdviceWeaver.cs" />
-    <Compile Include="Weaving\FirstArgRefContextWeaver.cs" />
+    <Compile Include="Weaving\IAdviceWeavingSettings.cs" />
     <Compile Include="Weaving\IAspcetWeaver.cs" />
+    <Compile Include="Weaving\IAspectArgumentWeaver.cs" />
     <Compile Include="Weaving\IAspectRepository.cs" />
-    <Compile Include="Weaving\IAspectWeaverSettings.cs" />
+    <Compile Include="Weaving\IAspectWeavingSettings.cs" />
     <Compile Include="Weaving\IMethodBindingWeaver.cs" />
+    <Compile Include="Weaving\MethodDecorationBindingWeaver.cs" />
+    <Compile Include="Weaving\MethodImplArgumentsWeaver.cs" />
     <Compile Include="Weaving\MethodInterceptionAspectWeaver.cs" />
-    <Compile Include="Weaving\AspectArgsLateLocalWeaver.cs" />
     <Compile Include="Weaving\OnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\OnMethodEntryAdviceWeaver.cs" />
     <Compile Include="Weaving\OnMethodExceptionAdviceWeaver.cs" />

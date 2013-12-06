@@ -11,14 +11,14 @@ namespace NCop.Aspects.Weaving
 {
     internal class AspectsAttributeWeaver : IWeaver, IAspectRepository
     {
-        private Dictionary<Type, MemberInfo> aspects = null;
+        private Dictionary<Type, FieldInfo> aspects = null;
         private readonly IAspectDefinitionCollection aspectDefinitions = null;
 
         public AspectsAttributeWeaver(IAspectDefinitionCollection aspectDefinitions) {
             this.aspectDefinitions = aspectDefinitions;
         }
 
-        public MemberInfo GetAspectMemberByType(Type type) {
+        public FieldInfo GetAspectFieldByType(Type type) {
             return aspects[type];
         }
 
@@ -45,7 +45,7 @@ namespace NCop.Aspects.Weaving
             aspectAttributes = typeBuilder.CreateType();
 
             aspects = fieldBuilders.ToDictionary(builder => builder.FieldType, builder => {
-                return aspectAttributes.GetField(builder.Name, BindingFlags.Static | BindingFlags.NonPublic) as MemberInfo;
+                return aspectAttributes.GetField(builder.Name, BindingFlags.Static | BindingFlags.NonPublic);
             });
         }
     }

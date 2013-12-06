@@ -1,49 +1,45 @@
 ﻿using NCop.Aspects.Advices;
 using NCop.Aspects.Aspects;
+using NCop.Aspects.Extensions;
 using NCop.Aspects.Weaving.Expressions;
 using NCop.Composite.Weaving;
+using NCop.Core.Extensions;
 using NCop.Weaving;
+using NCop.Weaving.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
-using NCop.Aspects.Framework;
-using NCop.Aspects.Engine;
-using NCop.Core.Extensions;
-using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-    public class MethodInterceptionAspectWeaver : AbstractMethodAspectWeaver
+    internal class MethodInterceptionAspectWeaver : AbstractMethodAspectWeaver
     {
-        private readonly IMethodScopeWeaver nestedScopeWeaver = null;
-        private readonly OnMethodInterceptionBindingWeaver bindingWeaver = null;
+        private readonly BindingSettings bindingSettings = null;
+        private readonly IAspcetWeaver nestedAspectWeaver = null;
 
-        internal MethodInterceptionAspectWeaver(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeaverSettings settings)
+        internal MethodInterceptionAspectWeaver(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings)
             : base(expression, aspectDefinition, settings) {
-            var argumentType = GetArgumentType();
             IAdviceExpression selectedExpression = null;
             var invokeWeavers = new List<IMethodScopeWeaver>();
-            var argumentTypes = MakeGenericArgumentType(argumentType);
-            var argsWeaver = new AspectArgsLocalWeaver(argumentTypes);
-            var genericArguments = argumentTypes.GetGenericArguments();
-            var aspectSettings = new AspectWeaverSettings { AspectRepository = aspectRepository };
-            var bindingSettings = new BindingSettings { ArgumentsWeaver = argsWeaver };
+            var aspectArgumentType = aspectDefinition.GetArgumentType();
+            var bindingArgumentTypes = aspectDefinition.ToAspectArgumentImpl(aspectArgumentType);
+            var genericArguments = bindingArgumentTypes.GetGenericArguments();
+            var aspectSettings = new AdviceWeavingSettings(aspectDefinition.Aspect.AspectType, aspectArgumentsWeaver, aspectRepository);
 
-            if (argumentType.IsFunctionAspectArgs()) {
-                bindingSettings.IsFunction = true;
-                bindingSettings.BindingType = argumentType.MakeGenericFunctionBinding(genericArguments);
+            bindingSettings = new BindingSettings { ArgumentsWeaver = settings.ArgumentsWeaver };
+
+            if (settings.ArgumentsWeaver.IsFunction) {
+                bindingSettings.BindingType = aspectArgumentType.MakeGenericFunctionBinding(genericArguments);
             }
             else {
-                bindingSettings.BindingType = argumentType.MakeGenericActionBinding(genericArguments);
+                bindingSettings.BindingType = aspectArgumentType.MakeGenericActionBinding(genericArguments);
             }
 
             selectedExpression = ResolveOnMethodInvokeAdvice();
-            nestedScopeWeaver = expression.Reduce(aspectSettings);
-            bindingWeaver = new OnMethodInterceptionBindingWeaver(bindingSettings, nestedScopeWeaver);
-            invokeWeavers.Add(selectedExpression.Reduce(argsWeaver));
+            nestedAspectWeaver = expression.Reduce(aspectSettings);
+            invokeWeavers.Add(selectedExpression.Reduce(aspectSettings));
 
             weaver = new MethodScopeWeaversQueue(invokeWeavers);
         }
@@ -59,10 +55,26 @@ namespace NCop.Aspects.Weaving
             return adviceExpressionFactory(selectedAdviceDefinition);
         }
 
-        public override ILGenerator Weave(ILGenerator iLGenerator) {
-            var member = bindingWeaver.Weave();
+        public override ILGenerator Weave(ILGenerator ilGenerator) {
+            FieldInfo weavedMemeber = null;
+            LocalBuilder argsLocalBuilder = null;
+            LocalBuilder bindingLocalBuilder = null;
+            IMethodBindingWeaver bindingWeaver = null;
 
-            return weaver.Weave(iLGenerator);
+            if (nestedAspectWeaver.Is<AspectDecoratorWeaver>()) {
+                bindingWeaver = new MethodDecoratorBindingWeaver(bindingSettings, nestedAspectWeaver);
+            }
+            else {
+                bindingWeaver = new OnMethodInterceptionBindingWeaver(bindingSettings, nestedAspectWeaver); ;
+            }
+
+            weavedMemeber = bindingWeaver.Weave(ilGenerator);
+            bindingLocalBuilder = ilGenerator.DeclareLocal(weavedMemeber.ReflectedType);
+            ilGenerator.Emit(OpCodes.Ldsfld, weavedMemeber);
+            ilGenerator.EmitStoreLocal(bindingLocalBuilder);
+            argsLocalBuilder = aspectArgumentsWeaver.Weave(ilGenerator);
+
+            return weaver.Weave(ilGenerator);
         }
     }
 }

@@ -1,28 +1,29 @@
 ﻿using NCop.Aspects.Aspects;
-using NCop.Aspects.Framework;
-using NCop.Composite.Weaving;
-using NCop.Weaving;
+using NCop.Aspects.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
+using System.Reflection;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
     internal class AspectExpression : IAspectExpression
     {
-        private readonly IContextWeaver contextWeaver = null;
         private readonly IAspectExpression expression = null;
-        private readonly IAspectDefinitionCollection aspectDefinitions = null;
+        private readonly IAspectArgumentWeaver argumentsWeaver = null;
+        private readonly IAspectDefinitionCollection aspectsDefinitions = null;
 
-        internal AspectExpression(Type contractType, IAspectExpression expression, IAspectDefinitionCollection aspectDefinitions) {
+        internal AspectExpression(IAspectExpression expression, IAspectDefinitionCollection aspectsDefinitions, Type firstAspectArgsType, MethodInfo methodInfoImpl) {
+            IEnumerable<Type> parameters = null;
+
             this.expression = expression;
-            contextWeaver = new ThisContextWeaver(contractType);
-            this.aspectDefinitions = aspectDefinitions;
+            this.aspectsDefinitions = aspectsDefinitions;
+            parameters = methodInfoImpl.GetParameters().Select(@param => @param.ParameterType);
+            argumentsWeaver = new MethodImplArgumentsWeaver(firstAspectArgsType, parameters.ToArray());
         }
-        public IAspcetWeaver Reduce(IAspectWeaverSettings settings) {
-            return new AspectsWeaver(expression, aspectDefinitions, contextWeaver);
+
+        public IAspcetWeaver Reduce(IAspectWeavingSettings settings) {
+            return new AspectsWeaver(expression, aspectsDefinitions, argumentsWeaver);
         }
     }
 }

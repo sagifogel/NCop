@@ -1,4 +1,5 @@
-﻿using NCop.Weaving;
+﻿using NCop.Aspects.Weaving.Expressions;
+using NCop.Weaving;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,19 +9,16 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class AspectDecoratorWeaver : IAspcetWeaver
+    internal class AspectDecoratorWeaver : AbstractMethodScopeWeaver, IAspcetWeaver
     {
-        private readonly IMethodScopeWeaver weaver = null;
-
-		public AspectDecoratorWeaver(IWeavingSettings weavingSettings) {
-			Name = weavingSettings.MethodInfoImpl.Name;
-			weaver = new MethodDecoratorScopeWeaver(weavingSettings);
+        internal AspectDecoratorWeaver(IWeavingSettings weavingSettings)
+            : base(weavingSettings) {
         }
 
-        public ILGenerator Weave(ILGenerator iLGenerator) {
-            return weaver.Weave(iLGenerator);
-        }
+        public override ILGenerator Weave(ILGenerator ilGenerator) {
+            ilGenerator.Emit(OpCodes.Callvirt, MethodInfoImpl);
 
-        public string Name { get; private set; }
+            return ilGenerator;
+        }
     }
 }

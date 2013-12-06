@@ -20,8 +20,8 @@ namespace NCop.Aspects.Weaving.Expressions
             }
         }
 
-        public override IMethodScopeWeaver Reduce(IMethodLocalWeaver aspectArgsLocalWeaver) {
-            return new OnMethodSuccessAdviceWeaver(aspectArgsLocalWeaver);
+        public override IMethodScopeWeaver Reduce(IAdviceWeavingSettings adviceWeavingSettings) {
+            return new OnMethodSuccessAdviceWeaver(adviceWeavingSettings);
         }
     }
 }

@@ -20,11 +20,11 @@ namespace NCop.Aspects.Weaving
             this.finallyWeavers = finallyWeavers;
         }
 
-        public virtual ILGenerator Weave(ILGenerator iLGenerator) {
+        public virtual ILGenerator Weave(ILGenerator ilGenerator) {
             var weavers = entryWeavers.Concat(tryWeavers).Concat(finallyWeavers);
             var weaver = new MethodScopeWeaversQueue(weavers);
 
-            return weaver.Weave(iLGenerator);
+            return weaver.Weave(ilGenerator);
         }
     }
 }

@@ -20,6 +20,6 @@ namespace NCop.Aspects.Weaving.Expressions
             this.aspectDefinition = aspectDefinition;
         }
 
-        public abstract IAspcetWeaver Reduce(IAspectWeaverSettings settings);
+        public abstract IAspcetWeaver Reduce(IAspectWeavingSettings settings);
     }
 }

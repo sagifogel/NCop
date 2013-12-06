@@ -26,28 +26,28 @@ namespace NCop.Weaving.Extensions
             }
         }
 
-        public static void EmitLoadArg(this ILGenerator iLGenerator, int arg) {
+        public static void EmitLoadArg(this ILGenerator ilGenerator, int arg) {
             if (arg <= 3) {
                 switch (arg) {
                     case 0:
-                        iLGenerator.Emit(OpCodes.Ldarg_0);
+                        ilGenerator.Emit(OpCodes.Ldarg_0);
                         break;
 
                     case 1:
-                        iLGenerator.Emit(OpCodes.Ldarg_1);
+                        ilGenerator.Emit(OpCodes.Ldarg_1);
                         break;
 
                     case 2:
-                        iLGenerator.Emit(OpCodes.Ldarg_2);
+                        ilGenerator.Emit(OpCodes.Ldarg_2);
                         break;
 
                     case 3:
-                        iLGenerator.Emit(OpCodes.Ldarg_3);
+                        ilGenerator.Emit(OpCodes.Ldarg_3);
                         break;
                 }
             }
             else if (arg <= 255) {
-                iLGenerator.Emit(OpCodes.Ldarg_S, arg);
+                ilGenerator.Emit(OpCodes.Ldarg_S, arg);
             }
         }
 

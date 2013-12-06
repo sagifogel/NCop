@@ -25,6 +25,22 @@ namespace NCop.Samples
         }
     }
 
+    public sealed class MethodDecoratorFunctionBinding : IFunctionBinding<Test, string, bool>
+    {
+        internal static MethodDecoratorFunctionBinding singleton = null;
+
+        static MethodDecoratorFunctionBinding() {
+            singleton = new MethodDecoratorFunctionBinding();
+        }
+
+        private MethodDecoratorFunctionBinding() {
+        }
+
+        public bool Invoke(ref Test instance, string arg1) {
+            return instance.SayHello(arg1);
+        }
+    }
+
     public class FunctionBinding : IFunctionBinding<Test, string, bool>
     {
         public bool Invoke(ref Test instance, string arg1) {
@@ -51,10 +67,10 @@ namespace NCop.Samples
     public class Test
     {
         public bool SayHello(string name) {
-            var bindings = new FunctionBinding();
+            var bindings = MethodDecoratorFunctionBinding.singleton;
             var arguments = new FunctionInterceptionArgsImpl<Test, string, bool>(this, bindings, name);
 
-            return true;//Aspects.traceAspect.OnInvoke(arguments);
+            return Aspects.traceAspect.OnInvoke(arguments);
         }
 
         internal bool __SayHello__(string name) {

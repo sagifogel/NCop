@@ -9,11 +9,11 @@ namespace NCop.Aspects.Weaving
 {
     internal class OnMethodExceptionAdviceWeaver : AbstractAdviceWeaver
     {
-        public OnMethodExceptionAdviceWeaver(IMethodLocalWeaver aspectArgsLocalWeaver)
-            : base(aspectArgsLocalWeaver) {
+        public OnMethodExceptionAdviceWeaver(IAdviceWeavingSettings adviceWeavingSettings)
+            : base(adviceWeavingSettings) {
         }
 
-        public override ILGenerator Weave(ILGenerator iLGenerator) {
+        public override ILGenerator Weave(ILGenerator ilGenerator) {
             throw new NotImplementedException();
         }
     }

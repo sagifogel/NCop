@@ -15,14 +15,14 @@ namespace NCop.Weaving
 			: base(weavingSettings) {
 		}
 
-		public override ILGenerator Weave(ILGenerator iLGenerator) {
+		public override ILGenerator Weave(ILGenerator ilGenerator) {
 			FieldBuilder fieldBuilder = TypeDefinition.GetFieldBuilder(ContractType);
 
-			iLGenerator.EmitLoadArg(0);
-			iLGenerator.Emit(OpCodes.Ldfld, fieldBuilder);
-			iLGenerator.Emit(OpCodes.Callvirt, MethodInfoImpl);
+			ilGenerator.EmitLoadArg(0);
+			ilGenerator.Emit(OpCodes.Ldfld, fieldBuilder);
+			ilGenerator.Emit(OpCodes.Callvirt, MethodInfoImpl);
 
-			return iLGenerator;
+			return ilGenerator;
 		}
 	}
 }

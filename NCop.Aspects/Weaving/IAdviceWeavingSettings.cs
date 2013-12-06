@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 
 namespace NCop.Aspects.Weaving
 {
-    public interface IAspectRepository
+    public interface IAdviceWeavingSettings : IAspectWeavingSettings
     {
-        FieldInfo GetAspectFieldByType(Type type);
+        Type AspectType { get; }
     }
 }

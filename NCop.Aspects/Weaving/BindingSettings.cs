@@ -8,8 +8,7 @@ namespace NCop.Aspects.Weaving
 {
     internal class BindingSettings
     {
-        public bool IsFunction { get; set; }
         public Type BindingType { get; set; }
-        public IMethodLocalWeaver ArgumentsWeaver { get; set; }
+        public IAspectArgumentWeaver ArgumentsWeaver { get; set; }
     }
 }

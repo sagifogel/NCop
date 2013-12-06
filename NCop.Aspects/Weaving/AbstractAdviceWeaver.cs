@@ -8,13 +8,17 @@ using System.Text;
 namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractAdviceWeaver : IMethodScopeWeaver
-    {   
-        protected readonly IMethodLocalWeaver aspectArgsLocalWeaver = null;
+    {
+        protected readonly Type aspectType = null; 
+        protected readonly IAspectRepository aspectRepository = null;
+        protected readonly IAspectArgumentWeaver argumentsWeaver = null;
 
-        public AbstractAdviceWeaver(IMethodLocalWeaver aspectArgsLocalWeaver) {
-            this.aspectArgsLocalWeaver = aspectArgsLocalWeaver;
+        public AbstractAdviceWeaver(IAdviceWeavingSettings adviceWeavingSettings) {
+            aspectType = adviceWeavingSettings.AspectType;
+            argumentsWeaver = adviceWeavingSettings.ArgumentsWeaver;
+            aspectRepository = adviceWeavingSettings.AspectRepository;
         }
 
-        public abstract ILGenerator Weave(ILGenerator iLGenerator);
+        public abstract ILGenerator Weave(ILGenerator ilGenerator);
     }
 }

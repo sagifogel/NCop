@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
@@ -14,7 +15,7 @@ namespace NCop.Aspects.Weaving.Expressions
 		private readonly IWeavingSettings weavingSettings = null; 
 		private readonly IAspectExpression decoratorAspect = null;
 		private readonly Stack<IAspectDefinition> aspectsStack = null;
-		private readonly IAspectDefinitionCollection aspectDefinitions = null;
+		private readonly IAspectDefinitionCollection aspectsDefinitions = null;
 
 		internal AspectExpressionTreeBuilder(IAspectDefinitionCollection aspectDefinitions, IWeavingSettings weavingSettings) {
 			var aspectsByPriority = aspectDefinitions.OrderBy(aspect => aspect.Aspect.AspectPriority)
@@ -24,7 +25,7 @@ namespace NCop.Aspects.Weaving.Expressions
 													 });
 
 			this.weavingSettings = weavingSettings;
-			this.aspectDefinitions = aspectDefinitions;
+			this.aspectsDefinitions = aspectDefinitions;
 			aspectsStack = new Stack<IAspectDefinition>(aspectsByPriority);
 			decoratorAspect = new AspectDecoratorExpression(weavingSettings);
 		}
@@ -34,6 +35,8 @@ namespace NCop.Aspects.Weaving.Expressions
 			IAspectExpressionBuilder builder = null;
 			IAspectExpression aspectExpression = null;
 			var aspectDefinition = aspectsStack.Pop();
+            var methodInfoImpl = weavingSettings.MethodInfoImpl;
+            var firstAspectArgsType = aspectDefinition.ToAspectArgumentImpl();
 
 			builder = aspectDefinition.Accept(visitor);
 			aspectExpression = builder.Build(decoratorAspect);
@@ -44,7 +47,7 @@ namespace NCop.Aspects.Weaving.Expressions
 				aspectExpression = builder.Build(aspectExpression);
 			}
 
-			return new AspectExpression(weavingSettings.ContractType, aspectExpression, aspectDefinitions);
+            return new AspectExpression(aspectExpression, aspectsDefinitions, firstAspectArgsType, methodInfoImpl);
 		}
 	}
 }
