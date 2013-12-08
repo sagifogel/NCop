@@ -88,6 +88,15 @@ namespace NCop.Aspects.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The type {0} does not have a default constructor..
+        /// </summary>
+        internal static string AspectsDefaultCtorHasNotBeenFound {
+            get {
+                return ResourceManager.GetString("AspectsDefaultCtorHasNotBeenFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OnFunctionBoundaryAspcets are valid only on method that has return type other than void. Use one of the OnActionBoundaryAspect types..
         /// </summary>
         internal static string FunctionAspectMismatch {

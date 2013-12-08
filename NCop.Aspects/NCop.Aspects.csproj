@@ -92,6 +92,11 @@
     <Compile Include="Engine\ActionExecutionArgsImpl`8.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`1.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl.cs" />
+    <Compile Include="Exceptions\AspectWeavingException.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AspectWeavingException.tt</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\AspectArgsResolver.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -425,6 +430,11 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AspectAnnotationException.cs</LastGenOutput>
       <LastOutputs>.\AspectAnnotationException.cs</LastOutputs>
+    </None>
+    <None Include="Exceptions\AspectWeavingException.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AspectWeavingException.cs</LastGenOutput>
+      <LastOutputs>.\AspectWeavingException.cs</LastOutputs>
     </None>
     <None Include="Extensions\AspectArgsResolver.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

@@ -45,25 +45,26 @@ namespace NCop.Aspects.Weaving
         }
 
         protected TypeBuilder WeaveTypeBuilder() {
-            var attrs = TypeAttributes.NotPublic | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit;
+            var attrs = TypeAttributes.Public | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit;
 
             return typeBuilder = typeof(object).DefineType("MethodBinding_{0}".Fmt(bindingCounter).ToUniqueName(), new[] { bindingSettings.BindingType }, attrs);
         }
 
         protected virtual void WeaveConstructors(TypeBuilder typeBuilder) {
-            var fieldAttrs = FieldAttributes.FamANDAssem | FieldAttributes.Static;
+            var fieldAttrs = FieldAttributes.Private | FieldAttributes.FamANDAssem | FieldAttributes.Static;
             var ctorAttrs = MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
             var cctor = typeBuilder.DefineConstructor(ctorAttrs | MethodAttributes.Static | MethodAttributes.PrivateScope, CallingConventions.Standard, Type.EmptyTypes).GetILGenerator();
-            var defaultCtor = typeBuilder.DefineConstructor(ctorAttrs, CallingConventions.Standard, Type.EmptyTypes).GetILGenerator();
+            var defaultCtor = typeBuilder.DefineConstructor(ctorAttrs, CallingConventions.Standard | CallingConventions.HasThis, Type.EmptyTypes);
             var bindingTypeCtor = typeof(object).GetConstructor(Type.EmptyTypes);
+            var defaultCtorGenerator = defaultCtor.GetILGenerator();
 
             fieldBuilder = typeBuilder.DefineField("singleton", typeBuilder, fieldAttrs);
 
-            defaultCtor.EmitLoadArg(0);
-            defaultCtor.Emit(OpCodes.Call, bindingTypeCtor);
-            defaultCtor.Emit(OpCodes.Ret);
+            defaultCtorGenerator.EmitLoadArg(0);
+            defaultCtorGenerator.Emit(OpCodes.Call, bindingTypeCtor);
+            defaultCtorGenerator.Emit(OpCodes.Ret);
 
-            cctor.Emit(OpCodes.Newobj, typeBuilder);
+            cctor.Emit(OpCodes.Newobj, defaultCtor);
             cctor.Emit(OpCodes.Stsfld, fieldBuilder);
             cctor.Emit(OpCodes.Ret);
         }
@@ -90,7 +91,7 @@ namespace NCop.Aspects.Weaving
 
             argumentsWeaver = new AspectArgumentsWeaver(bindingSettings.ArgumentsWeaver.ArgumentType, parametersTypes);
             parametersTypes[0] = parametersTypes[0].MakeByRefType();
-            ilGenerator = typeBuilder.DefineMethod("Invoke", methodAttr, returnType, parametersTypes).GetILGenerator();
+            ilGenerator = typeBuilder.DefineMethod("Invoke", methodAttr, CallingConventions.Standard | CallingConventions.HasThis, returnType, parametersTypes).GetILGenerator();
 
             if (bindingSettings.ArgumentsWeaver.IsFunction) {
                 returnTypeBuilder = ilGenerator.DeclareLocal(returnType);

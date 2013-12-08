@@ -1,0 +1,8 @@
+<#@ template language="C#" hostspecific="True" debug="True" #>
+<#@ output extension="cs" #>
+<#@ include file="..\..\NCop.Core\Exceptions\ArgumentExceptionTemplate.tt" #>
+<#
+	var template = new NCopExceptionTemplate();
+	template.KeyPrefix = "AspectWeaving";
+    template.Render();
+#>

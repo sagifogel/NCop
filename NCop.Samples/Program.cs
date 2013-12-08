@@ -14,9 +14,9 @@ namespace NCop.Samples
 {
     internal static class Aspects
     {
-        internal static TraceAspect traceAspect = new TraceAspect();
-        internal static TraceAspect2 traceAspect2 = new TraceAspect2();
-        internal static TraceAspect2 traceAspect3 = new TraceAspect2();
+        internal static TraceAspect traceAspect = null;
+        internal static TraceAspect2 traceAspect2 = null;
+        internal static TraceAspect2 traceAspect3 = null;
 
         static Aspects() {
             traceAspect = new TraceAspect();
@@ -83,6 +83,7 @@ namespace NCop.Samples
     class Program
     {
         static void Main(string[] args) {
+            var bindings = MethodDecoratorFunctionBinding.singleton;
             var container = new CompositeContainer();
             container.Configure();
             

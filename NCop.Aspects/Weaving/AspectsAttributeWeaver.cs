@@ -1,4 +1,8 @@
 ﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Engine;
+using NCop.Aspects.Exceptions;
+using NCop.Aspects.Framework;
+using NCop.Aspects.Properties;
 using NCop.Core.Extensions;
 using NCop.Weaving;
 using System;
@@ -25,18 +29,23 @@ namespace NCop.Aspects.Weaving
         internal void Weave() {
             Type aspectAttributes = null;
             var fieldBuilders = new List<FieldBuilder>();
-            var attrs = TypeAttributes.Sealed | TypeAttributes.Abstract | TypeAttributes.BeforeFieldInit;
+            var typeAttrs = TypeAttributes.Sealed | TypeAttributes.Abstract | TypeAttributes.BeforeFieldInit;
             var uniqueAspects = aspectDefinitions.Select(definition => definition).Distinct();
-            var typeBuilder = typeof(object).DefineType("Aspects".ToUniqueName(), attributes: attrs);
-            var fieldAttrs = FieldAttributes.FamANDAssem | FieldAttributes.Static;
-            var cctorAttrs = MethodAttributes.Private | MethodAttributes.Static| MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
+            var typeBuilder = typeof(object).DefineType("Aspects".ToUniqueName(), attributes: typeAttrs);
+            var fieldAttrs = FieldAttributes.Private | FieldAttributes.FamANDAssem | FieldAttributes.Static;
+            var cctorAttrs = MethodAttributes.Private | MethodAttributes.Static | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
             var cctor = typeBuilder.DefineConstructor(cctorAttrs, CallingConventions.Standard, Type.EmptyTypes).GetILGenerator();
 
             uniqueAspects.ForEach((aspect, i) => {
                 var aspectType = aspect.Aspect.AspectType;
                 var fieldBuilder = typeBuilder.DefineField("Aspect_{0}".Fmt(i).ToUniqueName(), aspectType, fieldAttrs);
+                var ctor = fieldBuilder.FieldType.GetConstructor(Type.EmptyTypes);
 
-                cctor.Emit(OpCodes.Newobj, fieldBuilder.FieldType);
+                if (ctor.IsNull()) {
+                    throw new AspectWeavingException(Resources.AspectsDefaultCtorHasNotBeenFound.Fmt(fieldBuilder.FieldType.FullName));
+                }
+
+                cctor.Emit(OpCodes.Newobj, ctor);
                 cctor.Emit(OpCodes.Stsfld, fieldBuilder);
                 fieldBuilders.Add(fieldBuilder);
             });
