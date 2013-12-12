@@ -401,6 +401,7 @@
     <Compile Include="Weaving\MethodDecorationBindingWeaver.cs" />
     <Compile Include="Weaving\MethodImplArgumentsWeaver.cs" />
     <Compile Include="Weaving\MethodInterceptionAspectWeaver.cs" />
+    <Compile Include="Weaving\MethodParameters.cs" />
     <Compile Include="Weaving\OnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\OnMethodEntryAdviceWeaver.cs" />
     <Compile Include="Weaving\OnMethodExceptionAdviceWeaver.cs" />

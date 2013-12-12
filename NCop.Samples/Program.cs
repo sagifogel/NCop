@@ -44,23 +44,7 @@ namespace NCop.Samples
     public class FunctionBinding : IFunctionBinding<Test, string, bool>
     {
         public bool Invoke(ref Test instance, string arg1) {
-            var args = new FunctionExecutionArgsImpl<Test, string, bool>(instance, arg1);
-
-            Aspects.traceAspect2.OnEntry(args);
-
-            try {
-                args.ReturnValue = ((Test)instance).SayHello(arg1);
-                Aspects.traceAspect2.OnSuccess(args);
-            }
-            catch (Exception) {
-                Aspects.traceAspect2.OnException(args);
-                throw;
-            }
-            finally {
-                Aspects.traceAspect2.OnExit(args);
-            }
-
-            return args.ReturnValue;
+            return instance.SayHello(arg1);
         }
     }
 

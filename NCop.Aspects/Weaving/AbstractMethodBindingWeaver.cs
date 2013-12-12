@@ -14,6 +14,7 @@ using NCop.Aspects.Engine;
 using NCop.Core.Extensions;
 using System.Threading;
 using NCop.Weaving.Extensions;
+using MA = System.Reflection.MethodAttributes;
 
 namespace NCop.Aspects.Weaving
 {
@@ -24,6 +25,8 @@ namespace NCop.Aspects.Weaving
         protected FieldBuilder fieldBuilder = null;
         protected readonly BindingSettings bindingSettings = null;
         protected readonly IMethodScopeWeaver methodScopeWeaver = null;
+        protected readonly MethodAttributes methodAttr = MA.Public | MA.Final | MA.HideBySig | MA.NewSlot | MA.Virtual;
+        protected readonly CallingConventions callingConventions = CallingConventions.Standard | CallingConventions.HasThis;
 
         internal AbstractMethodBindingWeaver(BindingSettings bindingSettings, IMethodScopeWeaver methodScopeWeaver) {
             this.bindingSettings = bindingSettings;
@@ -69,37 +72,24 @@ namespace NCop.Aspects.Weaving
             cctor.Emit(OpCodes.Ret);
         }
 
-        protected virtual ILGenerator WeaveLoadArgs() {
-            Type[] parametersTypes = null;
-            Type returnType = typeof(void);
-            ILGenerator ilGenerator = null;
-            LocalBuilder returnTypeBuilder = null;
-            IAspectArgumentWeaver argumentsWeaver = null;
+        protected virtual MethodParameters ResolveParameterTypes() {
+            var methodParameters = new MethodParameters();
             var arguments = bindingSettings.BindingType.GetGenericArguments();
-            var methodAttr = MethodAttributes.Public | MethodAttributes.Final | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual;
+
+            arguments[0] = arguments[0].MakeByRefType();
 
             if (bindingSettings.ArgumentsWeaver.IsFunction) {
                 int length = arguments.Length - 1;
 
-                returnType = arguments.Last();
-                parametersTypes = new Type[length];
-                Array.Copy(arguments, 0, parametersTypes, 0, length);
+                methodParameters.ReturnType = arguments.Last();
+                methodParameters.Parameters = new Type[length];
+                Array.Copy(arguments, 0, methodParameters.Parameters, 0, length);
             }
             else {
-                parametersTypes = arguments;
+                methodParameters.Parameters = arguments;
             }
 
-            argumentsWeaver = new AspectArgumentsWeaver(bindingSettings.ArgumentsWeaver.ArgumentType, parametersTypes);
-            parametersTypes[0] = parametersTypes[0].MakeByRefType();
-            ilGenerator = typeBuilder.DefineMethod("Invoke", methodAttr, CallingConventions.Standard | CallingConventions.HasThis, returnType, parametersTypes).GetILGenerator();
-
-            if (bindingSettings.ArgumentsWeaver.IsFunction) {
-                returnTypeBuilder = ilGenerator.DeclareLocal(returnType);
-            }
-
-            argumentsWeaver.Weave(ilGenerator);
-
-            return ilGenerator;
+            return methodParameters;
         }
 
         protected abstract void WeaveInvokeMethod();
