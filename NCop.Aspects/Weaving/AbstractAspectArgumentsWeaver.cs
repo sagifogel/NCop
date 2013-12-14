@@ -5,27 +5,20 @@ using System.Text;
 using NCop.Aspects.Extensions;
 using System.Reflection.Emit;
 using System.Reflection;
+using NCop.Weaving;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractAspectArgumentsWeaver : IAspectArgumentWeaver
+    internal abstract class AbstractAspectArgumentsWeaver : AbstractArgumentsWeaver, IAspectArgumentsWeaver
     {
-        protected LocalBuilder localBuilder = null;
-        protected readonly Type[] parameters = null;
-
-        public AbstractAspectArgumentsWeaver(Type argumentType, Type[] parameters) {
-            ArgumentType = argumentType;
-            this.parameters = new Type[parameters.Length];
-            parameters.CopyTo(this.parameters, 0);
-            IsFunction = argumentType.IsFunctionAspectArgs();
+        public AbstractAspectArgumentsWeaver(Type argumentType, Type[] parameters, IWeavingSettings weavingSettings, ILocalBuilderRepository localBuilderRepository)
+            : base(argumentType, parameters, weavingSettings, localBuilderRepository) {
         }
 
-        public bool IsFunction { get; private set; }
+        public override void Weave(ILGenerator ilGenerator) {
+            var localBuilder = BuildArguments(ilGenerator, parameters);
 
-        public Type ArgumentType { get; private set; }
-
-        public virtual LocalBuilder Weave(ILGenerator ilGenerator) {
-            return localBuilder ?? (localBuilder = BuildArguments(ilGenerator, parameters));
+            LocalBuilderRepository.Add(localBuilder);
         }
 
         public abstract LocalBuilder BuildArguments(ILGenerator ilGenerator, Type[] parameters);

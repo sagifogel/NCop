@@ -16,10 +16,10 @@ namespace NCop.Aspects.Weaving
         private readonly IAspectWeavingSettings settings = null;
         private readonly AspectsAttributeWeaver aspectAttributeWeaver = null;
 
-        public AspectsWeaver(IAspectExpression expression, IAspectDefinitionCollection aspectDefinitions, IAspectArgumentWeaver argumentsWeaver) {
+        public AspectsWeaver(IAspectExpression expression, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings) {
             this.expression = expression;
             aspectAttributeWeaver = new AspectsAttributeWeaver(aspectDefinitions);
-            this.settings = new AspectWeavingSettings(argumentsWeaver, aspectAttributeWeaver);
+            this.settings = new AspectWeavingSettings(aspectWeavingSettings.WeavingSettings, aspectWeavingSettings.ArgumentsWeaver, aspectAttributeWeaver);
         }
 
         public ILGenerator Weave(ILGenerator ilGenerator) {

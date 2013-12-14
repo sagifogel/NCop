@@ -21,10 +21,10 @@ namespace NCop.Composite.Weaving
         public IPropertyWeaver Build() {
             if (compositePropertyMap.HasAspectDefinitions) {
 
-				return new PropertyDecoratorWeaver(MemberInfoImpl, ImplementationType, ContractType, TypeDefinition);
+                return new PropertyDecoratorWeaver(MemberInfoImpl, ImplementationType, ContractType, TypeDefinition);
             }
 
-			return new PropertyDecoratorWeaver(MemberInfoImpl, ImplementationType, ContractType, TypeDefinition);
+            return new PropertyDecoratorWeaver(MemberInfoImpl, ImplementationType, ContractType, TypeDefinition);
         }
     }
 }

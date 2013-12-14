@@ -25,14 +25,12 @@ namespace NCop.Aspects.Weaving
 
         protected override void WeaveInvokeMethod() {
             ILGenerator ilGenerator = null;
-            LocalBuilder argsBuilder = null;
             MethodBuilder methodBuilder = null;
             var methodParameters = ResolveParameterTypes();
 
-            methodParameters.Parameters[0] = methodParameters.Parameters[0].MakeByRefType();
             methodBuilder = typeBuilder.DefineMethod("Invoke", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
             ilGenerator = methodBuilder.GetILGenerator();
-            argsBuilder = bindingSettings.ArgumentsWeaver.Weave(ilGenerator);
+            bindingSettings.ArgumentsWeaver.Weave(ilGenerator);
             methodScopeWeaver.Weave(ilGenerator);
             ilGenerator.Emit(OpCodes.Ret);
         }

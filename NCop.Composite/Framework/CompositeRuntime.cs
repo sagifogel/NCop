@@ -7,6 +7,7 @@ using NCop.Core.Runtime;
 using NCop.IoC;
 using System;
 using NCop.IoC.Fluent;
+using System.Reflection;
 using NCop.Composite.Exceptions;
 
 namespace NCop.Composite.Framework
@@ -26,7 +27,7 @@ namespace NCop.Composite.Framework
                 return assembly.GetTypes()
                                .Select(type => new {
                                    Type = type,
-                                   Attributes = type.GetCustomAttributesArray<CompositeAttribute>(true)
+                                   Attributes = type.GetCustomAttributesArray<CompositeAttribute>()
                                })
                                .Where(composite => composite.Attributes.Length > 0);
             });

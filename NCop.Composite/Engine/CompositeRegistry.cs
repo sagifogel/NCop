@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using NCop.Core.Extensions;
 using NCop.IoC.Fluent;
+using System.Reflection;
 
 namespace NCop.Composite.Engine
 {

@@ -15,11 +15,13 @@ namespace NCop.Aspects.Weaving
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
+            LocalBuilder argsLocalBuilder = null;
             var aspectMemeber = aspectRepository.GetAspectFieldByType(aspectType);
             var onInvokeMethod = aspectMemeber.FieldType.GetMethod("OnInvoke");
 
+            argsLocalBuilder = argumentsWeaver.LocalBuilderRepository.Get(argumentsWeaver.ArgumentType);
             ilGenerator.Emit(OpCodes.Ldsfld, aspectMemeber);
-            ilGenerator.EmitLoadLocal(argumentsWeaver.Weave(ilGenerator));
+            ilGenerator.EmitLoadLocal(argsLocalBuilder);
             ilGenerator.Emit(OpCodes.Callvirt, onInvokeMethod);
 
             return ilGenerator;

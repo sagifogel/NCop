@@ -8,6 +8,6 @@ namespace NCop.Aspects.Framework
 {
 	public abstract class ActionInterceptionArgs<TArg1> : InterceptionArgs
 	{   
-		public TArg1 Arg1 { get; protected set; }
+		public TArg1 Arg1 { get; set; }
 	}
 }

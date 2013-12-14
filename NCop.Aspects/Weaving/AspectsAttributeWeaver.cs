@@ -29,7 +29,7 @@ namespace NCop.Aspects.Weaving
         internal void Weave() {
             Type aspectAttributes = null;
             var fieldBuilders = new List<FieldBuilder>();
-            var typeAttrs = TypeAttributes.Sealed | TypeAttributes.Abstract | TypeAttributes.BeforeFieldInit;
+            var typeAttrs = TypeAttributes.Sealed | TypeAttributes.Abstract;
             var uniqueAspects = aspectDefinitions.Select(definition => definition).Distinct();
             var typeBuilder = typeof(object).DefineType("Aspects".ToUniqueName(), attributes: typeAttrs);
             var fieldAttrs = FieldAttributes.Private | FieldAttributes.FamANDAssem | FieldAttributes.Static;

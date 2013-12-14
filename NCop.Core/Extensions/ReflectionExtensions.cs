@@ -18,20 +18,20 @@ namespace NCop.Core.Extensions
 
 #if !NET_4_5
 
-        public static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(this ICustomAttributeProvider type, bool inherit = true) {
+        public static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(this ICustomAttributeProvider type, bool inherit = true) where TAttribute : Attribute {
             return type.GetCustomAttributes(typeof(TAttribute), inherit)
                        .Cast<TAttribute>();
         }
 
-        public static TAttribute[] GetCustomAttributesArray<TAttribute>(this ICustomAttributeProvider type, bool inherit = true) {
-            return type.GetCustomAttributes<TAttribute>(inherit).ToArray();
-        }
-
-        public static TAttribute GetCustomAttribute<TAttribute>(this ICustomAttributeProvider type, bool inherit = true) {
+        public static TAttribute GetCustomAttribute<TAttribute>(this ICustomAttributeProvider type, bool inherit = true) where TAttribute : Attribute {
             return type.GetCustomAttributes<TAttribute>(inherit).FirstOrDefault();
         }
 
 #endif
+
+        public static TAttribute[] GetCustomAttributesArray<TAttribute>(this Type type, bool inherit = true) where TAttribute : Attribute {
+            return type.GetCustomAttributes<TAttribute>(inherit).ToArray();
+        }
 
         public static Attribute GetCustomAttribute(this ICustomAttributeProvider type, ISet<Type> attributesToMatch, bool inherit = true) {
             return type.GetCustomAttributes(inherit)

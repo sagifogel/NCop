@@ -9,9 +9,9 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractAdviceWeaver : IMethodScopeWeaver
     {
-        protected readonly Type aspectType = null; 
+        protected readonly Type aspectType = null;
+        protected readonly IArgumentsWeaver argumentsWeaver = null;
         protected readonly IAspectRepository aspectRepository = null;
-        protected readonly IAspectArgumentWeaver argumentsWeaver = null;
 
         public AbstractAdviceWeaver(IAdviceWeavingSettings adviceWeavingSettings) {
             aspectType = adviceWeavingSettings.AspectType;

@@ -7,12 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using NCop.Core.Extensions;
 using NCop.Aspects.Framework;
+using System.Reflection;
 
 namespace NCop.Aspects.Aspects
 {
 	public abstract class AspectAttribute : Attribute, IAspect
 	{
 		public AspectAttribute(Type aspectType) {
+            var p = aspectType as ICustomAttributeProvider;
             var lifetimeStrategyAttr = aspectType.GetCustomAttribute<AspectLifetimeStrategyAttribute>();
             var lifetimeStrategy = (lifetimeStrategyAttr ?? new SingletonAspectAttribute()).LifetimeStrategy;
             

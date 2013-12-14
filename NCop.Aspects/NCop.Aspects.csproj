@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NCop.Aspects</RootNamespace>
     <AssemblyName>NCop.Aspects</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
     <TargetFrameworkProfile />
@@ -109,6 +109,7 @@
     </Compile>
     <Compile Include="Framework\IActionInterceptionArgs.cs" />
     <Compile Include="Framework\IFunctionInterceptionArgs.cs" />
+    <Compile Include="Weaving\AbstractArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodAspectWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodBindingWeaver.cs" />
@@ -393,12 +394,16 @@
     <Compile Include="Weaving\Expressions\OnMethodSuccessAdviceExpression.cs" />
     <Compile Include="Weaving\FinallyAdviceWeaver.cs" />
     <Compile Include="Weaving\IAdviceWeavingSettings.cs" />
+    <Compile Include="Weaving\IArgumentsWeaver.cs" />
     <Compile Include="Weaving\IAspcetWeaver.cs" />
-    <Compile Include="Weaving\IAspectArgumentWeaver.cs" />
+    <Compile Include="Weaving\IAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\IAspectRepository.cs" />
     <Compile Include="Weaving\IAspectWeavingSettings.cs" />
+    <Compile Include="Weaving\ILocalBuilderRepository.cs" />
     <Compile Include="Weaving\IMethodBindingWeaver.cs" />
+    <Compile Include="Weaving\LocalBuilderRepository.cs" />
     <Compile Include="Weaving\MethodDecorationBindingWeaver.cs" />
+    <Compile Include="Weaving\MethodDecoratorArgumentsWeaver.cs" />
     <Compile Include="Weaving\MethodImplArgumentsWeaver.cs" />
     <Compile Include="Weaving\MethodInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\MethodParameters.cs" />

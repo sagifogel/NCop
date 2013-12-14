@@ -10,7 +10,8 @@ namespace NCop.Aspects.Weaving
 {
     public interface IAspectWeavingSettings
     {
+        IWeavingSettings WeavingSettings { get; }
+        IArgumentsWeaver ArgumentsWeaver { get; }
         IAspectRepository AspectRepository { get; }
-        IAspectArgumentWeaver ArgumentsWeaver { get; }
     }
 }

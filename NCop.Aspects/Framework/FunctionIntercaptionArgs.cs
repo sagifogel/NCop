@@ -8,6 +8,6 @@ namespace NCop.Aspects.Framework
 {
 	public abstract class FunctionInterceptionArgs<TResult> : InterceptionArgs, IFunctionInterceptionArgs
 	{
-		public TResult ReturnValue { get; protected set; }
+		public TResult ReturnValue { get; set; }
 	}
 }

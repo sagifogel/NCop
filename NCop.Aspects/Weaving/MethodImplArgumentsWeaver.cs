@@ -18,24 +18,32 @@ namespace NCop.Aspects.Weaving
 {
     internal class MethodImplArgumentsWeaver : AbstractAspectArgumentsWeaver
     {
-        internal MethodImplArgumentsWeaver(Type argsType, Type[] parameters)
-            : base(argsType, parameters) {
+        internal MethodImplArgumentsWeaver(Type argsType, Type[] parameters, IWeavingSettings weavingSettings, ILocalBuilderRepository localBuilderRepository)
+            : base(argsType, parameters, weavingSettings, localBuilderRepository) {
         }
 
         public override LocalBuilder BuildArguments(ILGenerator ilGenerator, Type[] parameters) {
-            var localBuilder = ilGenerator.DeclareLocal(ArgumentType);
-
+            LocalBuilder bindingLocalBuilder = null;
+            FieldBuilder methodImplFieldBuilder = null;
+            var declaredLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
+            var ctorInterceptionArgs = ArgumentType.GetConstructors().First();
+            var ctorInterceptionArgsParams = ctorInterceptionArgs.GetParameters();
+            Type bindingType = ctorInterceptionArgsParams[1].ParameterType;
+            
             ilGenerator.EmitLoadArg(0);
-            ilGenerator.EmitLoadLocal(localBuilder);
+            bindingLocalBuilder = LocalBuilderRepository.Get(bindingType);
+            methodImplFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
+            ilGenerator.Emit(OpCodes.Ldfld, methodImplFieldBuilder);
+            ilGenerator.EmitLoadLocal(bindingLocalBuilder);
 
             parameters.ForEach(1, (parameter, i) => {
                 ilGenerator.EmitLoadArg(i);
             });
+            
+            ilGenerator.Emit(OpCodes.Newobj, ctorInterceptionArgs);
+            ilGenerator.EmitStoreLocal(declaredLocalBuilder);
 
-            ilGenerator.Emit(OpCodes.Newobj, localBuilder.LocalType);
-            ilGenerator.EmitStoreLocal(localBuilder);
-
-            return localBuilder;
+            return declaredLocalBuilder;
         }
     }
 }

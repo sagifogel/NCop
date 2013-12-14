@@ -61,7 +61,7 @@ namespace NCop.Weaving
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static TypeBuilder DefineType(this Type parentType, string name = null, IEnumerable<Type> interfaces = null, TypeAttributes? attributes = null) {
-            var moudleBuilder = new NCopModuleBuilder().Build();
+            var moudleBuilder = NCopModuleBuilder.Instance;
             name = name ?? parentType.ToUniqueName();
             attributes = attributes ?? parentType.Attributes;
 

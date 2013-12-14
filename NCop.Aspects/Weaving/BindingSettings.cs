@@ -9,6 +9,7 @@ namespace NCop.Aspects.Weaving
     internal class BindingSettings
     {
         public Type BindingType { get; set; }
-        public IAspectArgumentWeaver ArgumentsWeaver { get; set; }
+        public IWeavingSettings WeavingSettings { get; set; }
+        public IArgumentsWeaver ArgumentsWeaver { get; set; }
     }
 }

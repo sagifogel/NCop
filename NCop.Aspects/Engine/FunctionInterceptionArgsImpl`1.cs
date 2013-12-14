@@ -18,9 +18,9 @@ namespace NCop.Aspects.Engine
         }
 
         public override void Proceed() {
-            var instance = Instance;
+            var instance = this.instance;
 
-            ReturnValue = funcBinding.Invoke(ref this.instance, Arg1);
+            ReturnValue = funcBinding.Invoke(ref instance, Arg1);
         }
     }
 }

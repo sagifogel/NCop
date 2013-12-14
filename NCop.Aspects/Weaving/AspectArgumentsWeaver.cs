@@ -1,4 +1,5 @@
 ﻿using NCop.Core.Extensions;
+using NCop.Weaving;
 using NCop.Weaving.Extensions;
 using System;
 using System.Linq;
@@ -8,14 +9,13 @@ namespace NCop.Aspects.Weaving
 {
     internal class AspectArgumentsWeaver : AbstractAspectArgumentsWeaver
     {
-        internal AspectArgumentsWeaver(Type argsType, Type[] parameters)
-            : base(argsType, parameters) {
+        internal AspectArgumentsWeaver(Type argsType, Type[] parameters, IWeavingSettings weavingSettings, ILocalBuilderRepository localBuilderRepository)
+            : base(argsType, parameters, weavingSettings, localBuilderRepository) {
         }
 
         public override LocalBuilder BuildArguments(ILGenerator ilGenerator, Type[] parameters) {
             var localBuilder = ilGenerator.DeclareLocal(ArgumentType);
 
-            parameters[0] = parameters[0].MakeByRefType();
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);
 

@@ -23,7 +23,7 @@ namespace NCop.Aspects.Weaving
             var catchWeavers = new List<IMethodScopeWeaver>();
             var finallyWeavers = new List<IMethodScopeWeaver>();
             var argumentsWeaver = settings.ArgumentsWeaver;
-            var newSettings = new AdviceWeavingSettings(aspectDefinition.Aspect.AspectType, settings.ArgumentsWeaver, settings.AspectRepository);
+            var newSettings = new AdviceWeavingSettings(aspectDefinition.Aspect.AspectType, settings);
             var tryWeavers = new List<IMethodScopeWeaver> { expression.Reduce(newSettings) };
 
             if (adviceDiscoveryVistor.HasOnMethodEntryAdvice) {

@@ -24,11 +24,13 @@ namespace NCop.Aspects.Weaving
             IAdviceExpression selectedExpression = null;
             var invokeWeavers = new List<IMethodScopeWeaver>();
             var aspectArgumentType = aspectDefinition.GetArgumentType();
-            var bindingArgumentTypes = aspectDefinition.ToAspectArgumentImpl(aspectArgumentType);
-            var genericArguments = bindingArgumentTypes.GetGenericArguments();
-            var aspectSettings = new AdviceWeavingSettings(aspectDefinition.Aspect.AspectType, aspectArgumentsWeaver, aspectRepository);
+            var genericArguments = settings.ArgumentsWeaver.ArgumentType.GetGenericArguments();
+            var aspectSettings = new AdviceWeavingSettings(aspectDefinition.Aspect.AspectType, settings);
 
-            bindingSettings = new BindingSettings { ArgumentsWeaver = settings.ArgumentsWeaver };
+            bindingSettings = new BindingSettings { 
+                ArgumentsWeaver = settings.ArgumentsWeaver, 
+                WeavingSettings  = settings.WeavingSettings
+            };
 
             if (settings.ArgumentsWeaver.IsFunction) {
                 bindingSettings.BindingType = aspectArgumentType.MakeGenericFunctionBinding(genericArguments);
@@ -57,22 +59,25 @@ namespace NCop.Aspects.Weaving
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
             FieldInfo weavedMemeber = null;
-            LocalBuilder argsLocalBuilder = null;
             LocalBuilder bindingLocalBuilder = null;
+            Type methodBindingWeaverBaseType = null;
             IMethodBindingWeaver bindingWeaver = null;
+            var localBuilderRepository = bindingSettings.ArgumentsWeaver.LocalBuilderRepository;
 
             if (nestedAspectWeaver.Is<AspectDecoratorWeaver>()) {
                 bindingWeaver = new MethodDecoratorBindingWeaver(bindingSettings, nestedAspectWeaver);
             }
             else {
-                bindingWeaver = new OnMethodInterceptionBindingWeaver(bindingSettings, nestedAspectWeaver); ;
+                bindingWeaver = new OnMethodInterceptionBindingWeaver(bindingSettings, nestedAspectWeaver);
             }
 
-            weavedMemeber = bindingWeaver.Weave(ilGenerator);
+            weavedMemeber = bindingWeaver.Weave();
+            methodBindingWeaverBaseType = weavedMemeber.ReflectedType.GetInterfaces().First();
             bindingLocalBuilder = ilGenerator.DeclareLocal(weavedMemeber.ReflectedType);
+            localBuilderRepository.Add(methodBindingWeaverBaseType, bindingLocalBuilder);
             ilGenerator.Emit(OpCodes.Ldsfld, weavedMemeber);
             ilGenerator.EmitStoreLocal(bindingLocalBuilder);
-            argsLocalBuilder = aspectArgumentsWeaver.Weave(ilGenerator);
+            aspectArgumentsWeaver.Weave(ilGenerator);
 
             return weaver.Weave(ilGenerator);
         }

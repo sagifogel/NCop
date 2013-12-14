@@ -1,4 +1,5 @@
 ﻿using NCop.Core;
+using System.Collections.Generic;
 
 namespace NCop.Core
 {

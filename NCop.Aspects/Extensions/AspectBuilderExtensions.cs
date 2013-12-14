@@ -34,10 +34,10 @@ namespace NCop.Aspects.Extensions
             return adviceMethod.GetParameters().First().ParameterType;
         }
 
-        public static Type ToAspectArgumentImpl(this IAspectDefinition aspectDefinition, Type aspectArgType = null) {
+        public static Type ToAspectArgumentImpl(this IAspectDefinition aspectDefinition, Type declaringType, Type aspectArgType = null) {
             var argumentType = aspectArgType ?? aspectDefinition.GetArgumentType();
             var genericArguments = argumentType.GetGenericArguments();
-            var genericArgumentsWithContext = new[] { aspectDefinition.AspectDeclaringType }.Concat(genericArguments);
+            var genericArgumentsWithContext = new[] { declaringType }.Concat(genericArguments);
 
             return argumentType.MakeGenericArgsType(genericArgumentsWithContext.ToArray());
         }

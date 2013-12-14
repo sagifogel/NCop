@@ -8,6 +8,6 @@ namespace NCop.Aspects.Framework
 {
     public abstract class ActionExecutionArgs : ExecutionArgs, IActionExecutionArgs
     {
-        public FlowBehavior FlowBehavior { get; protected set; }
+        public FlowBehavior FlowBehavior { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using NCop.Composite.Framework;
 using NCop.IoC.Fluent;
 using System;
+using System.Reflection;
 using NCop.Core.Extensions;
 
 namespace NCop.Composite.Engine

@@ -51,8 +51,8 @@ namespace NCop.Weaving.Extensions
             }
         }
 
-        public static void EmitLoadLocal(this ILGenerator ILGenerator, LocalBuilder localBuilder, bool ignoreType = false) {
-            bool isReferenceType = ignoreType || !localBuilder.LocalType.IsValueType;
+        public static void EmitLoadLocal(this ILGenerator ILGenerator, LocalBuilder localBuilder, bool considerType = false) {
+            bool isReferenceType = considerType ? !localBuilder.LocalType.IsValueType : false;
 
             if (localBuilder.LocalIndex <= 255) {
                 if (!isReferenceType) {

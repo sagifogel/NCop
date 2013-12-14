@@ -23,7 +23,7 @@ namespace NCop.Aspects.Weaving
         protected static int bindingCounter = 1;
         protected TypeBuilder typeBuilder = null;
         protected FieldBuilder fieldBuilder = null;
-        protected readonly BindingSettings bindingSettings = null;
+        protected BindingSettings bindingSettings = null;
         protected readonly IMethodScopeWeaver methodScopeWeaver = null;
         protected readonly MethodAttributes methodAttr = MA.Public | MA.Final | MA.HideBySig | MA.NewSlot | MA.Virtual;
         protected readonly CallingConventions callingConventions = CallingConventions.Standard | CallingConventions.HasThis;
@@ -33,7 +33,7 @@ namespace NCop.Aspects.Weaving
             this.methodScopeWeaver = methodScopeWeaver;
         }
 
-        public FieldInfo Weave(ILGenerator ilGenerator) {
+        public FieldInfo Weave() {
             FieldInfo weavedMember = null;
             Type bindingMethodType = null;
             var typeBuilder = WeaveTypeBuilder();
@@ -48,7 +48,7 @@ namespace NCop.Aspects.Weaving
         }
 
         protected TypeBuilder WeaveTypeBuilder() {
-            var attrs = TypeAttributes.Public | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit;
+            var attrs = TypeAttributes.Public | TypeAttributes.Sealed;
 
             return typeBuilder = typeof(object).DefineType("MethodBinding_{0}".Fmt(bindingCounter).ToUniqueName(), new[] { bindingSettings.BindingType }, attrs);
         }
@@ -56,7 +56,8 @@ namespace NCop.Aspects.Weaving
         protected virtual void WeaveConstructors(TypeBuilder typeBuilder) {
             var fieldAttrs = FieldAttributes.Private | FieldAttributes.FamANDAssem | FieldAttributes.Static;
             var ctorAttrs = MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
-            var cctor = typeBuilder.DefineConstructor(ctorAttrs | MethodAttributes.Static | MethodAttributes.PrivateScope, CallingConventions.Standard, Type.EmptyTypes).GetILGenerator();
+            var cctor = typeBuilder.DefineConstructor(ctorAttrs | MethodAttributes.Static, CallingConventions.Standard, Type.EmptyTypes);
+            var cctorILGenerator = cctor.GetILGenerator();
             var defaultCtor = typeBuilder.DefineConstructor(ctorAttrs, CallingConventions.Standard | CallingConventions.HasThis, Type.EmptyTypes);
             var bindingTypeCtor = typeof(object).GetConstructor(Type.EmptyTypes);
             var defaultCtorGenerator = defaultCtor.GetILGenerator();
@@ -67,9 +68,9 @@ namespace NCop.Aspects.Weaving
             defaultCtorGenerator.Emit(OpCodes.Call, bindingTypeCtor);
             defaultCtorGenerator.Emit(OpCodes.Ret);
 
-            cctor.Emit(OpCodes.Newobj, defaultCtor);
-            cctor.Emit(OpCodes.Stsfld, fieldBuilder);
-            cctor.Emit(OpCodes.Ret);
+            cctorILGenerator.Emit(OpCodes.Newobj, defaultCtor);
+            cctorILGenerator.Emit(OpCodes.Stsfld, fieldBuilder);
+            cctorILGenerator.Emit(OpCodes.Ret);
         }
 
         protected virtual MethodParameters ResolveParameterTypes() {

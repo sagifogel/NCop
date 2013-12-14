@@ -17,7 +17,7 @@ namespace NCop.Aspects.Weaving
         protected readonly IAspectDefinition aspectDefinition = null;
         protected readonly IAdviceDefinitionCollection advices = null;
         protected readonly AdviceVisitor adviceVisitor = new AdviceVisitor();
-        protected readonly IAspectArgumentWeaver aspectArgumentsWeaver = null;
+        protected readonly IArgumentsWeaver aspectArgumentsWeaver = null;
         protected readonly AdviceDiscoveryVisitor adviceDiscoveryVistor = new AdviceDiscoveryVisitor();
 
         internal AbstractMethodAspectWeaver(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings) {

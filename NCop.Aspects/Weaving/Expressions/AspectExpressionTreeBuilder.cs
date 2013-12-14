@@ -36,7 +36,7 @@ namespace NCop.Aspects.Weaving.Expressions
 			IAspectExpression aspectExpression = null;
 			var aspectDefinition = aspectsStack.Pop();
             var methodInfoImpl = weavingSettings.MethodInfoImpl;
-            var firstAspectArgsType = aspectDefinition.ToAspectArgumentImpl();
+            var firstAspectArgsType = aspectDefinition.ToAspectArgumentImpl(methodInfoImpl.DeclaringType);
 
 			builder = aspectDefinition.Accept(visitor);
 			aspectExpression = builder.Build(decoratorAspect);
@@ -47,7 +47,7 @@ namespace NCop.Aspects.Weaving.Expressions
 				aspectExpression = builder.Build(aspectExpression);
 			}
 
-            return new AspectExpression(aspectExpression, aspectsDefinitions, firstAspectArgsType, methodInfoImpl);
+            return new AspectExpression(aspectExpression, aspectsDefinitions, firstAspectArgsType, weavingSettings);
 		}
 	}
 }
