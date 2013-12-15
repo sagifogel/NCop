@@ -7,6 +7,6 @@ namespace NCop.Aspects.Engine
 {
     public interface IFunctionBinding<TInstance, TResult>
     {
-        TResult Invoke(ref TInstance instance);
+        TResult Invoke(ref TInstance instance, IFunctionArgs<TResult> args);
     }
 }

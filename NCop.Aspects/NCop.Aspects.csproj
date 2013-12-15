@@ -92,6 +92,16 @@
     <Compile Include="Engine\ActionExecutionArgsImpl`8.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`1.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl.cs" />
+    <Compile Include="Engine\IFunctionArgs.cs" />
+    <Compile Include="Engine\IActionArgs`1.cs" />
+    <Compile Include="Engine\IActionArgs`2.cs" />
+    <Compile Include="Engine\IActionArgs`3.cs" />
+    <Compile Include="Engine\IActionArgs`4.cs" />
+    <Compile Include="Engine\IActionArgs`5.cs" />
+    <Compile Include="Engine\IActionArgs`6.cs" />
+    <Compile Include="Engine\IActionArgs`7.cs" />
+    <Compile Include="Engine\IActionArgs`8.cs" />
+    <Compile Include="Engine\IActionArgs.cs" />
     <Compile Include="Exceptions\AspectWeavingException.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -107,7 +117,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MethodBindingResolver.tt</DependentUpon>
     </Compile>
+    <Compile Include="Engine\IFunctionArgs`2.cs" />
+    <Compile Include="Engine\IFunctionArgs`3.cs" />
+    <Compile Include="Engine\IFunctionArgs`4.cs" />
+    <Compile Include="Engine\IFunctionArgs`5.cs" />
+    <Compile Include="Engine\IFunctionArgs`6.cs" />
+    <Compile Include="Engine\IFunctionArgs`1.cs" />
+    <Compile Include="Engine\IFunctionArgs`7.cs" />
     <Compile Include="Framework\IActionInterceptionArgs.cs" />
+    <Compile Include="Engine\IFunctionArgs`8.cs" />
     <Compile Include="Framework\IFunctionInterceptionArgs.cs" />
     <Compile Include="Weaving\AbstractArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractAspectArgumentsWeaver.cs" />
@@ -215,7 +233,6 @@
     <Compile Include="Engine\IFunctionBinding`6.cs" />
     <Compile Include="Engine\IFunctionBinding`7.cs" />
     <Compile Include="Engine\IFunctionBinding`8.cs" />
-    <Compile Include="Engine\IInterceptionArgs.cs" />
     <Compile Include="Engine\ILifetimeStrategyProvider.cs" />
     <Compile Include="Engine\IMethodInterceptionAspect.cs" />
     <Compile Include="Engine\IOnMethodBoundaryAspect.cs" />

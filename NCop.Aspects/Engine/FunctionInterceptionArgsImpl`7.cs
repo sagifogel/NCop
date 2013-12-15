@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NCop.Aspects.Engine
 {
-    public class FunctionInterceptionArgsImpl<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> : FunctionInterceptionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>
+    public class FunctionInterceptionArgsImpl<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> : FunctionInterceptionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>
     {
         private TInstance instance = default(TInstance);
         private IFunctionBinding<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> funcBinding = null;
@@ -19,14 +19,12 @@ namespace NCop.Aspects.Engine
             Arg5 = arg5;
             Arg6 = arg6;
             Arg7 = arg7;
-            Instance = instance;
             this.funcBinding = funcBinding;
+            Instance = this.instance = instance;
         }
 
         public override void Proceed() {
-            var instance = Instance;
-
-            ReturnValue = funcBinding.Invoke(ref this.instance, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7);
+            ReturnValue = funcBinding.Invoke(ref instance, this);
         }
     }
 }

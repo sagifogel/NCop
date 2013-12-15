@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NCop.Aspects.Engine
 {
-	public abstract class InterceptionArgs : AdviceArgs, IInterceptable
+	public abstract class InterceptionArgs : AdviceArgs
     {
         public abstract void Proceed();
     }

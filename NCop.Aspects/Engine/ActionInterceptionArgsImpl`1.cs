@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NCop.Aspects.Engine
 {
-    public class ActionInterceptionArgsImpl<TInstance, TArg1> : ActionInterceptionArgs<TArg1>
+    public class ActionInterceptionArgsImpl<TInstance, TArg1> : ActionInterceptionArgs<TArg1>, IActionArgs<TArg1> 
     {
         private TInstance instance = default(TInstance);
         private readonly IActionBinding<TInstance, TArg1> actionBinding = null;
@@ -18,9 +18,7 @@ namespace NCop.Aspects.Engine
         }
 
         public override void Proceed() {
-            var instance = Instance;
-
-            actionBinding.Invoke(ref this.instance, Arg1);
+            actionBinding.Invoke(ref instance, this);
         }
     }
 }

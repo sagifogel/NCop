@@ -37,8 +37,8 @@ namespace NCop.Samples
         private MethodDecoratorFunctionBinding() {
         }
 
-        public bool Invoke(ref CSharpDeveloperMixin instance, string arg1) {
-            return instance.Code(arg1);
+        public bool Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string, bool> args) {
+            return instance.Code(args.Arg1);
         }
     }
 
@@ -145,7 +145,7 @@ namespace NCop.Samples
     class Program
     {
         static void Main(string[] args) {
-            //WeavingTest.Weave();
+            new Person().Code("CSharp");
             var container = new CompositeContainer();
             container.Configure();
 
