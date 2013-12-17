@@ -17,14 +17,14 @@ using System.Collections.Generic;
 
 namespace NCop.Aspects.Extensions
 {
-	internal static class AspectArgsResolver
+	internal static class AspectArgsImplResolver
 	{
 		private static readonly Dictionary<int, Type> funcExecutionArgsMap = null;
 		private static readonly Dictionary<int, Type> actionExecutionArgsMap = null;
 		private static readonly Dictionary<int, Type> funcInterceptionArgsMap = null;
 		private static readonly Dictionary<int, Type> actionInterceptionArgsMap = null;
 
-		static AspectArgsResolver() {
+		static AspectArgsImplResolver() {
 			funcExecutionArgsMap = new Dictionary<int, Type>();
 			actionExecutionArgsMap = new Dictionary<int, Type>();
 			funcInterceptionArgsMap = new Dictionary<int, Type>();

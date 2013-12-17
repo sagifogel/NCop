@@ -17,21 +17,31 @@ using NCop.Weaving.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class MethodDecoratorArgumentsWeaver : AbstractArgumentsWeaver
-    {
-        internal MethodDecoratorArgumentsWeaver(Type argumentType, Type[] parameters, IWeavingSettings weavingSettings)
-            : base(argumentType, parameters, weavingSettings, null) {
-        }
+	internal class MethodDecoratorArgumentsWeaver : AbstractArgumentsWeaver
+	{
+		internal MethodDecoratorArgumentsWeaver(Type argumentType, Type[] parameters, IWeavingSettings weavingSettings)
+			: base(argumentType, parameters, weavingSettings, null) {
+		}
 
-        public override void Weave(ILGenerator ilGenerator) {
-            var @params = parameters.Skip(1);
+		public override void Weave(ILGenerator ilGenerator) {
+			Type[] argumentTypes = ArgumentType.GetGenericArguments();
+			IEnumerable<Type> @params = argumentTypes.Skip(1);
 
-            ilGenerator.EmitLoadArg(1);
-            ilGenerator.Emit(OpCodes.Ldind_Ref);
+			if (IsFunction) {
+				var last = argumentTypes[argumentTypes.Length - 1];
 
-            @params.ForEach(2, (parameter, i) => {
-                ilGenerator.EmitLoadArg(i);
-            });
-        }
-    }
+				@params = @params.TakeWhile(arg => arg != last);
+			}
+
+			ilGenerator.EmitLoadArg(1);
+			ilGenerator.Emit(OpCodes.Ldind_Ref);
+			ilGenerator.EmitLoadArg(2);
+
+			@params.ForEach(1, (parameter, i) => {
+				var property = ArgumentType.GetProperty("Arg{0}".Fmt(i));
+
+				ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+			});
+		}
+	}
 }

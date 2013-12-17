@@ -14,6 +14,7 @@ using NCop.Aspects.Engine;
 using NCop.Core.Extensions;
 using System.Threading;
 using NCop.Weaving.Extensions;
+using NCop.Aspects.Extensions;
 using MA = System.Reflection.MethodAttributes;
 
 namespace NCop.Aspects.Weaving
@@ -74,22 +75,23 @@ namespace NCop.Aspects.Weaving
         }
 
         protected virtual MethodParameters ResolveParameterTypes() {
+			Func<Type[], Type> argumentResolver = null;
             var methodParameters = new MethodParameters();
             var arguments = bindingSettings.BindingType.GetGenericArguments();
 
-            arguments[0] = arguments[0].MakeByRefType();
+			methodParameters.Parameters = new Type[2];
+            methodParameters.Parameters[0] = arguments[0].MakeByRefType();
+			arguments = arguments.Skip(1).ToArray();
 
             if (bindingSettings.ArgumentsWeaver.IsFunction) {
-                int length = arguments.Length - 1;
-
                 methodParameters.ReturnType = arguments.Last();
-                methodParameters.Parameters = new Type[length];
-                Array.Copy(arguments, 0, methodParameters.Parameters, 0, length);
+				argumentResolver = AspectArgsContractResolver.ToFunctionAspectArgument;
             }
             else {
-                methodParameters.Parameters = arguments;
+				argumentResolver = AspectArgsContractResolver.ToActionAspectArgument;
             }
 
+			methodParameters.Parameters[1] = argumentResolver(arguments);
             return methodParameters;
         }
 
