@@ -8,5 +8,6 @@ namespace NCop.Aspects.Engine
 {
     public interface IFunctionArgs<TResult>
     {
+        TResult ReturnValue { get; set; }
     }
 }

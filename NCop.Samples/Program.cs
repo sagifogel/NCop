@@ -14,308 +14,336 @@ using NCop.IoC;
 
 namespace NCop.Samples
 {
-	internal static class Aspects
-	{
-		public static TraceAspect traceAspect = null;
-		public static TraceAspect2 traceAspect2 = null;
-		public static TraceAspect2 traceAspect3 = null;
+    internal static class Aspects
+    {
+        public static TraceAspect traceAspect = null;
+        public static TraceAspect2 traceAspect2 = null;
+        public static TraceAspect2 traceAspect3 = null;
 
-		static Aspects() {
-			traceAspect = new TraceAspect();
-			traceAspect2 = new TraceAspect2();
-			traceAspect3 = new TraceAspect2();
-		}
-	}
+        static Aspects() {
+            traceAspect = new TraceAspect();
+            traceAspect2 = new TraceAspect2();
+            traceAspect3 = new TraceAspect2();
+        }
+    }
 
-	public sealed class MethodDecoratorFunctionBinding : IFunctionBinding<CSharpDeveloperMixin, string, bool>
-	{
-		public static MethodDecoratorFunctionBinding singleton = null;
+    public sealed class MethodDecoratorFunctionBinding : IFunctionBinding<CSharpDeveloperMixin, string, bool>
+    {
+        public static MethodDecoratorFunctionBinding singleton = null;
 
-		static MethodDecoratorFunctionBinding() {
-			singleton = new MethodDecoratorFunctionBinding();
-		}
+        static MethodDecoratorFunctionBinding() {
+            singleton = new MethodDecoratorFunctionBinding();
+        }
 
-		private MethodDecoratorFunctionBinding() {
-		}
+        private MethodDecoratorFunctionBinding() {
+        }
 
-		public bool Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string, bool> args) {
-			return instance.Code(args.Arg1);
-		}
-	}
+        public bool Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string, bool> args) {
+            return instance.Code(args.Arg1);
+        }
+    }
 
-	public class WeavingTest
-	{
-		public static Type Weave() {
-			var assemblyName = new AssemblyName("Stam");
-			var da = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
-			string assemblyNameStr = "{0}.dll".Fmt("Stam");
-			var dm = da.DefineDynamicModule(assemblyNameStr, false);
-			/***/
+    public sealed class OnMethodInterceptionBindingWeaver : IFunctionBinding<CSharpDeveloperMixin, string, bool>
+    {
+        public static OnMethodInterceptionBindingWeaver singleton = null;
 
-			Type aspectAttributes = null;
-			var typeAttrs = TypeAttributes.Sealed | TypeAttributes.Abstract;
-			TypeBuilder typeBuilder = dm.DefineType("Aspects", typeAttrs, typeof(object));
+        static OnMethodInterceptionBindingWeaver() {
+            singleton = new OnMethodInterceptionBindingWeaver();
+        }
 
-			var fieldAttrs = FieldAttributes.Family | FieldAttributes.FamANDAssem | FieldAttributes.Static;
-			var cctorAttrs = MethodAttributes.Private | MethodAttributes.Static | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
-			var cctor = typeBuilder.DefineConstructor(cctorAttrs, CallingConventions.Standard, Type.EmptyTypes);
-			var cctorILGenerator = cctor.GetILGenerator();
-			var fieldBuilder = typeBuilder.DefineField("Aspect_1", typeof(TraceAspect), fieldAttrs);
-			var ctor = fieldBuilder.FieldType.GetConstructor(Type.EmptyTypes);
+        private OnMethodInterceptionBindingWeaver() {
+        }
 
-			cctorILGenerator.Emit(OpCodes.Newobj, ctor);
-			cctorILGenerator.Emit(OpCodes.Stsfld, fieldBuilder);
+        public bool Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string, bool> args) {
+            FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, bool> aspectArgs = null;
 
-			cctorILGenerator.Emit(OpCodes.Ret);
-			aspectAttributes = typeBuilder.CreateType();
-			var aspectField = aspectAttributes.GetFields(BindingFlags.Static | BindingFlags.Public)[0];
+            aspectArgs = args as FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, bool>;
 
-			/***/
-			typeBuilder = dm.DefineType("Shimi", TypeAttributes.Public | TypeAttributes.Sealed, typeof(object), new Type[] { typeof(IFunctionBinding<CSharpDeveloperMixin, string, bool>) });
+            if (aspectArgs == null) {
+                aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, bool>(instance, this, args.Arg1);
+            }
 
-			fieldAttrs = FieldAttributes.Family | FieldAttributes.FamANDAssem | FieldAttributes.Static;
-			var ctorAttrs = MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
-			cctor = typeBuilder.DefineConstructor(ctorAttrs | MethodAttributes.Static, CallingConventions.Standard, Type.EmptyTypes);
-			cctorILGenerator = cctor.GetILGenerator();
-			var defaultCtor = typeBuilder.DefineConstructor(ctorAttrs, CallingConventions.Standard | CallingConventions.HasThis, Type.EmptyTypes);
-			var bindingTypeCtor = typeof(object).GetConstructor(Type.EmptyTypes);
-			var defaultCtorGenerator = defaultCtor.GetILGenerator();
-			fieldBuilder = typeBuilder.DefineField("singleton", typeBuilder, fieldAttrs);
+            Aspects.traceAspect.OnInvoke(aspectArgs);
+            args.Arg1 = aspectArgs.Arg1;
+            args.ReturnValue = aspectArgs.ReturnValue;
 
-			defaultCtorGenerator.Emit(OpCodes.Ldarg_0);
-			defaultCtorGenerator.Emit(OpCodes.Call, bindingTypeCtor);
-			defaultCtorGenerator.Emit(OpCodes.Ret);
+            return args.ReturnValue;
+        }
+    }
 
-			cctorILGenerator.Emit(OpCodes.Newobj, defaultCtor);
-			cctorILGenerator.Emit(OpCodes.Stsfld, fieldBuilder);
-			cctorILGenerator.Emit(OpCodes.Ret);
+    public class WeavingTest
+    {
+        public static Type Weave() {
+            var assemblyName = new AssemblyName("Stam");
+            var da = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
+            string assemblyNameStr = "{0}.dll".Fmt("Stam");
+            var dm = da.DefineDynamicModule(assemblyNameStr, false);
+            /***/
 
-			ILGenerator ilGenerator = null;
-			MethodBuilder methodBuilder = null;
-			MethodAttributes methodAttr = MethodAttributes.Public | MethodAttributes.Final | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual;
-			CallingConventions callingConventions = CallingConventions.Standard | CallingConventions.HasThis;
+            Type aspectAttributes = null;
+            var typeAttrs = TypeAttributes.Sealed | TypeAttributes.Abstract;
+            TypeBuilder typeBuilder = dm.DefineType("Aspects", typeAttrs, typeof(object));
 
-			methodBuilder = typeBuilder.DefineMethod("Invoke", methodAttr, callingConventions, typeof(bool), new Type[] { typeof(CSharpDeveloperMixin).MakeByRefType(), typeof(string) });
-			ilGenerator = methodBuilder.GetILGenerator();
-			ilGenerator.Emit(OpCodes.Ldarg_1);
-			ilGenerator.Emit(OpCodes.Ldind_Ref);
-			ilGenerator.Emit(OpCodes.Ldarg_2);
-			ilGenerator.Emit(OpCodes.Callvirt, typeof(CSharpDeveloperMixin).GetMethod("Code"));
-			ilGenerator.Emit(OpCodes.Ret);
+            var fieldAttrs = FieldAttributes.Family | FieldAttributes.FamANDAssem | FieldAttributes.Static;
+            var cctorAttrs = MethodAttributes.Private | MethodAttributes.Static | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
+            var cctor = typeBuilder.DefineConstructor(cctorAttrs, CallingConventions.Standard, Type.EmptyTypes);
+            var cctorILGenerator = cctor.GetILGenerator();
+            var fieldBuilder = typeBuilder.DefineField("Aspect_1", typeof(TraceAspect), fieldAttrs);
+            var ctor = fieldBuilder.FieldType.GetConstructor(Type.EmptyTypes);
 
-			Type _type = typeBuilder.CreateType();
-			FieldInfo fi = _type.GetFields(BindingFlags.Static | BindingFlags.Public)[0];
-			object weaved = fi.GetValue(fi);
-			/**/
+            cctorILGenerator.Emit(OpCodes.Newobj, ctor);
+            cctorILGenerator.Emit(OpCodes.Stsfld, fieldBuilder);
 
-			typeBuilder = dm.DefineType("Person", TypeAttributes.Public | TypeAttributes.BeforeFieldInit, typeof(object), new Type[] { typeof(IPersonComposite), typeof(IDeveloper<ILanguage>) });
-			var field = typeBuilder.DefineField("developer", typeof(CSharpDeveloperMixin), FieldAttributes.Private);
+            cctorILGenerator.Emit(OpCodes.Ret);
+            aspectAttributes = typeBuilder.CreateType();
+            var aspectField = aspectAttributes.GetFields(BindingFlags.Static | BindingFlags.Public)[0];
 
-			ctorAttrs = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
-			defaultCtor = typeBuilder.DefineConstructor(ctorAttrs, callingConventions, Type.EmptyTypes);
-			defaultCtorGenerator = defaultCtor.GetILGenerator();
-			defaultCtorGenerator.Emit(OpCodes.Ldarg_0);
-			defaultCtorGenerator.Emit(OpCodes.Call, typeof(object).GetConstructor(Type.EmptyTypes));
-			defaultCtorGenerator.Emit(OpCodes.Ldarg_0);
-			defaultCtorGenerator.Emit(OpCodes.Newobj, typeof(CSharpDeveloperMixin).GetConstructors()[0]);
-			defaultCtorGenerator.Emit(OpCodes.Stfld, field);
-			defaultCtorGenerator.Emit(OpCodes.Ret);
+            /***/
+            typeBuilder = dm.DefineType("Shimi", TypeAttributes.Public | TypeAttributes.Sealed, typeof(object), new Type[] { typeof(IFunctionBinding<CSharpDeveloperMixin, string, bool>) });
 
-			methodBuilder = typeBuilder.DefineMethod("Code", methodAttr, callingConventions, typeof(bool), new Type[] { typeof(string) });
-			var ilGene = methodBuilder.GetILGenerator();
-			var bindingLocalBuilder = ilGene.DeclareLocal(fi.FieldType);
-			var argsBuilder = ilGene.DeclareLocal(typeof(FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, bool>));
+            fieldAttrs = FieldAttributes.Family | FieldAttributes.FamANDAssem | FieldAttributes.Static;
+            var ctorAttrs = MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
+            cctor = typeBuilder.DefineConstructor(ctorAttrs | MethodAttributes.Static, CallingConventions.Standard, Type.EmptyTypes);
+            cctorILGenerator = cctor.GetILGenerator();
+            var defaultCtor = typeBuilder.DefineConstructor(ctorAttrs, CallingConventions.Standard | CallingConventions.HasThis, Type.EmptyTypes);
+            var bindingTypeCtor = typeof(object).GetConstructor(Type.EmptyTypes);
+            var defaultCtorGenerator = defaultCtor.GetILGenerator();
+            fieldBuilder = typeBuilder.DefineField("singleton", typeBuilder, fieldAttrs);
 
-			ilGene.Emit(OpCodes.Ldsfld, fi);
-			ilGene.Emit(OpCodes.Stloc, bindingLocalBuilder);
-			ilGene.Emit(OpCodes.Ldarg_0);
-			ilGene.Emit(OpCodes.Ldfld, field);
-			ilGene.Emit(OpCodes.Ldloc_0);
-			ilGene.Emit(OpCodes.Ldarg_1);
-			ilGene.Emit(OpCodes.Newobj, typeof(FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, bool>).GetConstructors()[0]);
-			ilGene.Emit(OpCodes.Stloc_1);
-			ilGene.Emit(OpCodes.Ldsfld, aspectField);
-			ilGene.Emit(OpCodes.Ldloc_1);
-			ilGene.Emit(OpCodes.Callvirt, typeof(TraceAspect).GetMethods()[0]);
-			ilGene.Emit(OpCodes.Ret);
+            defaultCtorGenerator.Emit(OpCodes.Ldarg_0);
+            defaultCtorGenerator.Emit(OpCodes.Call, bindingTypeCtor);
+            defaultCtorGenerator.Emit(OpCodes.Ret);
 
-			return typeBuilder.CreateType();
-		}
-	}
+            cctorILGenerator.Emit(OpCodes.Newobj, defaultCtor);
+            cctorILGenerator.Emit(OpCodes.Stsfld, fieldBuilder);
+            cctorILGenerator.Emit(OpCodes.Ret);
 
-	class A : I
-	{
-		int i;
+            ILGenerator ilGenerator = null;
+            MethodBuilder methodBuilder = null;
+            MethodAttributes methodAttr = MethodAttributes.Public | MethodAttributes.Final | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual;
+            CallingConventions callingConventions = CallingConventions.Standard | CallingConventions.HasThis;
 
-		public A(int i) {
-			this.i = i;
-		}
+            methodBuilder = typeBuilder.DefineMethod("Invoke", methodAttr, callingConventions, typeof(bool), new Type[] { typeof(CSharpDeveloperMixin).MakeByRefType(), typeof(string) });
+            ilGenerator = methodBuilder.GetILGenerator();
+            ilGenerator.Emit(OpCodes.Ldarg_1);
+            ilGenerator.Emit(OpCodes.Ldind_Ref);
+            ilGenerator.Emit(OpCodes.Ldarg_2);
+            ilGenerator.Emit(OpCodes.Callvirt, typeof(CSharpDeveloperMixin).GetMethod("Code"));
+            ilGenerator.Emit(OpCodes.Ret);
 
-		public void Do() {
+            Type _type = typeBuilder.CreateType();
+            FieldInfo fi = _type.GetFields(BindingFlags.Static | BindingFlags.Public)[0];
+            object weaved = fi.GetValue(fi);
+            /**/
 
-		}
-	}
+            typeBuilder = dm.DefineType("Person", TypeAttributes.Public | TypeAttributes.BeforeFieldInit, typeof(object), new Type[] { typeof(IPersonComposite), typeof(IDeveloper<ILanguage>) });
+            var field = typeBuilder.DefineField("developer", typeof(CSharpDeveloperMixin), FieldAttributes.Private);
 
-	class B : I
-	{
-		string s;
+            ctorAttrs = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
+            defaultCtor = typeBuilder.DefineConstructor(ctorAttrs, callingConventions, Type.EmptyTypes);
+            defaultCtorGenerator = defaultCtor.GetILGenerator();
+            defaultCtorGenerator.Emit(OpCodes.Ldarg_0);
+            defaultCtorGenerator.Emit(OpCodes.Call, typeof(object).GetConstructor(Type.EmptyTypes));
+            defaultCtorGenerator.Emit(OpCodes.Ldarg_0);
+            defaultCtorGenerator.Emit(OpCodes.Newobj, typeof(CSharpDeveloperMixin).GetConstructors()[0]);
+            defaultCtorGenerator.Emit(OpCodes.Stfld, field);
+            defaultCtorGenerator.Emit(OpCodes.Ret);
 
-		public B(string s) {
-			this.s = s;
-		}
+            methodBuilder = typeBuilder.DefineMethod("Code", methodAttr, callingConventions, typeof(bool), new Type[] { typeof(string) });
+            var ilGene = methodBuilder.GetILGenerator();
+            var bindingLocalBuilder = ilGene.DeclareLocal(fi.FieldType);
+            var argsBuilder = ilGene.DeclareLocal(typeof(FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, bool>));
 
-		public void Do() {
+            ilGene.Emit(OpCodes.Ldsfld, fi);
+            ilGene.Emit(OpCodes.Stloc, bindingLocalBuilder);
+            ilGene.Emit(OpCodes.Ldarg_0);
+            ilGene.Emit(OpCodes.Ldfld, field);
+            ilGene.Emit(OpCodes.Ldloc_0);
+            ilGene.Emit(OpCodes.Ldarg_1);
+            ilGene.Emit(OpCodes.Newobj, typeof(FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, bool>).GetConstructors()[0]);
+            ilGene.Emit(OpCodes.Stloc_1);
+            ilGene.Emit(OpCodes.Ldsfld, aspectField);
+            ilGene.Emit(OpCodes.Ldloc_1);
+            ilGene.Emit(OpCodes.Callvirt, typeof(TraceAspect).GetMethods()[0]);
+            ilGene.Emit(OpCodes.Ret);
 
-		}
-	}
+            return typeBuilder.CreateType();
+        }
+    }
 
-	interface I
-	{
-		void Do();
-	}
+    class A : I
+    {
+        int i;
 
-	class Program
-	{
-		static void Main(string[] args) {
-			var container = new CompositeContainer();
-			container.Configure();
+        public A(int i) {
+            this.i = i;
+        }
 
-			var person = container.TryResolve<IPersonComposite>();
-			person.Code("CSharp");
-		}
-	}
+        public void Do() {
 
-	#region Composites
+        }
+    }
 
-	public class GenericCovariantDeveloper<T> : IDeveloper<T>
-		where T : ILanguage, new()
-	{
-		private T langugae = new T();
+    class B : I
+    {
+        string s;
 
-		public bool Code(string code) {
-			Console.WriteLine(code);
+        public B(string s) {
+            this.s = s;
+        }
 
-			return false;
-		}
-	}
+        public void Do() {
 
-	public class TraceAspect : FunctionInterceptionAspect<string, bool>
-	{
-		public override bool OnInvoke(FunctionInterceptionArgs<string, bool> args) {
-			args.Arg1 = "JavaScript";
-			return base.OnInvoke(args);
-		}
-	}
+        }
+    }
 
-	[PerThreadAspect]
-	public class TraceAspect2 : OnFunctionBoundaryAspect<string, bool>
-	{
-		public override void OnEntry(FunctionExecutionArgs<string, bool> args) {
-			base.OnEntry(args);
-		}
+    interface I
+    {
+        void Do();
+    }
 
-		public override void OnSuccess(FunctionExecutionArgs<string, bool> args) {
-			base.OnSuccess(args);
-		}
+    class Program
+    {
+        static void Main(string[] args) {
+            var container = new CompositeContainer();
+            container.Configure();
 
-		public override void OnException(FunctionExecutionArgs<string, bool> args) {
-			base.OnException(args);
-		}
+            var person = container.TryResolve<IPersonComposite>();
+            person.Code("CSharp");
+        }
+    }
 
-		public override void OnExit(FunctionExecutionArgs<string, bool> args) {
-			base.OnExit(args);
-		}
-	}
+    #region Composites
 
-	[TransientComposite]
-	[Mixins(typeof(CSharpDeveloperMixin))]
-	public interface IPersonComposite : IDeveloper<ILanguage>
-	{
-		//[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 2)]
-		//[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 4)]
-		[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
-		//[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 3)]
-		//[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-		new bool Code(string code);
-	}
+    public class GenericCovariantDeveloper<T> : IDeveloper<T>
+        where T : ILanguage, new()
+    {
+        private T langugae = new T();
 
-	public class Person : IPersonComposite
-	{
-		private CSharpDeveloperMixin developer = null;
+        public bool Code(string code) {
+            Console.WriteLine(code);
 
-		public Person() {
-			developer = new CSharpDeveloperMixin();
-		}
+            return false;
+        }
+    }
 
-		public bool Code(string code) {
-			var binding = MethodDecoratorFunctionBinding.singleton;
-			var args = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, bool>(developer, binding, code);
-			return Aspects.traceAspect.OnInvoke(args);
-		}
-	}
+    public class TraceAspect : FunctionInterceptionAspect<string, bool>
+    {
+        public override bool OnInvoke(FunctionInterceptionArgs<string, bool> args) {
+            args.Arg1 = "JavaScript";
+            return base.OnInvoke(args);
+        }
+    }
 
-	public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>
-	{
-		public override bool Code(string code) {
-			return base.Code(code);
-		}
-	}
+    [PerThreadAspect]
+    public class TraceAspect2 : OnFunctionBoundaryAspect<string, bool>
+    {
+        public override void OnEntry(FunctionExecutionArgs<string, bool> args) {
+            base.OnEntry(args);
+        }
 
-	public class JavaScriptDeveloperMixin : AbstractDeveloper<JavaScriptLanguage>
-	{
+        public override void OnSuccess(FunctionExecutionArgs<string, bool> args) {
+            base.OnSuccess(args);
+        }
 
-	}
+        public override void OnException(FunctionExecutionArgs<string, bool> args) {
+            base.OnException(args);
+        }
 
-	public abstract class AbstractDeveloper<TLanguage> : IDeveloper<TLanguage>
-		where TLanguage : ILanguage, new()
-	{
-		public virtual bool Code(string code) {
-			Console.WriteLine("I am coding in " + code);
-			return false;
-		}
-	}
+        public override void OnExit(FunctionExecutionArgs<string, bool> args) {
+            base.OnExit(args);
+        }
+    }
 
-	public interface ILanguage
-	{
-		string Description { get; }
-	}
+    [TransientComposite]
+    [Mixins(typeof(CSharpDeveloperMixin))]
+    public interface IPersonComposite : IDeveloper<ILanguage>
+    {
+        //[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 2)]
+        //[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 4)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
+        //[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 3)]
+        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        new bool Code(string code);
+    }
 
-	public class CSharpLanguage : ILanguage
-	{
-		public virtual string Description {
-			get {
-				return "C#";
-			}
-		}
-	}
+    public class Person : IPersonComposite
+    {
+        private CSharpDeveloperMixin developer = null;
 
-	public class JavaScriptLanguage : ILanguage
-	{
-		public string Description {
-			get {
-				return "JavaScript";
-			}
-		}
-	}
+        public Person() {
+            developer = new CSharpDeveloperMixin();
+        }
 
-	public class CSharpLanguage5 : CSharpLanguage
-	{
-		public override string Description {
-			get {
-				return "C# 5";
-			}
-		}
-	}
+        public bool Code(string code) {
+            var binding = MethodDecoratorFunctionBinding.singleton;
+            var args = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, bool>(developer, binding, code);
+            return Aspects.traceAspect.OnInvoke(args);
+        }
+    }
 
-	public interface IDeveloper<out TLanguage>
-	{
-		bool Code(string code);
-	}
+    public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>
+    {
+        public override bool Code(string code) {
+            return base.Code(code);
+        }
+    }
 
-	public interface IDeveloper
-	{
-		void Code(string code);
-	}
+    public class JavaScriptDeveloperMixin : AbstractDeveloper<JavaScriptLanguage>
+    {
 
-	#endregion Composites
+    }
+
+    public abstract class AbstractDeveloper<TLanguage> : IDeveloper<TLanguage>
+        where TLanguage : ILanguage, new()
+    {
+        public virtual bool Code(string code) {
+            Console.WriteLine("I am coding in " + code);
+            return false;
+        }
+    }
+
+    public interface ILanguage
+    {
+        string Description { get; }
+    }
+
+    public class CSharpLanguage : ILanguage
+    {
+        public virtual string Description {
+            get {
+                return "C#";
+            }
+        }
+    }
+
+    public class JavaScriptLanguage : ILanguage
+    {
+        public string Description {
+            get {
+                return "JavaScript";
+            }
+        }
+    }
+
+    public class CSharpLanguage5 : CSharpLanguage
+    {
+        public override string Description {
+            get {
+                return "C# 5";
+            }
+        }
+    }
+
+    public interface IDeveloper<out TLanguage>
+    {
+        bool Code(string code);
+    }
+
+    public interface IDeveloper
+    {
+        void Code(string code);
+    }
+
+    #endregion Composites
 }
