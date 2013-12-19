@@ -139,6 +139,7 @@
     <Compile Include="Weaving\AdviceDiscoveryVisitor.cs" />
     <Compile Include="Weaving\AbstractAdviceWeaver.cs" />
     <Compile Include="Weaving\AdviceWeavingSettings.cs" />
+    <Compile Include="Weaving\AspectArgsMapperWeaver.cs" />
     <Compile Include="Weaving\AspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\AspectsWeaver.cs" />
     <Compile Include="Weaving\AspectsAttributeWeaver.cs" />
