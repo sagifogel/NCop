@@ -9,7 +9,7 @@ namespace NCop.Aspects.Weaving
     internal class AdviceWeavingSettings : AspectWeavingSettings, IAdviceWeavingSettings
     {
         internal AdviceWeavingSettings(Type aspectType, IAspectWeavingSettings aspectWeavingSettings)
-            : base(aspectWeavingSettings.WeavingSettings, aspectWeavingSettings.ArgumentsWeaver, aspectWeavingSettings.AspectRepository) {
+            : base(aspectWeavingSettings.WeavingSettings, aspectWeavingSettings.ArgumentsWeaver, aspectWeavingSettings.AspectRepository, aspectWeavingSettings.AspectArgsMapper) {
             AspectType = aspectType;
         }
 

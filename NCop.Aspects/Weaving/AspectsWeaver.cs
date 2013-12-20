@@ -15,15 +15,18 @@ namespace NCop.Aspects.Weaving
         private readonly IAspectExpression expression = null;
         private readonly IAspectWeavingSettings settings = null;
         private readonly AspectsAttributeWeaver aspectAttributeWeaver = null;
+        private readonly AspectArgsMapperWeaver aspectArgsMapperWeaver = null;
 
         public AspectsWeaver(IAspectExpression expression, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings) {
             this.expression = expression;
+            aspectArgsMapperWeaver = new AspectArgsMapperWeaver();
             aspectAttributeWeaver = new AspectsAttributeWeaver(aspectDefinitions);
-            this.settings = new AspectWeavingSettings(aspectWeavingSettings.WeavingSettings, aspectWeavingSettings.ArgumentsWeaver, aspectAttributeWeaver);
+            this.settings = new AspectWeavingSettings(aspectWeavingSettings.WeavingSettings, aspectWeavingSettings.ArgumentsWeaver, aspectAttributeWeaver, aspectArgsMapperWeaver);
         }
 
         public ILGenerator Weave(ILGenerator ilGenerator) {
             aspectAttributeWeaver.Weave();
+            aspectArgsMapperWeaver.Weave();
             weaver = expression.Reduce(settings);
 
             return weaver.Weave(ilGenerator);

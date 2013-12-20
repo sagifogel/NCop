@@ -13,10 +13,11 @@ namespace NCop.Aspects.Weaving
     {
         internal static AspectWeavingSettings Empty = new AspectWeavingSettings();
 
-        internal AspectWeavingSettings(IWeavingSettings weavingSettings, IArgumentsWeaver argumentsWeaver, IAspectRepository aspectRepository) {
+        internal AspectWeavingSettings(IWeavingSettings weavingSettings, IArgumentsWeaver argumentsWeaver, IAspectRepository aspectRepository = null, IAspectArgsMapper aspectArgsMapper = null) {
             WeavingSettings = weavingSettings;
             ArgumentsWeaver = argumentsWeaver;
             AspectRepository = aspectRepository;
+            AspectArgsMapper = aspectArgsMapper;
         }
 
         private AspectWeavingSettings() {
@@ -27,5 +28,7 @@ namespace NCop.Aspects.Weaving
         public IArgumentsWeaver ArgumentsWeaver { get; private set; }
 
         public IAspectRepository AspectRepository { get; private set; }
+
+        public IAspectArgsMapper AspectArgsMapper { get; private set; }
     }
 }

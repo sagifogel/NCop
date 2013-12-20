@@ -24,7 +24,7 @@ namespace NCop.Aspects.Weaving.Expressions
             localBuilderRepository = new LocalBuilderRepository();
             parameters = weavingSettings.MethodInfoImpl.GetParameters().Select(@param => @param.ParameterType);
             argumentsWeaver = new MethodImplArgumentsWeaver(firstAspectArgsType, parameters.ToArray(), weavingSettings, localBuilderRepository);
-            aspectWeavingSettings = new AspectWeavingSettings(weavingSettings, argumentsWeaver, null);
+            aspectWeavingSettings = new AspectWeavingSettings(weavingSettings, argumentsWeaver);
         }
 
         public IAspcetWeaver Reduce(IAspectWeavingSettings settings) {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Engine
 {
-    internal interface IActionArgs
+    public interface IActionArgs
     {
     }
 }

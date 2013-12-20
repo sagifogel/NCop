@@ -27,9 +27,10 @@ namespace NCop.Aspects.Weaving
             var genericArguments = settings.ArgumentsWeaver.ArgumentType.GetGenericArguments();
             var aspectSettings = new AdviceWeavingSettings(aspectDefinition.Aspect.AspectType, settings);
 
-            bindingSettings = new BindingSettings { 
-                ArgumentsWeaver = settings.ArgumentsWeaver, 
-                WeavingSettings  = settings.WeavingSettings
+            bindingSettings = new BindingSettings {
+                ArgumentsWeaver = settings.ArgumentsWeaver,
+                WeavingSettings = settings.WeavingSettings,
+                AspectArgsMapper = settings.AspectArgsMapper
             };
 
             if (settings.ArgumentsWeaver.IsFunction) {
@@ -68,6 +69,9 @@ namespace NCop.Aspects.Weaving
                 bindingWeaver = new MethodDecoratorBindingWeaver(bindingSettings, nestedAspectWeaver);
             }
             else {
+                var argsWeaver = bindingSettings.ArgumentsWeaver;
+                var interceptionArgsWeaver = new AspectArgumentsWeaver(argsWeaver.ArgumentType, argsWeaver.Parameters, bindingSettings.WeavingSettings, argsWeaver.LocalBuilderRepository);
+                bindingSettings.ArgumentsWeaver = interceptionArgsWeaver;
                 bindingWeaver = new OnMethodInterceptionBindingWeaver(bindingSettings, nestedAspectWeaver);
             }
 

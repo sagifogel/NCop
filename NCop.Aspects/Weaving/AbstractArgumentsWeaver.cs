@@ -14,10 +14,12 @@ namespace NCop.Aspects.Weaving
         protected readonly Type[] parameters = null;
 
         public AbstractArgumentsWeaver(Type argumentType, Type[] parameters, IWeavingSettings weavingSettings, ILocalBuilderRepository localBuilderRepository) {
+            var @params = new Type[parameters.Length];
+
             ArgumentType = argumentType;
             WeavingSettings = weavingSettings;
-            this.parameters = new Type[parameters.Length];
-            parameters.CopyTo(this.parameters, 0);
+            parameters.CopyTo(@params, 0);
+            Parameters = @params;
             IsFunction = argumentType.IsFunctionAspectArgs();
             LocalBuilderRepository = localBuilderRepository;
         }
@@ -26,10 +28,12 @@ namespace NCop.Aspects.Weaving
 
         public Type ArgumentType { get; protected set; }
 
+        public Type[] Parameters { get; protected set; }
+
         public IWeavingSettings WeavingSettings { get; protected set; }
 
         public ILocalBuilderRepository LocalBuilderRepository { get; protected set; }
-        
+
         public abstract void Weave(ILGenerator ilGenerator);
     }
 }

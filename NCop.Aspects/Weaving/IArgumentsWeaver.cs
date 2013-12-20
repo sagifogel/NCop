@@ -10,6 +10,7 @@ namespace NCop.Aspects.Weaving
     {
         bool IsFunction { get; }
         Type ArgumentType { get; }
+        Type[] Parameters { get; }
         void Weave(ILGenerator ilGenerator);
         ILocalBuilderRepository LocalBuilderRepository { get; }
     }

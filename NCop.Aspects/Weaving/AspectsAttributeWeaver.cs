@@ -30,15 +30,14 @@ namespace NCop.Aspects.Weaving
             Type aspectAttributes = null;
             var fieldBuilders = new List<FieldBuilder>();
             var typeAttrs = TypeAttributes.Sealed | TypeAttributes.Abstract;
-            var uniqueAspects = aspectDefinitions.Select(definition => definition).Distinct();
             var typeBuilder = typeof(object).DefineType("Aspects".ToUniqueName(), attributes: typeAttrs);
             var fieldAttrs = FieldAttributes.Private | FieldAttributes.FamANDAssem | FieldAttributes.Static;
+            var uniqueAspects = aspectDefinitions.Select(definition => definition.Aspect.AspectType).Distinct();
             var cctorAttrs = MethodAttributes.Private | MethodAttributes.Static | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
             var cctor = typeBuilder.DefineConstructor(cctorAttrs, CallingConventions.Standard, Type.EmptyTypes).GetILGenerator();
 
             uniqueAspects.ForEach((aspect, i) => {
-                var aspectType = aspect.Aspect.AspectType;
-                var fieldBuilder = typeBuilder.DefineField("Aspect_{0}".Fmt(i).ToUniqueName(), aspectType, fieldAttrs);
+                var fieldBuilder = typeBuilder.DefineField("Aspect_{0}".Fmt(i).ToUniqueName(), aspect, fieldAttrs);
                 var ctor = fieldBuilder.FieldType.GetConstructor(Type.EmptyTypes);
 
                 if (ctor.IsNull()) {

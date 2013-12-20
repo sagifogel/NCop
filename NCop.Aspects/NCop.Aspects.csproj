@@ -419,6 +419,7 @@
     <Compile Include="Weaving\IAdviceWeavingSettings.cs" />
     <Compile Include="Weaving\IArgumentsWeaver.cs" />
     <Compile Include="Weaving\IAspcetWeaver.cs" />
+    <Compile Include="Weaving\IAspectArgsMapper.cs" />
     <Compile Include="Weaving\IAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\IAspectRepository.cs" />
     <Compile Include="Weaving\IAspectWeavingSettings.cs" />
