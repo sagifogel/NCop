@@ -16,8 +16,13 @@ namespace NCop.Aspects.Weaving.Expressions
             : base(expression, aspectDefinition) {
         }
 
-        public override IAspcetWeaver Reduce(IAspectWeavingSettings settings) {
-            return new OnMethodBoundaryAspectWeaver(expression, aspectDefinition, settings);
+        public override IAspectWeaver Reduce(IAspectWeavingSettings settings) {
+            IAspectWeaver nestedWeaver = null;
+            return new OnMethodBoundaryAspectWeaver(nestedWeaver, aspectDefinition, settings);
+        }
+
+        public override IAspectWeaver Accept(AspectExpressionVisitor visitor) {
+            return visitor.Visit(this);
         }
     }
 }

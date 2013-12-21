@@ -9,7 +9,7 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class AspectDecoratorWeaver : AbstractMethodScopeWeaver, IAspcetWeaver
+    internal class AspectDecoratorWeaver : AbstractMethodScopeWeaver, IAspectWeaver
     {
         internal AspectDecoratorWeaver(IWeavingSettings weavingSettings)
             : base(weavingSettings) {

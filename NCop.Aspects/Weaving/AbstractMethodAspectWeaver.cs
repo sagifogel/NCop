@@ -10,7 +10,7 @@ using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractMethodAspectWeaver : IAspcetWeaver
+    internal abstract class AbstractMethodAspectWeaver : IAspectWeaver
     {
         protected IMethodScopeWeaver weaver = null;
         protected readonly IAspectRepository aspectRepository = null;
@@ -19,8 +19,8 @@ namespace NCop.Aspects.Weaving
         protected readonly AdviceVisitor adviceVisitor = new AdviceVisitor();
         protected readonly IArgumentsWeaver aspectArgumentsWeaver = null;
         protected readonly AdviceDiscoveryVisitor adviceDiscoveryVistor = new AdviceDiscoveryVisitor();
-
-        internal AbstractMethodAspectWeaver(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings) {
+                                            
+        internal AbstractMethodAspectWeaver(IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings) {
             advices = aspectDefinition.Advices;
             this.aspectRepository = settings.AspectRepository;
             this.aspectArgumentsWeaver = settings.ArgumentsWeaver;

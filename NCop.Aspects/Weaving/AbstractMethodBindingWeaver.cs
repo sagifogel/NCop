@@ -21,7 +21,7 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractMethodBindingWeaver : IMethodBindingWeaver
     {
-        protected static int bindingCounter = 1;
+        protected static int bindingCounter = 0;
         protected TypeBuilder typeBuilder = null;
         protected FieldBuilder fieldBuilder = null;
         protected BindingSettings bindingSettings = null;
@@ -43,7 +43,6 @@ namespace NCop.Aspects.Weaving
             WeaveInvokeMethod();
             bindingMethodType = typeBuilder.CreateType();
             weavedMember = bindingMethodType.GetField(fieldBuilder.Name, BindingFlags.NonPublic | BindingFlags.Static);
-            Interlocked.Increment(ref bindingCounter);
 
             return weavedMember;
         }
@@ -51,7 +50,7 @@ namespace NCop.Aspects.Weaving
         protected TypeBuilder WeaveTypeBuilder() {
             var attrs = TypeAttributes.Public | TypeAttributes.Sealed;
 
-            return typeBuilder = typeof(object).DefineType("MethodBinding_{0}".Fmt(bindingCounter).ToUniqueName(), new[] { bindingSettings.BindingType }, attrs);
+            return typeBuilder = typeof(object).DefineType("MethodBinding_{0}".Fmt(Interlocked.Increment(ref bindingCounter)).ToUniqueName(), new[] { bindingSettings.BindingType }, attrs);            
         }
 
         protected virtual void WeaveConstructors(TypeBuilder typeBuilder) {

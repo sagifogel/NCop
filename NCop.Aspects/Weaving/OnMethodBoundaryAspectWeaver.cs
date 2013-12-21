@@ -16,15 +16,15 @@ namespace NCop.Aspects.Weaving
 {
     internal class OnMethodBoundaryAspectWeaver : AbstractMethodAspectWeaver
     {
-        internal OnMethodBoundaryAspectWeaver(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings)
-            : base(expression, aspectDefinition, settings) {
+        internal OnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings)
+            : base(nestedWeaver, aspectDefinition, settings) {
             IAdviceExpression selectedExpression = null;
             var entryWeavers = new List<IMethodScopeWeaver>();
             var catchWeavers = new List<IMethodScopeWeaver>();
             var finallyWeavers = new List<IMethodScopeWeaver>();
             var argumentsWeaver = settings.ArgumentsWeaver;
             var newSettings = new AdviceWeavingSettings(aspectDefinition.Aspect.AspectType, settings);
-            var tryWeavers = new List<IMethodScopeWeaver> { expression.Reduce(newSettings) };
+            var tryWeavers = new List<IMethodScopeWeaver> { nestedWeaver };
 
             if (adviceDiscoveryVistor.HasOnMethodEntryAdvice) {
                 selectedExpression = ResolveOnMethodEntryAdvice();

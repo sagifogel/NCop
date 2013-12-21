@@ -7,10 +7,11 @@ using NCop.Weaving;
 using System.Reflection;
 using NCop.Aspects.Advices;
 using NCop.Core.Extensions;
+using NCop.Aspects.Engine;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal abstract class AbstractAspectExpression : IAspectExpression
+    internal abstract class AbstractAspectExpression : IAspectExpression, IAcceptsVisitor<AspectExpressionVisitor, IAspectWeaver>
     {
         protected readonly IAspectExpression expression = null;
         protected readonly IAspectDefinition aspectDefinition = null;
@@ -20,6 +21,7 @@ namespace NCop.Aspects.Weaving.Expressions
             this.aspectDefinition = aspectDefinition;
         }
 
-        public abstract IAspcetWeaver Reduce(IAspectWeavingSettings settings);
+        public abstract IAspectWeaver Accept(AspectExpressionVisitor visitor);
+        public abstract IAspectWeaver Reduce(IAspectWeavingSettings settings);
     }
 }

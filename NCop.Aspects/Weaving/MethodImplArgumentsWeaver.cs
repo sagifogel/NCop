@@ -24,16 +24,16 @@ namespace NCop.Aspects.Weaving
 
         public override LocalBuilder BuildArguments(ILGenerator ilGenerator, Type[] parameters) {
             LocalBuilder bindingLocalBuilder = null;
-            FieldBuilder methodImplFieldBuilder = null;
+            FieldBuilder contractFieldBuilder = null;
             var declaredLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
             var ctorInterceptionArgs = ArgumentType.GetConstructors().First();
             var ctorInterceptionArgsParams = ctorInterceptionArgs.GetParameters();
-            Type bindingType = ctorInterceptionArgsParams[1].ParameterType;
+            var bindingType = ctorInterceptionArgsParams[1].ParameterType;
             
             ilGenerator.EmitLoadArg(0);
             bindingLocalBuilder = LocalBuilderRepository.Get(bindingType);
-            methodImplFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
-            ilGenerator.Emit(OpCodes.Ldfld, methodImplFieldBuilder);
+            contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
+            ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
             ilGenerator.EmitLoadLocal(bindingLocalBuilder);
 
             parameters.ForEach(1, (parameter, i) => {

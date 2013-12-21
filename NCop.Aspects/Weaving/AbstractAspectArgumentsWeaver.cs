@@ -16,7 +16,7 @@ namespace NCop.Aspects.Weaving
         }
 
         public override void Weave(ILGenerator ilGenerator) {
-            var localBuilder = BuildArguments(ilGenerator, parameters);
+            var localBuilder = BuildArguments(ilGenerator, Parameters);
 
             LocalBuilderRepository.Add(localBuilder);
         }

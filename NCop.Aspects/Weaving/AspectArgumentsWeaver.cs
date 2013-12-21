@@ -3,31 +3,42 @@ using NCop.Weaving;
 using NCop.Weaving.Extensions;
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
     internal class AspectArgumentsWeaver : AbstractAspectArgumentsWeaver
     {
-        internal AspectArgumentsWeaver(Type argsType, Type[] parameters, IWeavingSettings weavingSettings, ILocalBuilderRepository localBuilderRepository)
+        private readonly IMethodBindingWeaver nestedMethodBindingWeaver = null;
+
+        internal AspectArgumentsWeaver(Type argsType, Type[] parameters, IWeavingSettings weavingSettings, ILocalBuilderRepository localBuilderRepository, IMethodBindingWeaver nestedMethodBindingWeaver)
             : base(argsType, parameters, weavingSettings, localBuilderRepository) {
+            this.nestedMethodBindingWeaver = nestedMethodBindingWeaver;
         }
 
         public override LocalBuilder BuildArguments(ILGenerator ilGenerator, Type[] parameters) {
-            var localBuilder = ilGenerator.DeclareLocal(ArgumentType);
+            FieldInfo weavedNestedBinding = null;
+            var declaredLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
+            var ctorInterceptionArgs = ArgumentType.GetConstructors().First();
 
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);
+            weavedNestedBinding = nestedMethodBindingWeaver.Weave();
+            ilGenerator.Emit(OpCodes.Ldsfld, weavedNestedBinding);
+            ilGenerator.EmitLoadArg(2);
 
             parameters.Skip(1)
                       .ForEach(2, (parameter, i) => {
-                          ilGenerator.EmitLoadArg(i);
+                          var property = ArgumentType.GetProperty("Arg{0}".Fmt(i));
+
+                          ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());
                       });
 
-            ilGenerator.Emit(OpCodes.Newobj, localBuilder.LocalType);
-            ilGenerator.EmitStoreLocal(localBuilder);
+            ilGenerator.Emit(OpCodes.Newobj, ctorInterceptionArgs);
+            ilGenerator.EmitStoreLocal(declaredLocalBuilder);
 
-            return localBuilder;
+            return declaredLocalBuilder;
         }
     }
 }

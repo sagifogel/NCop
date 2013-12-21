@@ -141,6 +141,7 @@
     <Compile Include="Weaving\AdviceWeavingSettings.cs" />
     <Compile Include="Weaving\AspectArgsMapperWeaver.cs" />
     <Compile Include="Weaving\AspectArgumentsWeaver.cs" />
+    <Compile Include="Weaving\AspectExpressionVisitor.cs" />
     <Compile Include="Weaving\AspectsWeaver.cs" />
     <Compile Include="Weaving\AspectsAttributeWeaver.cs" />
     <Compile Include="Weaving\AspectDecoratorWeaver.cs" />
@@ -410,6 +411,7 @@
     <Compile Include="Weaving\Expressions\AspectExpression.cs" />
     <Compile Include="Weaving\Expressions\IAspectExpressionBuilder.cs" />
     <Compile Include="Weaving\Expressions\MethodInterceptionAspectExpression.cs" />
+    <Compile Include="Weaving\AspectWeaverWithBinding.cs" />
     <Compile Include="Weaving\Expressions\OnMethodBoundaryAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\OnMethodEntryAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\OnMethodExceptionAdviceExpression.cs" />
@@ -418,13 +420,14 @@
     <Compile Include="Weaving\FinallyAdviceWeaver.cs" />
     <Compile Include="Weaving\IAdviceWeavingSettings.cs" />
     <Compile Include="Weaving\IArgumentsWeaver.cs" />
-    <Compile Include="Weaving\IAspcetWeaver.cs" />
+    <Compile Include="Weaving\IAspectWeaver.cs" />
     <Compile Include="Weaving\IAspectArgsMapper.cs" />
     <Compile Include="Weaving\IAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\IAspectRepository.cs" />
     <Compile Include="Weaving\IAspectWeavingSettings.cs" />
     <Compile Include="Weaving\ILocalBuilderRepository.cs" />
     <Compile Include="Weaving\IMethodBindingWeaver.cs" />
+    <Compile Include="Weaving\IWithFieldAspectWeaver.cs" />
     <Compile Include="Weaving\LocalBuilderRepository.cs" />
     <Compile Include="Weaving\MethodDecorationBindingWeaver.cs" />
     <Compile Include="Weaving\MethodDecoratorArgumentsWeaver.cs" />

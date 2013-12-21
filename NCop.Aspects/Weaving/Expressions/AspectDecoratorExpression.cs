@@ -10,13 +10,13 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal class AspectDecoratorExpression : IAspectExpression
     {
-        private readonly IAspcetWeaver weaver = null;
+        private readonly IAspectWeaver weaver = null;
 
 		internal AspectDecoratorExpression(IWeavingSettings weavingSettings) {
 			weaver = new AspectDecoratorWeaver(weavingSettings);
         }
 
-        public IAspcetWeaver Reduce(IAspectWeavingSettings settings) {
+        public IAspectWeaver Reduce(IAspectWeavingSettings settings) {
             return weaver;
         }
     }

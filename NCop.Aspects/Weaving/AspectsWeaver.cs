@@ -1,4 +1,5 @@
 ﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Engine;
 using NCop.Aspects.Weaving.Expressions;
 using NCop.Weaving;
 using System;
@@ -9,9 +10,9 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class AspectsWeaver : IAspcetWeaver
+    internal class AspectsWeaver : IAspectWeaver
     {
-        private IAspcetWeaver weaver = null;
+        private IAspectWeaver weaver = null;
         private readonly IAspectExpression expression = null;
         private readonly IAspectWeavingSettings settings = null;
         private readonly AspectsAttributeWeaver aspectAttributeWeaver = null;

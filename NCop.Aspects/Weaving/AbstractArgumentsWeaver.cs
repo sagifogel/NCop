@@ -11,8 +11,6 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractArgumentsWeaver : IArgumentsWeaver
     {
-        protected readonly Type[] parameters = null;
-
         public AbstractArgumentsWeaver(Type argumentType, Type[] parameters, IWeavingSettings weavingSettings, ILocalBuilderRepository localBuilderRepository) {
             var @params = new Type[parameters.Length];
 

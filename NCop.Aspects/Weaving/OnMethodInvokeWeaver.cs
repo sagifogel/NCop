@@ -16,6 +16,7 @@ namespace NCop.Aspects.Weaving
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
             LocalBuilder argsLocalBuilder = null;
+
             var aspectMemeber = aspectRepository.GetAspectFieldByType(aspectType);
             var onInvokeMethod = aspectMemeber.FieldType.GetMethod("OnInvoke");
 

@@ -57,7 +57,8 @@ namespace NCop.Samples
         }
 
         public bool Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string, bool> args) {
-            var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, bool>(instance, MethodDecoratorFunctionBinding.singleton, args.Arg1);
+            var binding = MethodDecoratorFunctionBinding.singleton;
+            var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, bool>(instance, binding, args.Arg1);
 
             Aspects.traceAspect.OnInvoke(aspectArgs);
             FunctionArgsMapper.Map(aspectArgs, args);
@@ -171,6 +172,7 @@ namespace NCop.Samples
     {
         public override bool OnInvoke(FunctionInterceptionArgs<string, bool> args) {
             args.Arg1 = "JavaScript";
+            Console.WriteLine("OnInvoke");
             return base.OnInvoke(args);
         }
     }

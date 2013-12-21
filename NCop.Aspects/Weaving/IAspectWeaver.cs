@@ -8,7 +8,7 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving
 {
-    public interface IAspcetWeaver : IMethodScopeWeaver
+    public interface IAspectWeaver : IMethodScopeWeaver
     {
     }
 }
