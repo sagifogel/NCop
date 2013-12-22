@@ -9,29 +9,26 @@ using NCop.Weaving;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractArgumentsWeaver : IArgumentsWeaver
-    {
-        public AbstractArgumentsWeaver(Type argumentType, Type[] parameters, IWeavingSettings weavingSettings, ILocalBuilderRepository localBuilderRepository) {
-            var @params = new Type[parameters.Length];
+	internal abstract class AbstractArgumentsWeaver : ArgumentsWeavingSettings, IArgumentsWeaver
+	{
+		protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
 
-            ArgumentType = argumentType;
-            WeavingSettings = weavingSettings;
-            parameters.CopyTo(@params, 0);
-            Parameters = @params;
-            IsFunction = argumentType.IsFunctionAspectArgs();
-            LocalBuilderRepository = localBuilderRepository;
-        }
+		public AbstractArgumentsWeaver(Type argumentType, Type[] parameters, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository) {
+			var @params = new Type[parameters.Length];
 
-        public bool IsFunction { get; protected set; }
+			ArgumentType = argumentType;
+			parameters.CopyTo(@params, 0);
+			Parameters = @params;
+			LocalBuilderRepository = localBuilderRepository;
+			IsFunction = argumentType.IsFunctionAspectArgs();
+			this.aspectWeavingSettings = aspectWeavingSettings;
+			WeavingSettings = aspectWeavingSettings.WeavingSettings;
+		}
 
-        public Type ArgumentType { get; protected set; }
+		public IWeavingSettings WeavingSettings { get; protected set; }
 
-        public Type[] Parameters { get; protected set; }
+		public ILocalBuilderRepository LocalBuilderRepository { get; protected set; }
 
-        public IWeavingSettings WeavingSettings { get; protected set; }
-
-        public ILocalBuilderRepository LocalBuilderRepository { get; protected set; }
-
-        public abstract void Weave(ILGenerator ilGenerator);
-    }
+		public abstract void Weave(ILGenerator ilGenerator);
+	}
 }

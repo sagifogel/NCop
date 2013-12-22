@@ -5,10 +5,9 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving
 {
-    public interface IAdviceWeavingSettings
-    {
-        Type AspectType { get; }
-        IArgumentsWeaver ArgumentsWeaver { get; }
-        IAspectRepository AspectRepository { get; }
-    }
+	public interface IAdviceWeavingSettings : IAspectWeavingSettings
+	{
+		Type AspectType { get; }
+		ILocalBuilderRepository LocalBuilderRepository { get; }
+	}
 }

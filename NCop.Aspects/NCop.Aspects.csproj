@@ -139,9 +139,9 @@
     <Compile Include="Weaving\AdviceDiscoveryVisitor.cs" />
     <Compile Include="Weaving\AbstractAdviceWeaver.cs" />
     <Compile Include="Weaving\AdviceWeavingSettings.cs" />
+    <Compile Include="Weaving\ArgumentsWeavingSettings.cs" />
     <Compile Include="Weaving\AspectArgsMapperWeaver.cs" />
     <Compile Include="Weaving\AspectArgumentsWeaver.cs" />
-    <Compile Include="Weaving\AspectExpressionVisitor.cs" />
     <Compile Include="Weaving\AspectsWeaver.cs" />
     <Compile Include="Weaving\AspectsAttributeWeaver.cs" />
     <Compile Include="Weaving\AspectDecoratorWeaver.cs" />
@@ -417,9 +417,11 @@
     <Compile Include="Weaving\Expressions\OnMethodExceptionAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\OnMethodInvokeAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\OnMethodSuccessAdviceExpression.cs" />
+    <Compile Include="Weaving\Expressions\TopAspectExpression.cs" />
     <Compile Include="Weaving\FinallyAdviceWeaver.cs" />
     <Compile Include="Weaving\IAdviceWeavingSettings.cs" />
     <Compile Include="Weaving\IArgumentsWeaver.cs" />
+    <Compile Include="Weaving\IArgumentsWeavingSettings.cs" />
     <Compile Include="Weaving\IAspectWeaver.cs" />
     <Compile Include="Weaving\IAspectArgsMapper.cs" />
     <Compile Include="Weaving\IAspectArgumentsWeaver.cs" />
@@ -440,6 +442,7 @@
     <Compile Include="Weaving\OnMethodInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\OnMethodInvokeWeaver.cs" />
     <Compile Include="Weaving\OnMethodSuccessAdviceWeaver.cs" />
+    <Compile Include="Weaving\TopAspectWeaver.cs" />
     <Compile Include="Weaving\TryCatchFinallyAspectWeaver.cs" />
     <Compile Include="Weaving\TryFinallyAspectWeaver.cs" />
   </ItemGroup>

@@ -12,12 +12,13 @@ namespace NCop.Aspects.Weaving
         protected readonly Type aspectType = null;
         protected readonly IArgumentsWeaver argumentsWeaver = null;
         protected readonly IAspectRepository aspectRepository = null;
+		protected readonly ILocalBuilderRepository localBuilderRepository = null;
 
         public AbstractAdviceWeaver(IAdviceWeavingSettings adviceWeavingSettings) {
             aspectType = adviceWeavingSettings.AspectType;
-            argumentsWeaver = adviceWeavingSettings.ArgumentsWeaver;
             aspectRepository = adviceWeavingSettings.AspectRepository;
-        }
+			localBuilderRepository = adviceWeavingSettings.LocalBuilderRepository;
+		}
 
         public abstract ILGenerator Weave(ILGenerator ilGenerator);
     }

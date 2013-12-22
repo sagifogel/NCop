@@ -11,7 +11,7 @@ using NCop.Aspects.Engine;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal abstract class AbstractAspectExpression : IAspectExpression, IAcceptsVisitor<AspectExpressionVisitor, IAspectWeaver>
+    internal abstract class AbstractAspectExpression : IAspectExpression
     {
         protected readonly IAspectExpression expression = null;
         protected readonly IAspectDefinition aspectDefinition = null;
@@ -21,7 +21,6 @@ namespace NCop.Aspects.Weaving.Expressions
             this.aspectDefinition = aspectDefinition;
         }
 
-        public abstract IAspectWeaver Accept(AspectExpressionVisitor visitor);
         public abstract IAspectWeaver Reduce(IAspectWeavingSettings settings);
     }
 }

@@ -11,51 +11,37 @@ using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class AspectWeaverWithBinding : IAspectExpression
-    {
-        private readonly FieldInfo weavedType = null;
-        private BindingSettings bindingSettings = null;
-        private readonly IAspectWeaver nestedWeaver = null;
-        private readonly IAspectWeavingSettings settings = null;
-        private readonly IAspectDefinition aspectDefinition = null;
+	internal class AspectWeaverWithBinding : IAspectExpression
+	{
+		private readonly FieldInfo weavedType = null;
+		private readonly IAspectWeaver aspectWeaver = null;
+		private readonly IAspectWeavingSettings settings = null;
+		private readonly IAspectDefinition aspectDefinition = null;
 
-        internal AspectWeaverWithBinding(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings) {
-            this.settings = settings;
-            this.aspectDefinition = aspectDefinition;
-            bindingSettings = CreateSettings();
+		internal AspectWeaverWithBinding(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings) {
+			this.settings = settings;
+			this.aspectDefinition = aspectDefinition;
 
-            if (expression.Is<AspectDecoratorExpression>()) {
-                var methodDecoratorBindingWeaver = new MethodDecoratorBindingWeaver(bindingSettings, expression.Reduce(settings));
-                weavedType = methodDecoratorBindingWeaver.Weave();
-            }
-            else {
-                var withWeavedType = expression.Reduce(settings) as IWithFieldAspectWeaver;
-                weavedType = withWeavedType.WeavedType;
-            }
-        }
+			if (expression.Is<AspectDecoratorExpression>()) {
+				var bindingSettings = aspectDefinition.ToBindingSettings(settings.WeavingSettings.MethodInfoImpl.DeclaringType);
+				var methodDecoratorBindingWeaver = new MethodDecoratorBindingWeaver(bindingSettings, settings, expression.Reduce(settings));
 
-        public IAspectWeaver Reduce(IAspectWeavingSettings settings) {
-            return new MethodInterceptionAspectWeaver(nestedWeaver, aspectDefinition, bindingSettings, weavedType);
-        }
+				aspectWeaver = expression.Reduce(settings);
+				weavedType = methodDecoratorBindingWeaver.Weave();
+			}
+			else {
+				IWithFieldAspectWeaver withWeavedType = null;
 
-        private BindingSettings CreateSettings() {
-            var aspectArgumentType = aspectDefinition.GetArgumentType();
-            var genericArguments = settings.ArgumentsWeaver.ArgumentType.GetGenericArguments();
+				aspectWeaver = expression.Reduce(settings);
+				withWeavedType = aspectWeaver as IWithFieldAspectWeaver;
+				weavedType = withWeavedType.WeavedType;
+			}
+		}
 
-            var bindingSettings = new BindingSettings {
-                ArgumentsWeaver = settings.ArgumentsWeaver,
-                WeavingSettings = settings.WeavingSettings,
-                AspectArgsMapper = settings.AspectArgsMapper
-            };
+		public IAspectWeaver Reduce(IAspectWeavingSettings settings) {
+			var topAspectWeaver = aspectWeaver.Is<TopAspectWeaver>();
 
-            if (settings.ArgumentsWeaver.IsFunction) {
-                bindingSettings.BindingType = aspectArgumentType.MakeGenericFunctionBinding(genericArguments);
-            }
-            else {
-                bindingSettings.BindingType = aspectArgumentType.MakeGenericActionBinding(genericArguments);
-            }
-
-            return bindingSettings;
-        }
-    }
+			return new MethodInterceptionAspectWeaver(aspectDefinition, settings, weavedType, topAspectWeaver);
+		}
+	}
 }

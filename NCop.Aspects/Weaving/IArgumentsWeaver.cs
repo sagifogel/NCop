@@ -6,12 +6,8 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving
 {
-    public interface IArgumentsWeaver
+    public interface IArgumentsWeaver : IArgumentsWeavingSettings
     {
-        bool IsFunction { get; }
-        Type ArgumentType { get; }
-        Type[] Parameters { get; }
-        void Weave(ILGenerator ilGenerator);
-        ILocalBuilderRepository LocalBuilderRepository { get; }
+        void Weave(ILGenerator ilGenerator);        
     }
 }

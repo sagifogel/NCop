@@ -10,21 +10,19 @@ namespace NCop.Aspects.Weaving
 {
     internal class AspectArgumentsWeaver : AbstractAspectArgumentsWeaver
     {
-        private readonly IMethodBindingWeaver nestedMethodBindingWeaver = null;
-
-        internal AspectArgumentsWeaver(Type argsType, Type[] parameters, IWeavingSettings weavingSettings, ILocalBuilderRepository localBuilderRepository, IMethodBindingWeaver nestedMethodBindingWeaver)
-            : base(argsType, parameters, weavingSettings, localBuilderRepository) {
-            this.nestedMethodBindingWeaver = nestedMethodBindingWeaver;
+		internal AspectArgumentsWeaver(Type argsType, Type[] parameters, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository)
+			: base(argsType, parameters, aspectWeavingSettings, localBuilderRepository) {
         }
 
         public override LocalBuilder BuildArguments(ILGenerator ilGenerator, Type[] parameters) {
             FieldInfo weavedNestedBinding = null;
             var declaredLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
             var ctorInterceptionArgs = ArgumentType.GetConstructors().First();
-
+			var aspectRepository = aspectWeavingSettings.AspectRepository;
+			
+			weavedNestedBinding = aspectRepository.GetAspectFieldByType(null); 
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);
-            weavedNestedBinding = nestedMethodBindingWeaver.Weave();
             ilGenerator.Emit(OpCodes.Ldsfld, weavedNestedBinding);
             ilGenerator.EmitLoadArg(2);
 

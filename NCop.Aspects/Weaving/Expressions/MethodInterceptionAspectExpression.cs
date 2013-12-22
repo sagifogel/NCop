@@ -18,9 +18,5 @@ namespace NCop.Aspects.Weaving.Expressions
 
             return reducer.Reduce(settings);
         }
-
-        public override IAspectWeaver Accept(AspectExpressionVisitor visitor) {
-            return visitor.Visit(this);
-        }
     }
 }
