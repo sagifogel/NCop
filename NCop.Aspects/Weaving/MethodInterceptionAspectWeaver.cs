@@ -14,8 +14,10 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class MethodInterceptionAspectWeaver : AbstractMethodAspectWeaver, IWithFieldAspectWeaver
+    internal class MethodInterceptionAspectWeaver : AbstractMethodAspectWeaver
     {
+        private readonly FieldInfo weavedType = null;
+
 		internal MethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings settings, FieldInfo weavedType, bool topAspectWeaver = false)
 			: base(aspectDefinition, settings, topAspectWeaver) {
             IAdviceExpression selectedExpression = null;
@@ -23,13 +25,11 @@ namespace NCop.Aspects.Weaving
             var argumentsWeavingSettings = aspectDefinition.ToArgumentsWeavingSettings(settings.WeavingSettings.MethodInfoImpl.DeclaringType);
             var aspectSettings = new AdviceWeavingSettings(aspectDefinition.Aspect.AspectType, settings, localBuilderRepository, argumentsWeavingSettings);
 
-            WeavedType = weavedType;
+            this.weavedType = weavedType;
             selectedExpression = ResolveOnMethodInvokeAdvice();
             invokeWeavers.Add(selectedExpression.Reduce(aspectSettings));
             weaver = new MethodScopeWeaversQueue(invokeWeavers);
         }
-
-        public FieldInfo WeavedType { get; protected set; }
 
         private IAdviceExpression ResolveOnMethodInvokeAdvice() {
             IAdviceDefinition selectedAdviceDefinition = null;
@@ -46,10 +46,10 @@ namespace NCop.Aspects.Weaving
             LocalBuilder bindingLocalBuilder = null;
             Type methodBindingWeaverBaseType = null;
             
-            methodBindingWeaverBaseType = WeavedType.ReflectedType.GetInterfaces().First();
-			bindingLocalBuilder = ilGenerator.DeclareLocal(WeavedType.ReflectedType);
+            methodBindingWeaverBaseType = weavedType.ReflectedType.GetInterfaces().First();
+			bindingLocalBuilder = ilGenerator.DeclareLocal(weavedType.ReflectedType);
             localBuilderRepository.Add(methodBindingWeaverBaseType, bindingLocalBuilder);
-			ilGenerator.Emit(OpCodes.Ldsfld, WeavedType);
+			ilGenerator.Emit(OpCodes.Ldsfld, weavedType);
             ilGenerator.EmitStoreLocal(bindingLocalBuilder);
             argumentsWeaver.Weave(ilGenerator);
 

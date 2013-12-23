@@ -9,26 +9,33 @@ using NCop.Weaving;
 
 namespace NCop.Aspects.Weaving
 {
-	internal abstract class AbstractArgumentsWeaver : ArgumentsWeavingSettings, IArgumentsWeaver
-	{
-		protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
+    internal abstract class AbstractArgumentsWeaver : IArgumentsWeaver
+    {
+        protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
 
-		public AbstractArgumentsWeaver(Type argumentType, Type[] parameters, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository) {
-			var @params = new Type[parameters.Length];
+        public AbstractArgumentsWeaver(IArgumentsWeavingSettings argumentsWeavingSettings, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository = null) {
+            AspectType = argumentsWeavingSettings.AspectType;
+            Parameters = new Type[argumentsWeavingSettings.Parameters.Length];
+            LocalBuilderRepository = localBuilderRepository;
+            ArgumentType = argumentsWeavingSettings.ArgumentType;
+            argumentsWeavingSettings.Parameters.CopyTo(Parameters, 0);
+            IsFunction = argumentsWeavingSettings.IsFunction;
+            this.aspectWeavingSettings = aspectWeavingSettings;
+            WeavingSettings = aspectWeavingSettings.WeavingSettings;
+        }
 
-			ArgumentType = argumentType;
-			parameters.CopyTo(@params, 0);
-			Parameters = @params;
-			LocalBuilderRepository = localBuilderRepository;
-			IsFunction = argumentType.IsFunctionAspectArgs();
-			this.aspectWeavingSettings = aspectWeavingSettings;
-			WeavingSettings = aspectWeavingSettings.WeavingSettings;
-		}
+        public Type AspectType { get; protected set; }
 
-		public IWeavingSettings WeavingSettings { get; protected set; }
+        public bool IsFunction { get; protected set; }
 
-		public ILocalBuilderRepository LocalBuilderRepository { get; protected set; }
+        public Type ArgumentType { get; protected set; }
 
-		public abstract void Weave(ILGenerator ilGenerator);
-	}
+        public Type[] Parameters { get; protected set; }
+
+        public IWeavingSettings WeavingSettings { get; protected set; }
+
+        public ILocalBuilderRepository LocalBuilderRepository { get; protected set; }
+
+        public abstract void Weave(ILGenerator ilGenerator);
+    }
 }

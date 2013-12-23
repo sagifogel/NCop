@@ -11,11 +11,8 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractAspectArgumentsWeaver : AbstractArgumentsWeaver, IAspectArgumentsWeaver
     {
-        protected readonly Type aspectType = null;
-
-        public AbstractAspectArgumentsWeaver(Type aspectType, Type argumentType, Type[] parameters, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository)
-            : base(argumentType, parameters, aspectWeavingSettings, localBuilderRepository) {
-            this.aspectType = aspectType;
+        public AbstractAspectArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository)
+            : base(argumentWeavingSettings, aspectWeavingSettings, localBuilderRepository) {
         }
 
         public override void Weave(ILGenerator ilGenerator) {

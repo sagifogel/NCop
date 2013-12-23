@@ -14,6 +14,7 @@ using NCop.Aspects.Engine;
 using NCop.Core.Extensions;
 using System.Threading;
 using NCop.Weaving.Extensions;
+using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
@@ -23,15 +24,9 @@ namespace NCop.Aspects.Weaving
 
         internal OnMethodInterceptionBindingWeaver(Type aspectType, BindingSettings bindingSettings, IAspectWeavingSettings settings, IAspectWeaver methodScopeWeaver)
             : base(bindingSettings, settings, methodScopeWeaver) {
-            var localBuilderRepository = new LocalBuilderRepository();
-            var lastParameter = argumentsWeavingSettings.Parameters[argumentsWeavingSettings.Parameters.Length -1];
-            var parameters = argumentsWeavingSettings.Parameters.Skip(1);
+            var argumentWeavingSetings = bindingSettings.ToArgumentsWeavingSettings(aspectType);
 
-            if (bindingSettings.IsFunction) {
-                parameters = parameters.TakeWhile(@param => !@param.Equals(lastParameter));
-            }
-
-            argumentsWeaver = new AspectArgumentsWeaver(aspectType, argumentsWeavingSettings.ArgumentType, parameters.ToArray(), settings, new LocalBuilderRepository());
+            argumentsWeaver = new AspectArgumentsWeaver(argumentWeavingSetings, settings, new LocalBuilderRepository());
         }
 
         protected override void WeaveInvokeMethod() {

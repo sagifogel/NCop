@@ -27,7 +27,6 @@ namespace NCop.Aspects.Weaving
         private readonly BindingSettings bindingSettings = null;
         protected IAspectWeavingSettings apectWeavingSettings = null;
         protected readonly IMethodScopeWeaver methodScopeWeaver = null;
-        protected readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
         protected readonly MethodAttributes methodAttr = MA.Public | MA.Final | MA.HideBySig | MA.NewSlot | MA.Virtual;
         protected readonly CallingConventions callingConventions = CallingConventions.Standard | CallingConventions.HasThis;
 
@@ -35,12 +34,6 @@ namespace NCop.Aspects.Weaving
             this.bindingSettings = bindingSettings;
             this.methodScopeWeaver = methodScopeWeaver;
             this.apectWeavingSettings = apectWeavingSettings;
-
-            argumentsWeavingSettings = new ArgumentsWeavingSettings {
-                ArgumentType = bindingSettings.ArgumentType,
-                IsFunction = bindingSettings.IsFunction,
-                Parameters = bindingSettings.BindingType.GetGenericArguments()
-            };
         }
 
         public FieldInfo Weave() {
@@ -83,25 +76,7 @@ namespace NCop.Aspects.Weaving
         }
 
         protected virtual MethodParameters ResolveParameterTypes() {
-            Func<Type[], Type> argumentResolver = null;
-            var methodParameters = new MethodParameters();
-            var arguments = bindingSettings.BindingType.GetGenericArguments();
-
-            methodParameters.Parameters = new Type[2];
-            methodParameters.Parameters[0] = arguments[0].MakeByRefType();
-            arguments = arguments.Skip(1).ToArray();
-
-            if (bindingSettings.IsFunction) {
-                methodParameters.ReturnType = arguments.Last();
-                argumentResolver = AspectArgsContractResolver.ToFunctionAspectArgument;
-            }
-            else {
-                argumentResolver = AspectArgsContractResolver.ToActionAspectArgument;
-            }
-
-            methodParameters.Parameters[1] = argumentResolver(arguments);
-
-            return methodParameters;
+            return bindingSettings.ToMethodParameters();
         }
 
         protected abstract void WeaveInvokeMethod();

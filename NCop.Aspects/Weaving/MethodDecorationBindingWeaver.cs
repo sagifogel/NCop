@@ -5,21 +5,22 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
+using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-	internal class MethodDecoratorBindingWeaver : AbstractMethodBindingWeaver, IWithFieldAspectWeaver
+	internal class MethodDecoratorBindingWeaver : AbstractMethodBindingWeaver
 	{
-		private readonly IArgumentsWeaver argumentsWeaver = null;
+        private readonly IArgumentsWeaver argumentsWeaver = null;
 		private readonly MethodParameters methodParameters = null;
 
 		internal MethodDecoratorBindingWeaver(BindingSettings bindingSettings, IAspectWeavingSettings settings, IMethodScopeWeaver methodScopeWeaver)
 			: base(bindingSettings, settings, methodScopeWeaver) {
-			methodParameters = ResolveParameterTypes();
-			argumentsWeaver = new MethodDecoratorArgumentsWeaver(bindingSettings.ArgumentType, methodParameters.Parameters, settings);
+            var argumentWeavingSetings = bindingSettings.ToArgumentsWeavingSettings();
+            
+            methodParameters = ResolveParameterTypes();
+            argumentsWeaver = new MethodDecoratorArgumentsWeaver(argumentWeavingSetings, settings);
 		}
-
-		public FieldInfo WeavedType { get; private set; }
 
 		protected override void WeaveInvokeMethod() {
 			ILGenerator ilGenerator = null;

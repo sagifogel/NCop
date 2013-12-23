@@ -8,7 +8,8 @@ namespace NCop.Aspects.Weaving
 {
 	public interface IArgumentsWeavingSettings
 	{
-		bool IsFunction { get; }
+        Type AspectType { get; }
+        bool IsFunction { get; }
 		Type ArgumentType { get; }
 		Type[] Parameters { get; }
 	}

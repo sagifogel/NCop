@@ -429,7 +429,6 @@
     <Compile Include="Weaving\IAspectWeavingSettings.cs" />
     <Compile Include="Weaving\ILocalBuilderRepository.cs" />
     <Compile Include="Weaving\IMethodBindingWeaver.cs" />
-    <Compile Include="Weaving\IWithFieldAspectWeaver.cs" />
     <Compile Include="Weaving\LocalBuilderRepository.cs" />
     <Compile Include="Weaving\MethodDecorationBindingWeaver.cs" />
     <Compile Include="Weaving\MethodDecoratorArgumentsWeaver.cs" />

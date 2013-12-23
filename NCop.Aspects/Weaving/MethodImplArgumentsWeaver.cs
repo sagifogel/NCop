@@ -18,8 +18,8 @@ namespace NCop.Aspects.Weaving
 {
     internal class MethodImplArgumentsWeaver : AbstractAspectArgumentsWeaver
     {
-        internal MethodImplArgumentsWeaver(Type aspectType, Type argsType, Type[] parameters, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository)
-			: base(aspectType, argsType, parameters, aspectWeavingSettings, localBuilderRepository) {
+        internal MethodImplArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository)
+            : base(argumentWeavingSettings, aspectWeavingSettings, localBuilderRepository) {
         }
 
         public override LocalBuilder BuildArguments(ILGenerator ilGenerator, Type[] parameters) {
@@ -29,7 +29,7 @@ namespace NCop.Aspects.Weaving
             var ctorInterceptionArgs = ArgumentType.GetConstructors().First();
             var ctorInterceptionArgsParams = ctorInterceptionArgs.GetParameters();
             var bindingType = ctorInterceptionArgsParams[1].ParameterType;
-            
+
             ilGenerator.EmitLoadArg(0);
             bindingLocalBuilder = LocalBuilderRepository.Get(bindingType);
             contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
@@ -39,7 +39,7 @@ namespace NCop.Aspects.Weaving
             parameters.ForEach(1, (parameter, i) => {
                 ilGenerator.EmitLoadArg(i);
             });
-            
+
             ilGenerator.Emit(OpCodes.Newobj, ctorInterceptionArgs);
             ilGenerator.EmitStoreLocal(declaredLocalBuilder);
 

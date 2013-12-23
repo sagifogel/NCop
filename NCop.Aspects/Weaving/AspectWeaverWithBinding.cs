@@ -35,7 +35,8 @@ namespace NCop.Aspects.Weaving.Expressions
             }
             else {
                 var aspectType = aspectDefinition.Aspect.AspectType;
-                var bindingWeaver = new OnMethodInterceptionBindingWeaver(aspectType, bindingSettings, settings, expression.Reduce(settings));
+                var aspectWeaver = expression.Reduce(settings);
+                var bindingWeaver = new OnMethodInterceptionBindingWeaver(aspectType, bindingSettings, settings, aspectWeaver);
                 
                 weavedType = bindingWeaver.Weave();
             }

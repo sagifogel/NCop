@@ -19,8 +19,8 @@ namespace NCop.Aspects.Weaving
 {
 	internal class MethodDecoratorArgumentsWeaver : AbstractArgumentsWeaver
 	{
-		internal MethodDecoratorArgumentsWeaver(Type argumentType, Type[] parameters, IAspectWeavingSettings aspectWeavingSettings)
-			: base(argumentType, parameters, aspectWeavingSettings, null) {
+        internal MethodDecoratorArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+            : base(argumentWeavingSettings, aspectWeavingSettings) {
 		}
 
 		public override void Weave(ILGenerator ilGenerator) {

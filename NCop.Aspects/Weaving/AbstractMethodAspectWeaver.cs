@@ -10,56 +10,57 @@ using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-	internal abstract class AbstractMethodAspectWeaver : IAspectWeaver
-	{
-		protected IMethodScopeWeaver weaver = null;
-		protected readonly IArgumentsWeaver argumentsWeaver = null;
-		protected readonly IAspectRepository aspectRepository = null;
-		protected readonly IAspectDefinition aspectDefinition = null;
-		protected readonly IAdviceDefinitionCollection advices = null;
-		protected readonly AdviceVisitor adviceVisitor = new AdviceVisitor();
-		protected readonly ILocalBuilderRepository localBuilderRepository = null;
-		protected readonly AdviceDiscoveryVisitor adviceDiscoveryVistor = new AdviceDiscoveryVisitor();
+    internal abstract class AbstractMethodAspectWeaver : IAspectWeaver
+    {
+        protected IMethodScopeWeaver weaver = null;
+        protected readonly IArgumentsWeaver argumentsWeaver = null;
+        protected readonly IAspectRepository aspectRepository = null;
+        protected readonly IAspectDefinition aspectDefinition = null;
+        protected readonly IAdviceDefinitionCollection advices = null;
+        protected readonly AdviceVisitor adviceVisitor = new AdviceVisitor();
+        protected readonly ILocalBuilderRepository localBuilderRepository = null;
+        protected readonly AdviceDiscoveryVisitor adviceDiscoveryVistor = new AdviceDiscoveryVisitor();
 
-		internal AbstractMethodAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings settings, bool topAspectWeaver = false) {
-			var weavingSettings = settings.WeavingSettings;
-			var firstAspectArgsType = aspectDefinition.ToAspectArgumentImpl(weavingSettings.MethodInfoImpl.DeclaringType);
-			var parameters = weavingSettings.MethodInfoImpl.GetParameters().Select(@param => @param.ParameterType);
-            var aspectType = aspectDefinition.Aspect.AspectType;
+        internal AbstractMethodAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings settings, bool topAspectWeaver = false) {
+            var weavingSettings = settings.WeavingSettings;
+            var argumentsWeavingSetings = aspectDefinition.ToArgumentsWeavingSettings(weavingSettings.MethodInfoImpl.DeclaringType);
 
-			advices = aspectDefinition.Advices;
-			this.aspectDefinition = aspectDefinition;
-			aspectRepository = settings.AspectRepository;
-			localBuilderRepository = new LocalBuilderRepository();
+            advices = aspectDefinition.Advices;
+            this.aspectDefinition = aspectDefinition;
+            aspectRepository = settings.AspectRepository;
+            localBuilderRepository = new LocalBuilderRepository();
 
-			if (topAspectWeaver) {
-                argumentsWeaver = new MethodImplArgumentsWeaver(aspectType, firstAspectArgsType, parameters.ToArray(), settings, localBuilderRepository);
-			}
-			else {
-                argumentsWeaver = new AspectArgumentsWeaver(aspectType, firstAspectArgsType, parameters.ToArray(), settings, this.localBuilderRepository);
-			}
+            if (topAspectWeaver) {
+                var @params = weavingSettings.MethodInfoImpl.GetParameters();
 
-			aspectDefinition.Advices.ForEach(advice => advice.Accept(adviceDiscoveryVistor));
-		}
+                argumentsWeavingSetings.Parameters = @params.Select(@param => @param.ParameterType).ToArray();
+                argumentsWeaver = new MethodImplArgumentsWeaver(argumentsWeavingSetings, settings, localBuilderRepository);
+            }
+            else {
+                argumentsWeaver = new AspectArgumentsWeaver(argumentsWeavingSetings, settings, localBuilderRepository);
+            }
 
-		private IAdviceExpression ResolveOnMethodEntryAdvice() {
-			IAdviceDefinition selectedAdviceDefinition = null;
-			Func<IAdviceDefinition, IAdviceExpression> adviceExpressionFactory = null;
-			var onMethodInvokeAdvice = adviceDiscoveryVistor.OnMethodInvokeAdvice;
+            aspectDefinition.Advices.ForEach(advice => advice.Accept(adviceDiscoveryVistor));
+        }
 
-			adviceExpressionFactory = adviceVisitor.Visit(adviceDiscoveryVistor.OnMethodInvokeAdvice);
-			selectedAdviceDefinition = advices.First(advice => advice.Advice.Equals(onMethodInvokeAdvice));
+        private IAdviceExpression ResolveOnMethodEntryAdvice() {
+            IAdviceDefinition selectedAdviceDefinition = null;
+            Func<IAdviceDefinition, IAdviceExpression> adviceExpressionFactory = null;
+            var onMethodInvokeAdvice = adviceDiscoveryVistor.OnMethodInvokeAdvice;
 
-			return adviceExpressionFactory(selectedAdviceDefinition);
-		}
+            adviceExpressionFactory = adviceVisitor.Visit(adviceDiscoveryVistor.OnMethodInvokeAdvice);
+            selectedAdviceDefinition = advices.First(advice => advice.Advice.Equals(onMethodInvokeAdvice));
 
-		protected virtual Type ToImplArgumentType(Type argumentsType) {
-			var genericArguments = argumentsType.GetGenericArguments();
-			var genericArgumentsWithContext = new[] { aspectDefinition.AspectDeclaringType }.Concat(genericArguments);
+            return adviceExpressionFactory(selectedAdviceDefinition);
+        }
 
-			return argumentsType.MakeGenericArgsType(genericArgumentsWithContext.ToArray());
-		}
+        protected virtual Type ToImplArgumentType(Type argumentsType) {
+            var genericArguments = argumentsType.GetGenericArguments();
+            var genericArgumentsWithContext = new[] { aspectDefinition.AspectDeclaringType }.Concat(genericArguments);
 
-		public abstract ILGenerator Weave(ILGenerator ilGenerator);
-	}
+            return argumentsType.MakeGenericArgsType(genericArgumentsWithContext.ToArray());
+        }
+
+        public abstract ILGenerator Weave(ILGenerator ilGenerator);
+    }
 }
