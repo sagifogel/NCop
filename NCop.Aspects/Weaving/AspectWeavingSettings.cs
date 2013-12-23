@@ -15,12 +15,10 @@ namespace NCop.Aspects.Weaving
 
         public IWeavingSettings WeavingSettings { get; set; }
 
-        //public IArgumentsWeaver ArgumentsWeaver { get; set; }
-
         public IAspectRepository AspectRepository { get; set; }
 
         public IAspectArgsMapper AspectArgsMapper { get; set; }
 
-		public IArgumentsWeavingSettings ArgumentsWeavingSettings { get; set; }
+		
 	}
 }

@@ -13,6 +13,5 @@ namespace NCop.Aspects.Weaving
 		IWeavingSettings WeavingSettings { get; }
 		IAspectRepository AspectRepository { get; }
 		IAspectArgsMapper AspectArgsMapper { get; }
-		IArgumentsWeavingSettings ArgumentsWeavingSettings { get; }
 	}
 }

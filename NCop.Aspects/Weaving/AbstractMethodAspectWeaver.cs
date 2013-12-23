@@ -25,6 +25,7 @@ namespace NCop.Aspects.Weaving
 			var weavingSettings = settings.WeavingSettings;
 			var firstAspectArgsType = aspectDefinition.ToAspectArgumentImpl(weavingSettings.MethodInfoImpl.DeclaringType);
 			var parameters = weavingSettings.MethodInfoImpl.GetParameters().Select(@param => @param.ParameterType);
+            var aspectType = aspectDefinition.Aspect.AspectType;
 
 			advices = aspectDefinition.Advices;
 			this.aspectDefinition = aspectDefinition;
@@ -32,10 +33,10 @@ namespace NCop.Aspects.Weaving
 			localBuilderRepository = new LocalBuilderRepository();
 
 			if (topAspectWeaver) {
-				argumentsWeaver = new MethodImplArgumentsWeaver(firstAspectArgsType, parameters.ToArray(), settings, localBuilderRepository);
+                argumentsWeaver = new MethodImplArgumentsWeaver(aspectType, firstAspectArgsType, parameters.ToArray(), settings, localBuilderRepository);
 			}
 			else {
-				argumentsWeaver = new AspectArgumentsWeaver(firstAspectArgsType, parameters.ToArray(), settings, this.localBuilderRepository);
+                argumentsWeaver = new AspectArgumentsWeaver(aspectType, firstAspectArgsType, parameters.ToArray(), settings, this.localBuilderRepository);
 			}
 
 			aspectDefinition.Advices.ForEach(advice => advice.Accept(adviceDiscoveryVistor));

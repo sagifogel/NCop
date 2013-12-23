@@ -16,7 +16,7 @@ namespace NCop.Aspects.Weaving.Expressions
 			weaver = new AspectDecoratorWeaver(weavingSettings);
         }
 
-        public IAspectWeaver Reduce(IAspectWeavingSettings settings) {
+        public IAspectWeaver Reduce(IAspectWeavingSettings settings, bool topAspect = false) {
             return weaver;
         }
     }

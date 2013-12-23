@@ -24,9 +24,8 @@ namespace NCop.Aspects.Weaving
 		internal OnMethodInterceptionBindingWeaver(BindingSettings bindingSettings, IAspectWeavingSettings settings, IAspectWeaver methodScopeWeaver, IMethodBindingWeaver nestedMethodBindingWeaver)
 			: base(bindingSettings, settings, methodScopeWeaver) {
 			var localBuilderRepository = new LocalBuilderRepository();
-			var weavingSettings = settings.WeavingSettings;
 
-			argumentsWeaver = new AspectArgumentsWeaver(settings.ArgumentsWeavingSettings.ArgumentType, settings.ArgumentsWeavingSettings.Parameters, settings, localBuilderRepository);
+			argumentsWeaver = new AspectArgumentsWeaver(null, argumentsWeavingSettings.ArgumentType, argumentsWeavingSettings.Parameters, settings, new LocalBuilderRepository());
 		}
 
 		protected override void WeaveInvokeMethod() {

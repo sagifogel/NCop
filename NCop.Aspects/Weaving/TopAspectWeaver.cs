@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NCop.Aspects.Weaving.Expressions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
@@ -9,14 +10,18 @@ namespace NCop.Aspects.Weaving
 {
 	class TopAspectWeaver : IAspectWeaver
 	{
-		private readonly IAspectWeaver decoratedWeaver = null;
+        private readonly IAspectExpression aspectExpression = null;
+        private readonly IAspectWeavingSettings aspectWeavingSettings = null;
 
-		public TopAspectWeaver(IAspectWeaver decoratedWeaver) {
-			this.decoratedWeaver = decoratedWeaver;		
-		}
+        public TopAspectWeaver(IAspectExpression aspectExpression, IAspectWeavingSettings aspectWeavingSettings) {
+            this.aspectExpression = aspectExpression;
+            this.aspectWeavingSettings = aspectWeavingSettings;
+        }
 
 		public ILGenerator Weave(ILGenerator ilGenerator) {
-			return decoratedWeaver.Weave(ilGenerator);
+            var reduced = aspectExpression.Reduce(aspectWeavingSettings, true);
+
+            return reduced.Weave(ilGenerator);
 		}
 	}
 }

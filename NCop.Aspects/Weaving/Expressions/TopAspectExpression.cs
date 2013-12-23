@@ -14,8 +14,8 @@ namespace NCop.Aspects.Weaving.Expressions
 			this.aspectExpression = aspectExpression;
 		}
 
-		public IAspectWeaver Reduce(IAspectWeavingSettings settings) {
-			return new TopAspectWeaver(aspectExpression.Reduce(settings));
+        public IAspectWeaver Reduce(IAspectWeavingSettings settings, bool topAspect = false) {
+			return new TopAspectWeaver(aspectExpression, settings);
 		}
 	}
 }

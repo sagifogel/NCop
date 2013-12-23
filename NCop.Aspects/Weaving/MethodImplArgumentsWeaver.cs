@@ -18,8 +18,8 @@ namespace NCop.Aspects.Weaving
 {
     internal class MethodImplArgumentsWeaver : AbstractAspectArgumentsWeaver
     {
-        internal MethodImplArgumentsWeaver(Type argsType, Type[] parameters, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository)
-			: base(argsType, parameters, aspectWeavingSettings, localBuilderRepository) {
+        internal MethodImplArgumentsWeaver(Type aspectType, Type argsType, Type[] parameters, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository)
+			: base(aspectType, argsType, parameters, aspectWeavingSettings, localBuilderRepository) {
         }
 
         public override LocalBuilder BuildArguments(ILGenerator ilGenerator, Type[] parameters) {

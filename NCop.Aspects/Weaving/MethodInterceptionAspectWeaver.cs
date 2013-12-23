@@ -20,7 +20,8 @@ namespace NCop.Aspects.Weaving
 			: base(aspectDefinition, settings, topAspectWeaver) {
             IAdviceExpression selectedExpression = null;
             var invokeWeavers = new List<IMethodScopeWeaver>();
-			var aspectSettings = new AdviceWeavingSettings(aspectDefinition.Aspect.AspectType, settings, localBuilderRepository);
+            var argumentsWeavingSettings = aspectDefinition.ToArgumentsWeavingSettings(settings.WeavingSettings.MethodInfoImpl.DeclaringType);
+            var aspectSettings = new AdviceWeavingSettings(aspectDefinition.Aspect.AspectType, settings, localBuilderRepository, argumentsWeavingSettings);
 
             WeavedType = weavedType;
             selectedExpression = ResolveOnMethodInvokeAdvice();

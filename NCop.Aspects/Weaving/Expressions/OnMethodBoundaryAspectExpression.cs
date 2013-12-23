@@ -16,7 +16,7 @@ namespace NCop.Aspects.Weaving.Expressions
             : base(expression, aspectDefinition) {
         }
 
-        public override IAspectWeaver Reduce(IAspectWeavingSettings settings) {
+        public override IAspectWeaver Reduce(IAspectWeavingSettings settings, bool topAspect = false) {
             return new OnMethodBoundaryAspectWeaver(aspectDefinition, settings);
         }
     }

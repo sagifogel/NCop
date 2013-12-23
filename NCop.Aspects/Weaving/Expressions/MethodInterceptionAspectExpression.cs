@@ -13,8 +13,8 @@ namespace NCop.Aspects.Weaving.Expressions
             : base(expression, aspectDefinition) {
         }
 
-        public override IAspectWeaver Reduce(IAspectWeavingSettings settings) {
-            var reducer = new AspectWeaverWithBinding(expression, aspectDefinition, settings);
+        public override IAspectWeaver Reduce(IAspectWeavingSettings settings, bool topAspect = false) {
+            var reducer = new AspectWeaverWithBinding(expression, aspectDefinition, settings, topAspect);
 
             return reducer.Reduce(settings);
         }

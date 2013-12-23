@@ -9,18 +9,21 @@ using NCop.Weaving;
 
 namespace NCop.Aspects.Weaving
 {
-	internal abstract class AbstractAspectArgumentsWeaver : AbstractArgumentsWeaver, IAspectArgumentsWeaver
-	{
-		public AbstractAspectArgumentsWeaver(Type argumentType, Type[] parameters, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository)
-			: base(argumentType, parameters, aspectWeavingSettings, localBuilderRepository) {
-		}
+    internal abstract class AbstractAspectArgumentsWeaver : AbstractArgumentsWeaver, IAspectArgumentsWeaver
+    {
+        protected readonly Type aspectType = null;
 
-		public override void Weave(ILGenerator ilGenerator) {
-			var localBuilder = BuildArguments(ilGenerator, Parameters);
+        public AbstractAspectArgumentsWeaver(Type aspectType, Type argumentType, Type[] parameters, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository)
+            : base(argumentType, parameters, aspectWeavingSettings, localBuilderRepository) {
+            this.aspectType = aspectType;
+        }
 
-			LocalBuilderRepository.Add(localBuilder);
-		}
+        public override void Weave(ILGenerator ilGenerator) {
+            var localBuilder = BuildArguments(ilGenerator, Parameters);
 
-		public abstract LocalBuilder BuildArguments(ILGenerator ilGenerator, Type[] parameters);
-	}
+            LocalBuilderRepository.Add(localBuilder);
+        }
+
+        public abstract LocalBuilder BuildArguments(ILGenerator ilGenerator, Type[] parameters);
+    }
 }
