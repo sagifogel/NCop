@@ -17,27 +17,33 @@ using NCop.Weaving.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-	internal class OnMethodInterceptionBindingWeaver : AbstractMethodBindingWeaver
-	{
-		private readonly IArgumentsWeaver argumentsWeaver = null;
+    internal class OnMethodInterceptionBindingWeaver : AbstractMethodBindingWeaver
+    {
+        private readonly IArgumentsWeaver argumentsWeaver = null;
 
-		internal OnMethodInterceptionBindingWeaver(BindingSettings bindingSettings, IAspectWeavingSettings settings, IAspectWeaver methodScopeWeaver, IMethodBindingWeaver nestedMethodBindingWeaver)
-			: base(bindingSettings, settings, methodScopeWeaver) {
-			var localBuilderRepository = new LocalBuilderRepository();
+        internal OnMethodInterceptionBindingWeaver(Type aspectType, BindingSettings bindingSettings, IAspectWeavingSettings settings, IAspectWeaver methodScopeWeaver)
+            : base(bindingSettings, settings, methodScopeWeaver) {
+            var localBuilderRepository = new LocalBuilderRepository();
+            var lastParameter = argumentsWeavingSettings.Parameters[argumentsWeavingSettings.Parameters.Length -1];
+            var parameters = argumentsWeavingSettings.Parameters.Skip(1);
 
-			argumentsWeaver = new AspectArgumentsWeaver(null, argumentsWeavingSettings.ArgumentType, argumentsWeavingSettings.Parameters, settings, new LocalBuilderRepository());
-		}
+            if (bindingSettings.IsFunction) {
+                parameters = parameters.TakeWhile(@param => !@param.Equals(lastParameter));
+            }
 
-		protected override void WeaveInvokeMethod() {
-			ILGenerator ilGenerator = null;
-			MethodBuilder methodBuilder = null;
-			var methodParameters = ResolveParameterTypes();
+            argumentsWeaver = new AspectArgumentsWeaver(aspectType, argumentsWeavingSettings.ArgumentType, parameters.ToArray(), settings, new LocalBuilderRepository());
+        }
 
-			methodBuilder = typeBuilder.DefineMethod("Invoke", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
-			ilGenerator = methodBuilder.GetILGenerator();
-			argumentsWeaver.Weave(ilGenerator);
-			methodScopeWeaver.Weave(ilGenerator);
-			ilGenerator.Emit(OpCodes.Ret);
-		}
-	}
+        protected override void WeaveInvokeMethod() {
+            ILGenerator ilGenerator = null;
+            MethodBuilder methodBuilder = null;
+            var methodParameters = ResolveParameterTypes();
+
+            methodBuilder = typeBuilder.DefineMethod("Invoke", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
+            ilGenerator = methodBuilder.GetILGenerator();
+            argumentsWeaver.Weave(ilGenerator);
+            methodScopeWeaver.Weave(ilGenerator);
+            ilGenerator.Emit(OpCodes.Ret);
+        }
+    }
 }

@@ -9,6 +9,8 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal class MethodInterceptionAspectExpression : AbstractAspectExpression
     {
+        private Guid guid = Guid.NewGuid();
+
         internal MethodInterceptionAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition = null)
             : base(expression, aspectDefinition) {
         }

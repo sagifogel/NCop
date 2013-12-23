@@ -20,23 +20,24 @@ namespace NCop.Aspects.Weaving.Expressions
         private readonly IAspectDefinition aspectDefinition = null;
 
         internal AspectWeaverWithBinding(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings, bool topAspect = false) {
+            BindingSettings bindingSettings = null;
+
             this.settings = settings;
             this.aspectDefinition = aspectDefinition;
             this.topAspect = topAspect;
+            bindingSettings = aspectDefinition.ToBindingSettings(settings.WeavingSettings.MethodInfoImpl.DeclaringType);
 
             if (expression.Is<AspectDecoratorExpression>()) {
-                var bindingSettings = aspectDefinition.ToBindingSettings(settings.WeavingSettings.MethodInfoImpl.DeclaringType);
                 var methodDecoratorBindingWeaver = new MethodDecoratorBindingWeaver(bindingSettings, settings, expression.Reduce(settings));
 
                 aspectWeaver = expression.Reduce(settings);
                 weavedType = methodDecoratorBindingWeaver.Weave();
             }
             else {
-                IWithFieldAspectWeaver withWeavedType = null;
-
-                aspectWeaver = expression.Reduce(settings);
-                withWeavedType = aspectWeaver as IWithFieldAspectWeaver;
-                weavedType = withWeavedType.WeavedType;
+                var aspectType = aspectDefinition.Aspect.AspectType;
+                var bindingWeaver = new OnMethodInterceptionBindingWeaver(aspectType, bindingSettings, settings, expression.Reduce(settings));
+                
+                weavedType = bindingWeaver.Weave();
             }
         }
 

@@ -10,7 +10,7 @@ namespace NCop.Aspects.Weaving
 {
     internal class AspectArgumentsWeaver : AbstractAspectArgumentsWeaver
     {
-		internal AspectArgumentsWeaver(Type aspectType, Type argsType, Type[] parameters, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository)
+        internal AspectArgumentsWeaver(Type aspectType, Type argsType, Type[] parameters, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository)
             : base(aspectType, argsType, parameters, aspectWeavingSettings, localBuilderRepository) {
         }
 
@@ -18,20 +18,19 @@ namespace NCop.Aspects.Weaving
             FieldInfo weavedNestedBinding = null;
             var declaredLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
             var ctorInterceptionArgs = ArgumentType.GetConstructors().First();
-			var aspectRepository = aspectWeavingSettings.AspectRepository;
-			
-			weavedNestedBinding = aspectRepository.GetAspectFieldByType(aspectType); 
+            var aspectRepository = aspectWeavingSettings.AspectRepository;
+
+            weavedNestedBinding = aspectRepository.GetAspectFieldByType(aspectType);
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);
             ilGenerator.Emit(OpCodes.Ldsfld, weavedNestedBinding);
             ilGenerator.EmitLoadArg(2);
 
-            parameters.Skip(1)
-                      .ForEach(2, (parameter, i) => {
-                          var property = ArgumentType.GetProperty("Arg{0}".Fmt(i));
+            parameters.ForEach(1, (parameter, i) => {
+                var property = ArgumentType.GetProperty("Arg{0}".Fmt(i));
 
-                          ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());
-                      });
+                ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+            });
 
             ilGenerator.Emit(OpCodes.Newobj, ctorInterceptionArgs);
             ilGenerator.EmitStoreLocal(declaredLocalBuilder);
