@@ -8,35 +8,40 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class AspectArgumentsWeaver : AbstractAspectArgumentsWeaver
-    {
-        internal AspectArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository)
-            : base(argumentWeavingSettings, aspectWeavingSettings, localBuilderRepository) {
-        }
+	internal class AspectArgumentsWeaver : AbstractAspectArgumentsWeaver
+	{
+		private readonly FieldInfo bindingsDependency = null;
 
-        public override LocalBuilder BuildArguments(ILGenerator ilGenerator, Type[] parameters) {
-            FieldInfo weavedType = null;
-            var declaredLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
-            var ctorInterceptionArgs = ArgumentType.GetConstructors().First();
-            var aspectRepository = aspectWeavingSettings.AspectRepository;
+		internal AspectArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository)
+			: base(argumentWeavingSettings, aspectWeavingSettings, localBuilderRepository) {
+			bindingsDependency = argumentWeavingSettings.BindingsDependency;
+		}
 
-            weavedType = aspectRepository.GetAspectFieldByType(AspectType);
-            ilGenerator.EmitLoadArg(1);
-            ilGenerator.Emit(OpCodes.Ldind_Ref);
-            ilGenerator.Emit(OpCodes.Ldsfld, weavedType);
-            ilGenerator.EmitLoadArg(2);
+		public override LocalBuilder BuildArguments(ILGenerator ilGenerator, Type[] parameters) {
+			var aspectRepository = aspectWeavingSettings.AspectRepository;
+			var argsImplLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
+			var ctorInterceptionArgs = ArgumentType.GetConstructors().First();
+			var weavedType = aspectRepository.GetAspectFieldByType(AspectType);
+			var bindingLocalBuilder = LocalBuilderRepository.Get(bindingsDependency.FieldType);
 
-            parameters.Skip(1)
-                      .ForEach(1, (parameter, i) => {
-                          var property = ArgumentType.GetProperty("Arg{0}".Fmt(i));
+			ilGenerator.Emit(OpCodes.Ldsfld, bindingsDependency);
+			ilGenerator.EmitStoreLocal(bindingLocalBuilder);
+			ilGenerator.EmitLoadArg(1);
+			ilGenerator.Emit(OpCodes.Ldind_Ref);
+			ilGenerator.EmitLoadLocal(bindingLocalBuilder);
+			ilGenerator.EmitLoadArg(2);
 
-                          ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());
-                      });
+			parameters.Skip(1)
+					  .ForEach(1, (parameter, i) => {
+						  var property = ArgumentType.GetProperty("Arg{0}".Fmt(i));
 
-            ilGenerator.Emit(OpCodes.Newobj, ctorInterceptionArgs);
-            ilGenerator.EmitStoreLocal(declaredLocalBuilder);
+						  ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+					  });
 
-            return declaredLocalBuilder;
-        }
-    }
+			ilGenerator.Emit(OpCodes.Newobj, ctorInterceptionArgs);
+			ilGenerator.EmitStoreLocal(argsImplLocalBuilder);
+
+			return argsImplLocalBuilder;
+		}
+	}
 }
