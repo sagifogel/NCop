@@ -46,6 +46,6 @@ namespace NCop.Aspects.Aspects
 
 		protected abstract void BulidAdvices();
 
-        public abstract IAspectExpressionBuilder Accept(AspectVisitor visitor);
+        public abstract IAspectExpressionBuilder Accept(IAspectDefinitionVisitor visitor);
     }
 }

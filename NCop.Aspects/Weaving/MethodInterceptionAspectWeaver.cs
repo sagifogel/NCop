@@ -14,46 +14,25 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-	internal class MethodInterceptionAspectWeaver : AbstractMethodAspectWeaver, ITypeReflector
-	{
-		internal MethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings settings, FieldInfo weavedType, bool topAspectWeaver = false)
-			: base(aspectDefinition, settings, topAspectWeaver) {
-			IAdviceExpression selectedExpression = null;
-			var invokeWeavers = new List<IMethodScopeWeaver>();
-			var argumentsWeavingSettings = aspectDefinition.ToArgumentsWeavingSettings(settings.WeavingSettings.MethodInfoImpl.DeclaringType);
-			var aspectSettings = new AdviceWeavingSettings(aspectDefinition.Aspect.AspectType, settings, localBuilderRepository, argumentsWeavingSettings);
+    internal class MethodInterceptionAspectWeaver : AbstractMethodInterceptionAspectWeaver
+    {
+        internal MethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings settings, FieldInfo weavedType)
+            : base(aspectDefinition, settings, weavedType) {
+            argumentsWeavingSetings.BindingsDependency = weavedType;
+            argumentsWeaver = new AspectArgumentsWeaver(argumentsWeavingSetings, settings, localBuilderRepository);
+        }
 
-			WeavedType = weavedType;
-			selectedExpression = ResolveOnMethodInvokeAdvice();
-			invokeWeavers.Add(selectedExpression.Reduce(aspectSettings));
-			weaver = new MethodScopeWeaversQueue(invokeWeavers);
-		}
+        public override ILGenerator Weave(ILGenerator ilGenerator) {
+            LocalBuilder argsImplLocalBuilder = null;
+            var aspectType = aspectDefinition.Aspect.AspectType;
+            var aspectField = aspectRepository.GetAspectFieldByType(aspectType);
 
-		public FieldInfo WeavedType { get; private set; }
+            argumentsWeaver.Weave(ilGenerator);
+            localBuilderRepository.Get(argumentsWeavingSetings.ArgumentType);
+            ilGenerator.Emit(OpCodes.Ldsfld, aspectField);
+            ilGenerator.EmitStoreLocal(argsImplLocalBuilder);
 
-		private IAdviceExpression ResolveOnMethodInvokeAdvice() {
-			IAdviceDefinition selectedAdviceDefinition = null;
-			Func<IAdviceDefinition, IAdviceExpression> adviceExpressionFactory = null;
-			var onMethodInvokeAdvice = adviceDiscoveryVistor.OnMethodInvokeAdvice;
-
-			adviceExpressionFactory = adviceVisitor.Visit(adviceDiscoveryVistor.OnMethodInvokeAdvice);
-			selectedAdviceDefinition = advices.First(advice => advice.Advice.Equals(onMethodInvokeAdvice));
-
-			return adviceExpressionFactory(selectedAdviceDefinition);
-		}
-
-		public override ILGenerator Weave(ILGenerator ilGenerator) {
-			LocalBuilder bindingLocalBuilder = null;
-			Type methodBindingWeaverBaseType = null;
-
-			methodBindingWeaverBaseType = WeavedType.ReflectedType.GetInterfaces().First();
-			bindingLocalBuilder = ilGenerator.DeclareLocal(WeavedType.ReflectedType);
-			localBuilderRepository.Add(methodBindingWeaverBaseType, bindingLocalBuilder);
-			ilGenerator.Emit(OpCodes.Ldsfld, WeavedType);
-			ilGenerator.EmitStoreLocal(bindingLocalBuilder);
-			argumentsWeaver.Weave(ilGenerator);
-
-			return weaver.Weave(ilGenerator);
-		}
-	}
+            return weaver.Weave(ilGenerator);
+        }
+    }
 }

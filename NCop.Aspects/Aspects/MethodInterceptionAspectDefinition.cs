@@ -33,7 +33,7 @@ namespace NCop.Aspects.Aspects
                  });
         }
 
-        public override IAspectExpressionBuilder Accept(AspectVisitor visitor) {
+        public override IAspectExpressionBuilder Accept(IAspectDefinitionVisitor visitor) {
             return visitor.Visit(aspect).Invoke(this);
         }
     }

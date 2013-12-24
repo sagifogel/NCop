@@ -1,15 +1,15 @@
-﻿using System;
+﻿using NCop.Aspects.Aspects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NCop.Aspects.Aspects;
-using NCop.Weaving;
+using System.Threading.Tasks;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class MethodInterceptionAspectExpression : AbstractAspectExpression
+    internal class MethodInterceptionTopAspectExpression : AbstractAspectExpression
     {
-        internal MethodInterceptionAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition = null)
+        internal MethodInterceptionTopAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition = null) 
             : base(expression, aspectDefinition) {
         }
 

@@ -20,8 +20,7 @@ namespace NCop.Aspects.Weaving.Expressions
 			this.aspectsDefinitions = aspectsDefinitions;
         }
 
-
-        public IAspectWeaver Reduce(IAspectWeavingSettings settings, bool topAspect = false) {
+        public IAspectWeaver Reduce(IAspectWeavingSettings settings) {
 			return new AspectsWeaver(expression, aspectsDefinitions, weavingSettings);
         }
     }

@@ -21,6 +21,6 @@ namespace NCop.Aspects.Weaving.Expressions
             this.aspectDefinition = aspectDefinition;
         }
 
-        public abstract IAspectWeaver Reduce(IAspectWeavingSettings settings, bool topAspect = false);
+        public abstract IAspectWeaver Reduce(IAspectWeavingSettings settings);
     }
 }

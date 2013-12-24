@@ -5,7 +5,7 @@ using System;
 
 namespace NCop.Aspects.Aspects
 {
-    public interface IAspectDefinition : IAcceptsVisitor<AspectVisitor, IAspectExpressionBuilder>
+    public interface IAspectDefinition : IAcceptsVisitor<IAspectDefinitionVisitor, IAspectExpressionBuilder>
     {
         IAspect Aspect { get; }
         AspectType AspectType { get; }

@@ -13,33 +13,23 @@ namespace NCop.Aspects.Weaving
     internal abstract class AbstractMethodAspectWeaver : IAspectWeaver
     {
         protected IMethodScopeWeaver weaver = null;
-        protected readonly IArgumentsWeaver argumentsWeaver = null;
+        protected IArgumentsWeaver argumentsWeaver = null;
+        protected readonly IWeavingSettings weavingSettings = null;
         protected readonly IAspectRepository aspectRepository = null;
         protected readonly IAspectDefinition aspectDefinition = null;
         protected readonly IAdviceDefinitionCollection advices = null;
         protected readonly AdviceVisitor adviceVisitor = new AdviceVisitor();
         protected readonly ILocalBuilderRepository localBuilderRepository = null;
+        protected readonly ArgumentsWeavingSettings argumentsWeavingSetings = null;
         protected readonly AdviceDiscoveryVisitor adviceDiscoveryVistor = new AdviceDiscoveryVisitor();
 
-        internal AbstractMethodAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings settings, bool topAspectWeaver = false) {
-            var weavingSettings = settings.WeavingSettings;
-            var argumentsWeavingSetings = aspectDefinition.ToArgumentsWeavingSettings(weavingSettings.MethodInfoImpl.DeclaringType);
-
+        internal AbstractMethodAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWevingSettings) {
             advices = aspectDefinition.Advices;
             this.aspectDefinition = aspectDefinition;
-            aspectRepository = settings.AspectRepository;
+            weavingSettings = aspectWevingSettings.WeavingSettings;
+            argumentsWeavingSetings = aspectDefinition.ToArgumentsWeavingSettings(weavingSettings.MethodInfoImpl.DeclaringType);
+            aspectRepository = aspectWevingSettings.AspectRepository;
             localBuilderRepository = new LocalBuilderRepository();
-
-            if (topAspectWeaver) {
-                var @params = weavingSettings.MethodInfoImpl.GetParameters();
-
-                argumentsWeavingSetings.Parameters = @params.Select(@param => @param.ParameterType).ToArray();
-                argumentsWeaver = new MethodImplArgumentsWeaver(argumentsWeavingSetings, settings, localBuilderRepository);
-            }
-            else {
-                argumentsWeaver = new AspectArgumentsWeaver(argumentsWeavingSetings, settings, localBuilderRepository);
-            }
-
             aspectDefinition.Advices.ForEach(advice => advice.Accept(adviceDiscoveryVistor));
         }
 

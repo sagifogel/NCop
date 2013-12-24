@@ -43,8 +43,8 @@ namespace NCop.Aspects.Weaving.Expressions
 			}
 		}
 
-		public IAspectWeaver Reduce(IAspectWeavingSettings settings, bool topAspect = false) {
-			return new MethodInterceptionAspectWeaver(aspectDefinition, settings, weavedType, this.topAspect);
+		public IAspectWeaver Reduce(IAspectWeavingSettings settings) {
+			return new MethodInterceptionAspectWeaver(aspectDefinition, settings, weavedType);
 		}
 	}
 }

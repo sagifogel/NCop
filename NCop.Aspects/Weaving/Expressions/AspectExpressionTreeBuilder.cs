@@ -10,43 +10,46 @@ using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-	internal class AspectExpressionTreeBuilder : IBuilder<IAspectExpression>
-	{
-		private readonly IWeavingSettings weavingSettings = null; 
-		private readonly IAspectExpression decoratorAspect = null;
-		private readonly Stack<IAspectDefinition> aspectsStack = null;
-		private readonly IAspectDefinitionCollection aspectsDefinitions = null;
+    internal class AspectExpressionTreeBuilder : IBuilder<IAspectExpression>
+    {
+        private readonly IWeavingSettings weavingSettings = null;
+        private readonly IAspectExpression decoratorAspect = null;
+        private readonly Stack<IAspectDefinition> aspectsStack = null;
+        private readonly IAspectDefinitionCollection aspectsDefinitions = null;
 
-		internal AspectExpressionTreeBuilder(IAspectDefinitionCollection aspectDefinitions, IWeavingSettings weavingSettings) {
-			var aspectsByPriority = aspectDefinitions.OrderBy(aspect => aspect.Aspect.AspectPriority)
-													 .ThenBy(aspect => {
-														 var value = aspect.Aspect is OnMethodBoundaryAspectAttribute;
-														 return Convert.ToInt32(!value);
-													 });
+        internal AspectExpressionTreeBuilder(IAspectDefinitionCollection aspectDefinitions, IWeavingSettings weavingSettings) {
+            var aspectsByPriority = aspectDefinitions.OrderBy(aspect => aspect.Aspect.AspectPriority)
+                                                     .ThenBy(aspect => {
+                                                         var value = aspect.Aspect is OnMethodBoundaryAspectAttribute;
+                                                         return Convert.ToInt32(!value);
+                                                     });
 
-			this.weavingSettings = weavingSettings;
-			this.aspectsDefinitions = aspectDefinitions;
-			aspectsStack = new Stack<IAspectDefinition>(aspectsByPriority);
-			decoratorAspect = new AspectDecoratorExpression(weavingSettings);
-		}
+            this.weavingSettings = weavingSettings;
+            this.aspectsDefinitions = aspectDefinitions;
+            aspectsStack = new Stack<IAspectDefinition>(aspectsByPriority);
+            decoratorAspect = new AspectDecoratorExpression(weavingSettings);
+        }
 
-		public IAspectExpression Build() {
-			var visitor = new AspectVisitor();
-			IAspectExpressionBuilder builder = null;
-			IAspectExpression aspectExpression = null;
-			var aspectDefinition = aspectsStack.Pop();
+        public IAspectExpression Build() {
+            var aspectVisitor = new AspectVisitor();
+            IAspectExpression aspectExpression = null;
+            var topAspectVisitor = new TopAspectVisitor();
             var methodInfoImpl = weavingSettings.MethodInfoImpl;
+            Func<IAspectDefinitionVisitor, IAspectExpression, IAspectExpression> expressionFactory = (visitor, expression) => {
+                return aspectsStack.Pop()
+                                   .Accept(visitor)
+                                   .Build(expression);
+            };
 
-			builder = aspectDefinition.Accept(visitor);
-			aspectExpression = builder.Build(decoratorAspect);
+            aspectExpression = expressionFactory(aspectVisitor, decoratorAspect);
 
-			while (aspectsStack.Count > 0) {
-				aspectDefinition = aspectsStack.Pop();
-				builder = aspectDefinition.Accept(visitor);
-				aspectExpression = builder.Build(aspectExpression);
-			}
+            while (aspectsStack.Count > 1) {
+                aspectExpression = expressionFactory(aspectVisitor, aspectExpression);
+            }
 
-            return new AspectExpression(new TopAspectExpression(aspectExpression), aspectsDefinitions, weavingSettings);
-		}
-	}
+            aspectExpression = expressionFactory(topAspectVisitor, aspectExpression);
+
+            return new AspectExpression(aspectExpression, aspectsDefinitions, weavingSettings);
+        }
+    }
 }
