@@ -10,20 +10,20 @@ using NCop.Aspects.Weaving;
 
 namespace NCop.Aspects.Extensions
 {
-	public static class AspectBuilderExtensions
+	internal static class AspectBuilderExtensions
 	{
-		public static bool Is<TAspect>(this IAspect aspect) where TAspect : IAspect {
+		internal static bool Is<TAspect>(this IAspect aspect) where TAspect : IAspect {
 			return typeof(TAspect).IsAssignableFrom(aspect.GetType());
 		}
 
-		public static bool IsMethodLevelAspect(this IAspect aspect) {
+		internal static bool IsMethodLevelAspect(this IAspect aspect) {
 			var type = aspect.GetType();
 
 			return typeof(OnMethodBoundaryAspectAttribute).IsAssignableFrom(type) ||
 				   typeof(MethodInterceptionAspectAttribute).IsAssignableFrom(type);
 		}
 
-		public static Type GetArgumentType(this IAspectDefinition aspectDefinition) {
+		internal static Type GetArgumentType(this IAspectDefinition aspectDefinition) {
 			var aspectType = aspectDefinition.Aspect.AspectType;
 			var overridenMethods = aspectType.GetOverridenMethods();
 			var adviceMethod = overridenMethods.First();
@@ -31,7 +31,7 @@ namespace NCop.Aspects.Extensions
 			return adviceMethod.GetParameters().First().ParameterType;
 		}
 
-		public static Type ToAspectArgumentImpl(this IAspectDefinition aspectDefinition, Type declaringType, Type aspectArgType = null) {
+		internal static Type ToAspectArgumentImpl(this IAspectDefinition aspectDefinition, Type declaringType, Type aspectArgType = null) {
 			var argumentType = aspectArgType ?? aspectDefinition.GetArgumentType();
 			var genericArguments = argumentType.GetGenericArguments();
 			var genericArgumentsWithContext = new[] { declaringType }.Concat(genericArguments);
@@ -39,7 +39,7 @@ namespace NCop.Aspects.Extensions
 			return argumentType.MakeGenericArgsType(genericArgumentsWithContext.ToArray());
 		}
 
-		public static BindingSettings ToBindingSettings(this IAspectDefinition aspectDefinition, Type declaringType) {
+		internal static BindingSettings ToBindingSettings(this IAspectDefinition aspectDefinition, Type declaringType) {
 			var aspectArgumentType = aspectDefinition.GetArgumentType();
 			var aspectArgumentImplType = aspectDefinition.ToAspectArgumentImpl(declaringType);
 			var genericArguments = aspectArgumentImplType.GetGenericArguments();
@@ -59,12 +59,12 @@ namespace NCop.Aspects.Extensions
 			};
 		}
 
-		public static ArgumentsWeavingSettings ToArgumentsWeavingSettings(this IAspectDefinition aspectDefinition, Type declaringType) {
+		internal static ArgumentsWeavingSettings ToArgumentsWeavingSettings(this IAspectDefinition aspectDefinition, Type declaringType) {
 			return aspectDefinition.ToBindingSettings(declaringType)
 								   .ToArgumentsWeavingSettings(aspectDefinition.Aspect.AspectType);
 		}
 
-		public static ArgumentsWeavingSettings ToArgumentsWeavingSettings(this BindingSettings bindingSettings, Type aspectType = null) {
+		internal static ArgumentsWeavingSettings ToArgumentsWeavingSettings(this BindingSettings bindingSettings, Type aspectType = null) {
 			Type bindingsDependencyType = null;
 			var methodParameters = bindingSettings.ToMethodParameters();
 
@@ -77,7 +77,17 @@ namespace NCop.Aspects.Extensions
 				IsFunction = bindingSettings.IsFunction,
 				Parameters = methodParameters.Parameters,
 				ArgumentType = bindingSettings.ArgumentType,
-				BindingsDependency = bindingSettings.BindingsDependency
+				BindingsDependency = bindingSettings.BindingsDependency,
+				LocalBuilderRepository = bindingSettings.LocalBuilderRepository
+			};
+		}
+
+		internal static AspectWeavingSettings Clone(this IAspectWeavingSettings aspectWeavingSettings) {
+			return new AspectWeavingSettings {
+				WeavingSettings = aspectWeavingSettings.WeavingSettings,
+				AspectRepository = aspectWeavingSettings.AspectRepository,
+				AspectArgsMapper = aspectWeavingSettings.AspectArgsMapper,
+				LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository
 			};
 		}
 

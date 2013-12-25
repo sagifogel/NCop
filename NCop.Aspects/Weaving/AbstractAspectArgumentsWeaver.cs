@@ -11,8 +11,8 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractAspectArgumentsWeaver : AbstractArgumentsWeaver, IAspectArgumentsWeaver
     {
-        public AbstractAspectArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository)
-            : base(argumentWeavingSettings, aspectWeavingSettings, localBuilderRepository) {
+        public AbstractAspectArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+            : base(argumentWeavingSettings, aspectWeavingSettings) {
         }
 
         public override void Weave(ILGenerator ilGenerator) {
@@ -22,5 +22,5 @@ namespace NCop.Aspects.Weaving
         }
 
         public abstract LocalBuilder BuildArguments(ILGenerator ilGenerator, Type[] parameters);
-    }
+	}
 }

@@ -6,11 +6,11 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class LocalBuilderRepository : ILocalBuilderRepository
+    public class LocalBuilderRepository : ILocalBuilderRepository
     {
         private readonly Dictionary<Type, LocalBuilder> localBuilderMap = null;
 
-        public LocalBuilderRepository() {
+        internal LocalBuilderRepository() {
             localBuilderMap = new Dictionary<Type, LocalBuilder>();
         }
 

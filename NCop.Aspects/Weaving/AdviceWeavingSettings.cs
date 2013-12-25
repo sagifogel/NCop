@@ -20,7 +20,5 @@ namespace NCop.Aspects.Weaving
 		public Type AspectType { get; private set; }
 
         public IArgumentsWeavingSettings ArgumentsWeavingSettings { get; set; }
-
-		public ILocalBuilderRepository LocalBuilderRepository { get; private set; }
 	}
 }

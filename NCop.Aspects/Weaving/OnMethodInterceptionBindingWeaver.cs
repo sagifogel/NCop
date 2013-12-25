@@ -18,26 +18,30 @@ using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class OnMethodInterceptionBindingWeaver : AbstractMethodBindingWeaver
-    {
-        private readonly IArgumentsWeaver argumentsWeaver = null;
-        private readonly ILocalBuilderRepository localBuilderRepository = null;
+	internal class OnMethodInterceptionBindingWeaver : AbstractMethodBindingWeaver
+	{
+		//private readonly IArgumentsWeaver argumentsWeaver = null;
+		private readonly ILocalBuilderRepository localBuilderRepository = null;
 
-        internal OnMethodInterceptionBindingWeaver(Type aspectType, BindingSettings bindingSettings, IAspectWeavingSettings settings, IAspectWeaver methodScopeWeaver)
-            : base(bindingSettings, settings, methodScopeWeaver) {
-            localBuilderRepository = new LocalBuilderRepository();
-        }
+		internal OnMethodInterceptionBindingWeaver(Type aspectType, BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IAspectWeaver methodScopeWeaver)
+			: base(bindingSettings, aspectWeavingSettings, methodScopeWeaver) {
+			//var argumentsWeavingSettings = bindingSettings.ToArgumentsWeavingSettings(aspectType);
 
-        protected override void WeaveInvokeMethod() {
-            ILGenerator ilGenerator = null;
-            MethodBuilder methodBuilder = null;
-            var methodParameters = ResolveParameterTypes();
+			localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
+			//argumentsWeaver = new AspectArgumentsWeaver(argumentsWeavingSettings, aspectWeavingSettings);
+		}
 
-            methodBuilder = typeBuilder.DefineMethod("Invoke", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
-            ilGenerator = methodBuilder.GetILGenerator();
-            localBuilderRepository.Add(ilGenerator.DeclareLocal(bindingSettings.BindingsDependency.FieldType));
-            methodScopeWeaver.Weave(ilGenerator);
-            ilGenerator.Emit(OpCodes.Ret);
-        }
-    }
+		protected override void WeaveInvokeMethod() {
+			ILGenerator ilGenerator = null;
+			MethodBuilder methodBuilder = null;
+			var methodParameters = ResolveParameterTypes();
+
+			methodBuilder = typeBuilder.DefineMethod("Invoke", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
+			ilGenerator = methodBuilder.GetILGenerator();
+			localBuilderRepository.Add(ilGenerator.DeclareLocal(bindingSettings.BindingsDependency.FieldType));
+			//argumentsWeaver.Weave(ilGenerator);
+			methodScopeWeaver.Weave(ilGenerator);
+			ilGenerator.Emit(OpCodes.Ret);
+		}
+	}
 }

@@ -14,5 +14,6 @@ namespace NCop.Aspects.Weaving
 		Type ArgumentType { get; }
 		Type[] Parameters { get; }
 		FieldInfo BindingsDependency { get; }
+		ILocalBuilderRepository LocalBuilderRepository { get; }
 	}
 }

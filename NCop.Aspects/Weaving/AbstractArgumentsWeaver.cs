@@ -13,10 +13,10 @@ namespace NCop.Aspects.Weaving
 	{
 		protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
 
-		public AbstractArgumentsWeaver(IArgumentsWeavingSettings argumentsWeavingSettings, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository = null) {
+		public AbstractArgumentsWeaver(IArgumentsWeavingSettings argumentsWeavingSettings, IAspectWeavingSettings aspectWeavingSettings) {
 			AspectType = argumentsWeavingSettings.AspectType;
 			Parameters = new Type[argumentsWeavingSettings.Parameters.Length];
-			LocalBuilderRepository = localBuilderRepository;
+			LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
 			ArgumentType = argumentsWeavingSettings.ArgumentType;
 			argumentsWeavingSettings.Parameters.CopyTo(Parameters, 0);
 			IsFunction = argumentsWeavingSettings.IsFunction;

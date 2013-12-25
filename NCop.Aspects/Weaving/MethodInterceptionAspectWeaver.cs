@@ -16,10 +16,12 @@ namespace NCop.Aspects.Weaving
 {
     internal class MethodInterceptionAspectWeaver : AbstractMethodInterceptionAspectWeaver
     {
-        internal MethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings settings, FieldInfo weavedType)
+		protected readonly IArgumentsWeaver argumentsWeaver = null;
+
+		internal MethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings settings, FieldInfo weavedType)
             : base(aspectDefinition, settings, weavedType) {
             argumentsWeavingSetings.BindingsDependency = weavedType;
-            argumentsWeaver = new AspectArgumentsWeaver(argumentsWeavingSetings, settings, localBuilderRepository);
+            argumentsWeaver = new AspectArgumentsWeaver(argumentsWeavingSetings, settings);
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
@@ -28,7 +30,7 @@ namespace NCop.Aspects.Weaving
             var aspectField = aspectRepository.GetAspectFieldByType(aspectType);
 
             argumentsWeaver.Weave(ilGenerator);
-            localBuilderRepository.Get(argumentsWeavingSetings.ArgumentType);
+			argsImplLocalBuilder = localBuilderRepository.Get(argumentsWeavingSetings.ArgumentType);
             ilGenerator.Emit(OpCodes.Ldsfld, aspectField);
             ilGenerator.EmitStoreLocal(argsImplLocalBuilder);
 

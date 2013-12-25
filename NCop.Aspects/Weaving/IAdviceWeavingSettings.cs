@@ -8,7 +8,6 @@ namespace NCop.Aspects.Weaving
 	public interface IAdviceWeavingSettings : IAspectWeavingSettings
 	{
 		Type AspectType { get; }
-        ILocalBuilderRepository LocalBuilderRepository { get; }
         IArgumentsWeavingSettings ArgumentsWeavingSettings { get; }
     }
 }

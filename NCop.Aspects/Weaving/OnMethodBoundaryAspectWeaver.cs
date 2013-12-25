@@ -22,7 +22,7 @@ namespace NCop.Aspects.Weaving
 			var entryWeavers = new List<IMethodScopeWeaver>();
 			var catchWeavers = new List<IMethodScopeWeaver>();
 			var finallyWeavers = new List<IMethodScopeWeaver>();
-			var newSettings = new AdviceWeavingSettings(aspectDefinition.Aspect.AspectType, settings, localBuilderRepository, null);
+			var newSettings = new AdviceWeavingSettings(aspectDefinition.Aspect.AspectType, settings, null /*localBuilderRepository*/, null);
 			var tryWeavers = new List<IMethodScopeWeaver>();
 
 			if (adviceDiscoveryVistor.HasOnMethodEntryAdvice) {

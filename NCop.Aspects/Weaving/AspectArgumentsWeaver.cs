@@ -12,8 +12,8 @@ namespace NCop.Aspects.Weaving
 	{
 		private readonly FieldInfo bindingsDependency = null;
 
-		internal AspectArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository)
-			: base(argumentWeavingSettings, aspectWeavingSettings, localBuilderRepository) {
+		internal AspectArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+			: base(argumentWeavingSettings, aspectWeavingSettings) {
 			bindingsDependency = argumentWeavingSettings.BindingsDependency;
 		}
 

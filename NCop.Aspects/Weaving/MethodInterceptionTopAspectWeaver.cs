@@ -16,12 +16,14 @@ namespace NCop.Aspects.Weaving
 {
     internal class MethodInterceptionTopAspectWeaver : AbstractMethodInterceptionAspectWeaver
     {
+		protected IArgumentsWeaver argumentsWeaver = null;
+
         internal MethodInterceptionTopAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings settings, FieldInfo weavedType)
             : base(aspectDefinition, settings, weavedType) {
             var @params = weavingSettings.MethodInfoImpl.GetParameters();
 
             argumentsWeavingSetings.Parameters = @params.Select(@param => @param.ParameterType).ToArray();
-            argumentsWeaver = new MethodImplArgumentsWeaver(argumentsWeavingSetings, settings, localBuilderRepository);
+            argumentsWeaver = new MethodImplArgumentsWeaver(argumentsWeavingSetings, settings);
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {

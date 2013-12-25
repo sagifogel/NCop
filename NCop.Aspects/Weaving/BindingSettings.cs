@@ -13,5 +13,6 @@ namespace NCop.Aspects.Weaving
 		public Type BindingType { get; set; }
 		public Type ArgumentType { get; set; }
 		public FieldInfo BindingsDependency { get; set; }
+		public ILocalBuilderRepository LocalBuilderRepository { get; set; }
 	}
 }

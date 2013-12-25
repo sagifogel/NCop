@@ -13,32 +13,37 @@ namespace NCop.Aspects.Weaving.Expressions
 {
 	internal class AspectWeaverWithBinding : IAspectExpression
 	{
-		private readonly bool topAspect = false;
 		private readonly FieldInfo weavedType = null;
-		private readonly IAspectWeavingSettings settings = null;
 		private readonly IAspectDefinition aspectDefinition = null;
+		private readonly IAspectWeavingSettings settings = null;
+		private readonly ILocalBuilderRepository localBuilderRepository = null;
 
-		internal AspectWeaverWithBinding(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings, bool topAspect = false) {
+		internal AspectWeaverWithBinding(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings) {
 			BindingSettings bindingSettings = null;
 
 			this.settings = settings;
-			this.topAspect = topAspect;
 			this.aspectDefinition = aspectDefinition;
 			bindingSettings = aspectDefinition.ToBindingSettings(settings.WeavingSettings.MethodInfoImpl.DeclaringType);
-
+		
 			if (expression.Is<AspectDecoratorExpression>()) {
 				var methodDecoratorBindingWeaver = new MethodDecoratorBindingWeaver(bindingSettings, settings, expression.Reduce(settings));
 
 				weavedType = methodDecoratorBindingWeaver.Weave();
 			}
 			else {
+				IAspectWeaver aspectWeaver = null;
+				ITypeReflector typeReflector = null;
 				IMethodBindingWeaver bindingWeaver = null;
 				var aspectType = aspectDefinition.Aspect.AspectType;
-				var aspectWeaver = expression.Reduce(settings);
-				var typeReflector = aspectWeaver as ITypeReflector;
+				localBuilderRepository = new LocalBuilderRepository();
+				AspectWeavingSettings clonedSettings = settings.Clone();
 
+				clonedSettings.LocalBuilderRepository = localBuilderRepository;
+				aspectWeaver = expression.Reduce(clonedSettings);
+				typeReflector = aspectWeaver as ITypeReflector;
 				bindingSettings.BindingsDependency = typeReflector.WeavedType;
-				bindingWeaver = new OnMethodInterceptionBindingWeaver(aspectType, bindingSettings, settings, aspectWeaver);
+				bindingSettings.LocalBuilderRepository = localBuilderRepository;
+				bindingWeaver = new OnMethodInterceptionBindingWeaver(aspectType, bindingSettings, clonedSettings, aspectWeaver);
 				weavedType = bindingWeaver.Weave();
 			}
 		}
