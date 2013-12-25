@@ -91,6 +91,19 @@ namespace NCop.Aspects.Extensions
 			};
 		}
 
+        internal static IAspectWeavingSettings CloneWith(this IAspectWeavingSettings aspectWeavingSettings, Action<AspectWeavingSettings> cloneFunc) {
+            var clonedAspectWeavingSettings =  new AspectWeavingSettings {
+                WeavingSettings = aspectWeavingSettings.WeavingSettings,
+                AspectRepository = aspectWeavingSettings.AspectRepository,
+                AspectArgsMapper = aspectWeavingSettings.AspectArgsMapper,
+                LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository
+            };
+
+            cloneFunc(clonedAspectWeavingSettings);
+
+            return clonedAspectWeavingSettings;
+        }
+
 		public static MethodParameters ToMethodParameters(this BindingSettings bindingSettings) {
 			Func<Type[], Type> argumentResolver = null;
 			var methodParameters = new MethodParameters();

@@ -17,31 +17,33 @@ using NCop.Weaving.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-	internal class MethodDecoratorArgumentsWeaver : AbstractArgumentsWeaver
-	{
-        internal MethodDecoratorArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
-            : base(argumentWeavingSettings, aspectWeavingSettings) {
-		}
+    internal class MethodDecoratorArgumentsWeaver : IArgumentsWeaver
+    {
+        private readonly IArgumentsWeavingSettings argumentWeavingSettings = null;
 
-		public override void Weave(ILGenerator ilGenerator) {
-			Type[] argumentTypes = ArgumentType.GetGenericArguments();
-			IEnumerable<Type> @params = argumentTypes.Skip(1);
+        internal MethodDecoratorArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings) {
+            this.argumentWeavingSettings = argumentWeavingSettings;   
+        }
 
-			if (IsFunction) {
-				var last = argumentTypes[argumentTypes.Length - 1];
+        public void Weave(ILGenerator ilGenerator) {
+            Type[] argumentTypes = argumentWeavingSettings.ArgumentType.GetGenericArguments();
+            IEnumerable<Type> @params = argumentTypes.Skip(1);
 
-				@params = @params.TakeWhile(arg => arg != last);
-			}
+            if (argumentWeavingSettings.IsFunction) {
+                var last = argumentTypes[argumentTypes.Length - 1];
 
-			ilGenerator.EmitLoadArg(1);
-			ilGenerator.Emit(OpCodes.Ldind_Ref);
-			ilGenerator.EmitLoadArg(2);
+                @params = @params.TakeWhile(arg => arg != last);
+            }
 
-			@params.ForEach(1, (parameter, i) => {
-				var property = ArgumentType.GetProperty("Arg{0}".Fmt(i));
+            ilGenerator.EmitLoadArg(1);
+            ilGenerator.Emit(OpCodes.Ldind_Ref);
+            ilGenerator.EmitLoadArg(2);
 
-				ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());
-			});
-		}
-	}
+            @params.ForEach(1, (parameter, i) => {
+                var property = argumentWeavingSettings.ArgumentType.GetProperty("Arg{0}".Fmt(i));
+
+                ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+            });
+        }
+    }
 }

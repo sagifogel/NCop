@@ -16,35 +16,39 @@ namespace NCop.Aspects.Weaving.Expressions
         private readonly IAspectExpression decoratorAspect = null;
         private readonly Stack<IAspectDefinition> aspectsStack = null;
         private readonly IAspectDefinitionCollection aspectsDefinitions = null;
-
+        
         internal AspectExpressionTreeBuilder(IAspectDefinitionCollection aspectDefinitions, IWeavingSettings weavingSettings) {
+            IArgumentsWeavingSettings argumentsWeavingSettings = null;
             var aspectsByPriority = aspectDefinitions.OrderBy(aspect => aspect.Aspect.AspectPriority)
                                                      .ThenBy(aspect => {
                                                          var value = aspect.Aspect is OnMethodBoundaryAspectAttribute;
                                                          return Convert.ToInt32(!value);
                                                      });
 
+            
             this.weavingSettings = weavingSettings;
             this.aspectsDefinitions = aspectDefinitions;
             aspectsStack = new Stack<IAspectDefinition>(aspectsByPriority);
-            decoratorAspect = new AspectDecoratorExpression(weavingSettings);
+            argumentsWeavingSettings = aspectsStack.Peek().ToArgumentsWeavingSettings(weavingSettings.MethodInfoImpl.DeclaringType);
+            decoratorAspect = new AspectDecoratorExpression(argumentsWeavingSettings);
         }
 
         public IAspectExpression Build() {
             var aspectVisitor = new AspectVisitor();
-            IAspectExpression aspectExpression = null;
+            var aspectExpression = decoratorAspect;
             var topAspectVisitor = new TopAspectVisitor();
-            var methodInfoImpl = weavingSettings.MethodInfoImpl;
             Func<IAspectDefinitionVisitor, IAspectExpression, IAspectExpression> expressionFactory = (visitor, expression) => {
                 return aspectsStack.Pop()
                                    .Accept(visitor)
                                    .Build(expression);
             };
 
-            aspectExpression = expressionFactory(aspectVisitor, decoratorAspect);
+            if (aspectsStack.Count > 1) {
+                aspectExpression = expressionFactory(aspectVisitor, decoratorAspect);
 
-            while (aspectsStack.Count > 1) {
-                aspectExpression = expressionFactory(aspectVisitor, aspectExpression);
+                while (aspectsStack.Count > 1) {
+                    aspectExpression = expressionFactory(aspectVisitor, aspectExpression);
+                }
             }
 
             aspectExpression = expressionFactory(topAspectVisitor, aspectExpression);

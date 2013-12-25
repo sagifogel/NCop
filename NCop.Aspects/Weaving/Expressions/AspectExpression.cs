@@ -20,7 +20,7 @@ namespace NCop.Aspects.Weaving.Expressions
 			this.aspectsDefinitions = aspectsDefinitions;
         }
 
-        public IAspectWeaver Reduce(IAspectWeavingSettings settings) {
+        public IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings ) {
 			return new AspectsWeaver(expression, aspectsDefinitions, weavingSettings);
         }
     }

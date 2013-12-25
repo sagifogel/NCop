@@ -20,15 +20,12 @@ namespace NCop.Aspects.Weaving
 {
 	internal class OnMethodInterceptionBindingWeaver : AbstractMethodBindingWeaver
 	{
-		//private readonly IArgumentsWeaver argumentsWeaver = null;
 		private readonly ILocalBuilderRepository localBuilderRepository = null;
 
 		internal OnMethodInterceptionBindingWeaver(Type aspectType, BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IAspectWeaver methodScopeWeaver)
 			: base(bindingSettings, aspectWeavingSettings, methodScopeWeaver) {
-			//var argumentsWeavingSettings = bindingSettings.ToArgumentsWeavingSettings(aspectType);
-
+			
 			localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
-			//argumentsWeaver = new AspectArgumentsWeaver(argumentsWeavingSettings, aspectWeavingSettings);
 		}
 
 		protected override void WeaveInvokeMethod() {
@@ -39,7 +36,6 @@ namespace NCop.Aspects.Weaving
 			methodBuilder = typeBuilder.DefineMethod("Invoke", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
 			ilGenerator = methodBuilder.GetILGenerator();
 			localBuilderRepository.Add(ilGenerator.DeclareLocal(bindingSettings.BindingsDependency.FieldType));
-			//argumentsWeaver.Weave(ilGenerator);
 			methodScopeWeaver.Weave(ilGenerator);
 			ilGenerator.Emit(OpCodes.Ret);
 		}

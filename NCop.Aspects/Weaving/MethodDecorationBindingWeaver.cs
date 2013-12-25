@@ -11,24 +11,17 @@ namespace NCop.Aspects.Weaving
 {
 	internal class MethodDecoratorBindingWeaver : AbstractMethodBindingWeaver
 	{
-        private readonly IArgumentsWeaver argumentsWeaver = null;
-		private readonly MethodParameters methodParameters = null;
-
-		internal MethodDecoratorBindingWeaver(BindingSettings bindingSettings, IAspectWeavingSettings settings, IMethodScopeWeaver methodScopeWeaver)
+        internal MethodDecoratorBindingWeaver(BindingSettings bindingSettings, IAspectWeavingSettings settings, IMethodScopeWeaver methodScopeWeaver)
 			: base(bindingSettings, settings, methodScopeWeaver) {
-            var argumentWeavingSetings = bindingSettings.ToArgumentsWeavingSettings();
-            
-            methodParameters = ResolveParameterTypes();
-            argumentsWeaver = new MethodDecoratorArgumentsWeaver(argumentWeavingSetings, settings);
 		}
 
 		protected override void WeaveInvokeMethod() {
 			ILGenerator ilGenerator = null;
 			MethodBuilder methodBuilder = null;
+            var methodParameters = ResolveParameterTypes();
 
 			methodBuilder = typeBuilder.DefineMethod("Invoke", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
 			ilGenerator = methodBuilder.GetILGenerator();
-			argumentsWeaver.Weave(ilGenerator);
 			methodScopeWeaver.Weave(ilGenerator);
 			ilGenerator.Emit(OpCodes.Ret);
 		}

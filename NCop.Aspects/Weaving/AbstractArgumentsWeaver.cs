@@ -9,7 +9,7 @@ using NCop.Weaving;
 
 namespace NCop.Aspects.Weaving
 {
-	internal abstract class AbstractArgumentsWeaver : IArgumentsWeaver
+    internal abstract class AbstractArgumentsWeaver : IArgumentsWeaver, IArgumentsWeavingSettings
 	{
 		protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
 
