@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using NCop.Core.Extensions;
 using NCop.Aspects.Advices;
+using System.Reflection;
 
 namespace NCop.Aspects.Aspects
 {
@@ -14,8 +15,8 @@ namespace NCop.Aspects.Aspects
     {
         private readonly OnMethodBoundaryAspectAttribute aspect = null;
 
-        internal OnMethodBoundaryAspectDefinition(OnMethodBoundaryAspectAttribute aspect, Type aspectDeclaringType)
-            : base(aspect, aspectDeclaringType) {
+        internal OnMethodBoundaryAspectDefinition(OnMethodBoundaryAspectAttribute aspect, Type aspectDeclaringType, MemberInfo member)
+            : base(aspect, aspectDeclaringType, member) {
             this.aspect = aspect;
         }
 

@@ -37,7 +37,7 @@ namespace NCop.Aspects.Weaving
 			ilGenerator = methodBuilder.GetILGenerator();
 			localBuilderRepository.Add(ilGenerator.DeclareLocal(bindingSettings.BindingsDependency.FieldType));
 			methodScopeWeaver.Weave(ilGenerator);
-			ilGenerator.Emit(OpCodes.Ret);
+            ilGenerator.Emit(OpCodes.Ret);
 		}
 	}
 }

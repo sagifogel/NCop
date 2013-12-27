@@ -14,7 +14,8 @@ namespace NCop.Aspects.Weaving
 		protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
 
 		public AbstractArgumentsWeaver(IArgumentsWeavingSettings argumentsWeavingSettings, IAspectWeavingSettings aspectWeavingSettings) {
-			AspectType = argumentsWeavingSettings.AspectType;
+            ReturnType = argumentsWeavingSettings.ReturnType;
+            AspectType = argumentsWeavingSettings.AspectType;
 			Parameters = new Type[argumentsWeavingSettings.Parameters.Length];
 			LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
 			ArgumentType = argumentsWeavingSettings.ArgumentType;
@@ -24,7 +25,9 @@ namespace NCop.Aspects.Weaving
 			WeavingSettings = aspectWeavingSettings.WeavingSettings;
 		}
 
-		public Type AspectType { get; protected set; }
+        public Type ReturnType { get; set; }
+        
+        public Type AspectType { get; protected set; }
 
 		public bool IsFunction { get; protected set; }
 

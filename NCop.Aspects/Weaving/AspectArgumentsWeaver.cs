@@ -21,7 +21,6 @@ namespace NCop.Aspects.Weaving
 			var aspectRepository = aspectWeavingSettings.AspectRepository;
 			var argsImplLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
 			var ctorInterceptionArgs = ArgumentType.GetConstructors().First();
-			var weavedType = aspectRepository.GetAspectFieldByType(AspectType);
 			var bindingLocalBuilder = LocalBuilderRepository.Get(bindingsDependency.FieldType);
 
 			ilGenerator.Emit(OpCodes.Ldsfld, bindingsDependency);

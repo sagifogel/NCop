@@ -22,7 +22,7 @@ namespace NCop.Aspects.Weaving
         private readonly IArgumentsWeavingSettings argumentWeavingSettings = null;
 
         internal MethodDecoratorArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings) {
-            this.argumentWeavingSettings = argumentWeavingSettings;   
+            this.argumentWeavingSettings = argumentWeavingSettings;
         }
 
         public void Weave(ILGenerator ilGenerator) {
@@ -37,11 +37,11 @@ namespace NCop.Aspects.Weaving
 
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);
-            ilGenerator.EmitLoadArg(2);
 
             @params.ForEach(1, (parameter, i) => {
                 var property = argumentWeavingSettings.ArgumentType.GetProperty("Arg{0}".Fmt(i));
 
+                ilGenerator.EmitLoadArg(2);
                 ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());
             });
         }

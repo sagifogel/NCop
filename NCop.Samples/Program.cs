@@ -29,7 +29,7 @@ namespace NCop.Samples
         }
     }
 
-    public sealed class MethodDecoratorFunctionBinding : IFunctionBinding<CSharpDeveloperMixin, string, bool>
+    public sealed class MethodDecoratorFunctionBinding : IFunctionBinding<CSharpDeveloperMixin, string>
     {
         public static MethodDecoratorFunctionBinding singleton = null;
 
@@ -40,12 +40,12 @@ namespace NCop.Samples
         private MethodDecoratorFunctionBinding() {
         }
 
-        public bool Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string, bool> args) {
-            return instance.Code(args.Arg1);
+        public string Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string> args) {
+            return instance.Code();
         }
     }
 
-    public sealed class OnMethodInterceptionBindingWeaver : IFunctionBinding<CSharpDeveloperMixin, string, bool>
+    public sealed class OnMethodInterceptionBindingWeaver : IFunctionBinding<CSharpDeveloperMixin, string>
     {
         public static OnMethodInterceptionBindingWeaver singleton = null;
 
@@ -56,12 +56,12 @@ namespace NCop.Samples
         private OnMethodInterceptionBindingWeaver() {
         }
 
-        public bool Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string, bool> args) {
+        public string Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string> args) {
             var binding = MethodDecoratorFunctionBinding.singleton;
-            var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, bool>(instance, binding, args.Arg1);
+            var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string>(instance, binding);
 
             Aspects.traceAspect.OnInvoke(aspectArgs);
-            FunctionArgsMapper.Map(aspectArgs, args);
+            //FunctionArgsMapper.Map(aspectArgs, args);
 
             return args.ReturnValue;
         }
@@ -142,15 +142,42 @@ namespace NCop.Samples
         }
     }
 
+    public class Person : IPersonComposite
+    {
+        private CSharpDeveloperMixin developer = null;
+
+        public Person() {
+            developer = new CSharpDeveloperMixin();
+        }
+
+        public string Code() {
+            var binding = MethodDecoratorFunctionBinding.singleton;
+            var args = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string>(developer, binding);
+            return Aspects.traceAspect.OnInvoke(args);
+        }
+    }
+
+    [TransientComposite]
+    [Mixins(typeof(CSharpDeveloperMixin))]
+    public interface IPersonComposite : IDeveloper<ILanguage>
+    {
+        //[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 2)]
+        //[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 4)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
+        //[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 3)]
+        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        new string Code();
+    }
+
     class Program
     {
         static void Main(string[] args) {
-            //new Person().Code("CSharp");
+            new Person().Code();
             var container = new CompositeContainer();
             container.Configure();
 
             var person = container.TryResolve<IPersonComposite>();
-            person.Code("CSharp");
+            Console.WriteLine(person.Code());
         }
     }
 
@@ -161,18 +188,14 @@ namespace NCop.Samples
     {
         private T langugae = new T();
 
-        public bool Code(string code) {
-            Console.WriteLine(code);
-
-            return false;
+        public string Code() {
+            return langugae.ToString();
         }
     }
 
-    public class TraceAspect : FunctionInterceptionAspect<string, bool>
+    public class TraceAspect : FunctionInterceptionAspect<string>
     {
-        public override bool OnInvoke(FunctionInterceptionArgs<string, bool> args) {
-            args.Arg1 = "JavaScript";
-            Console.WriteLine("OnInvoke");
+        public override string OnInvoke(FunctionInterceptionArgs<string> args) {
             return base.OnInvoke(args);
         }
     }
@@ -197,37 +220,10 @@ namespace NCop.Samples
         }
     }
 
-    [TransientComposite]
-    [Mixins(typeof(CSharpDeveloperMixin))]
-    public interface IPersonComposite : IDeveloper<ILanguage>
-    {
-        //[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 2)]
-        //[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 4)]
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
-        //[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 3)]
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        new bool Code(string code);
-    }
-
-    public class Person : IPersonComposite
-    {
-        private CSharpDeveloperMixin developer = null;
-
-        public Person() {
-            developer = new CSharpDeveloperMixin();
-        }
-
-        public bool Code(string code) {
-            var binding = OnMethodInterceptionBindingWeaver.singleton;
-            var args = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, bool>(developer, binding, code);
-            return Aspects.traceAspect.OnInvoke(args);
-        }
-    }
-
     public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>
     {
-        public override bool Code(string code) {
-            return base.Code(code);
+        public override string Code() {
+            return base.Code();
         }
     }
 
@@ -239,9 +235,10 @@ namespace NCop.Samples
     public abstract class AbstractDeveloper<TLanguage> : IDeveloper<TLanguage>
         where TLanguage : ILanguage, new()
     {
-        public virtual bool Code(string code) {
-            Console.WriteLine("I am coding in " + code);
-            return false;
+        private readonly ILanguage language = new TLanguage();
+
+        public virtual string Code() {
+            return "I am coding in " + language;
         }
     }
 
@@ -279,7 +276,7 @@ namespace NCop.Samples
 
     public interface IDeveloper<out TLanguage>
     {
-        bool Code(string code);
+        string Code();
     }
 
     public interface IDeveloper

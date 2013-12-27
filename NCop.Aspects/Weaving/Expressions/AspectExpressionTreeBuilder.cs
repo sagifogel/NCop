@@ -24,12 +24,11 @@ namespace NCop.Aspects.Weaving.Expressions
                                                          var value = aspect.Aspect is OnMethodBoundaryAspectAttribute;
                                                          return Convert.ToInt32(!value);
                                                      });
-
             
             this.weavingSettings = weavingSettings;
             this.aspectsDefinitions = aspectDefinitions;
             aspectsStack = new Stack<IAspectDefinition>(aspectsByPriority);
-            argumentsWeavingSettings = aspectsStack.Peek().ToArgumentsWeavingSettings(weavingSettings.MethodInfoImpl.DeclaringType);
+            argumentsWeavingSettings = aspectsStack.Peek().ToArgumentsWeavingSettings();
             decoratorAspect = new AspectDecoratorExpression(argumentsWeavingSettings);
         }
 

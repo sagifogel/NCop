@@ -21,7 +21,7 @@ namespace NCop.Aspects.Weaving.Expressions
 
             this.aspectDefinition = aspectDefinition;
             this.aspectWeavingSettings = aspectWeavingSettings;
-            bindingSettings = aspectDefinition.ToBindingSettings(aspectWeavingSettings.WeavingSettings.MethodInfoImpl.DeclaringType);
+            bindingSettings = aspectDefinition.ToBindingSettings();
             bindingSettings.LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
 
             if (expression.Is<AspectDecoratorExpression>()) {

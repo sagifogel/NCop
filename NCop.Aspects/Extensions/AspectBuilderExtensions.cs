@@ -31,17 +31,18 @@ namespace NCop.Aspects.Extensions
 			return adviceMethod.GetParameters().First().ParameterType;
 		}
 
-		internal static Type ToAspectArgumentImpl(this IAspectDefinition aspectDefinition, Type declaringType, Type aspectArgType = null) {
-			var argumentType = aspectArgType ?? aspectDefinition.GetArgumentType();
+		internal static Type ToAspectArgumentImpl(this IAspectDefinition aspectDefinition, Type aspectArgType = null) {
+            var declaringType = aspectDefinition.Member.DeclaringType;
+            var argumentType = aspectArgType ?? aspectDefinition.GetArgumentType();
 			var genericArguments = argumentType.GetGenericArguments();
 			var genericArgumentsWithContext = new[] { declaringType }.Concat(genericArguments);
 
 			return argumentType.MakeGenericArgsType(genericArgumentsWithContext.ToArray());
 		}
 
-		internal static BindingSettings ToBindingSettings(this IAspectDefinition aspectDefinition, Type declaringType) {
+		internal static BindingSettings ToBindingSettings(this IAspectDefinition aspectDefinition) {
 			var aspectArgumentType = aspectDefinition.GetArgumentType();
-			var aspectArgumentImplType = aspectDefinition.ToAspectArgumentImpl(declaringType);
+			var aspectArgumentImplType = aspectDefinition.ToAspectArgumentImpl();
 			var genericArguments = aspectArgumentImplType.GetGenericArguments();
 
 			if (aspectArgumentType.IsFunctionAspectArgs()) {
@@ -59,8 +60,8 @@ namespace NCop.Aspects.Extensions
 			};
 		}
 
-		internal static ArgumentsWeavingSettings ToArgumentsWeavingSettings(this IAspectDefinition aspectDefinition, Type declaringType) {
-			return aspectDefinition.ToBindingSettings(declaringType)
+		internal static ArgumentsWeavingSettings ToArgumentsWeavingSettings(this IAspectDefinition aspectDefinition) {
+			return aspectDefinition.ToBindingSettings()
 								   .ToArgumentsWeavingSettings(aspectDefinition.Aspect.AspectType);
 		}
 
@@ -75,7 +76,8 @@ namespace NCop.Aspects.Extensions
 			return new ArgumentsWeavingSettings {
 				AspectType = aspectType,
 				IsFunction = bindingSettings.IsFunction,
-				Parameters = methodParameters.Parameters,
+                ReturnType = methodParameters.ReturnType,
+                Parameters = methodParameters.Parameters,
 				ArgumentType = bindingSettings.ArgumentType,
 				BindingsDependency = bindingSettings.BindingsDependency,
 				LocalBuilderRepository = bindingSettings.LocalBuilderRepository

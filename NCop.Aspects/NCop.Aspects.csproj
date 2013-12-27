@@ -137,9 +137,11 @@
     <Compile Include="Weaving\AbstractMethodAspectWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodBindingWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodInterceptionAspectWeaver.cs" />
+    <Compile Include="Weaving\ActionAspectArgsMappingWeaver.cs" />
     <Compile Include="Weaving\AdviceDiscoveryVisitor.cs" />
     <Compile Include="Weaving\AbstractAdviceWeaver.cs" />
     <Compile Include="Weaving\AdviceWeavingSettings.cs" />
+    <Compile Include="Weaving\ArgsMappingWeaver.cs" />
     <Compile Include="Weaving\ArgumentsWeavingSettings.cs" />
     <Compile Include="Weaving\AspectArgsMapperWeaver.cs" />
     <Compile Include="Weaving\AspectArgumentsWeaver.cs" />
@@ -149,6 +151,8 @@
     <Compile Include="Weaving\AspectWeavingSettings.cs" />
     <Compile Include="Weaving\BindingSettings.cs" />
     <Compile Include="Weaving\Expressions\IAspectDefinitionVisitor.cs" />
+    <Compile Include="Weaving\FunctionAspectArgsMappingWeaver.cs" />
+    <Compile Include="Weaving\IArgumentsSettings.cs" />
     <Compile Include="Weaving\MethodInterceptionTopAspectWeaver.cs" />
     <Compile Include="Weaving\Expressions\AbstractAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\AspectDecoratorExpression.cs" />

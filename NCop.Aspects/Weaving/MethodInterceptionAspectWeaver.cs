@@ -18,22 +18,24 @@ namespace NCop.Aspects.Weaving
     {
 		protected readonly IArgumentsWeaver argumentsWeaver = null;
 
-		internal MethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings settings, FieldInfo weavedType)
-            : base(aspectDefinition, settings, weavedType) {
+		internal MethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+            : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             argumentsWeavingSetings.BindingsDependency = weavedType;
-            argumentsWeaver = new AspectArgumentsWeaver(argumentsWeavingSetings, settings);
+            argumentsWeaver = new AspectArgumentsWeaver(argumentsWeavingSetings, aspectWeavingSettings);
+
+            if (argumentsWeavingSetings.IsFunction) {
+                methodScopeWeavers.Add(new FunctionAspectArgsMappingWeaver(aspectWeavingSettings, argumentsWeavingSetings));
+            }
+            else {
+                methodScopeWeavers.Add(new ActionAspectArgsMappingWeaver(aspectWeavingSettings, argumentsWeavingSetings));
+            }
+
+            weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
-            LocalBuilder argsImplLocalBuilder = null;
-            var aspectType = aspectDefinition.Aspect.AspectType;
-            var aspectField = aspectRepository.GetAspectFieldByType(aspectType);
-
             argumentsWeaver.Weave(ilGenerator);
-			argsImplLocalBuilder = localBuilderRepository.Get(argumentsWeavingSetings.ArgumentType);
-            ilGenerator.Emit(OpCodes.Ldsfld, aspectField);
-            ilGenerator.EmitStoreLocal(argsImplLocalBuilder);
-
+            
             return weaver.Weave(ilGenerator);
         }
     }

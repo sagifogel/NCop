@@ -16,20 +16,20 @@ namespace NCop.Aspects.Weaving
 {
 	internal abstract class AbstractMethodInterceptionAspectWeaver : AbstractMethodAspectWeaver, ITypeReflector
 	{
-		protected readonly ILocalBuilderRepository localBuilderRepository = null;
+        protected readonly List<IMethodScopeWeaver> methodScopeWeavers = null;
+        protected readonly ILocalBuilderRepository localBuilderRepository = null;
 
-		internal AbstractMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType, ILocalBuilderRepository localBuilderRepository = null)
+		internal AbstractMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
 			: base(aspectDefinition, aspectWeavingSettings) {
 			IAdviceExpression selectedExpression = null;
-			var invokeWeavers = new List<IMethodScopeWeaver>();
-			var argumentsWeavingSettings = aspectDefinition.ToArgumentsWeavingSettings(aspectWeavingSettings.WeavingSettings.MethodInfoImpl.DeclaringType);
+			var argumentsWeavingSettings = aspectDefinition.ToArgumentsWeavingSettings();
 			var aspectSettings = new AdviceWeavingSettings(aspectDefinition.Aspect.AspectType, aspectWeavingSettings, aspectWeavingSettings.LocalBuilderRepository, argumentsWeavingSettings);
 
 			WeavedType = weavedType;
-			selectedExpression = ResolveOnMethodInvokeAdvice();
-			this.localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
-			invokeWeavers.Add(selectedExpression.Reduce(aspectSettings));
-			weaver = new MethodScopeWeaversQueue(invokeWeavers);
+            methodScopeWeavers = new List<IMethodScopeWeaver>();
+            selectedExpression = ResolveOnMethodInvokeAdvice();
+			localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
+            methodScopeWeavers.Add(selectedExpression.Reduce(aspectSettings));			
 		}
 
 		public FieldInfo WeavedType { get; private set; }

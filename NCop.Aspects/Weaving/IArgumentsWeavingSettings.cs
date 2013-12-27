@@ -7,12 +7,9 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Weaving
 {
-	public interface IArgumentsWeavingSettings
+    public interface IArgumentsWeavingSettings : IArgumentsSettings
 	{
         Type AspectType { get; }
-        bool IsFunction { get; }
-		Type ArgumentType { get; }
-		Type[] Parameters { get; }
 		FieldInfo BindingsDependency { get; }
 		ILocalBuilderRepository LocalBuilderRepository { get; }
 	}

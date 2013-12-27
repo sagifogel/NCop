@@ -8,6 +8,7 @@ namespace NCop.Aspects.Weaving
 {
     public class LocalBuilderRepository : ILocalBuilderRepository
     {
+        public readonly Guid guid = Guid.NewGuid();
         private readonly Dictionary<Type, LocalBuilder> localBuilderMap = null;
 
         internal LocalBuilderRepository() {

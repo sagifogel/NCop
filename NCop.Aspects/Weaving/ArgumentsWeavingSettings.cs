@@ -9,7 +9,8 @@ namespace NCop.Aspects.Weaving
 {
 	public class ArgumentsWeavingSettings : IArgumentsWeavingSettings
 	{
-		public Type AspectType { get; set; }
+        public Type ReturnType { get; set; }
+        public Type AspectType { get; set; }
 		public bool IsFunction { get; set; }
 		public Type ArgumentType { get; set; }
 		public Type[] Parameters { get; set; }

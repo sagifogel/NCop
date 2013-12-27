@@ -24,6 +24,7 @@ namespace NCop.Aspects.Weaving
 
             argumentsWeavingSetings.Parameters = @params.Select(@param => @param.ParameterType).ToArray();
             argumentsWeaver = new MethodImplArgumentsWeaver(argumentsWeavingSetings, settings);
+            weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
