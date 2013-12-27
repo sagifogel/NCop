@@ -76,7 +76,7 @@ namespace NCop.Aspects.Weaving
 		}
 
 		protected virtual MethodParameters ResolveParameterTypes() {
-			return bindingSettings.ToMethodParameters();
+			return bindingSettings.ToBindingMethodParameters();
 		}
 
 		protected abstract void WeaveInvokeMethod();

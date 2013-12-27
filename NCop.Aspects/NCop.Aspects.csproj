@@ -256,7 +256,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Extensions\AspectBuilderExtensions.cs">
+    <Compile Include="Extensions\AspectExtensions.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\ActionExecutionArgs.cs" />
