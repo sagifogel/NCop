@@ -8,10 +8,6 @@ namespace NCop.Composite.Engine
     [AttributeUsage(AttributeTargets.Interface)]
     public abstract class CompositeAttribute : Attribute
     {
-		public CompositeAttribute(Type castAs = null) {
-			As = castAs;
-		}       
-		
-		internal Type As { get; set; }
+        public Type As { get; set; }
     }
 }

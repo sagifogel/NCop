@@ -61,7 +61,7 @@ namespace NCop.Samples
             var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string>(instance, binding);
 
             Aspects.traceAspect.OnInvoke(aspectArgs);
-            //FunctionArgsMapper.Map(aspectArgs, args);
+            FunctionArgsMapper.Map(aspectArgs, args);
 
             return args.ReturnValue;
         }
@@ -161,21 +161,21 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
-        //[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 2)]
-        //[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 4)]
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
-        //[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 3)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        [MethodInterceptionAspect(typeof(TraceAspect))]
+        [MethodInterceptionAspect(typeof(TraceAspect))]
+        [MethodInterceptionAspect(typeof(TraceAspect))]
         new string Code();
     }
 
     class Program
     {
         static void Main(string[] args) {
-            new Person().Code();
+            //var person = new Person();
+            //string result = person.Code();
+            
             var container = new CompositeContainer();
             container.Configure();
-
+            
             var person = container.TryResolve<IPersonComposite>();
             Console.WriteLine(person.Code());
         }
@@ -196,7 +196,17 @@ namespace NCop.Samples
     public class TraceAspect : FunctionInterceptionAspect<string>
     {
         public override string OnInvoke(FunctionInterceptionArgs<string> args) {
+            Console.WriteLine("Code from TraceAspect");
             return base.OnInvoke(args);
+        }
+    }
+
+    public class TraceAspect1 : FunctionInterceptionAspect<string>
+    {
+        public override string OnInvoke(FunctionInterceptionArgs<string> args) {
+            base.OnInvoke(args);
+
+            return args.ReturnValue = "Sagi";
         }
     }
 
@@ -238,7 +248,7 @@ namespace NCop.Samples
         private readonly ILanguage language = new TLanguage();
 
         public virtual string Code() {
-            return "I am coding in " + language;
+            return "I am coding in " + language.ToString();
         }
     }
 

@@ -18,7 +18,7 @@ namespace NCop.Aspects.Weaving
             var returnValueProperty = argumentsSettings.ArgumentType.GetProperty("ReturnValue");
 
             ilGenerator.Emit(OpCodes.Pop);
-            //base.Weave(ilGenerator);
+            base.Weave(ilGenerator);
             ilGenerator.EmitLoadArg(2);
             ilGenerator.Emit(OpCodes.Callvirt, returnValueProperty.GetGetMethod());
 

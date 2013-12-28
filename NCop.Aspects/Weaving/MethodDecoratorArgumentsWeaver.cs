@@ -27,18 +27,20 @@ namespace NCop.Aspects.Weaving
 
         public void Weave(ILGenerator ilGenerator) {
             Type[] argumentTypes = argumentWeavingSettings.ArgumentType.GetGenericArguments();
-            IEnumerable<Type> @params = argumentTypes.Skip(1);
+            Type[] @params = new Type[argumentTypes.Length - 1];
 
             if (argumentWeavingSettings.IsFunction) {
-                var last = argumentTypes[argumentTypes.Length - 1];
-
-                @params = @params.TakeWhile(arg => arg != last);
+                @params = new Type[argumentTypes.Length - 1];
+                Array.Copy(argumentTypes, 0, @params, 0, argumentTypes.Length - 1);
+            }
+            else {
+                @params = argumentTypes;
             }
 
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);
 
-            @params.ForEach(1, (parameter, i) => {
+            @params.Skip(1).ForEach(1, (parameter, i) => {
                 var property = argumentWeavingSettings.ArgumentType.GetProperty("Arg{0}".Fmt(i));
 
                 ilGenerator.EmitLoadArg(2);

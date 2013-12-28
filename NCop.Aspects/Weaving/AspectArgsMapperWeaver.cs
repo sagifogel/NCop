@@ -24,58 +24,13 @@ namespace NCop.Aspects.Weaving
             var typeAttrs = TypeAttributes.NotPublic | TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit;
             var funcAspectArgMapperTypeBuilder = typeof(object).DefineType("FunctionArgsMapper".ToUniqueName(), attributes: typeAttrs);
             var actionAspectArgMapperTypeBuilder = typeof(object).DefineType("ActionArgsMapper".ToUniqueName(), attributes: typeAttrs);
-            var methodAttr = MethodAttributes.Private | MethodAttributes.FamANDAssem | MethodAttributes.Static | MethodAttributes.HideBySig;
 
-            Enumerable.Range(1, 8).ForEach(i => {
-                Type funcArgumentType = null;
-                Type actionArgumentType = null;
-                ILGenerator funcILGenerator = null;
-                ILGenerator actionILGenerator = null;
-                PropertyInfo returnValueProperty = null;
-                Type genericTypeFuncArgumentType = null;
-                Type genericTypeActionArgumentType = null;
-                GenericTypeParameterBuilder[] genericParameters = null;
-                var funcArgsMethodBuilder = funcAspectArgMapperTypeBuilder.DefineMethod("Map", methodAttr, CallingConventions.Standard);
-                var actionArgsMethodBuilder = actionAspectArgMapperTypeBuilder.DefineMethod("Map", methodAttr, CallingConventions.Standard);
-                var genericArgumentsArray = Enumerable.Range(1, i)
-                                                      .Select(j => "Arg{0}".Fmt(j))
-                                                      .ToList();
+            Enumerable.Range(0, 8).ForEach(i => {
+                if (i > 0) {
+                    BuildMethod(actionAspectArgMapperTypeBuilder, i, ResolveIActionArgsType, false);
+                }
 
-                genericParameters = actionArgsMethodBuilder.DefineGenericParameters(genericArgumentsArray.ToArray());
-                genericTypeActionArgumentType = ResolveIActionArgsType(i);
-                actionArgumentType = genericTypeActionArgumentType.MakeGenericType(genericParameters);
-                actionArgsMethodBuilder.SetParameters(new Type[] { actionArgumentType, actionArgumentType });
-                genericArgumentsArray.Add("TResult");
-                genericParameters = funcArgsMethodBuilder.DefineGenericParameters(genericArgumentsArray.ToArray());
-                genericTypeFuncArgumentType = ResolveIFunctionArgsType(i);
-                funcArgumentType = genericTypeFuncArgumentType.MakeGenericType(genericParameters);
-                funcArgsMethodBuilder.SetParameters(new Type[] { funcArgumentType, funcArgumentType });
-                funcILGenerator = funcArgsMethodBuilder.GetILGenerator();
-                actionILGenerator = actionArgsMethodBuilder.GetILGenerator();
-
-                Enumerable.Range(1, i).ForEach(j => {
-                    var funcPropertyInfo = genericTypeFuncArgumentType.GetProperty("Arg{0}".Fmt(j));
-                    var actionPropertyInfo = genericTypeActionArgumentType.GetProperty("Arg{0}".Fmt(j));
-
-                    funcILGenerator.Emit(OpCodes.Ldarg_1);
-                    actionILGenerator.Emit(OpCodes.Ldarg_1);
-                    funcILGenerator.Emit(OpCodes.Ldarg_0);
-                    actionILGenerator.Emit(OpCodes.Ldarg_0);
-
-                    funcILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(funcArgumentType, funcPropertyInfo.GetGetMethod()));
-                    actionILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(actionArgumentType, actionPropertyInfo.GetGetMethod()));
-                    funcILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(funcArgumentType, funcPropertyInfo.GetSetMethod()));
-                    actionILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(actionArgumentType, actionPropertyInfo.GetSetMethod()));
-                });
-
-                funcILGenerator.Emit(OpCodes.Ldarg_1);
-                funcILGenerator.Emit(OpCodes.Ldarg_0);
-                returnValueProperty = genericTypeFuncArgumentType.GetProperty("ReturnValue");
-                funcILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(funcArgumentType, returnValueProperty.GetGetMethod()));
-                funcILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(funcArgumentType, returnValueProperty.GetSetMethod()));
-
-                funcILGenerator.Emit(OpCodes.Ret);
-                actionILGenerator.Emit(OpCodes.Ret);
+                BuildMethod(funcAspectArgMapperTypeBuilder, i, ResolveIFunctionArgsType, true);
             });
 
             weavedFuncType = funcAspectArgMapperTypeBuilder.CreateType();
@@ -86,6 +41,48 @@ namespace NCop.Aspects.Weaving
 
             actionAspectArgMapperMethodsDictionary = weavedActionType.GetMethods(weavedMethodsFlags)
                                                                      .ToDictionary(method => method.GetGenericArguments().Length);
+        }
+
+        private void BuildMethod(TypeBuilder typeBuilder, int numberOfArgs, Func<int, Type> resolveArgsFn, bool hasReturnType) {
+            Type argumentType = null;
+            ILGenerator ilGenerator = null;
+            PropertyInfo returnValueProperty = null;
+            Type genericTypeArgumentType = null;
+            GenericTypeParameterBuilder[] genericParameters = null;
+            var methodAttr = MethodAttributes.Private | MethodAttributes.FamANDAssem | MethodAttributes.Static | MethodAttributes.HideBySig;
+            var methodBuilder = typeBuilder.DefineMethod("Map", methodAttr, CallingConventions.Standard);
+            var genericArgumentsArray = Enumerable.Range(1, numberOfArgs)
+                                                  .Select(j => "Arg{0}".Fmt(j))
+                                                  .ToList();
+
+            if (hasReturnType) {
+                genericArgumentsArray.Add("TResult");
+            }
+
+            genericParameters = methodBuilder.DefineGenericParameters(genericArgumentsArray.ToArray());
+            genericTypeArgumentType = resolveArgsFn(numberOfArgs);
+            argumentType = genericTypeArgumentType.MakeGenericType(genericParameters);
+            methodBuilder.SetParameters(new Type[] { argumentType, argumentType });
+            ilGenerator = methodBuilder.GetILGenerator();
+
+            Enumerable.Range(1, numberOfArgs).ForEach(j => {
+                var propertyInfo = genericTypeArgumentType.GetProperty("Arg{0}".Fmt(j));
+
+                ilGenerator.Emit(OpCodes.Ldarg_1);
+                ilGenerator.Emit(OpCodes.Ldarg_0);
+                ilGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(argumentType, propertyInfo.GetGetMethod()));
+                ilGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(argumentType, propertyInfo.GetSetMethod()));
+            });
+
+            if (hasReturnType) {
+                ilGenerator.Emit(OpCodes.Ldarg_1);
+                ilGenerator.Emit(OpCodes.Ldarg_0);
+                returnValueProperty = genericTypeArgumentType.GetProperty("ReturnValue");
+                ilGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(argumentType, returnValueProperty.GetGetMethod()));
+                ilGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(argumentType, returnValueProperty.GetSetMethod()));
+            }
+
+            ilGenerator.Emit(OpCodes.Ret);
         }
 
         private Type ResolveIFunctionArgsType(int count) {

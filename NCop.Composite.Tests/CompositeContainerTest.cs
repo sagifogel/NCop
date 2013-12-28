@@ -26,7 +26,7 @@ namespace NCop.Composite.Tests
         }
 
         #region Additional test attributes
-        
+
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext) {
             container = new CompositeContainer();
@@ -42,14 +42,14 @@ namespace NCop.Composite.Tests
 
         [Named("JavaScript")]
         [Mixins(typeof(JavaScriptDeveloperMixin))]
-        [TransientComposite(typeof(IPersonComposite))]
+        [TransientComposite(As = typeof(IPersonComposite))]
         public interface IJavaScriptPerson : IPersonComposite
         {
         }
 
         [Named("C#")]
         [Mixins(typeof(CSharpDeveloperMixin))]
-        [TransientComposite(typeof(IPersonComposite))]
+        [TransientComposite(As = typeof(IPersonComposite))]
         public interface ICSharpPerson : IPersonComposite
         {
         }
@@ -71,7 +71,7 @@ namespace NCop.Composite.Tests
         public interface IGenericCSharpDeveloper : IDeveloper<CSharpLanguage>
         {
         }
-        
+
         [TestMethod]
         public void CompositeContainerSameTypeRegistration_HavingTwoDifferentInterfacesAnnotatedWithDiffrentNamedAttributeAndSameCompositeAttributeCastedToDerivedType_ReturnsDiffrentTypes() {
             var person2 = container.TryResolve<IPersonComposite>("C#");
@@ -81,7 +81,7 @@ namespace NCop.Composite.Tests
         }
 
         [TestMethod]
-        public void CompositeContainerGenericTypeRegistration_OfATypeThatHasAGenericArgumnetThatIsMoreDerviedFromTheContrartItImplementsAndTheContractIsCovariant_WeavesTheObjectProperly() {
+        public void CompositeContainerGenericTypeRegistration_OfATypeThatHasAGenericArgumentThatIsMoreDerviedFromTheContrartItImplementsAndTheContractIsCovariant_WeavesTheObjectProperly() {
             var person = container.TryResolve<ICovariantCSharpDeveloper>();
 
             Assert.IsNotNull(person);
@@ -89,7 +89,7 @@ namespace NCop.Composite.Tests
         }
 
         [TestMethod]
-        public void CompositeContainerTypeRegistration_OfANonGenericTypeThatImplementsAGenericContractThatHavASpeificGenericArgumnet_WeavesTheObjectProperly() {
+        public void CompositeContainerTypeRegistration_OfANonGenericTypeThatImplementsAGenericContractThatHavASpeificGenericArgument_WeavesTheObjectProperly() {
             var person = container.TryResolve<IGenericCSharpDeveloper>();
 
             Assert.IsNotNull(person);

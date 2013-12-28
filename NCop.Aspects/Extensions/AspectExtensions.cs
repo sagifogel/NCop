@@ -112,9 +112,11 @@ namespace NCop.Aspects.Extensions
 
             if (bindingSettings.IsFunction) {
                 var last = arguments.Last();
+                int length = arguments.Length - 2;
 
                 methodParameters.ReturnType = arguments.Last();
-                methodParameters.Parameters = arguments.TakeWhile(arg => !arg.Equals(last)).ToArray();
+                methodParameters.Parameters = new Type[length];
+                Array.Copy(arguments, 1, methodParameters.Parameters, 0, length);
             }
             else {
                 arguments.Skip(1).ToArray();

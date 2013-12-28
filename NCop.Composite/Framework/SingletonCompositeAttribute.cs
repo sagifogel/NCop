@@ -8,8 +8,5 @@ namespace NCop.Composite.Framework
 {
     public class SingletonCompositeAttribute : CompositeAttribute
     {
-        public SingletonCompositeAttribute(Type castAs = null)
-            : base(castAs) {
-        }
     }
 }
