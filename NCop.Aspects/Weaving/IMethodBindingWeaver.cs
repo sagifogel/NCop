@@ -8,7 +8,7 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving
 {
-    public interface IMethodBindingWeaver : IWeaver
+    internal interface IMethodBindingWeaver : IWeaver
     {
         FieldInfo Weave();
     }

@@ -19,6 +19,7 @@ namespace NCop.Composite.Engine
         }
 
         public bool HasAspectDefinitions { get; private set; }
+        
         public IAspectDefinitionCollection AspectDefinitions { get; private set; }
     }
 }

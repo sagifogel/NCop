@@ -11,7 +11,7 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractAspectArgumentsWeaver : AbstractArgumentsWeaver, IAspectArgumentsWeaver
     {
-        public AbstractAspectArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+        internal AbstractAspectArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
             : base(argumentWeavingSettings, aspectWeavingSettings) {
         }
 

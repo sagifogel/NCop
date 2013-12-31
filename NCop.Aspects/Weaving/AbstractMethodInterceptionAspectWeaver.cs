@@ -14,7 +14,7 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-	internal abstract class AbstractMethodInterceptionAspectWeaver : AbstractMethodAspectWeaver, ITypeReflector
+	internal abstract class AbstractMethodInterceptionAspectWeaver : AbstractMethodAspectWeaver, IBindingTypeReflector
 	{
         protected readonly List<IMethodScopeWeaver> methodScopeWeavers = null;
         protected readonly ILocalBuilderRepository localBuilderRepository = null;
@@ -23,21 +23,21 @@ namespace NCop.Aspects.Weaving
 			: base(aspectDefinition, aspectWeavingSettings) {
 			IAdviceExpression selectedExpression = null;
 			var argumentsWeavingSettings = aspectDefinition.ToArgumentsWeavingSettings();
-			var aspectSettings = new AdviceWeavingSettings(aspectDefinition.Aspect.AspectType, aspectWeavingSettings, aspectWeavingSettings.LocalBuilderRepository, argumentsWeavingSettings);
+			var aspectSettings = new AdviceWeavingSettings(aspectWeavingSettings, argumentsWeavingSettings);
 
 			WeavedType = weavedType;
-            methodScopeWeavers = new List<IMethodScopeWeaver>();
             selectedExpression = ResolveOnMethodInvokeAdvice();
-			localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
-            methodScopeWeavers.Add(selectedExpression.Reduce(aspectSettings));			
+            methodScopeWeavers = new List<IMethodScopeWeaver>();
+            methodScopeWeavers.Add(selectedExpression.Reduce(aspectSettings));
+            localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
 		}
 
 		public FieldInfo WeavedType { get; private set; }
 
 		private IAdviceExpression ResolveOnMethodInvokeAdvice() {
 			IAdviceDefinition selectedAdviceDefinition = null;
-			Func<IAdviceDefinition, IAdviceExpression> adviceExpressionFactory = null;
-			var onMethodInvokeAdvice = adviceDiscoveryVistor.OnMethodInvokeAdvice;
+            var onMethodInvokeAdvice = adviceDiscoveryVistor.OnMethodInvokeAdvice;
+            Func<IAdviceDefinition, IAdviceExpression> adviceExpressionFactory = null;
 
 			adviceExpressionFactory = adviceVisitor.Visit(adviceDiscoveryVistor.OnMethodInvokeAdvice);
 			selectedAdviceDefinition = advices.First(advice => advice.Advice.Equals(onMethodInvokeAdvice));

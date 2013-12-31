@@ -12,8 +12,8 @@ namespace NCop.Mixins.Weaving
         private readonly ITypeDefinition typeDefinition = null;
 
         public MixinsTypeDefinitionWeaver(Type contractType, ITypeMap mixinsMap) {
-            this.contractType = contractType;
             this.mixinsMap = mixinsMap;
+            this.contractType = contractType;
             typeDefinition = new MixinsTypeDefinition(contractType, mixinsMap);
         }
 

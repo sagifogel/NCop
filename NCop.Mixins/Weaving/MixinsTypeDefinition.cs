@@ -18,12 +18,12 @@ namespace NCop.Mixins.Weaving
     internal class MixinsTypeDefinition : ITypeDefinition
     {
         private readonly ITypeMap mixinsMap = null;
-        private readonly ConcurrentDictionary<Type, MixinTypeDefinition> mixinTypeDefinitions = null;
+        private readonly Dictionary<Type, MixinTypeDefinition> mixinTypeDefinitions = null;
 
         internal MixinsTypeDefinition(Type mixinsType, ITypeMap mixinsMap) {
             Type = mixinsType;
             this.mixinsMap = mixinsMap;
-            mixinTypeDefinitions = new ConcurrentDictionary<Type, MixinTypeDefinition>();
+            mixinTypeDefinitions = new Dictionary<Type, MixinTypeDefinition>();
             CreateTypeBuilder();
             CreateMixinTypeDefinitions();
             CreateDefaultConstructor();
@@ -51,7 +51,7 @@ namespace NCop.Mixins.Weaving
             mixinsMap.ForEach(mixin => {
                 var mixinTypeDefinition = new MixinTypeDefinition(mixin.ContractType, TypeBuilder);
 
-                mixinTypeDefinitions.GetOrAdd(mixin.ContractType, mixinTypeDefinition);
+                mixinTypeDefinitions.Add(mixin.ContractType, mixinTypeDefinition);
             });
         }
 

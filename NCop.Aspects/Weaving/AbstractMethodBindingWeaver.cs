@@ -19,21 +19,19 @@ using MA = System.Reflection.MethodAttributes;
 
 namespace NCop.Aspects.Weaving
 {
-	internal abstract class AbstractMethodBindingWeaver : IMethodBindingWeaver, ITypeReflector
+	internal abstract class AbstractMethodBindingWeaver : IMethodBindingWeaver, IBindingTypeReflector
 	{
 		protected static int bindingCounter = 0;
 		protected TypeBuilder typeBuilder = null;
 		protected FieldBuilder fieldBuilder = null;
 		protected readonly BindingSettings bindingSettings = null;
-		protected IAspectWeavingSettings apectWeavingSettings = null;
 		protected readonly IMethodScopeWeaver methodScopeWeaver = null;
 		protected readonly MethodAttributes methodAttr = MA.Public | MA.Final | MA.HideBySig | MA.NewSlot | MA.Virtual;
 		protected readonly CallingConventions callingConventions = CallingConventions.Standard | CallingConventions.HasThis;
 
-		internal AbstractMethodBindingWeaver(BindingSettings bindingSettings, IAspectWeavingSettings apectWeavingSettings, IMethodScopeWeaver methodScopeWeaver) {
+		internal AbstractMethodBindingWeaver(BindingSettings bindingSettings, IMethodScopeWeaver methodScopeWeaver) {
 			this.bindingSettings = bindingSettings;
 			this.methodScopeWeaver = methodScopeWeaver;
-			this.apectWeavingSettings = apectWeavingSettings;
 		}
 
 		public FieldInfo WeavedType { get; set; }

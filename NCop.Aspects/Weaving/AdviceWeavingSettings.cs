@@ -8,14 +8,14 @@ namespace NCop.Aspects.Weaving
 {
 	internal class AdviceWeavingSettings : AspectWeavingSettings, IAdviceWeavingSettings
 	{
-        internal AdviceWeavingSettings(Type aspectType, IAspectWeavingSettings aspectWeavingSettings, ILocalBuilderRepository localBuilderRepository, IArgumentsWeavingSettings argumentsWeavingSettings) {
-			AspectType = aspectType;
-            LocalBuilderRepository = localBuilderRepository;
+        internal AdviceWeavingSettings(IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings) {
+			AspectType = argumentsWeavingSettings.AspectType;
             ArgumentsWeavingSettings = argumentsWeavingSettings;
             WeavingSettings = aspectWeavingSettings.WeavingSettings;
 			AspectRepository = aspectWeavingSettings.AspectRepository;
 			AspectArgsMapper = aspectWeavingSettings.AspectArgsMapper;
-		}
+            LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
+        }
 
 		public Type AspectType { get; private set; }
 

@@ -25,9 +25,9 @@ namespace NCop.Aspects.Weaving
 			advices = aspectDefinition.Advices;
 			this.aspectDefinition = aspectDefinition;
 			weavingSettings = aspectWevingSettings.WeavingSettings;
-			argumentsWeavingSetings = aspectDefinition.ToArgumentsWeavingSettings();
 			aspectRepository = aspectWevingSettings.AspectRepository;
-			aspectDefinition.Advices.ForEach(advice => advice.Accept(adviceDiscoveryVistor));
+            argumentsWeavingSetings = aspectDefinition.ToArgumentsWeavingSettings();
+            aspectDefinition.Advices.ForEach(advice => advice.Accept(adviceDiscoveryVistor));
 		}
 
 		private IAdviceExpression ResolveOnMethodEntryAdvice() {

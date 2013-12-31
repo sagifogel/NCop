@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Weaving
 {
-	public interface ITypeReflector
+	internal interface IBindingTypeReflector
 	{
 		FieldInfo WeavedType { get; }
 	}

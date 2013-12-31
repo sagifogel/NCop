@@ -15,7 +15,7 @@ namespace NCop.Aspects.Weaving.Expressions
         }
 
         public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
-            ITypeReflector typeReflector = new AspectWeaverWithBinding(expression, aspectDefinition, aspectWeavingSettings);
+            IBindingTypeReflector typeReflector = new AspectWeaverWithBinding(expression, aspectDefinition, aspectWeavingSettings);
 
             var clonedSettings = aspectWeavingSettings.CloneWith(settings => {
                 settings.LocalBuilderRepository = new LocalBuilderRepository();

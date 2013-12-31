@@ -11,7 +11,7 @@ using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class AspectWeaverWithBinding : IAspectExpression, ITypeReflector
+    internal class AspectWeaverWithBinding : IAspectExpression, IBindingTypeReflector
     {
         private readonly IAspectDefinition aspectDefinition = null;
         private readonly IAspectWeavingSettings aspectWeavingSettings = null;
@@ -31,19 +31,20 @@ namespace NCop.Aspects.Weaving.Expressions
             }
             else {
                 IAspectWeaver aspectWeaver = null;
-                ITypeReflector typeReflector = null;
+                IBindingTypeReflector typeReflector = null;
                 IMethodBindingWeaver bindingWeaver = null;
                 var aspectType = aspectDefinition.Aspect.AspectType;
                 var localBuilderRepository = new LocalBuilderRepository();
+
                 var clonedSettings = aspectWeavingSettings.CloneWith(settings => {
                     settings.LocalBuilderRepository = localBuilderRepository;
                 });
 
                 aspectWeaver = expression.Reduce(clonedSettings);
-                typeReflector = aspectWeaver as ITypeReflector;
-                bindingSettings.BindingsDependency = typeReflector.WeavedType;
+                typeReflector = aspectWeaver as IBindingTypeReflector;
+                bindingSettings.BindingDependency = typeReflector.WeavedType;
                 bindingSettings.LocalBuilderRepository = localBuilderRepository;
-                bindingWeaver = new OnMethodInterceptionBindingWeaver(aspectType, bindingSettings, clonedSettings, aspectWeaver);
+                bindingWeaver = new OnMethodInterceptionBindingWeaver(aspectType, bindingSettings, aspectWeaver);
                 WeavedType = bindingWeaver.Weave();
             }
         }

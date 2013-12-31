@@ -13,7 +13,7 @@ namespace NCop.Aspects.Weaving
 	{
 		protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
 
-		public AbstractArgumentsWeaver(IArgumentsWeavingSettings argumentsWeavingSettings, IAspectWeavingSettings aspectWeavingSettings) {
+		internal AbstractArgumentsWeaver(IArgumentsWeavingSettings argumentsWeavingSettings, IAspectWeavingSettings aspectWeavingSettings) {
             ReturnType = argumentsWeavingSettings.ReturnType;
             AspectType = argumentsWeavingSettings.AspectType;
 			Parameters = new Type[argumentsWeavingSettings.Parameters.Length];

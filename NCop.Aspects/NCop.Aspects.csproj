@@ -348,7 +348,6 @@
     <Compile Include="Aspects\AspectAttribute.cs" />
     <Compile Include="Aspects\AspectByReflectionFactory.cs" />
     <Compile Include="Aspects\AspectCollection.cs" />
-    <Compile Include="Aspects\AspectDefinitionRepository.cs" />
     <Compile Include="Aspects\AspectMap.cs" />
     <Compile Include="Aspects\AspectsMap.cs" />
     <Compile Include="Aspects\IAspectsMap.cs" />
@@ -437,7 +436,7 @@
     <Compile Include="Weaving\IAspectWeavingSettings.cs" />
     <Compile Include="Weaving\ILocalBuilderRepository.cs" />
     <Compile Include="Weaving\IMethodBindingWeaver.cs" />
-    <Compile Include="Weaving\ITypeReflector.cs" />
+    <Compile Include="Weaving\IBindingTypeReflector.cs" />
     <Compile Include="Weaving\LocalBuilderRepository.cs" />
     <Compile Include="Weaving\MethodDecorationBindingWeaver.cs" />
     <Compile Include="Weaving\MethodDecoratorArgumentsWeaver.cs" />
