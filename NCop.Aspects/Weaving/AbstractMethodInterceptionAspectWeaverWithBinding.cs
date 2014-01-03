@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 using NCop.Core.Extensions;
 using System.Reflection;
 using NCop.Aspects.Extensions;
-
-namespace NCop.Aspects.Weaving.Expressions
+using NCop.Aspects.Weaving.Expressions;
+namespace NCop.Aspects.Weaving
 {
-    internal class AspectWeaverWithBinding : IAspectExpression, IBindingTypeReflector
+    internal abstract class AbstractMethodInterceptionAspectWeaverWithBinding : IAspectExpression, IBindingTypeReflector
     {
-        private readonly IAspectDefinition aspectDefinition = null;
-        private readonly IAspectWeavingSettings aspectWeavingSettings = null;
+        protected IAspectDefinition aspectDefinition = null;
+        protected IAspectWeavingSettings aspectWeavingSettings = null;
 
-        internal AspectWeaverWithBinding(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings) {
+        internal AbstractMethodInterceptionAspectWeaverWithBinding(IAspectExpression expression, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings) {
             BindingSettings bindingSettings = null;
 
             this.aspectDefinition = aspectDefinition;
@@ -31,8 +31,8 @@ namespace NCop.Aspects.Weaving.Expressions
             }
             else {
                 IAspectWeaver aspectWeaver = null;
-                IBindingTypeReflector typeReflector = null;
                 IMethodBindingWeaver bindingWeaver = null;
+                IBindingTypeReflector typeReflector = null;
                 var aspectType = aspectDefinition.Aspect.AspectType;
                 var localBuilderRepository = new LocalBuilderRepository();
 
@@ -49,10 +49,8 @@ namespace NCop.Aspects.Weaving.Expressions
             }
         }
 
-        public FieldInfo WeavedType { get; private set; }
+        public FieldInfo WeavedType { get; protected set; }
 
-        public IAspectWeaver Reduce(IAspectWeavingSettings settings) {
-            return new MethodInterceptionAspectWeaver(aspectDefinition, settings, WeavedType);
-        }
+        public abstract IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings);
     }
 }

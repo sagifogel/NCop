@@ -19,12 +19,18 @@ namespace NCop.Aspects.Weaving
             var aspectMember = aspectRepository.GetAspectFieldByType(aspectType);
             var onInvokeMethod = aspectMember.FieldType.GetMethod("OnInvoke");
 
-			argsLocalBuilder = localBuilderRepository.Get(argumentsWeavingSettings.ArgumentType);
+            argsLocalBuilder = localBuilderRepository.Get(argumentsWeavingSettings.ArgumentType);
             ilGenerator.Emit(OpCodes.Ldsfld, aspectMember);
             ilGenerator.EmitLoadLocal(argsLocalBuilder);
             ilGenerator.Emit(OpCodes.Callvirt, onInvokeMethod);
 
             return ilGenerator;
+        }
+
+        protected override string AdviceName {
+            get {
+                return "OnInvoke";
+            }
         }
     }
 }

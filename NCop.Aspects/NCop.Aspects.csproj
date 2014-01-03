@@ -137,6 +137,7 @@
     <Compile Include="Weaving\AbstractMethodAspectWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodBindingWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodInterceptionAspectWeaver.cs" />
+    <Compile Include="Weaving\AbstractOnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\ActionAspectArgsMappingWeaver.cs" />
     <Compile Include="Weaving\AdviceDiscoveryVisitor.cs" />
     <Compile Include="Weaving\AbstractAdviceWeaver.cs" />
@@ -150,10 +151,18 @@
     <Compile Include="Weaving\AspectDecoratorWeaver.cs" />
     <Compile Include="Weaving\AspectWeavingSettings.cs" />
     <Compile Include="Weaving\BindingSettings.cs" />
+    <Compile Include="Weaving\AbstractMethodInterceptionAspectWeaverWithBinding.cs" />
     <Compile Include="Weaving\Expressions\IAspectDefinitionVisitor.cs" />
+    <Compile Include="Weaving\Expressions\NestedMethodInterceptionAspectExpression.cs" />
+    <Compile Include="Weaving\Expressions\NestedOnMethodBounadryAspectExpression.cs" />
+    <Compile Include="Weaving\Expressions\TopOnMethodBoundaryAspectExpression.cs" />
     <Compile Include="Weaving\FunctionAspectArgsMappingWeaver.cs" />
+    <Compile Include="Weaving\IAspectArgumentReflector.cs" />
     <Compile Include="Weaving\IArgumentsSettings.cs" />
-    <Compile Include="Weaving\MethodInterceptionTopAspectWeaver.cs" />
+    <Compile Include="Weaving\IAspectTypeReflectorWeaver.cs" />
+    <Compile Include="Weaving\OnMethodBoundaryImplArgumentsWeaver.cs" />
+    <Compile Include="Weaving\ReturnValueAspectWeaver.cs" />
+    <Compile Include="Weaving\TopMethodInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\Expressions\AbstractAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\AspectDecoratorExpression.cs" />
     <Compile Include="Weaving\Expressions\AspectNodeExpressionBuilder.cs" />
@@ -417,14 +426,13 @@
     <Compile Include="Weaving\Expressions\AspectExpression.cs" />
     <Compile Include="Weaving\Expressions\IAspectExpressionBuilder.cs" />
     <Compile Include="Weaving\Expressions\MethodInterceptionAspectExpression.cs" />
-    <Compile Include="Weaving\AspectWeaverWithBinding.cs" />
-    <Compile Include="Weaving\Expressions\MethodInterceptionTopAspectExpression.cs" />
+    <Compile Include="Weaving\MethodInterceptionAspectWeaverWithBinding.cs" />
+    <Compile Include="Weaving\Expressions\TopMethodInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\OnMethodBoundaryAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\OnMethodEntryAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\OnMethodExceptionAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\OnMethodInvokeAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\OnMethodSuccessAdviceExpression.cs" />
-    <Compile Include="Weaving\Expressions\TopAspectVisitor.cs" />
     <Compile Include="Weaving\FinallyAdviceWeaver.cs" />
     <Compile Include="Weaving\IAdviceWeavingSettings.cs" />
     <Compile Include="Weaving\IArgumentsWeaver.cs" />
@@ -440,7 +448,7 @@
     <Compile Include="Weaving\LocalBuilderRepository.cs" />
     <Compile Include="Weaving\MethodDecorationBindingWeaver.cs" />
     <Compile Include="Weaving\MethodDecoratorArgumentsWeaver.cs" />
-    <Compile Include="Weaving\MethodImplArgumentsWeaver.cs" />
+    <Compile Include="Weaving\MethodInterceptionImplArgumentsWeaver.cs" />
     <Compile Include="Weaving\MethodInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\MethodParameters.cs" />
     <Compile Include="Weaving\OnMethodBoundaryAspectWeaver.cs" />
@@ -449,6 +457,8 @@
     <Compile Include="Weaving\OnMethodInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\OnMethodInvokeWeaver.cs" />
     <Compile Include="Weaving\OnMethodSuccessAdviceWeaver.cs" />
+    <Compile Include="Weaving\TopMethodInterceptionAspectWeaverWithBinding.cs" />
+    <Compile Include="Weaving\TopOnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\TryCatchFinallyAspectWeaver.cs" />
     <Compile Include="Weaving\TryFinallyAspectWeaver.cs" />
   </ItemGroup>

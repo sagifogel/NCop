@@ -20,16 +20,16 @@ namespace NCop.Samples
     {
         public static TraceAspect traceAspect = null;
         public static TraceAspect2 traceAspect2 = null;
-        public static TraceAspect2 traceAspect3 = null;
+        public static TraceAspect3 traceAspect3 = null;
 
         static Aspects() {
             traceAspect = new TraceAspect();
             traceAspect2 = new TraceAspect2();
-            traceAspect3 = new TraceAspect2();
+            traceAspect3 = new TraceAspect3();
         }
     }
 
-    public sealed class MethodDecoratorFunctionBinding : IFunctionBinding<CSharpDeveloperMixin, string>
+    public sealed class MethodDecoratorFunctionBinding : IFunctionBinding<CSharpDeveloperMixin, string, string>
     {
         public static MethodDecoratorFunctionBinding singleton = null;
 
@@ -40,12 +40,12 @@ namespace NCop.Samples
         private MethodDecoratorFunctionBinding() {
         }
 
-        public string Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string> args) {
-            return instance.Code();
+        public string Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string, string> args) {
+            return instance.Code(args.Arg1);
         }
     }
 
-    public sealed class OnMethodInterceptionBindingWeaver : IFunctionBinding<CSharpDeveloperMixin, string>
+    public sealed class OnMethodInterceptionBindingWeaver : IFunctionBinding<CSharpDeveloperMixin, string, string>
     {
         public static OnMethodInterceptionBindingWeaver singleton = null;
 
@@ -56,9 +56,9 @@ namespace NCop.Samples
         private OnMethodInterceptionBindingWeaver() {
         }
 
-        public string Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string> args) {
+        public string Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string, string> args) {
             var binding = MethodDecoratorFunctionBinding.singleton;
-            var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string>(instance, binding);
+            var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(instance, binding, args.Arg1);
 
             Aspects.traceAspect.OnInvoke(aspectArgs);
             FunctionArgsMapper.Map(aspectArgs, args);
@@ -150,10 +150,16 @@ namespace NCop.Samples
             developer = new CSharpDeveloperMixin();
         }
 
-        public string Code() {
-            var binding = MethodDecoratorFunctionBinding.singleton;
-            var args = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string>(developer, binding);
-            return Aspects.traceAspect.OnInvoke(args);
+        public string Code(string sagi) {
+            var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(developer, sagi);
+            Aspects.traceAspect3.OnEntry(aspectArgs);
+            
+            return developer.Code(aspectArgs.Arg1);
+        }
+
+        public string Code2(string sagi) {
+            var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(developer, OnMethodInterceptionBindingWeaver.singleton, sagi);
+            return Aspects.traceAspect.OnInvoke(aspectArgs);
         }
     }
 
@@ -161,23 +167,22 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
-        [MethodInterceptionAspect(typeof(TraceAspect))]
-        [MethodInterceptionAspect(typeof(TraceAspect))]
-        [MethodInterceptionAspect(typeof(TraceAspect))]
-        new string Code();
+        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        new string Code(string s);
     }
 
     class Program
     {
         static void Main(string[] args) {
-            //var person = new Person();
-            //string result = person.Code();
-            
+            //var person1 = new Person();
+            //string result = person1.Code("");
+
             var container = new CompositeContainer();
             container.Configure();
-            
+
             var person = container.TryResolve<IPersonComposite>();
-            Console.WriteLine(person.Code());
+            Console.WriteLine(person.Code("Sagi"));
         }
     }
 
@@ -188,14 +193,14 @@ namespace NCop.Samples
     {
         private T langugae = new T();
 
-        public string Code() {
+        public string Code(string s) {
             return langugae.ToString();
         }
     }
 
-    public class TraceAspect : FunctionInterceptionAspect<string>
+    public class TraceAspect : FunctionInterceptionAspect<string, string>
     {
-        public override string OnInvoke(FunctionInterceptionArgs<string> args) {
+        public override string OnInvoke(FunctionInterceptionArgs<string, string> args) {
             Console.WriteLine("Code from TraceAspect");
             return base.OnInvoke(args);
         }
@@ -211,29 +216,37 @@ namespace NCop.Samples
     }
 
     [PerThreadAspect]
-    public class TraceAspect2 : OnFunctionBoundaryAspect<string, bool>
+    public class TraceAspect3 : OnFunctionBoundaryAspect<string, string>
     {
-        public override void OnEntry(FunctionExecutionArgs<string, bool> args) {
+        public override void OnEntry(FunctionExecutionArgs<string, string> args) {
+            base.OnEntry(args);
+        }
+    }
+
+    [PerThreadAspect]
+    public class TraceAspect2 : OnFunctionBoundaryAspect<string>
+    {
+        public override void OnEntry(FunctionExecutionArgs<string> args) {
             base.OnEntry(args);
         }
 
-        public override void OnSuccess(FunctionExecutionArgs<string, bool> args) {
-            base.OnSuccess(args);
-        }
+        //public override void OnSuccess(FunctionExecutionArgs<string, bool> args) {
+        //    base.OnSuccess(args);
+        //}
 
-        public override void OnException(FunctionExecutionArgs<string, bool> args) {
-            base.OnException(args);
-        }
+        //public override void OnException(FunctionExecutionArgs<string, bool> args) {
+        //    base.OnException(args);
+        //}
 
-        public override void OnExit(FunctionExecutionArgs<string, bool> args) {
-            base.OnExit(args);
-        }
+        //public override void OnExit(FunctionExecutionArgs<string, bool> args) {
+        //    base.OnExit(args);
+        //}
     }
 
     public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>
     {
-        public override string Code() {
-            return base.Code();
+        public override string Code(string s) {
+            return base.Code(s);
         }
     }
 
@@ -247,7 +260,7 @@ namespace NCop.Samples
     {
         private readonly ILanguage language = new TLanguage();
 
-        public virtual string Code() {
+        public virtual string Code(string s) {
             return "I am coding in " + language.ToString();
         }
     }
@@ -286,7 +299,7 @@ namespace NCop.Samples
 
     public interface IDeveloper<out TLanguage>
     {
-        string Code();
+        string Code(string s);
     }
 
     public interface IDeveloper

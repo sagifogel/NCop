@@ -13,8 +13,10 @@ namespace NCop.Aspects.Weaving
             : base(adviceWeavingSettings) {
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
-            throw new NotImplementedException();
+        protected override string AdviceName {
+            get {
+                return "OnException";
+            }
         }
     }
 }

@@ -14,16 +14,16 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class MethodInterceptionTopAspectWeaver : AbstractMethodInterceptionAspectWeaver
+    internal class TopMethodInterceptionAspectWeaver : AbstractMethodInterceptionAspectWeaver
     {
 		protected IArgumentsWeaver argumentsWeaver = null;
 
-        internal MethodInterceptionTopAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings settings, FieldInfo weavedType)
+        internal TopMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings settings, FieldInfo weavedType)
             : base(aspectDefinition, settings, weavedType) {
             var @params = weavingSettings.MethodInfoImpl.GetParameters();
 
             argumentsWeavingSetings.Parameters = @params.Select(@param => @param.ParameterType).ToArray();
-            argumentsWeaver = new MethodImplArgumentsWeaver(argumentsWeavingSetings, settings);
+            argumentsWeaver = new MethodInterceptionImplArgumentsWeaver(argumentsWeavingSetings, settings);
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 

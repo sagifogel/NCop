@@ -14,91 +14,21 @@ using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-	internal class OnMethodBoundaryAspectWeaver : AbstractMethodAspectWeaver
+    internal class OnMethodBoundaryAspectWeaver : AbstractOnMethodBoundaryAspectWeaver
 	{
-		internal OnMethodBoundaryAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings settings)
+        protected IArgumentsWeaver argumentsWeaver = null;
+        
+        internal OnMethodBoundaryAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings settings)
 			: base(aspectDefinition, settings) {
-			IAdviceExpression selectedExpression = null;
-			var entryWeavers = new List<IMethodScopeWeaver>();
-			var catchWeavers = new List<IMethodScopeWeaver>();
-			var finallyWeavers = new List<IMethodScopeWeaver>();
-			var newSettings = new AdviceWeavingSettings(settings, null);
-			var tryWeavers = new List<IMethodScopeWeaver>();
+            var @params = weavingSettings.MethodInfoImpl.GetParameters();
 
-			if (adviceDiscoveryVistor.HasOnMethodEntryAdvice) {
-				selectedExpression = ResolveOnMethodEntryAdvice();
-				entryWeavers.Add(selectedExpression.Reduce(newSettings));
-			}
-
-			if (adviceDiscoveryVistor.HasOnMethodSuccessAdvice) {
-				selectedExpression = ResolveOnMethodSuccessAdvice();
-				tryWeavers.Add(selectedExpression.Reduce(newSettings));
-			}
-
-			if (adviceDiscoveryVistor.HasFinallyAdvice) {
-				selectedExpression = ResolveFinallyAdvice();
-				finallyWeavers.Add(selectedExpression.Reduce(newSettings));
-
-				if (adviceDiscoveryVistor.HasOnMethodExceptionAdvice) {
-					selectedExpression = ResolveOnMethodExceptionAdvice();
-					catchWeavers.Add(selectedExpression.Reduce(newSettings));
-
-					weaver = new TryCatchFinallyAspectWeaver(entryWeavers, tryWeavers, catchWeavers, finallyWeavers);
-				}
-				else {
-					weaver = new TryFinallyAspectWeaver(entryWeavers, tryWeavers, finallyWeavers);
-				}
-			}
-			else {
-				weaver = new MethodScopeWeaversQueue(entryWeavers.Concat(tryWeavers));
-			}
-		}
-
-		private IAdviceExpression ResolveOnMethodEntryAdvice() {
-			IAdviceDefinition selectedAdviceDefinition = null;
-			Func<IAdviceDefinition, IAdviceExpression> adviceExpressionFactory = null;
-			var onMethodEntryAdvice = adviceDiscoveryVistor.OnMethodEntryAdvice;
-
-			adviceExpressionFactory = adviceVisitor.Visit(adviceDiscoveryVistor.OnMethodEntryAdvice);
-			selectedAdviceDefinition = advices.First(advice => advice.Advice.Equals(onMethodEntryAdvice));
-
-			return adviceExpressionFactory(selectedAdviceDefinition);
-		}
-
-		private IAdviceExpression ResolveOnMethodSuccessAdvice() {
-			IAdviceDefinition selectedAdviceDefinition = null;
-			Func<IAdviceDefinition, IAdviceExpression> adviceExpressionFactory = null;
-			var onMethodSuccessAdvice = adviceDiscoveryVistor.OnMethodSuccessAdvice;
-
-			adviceExpressionFactory = adviceVisitor.Visit(adviceDiscoveryVistor.OnMethodSuccessAdvice);
-			selectedAdviceDefinition = advices.First(advice => advice.Advice.Equals(onMethodSuccessAdvice));
-
-			return adviceExpressionFactory(selectedAdviceDefinition);
-		}
-
-		private IAdviceExpression ResolveOnMethodExceptionAdvice() {
-			IAdviceDefinition selectedAdviceDefinition = null;
-			Func<IAdviceDefinition, IAdviceExpression> adviceExpressionFactory = null;
-			var onMethodExceptionAdvice = adviceDiscoveryVistor.OnMethodExceptionAdvice;
-
-			adviceExpressionFactory = adviceVisitor.Visit(adviceDiscoveryVistor.OnMethodExceptionAdvice);
-			selectedAdviceDefinition = advices.First(advice => advice.Advice.Equals(onMethodExceptionAdvice));
-
-			return adviceExpressionFactory(selectedAdviceDefinition);
-		}
-
-		private IAdviceExpression ResolveFinallyAdvice() {
-			IAdviceDefinition selectedAdviceDefinition = null;
-			Func<IAdviceDefinition, IAdviceExpression> adviceExpressionFactory = null;
-			var finallyAdvice = adviceDiscoveryVistor.FinallyAdvice;
-
-			adviceExpressionFactory = adviceVisitor.Visit(adviceDiscoveryVistor.FinallyAdvice);
-			selectedAdviceDefinition = advices.First(advice => advice.Advice.Equals(finallyAdvice));
-
-			return adviceExpressionFactory(selectedAdviceDefinition);
+            argumentsWeavingSetings.Parameters = @params.Select(@param => @param.ParameterType).ToArray();
+            argumentsWeaver = new MethodInterceptionImplArgumentsWeaver(argumentsWeavingSetings, settings);
 		}
 
 		public override ILGenerator Weave(ILGenerator ilGenerator) {
+            argumentsWeaver.Weave(ilGenerator);
+
 			return weaver.Weave(ilGenerator);
 		}
 	}

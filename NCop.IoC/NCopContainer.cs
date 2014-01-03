@@ -11,7 +11,6 @@ namespace NCop.IoC
         private int locked = 0;
         private readonly NCopContainer parentContainer = null;
         private Stack<NCopContainer> childContainers = new Stack<NCopContainer>();
-		private Action<IArgumentsFluentRegistry> action;
 
         public NCopContainer(Action<IArgumentsFluentRegistry> registrationAction = null)
             : this(registrationAction, null) {

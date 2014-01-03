@@ -14,11 +14,12 @@ using NCop.Aspects.Engine;
 using NCop.Core.Extensions;
 using System.Threading;
 using NCop.Weaving.Extensions;
+
 namespace NCop.Aspects.Weaving
 {
-	internal class MethodImplArgumentsWeaver : AbstractAspectArgumentsWeaver
+	internal class MethodInterceptionImplArgumentsWeaver : AbstractAspectArgumentsWeaver
 	{
-		internal MethodImplArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+		internal MethodInterceptionImplArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
 			: base(argumentWeavingSettings, aspectWeavingSettings) {
 		}
 

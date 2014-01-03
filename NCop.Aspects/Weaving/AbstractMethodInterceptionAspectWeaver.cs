@@ -16,7 +16,6 @@ namespace NCop.Aspects.Weaving
 {
 	internal abstract class AbstractMethodInterceptionAspectWeaver : AbstractMethodAspectWeaver, IBindingTypeReflector
 	{
-        protected readonly List<IMethodScopeWeaver> methodScopeWeavers = null;
         protected readonly ILocalBuilderRepository localBuilderRepository = null;
 
 		internal AbstractMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)

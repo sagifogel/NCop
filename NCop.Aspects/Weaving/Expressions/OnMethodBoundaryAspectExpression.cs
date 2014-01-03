@@ -12,7 +12,7 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal class OnMethodBoundaryAspectExpression : AbstractAspectExpression
     {
-        internal OnMethodBoundaryAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition = null)
+        internal OnMethodBoundaryAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition)
             : base(expression, aspectDefinition) {
         }
 

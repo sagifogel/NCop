@@ -57,6 +57,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="IHasWeavingSettings.cs" />
     <Compile Include="IMethodLocalWeaver.cs" />
     <Compile Include="IWeavingSettings.cs" />
     <Compile Include="WeavingSettings.cs" />
