@@ -8,6 +8,7 @@ namespace NCop.IoC
 {
     public interface INCopContainer : IDisposable
     {
+        void Configure();
         TService Resolve<TService>();
         TService TryResolve<TService>();
         TService Resolve<TService>(string name = null);

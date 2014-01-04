@@ -13,6 +13,7 @@ namespace NCop.IoC
 {
     public abstract class AbstractNCopContainer : INCopContainer
     {
+        private readonly object syncLock = new object();
         protected readonly IContainerRegistry registry = null;
         protected IDictionary<ServiceKey, ServiceEntry> services = null;
         protected readonly Stack<WeakReference> disposables = new Stack<WeakReference>();
@@ -41,8 +42,14 @@ namespace NCop.IoC
             return new ContainerRegistry();
         }
 
+        public void Configure() {
+            ConfigureInternal();
+        }
+
         protected internal void ConfigureInternal() {
-            Interlocked.CompareExchange(ref services, ResolveServices(registry), null);
+            lock (syncLock) {
+                services = ResolveServices(registry);
+            }
         }
 
         protected ServiceKey CreateServiceKey(IRegistration registration) {
@@ -121,7 +128,7 @@ namespace NCop.IoC
             return instance;
         }
 
-        internal bool TryGetEntry(ServiceKey key, out ServiceEntry entry) {
+        protected internal bool TryGetEntry(ServiceKey key, out ServiceEntry entry) {
             return (entry = GetEntry(key)) != null;
         }
 

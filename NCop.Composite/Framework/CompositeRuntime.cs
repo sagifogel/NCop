@@ -9,6 +9,7 @@ using System;
 using NCop.IoC.Fluent;
 using System.Reflection;
 using NCop.Composite.Exceptions;
+using NCop.Weaving;
 
 namespace NCop.Composite.Framework
 {
@@ -32,7 +33,7 @@ namespace NCop.Composite.Framework
                                .Where(composite => composite.Attributes.Length > 0);
             });
 
-            var weavers = composites.Select(composite => {
+            var bulkWeaving = new BulkWeaving(composites.Select(composite => {
                 CompositeTypeWeaverBuilder builder = null;
 
                 if (composite.Attributes.Length > 1) {
@@ -42,11 +43,9 @@ namespace NCop.Composite.Framework
                 builder = new CompositeTypeWeaverBuilder(composite.Type, registry);
 
                 return builder.Build();
-            });
+            }));
 
-            foreach (var weaver in weavers) {
-                weaver.Weave();
-            }
+            bulkWeaving.Weave();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace NCop.Aspects.Weaving
 			: base(aspectDefinition, settings) {
             var @params = weavingSettings.MethodInfoImpl.GetParameters();
 
-            argumentsWeavingSetings.Parameters = @params.Select(@param => @param.ParameterType).ToArray();
+            argumentsWeavingSetings.Parameters = @params.ToArray(@param => @param.ParameterType);
             argumentsWeaver = new MethodInterceptionImplArgumentsWeaver(argumentsWeavingSetings, settings);
 		}
 

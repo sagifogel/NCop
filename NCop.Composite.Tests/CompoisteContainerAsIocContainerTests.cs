@@ -13,7 +13,6 @@ namespace NCop.Composite.Tests
     public class CompoisteContainerAsIocContainerTests
     {
         private TestContext testContextInstance;
-        private static CompositeContainer container = null;
 
         /// <summary>
         ///Gets or sets the test context which provides
@@ -166,7 +165,7 @@ namespace NCop.Composite.Tests
             var container = new CompositeContainer();
             
             container.Configure(registry => {
-                registry.Register<IFoo>();
+                registry.Register<Foo>();
             });
             
             var instance = container.TryResolve<IFoo>();
@@ -183,6 +182,7 @@ namespace NCop.Composite.Tests
             });
 
             var childContainer = container.CreateChildContainer();
+            childContainer.Configure();
             var instance = childContainer.Resolve<Foo>();
 
             Assert.IsNotNull(instance);
@@ -197,6 +197,7 @@ namespace NCop.Composite.Tests
             });
 
             var childContainer = container.CreateChildContainer();
+            childContainer.Configure();
             var instance = container.Resolve<Foo>();
             var instance2 = childContainer.Resolve<Foo>();
 
@@ -212,6 +213,7 @@ namespace NCop.Composite.Tests
             });
 
             var childContainer = container.CreateChildContainer();
+            childContainer.Configure();
             var instance = container.Resolve<Foo>();
             var instance2 = childContainer.Resolve<Foo>();
 
@@ -228,6 +230,7 @@ namespace NCop.Composite.Tests
             });
 
             var childContainer = container.CreateChildContainer();
+            childContainer.Configure();
             var instance1 = container.Resolve<Foo>();
             var instance2 = container.Resolve<Foo>();
             var instance3 = childContainer.Resolve<Foo>();
@@ -256,7 +259,7 @@ namespace NCop.Composite.Tests
         [TestMethod]
         public void DisposeOfParentContainer_OfDisposableObjectWhichIsOwnedByChildContainer_ReturnsDispsoedIndication() {
             var parentContainer = new CompositeContainer();
-            container.Configure();
+            parentContainer.Configure();
 
             var childContainer = parentContainer.CreateChildContainer();
 

@@ -21,7 +21,7 @@ namespace NCop.Weaving
             MethodBuilder methodBuilder = null;
 
             parameters = parameters ?? methodInfo.GetParameters();
-            parametersTypes = parameters.Select(parameter => parameter.ParameterType).ToArray();
+            parametersTypes = parameters.ToArray(parameter => parameter.ParameterType);
             attributes = attributes ?? methodInfo.Attributes & ~MethodAttributes.Abstract;
             methodBuilder = typeBuilder.DefineMethod(methodInfo.Name, attributes.Value, methodInfo.ReturnType, parametersTypes);
 

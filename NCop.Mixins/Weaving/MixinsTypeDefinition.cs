@@ -57,7 +57,7 @@ namespace NCop.Mixins.Weaving
 
         private void CreateDefaultConstructor() {
             var attr = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
-            var @params = mixinsMap.Select(map => map.ContractType).ToArray();
+            var @params = mixinsMap.ToArray(map => map.ContractType);
             var ctorBuilder = TypeBuilder.DefineConstructor(attr, CallingConventions.HasThis, @params);
             var ilGenerator = ctorBuilder.GetILGenerator();
 

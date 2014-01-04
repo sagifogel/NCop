@@ -60,6 +60,7 @@
     <Compile Include="IHasWeavingSettings.cs" />
     <Compile Include="IMethodLocalWeaver.cs" />
     <Compile Include="IWeavingSettings.cs" />
+    <Compile Include="BulkWeaving.cs" />
     <Compile Include="WeavingSettings.cs" />
     <Compile Include="MethodScopeWeaversQueue.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

@@ -30,7 +30,7 @@ namespace NCop.IoC
                     registrationAction(registry);
                 }
 
-                ConfigureInternal();
+                base.Configure();
             }
         }
 

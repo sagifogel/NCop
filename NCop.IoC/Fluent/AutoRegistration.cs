@@ -66,8 +66,7 @@ namespace NCop.IoC.Fluent
 			var ctors = type.GetConstructors();
 
 			if (ctors.Length > 1) {
-				var dependentCtors = ctors.Where(ctor => ctor.IsDefined<DependencyAttribute>())
-										  .ToArray();
+                var dependentCtors = ctors.ToArray<ConstructorInfo, ConstructorInfo>(ctor => ctor.IsDefined<DependencyAttribute>());
 
 				if (dependentCtors.Length != 1) {
 					throw new RegistrationException(Resources.AmbigiousConstructorDependency.Fmt(type));

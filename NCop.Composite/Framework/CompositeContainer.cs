@@ -35,6 +35,16 @@ namespace NCop.Composite.Framework
             return new CompositeRegistry();
         }
 
+        protected override ServiceEntry GetEntry(ServiceKey key) {
+            ServiceEntry entry = base.GetEntry(key);
+
+            if (entry.IsNull() && parentContainer.IsNotNull()) {
+                parentContainer.TryGetEntry(key, out entry);
+            }
+
+            return entry;
+        }
+
 		public CompositeContainer CreateChildContainer(RuntimeSettings childContainerSettings = null) {
             CompositeContainer container = null;
 
@@ -51,7 +61,7 @@ namespace NCop.Composite.Framework
                     registrationAction(registry);
                 }
 
-                ConfigureInternal();
+                base.Configure();
             }
         }
     }

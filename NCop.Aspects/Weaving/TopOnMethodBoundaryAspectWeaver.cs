@@ -8,6 +8,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using NCop.Weaving.Extensions;
+using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
@@ -22,7 +23,7 @@ namespace NCop.Aspects.Weaving
 
             this.nestedWeaver = nestedWeaver;
             methodScopeWeavers = new List<IMethodScopeWeaver>();
-            argumentsWeavingSetings.Parameters = @params.Select(@param => @param.ParameterType).ToArray();
+            argumentsWeavingSetings.Parameters = @params.ToArray(@param => @param.ParameterType).ToArray();
             argumentsWeaver = new OnMethodBoundaryImplArgumentsWeaver(argumentsWeavingSetings, aspectWeavingSettings);
         }
 

@@ -154,7 +154,7 @@ namespace NCop.Samples
             var single = MethodDecoratorFunctionBinding.singleton;
             var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(developer, single, sagi);
             Aspects.traceAspect.OnInvoke(aspectArgs);
-            
+
             return developer.Code(aspectArgs.Arg1);
         }
 
@@ -179,9 +179,10 @@ namespace NCop.Samples
         static void Main(string[] args) {
             //var person1 = new Person();
             //string result = person1.Code("");
-
             var container = new CompositeContainer();
             container.Configure();
+            var container2 = new CompositeContainer();
+            container2.Configure();
 
             var person = container.TryResolve<IPersonComposite>();
             Console.WriteLine(person.Code("Sagi"));
