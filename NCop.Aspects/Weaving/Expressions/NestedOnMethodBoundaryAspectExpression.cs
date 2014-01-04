@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class NestedOnMethodBounadryAspectExpression : AbstractAspectExpression
+    internal class NestedOnMethodBoundaryAspectExpression : AbstractAspectExpression
     {
-        internal NestedOnMethodBounadryAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition)
+        internal NestedOnMethodBoundaryAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition)
             : base(expression, aspectDefinition) {
         }
 

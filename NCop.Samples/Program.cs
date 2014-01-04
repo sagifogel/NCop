@@ -151,8 +151,9 @@ namespace NCop.Samples
         }
 
         public string Code(string sagi) {
-            var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(developer, sagi);
-            Aspects.traceAspect3.OnEntry(aspectArgs);
+            var single = MethodDecoratorFunctionBinding.singleton;
+            var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(developer, single, sagi);
+            Aspects.traceAspect.OnInvoke(aspectArgs);
             
             return developer.Code(aspectArgs.Arg1);
         }
@@ -169,6 +170,7 @@ namespace NCop.Samples
     {
         //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
         [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 3)]
         new string Code(string s);
     }
 
@@ -246,7 +248,7 @@ namespace NCop.Samples
     public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>
     {
         public override string Code(string s) {
-            return base.Code(s);
+            return "Code";
         }
     }
 

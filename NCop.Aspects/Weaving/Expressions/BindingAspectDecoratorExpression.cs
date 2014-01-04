@@ -8,11 +8,11 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class AspectDecoratorExpression : IAspectExpression
+    internal class BindingAspectDecoratorExpression : IAspectExpression
     {
         private readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
 
-        internal AspectDecoratorExpression(IArgumentsWeavingSettings argumentsWeavingSettings) {
+        internal BindingAspectDecoratorExpression(IArgumentsWeavingSettings argumentsWeavingSettings) {
             this.argumentsWeavingSettings = argumentsWeavingSettings;
         }
 

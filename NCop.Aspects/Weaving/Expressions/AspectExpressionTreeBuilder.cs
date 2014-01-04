@@ -18,6 +18,7 @@ namespace NCop.Aspects.Weaving.Expressions
         private readonly IAspectDefinitionCollection aspectsDefinitions = null;
 
         internal AspectExpressionTreeBuilder(IAspectDefinitionCollection aspectDefinitions, IWeavingSettings weavingSettings) {
+            var aspectVisitor = new AspectVisitor();
             IArgumentsWeavingSettings argumentsWeavingSettings = null;
             IEnumerable<IAspectExpressionBuilder> aspectExpressionBuilders = null;
 
@@ -29,10 +30,10 @@ namespace NCop.Aspects.Weaving.Expressions
 
             this.weavingSettings = weavingSettings;
             this.aspectsDefinitions = aspectDefinitions;
-            aspectExpressionBuilders = ToAspectExpressionBuilders(aspectsByPriority);
+            aspectExpressionBuilders = aspectsByPriority.Select(definition => definition.Accept(aspectVisitor));
             aspectsStack = new Stack<IAspectExpressionBuilder>(aspectExpressionBuilders);
             argumentsWeavingSettings = aspectDefinitions.First().ToArgumentsWeavingSettings();
-            decoratorAspect = new AspectDecoratorExpression(argumentsWeavingSettings);
+            decoratorAspect = aspectVisitor.GetDecorationAspectExpression(argumentsWeavingSettings);
         }
 
         public IAspectExpression Build() {
@@ -49,12 +50,6 @@ namespace NCop.Aspects.Weaving.Expressions
             }
 
             return new AspectExpression(aspectExpression, aspectsDefinitions, weavingSettings);
-        }
-
-        private IEnumerable<IAspectExpressionBuilder> ToAspectExpressionBuilders(IOrderedEnumerable<IAspectDefinition> orderedAspectDefinitions) {
-            var aspectVisitor = new AspectVisitor();
-
-            return orderedAspectDefinitions.Select(aspectDefinition => aspectDefinition.Accept(aspectVisitor));
         }
     }
 }

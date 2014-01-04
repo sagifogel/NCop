@@ -24,7 +24,7 @@ namespace NCop.Aspects.Weaving
             bindingSettings = aspectDefinition.ToBindingSettings();
             bindingSettings.LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
 
-            if (expression.Is<AspectDecoratorExpression>()) {
+            if (expression.Is<BindingAspectDecoratorExpression>()) {
                 var methodDecoratorBindingWeaver = new MethodDecoratorBindingWeaver(bindingSettings, aspectWeavingSettings, expression.Reduce(aspectWeavingSettings));
 
                 WeavedType = methodDecoratorBindingWeaver.Weave();

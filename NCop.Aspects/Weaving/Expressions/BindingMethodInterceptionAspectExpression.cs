@@ -7,9 +7,9 @@ using NCop.Weaving;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class MethodInterceptionAspectExpression : AbstractAspectExpression
+    internal class BindingMethodInterceptionAspectExpression : AbstractAspectExpression
     {
-        internal MethodInterceptionAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition)
+        internal BindingMethodInterceptionAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition)
             : base(expression, aspectDefinition) {
         }
 

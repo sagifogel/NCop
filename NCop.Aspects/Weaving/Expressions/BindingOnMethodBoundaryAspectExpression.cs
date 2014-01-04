@@ -10,9 +10,9 @@ using System.Reflection;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class OnMethodBoundaryAspectExpression : AbstractAspectExpression
+    internal class BindingOnMethodBoundaryAspectExpression : AbstractAspectExpression
     {
-        internal OnMethodBoundaryAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition)
+        internal BindingOnMethodBoundaryAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition)
             : base(expression, aspectDefinition) {
         }
 

@@ -6,11 +6,11 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class MethodDecoratorArgumentsWeaver : IArgumentsWeaver
+    internal class NestedMethodDecoratorArgumentsWeaver : IArgumentsWeaver
     {
         private readonly IArgumentsWeavingSettings argumentWeavingSettings = null;
 
-        internal MethodDecoratorArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings) {
+        internal NestedMethodDecoratorArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings) {
             this.argumentWeavingSettings = argumentWeavingSettings;
         }
 
