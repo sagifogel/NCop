@@ -16,14 +16,14 @@ namespace NCop.Aspects.Weaving
     {
         protected readonly ILocalBuilderRepository localBuilderRepository = null;
 
-        internal AbstractOnMethodBoundaryAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
+        internal AbstractOnMethodBoundaryAspectWeaver(IAspectWeaver nestedAspect, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectDefinition, aspectWeavingSettings) {
             IMethodScopeWeaver entryWeaver = null;
             IMethodScopeWeaver catchWeaver = null; 
             IAdviceExpression selectedExpression = null;
             IMethodScopeWeaver returnValueWeaver = null;
-            var tryWeavers = new List<IMethodScopeWeaver>();
             var finallyWeavers = new List<IMethodScopeWeaver>();
+            var tryWeavers = new List<IMethodScopeWeaver>() { nestedAspect };
             var adviceWeavingSettings = new AdviceWeavingSettings(aspectWeavingSettings, argumentsWeavingSetings);
 
             this.ArgumentType = argumentsWeavingSetings.ArgumentType;
@@ -58,7 +58,7 @@ namespace NCop.Aspects.Weaving
                 }
             }
             else {
-                weaver = new MethodScopeWeaversQueue(new[] { entryWeaver }.Concat(tryWeavers).Concat(returnValueWeaver));
+                weaver = new MethodScopeWeaversQueue(new[] { entryWeaver }.Concat(tryWeavers));
             }
         }
 

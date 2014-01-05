@@ -15,21 +15,21 @@ using NCop.Aspects.Extensions;
 namespace NCop.Aspects.Weaving
 {
     internal class OnMethodBoundaryAspectWeaver : AbstractOnMethodBoundaryAspectWeaver
-	{
+    {
         protected IArgumentsWeaver argumentsWeaver = null;
-        
-        internal OnMethodBoundaryAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings settings)
-			: base(aspectDefinition, settings) {
+
+        internal OnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings)
+            : base(nestedWeaver, aspectDefinition, settings) {
             var @params = weavingSettings.MethodInfoImpl.GetParameters();
 
             argumentsWeavingSetings.Parameters = @params.ToArray(@param => @param.ParameterType);
             argumentsWeaver = new MethodInterceptionImplArgumentsWeaver(argumentsWeavingSetings, settings);
-		}
+        }
 
-		public override ILGenerator Weave(ILGenerator ilGenerator) {
+        public override ILGenerator Weave(ILGenerator ilGenerator) {
             argumentsWeaver.Weave(ilGenerator);
 
-			return weaver.Weave(ilGenerator);
-		}
-	}
+            return weaver.Weave(ilGenerator);
+        }
+    }
 }

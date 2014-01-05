@@ -6,33 +6,23 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class NestedMethodDecoratorArgumentsWeaver : IArgumentsWeaver
+    internal class NestedMethodDecoratorArgumentsWeaver : AbstractArgumentsWeaver
     {
-        private readonly IArgumentsWeavingSettings argumentWeavingSettings = null;
-
-        internal NestedMethodDecoratorArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings) {
-            this.argumentWeavingSettings = argumentWeavingSettings;
+        internal NestedMethodDecoratorArgumentsWeaver(IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings)
+            : base(argumentWeavingSettings, aspectWeavingSettings) {
         }
 
-        public void Weave(ILGenerator ilGenerator) {
-            Type[] argumentTypes = argumentWeavingSettings.ArgumentType.GetGenericArguments();
-            Type[] @params = new Type[argumentTypes.Length - 1];
+        public override void Weave(ILGenerator ilGenerator) {
+            FieldBuilder contractFieldBuilder = null; 
+            LocalBuilder argsLocalBuilder = LocalBuilderRepository.Get(ArgumentType);
+            
+            contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
+            ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
 
-            if (argumentWeavingSettings.IsFunction) {
-                @params = new Type[argumentTypes.Length - 1];
-                Array.Copy(argumentTypes, 0, @params, 0, argumentTypes.Length - 1);
-            }
-            else {
-                @params = argumentTypes;
-            }
+            Parameters.ForEach(1, (parameter, i) => {
+                var property = ArgumentType.GetProperty("Arg{0}".Fmt(i));
 
-            ilGenerator.EmitLoadArg(1);
-            ilGenerator.Emit(OpCodes.Ldind_Ref);
-
-            @params.Skip(1).ForEach(1, (parameter, i) => {
-                var property = argumentWeavingSettings.ArgumentType.GetProperty("Arg{0}".Fmt(i));
-
-                ilGenerator.EmitLoadArg(2);
+                ilGenerator.EmitLoadLocal(argsLocalBuilder);
                 ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());
             });
         }

@@ -13,7 +13,7 @@ namespace NCop.Aspects.Weaving
 
         internal NestedAspectDecoratorWeaver(IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {
-            argumentsWeaver = new NestedMethodDecoratorArgumentsWeaver(argumentWeavingSettings);
+            argumentsWeaver = new NestedMethodDecoratorArgumentsWeaver(aspectWeavingSettings, argumentWeavingSettings);
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {

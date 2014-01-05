@@ -14,14 +14,12 @@ namespace NCop.Aspects.Weaving
 {
     internal class TopOnMethodBoundaryAspectWeaver : AbstractOnMethodBoundaryAspectWeaver
     {
-        protected IAspectWeaver nestedWeaver = null;
         protected IArgumentsWeaver argumentsWeaver = null;
 
         internal TopOnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
-            : base(aspectDefinition, aspectWeavingSettings) {
+            : base(nestedWeaver, aspectDefinition, aspectWeavingSettings) {
             var @params = weavingSettings.MethodInfoImpl.GetParameters();
 
-            this.nestedWeaver = nestedWeaver;
             methodScopeWeavers = new List<IMethodScopeWeaver>();
             argumentsWeavingSetings.Parameters = @params.ToArray(@param => @param.ParameterType).ToArray();
             argumentsWeaver = new OnMethodBoundaryImplArgumentsWeaver(argumentsWeavingSetings, aspectWeavingSettings);
@@ -29,7 +27,6 @@ namespace NCop.Aspects.Weaving
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
             argumentsWeaver.Weave(ilGenerator);
-            nestedWeaver.Weave(ilGenerator);
 
             return weaver.Weave(ilGenerator);
         }
