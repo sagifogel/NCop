@@ -1,23 +1,24 @@
-﻿using NCop.Weaving;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Extensions;
+using NCop.Aspects.Weaving.Expressions;
 using System.Reflection;
-using System.Reflection.Emit;
-using System.Text;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
     internal class BindingAspectDecoratorExpression : IAspectExpression
     {
+        private readonly BindingSettings bindingSettings = null;
+        private readonly IAspectDefinition aspectDefinition = null;
         private readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
 
-        internal BindingAspectDecoratorExpression(IArgumentsWeavingSettings argumentsWeavingSettings) {
+        internal BindingAspectDecoratorExpression(IAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentsWeavingSettings) {
+            this.aspectDefinition = aspectDefinition;
+            bindingSettings = aspectDefinition.ToBindingSettings();
             this.argumentsWeavingSettings = argumentsWeavingSettings;
         }
 
-        public IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings ) {
-            return new AspectDecoratorWeaver(aspectWeavingSettings, argumentsWeavingSettings);
+        public IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
+            return new BindingAspectDecoratorWeaver(aspectDefinition, aspectWeavingSettings, argumentsWeavingSettings);
         }
     }
 }

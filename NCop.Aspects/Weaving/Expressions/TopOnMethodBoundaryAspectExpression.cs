@@ -14,7 +14,7 @@ namespace NCop.Aspects.Weaving.Expressions
                 settings.LocalBuilderRepository = new LocalBuilderRepository();
             });
 
-            var nestedWeaver = expression.Reduce(clonedSettings);
+            var nestedWeaver = aspectExpression.Reduce(clonedSettings);
 
             return new TopOnMethodBoundaryAspectWeaver(nestedWeaver, aspectDefinition, clonedSettings);
         }

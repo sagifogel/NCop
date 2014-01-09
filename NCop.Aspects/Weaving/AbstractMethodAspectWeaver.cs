@@ -20,12 +20,14 @@ namespace NCop.Aspects.Weaving
         protected readonly IAspectDefinition aspectDefinition = null;
         protected readonly IAdviceDefinitionCollection advices = null;
         protected readonly AdviceVisitor adviceVisitor = new AdviceVisitor();
+        protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
         protected readonly ArgumentsWeavingSettings argumentsWeavingSetings = null;
         protected readonly AdviceDiscoveryVisitor adviceDiscoveryVistor = new AdviceDiscoveryVisitor();
 
         internal AbstractMethodAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWevingSettings) {
             advices = aspectDefinition.Advices;
             this.aspectDefinition = aspectDefinition;
+            this.aspectWeavingSettings = aspectWevingSettings;
             weavingSettings = aspectWevingSettings.WeavingSettings;
             aspectRepository = aspectWevingSettings.AspectRepository;
             argumentsWeavingSetings = aspectDefinition.ToArgumentsWeavingSettings();

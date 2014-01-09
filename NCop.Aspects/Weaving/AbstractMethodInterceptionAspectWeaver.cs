@@ -31,7 +31,7 @@ namespace NCop.Aspects.Weaving
             localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
 		}
 
-		public FieldInfo WeavedType { get; private set; }
+		public FieldInfo WeavedType { get; protected set; }
 
 		private IAdviceExpression ResolveOnMethodInvokeAdvice() {
 			IAdviceDefinition selectedAdviceDefinition = null;
@@ -43,5 +43,16 @@ namespace NCop.Aspects.Weaving
 
 			return adviceExpressionFactory(selectedAdviceDefinition);
 		}
+
+        protected void CreateMethodScopeWeaver() {
+            if (argumentsWeavingSetings.IsFunction) {
+                methodScopeWeavers.Add(new FunctionAspectArgsMappingWeaver(aspectWeavingSettings, argumentsWeavingSetings));
+            }
+            else {
+                methodScopeWeavers.Add(new ActionAspectArgsMappingWeaver(aspectWeavingSettings, argumentsWeavingSetings));
+            }
+
+            weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
+        }
 	}
 }

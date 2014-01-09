@@ -79,12 +79,12 @@ namespace NCop.Aspects.Weaving.Expressions
             };
         }
 
-        public IAspectExpressionBuilder GetDecorationAspectExpression(IArgumentsWeavingSettings argumentsWeavingSettings) {
+        public IAspectExpressionBuilder GetDecorationAspectExpression(IAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentsWeavingSettings) {
             Func<IAspectExpression, IAspectExpression> expressionFactory = null;
 
             if (lastAspect.IsInterception) {
                 expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>((ex) => {
-                    return new BindingAspectDecoratorExpression(argumentsWeavingSettings);
+                    return new BindingAspectDecoratorExpression(aspectDefinition, argumentsWeavingSettings);
                 });
             }
             else {

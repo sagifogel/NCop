@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NCop.Aspects.Aspects;
-using NCop.Weaving;
+﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
@@ -13,10 +9,10 @@ namespace NCop.Aspects.Weaving.Expressions
             : base(expression, aspectDefinition) {
         }
 
-        public override IAspectWeaver Reduce(IAspectWeavingSettings settings) {
-            var reducer = new MethodInterceptionAspectWeaverWithBinding(expression, aspectDefinition, settings);
+        public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
+            var bindingWeaver = new MethodInterceptionBindingWeaver(aspectExpression, aspectDefinition, aspectWeavingSettings);
 
-            return reducer.Reduce(settings);
+            return new MethodInterceptionAspectWeaver(aspectDefinition, aspectWeavingSettings, bindingWeaver.WeavedType);
         }
     }
 }

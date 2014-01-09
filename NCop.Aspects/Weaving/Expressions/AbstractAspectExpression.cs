@@ -13,11 +13,11 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal abstract class AbstractAspectExpression : IAspectExpression
     {
-        protected readonly IAspectExpression expression = null;
+        protected readonly IAspectExpression aspectExpression = null;
         protected readonly IAspectDefinition aspectDefinition = null;
 
         internal AbstractAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition = null) {
-            this.expression = expression;
+            this.aspectExpression = expression;
             this.aspectDefinition = aspectDefinition;
         }
 

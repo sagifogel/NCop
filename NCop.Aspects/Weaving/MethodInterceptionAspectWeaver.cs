@@ -20,6 +20,7 @@ namespace NCop.Aspects.Weaving
 
 		internal MethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
+            WeavedType = weavedType;
             argumentsWeavingSetings.BindingsDependency = weavedType;
             argumentsWeaver = new AspectArgumentsWeaver(argumentsWeavingSetings, aspectWeavingSettings);
 

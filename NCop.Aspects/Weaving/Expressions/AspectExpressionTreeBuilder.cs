@@ -14,12 +14,12 @@ namespace NCop.Aspects.Weaving.Expressions
     internal class AspectExpressionTreeBuilder : IBuilder<IAspectExpression>
     {
         private readonly IWeavingSettings weavingSettings = null;
-        
         private readonly Stack<IAspectExpressionBuilder> aspectsStack = null;
         private readonly IAspectDefinitionCollection aspectsDefinitions = null;
 
         internal AspectExpressionTreeBuilder(IAspectDefinitionCollection aspectDefinitions, IWeavingSettings weavingSettings) {
             var aspectVisitor = new AspectVisitor();
+            IAspectDefinition firstAspectDefinition = null;
             IAspectExpressionBuilder decoratorAspectBuilder = null;
             IArgumentsWeavingSettings argumentsWeavingSettings = null;
             List<IAspectExpressionBuilder> aspectExpressionBuilders = null;
@@ -32,9 +32,10 @@ namespace NCop.Aspects.Weaving.Expressions
 
             this.weavingSettings = weavingSettings;
             this.aspectsDefinitions = aspectDefinitions;
-            argumentsWeavingSettings = aspectDefinitions.First().ToArgumentsWeavingSettings();
+            firstAspectDefinition = aspectDefinitions.First();
+            argumentsWeavingSettings = firstAspectDefinition.ToArgumentsWeavingSettings();
             aspectExpressionBuilders = aspectsByPriority.ToList(definition => definition.Accept(aspectVisitor));
-            decoratorAspectBuilder = aspectVisitor.GetDecorationAspectExpression(argumentsWeavingSettings);
+            decoratorAspectBuilder = aspectVisitor.GetDecorationAspectExpression(firstAspectDefinition, argumentsWeavingSettings);
             aspectExpressionBuilders.Add(decoratorAspectBuilder);
             aspectsStack = new Stack<IAspectExpressionBuilder>(aspectExpressionBuilders);
         }

@@ -153,7 +153,9 @@ namespace NCop.Samples
         public string Code(string sagi) {
             var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(developer, sagi);
             Aspects.traceAspect3.OnEntry(aspectArgs);
-            Aspects.traceAspect3.OnEntry(aspectArgs);
+            var interceptionArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(developer, MethodDecoratorFunctionBinding.singleton, aspectArgs.Arg1);
+            Aspects.traceAspect.OnInvoke(interceptionArgs);
+            FunctionArgsMapper.Map(interceptionArgs, aspectArgs);
 
             return developer.Code(aspectArgs.Arg1);
         }
@@ -169,15 +171,19 @@ namespace NCop.Samples
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
         [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
         //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 3)]
+        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
         new string Code(string s);
     }
 
     class Program
     {
         static void Main(string[] args) {
+            //new Person().Code("");
             var container = new CompositeContainer();
             container.Configure();
 
