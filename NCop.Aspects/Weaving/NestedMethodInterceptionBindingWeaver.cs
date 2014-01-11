@@ -10,5 +10,9 @@ namespace NCop.Aspects.Weaving
         internal NestedMethodInterceptionBindingWeaver(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectExpression, aspectDefinition, aspectWeavingSettings) {
         }
+
+        protected override FieldInfo WeaveType() {
+            return base.WeaveType();
+        }
     }
 }

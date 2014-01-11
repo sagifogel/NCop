@@ -171,7 +171,9 @@ namespace NCop.Samples
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
         [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
+        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
         [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
         //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
         //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
         //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]

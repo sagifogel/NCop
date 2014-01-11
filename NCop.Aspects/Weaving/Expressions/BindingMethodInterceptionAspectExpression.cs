@@ -5,12 +5,12 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal class BindingMethodInterceptionAspectExpression : AbstractAspectExpression
     {
-        internal BindingMethodInterceptionAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition)
-            : base(expression, aspectDefinition) {
+        internal BindingMethodInterceptionAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition)
+            : base(aspectExpression, aspectDefinition) {
         }
 
         public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
-            var bindingWeaver = new MethodInterceptionBindingWeaver(aspectExpression, aspectDefinition, aspectWeavingSettings);
+            var bindingWeaver = new IsolatedMethodInterceptionBindingWeaver(aspectExpression, aspectDefinition, aspectWeavingSettings);
 
             return new MethodInterceptionAspectWeaver(aspectDefinition, aspectWeavingSettings, bindingWeaver.WeavedType);
         }

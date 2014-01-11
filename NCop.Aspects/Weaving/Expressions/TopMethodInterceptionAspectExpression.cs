@@ -10,8 +10,8 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal class TopMethodInterceptionAspectExpression : AbstractAspectExpression
     {
-        internal TopMethodInterceptionAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition)
-            : base(expression, aspectDefinition) {
+        internal TopMethodInterceptionAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition)
+            : base(aspectExpression, aspectDefinition) {
         }
 
         public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
@@ -19,7 +19,7 @@ namespace NCop.Aspects.Weaving.Expressions
                 settings.LocalBuilderRepository = new LocalBuilderRepository();
             });
 
-            var bindingWeaver = new MethodInterceptionBindingWeaver(aspectExpression, aspectDefinition, clonedAspectWeavingSettings);
+            var bindingWeaver = new IsolatedMethodInterceptionBindingWeaver(aspectExpression, aspectDefinition, clonedAspectWeavingSettings);
 
             return new TopMethodInterceptionAspectWeaver(aspectDefinition, clonedAspectWeavingSettings, bindingWeaver.WeavedType);
         }

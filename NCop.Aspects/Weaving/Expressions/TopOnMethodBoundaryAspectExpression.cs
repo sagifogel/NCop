@@ -5,18 +5,18 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal class TopOnMethodBoundaryAspectExpression : AbstractAspectExpression
     {
-        internal TopOnMethodBoundaryAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition = null)
-            : base(expression, aspectDefinition) {
+        internal TopOnMethodBoundaryAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition)
+            : base(aspectExpression, aspectDefinition) {
         }
 
         public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
-            var clonedSettings = aspectWeavingSettings.CloneWith(settings => {
+            var clonedAspectWeavingSettings = aspectWeavingSettings.CloneWith(settings => {
                 settings.LocalBuilderRepository = new LocalBuilderRepository();
             });
 
-            var nestedWeaver = aspectExpression.Reduce(clonedSettings);
+            var nestedWeaver = aspectExpression.Reduce(clonedAspectWeavingSettings);
 
-            return new TopOnMethodBoundaryAspectWeaver(nestedWeaver, aspectDefinition, clonedSettings);
+            return new TopOnMethodBoundaryAspectWeaver(nestedWeaver, aspectDefinition, clonedAspectWeavingSettings);
         }
     }
 }

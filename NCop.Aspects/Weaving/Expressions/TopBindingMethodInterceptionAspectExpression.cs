@@ -10,7 +10,7 @@ using System.Reflection;
 using NCop.Aspects.Extensions;
 using NCop.Aspects.Weaving.Expressions;
 
-namespace NCop.Aspects.Weaving
+namespace NCop.Aspects.Weaving.Expressions
 {
     internal class TopBindingMethodInterceptionAspectExpression : AbstractAspectExpression
     {

@@ -134,6 +134,8 @@
     <Compile Include="Framework\IFunctionInterceptionArgs.cs" />
     <Compile Include="Weaving\AbstractArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractAspectArgumentsWeaver.cs" />
+    <Compile Include="Weaving\AbstractMethodInterceptionBindingWeaver.cs" />
+    <Compile Include="Weaving\IsolatedMethodInterceptionBindingWeaver .cs" />
     <Compile Include="Weaving\MethodInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodAspectWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodBindingWeaver.cs" />
@@ -163,8 +165,10 @@
     <Compile Include="Weaving\IAspectArgumentReflector.cs" />
     <Compile Include="Weaving\IArgumentsSettings.cs" />
     <Compile Include="Weaving\IAspectTypeReflectorWeaver.cs" />
+    <Compile Include="Weaving\NestedMethodInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\NestedMethodDecoratorArgumentsWeaver.cs" />
     <Compile Include="Weaving\NestedMethodInterceptionBindingWeaver.cs" />
+    <Compile Include="Weaving\NestedMethodIntercpetionArgumentsWeaver.cs" />
     <Compile Include="Weaving\NestedOnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\OnMethodBoundaryImplArgumentsWeaver.cs" />
     <Compile Include="Weaving\ReturnValueAspectWeaver.cs" />
@@ -463,7 +467,7 @@
     <Compile Include="Weaving\OnMethodInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\OnMethodInvokeWeaver.cs" />
     <Compile Include="Weaving\OnMethodSuccessAdviceWeaver.cs" />
-    <Compile Include="Weaving\TopBindingMethodInterceptionAspectWeaver.cs" />
+    <Compile Include="Weaving\Expressions\TopBindingMethodInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\TopOnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\TryCatchFinallyAspectWeaver.cs" />
     <Compile Include="Weaving\TryFinallyAspectWeaver.cs" />

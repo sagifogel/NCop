@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NCop.Aspects.Aspects;
-using NCop.Weaving;
+﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
     internal class NestedMethodInterceptionAspectExpression : AbstractAspectExpression
     {
-        internal NestedMethodInterceptionAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition)
-            : base(expression, aspectDefinition) {
+        private readonly IAspectDefinition previousAspectDefinition = null;
+
+        internal NestedMethodInterceptionAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectDefinition previousAspectDefinition)
+            : base(aspectExpression, aspectDefinition) {
+            this.previousAspectDefinition = previousAspectDefinition;
         }
 
         public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
-            var bindingWeaver = new NestedMethodInterceptionBindingWeaver(aspectExpression, aspectDefinition, aspectWeavingSettings);
+            var bindingTypeReflector = aspectExpression.Reduce(aspectWeavingSettings) as IBindingTypeReflector;
+            var previousAspectArgsType = previousAspectDefinition.ToAspectArgumentImpl();
 
-            return new MethodInterceptionAspectWeaver(aspectDefinition, aspectWeavingSettings, bindingWeaver.WeavedType);
+            return new NestedMethodInterceptionAspectWeaver(previousAspectArgsType, aspectDefinition, aspectWeavingSettings, bindingTypeReflector.WeavedType);
         }
     }
 }

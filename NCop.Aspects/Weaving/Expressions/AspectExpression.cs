@@ -10,18 +10,18 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal class AspectExpression : IAspectExpression
     {
-        private readonly IAspectExpression expression = null;
         private readonly IWeavingSettings weavingSettings = null;
+        private readonly IAspectExpression aspectExpression = null;
         private readonly IAspectDefinitionCollection aspectsDefinitions = null;
 
-        internal AspectExpression(IAspectExpression expression, IAspectDefinitionCollection aspectsDefinitions, IWeavingSettings weavingSettings) {
-			this.expression = expression;
+        internal AspectExpression(IAspectExpression aspectExpression, IAspectDefinitionCollection aspectsDefinitions, IWeavingSettings weavingSettings) {
 			this.weavingSettings = weavingSettings;
-			this.aspectsDefinitions = aspectsDefinitions;
+            this.aspectExpression = aspectExpression;
+            this.aspectsDefinitions = aspectsDefinitions;
         }
 
         public IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings ) {
-			return new AspectsWeaver(expression, aspectsDefinitions, weavingSettings);
+            return new AspectsWeaver(aspectExpression, aspectsDefinitions, weavingSettings);
         }
     }
 }

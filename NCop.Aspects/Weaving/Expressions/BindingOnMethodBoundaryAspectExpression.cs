@@ -5,8 +5,8 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal class BindingOnMethodBoundaryAspectExpression : AbstractAspectExpression
     {
-        internal BindingOnMethodBoundaryAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition)
-            : base(expression, aspectDefinition) {
+        internal BindingOnMethodBoundaryAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition)
+            : base(aspectExpression, aspectDefinition) {
         }
 
         public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings ) {

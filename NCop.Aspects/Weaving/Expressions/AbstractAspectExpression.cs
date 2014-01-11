@@ -16,8 +16,8 @@ namespace NCop.Aspects.Weaving.Expressions
         protected readonly IAspectExpression aspectExpression = null;
         protected readonly IAspectDefinition aspectDefinition = null;
 
-        internal AbstractAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition = null) {
-            this.aspectExpression = expression;
+        internal AbstractAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition = null) {
+            this.aspectExpression = aspectExpression;
             this.aspectDefinition = aspectDefinition;
         }
 

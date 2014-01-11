@@ -29,5 +29,9 @@ namespace NCop.Aspects.Weaving
         public void Add(Type type, LocalBuilder localBuilder) {
             localBuilderMap.Add(type, localBuilder);
         }
+
+        public override string ToString() {
+            return id.ToString();
+        }
     }
 }

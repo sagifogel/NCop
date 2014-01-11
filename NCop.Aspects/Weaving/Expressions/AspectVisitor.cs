@@ -18,6 +18,7 @@ namespace NCop.Aspects.Weaving.Expressions
         }
 
         private Aspect lastAspect = new Aspect() { Top = true };
+        private IAspectDefinition previousAspectDefinition = null;
 
         public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(OnMethodBoundaryAspectAttribute aspect) {
             return (IAspectDefinition aspectDefinition) => {
@@ -37,13 +38,16 @@ namespace NCop.Aspects.Weaving.Expressions
                         });
                     }
                     else {
+                        var _previousAspectDefinition = previousAspectDefinition;
+                        
                         ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
-                            return new NestedOnMethodBoundaryAspectExpression(expression, aspectDefinition);
+                            return new NestedOnMethodBoundaryAspectExpression(expression, aspectDefinition, _previousAspectDefinition);
                         });
                     }
                 }
 
                 lastAspect.IsInterception = false;
+                previousAspectDefinition = aspectDefinition;
 
                 return new AspectNodeExpressionBuilder(ctor);
             };
@@ -67,13 +71,16 @@ namespace NCop.Aspects.Weaving.Expressions
                         });
                     }
                     else {
+                        var _previousAspectDefinition = previousAspectDefinition;
+
                         ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
-                            return new NestedMethodInterceptionAspectExpression(expression, aspectDefinition);
+                            return new NestedMethodInterceptionAspectExpression(expression, aspectDefinition, _previousAspectDefinition);
                         });
                     }
                 }
 
                 lastAspect.IsInterception = true;
+                previousAspectDefinition = aspectDefinition;
 
                 return new AspectNodeExpressionBuilder(ctor);
             };

@@ -15,8 +15,8 @@ namespace NCop.Aspects.Weaving.Expressions
             this.expressionBuilderFactory = expressionBuilderFactory;
         }
 
-        public IAspectExpression Build(IAspectExpression expression = null) {
-            return expressionBuilderFactory(expression);
+        public IAspectExpression Build(IAspectExpression aspectExpression = null) {
+            return expressionBuilderFactory(aspectExpression);
         }
     }
 }

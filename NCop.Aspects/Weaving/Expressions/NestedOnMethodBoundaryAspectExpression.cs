@@ -11,8 +11,8 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal class NestedOnMethodBoundaryAspectExpression : AbstractAspectExpression
     {
-        internal NestedOnMethodBoundaryAspectExpression(IAspectExpression expression, IAspectDefinition aspectDefinition)
-            : base(expression, aspectDefinition) {
+        internal NestedOnMethodBoundaryAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectDefinition previousAspectDefinition)
+            : base(aspectExpression, aspectDefinition) {
         }
 
         public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
