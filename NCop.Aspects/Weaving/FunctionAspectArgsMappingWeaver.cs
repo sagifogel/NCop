@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using NCop.Weaving.Extensions;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using NCop.Weaving.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
@@ -23,6 +18,10 @@ namespace NCop.Aspects.Weaving
             ilGenerator.Emit(OpCodes.Callvirt, returnValueProperty.GetGetMethod());
 
             return ilGenerator;
+        }
+
+        protected override void WeaveAspectArg(ILGenerator ilGenerator) {
+            ilGenerator.EmitLoadArg(2);
         }
     }
 }

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NCop.Weaving.Extensions;
+using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
@@ -10,6 +7,10 @@ namespace NCop.Aspects.Weaving
     {
         internal ActionAspectArgsMappingWeaver(IAspectWeavingSettings aspectWeavingSettings, IArgumentsSettings argumentsSettings)
             : base(aspectWeavingSettings, argumentsSettings) {
+        }
+
+        protected override void WeaveAspectArg(ILGenerator ilGenerator) {
+            ilGenerator.EmitLoadArg(2);
         }
     }
 }

@@ -23,6 +23,7 @@ namespace NCop.Aspects.Weaving
 			IsFunction = argumentsWeavingSettings.IsFunction;
 			this.aspectWeavingSettings = aspectWeavingSettings;
 			WeavingSettings = aspectWeavingSettings.WeavingSettings;
+            BindingsDependency = argumentsWeavingSettings.BindingsDependency;
 		}
 
         public Type ReturnType { get; set; }

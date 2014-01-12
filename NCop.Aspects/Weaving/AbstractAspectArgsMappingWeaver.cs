@@ -7,15 +7,16 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class AbstractAspectArgsMappingWeaver : IWeaver, IMethodScopeWeaver
+    internal abstract class AbstractAspectArgsMappingWeaver : IWeaver, IMethodScopeWeaver
     {
         protected readonly Type[] parameters = null;
         protected readonly Type aspectArgumentType = null;
+        protected readonly Type[] mappingParameters = null;
         protected readonly IWeavingSettings weavingSettings = null;
+        protected readonly LocalBuilder argsImplLocalBuilder = null;
         protected readonly IArgumentsSettings argumentsSettings = null;
         protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
         protected readonly ILocalBuilderRepository localBuilderRepository = null;
-
         internal AbstractAspectArgsMappingWeaver(IAspectWeavingSettings aspectWeavingSettings, IArgumentsSettings argumentsSettings) {
             Type[] @params = null;
 
@@ -25,7 +26,8 @@ namespace NCop.Aspects.Weaving
             weavingSettings = aspectWeavingSettings.WeavingSettings;
             localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
             @params = argumentsSettings.ArgumentType.GetGenericArguments();
-            parameters = @params.Skip(1).ToArray();
+            parameters = argumentsSettings.Parameters;
+            mappingParameters = @params.Skip(1).ToArray();
         }
 
         public virtual ILGenerator Weave(ILGenerator ilGenerator) {
@@ -37,14 +39,16 @@ namespace NCop.Aspects.Weaving
                                         aspectWeavingSettings.AspectArgsMapper.GetMappingArgsFunction :
                                         (Func<int, MethodInfo>)aspectWeavingSettings.AspectArgsMapper.GetMappingArgsAction;
 
-            mapGenericMethod = getMappingArgsMethod(parameters.Length);
-            mapGenericMethod = mapGenericMethod.MakeGenericMethod(parameters);
+            mapGenericMethod = getMappingArgsMethod(mappingParameters.Length);
+            mapGenericMethod = mapGenericMethod.MakeGenericMethod(mappingParameters);
 
             ilGenerator.EmitLoadLocal(argsImplLocalBuilder);
-            ilGenerator.EmitLoadArg(2);
+            WeaveAspectArg(ilGenerator);
             ilGenerator.Emit(OpCodes.Call, mapGenericMethod);
 
             return ilGenerator;
         }
+
+        protected abstract void WeaveAspectArg(ILGenerator ilGenerator);
     }
 }

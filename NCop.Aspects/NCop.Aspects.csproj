@@ -145,7 +145,7 @@
     <Compile Include="Weaving\AdviceDiscoveryVisitor.cs" />
     <Compile Include="Weaving\AbstractAdviceWeaver.cs" />
     <Compile Include="Weaving\AdviceWeavingSettings.cs" />
-    <Compile Include="Weaving\ArgsMappingWeaver.cs" />
+    <Compile Include="Weaving\AbstractAspectArgsMappingWeaver.cs" />
     <Compile Include="Weaving\ArgumentsWeavingSettings.cs" />
     <Compile Include="Weaving\AspectArgsMapperWeaver.cs" />
     <Compile Include="Weaving\AspectArgumentsWeaver.cs" />
@@ -156,6 +156,8 @@
     <Compile Include="Weaving\BindingSettings.cs" />
     <Compile Include="Weaving\AbstractBindingAspectWeaver.cs" />
     <Compile Include="Weaving\Expressions\NestedAspectDecoratorExpression.cs" />
+    <Compile Include="Weaving\NestedActionAspectArgsMappingWeaver.cs" />
+    <Compile Include="Weaving\NestedFunctionAspectArgsMappingWeaver.cs" />
     <Compile Include="Weaving\NestedAspectDecoratorWeaver.cs" />
     <Compile Include="Weaving\Expressions\IAspectDefinitionVisitor.cs" />
     <Compile Include="Weaving\Expressions\NestedMethodInterceptionAspectExpression.cs" />
