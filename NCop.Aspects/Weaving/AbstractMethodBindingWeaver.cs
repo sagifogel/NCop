@@ -77,6 +77,15 @@ namespace NCop.Aspects.Weaving
 			return bindingSettings.ToBindingMethodParameters();
 		}
 
-		protected abstract void WeaveInvokeMethod();
+        protected virtual void WeaveInvokeMethod() {
+            ILGenerator ilGenerator = null;
+            MethodBuilder methodBuilder = null;
+            var methodParameters = ResolveParameterTypes();
+
+            methodBuilder = typeBuilder.DefineMethod("Invoke", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
+            ilGenerator = methodBuilder.GetILGenerator();
+            methodScopeWeaver.Weave(ilGenerator);
+            ilGenerator.Emit(OpCodes.Ret);
+        }
 	}
 }

@@ -35,6 +35,9 @@ namespace NCop.Aspects.Weaving
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
+            var weavedTypeLocal = ilGenerator.DeclareLocal(WeavedType.FieldType);
+
+            localBuilderRepository.Add(weavedTypeLocal);
             argumentsWeaver.Weave(ilGenerator);
             
             return weaver.Weave(ilGenerator);

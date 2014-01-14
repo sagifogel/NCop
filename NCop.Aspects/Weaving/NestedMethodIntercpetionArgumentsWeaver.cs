@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class NestedMethodIntercpetionArgumentsWeaver : AbstractAspectArgumentsWeaver
+    internal class NestedMethodIntercpetionArgumentsWeaver : AbstractArgumentsWeaver
     {
         private readonly Type previousAspectArgType = null;
 
@@ -15,7 +15,7 @@ namespace NCop.Aspects.Weaving
             this.previousAspectArgType = previousAspectArgType;
         }
 
-        public override LocalBuilder BuildArguments(ILGenerator ilGenerator, System.Type[] parameters) {
+        public override void Weave(ILGenerator ilGenerator) {
             FieldBuilder contractFieldBuilder = null;
             var declaredLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
             var ctorInterceptionArgs = ArgumentType.GetConstructors().First();
@@ -35,8 +35,6 @@ namespace NCop.Aspects.Weaving
 
             ilGenerator.Emit(OpCodes.Newobj, ctorInterceptionArgs);
             ilGenerator.EmitStoreLocal(declaredLocalBuilder);
-
-            return declaredLocalBuilder;
         }
     }
 }

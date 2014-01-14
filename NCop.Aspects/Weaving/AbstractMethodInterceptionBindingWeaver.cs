@@ -31,19 +31,16 @@ namespace NCop.Aspects.Weaving
         protected virtual FieldInfo WeaveType() {
             IAspectWeaver aspectWeaver = null;
             IMethodBindingWeaver bindingWeaver = null;
-            IBindingTypeReflector bindingTypeReflector = null;
             var aspectType = aspectDefinition.Aspect.AspectType;
             var aspectSetings = GetAspectsWeavingSettings();
 
             aspectWeaver = aspectExpression.Reduce(aspectSetings);
-            bindingTypeReflector = aspectWeaver as IBindingTypeReflector;
-            bindingSettings.BindingDependency = bindingTypeReflector.WeavedType;
             bindingSettings.LocalBuilderRepository = aspectSetings.LocalBuilderRepository;
             bindingWeaver = new OnMethodInterceptionBindingWeaver(aspectType, bindingSettings, aspectWeaver);
-
+            
             return bindingWeaver.Weave();
         }
-        
+
         protected abstract IAspectWeavingSettings GetAspectsWeavingSettings();
     }
 }

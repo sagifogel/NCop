@@ -151,13 +151,13 @@ namespace NCop.Samples
         }
 
         public string Code(string sagi) {
-            var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(developer, sagi);
-            Aspects.traceAspect3.OnEntry(aspectArgs);
-            var interceptionArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(developer, MethodDecoratorFunctionBinding.singleton, aspectArgs.Arg1);
+            //var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(developer, sagi);
+            //Aspects.traceAspect3.OnEntry(aspectArgs);
+            var interceptionArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(developer, OnMethodInterceptionBindingWeaver.singleton, sagi);
             Aspects.traceAspect.OnInvoke(interceptionArgs);
-            FunctionArgsMapper.Map(interceptionArgs, aspectArgs);
+            //FunctionArgsMapper.Map(interceptionArgs, aspectArgs);
 
-            return developer.Code(aspectArgs.Arg1);
+            return interceptionArgs.Arg1;
         }
 
         public string Code2(string sagi) {
@@ -170,16 +170,15 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
-        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
         [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
         [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
         [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
         new string Code(string s);
     }
 

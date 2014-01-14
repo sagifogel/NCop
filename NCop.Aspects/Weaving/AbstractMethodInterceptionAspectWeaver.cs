@@ -14,35 +14,36 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-	internal abstract class AbstractMethodInterceptionAspectWeaver : AbstractMethodAspectWeaver, IBindingTypeReflector
-	{
+    internal abstract class AbstractMethodInterceptionAspectWeaver : AbstractMethodAspectWeaver, IBindingTypeReflector
+    {
+        protected readonly FieldInfo bindingDependency = null;
         protected readonly ILocalBuilderRepository localBuilderRepository = null;
 
-		internal AbstractMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
-			: base(aspectDefinition, aspectWeavingSettings) {
-			IAdviceExpression selectedExpression = null;
-			var argumentsWeavingSettings = aspectDefinition.ToArgumentsWeavingSettings();
-			var aspectSettings = new AdviceWeavingSettings(aspectWeavingSettings, argumentsWeavingSettings);
+        internal AbstractMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+            : base(aspectDefinition, aspectWeavingSettings) {
+            IAdviceExpression selectedExpression = null;
+            var argumentsWeavingSettings = aspectDefinition.ToArgumentsWeavingSettings();
+            var aspectSettings = new AdviceWeavingSettings(aspectWeavingSettings, argumentsWeavingSettings);
 
-			WeavedType = weavedType;
+            bindingDependency = weavedType;
             selectedExpression = ResolveOnMethodInvokeAdvice();
             methodScopeWeavers = new List<IMethodScopeWeaver>();
             methodScopeWeavers.Add(selectedExpression.Reduce(aspectSettings));
             localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
-		}
+        }
 
-		public FieldInfo WeavedType { get; protected set; }
+        public FieldInfo WeavedType { get; protected set; }
 
-		private IAdviceExpression ResolveOnMethodInvokeAdvice() {
-			IAdviceDefinition selectedAdviceDefinition = null;
+        private IAdviceExpression ResolveOnMethodInvokeAdvice() {
+            IAdviceDefinition selectedAdviceDefinition = null;
             var onMethodInvokeAdvice = adviceDiscoveryVistor.OnMethodInvokeAdvice;
             Func<IAdviceDefinition, IAdviceExpression> adviceExpressionFactory = null;
 
-			adviceExpressionFactory = adviceVisitor.Visit(adviceDiscoveryVistor.OnMethodInvokeAdvice);
-			selectedAdviceDefinition = advices.First(advice => advice.Advice.Equals(onMethodInvokeAdvice));
+            adviceExpressionFactory = adviceVisitor.Visit(adviceDiscoveryVistor.OnMethodInvokeAdvice);
+            selectedAdviceDefinition = advices.First(advice => advice.Advice.Equals(onMethodInvokeAdvice));
 
-			return adviceExpressionFactory(selectedAdviceDefinition);
-		}
+            return adviceExpressionFactory(selectedAdviceDefinition);
+        }
 
         protected void CreateMethodScopeWeaver() {
             if (argumentsWeavingSetings.IsFunction) {
@@ -54,5 +55,5 @@ namespace NCop.Aspects.Weaving
 
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
-	}
+    }
 }

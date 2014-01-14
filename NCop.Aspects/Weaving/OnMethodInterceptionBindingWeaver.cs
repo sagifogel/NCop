@@ -26,17 +26,5 @@ namespace NCop.Aspects.Weaving
 			: base(bindingSettings, methodScopeWeaver) {
 			localBuilderRepository = bindingSettings.LocalBuilderRepository;
 		}
-
-		protected override void WeaveInvokeMethod() {
-			ILGenerator ilGenerator = null;
-			MethodBuilder methodBuilder = null;
-			var methodParameters = ResolveParameterTypes();
-
-			methodBuilder = typeBuilder.DefineMethod("Invoke", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
-			ilGenerator = methodBuilder.GetILGenerator();
-			localBuilderRepository.Add(ilGenerator.DeclareLocal(bindingSettings.BindingDependency.FieldType));
-			methodScopeWeaver.Weave(ilGenerator);
-            ilGenerator.Emit(OpCodes.Ret);
-		}
 	}
 }
