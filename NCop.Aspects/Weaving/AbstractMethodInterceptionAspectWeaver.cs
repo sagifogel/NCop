@@ -14,7 +14,7 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractMethodInterceptionAspectWeaver : AbstractMethodAspectWeaver, IBindingTypeReflector
+    internal abstract class AbstractMethodInterceptionAspectWeaver : AbstractMethodAspectWeaver
     {
         protected readonly FieldInfo bindingDependency = null;
         protected readonly ILocalBuilderRepository localBuilderRepository = null;
@@ -31,8 +31,6 @@ namespace NCop.Aspects.Weaving
             methodScopeWeavers.Add(selectedExpression.Reduce(aspectSettings));
             localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
         }
-
-        public FieldInfo WeavedType { get; protected set; }
 
         private IAdviceExpression ResolveOnMethodInvokeAdvice() {
             IAdviceDefinition selectedAdviceDefinition = null;

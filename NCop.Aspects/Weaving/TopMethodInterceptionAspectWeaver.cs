@@ -30,11 +30,12 @@ namespace NCop.Aspects.Weaving
         public override ILGenerator Weave(ILGenerator ilGenerator) {
             LocalBuilder bindingLocalBuilder = null;
             Type methodBindingWeaverBaseType = null;
+            var bindingsReflectedType = bindingDependency.ReflectedType;
 
-            methodBindingWeaverBaseType = WeavedType.ReflectedType.GetInterfaces().First();
-            bindingLocalBuilder = ilGenerator.DeclareLocal(WeavedType.ReflectedType);
+            methodBindingWeaverBaseType = bindingsReflectedType.GetInterfaces().First();
+            bindingLocalBuilder = ilGenerator.DeclareLocal(bindingsReflectedType);
             localBuilderRepository.Add(methodBindingWeaverBaseType, bindingLocalBuilder);
-            ilGenerator.Emit(OpCodes.Ldsfld, WeavedType);
+            ilGenerator.Emit(OpCodes.Ldsfld, bindingDependency);
             ilGenerator.EmitStoreLocal(bindingLocalBuilder);
             argumentsWeaver.Weave(ilGenerator);
 
