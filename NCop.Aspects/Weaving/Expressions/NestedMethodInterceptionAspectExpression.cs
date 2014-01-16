@@ -14,7 +14,7 @@ namespace NCop.Aspects.Weaving.Expressions
 
         public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
             var previousAspectArgsType = previousAspectDefinition.ToAspectArgumentImpl();
-            var bindingWeaver = new MethodInterceptionBindingWeaver(aspectExpression, aspectDefinition, aspectWeavingSettings);
+            var bindingWeaver = new IsolatedMethodInterceptionBindingWeaver(aspectExpression, aspectDefinition, aspectWeavingSettings);
 
             return new NestedMethodInterceptionAspectWeaver(previousAspectArgsType, aspectDefinition, aspectWeavingSettings, bindingWeaver.WeavedType);
         }

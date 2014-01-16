@@ -21,6 +21,7 @@ namespace NCop.Aspects.Weaving
             var ctorInterceptionArgs = ArgumentType.GetConstructors().First();
             var argsLocalBuilder = LocalBuilderRepository.Get(previousAspectArgType);
 
+            LocalBuilderRepository.Add(declaredLocalBuilder);
             contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
