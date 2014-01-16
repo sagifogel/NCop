@@ -1,5 +1,4 @@
 ﻿using NCop.Core.Extensions;
-using NCop.Weaving;
 using NCop.Weaving.Extensions;
 using System;
 using System.Linq;
@@ -8,11 +7,11 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class AspectArgumentsWeaver : AbstractAspectArgumentsWeaver
+    internal class MethodInterceptionArgumentsWeaver : AbstractAspectArgumentsWeaver
     {
         private readonly FieldInfo bindingsDependency = null;
 
-        internal AspectArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+        internal MethodInterceptionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
             : base(argumentWeavingSettings, aspectWeavingSettings) {
             bindingsDependency = argumentWeavingSettings.BindingsDependency;
         }

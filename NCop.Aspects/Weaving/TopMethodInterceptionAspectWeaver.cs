@@ -24,6 +24,11 @@ namespace NCop.Aspects.Weaving
 
             argumentsWeavingSetings.Parameters = @params.ToArray(@param => @param.ParameterType);
             argumentsWeaver = new MethodInterceptionImplArgumentsWeaver(argumentsWeavingSetings, aspectWeavingSettings);
+
+            if (argumentsWeavingSetings.IsFunction) {
+                methodScopeWeavers.Add(new ReturnValueAspectWeaver(aspectWeavingSettings, argumentsWeavingSetings));
+            }
+            
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 
@@ -38,7 +43,7 @@ namespace NCop.Aspects.Weaving
             ilGenerator.Emit(OpCodes.Ldsfld, bindingDependency);
             ilGenerator.EmitStoreLocal(bindingLocalBuilder);
             argumentsWeaver.Weave(ilGenerator);
-
+            
             return weaver.Weave(ilGenerator);
         }
     }

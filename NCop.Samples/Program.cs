@@ -57,13 +57,9 @@ namespace NCop.Samples
         }
 
         public string Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string, string> args) {
-            var binding = MethodDecoratorFunctionBinding.singleton;
-            var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(instance, binding, args.Arg1);
-
-            Aspects.traceAspect.OnInvoke(aspectArgs);
-            FunctionArgsMapper.Map(aspectArgs, args);
-
-            return args.ReturnValue;
+            var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(instance, args.Arg1);
+            Aspects.traceAspect3.OnEntry(aspectArgs);
+            return instance.Code(aspectArgs.Arg1);
         }
     }
 
@@ -151,13 +147,10 @@ namespace NCop.Samples
         }
 
         public string Code(string sagi) {
-            var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(developer, sagi);
-            Aspects.traceAspect3.OnEntry(aspectArgs);
-            var interceptionArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(developer, OnMethodInterceptionBindingWeaver.singleton, aspectArgs.Arg1);
+            var interceptionArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(developer, OnMethodInterceptionBindingWeaver.singleton, sagi);
             Aspects.traceAspect.OnInvoke(interceptionArgs);
-            FunctionArgsMapper.Map(interceptionArgs, aspectArgs);
 
-            return interceptionArgs.Arg1;
+            return interceptionArgs.ReturnValue;
         }
 
         public string Code2(string sagi) {
@@ -170,22 +163,25 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
-        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
+        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 3)]
+        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 3)]
+        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 3)]
+        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 3)]
+        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 3)]
         [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
+        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
         new string Code(string s);
     }
 
     class Program
     {
         static void Main(string[] args) {
-            //new Person().Code("");
+            //new Person().Code(""); return;
             var container = new CompositeContainer();
             container.Configure();
 

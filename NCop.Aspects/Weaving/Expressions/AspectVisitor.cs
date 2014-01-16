@@ -39,7 +39,7 @@ namespace NCop.Aspects.Weaving.Expressions
                     }
                     else {
                         var _previousAspectDefinition = previousAspectDefinition;
-                        
+
                         ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
                             return new NestedOnMethodBoundaryAspectExpression(expression, aspectDefinition, _previousAspectDefinition);
                         });
@@ -96,7 +96,7 @@ namespace NCop.Aspects.Weaving.Expressions
             }
             else {
                 expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>((ex) => {
-                    return new NestedAspectDecoratorExpression(argumentsWeavingSettings);
+                    return new NestedMethodDecoratorAspectExpression(argumentsWeavingSettings, previousAspectDefinition);
                 });
             }
 

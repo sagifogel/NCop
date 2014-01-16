@@ -30,6 +30,7 @@ namespace NCop.Aspects.Weaving
             var argumentType = argumentsWeavingSetings.ArgumentType;
 
             argsImplLocalBuilder = localBuilderRepository.Get(argumentType);
+            ilGenerator.Emit(OpCodes.Pop);
             ilGenerator.EmitLoadLocal(argsImplLocalBuilder);
             returnValueGetMethod = argumentType.GetProperty("ReturnValue").GetGetMethod();
             ilGenerator.Emit(OpCodes.Callvirt, returnValueGetMethod);

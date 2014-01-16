@@ -13,7 +13,7 @@ namespace NCop.Aspects.Weaving
             var @params = weavingSettings.MethodInfoImpl.GetParameters();
 
             argumentsWeavingSetings.Parameters = @params.ToArray(@param => @param.ParameterType);
-            argumentsWeaver = new MethodInterceptionImplArgumentsWeaver(argumentsWeavingSetings, settings);
+            argumentsWeaver = new BindingOnMethodExecutionArgumentsWeaver(argumentsWeavingSetings, settings);
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
