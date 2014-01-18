@@ -173,7 +173,7 @@
     <Compile Include="Weaving\NestedMethodInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\NestedMethodIntercpetionArgumentsWeaver.cs" />
     <Compile Include="Weaving\NestedOnMethodBoundaryAspectWeaver.cs" />
-    <Compile Include="Weaving\OnMethodBoundaryImplArgumentsWeaver.cs" />
+    <Compile Include="Weaving\TopOnMethodBoundaryArgumentsWeaver.cs" />
     <Compile Include="Weaving\ReturnValueAspectWeaver.cs" />
     <Compile Include="Weaving\TopMethodInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\Expressions\AbstractAspectExpression.cs" />

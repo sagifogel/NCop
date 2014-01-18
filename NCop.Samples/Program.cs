@@ -13,6 +13,7 @@ using System.Reflection.Emit;
 using NCop.IoC;
 using System.Collections.Generic;
 using NCop.Aspects.Weaving;
+using NCop.Weaving;
 
 namespace NCop.Samples
 {
@@ -147,10 +148,10 @@ namespace NCop.Samples
         }
 
         public string Code(string sagi) {
-            var interceptionArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(developer, OnMethodInterceptionBindingWeaver.singleton, sagi);
-            Aspects.traceAspect.OnInvoke(interceptionArgs);
-
-            return interceptionArgs.ReturnValue;
+            var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(developer, sagi);
+            Aspects.traceAspect3.OnEntry(aspectArgs);
+            //Aspects.traceAspect3.OnEntry(aspectArgs);
+            return developer.Code(aspectArgs.Arg1);
         }
 
         public string Code2(string sagi) {
@@ -163,18 +164,9 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 2)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
         [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 3)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 3)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 3)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 3)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 3)]
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
         new string Code(string s);
     }
 

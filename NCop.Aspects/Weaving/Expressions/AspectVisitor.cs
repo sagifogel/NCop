@@ -14,7 +14,7 @@ namespace NCop.Aspects.Weaving.Expressions
         private struct Aspect
         {
             public bool Top { get; set; }
-            public bool IsInterception { get; set; }
+            public bool IsInBinding { get; set; }
         }
 
         private Aspect lastAspect = new Aspect() { Top = true };
@@ -32,7 +32,7 @@ namespace NCop.Aspects.Weaving.Expressions
                     lastAspect = new Aspect();
                 }
                 else {
-                    if (lastAspect.IsInterception) {
+                    if (lastAspect.IsInBinding) {
                         ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
                             return new BindingOnMethodBoundaryAspectExpression(expression, aspectDefinition);
                         });
@@ -46,7 +46,6 @@ namespace NCop.Aspects.Weaving.Expressions
                     }
                 }
 
-                lastAspect.IsInterception = false;
                 previousAspectDefinition = aspectDefinition;
 
                 return new AspectNodeExpressionBuilder(ctor);
@@ -65,7 +64,7 @@ namespace NCop.Aspects.Weaving.Expressions
                     lastAspect = new Aspect();
                 }
                 else {
-                    if (lastAspect.IsInterception) {
+                    if (lastAspect.IsInBinding) {
                         ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
                             return new BindingMethodInterceptionAspectExpression(expression, aspectDefinition);
                         });
@@ -79,7 +78,7 @@ namespace NCop.Aspects.Weaving.Expressions
                     }
                 }
 
-                lastAspect.IsInterception = true;
+                lastAspect.IsInBinding = true;
                 previousAspectDefinition = aspectDefinition;
 
                 return new AspectNodeExpressionBuilder(ctor);
@@ -89,7 +88,7 @@ namespace NCop.Aspects.Weaving.Expressions
         public IAspectExpressionBuilder GetDecorationAspectExpression(IAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentsWeavingSettings) {
             Func<IAspectExpression, IAspectExpression> expressionFactory = null;
 
-            if (lastAspect.IsInterception) {
+            if (lastAspect.IsInBinding) {
                 expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>((ex) => {
                     return new BindingAspectDecoratorExpression(aspectDefinition, argumentsWeavingSettings);
                 });
