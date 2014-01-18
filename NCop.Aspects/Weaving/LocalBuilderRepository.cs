@@ -30,6 +30,17 @@ namespace NCop.Aspects.Weaving
             localBuilderMap.Add(type, localBuilder);
         }
 
+        public LocalBuilder GetOrDeclare(Type type, Func<LocalBuilder> localBuilderFactory) {
+            LocalBuilder localBuilder;
+
+            if (!localBuilderMap.TryGetValue(type, out localBuilder)) {
+                localBuilder = localBuilderFactory();
+                localBuilderMap.Add(type, localBuilder);
+            }
+
+            return localBuilder;
+        }
+
         public override string ToString() {
             return id.ToString();
         }

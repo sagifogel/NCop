@@ -11,5 +11,6 @@ namespace NCop.Aspects.Weaving
         LocalBuilder Get(Type type);
         void Add(LocalBuilder localBuilder);
         void Add(Type type, LocalBuilder localBuilder);
+        LocalBuilder GetOrDeclare(Type type, Func<LocalBuilder> localBuilderFactory);
     }
 }

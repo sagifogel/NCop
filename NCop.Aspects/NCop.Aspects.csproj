@@ -133,7 +133,7 @@
     <Compile Include="Engine\IFunctionArgs`8.cs" />
     <Compile Include="Framework\IFunctionInterceptionArgs.cs" />
     <Compile Include="Weaving\AbstractArgumentsWeaver.cs" />
-    <Compile Include="Weaving\AbstractAspectArgumentsWeaver.cs" />
+    <Compile Include="Weaving\AbstractTopAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\BindingOnMethodExecutionArgumentsWeaver.cs" />
     <Compile Include="Weaving\IsolatedMethodInterceptionBindingWeaver .cs" />
@@ -149,7 +149,7 @@
     <Compile Include="Weaving\AbstractAspectArgsMappingWeaver.cs" />
     <Compile Include="Weaving\ArgumentsWeavingSettings.cs" />
     <Compile Include="Weaving\AspectArgsMapperWeaver.cs" />
-    <Compile Include="Weaving\MethodInterceptionArgumentsWeaver.cs" />
+    <Compile Include="Weaving\BindingMethodInterceptionArgumentsWeaver.cs" />
     <Compile Include="Weaving\AspectsWeaver.cs" />
     <Compile Include="Weaving\AspectsAttributeWeaver.cs" />
     <Compile Include="Weaving\BindingAspectDecoratorWeaver.cs" />
@@ -439,7 +439,6 @@
     <Compile Include="Weaving\Expressions\AspectExpression.cs" />
     <Compile Include="Weaving\Expressions\IAspectExpressionBuilder.cs" />
     <Compile Include="Weaving\Expressions\BindingMethodInterceptionAspectExpression.cs" />
-    <Compile Include="Weaving\BindingMethodInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\Expressions\TopMethodInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\BindingOnMethodBoundaryAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\OnMethodEntryAdviceExpression.cs" />
@@ -461,8 +460,8 @@
     <Compile Include="Weaving\LocalBuilderRepository.cs" />
     <Compile Include="Weaving\MethodDecorationBindingWeaver.cs" />
     <Compile Include="Weaving\MethodDecoratorArgumentsWeaver.cs" />
-    <Compile Include="Weaving\MethodInterceptionImplArgumentsWeaver.cs" />
-    <Compile Include="Weaving\MethodInterceptionAspectWeaver.cs" />
+    <Compile Include="Weaving\TopMethodInterceptionArgumentsWeaver.cs" />
+    <Compile Include="Weaving\BindingMethodInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\MethodParameters.cs" />
     <Compile Include="Weaving\BindingOnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\OnMethodEntryAdviceWeaver.cs" />

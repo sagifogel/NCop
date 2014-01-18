@@ -7,20 +7,24 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class MethodInterceptionArgumentsWeaver : AbstractAspectArgumentsWeaver
+    internal class BindingMethodInterceptionArgumentsWeaver : AbstractArgumentsWeaver
     {
         private readonly FieldInfo bindingsDependency = null;
 
-        internal MethodInterceptionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+        internal BindingMethodInterceptionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
             : base(argumentWeavingSettings, aspectWeavingSettings) {
             bindingsDependency = argumentWeavingSettings.BindingsDependency;
         }
 
-        public override LocalBuilder BuildArguments(ILGenerator ilGenerator, Type[] parameters) {
+        public override void Weave(ILGenerator ilGenerator) {
+            LocalBuilder argsImplLocalBuilder = null;
             var aspectRepository = aspectWeavingSettings.AspectRepository;
-            var argsImplLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
             var ctorInterceptionArgs = ArgumentType.GetConstructors().First();
             var bindingLocalBuilder = LocalBuilderRepository.Get(bindingsDependency.FieldType);
+
+            argsImplLocalBuilder = LocalBuilderRepository.GetOrDeclare(ArgumentType, () => {
+                return ilGenerator.DeclareLocal(ArgumentType);
+            });
 
             ilGenerator.Emit(OpCodes.Ldsfld, bindingsDependency);
             ilGenerator.EmitStoreLocal(bindingLocalBuilder);
@@ -28,7 +32,7 @@ namespace NCop.Aspects.Weaving
             ilGenerator.Emit(OpCodes.Ldind_Ref);
             ilGenerator.EmitLoadLocal(bindingLocalBuilder);
 
-            parameters.ForEach(1, (parameter, i) => {
+            Parameters.ForEach(1, (parameter, i) => {
                 var property = ArgumentType.GetProperty("Arg{0}".Fmt(i));
 
                 ilGenerator.EmitLoadArg(2);
@@ -37,8 +41,6 @@ namespace NCop.Aspects.Weaving
 
             ilGenerator.Emit(OpCodes.Newobj, ctorInterceptionArgs);
             ilGenerator.EmitStoreLocal(argsImplLocalBuilder);
-
-            return argsImplLocalBuilder;
         }
     }
 }

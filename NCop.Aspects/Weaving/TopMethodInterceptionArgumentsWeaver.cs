@@ -17,9 +17,9 @@ using NCop.Weaving.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-	internal class MethodInterceptionImplArgumentsWeaver : AbstractAspectArgumentsWeaver
+	internal class TopMethodInterceptionArgumentsWeaver : AbstractTopAspectArgumentsWeaver
 	{
-		internal MethodInterceptionImplArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+        internal TopMethodInterceptionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
 			: base(argumentWeavingSettings, aspectWeavingSettings) {
 		}
 

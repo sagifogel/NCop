@@ -1,29 +1,45 @@
-﻿using NCop.Aspects.Aspects;
+﻿using NCop.Aspects.Advices;
+using NCop.Aspects.Aspects;
+using NCop.Aspects.Extensions;
+using NCop.Aspects.Weaving.Expressions;
+using NCop.Composite.Weaving;
+using NCop.Core.Extensions;
+using NCop.Weaving;
+using NCop.Weaving.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using NCop.Core.Extensions;
 using System.Reflection;
-using NCop.Aspects.Weaving.Expressions;
+using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class BindingMethodInterceptionAspectWeaver : AbstractBindingAspectWeaver
+    internal class BindingMethodInterceptionAspectWeaver : AbstractMethodInterceptionAspectWeaver
     {
-        private readonly IAspectExpression aspectExpression = null;
+		protected readonly IArgumentsWeaver argumentsWeaver = null;
 
-        internal BindingMethodInterceptionAspectWeaver(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition)
-            : base(aspectDefinition) {
-            this.aspectExpression = aspectExpression;
+		internal BindingMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+            : base(aspectDefinition, aspectWeavingSettings, weavedType) {
+            argumentsWeavingSetings.BindingsDependency = weavedType;
+            argumentsWeaver = new BindingMethodInterceptionArgumentsWeaver(argumentsWeavingSetings, aspectWeavingSettings);
+
+            if (argumentsWeavingSetings.IsFunction) {
+                methodScopeWeavers.Add(new FunctionAspectArgsMappingWeaver(aspectWeavingSettings, argumentsWeavingSetings));
+            }
+            else {
+                methodScopeWeavers.Add(new ActionAspectArgsMappingWeaver(aspectWeavingSettings, argumentsWeavingSetings));
+            }
+
+            weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 
-        public IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
-            var reducer = aspectExpression.Reduce(aspectWeavingSettings);
+        public override ILGenerator Weave(ILGenerator ilGenerator) {
+            var weavedTypeLocal = ilGenerator.DeclareLocal(bindingDependency.FieldType);
 
-            return new MethodInterceptionAspectWeaver(aspectDefinition, aspectWeavingSettings, WeavedType);
+            localBuilderRepository.Add(weavedTypeLocal);
+            argumentsWeaver.Weave(ilGenerator);
+            
+            return weaver.Weave(ilGenerator);
         }
     }
 }

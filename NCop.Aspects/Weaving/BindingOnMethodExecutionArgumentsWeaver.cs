@@ -5,20 +5,24 @@ using System.Linq;
 using System.Reflection.Emit;
 namespace NCop.Aspects.Weaving
 {
-    internal class BindingOnMethodExecutionArgumentsWeaver: AbstractAspectArgumentsWeaver
+    internal class BindingOnMethodExecutionArgumentsWeaver : AbstractArgumentsWeaver
     {
         internal BindingOnMethodExecutionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
             : base(argumentWeavingSettings, aspectWeavingSettings) {
         }
 
-        public override LocalBuilder BuildArguments(ILGenerator ilGenerator, Type[] parameters) {
-            var argsImplLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
+        public override void Weave(ILGenerator ilGenerator) {
+            LocalBuilder argsImplLocalBuilder = null;
             var ctorInterceptionArgs = ArgumentType.GetConstructors().First();
-            
+
+            argsImplLocalBuilder = LocalBuilderRepository.GetOrDeclare(ArgumentType, () => {
+                return ilGenerator.DeclareLocal(ArgumentType);
+            });
+
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);
 
-            parameters.ForEach(1, (parameter, i) => {
+            Parameters.ForEach(1, (parameter, i) => {
                 var property = ArgumentType.GetProperty("Arg{0}".Fmt(i));
 
                 ilGenerator.EmitLoadArg(2);
@@ -27,8 +31,6 @@ namespace NCop.Aspects.Weaving
 
             ilGenerator.Emit(OpCodes.Newobj, ctorInterceptionArgs);
             ilGenerator.EmitStoreLocal(argsImplLocalBuilder);
-
-            return argsImplLocalBuilder;
         }
     }
 }
