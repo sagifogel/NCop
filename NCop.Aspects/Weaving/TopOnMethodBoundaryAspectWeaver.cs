@@ -17,7 +17,7 @@ namespace NCop.Aspects.Weaving
 
             methodScopeWeavers = new List<IMethodScopeWeaver>();
             argumentsWeavingSetings.Parameters = @params.ToArray(@param => @param.ParameterType).ToArray();
-            argumentsWeaver = new OnMethodBoundaryImplArgumentsWeaver(argumentsWeavingSetings, aspectWeavingSettings);
+            argumentsWeaver = new TopOnMethodBoundaryArgumentsWeaver(argumentsWeavingSetings, aspectWeavingSettings);
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {

@@ -2,15 +2,16 @@
 using System.Reflection.Emit;
 using NCop.Aspects.Extensions;
 using NCop.Weaving.Extensions;
+using System;
 
 namespace NCop.Aspects.Weaving
 {
     internal class NestedOnMethodBoundaryAspectWeaver : AbstractOnMethodBoundaryAspectWeaver
     {
-        protected IArgumentsWeaver argumentsWeaver = null;
+        protected readonly IArgumentsWeaver argumentsWeaver = null;
 
-        internal NestedOnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings)
-            : base(nestedWeaver, aspectDefinition, settings) {
+        internal NestedOnMethodBoundaryAspectWeaver(Type previousAspectArgsType, IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
+            : base(nestedWeaver, aspectDefinition, aspectWeavingSettings) {
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {

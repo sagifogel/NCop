@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NCop.Aspects.Extensions;
-using System.Reflection.Emit;
+﻿using NCop.Weaving;
+using System;
 using System.Reflection;
-using NCop.Weaving;
+using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractArgumentsWeaver : IArgumentsWeaver, IArgumentsWeavingSettings
-	{
+	{   
 		protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
 
 		internal AbstractArgumentsWeaver(IArgumentsWeavingSettings argumentsWeavingSettings, IAspectWeavingSettings aspectWeavingSettings) {

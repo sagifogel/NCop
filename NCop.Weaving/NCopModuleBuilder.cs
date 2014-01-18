@@ -6,7 +6,7 @@ using Lib = NCop.Core.Lib;
 
 namespace NCop.Weaving
 {
-    internal sealed class NCopModuleBuilder
+    public sealed class NCopModuleBuilder
     {
         private ModuleBuilder moduleBuilder = null;
         private static readonly object syncLock = new object();
