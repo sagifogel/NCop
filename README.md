@@ -1,4 +1,4 @@
 NCop
 ====
 
-Composite oriented framework for .NET
+Composite-aspect oriented framework for .NET
