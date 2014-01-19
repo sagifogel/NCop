@@ -7,7 +7,7 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class TopOnMethodBoundaryArgumentsWeaver : AbstractAspectArgumentsWeaver
+    internal class TopOnMethodBoundaryArgumentsWeaver : AbstractTopAspectArgumentsWeaver
     {
         internal TopOnMethodBoundaryArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
             : base(argumentWeavingSettings, aspectWeavingSettings) {
@@ -21,7 +21,7 @@ namespace NCop.Aspects.Weaving
             ilGenerator.EmitLoadArg(0);
             contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
-            
+
             parameters.ForEach(1, (parameter, i) => {
                 ilGenerator.EmitLoadArg(i);
             });
