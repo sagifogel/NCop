@@ -13,7 +13,6 @@ namespace NCop.Aspects.Weaving
         protected readonly Type aspectArgumentType = null;
         protected readonly Type[] mappingParameters = null;
         protected readonly IWeavingSettings weavingSettings = null;
-        protected readonly LocalBuilder argsImplLocalBuilder = null;
         protected readonly IArgumentsSettings argumentsSettings = null;
         protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
         protected readonly ILocalBuilderRepository localBuilderRepository = null;

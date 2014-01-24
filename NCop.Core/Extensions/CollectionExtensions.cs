@@ -56,14 +56,6 @@ namespace NCop.Core.Extensions
             return source ?? Enumerable.Empty<TSource>();
         }
 
-        public static IEnumerable<TSource> SelfJoin<TSource>(this IEnumerable<TSource> source, IEnumerable<TSource> second) {
-            if (source != second) {
-                source = source.Concat(second);
-            }
-
-            return source;
-        }
-
         public static IEnumerable<TSource> Concat<TSource>(this IEnumerable<TSource> source, params TSource[] second) {
             foreach (var item in source) {
                 yield return item;

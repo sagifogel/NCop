@@ -26,7 +26,7 @@ namespace NCop.Aspects.Weaving
             argumentsWeaver = new TopMethodInterceptionArgumentsWeaver(argumentsWeavingSetings, aspectWeavingSettings);
 
             if (argumentsWeavingSetings.IsFunction) {
-                methodScopeWeavers.Add(new ReturnValueAspectWeaver(aspectWeavingSettings, argumentsWeavingSetings));
+                methodScopeWeavers.Add(new GetReturnValueWeaver(aspectWeavingSettings, argumentsWeavingSetings));
             }
             
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);

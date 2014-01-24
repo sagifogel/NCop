@@ -46,22 +46,28 @@ namespace NCop.Samples
         }
     }
 
-    public sealed class OnMethodInterceptionBindingWeaver : IFunctionBinding<CSharpDeveloperMixin, string, string>
+    public sealed class MethodInterceptionBindingWeaver : IFunctionBinding<CSharpDeveloperMixin, string, string>
     {
-        public static OnMethodInterceptionBindingWeaver singleton = null;
+        public static MethodInterceptionBindingWeaver singleton = null;
 
-        static OnMethodInterceptionBindingWeaver() {
-            singleton = new OnMethodInterceptionBindingWeaver();
+        static MethodInterceptionBindingWeaver() {
+            singleton = new MethodInterceptionBindingWeaver();
         }
 
-        private OnMethodInterceptionBindingWeaver() {
+        private MethodInterceptionBindingWeaver() {
         }
 
         public string Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string, string> args) {
-            var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(instance, args.Arg1);
-            Aspects.traceAspect3.OnEntry(aspectArgs);
-            Aspects.traceAspect3.OnEntry(aspectArgs);
-            return instance.Code(aspectArgs.Arg1);
+            var binding = MethodDecoratorFunctionBinding.singleton;
+            //var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(instance, binding, args.Arg1);
+            //Aspects.traceAspect3.OnEntry(aspectArgs);
+            //Aspects.traceAspect3.OnSuccess(aspectArgs);
+
+            var interceptionArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(instance, binding, args.Arg1);
+            Aspects.traceAspect.OnInvoke(interceptionArgs);
+            FunctionArgsMapper.Map<string, string>(interceptionArgs, args);
+
+            return args.ReturnValue;
         }
     }
 
@@ -149,13 +155,21 @@ namespace NCop.Samples
         }
 
         public string Code(string sagi) {
-            var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(developer, OnMethodInterceptionBindingWeaver.singleton, sagi);
-            return Aspects.traceAspect.OnInvoke(aspectArgs);
+            var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(developer, sagi);
+            Aspects.traceAspect3.OnEntry(aspectArgs);
+            var interArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(developer,MethodDecoratorFunctionBinding.singleton, aspectArgs.Arg1);
+            Aspects.traceAspect.OnInvoke(interArgs);
+            FunctionArgsMapper.Map<string, string>(interArgs, aspectArgs);
+            Aspects.traceAspect3.OnSuccess(aspectArgs);
+
+            return aspectArgs.ReturnValue;
         }
 
         public string Code2(string sagi) {
-            var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(developer, OnMethodInterceptionBindingWeaver.singleton, sagi);
-            return Aspects.traceAspect.OnInvoke(aspectArgs);
+            var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(developer, MethodInterceptionBindingWeaver.singleton, sagi);
+            Aspects.traceAspect.OnInvoke(aspectArgs);
+
+            return aspectArgs.ReturnValue;
         }
     }
 
@@ -165,11 +179,15 @@ namespace NCop.Samples
     {
         [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
         [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 2)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 2)]
         [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 3)]
         [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 4)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 4)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 5)]
+        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 6)]
+        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 6)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 7)]
+        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 3)]
         new string Code(string s);
+
     }
 
     class Program
@@ -198,18 +216,16 @@ namespace NCop.Samples
 
     public class TraceAspect : FunctionInterceptionAspect<string, string>
     {
-        public override string OnInvoke(FunctionInterceptionArgs<string, string> args) {
-            Console.WriteLine("Code from TraceAspect");
-            return base.OnInvoke(args);
+        public override void OnInvoke(FunctionInterceptionArgs<string, string> args) {
+            Console.WriteLine("Code from TraceAspect OnInvoke");
+            base.OnInvoke(args);
         }
     }
 
     public class TraceAspect1 : FunctionInterceptionAspect<string>
     {
-        public override string OnInvoke(FunctionInterceptionArgs<string> args) {
+        public override void OnInvoke(FunctionInterceptionArgs<string> args) {
             base.OnInvoke(args);
-
-            return args.ReturnValue = "Sagi";
         }
     }
 
@@ -217,8 +233,18 @@ namespace NCop.Samples
     public class TraceAspect3 : OnFunctionBoundaryAspect<string, string>
     {
         public override void OnEntry(FunctionExecutionArgs<string, string> args) {
-            Console.WriteLine("Code from TraceAspect3");
+            Console.WriteLine("Code from TraceAspect3 OnEntry");
             base.OnEntry(args);
+        }
+
+        //public override void OnExit(FunctionExecutionArgs<string, string> args) {
+        //    Console.WriteLine("Code from TraceAspect3 OnExit");
+        //    base.OnExit(args);
+        //}
+
+        public override void OnSuccess(FunctionExecutionArgs<string, string> args) {
+            Console.WriteLine("Code from TraceAspect3 OnSuccess");
+            base.OnSuccess(args);
         }
     }
 

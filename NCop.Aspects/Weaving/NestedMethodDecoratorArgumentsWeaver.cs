@@ -19,6 +19,7 @@ namespace NCop.Aspects.Weaving
             var argsLocalBuilder = LocalBuilderRepository.Get(previousAspectArgType);
             var contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
 
+            ilGenerator.EmitLoadLocal(argsLocalBuilder);
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
 

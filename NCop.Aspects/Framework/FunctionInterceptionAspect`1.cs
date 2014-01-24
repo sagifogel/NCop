@@ -10,10 +10,8 @@ namespace NCop.Aspects.Framework
     public abstract class FunctionInterceptionAspect<TArg1, TResult> : IMethodInterceptionAspect
     {
         [OnMethodInvokeAdvice]
-        public virtual TResult OnInvoke(FunctionInterceptionArgs<TArg1, TResult> args) {
+        public virtual void OnInvoke(FunctionInterceptionArgs<TArg1, TResult> args) {
             args.Proceed();
-
-            return args.ReturnValue;
         }
     }
 }

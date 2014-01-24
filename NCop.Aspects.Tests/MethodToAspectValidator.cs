@@ -12,8 +12,7 @@ namespace NCop.Aspects.Tests
     {
         public class TestInterceptionAspect : FunctionInterceptionAspect<string, bool>
         {
-            public override bool OnInvoke(FunctionInterceptionArgs<string, bool> args) {
-                return true;
+            public override void OnInvoke(FunctionInterceptionArgs<string, bool> args) {
             }
         }
 
