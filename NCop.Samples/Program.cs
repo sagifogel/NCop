@@ -157,10 +157,14 @@ namespace NCop.Samples
         public string Code(string sagi) {
             var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(developer, sagi);
             Aspects.traceAspect3.OnEntry(aspectArgs);
-            var interArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(developer, MethodDecoratorFunctionBinding.singleton, aspectArgs.Arg1);
-            Aspects.traceAspect.OnInvoke(interArgs);
-            FunctionArgsMapper.Map<string, string>(interArgs, aspectArgs);
-            Aspects.traceAspect3.OnSuccess(aspectArgs);
+            
+            try {
+                aspectArgs.ReturnValue = developer.Code(aspectArgs.Arg1);
+                Aspects.traceAspect3.OnSuccess(aspectArgs);
+            }
+            finally {
+                Aspects.traceAspect3.OnExit(aspectArgs);
+            }
 
             return aspectArgs.ReturnValue;
         }

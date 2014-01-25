@@ -136,6 +136,8 @@
     <Compile Include="Weaving\AbstractTopAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\BindingOnMethodExecutionArgumentsWeaver.cs" />
+    <Compile Include="Weaving\EndExceptionBlockMethodScopeWeaver.cs" />
+    <Compile Include="Weaving\FinallyMethodScopeWeaver.cs" />
     <Compile Include="Weaving\IsolatedMethodInterceptionBindingWeaver .cs" />
     <Compile Include="Weaving\MethodInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodAspectWeaver.cs" />
@@ -474,6 +476,7 @@
     <Compile Include="Weaving\TopOnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\TryCatchFinallyAspectWeaver.cs" />
     <Compile Include="Weaving\TryFinallyAspectWeaver.cs" />
+    <Compile Include="Weaving\BeginExceptionBlockMethodScopeWeaver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Exceptions\AspectTypeMismatchException.tt">

@@ -1,11 +1,8 @@
 ﻿using NCop.Composite.Weaving;
-using NCop.Weaving;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
 using NCop.Core.Extensions;
+using NCop.Weaving;
+using System.Collections.Generic;
+using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
@@ -26,11 +23,15 @@ namespace NCop.Aspects.Weaving
         public virtual ILGenerator Weave(ILGenerator ilGenerator) {
             var weavers = new List<IMethodScopeWeaver>();
             MethodScopeWeaversQueue methodScopeWeaversQueue = null;
-            
+            var endOfExceptionBlockLabel = ilGenerator.DefineLabel();
+            var finallyMethodScopeWeaver = new FinallyMethodScopeWeaver(finallyWeavers, endOfExceptionBlockLabel);
+
             weavers.Add(entryWeaver);
+            weavers.Add(new BeginExceptionBlockMethodScopeWeaver());
             weavers.AddRange(tryWeavers);
-            weavers.AddRange(finallyWeavers);
-            
+            weavers.Add(finallyMethodScopeWeaver);
+            weavers.Add(new EndExceptionBlockMethodScopeWeaver(endOfExceptionBlockLabel));
+
             if (returnValueWeaver.IsNotNull()) {
                 weavers.Add(returnValueWeaver);
             }
