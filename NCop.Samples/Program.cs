@@ -157,7 +157,7 @@ namespace NCop.Samples
         public string Code(string sagi) {
             var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(developer, sagi);
             Aspects.traceAspect3.OnEntry(aspectArgs);
-            var interArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(developer,MethodDecoratorFunctionBinding.singleton, aspectArgs.Arg1);
+            var interArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(developer, MethodDecoratorFunctionBinding.singleton, aspectArgs.Arg1);
             Aspects.traceAspect.OnInvoke(interArgs);
             FunctionArgsMapper.Map<string, string>(interArgs, aspectArgs);
             Aspects.traceAspect3.OnSuccess(aspectArgs);
@@ -177,15 +177,7 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 2)]
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 3)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 4)]
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 5)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 6)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 6)]
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 7)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 3)]
+        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
         new string Code(string s);
 
     }
@@ -237,10 +229,10 @@ namespace NCop.Samples
             base.OnEntry(args);
         }
 
-        //public override void OnExit(FunctionExecutionArgs<string, string> args) {
-        //    Console.WriteLine("Code from TraceAspect3 OnExit");
-        //    base.OnExit(args);
-        //}
+        public override void OnExit(FunctionExecutionArgs<string, string> args) {
+            Console.WriteLine("Code from TraceAspect3 OnExit");
+            base.OnExit(args);
+        }
 
         public override void OnSuccess(FunctionExecutionArgs<string, string> args) {
             Console.WriteLine("Code from TraceAspect3 OnSuccess");

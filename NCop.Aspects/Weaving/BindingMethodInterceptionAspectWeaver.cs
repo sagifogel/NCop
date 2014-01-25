@@ -16,9 +16,9 @@ namespace NCop.Aspects.Weaving
 {
     internal class BindingMethodInterceptionAspectWeaver : AbstractMethodInterceptionAspectWeaver
     {
-		protected readonly IArgumentsWeaver argumentsWeaver = null;
+        protected readonly IArgumentsWeaver argumentsWeaver = null;
 
-		internal BindingMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal BindingMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             argumentsWeavingSetings.BindingsDependency = weavedType;
             argumentsWeaver = new BindingMethodInterceptionArgumentsWeaver(argumentsWeavingSetings, aspectWeavingSettings);
@@ -30,16 +30,21 @@ namespace NCop.Aspects.Weaving
                 methodScopeWeavers.Add(new ActionAspectArgsMappingWeaver(aspectWeavingSettings, argumentsWeavingSetings));
             }
 
+            ArgumentType = argumentsWeavingSetings.ArgumentType;
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
+            var returnValueProperty = ArgumentType.GetProperty("ReturnValue");
             var weavedTypeLocal = ilGenerator.DeclareLocal(bindingDependency.FieldType);
 
             localBuilderRepository.Add(weavedTypeLocal);
             argumentsWeaver.Weave(ilGenerator);
-            
-            return weaver.Weave(ilGenerator);
+            weaver.Weave(ilGenerator);
+            ilGenerator.EmitLoadArg(2);
+            ilGenerator.Emit(OpCodes.Callvirt, returnValueProperty.GetGetMethod());
+
+            return ilGenerator;
         }
     }
 }

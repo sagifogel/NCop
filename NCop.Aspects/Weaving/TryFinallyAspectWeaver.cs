@@ -24,8 +24,8 @@ namespace NCop.Aspects.Weaving
         }
 
         public virtual ILGenerator Weave(ILGenerator ilGenerator) {
+            var weavers = new List<IMethodScopeWeaver>();
             MethodScopeWeaversQueue methodScopeWeaversQueue = null;
-            var weavers = new List<IMethodScopeWeaver>() { entryWeaver };
             
             weavers.Add(entryWeaver);
             weavers.AddRange(tryWeavers);

@@ -9,16 +9,6 @@ namespace NCop.Aspects.Weaving
             : base(aspectWeavingSettings, argumentsSettings) {
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
-            var returnValueProperty = argumentsSettings.ArgumentType.GetProperty("ReturnValue");
-
-            base.Weave(ilGenerator);
-            ilGenerator.EmitLoadArg(2);
-            ilGenerator.Emit(OpCodes.Callvirt, returnValueProperty.GetGetMethod());
-
-            return ilGenerator;
-        }
-
         protected override void WeaveAspectArg(ILGenerator ilGenerator) {
             ilGenerator.EmitLoadArg(2);
         }

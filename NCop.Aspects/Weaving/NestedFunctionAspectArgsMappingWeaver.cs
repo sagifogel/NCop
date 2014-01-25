@@ -22,9 +22,8 @@ namespace NCop.Aspects.Weaving
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
             previousAspectArgsLocalBuilder = localBuilderRepository.Get(previousAspectArgType);
-            base.Weave(ilGenerator);
             
-            return ilGenerator;
+            return base.Weave(ilGenerator);
         }
 
         private void WeaveLoadPreviousAspectLocal(ILGenerator ilGenerator) {
