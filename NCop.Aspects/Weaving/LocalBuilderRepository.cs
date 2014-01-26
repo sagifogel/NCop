@@ -9,12 +9,9 @@ namespace NCop.Aspects.Weaving
 {
     public class LocalBuilderRepository : ILocalBuilderRepository
     {
-        private int id = 0;
-        private static int count = 0;
         private readonly Dictionary<Type, LocalBuilder> localBuilderMap = null;
 
         internal LocalBuilderRepository() {
-            id = Interlocked.Increment(ref count);
             localBuilderMap = new Dictionary<Type, LocalBuilder>();
         }
 
@@ -39,10 +36,6 @@ namespace NCop.Aspects.Weaving
             }
 
             return localBuilder;
-        }
-
-        public override string ToString() {
-            return id.ToString();
         }
     }
 }

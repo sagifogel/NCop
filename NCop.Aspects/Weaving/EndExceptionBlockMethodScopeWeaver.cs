@@ -8,15 +8,11 @@ namespace NCop.Aspects.Weaving
 {
     internal class EndExceptionBlockMethodScopeWeaver : IMethodScopeWeaver
     {
-        private readonly Label endOfExceptionBlockLabel;
-
-        internal EndExceptionBlockMethodScopeWeaver(Label endOfExceptionBlockLabel) {
-            this.endOfExceptionBlockLabel = endOfExceptionBlockLabel;
+        internal EndExceptionBlockMethodScopeWeaver() {
         }
 
         public ILGenerator Weave(ILGenerator ilGenerator) {
             ilGenerator.EndExceptionBlock();
-            ilGenerator.MarkLabel(endOfExceptionBlockLabel);
 
             return ilGenerator;
         }

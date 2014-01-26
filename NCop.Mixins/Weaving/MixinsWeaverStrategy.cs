@@ -13,8 +13,8 @@ namespace NCop.Mixins.Weaving
     internal class MixinsWeaverStrategy : ITypeWeaver
     {
         private readonly IRegistry registry = null;
-        private readonly IEnumerable<IMethodWeaver> methodWeavers = null;
         private readonly ITypeDefinition typeDefinition = null;
+        private readonly IEnumerable<IMethodWeaver> methodWeavers = null;
 
         internal MixinsWeaverStrategy(ITypeDefinition typeDefinition, IEnumerable<IMethodWeaver> methodWeavers, IRegistry registry) {
             this.registry = registry;

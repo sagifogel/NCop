@@ -8,18 +8,15 @@ namespace NCop.Aspects.Weaving
 {
     internal class FinallyMethodScopeWeaver : IMethodScopeWeaver
     {
-        private readonly Label endOfExceptionBlockLabel;
         private readonly MethodScopeWeaversQueue finallyWeaversQueue = null;
 
-        internal FinallyMethodScopeWeaver(IEnumerable<IMethodScopeWeaver> finallyWeavers, Label endOfExceptionBlockLabel) {
-            this.endOfExceptionBlockLabel = endOfExceptionBlockLabel;
+        internal FinallyMethodScopeWeaver(IEnumerable<IMethodScopeWeaver> finallyWeavers) {
             finallyWeaversQueue = new MethodScopeWeaversQueue(finallyWeavers);
         }
 
         public ILGenerator Weave(ILGenerator ilGenerator) {
             ilGenerator.BeginFinallyBlock();
             finallyWeaversQueue.Weave(ilGenerator);
-            ilGenerator.Emit(OpCodes.Leave_S, endOfExceptionBlockLabel);
 
             return ilGenerator;
         }

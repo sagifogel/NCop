@@ -23,13 +23,12 @@ namespace NCop.Aspects.Weaving
         public virtual ILGenerator Weave(ILGenerator ilGenerator) {
             var weavers = new List<IMethodScopeWeaver>();
             MethodScopeWeaversQueue methodScopeWeaversQueue = null;
-            var endOfExceptionBlockLabel = ilGenerator.DefineLabel();
 
             weavers.Add(entryWeaver);
             weavers.Add(new BeginExceptionBlockMethodScopeWeaver());
             weavers.AddRange(tryWeavers);
-            weavers.Add(new FinallyMethodScopeWeaver(finallyWeavers, endOfExceptionBlockLabel));
-            weavers.Add(new EndExceptionBlockMethodScopeWeaver(endOfExceptionBlockLabel));
+            weavers.Add(new FinallyMethodScopeWeaver(finallyWeavers));
+            weavers.Add(new EndExceptionBlockMethodScopeWeaver());
 
             if (returnValueWeaver.IsNotNull()) {
                 weavers.Add(returnValueWeaver);
