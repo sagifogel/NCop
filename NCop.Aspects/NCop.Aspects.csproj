@@ -338,7 +338,7 @@
     <Compile Include="Framework\IFunctionExecutionArgs.cs" />
     <Compile Include="Framework\IMethodExecutionArgs.cs" />
     <Compile Include="Engine\InterceptionArgs.cs" />
-    <Compile Include="Engine\ExecutionArgs.cs" />
+    <Compile Include="Engine\AbstractExecutionArgs.cs" />
     <Compile Include="Framework\MethodInterceptionArgs.cs" />
     <Compile Include="Framework\OnActionBoundaryAspect`1.cs" />
     <Compile Include="Framework\OnActionBoundaryAspect`2.cs" />

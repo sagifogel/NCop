@@ -1,4 +1,5 @@
-﻿using NCop.Core.Extensions;
+﻿using NCop.Aspects.Framework;
+using NCop.Core.Extensions;
 using NCop.Weaving;
 using NCop.Weaving.Extensions;
 using System;
@@ -26,12 +27,13 @@ namespace NCop.Aspects.Weaving
             var argsImplLocalBuilder = localBuilderRepository.Get(aspectArgumentType);
             var onExceptionMethodInfo = aspectMember.FieldType.GetMethod("OnException");
             var setExceptionMethodInfo = aspectArgumentType.GetProperty("Exception").GetSetMethod();
+            var flowBehaviorContinueLabel = ilGenerator.DefineLabel();
 
             localExceptionBuilder = localBuilderRepository.GetOrDeclare(typeofException, () => {
                 return ilGenerator.DeclareLocal(typeofException);
             });
 
-            ilGenerator.BeginCatchBlock(typeof(Exception));
+            ilGenerator.BeginCatchBlock(typeofException);
             ilGenerator.EmitStoreLocal(localExceptionBuilder);
             ilGenerator.EmitLoadLocal(argsImplLocalBuilder);
             ilGenerator.EmitLoadLocal(localExceptionBuilder);
@@ -39,6 +41,11 @@ namespace NCop.Aspects.Weaving
             ilGenerator.Emit(OpCodes.Ldsfld, aspectMember);
             ilGenerator.EmitLoadLocal(argsImplLocalBuilder);
             ilGenerator.Emit(OpCodes.Callvirt, onExceptionMethodInfo);
+            //ilGenerator.EmitPushInteger((int)FlowBehavior.ThrowException);
+            //ilGenerator.Emit(OpCodes.Bne_Un_S, flowBehaviorContinueLabel);
+            //ilGenerator.EmitLoadLocal(localExceptionBuilder);
+            //ilGenerator.Emit(OpCodes.Rethrow);
+            //ilGenerator.MarkLabel(flowBehaviorContinueLabel);
 
             return ilGenerator;
         }

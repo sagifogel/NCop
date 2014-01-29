@@ -168,6 +168,16 @@ namespace NCop.Samples
             catch (Exception ex) {
                 aspectArgs.Exception = ex;
                 Aspects.traceAspect3.OnException(aspectArgs);
+
+                switch (aspectArgs.FlowBehavior) {
+                    case FlowBehavior.Return:
+                        return aspectArgs.ReturnValue;
+                        
+                    case FlowBehavior.ThrowException:
+                        throw;
+                    case FlowBehavior.RethrowException:
+                        throw ex;
+                }
             }
             finally {
                 Aspects.traceAspect3.OnExit(aspectArgs);
