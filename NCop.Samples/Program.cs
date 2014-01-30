@@ -18,347 +18,355 @@ using System.Threading;
 
 namespace NCop.Samples
 {
-    internal static class Aspects
-    {
-        public static CSharpDeveloperMixin mixin = null;
-        public static TraceAspect traceAspect = null;
-        public static TraceAspect2 traceAspect2 = null;
-        public static TraceAspect3 traceAspect3 = null;
+	internal static class Aspects
+	{
+		public static CSharpDeveloperMixin mixin = null;
+		public static TraceAspect traceAspect = null;
+		public static TraceAspect2 traceAspect2 = null;
+		public static TraceAspect3 traceAspect3 = null;
 
-        static Aspects() {
-            mixin = new CSharpDeveloperMixin();
-            traceAspect = new TraceAspect();
-            traceAspect2 = new TraceAspect2();
-            traceAspect3 = new TraceAspect3();
-        }
-    }
+		static Aspects() {
+			mixin = new CSharpDeveloperMixin();
+			traceAspect = new TraceAspect();
+			traceAspect2 = new TraceAspect2();
+			traceAspect3 = new TraceAspect3();
+		}
+	}
 
-    public sealed class MethodDecoratorFunctionBinding : IFunctionBinding<CSharpDeveloperMixin, string, string>
-    {
-        public static MethodDecoratorFunctionBinding singleton = null;
+	public sealed class MethodDecoratorFunctionBinding : IFunctionBinding<CSharpDeveloperMixin, string, string>
+	{
+		public static MethodDecoratorFunctionBinding singleton = null;
 
-        static MethodDecoratorFunctionBinding() {
-            singleton = new MethodDecoratorFunctionBinding();
-        }
+		static MethodDecoratorFunctionBinding() {
+			singleton = new MethodDecoratorFunctionBinding();
+		}
 
-        private MethodDecoratorFunctionBinding() {
-        }
+		private MethodDecoratorFunctionBinding() {
+		}
 
-        public string Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string, string> args) {
-            return instance.Code(args.Arg1);
-        }
-    }
+		public string Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string, string> args) {
+			return instance.Code(args.Arg1);
+		}
+	}
 
-    public sealed class MethodInterceptionBindingWeaver : IFunctionBinding<CSharpDeveloperMixin, string, string>
-    {
-        public static MethodInterceptionBindingWeaver singleton = null;
+	public sealed class MethodInterceptionBindingWeaver : IFunctionBinding<CSharpDeveloperMixin, string, string>
+	{
+		public static MethodInterceptionBindingWeaver singleton = null;
 
-        static MethodInterceptionBindingWeaver() {
-            singleton = new MethodInterceptionBindingWeaver();
-        }
+		static MethodInterceptionBindingWeaver() {
+			singleton = new MethodInterceptionBindingWeaver();
+		}
 
-        private MethodInterceptionBindingWeaver() {
-        }
+		private MethodInterceptionBindingWeaver() {
+		}
 
-        public string Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string, string> args) {
-            var binding = MethodDecoratorFunctionBinding.singleton;
-            //var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(instance, binding, args.Arg1);
-            //Aspects.traceAspect3.OnEntry(aspectArgs);
-            //Aspects.traceAspect3.OnSuccess(aspectArgs);
+		public string Invoke(ref CSharpDeveloperMixin instance, IFunctionArgs<string, string> args) {
+			var binding = MethodDecoratorFunctionBinding.singleton;
+			//var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(instance, binding, args.Arg1);
+			//Aspects.traceAspect3.OnEntry(aspectArgs);
+			//Aspects.traceAspect3.OnSuccess(aspectArgs);
 
-            var interceptionArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(instance, binding, args.Arg1);
-            Aspects.traceAspect.OnInvoke(interceptionArgs);
-            FunctionArgsMapper.Map<string, string>(interceptionArgs, args);
+			var interceptionArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, string, string>(instance, binding, args.Arg1);
+			Aspects.traceAspect.OnInvoke(interceptionArgs);
+			FunctionArgsMapper.Map<string, string>(interceptionArgs, args);
 
-            return args.ReturnValue;
-        }
-    }
+			return args.ReturnValue;
+		}
+	}
 
-    internal static class FunctionArgsMapper
-    {
-        internal static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> second) {
-            second.Arg1 = first.Arg1;
-            second.Arg2 = first.Arg2;
-            second.Arg3 = first.Arg3;
-            second.Arg4 = first.Arg4;
-            second.Arg5 = first.Arg5;
-            second.Arg6 = first.Arg6;
-            second.Arg7 = first.Arg7;
-            second.Arg8 = first.Arg8;
-            second.ReturnValue = first.ReturnValue;
-        }
+	internal static class FunctionArgsMapper
+	{
+		internal static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> second) {
+			second.Arg1 = first.Arg1;
+			second.Arg2 = first.Arg2;
+			second.Arg3 = first.Arg3;
+			second.Arg4 = first.Arg4;
+			second.Arg5 = first.Arg5;
+			second.Arg6 = first.Arg6;
+			second.Arg7 = first.Arg7;
+			second.Arg8 = first.Arg8;
+			second.ReturnValue = first.ReturnValue;
+		}
 
-        public static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> second) {
-            second.Arg1 = first.Arg1;
-            second.Arg2 = first.Arg2;
-            second.Arg3 = first.Arg3;
-            second.Arg4 = first.Arg4;
-            second.Arg5 = first.Arg5;
-            second.Arg6 = first.Arg6;
-            second.Arg7 = first.Arg7;
-            second.ReturnValue = first.ReturnValue;
-        }
+		public static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> second) {
+			second.Arg1 = first.Arg1;
+			second.Arg2 = first.Arg2;
+			second.Arg3 = first.Arg3;
+			second.Arg4 = first.Arg4;
+			second.Arg5 = first.Arg5;
+			second.Arg6 = first.Arg6;
+			second.Arg7 = first.Arg7;
+			second.ReturnValue = first.ReturnValue;
+		}
 
-        public static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> second) {
-            second.Arg1 = first.Arg1;
-            second.Arg2 = first.Arg2;
-            second.Arg3 = first.Arg3;
-            second.Arg4 = first.Arg4;
-            second.Arg5 = first.Arg5;
-            second.Arg6 = first.Arg6;
-            second.ReturnValue = first.ReturnValue;
-        }
+		public static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> second) {
+			second.Arg1 = first.Arg1;
+			second.Arg2 = first.Arg2;
+			second.Arg3 = first.Arg3;
+			second.Arg4 = first.Arg4;
+			second.Arg5 = first.Arg5;
+			second.Arg6 = first.Arg6;
+			second.ReturnValue = first.ReturnValue;
+		}
 
-        public static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> second) {
-            second.Arg1 = first.Arg1;
-            second.Arg2 = first.Arg2;
-            second.Arg3 = first.Arg3;
-            second.Arg4 = first.Arg4;
-            second.Arg5 = first.Arg5;
-            second.ReturnValue = first.ReturnValue;
-        }
+		public static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> second) {
+			second.Arg1 = first.Arg1;
+			second.Arg2 = first.Arg2;
+			second.Arg3 = first.Arg3;
+			second.Arg4 = first.Arg4;
+			second.Arg5 = first.Arg5;
+			second.ReturnValue = first.ReturnValue;
+		}
 
-        public static void Map<TArg1, TArg2, TArg3, TArg4, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TResult> second) {
-            second.Arg1 = first.Arg1;
-            second.Arg2 = first.Arg2;
-            second.Arg3 = first.Arg3;
-            second.Arg4 = first.Arg4;
-            second.ReturnValue = first.ReturnValue;
-        }
+		public static void Map<TArg1, TArg2, TArg3, TArg4, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TResult> second) {
+			second.Arg1 = first.Arg1;
+			second.Arg2 = first.Arg2;
+			second.Arg3 = first.Arg3;
+			second.Arg4 = first.Arg4;
+			second.ReturnValue = first.ReturnValue;
+		}
 
-        public static void Map<TArg1, TArg2, TArg3, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TResult> second) {
-            second.Arg1 = first.Arg1;
-            second.Arg2 = first.Arg2;
-            second.Arg3 = first.Arg3;
-            second.ReturnValue = first.ReturnValue;
-        }
+		public static void Map<TArg1, TArg2, TArg3, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TResult> second) {
+			second.Arg1 = first.Arg1;
+			second.Arg2 = first.Arg2;
+			second.Arg3 = first.Arg3;
+			second.ReturnValue = first.ReturnValue;
+		}
 
-        public static void Map<TArg1, TArg2, TResult>(IFunctionArgs<TArg1, TArg2, TResult> first, IFunctionArgs<TArg1, TArg2, TResult> second) {
-            second.Arg1 = first.Arg1;
-            second.Arg2 = first.Arg2;
-            second.ReturnValue = first.ReturnValue;
-        }
+		public static void Map<TArg1, TArg2, TResult>(IFunctionArgs<TArg1, TArg2, TResult> first, IFunctionArgs<TArg1, TArg2, TResult> second) {
+			second.Arg1 = first.Arg1;
+			second.Arg2 = first.Arg2;
+			second.ReturnValue = first.ReturnValue;
+		}
 
-        public static void Map<TArg1, TResult>(IFunctionArgs<TArg1, TResult> first, IFunctionArgs<TArg1, TResult> second) {
-            second.Arg1 = first.Arg1;
-            second.ReturnValue = first.ReturnValue;
-        }
+		public static void Map<TArg1, TResult>(IFunctionArgs<TArg1, TResult> first, IFunctionArgs<TArg1, TResult> second) {
+			second.Arg1 = first.Arg1;
+			second.ReturnValue = first.ReturnValue;
+		}
 
-        public static void Map<TResult>(IFunctionArgs<TResult> first, IFunctionArgs<TResult> second) {
-            second.ReturnValue = first.ReturnValue;
-        }
-    }
+		public static void Map<TResult>(IFunctionArgs<TResult> first, IFunctionArgs<TResult> second) {
+			second.ReturnValue = first.ReturnValue;
+		}
+	}
 
-    public class Person : IPersonComposite
-    {
-        private CSharpDeveloperMixin developer = null;
+	public class Person : IPersonComposite
+	{
+		private CSharpDeveloperMixin developer = null;
 
-        public Person() {
-            developer = new CSharpDeveloperMixin();
-        }
+		public Person() {
+			developer = new CSharpDeveloperMixin();
+		}
 
-        public string Code(string sagi) {
-            var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(developer, sagi);
-            Aspects.traceAspect3.OnEntry(aspectArgs);
+		public string Code(string sagi) {
+			var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(developer, sagi);
+			Aspects.traceAspect3.OnEntry(aspectArgs);
 
-            try {
-                aspectArgs.ReturnValue = developer.Code(aspectArgs.Arg1);
-                Aspects.traceAspect3.OnSuccess(aspectArgs);
-            }
-            catch (Exception ex) {
-                aspectArgs.Exception = ex;
-                Aspects.traceAspect3.OnException(aspectArgs);
+			try {
+				aspectArgs.ReturnValue = developer.Code(aspectArgs.Arg1);
+				Aspects.traceAspect3.OnSuccess(aspectArgs);
+			}
+			catch (Exception ex) {
+				aspectArgs.Exception = ex;
+				Aspects.traceAspect3.OnException(aspectArgs);
 
-                switch (aspectArgs.FlowBehavior) {
-                    case FlowBehavior.Return:
-                        return aspectArgs.ReturnValue;
-                        
-                    case FlowBehavior.ThrowException:
-                        throw;
-                    case FlowBehavior.RethrowException:
-                        throw ex;
-                }
-            }
-            finally {
-                Aspects.traceAspect3.OnExit(aspectArgs);
-            }
+				switch (aspectArgs.FlowBehavior) {
+					case FlowBehavior.ThrowException:
 
-            return aspectArgs.ReturnValue;
-        }
+						throw ex;
 
-        public string Code2(string sagi) {
-            var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(developer, sagi);
-            Aspects.traceAspect3.OnEntry(aspectArgs);
+					case FlowBehavior.RethrowException:
+						throw;
+				}
+			}
+			finally {
+				Aspects.traceAspect3.OnExit(aspectArgs);
+			}
 
-            try {
-                aspectArgs.ReturnValue = developer.Code(aspectArgs.Arg1);
-                Aspects.traceAspect3.OnSuccess(aspectArgs);
-            }
-            finally {
-                Aspects.traceAspect3.OnExit(aspectArgs);
-            }
+			return aspectArgs.ReturnValue;
+		}
 
-            return aspectArgs.ReturnValue;
-        }
-    }
+		public string Code2(string sagi) {
+			var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(developer, sagi);
+			Aspects.traceAspect3.OnEntry(aspectArgs);
 
-    [TransientComposite]
-    [Mixins(typeof(CSharpDeveloperMixin))]
-    public interface IPersonComposite : IDeveloper<ILanguage>
-    {
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
-        new string Code(string s);
+			try {
+				aspectArgs.ReturnValue = developer.Code(aspectArgs.Arg1);
+				Aspects.traceAspect3.OnSuccess(aspectArgs);
+			}
+			catch (Exception ex) {
+				aspectArgs.Exception = ex;
+				Aspects.traceAspect3.OnException(aspectArgs);
 
-    }
+				if (aspectArgs.FlowBehavior == FlowBehavior.RethrowException) {
+					throw;
+				}
+			}
+			finally {
+				Aspects.traceAspect3.OnExit(aspectArgs);
+			}
 
-    class Program
-    {
-        static void Main(string[] args) {
-            //new Person().Code(""); return;
-            var container = new CompositeContainer();
-            container.Configure();
+			return aspectArgs.ReturnValue;
+		}
+	}
 
-            var person = container.TryResolve<IPersonComposite>();
-            Console.WriteLine(person.Code("Sagi"));
-        }
-    }
+	[TransientComposite]
+	[Mixins(typeof(CSharpDeveloperMixin))]
+	public interface IPersonComposite : IDeveloper<ILanguage>
+	{
+		[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
+		[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
+		new string Code(string s);
 
-    #region Composites
+	}
 
-    public class GenericCovariantDeveloper<T> : IDeveloper<T>
-        where T : ILanguage, new()
-    {
-        private T langugae = new T();
+	class Program
+	{
+		static void Main(string[] args) {
+			//new Person().Code(""); return;
+			var container = new CompositeContainer();
+			container.Configure();
 
-        public string Code(string s) {
-            return langugae.ToString();
-        }
-    }
+			var person = container.TryResolve<IPersonComposite>();
+			Console.WriteLine(person.Code("Sagi"));
+		}
+	}
 
-    public class TraceAspect : FunctionInterceptionAspect<string, string>
-    {
-        public override void OnInvoke(FunctionInterceptionArgs<string, string> args) {
-            Console.WriteLine("Code from TraceAspect OnInvoke");
-            base.OnInvoke(args);
-        }
-    }
+	#region Composites
 
-    public class TraceAspect1 : FunctionInterceptionAspect<string>
-    {
-        public override void OnInvoke(FunctionInterceptionArgs<string> args) {
-            base.OnInvoke(args);
-        }
-    }
+	public class GenericCovariantDeveloper<T> : IDeveloper<T>
+		where T : ILanguage, new()
+	{
+		private T langugae = new T();
 
-    [PerThreadAspect]
-    public class TraceAspect3 : OnFunctionBoundaryAspect<string, string>
-    {
-        public override void OnEntry(FunctionExecutionArgs<string, string> args) {
-            Console.WriteLine("Code from TraceAspect3 OnEntry");
-            base.OnEntry(args);
-        }
+		public string Code(string s) {
+			return langugae.ToString();
+		}
+	}
 
-        public override void OnExit(FunctionExecutionArgs<string, string> args) {
-            Console.WriteLine("Code from TraceAspect3 OnExit");
-            base.OnExit(args);
-        }
+	public class TraceAspect : FunctionInterceptionAspect<string, string>
+	{
+		public override void OnInvoke(FunctionInterceptionArgs<string, string> args) {
+			Console.WriteLine("Code from TraceAspect OnInvoke");
+			base.OnInvoke(args);
+		}
+	}
 
-        public override void OnException(FunctionExecutionArgs<string, string> args) {
-            Console.WriteLine("Code from TraceAspect3 OnException");
-            base.OnException(args);
-        }
+	public class TraceAspect1 : FunctionInterceptionAspect<string>
+	{
+		public override void OnInvoke(FunctionInterceptionArgs<string> args) {
+			base.OnInvoke(args);
+		}
+	}
 
-        public override void OnSuccess(FunctionExecutionArgs<string, string> args) {
-            Console.WriteLine("Code from TraceAspect3 OnSuccess");
-            base.OnSuccess(args);
-        }
-    }
+	[PerThreadAspect]
+	public class TraceAspect3 : OnFunctionBoundaryAspect<string, string>
+	{
+		public override void OnEntry(FunctionExecutionArgs<string, string> args) {
+			Console.WriteLine("Code from TraceAspect3 OnEntry");
+			base.OnEntry(args);
+		}
 
-    [PerThreadAspect]
-    public class TraceAspect2 : OnFunctionBoundaryAspect<string>
-    {
-        public override void OnEntry(FunctionExecutionArgs<string> args) {
-            base.OnEntry(args);
-        }
+		public override void OnExit(FunctionExecutionArgs<string, string> args) {
+			Console.WriteLine("Code from TraceAspect3 OnExit");
+			base.OnExit(args);
+		}
 
-        //public override void OnSuccess(FunctionExecutionArgs<string, bool> args) {
-        //    base.OnSuccess(args);
-        //}
+		public override void OnException(FunctionExecutionArgs<string, string> args) {
+			args.FlowBehavior = FlowBehavior.RethrowException;
+			Console.WriteLine("Code from TraceAspect3 OnException");
+			base.OnException(args);
+		}
 
-        //public override void OnException(FunctionExecutionArgs<string, bool> args) {
-        //    base.OnException(args);
-        //}
+		public override void OnSuccess(FunctionExecutionArgs<string, string> args) {
+			Console.WriteLine("Code from TraceAspect3 OnSuccess");
+			base.OnSuccess(args);
+		}
+	}
 
-        //public override void OnExit(FunctionExecutionArgs<string, bool> args) {
-        //    base.OnExit(args);
-        //}
-    }
+	[PerThreadAspect]
+	public class TraceAspect2 : OnFunctionBoundaryAspect<string>
+	{
+		public override void OnEntry(FunctionExecutionArgs<string> args) {
+			base.OnEntry(args);
+		}
 
-    public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>
-    {
-        public override string Code(string s) {
-            throw new DivideByZeroException();
-            return "Code";
-        }
-    }
+		//public override void OnSuccess(FunctionExecutionArgs<string, bool> args) {
+		//    base.OnSuccess(args);
+		//}
 
-    public class JavaScriptDeveloperMixin : AbstractDeveloper<JavaScriptLanguage>
-    {
+		//public override void OnException(FunctionExecutionArgs<string, bool> args) {
+		//    base.OnException(args);
+		//}
 
-    }
+		//public override void OnExit(FunctionExecutionArgs<string, bool> args) {
+		//    base.OnExit(args);
+		//}
+	}
 
-    public abstract class AbstractDeveloper<TLanguage> : IDeveloper<TLanguage>
-        where TLanguage : ILanguage, new()
-    {
-        private readonly ILanguage language = new TLanguage();
+	public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>
+	{
+		public override string Code(string s) {
+			throw new DivideByZeroException();
+			return "Code";
+		}
+	}
 
-        public virtual string Code(string s) {
-            return "I am coding in " + language.ToString();
-        }
-    }
+	public class JavaScriptDeveloperMixin : AbstractDeveloper<JavaScriptLanguage>
+	{
 
-    public interface ILanguage
-    {
-        string Description { get; }
-    }
+	}
 
-    public class CSharpLanguage : ILanguage
-    {
-        public virtual string Description {
-            get {
-                return "C#";
-            }
-        }
-    }
+	public abstract class AbstractDeveloper<TLanguage> : IDeveloper<TLanguage>
+		where TLanguage : ILanguage, new()
+	{
+		private readonly ILanguage language = new TLanguage();
 
-    public class JavaScriptLanguage : ILanguage
-    {
-        public string Description {
-            get {
-                return "JavaScript";
-            }
-        }
-    }
+		public virtual string Code(string s) {
+			return "I am coding in " + language.ToString();
+		}
+	}
 
-    public class CSharpLanguage5 : CSharpLanguage
-    {
-        public override string Description {
-            get {
-                return "C# 5";
-            }
-        }
-    }
+	public interface ILanguage
+	{
+		string Description { get; }
+	}
 
-    public interface IDeveloper<out TLanguage>
-    {
-        string Code(string s);
-    }
+	public class CSharpLanguage : ILanguage
+	{
+		public virtual string Description {
+			get {
+				return "C#";
+			}
+		}
+	}
 
-    public interface IDeveloper
-    {
-        void Code(string code);
-    }
+	public class JavaScriptLanguage : ILanguage
+	{
+		public string Description {
+			get {
+				return "JavaScript";
+			}
+		}
+	}
 
-    #endregion Composites
+	public class CSharpLanguage5 : CSharpLanguage
+	{
+		public override string Description {
+			get {
+				return "C# 5";
+			}
+		}
+	}
+
+	public interface IDeveloper<out TLanguage>
+	{
+		string Code(string s);
+	}
+
+	public interface IDeveloper
+	{
+		void Code(string code);
+	}
+
+	#endregion Composites
 }

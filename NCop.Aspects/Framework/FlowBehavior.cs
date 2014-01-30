@@ -7,9 +7,8 @@ namespace NCop.Aspects.Framework
 {
 	public enum FlowBehavior
 	{
-		Return,
 		Continue,
 		ThrowException,
-		RethrowException,
+		RethrowException
 	}
 }
