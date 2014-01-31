@@ -19,8 +19,8 @@ namespace NCop.Aspects.Extensions
 {
 	internal static class AspectArgsContractResolver
 	{
-		private static readonly Dictionary<int, Type> funcArgsMap = null;
-		private static readonly Dictionary<int, Type> actionArgsMap = null;
+		private static readonly IDictionary<int, Type> funcArgsMap = null;
+		private static readonly IDictionary<int, Type> actionArgsMap = null;
 
 		static AspectArgsContractResolver() {
 			funcArgsMap = new Dictionary<int, Type>();

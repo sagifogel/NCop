@@ -19,8 +19,8 @@ namespace NCop.Aspects.Extensions
 {
 	internal static class MethodBindingResolver
 	{
-		private static readonly Dictionary<int, Type> funcBindingMap = null;
-		private static readonly Dictionary<int, Type> actionBindingMap = null;
+		private static readonly IDictionary<int, Type> funcBindingMap = null;
+		private static readonly IDictionary<int, Type> actionBindingMap = null;
 
 		static MethodBindingResolver() {
 			funcBindingMap = new Dictionary<int, Type>();

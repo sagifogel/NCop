@@ -1,12 +1,9 @@
 ﻿using NCop.Aspects.Aspects;
-using NCop.Aspects.Aspects.Builders;
 using NCop.Aspects.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NCop.Core.Extensions;
 using NCop.Aspects.Weaving;
+using NCop.Core.Extensions;
+using System;
+using System.Linq;
 
 namespace NCop.Aspects.Extensions
 {

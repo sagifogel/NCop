@@ -14,10 +14,10 @@ namespace NCop.Aspects.Extensions
 {
 	internal static class AspectArgsImplResolver
 	{
-		private static readonly Dictionary<int, Type> funcExecutionArgsMap = null;
-		private static readonly Dictionary<int, Type> actionExecutionArgsMap = null;
-		private static readonly Dictionary<int, Type> funcInterceptionArgsMap = null;
-		private static readonly Dictionary<int, Type> actionInterceptionArgsMap = null;
+		private static readonly IDictionary<int, Type> funcExecutionArgsMap = null;
+		private static readonly IDictionary<int, Type> actionExecutionArgsMap = null;
+		private static readonly IDictionary<int, Type> funcInterceptionArgsMap = null;
+		private static readonly IDictionary<int, Type> actionInterceptionArgsMap = null;
 
 		static AspectArgsImplResolver() {
 			funcExecutionArgsMap = new Dictionary<int, Type>();

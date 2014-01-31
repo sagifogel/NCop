@@ -222,7 +222,7 @@ namespace NCop.Samples
 	class Program
 	{
 		static void Main(string[] args) {
-			//new Person().Code(""); return;
+            //new Person().Code(""); return;
 			var container = new CompositeContainer();
 			container.Configure();
 

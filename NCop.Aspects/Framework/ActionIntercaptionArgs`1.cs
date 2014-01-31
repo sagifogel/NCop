@@ -6,8 +6,9 @@ using System.Text;
 
 namespace NCop.Aspects.Framework
 {
-	public abstract class ActionInterceptionArgs<TArg1> : InterceptionArgs
-	{   
-		public TArg1 Arg1 { get; set; }
-	}
+    public abstract class ActionInterceptionArgs<TArg1> : InterceptionArgs, IActionInterceptionArgs<TArg1>
+    {
+        public TArg1 Arg1 { get; set; }
+        public abstract void Invoke(TArg1 arg1);
+    }
 }

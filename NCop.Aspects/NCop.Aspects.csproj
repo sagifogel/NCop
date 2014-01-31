@@ -83,6 +83,12 @@
   <ItemGroup>
     <Compile Include="Advices\AbstractAdviceDefinition.cs" />
     <Compile Include="Advices\AdviceType.cs" />
+    <Compile Include="Advices\AviceDefinitionCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Aspects\AbstractAspectDefinition.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Engine\ActionExecutionArgsImpl`2.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`3.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`4.cs" />
@@ -102,6 +108,22 @@
     <Compile Include="Engine\IActionArgs`7.cs" />
     <Compile Include="Engine\IActionArgs`8.cs" />
     <Compile Include="Engine\IActionArgs.cs" />
+    <Compile Include="Engine\IFunctionInterceptionArgs`1.cs" />
+    <Compile Include="Engine\IFunctionInterceptionArgs`2.cs" />
+    <Compile Include="Engine\IActionInterceptionArgs`1.cs" />
+    <Compile Include="Engine\IActionInterceptionArgs`2.cs" />
+    <Compile Include="Engine\IFunctionInterceptionArgs`3.cs" />
+    <Compile Include="Engine\IActionInterceptionArgs`3.cs" />
+    <Compile Include="Engine\IFunctionInterceptionArgs`4.cs" />
+    <Compile Include="Engine\IActionInterceptionArgs`4.cs" />
+    <Compile Include="Engine\IFunctionInterceptionArgs`5.cs" />
+    <Compile Include="Engine\IActionInterceptionArgs`5.cs" />
+    <Compile Include="Engine\IFunctionInterceptionArgs`6.cs" />
+    <Compile Include="Engine\IActionInterceptionArgs`6.cs" />
+    <Compile Include="Engine\IFunctionInterceptionArgs`7.cs" />
+    <Compile Include="Engine\IActionInterceptionArgs`7.cs" />
+    <Compile Include="Engine\IFunctionInterceptionArgs`8.cs" />
+    <Compile Include="Engine\IActionInterceptionArgs`8.cs" />
     <Compile Include="Exceptions\AspectWeavingException.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -184,7 +206,6 @@
     <Compile Include="Weaving\Expressions\BindingAspectDecoratorExpression.cs" />
     <Compile Include="Weaving\Expressions\AspectNodeExpressionBuilder.cs" />
     <Compile Include="Weaving\Expressions\AdviceVisitor.cs" />
-    <Compile Include="Advices\AviceDefinitionCollection.cs" />
     <Compile Include="Advices\FinallyAdviceDefinition.cs" />
     <Compile Include="Advices\IAdviceDefinition.cs" />
     <Compile Include="Advices\IAviceDefinitionCollection.cs" />
@@ -193,28 +214,9 @@
     <Compile Include="Advices\OnMethodExceptionAdviceDefinition.cs" />
     <Compile Include="Advices\OnMethodInvokeAdviceDefinition.cs" />
     <Compile Include="Advices\OnMethodSuccessAdviceDefinition.cs" />
-    <Compile Include="Aspects\AspectBuilderCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Aspects\Builders\IAspectBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Aspects\Builders\IAspectBuilderCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Aspects\Builders\IAspectBuilderProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Aspects\Builders\TypeLevelAspectBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Aspects\Builders\TypeLevelAspectBuilderProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Aspects\OnMethodBoundaryAspectDefinition.cs" />
     <Compile Include="Engine\ActionInterceptionArgsImpl.cs" />
     <Compile Include="Engine\AspectLifetimeStrategyAttribute.cs" />
-    <Compile Include="Engine\AspectMembers.cs" />
     <Compile Include="Engine\AspectType.cs" />
     <Compile Include="Engine\FunctionExecutionArgsImpl`4.cs" />
     <Compile Include="Engine\FunctionExecutionArgsImpl`3.cs" />
@@ -262,8 +264,6 @@
     <Compile Include="Engine\FunctionInterceptionArgsImpl`7.cs" />
     <Compile Include="Engine\FunctionInterceptionArgsImpl`8.cs" />
     <Compile Include="Engine\IAspectMembers`1.cs" />
-    <Compile Include="Engine\IAspectsMethods.cs" />
-    <Compile Include="Engine\IAspectsProperties.cs" />
     <Compile Include="Engine\IFunctionBinding.cs" />
     <Compile Include="Engine\IFunctionBinding`1.cs" />
     <Compile Include="Engine\IFunctionBinding`2.cs" />
@@ -368,17 +368,12 @@
     <Compile Include="Framework\OnFunctionBoundaryAspect`8.cs" />
     <Compile Include="Framework\FunctionExecutionArgs.cs" />
     <Compile Include="Framework\FlowBehavior.cs" />
-    <Compile Include="Aspects\TypeLevelAspect.cs" />
     <Compile Include="Advices\AdviceAttribute.cs" />
-    <Compile Include="Advices\AdviceCollection.cs" />
     <Compile Include="Aspects\AspectAttribute.cs" />
-    <Compile Include="Aspects\AspectByReflectionFactory.cs" />
-    <Compile Include="Aspects\AspectCollection.cs" />
     <Compile Include="Aspects\AspectMap.cs" />
     <Compile Include="Aspects\AspectsMap.cs" />
     <Compile Include="Aspects\IAspectsMap.cs" />
     <Compile Include="Engine\AspectAttributesMemberMatcher.cs" />
-    <Compile Include="Engine\IAspectsTypeVisitor.cs" />
     <Compile Include="Exceptions\AspectBuilderNotFoundException.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -392,11 +387,7 @@
     <Compile Include="Engine\IAcceptsVisitor.cs" />
     <Compile Include="Engine\IAcceptsVisitor`1.cs" />
     <Compile Include="Aspects\IAspectCollection.cs" />
-    <Compile Include="Aspects\IAspectFactory.cs" />
-    <Compile Include="Aspects\IAspectProvider.cs" />
-    <Compile Include="Engine\IPreventable.cs" />
     <Compile Include="Advices\IAdvice.cs" />
-    <Compile Include="Advices\IAdviceCollection.cs" />
     <Compile Include="Aspects\IAspect.cs" />
     <Compile Include="Aspects\IAspectDefinition.cs" />
     <Compile Include="Aspects\IAspectDefinitionCollection.cs" />
@@ -415,7 +406,6 @@
     <Compile Include="Advices\FinallyAdviceAttribute.cs" />
     <Compile Include="Advices\OnMethodSuccessAdviceAttribute.cs" />
     <Compile Include="Aspects\AspectDefinitionCollection.cs" />
-    <Compile Include="Aspects\IAspectVisitor.cs" />
     <Compile Include="Aspects\MethodInterceptionAspectDefinition.cs" />
     <Compile Include="Framework\EventInterceptionAspectAttribute.cs" />
     <Compile Include="Framework\GetPropertyInterceptionAspectAttribute.cs" />
@@ -424,7 +414,6 @@
     <Compile Include="Framework\OnFunctionBoundaryAspect`1.cs" />
     <Compile Include="Aspects\PropertyInterceptionAspectAttribute.cs" />
     <Compile Include="Framework\SetPropertyInterceptionAspectAttribute.cs" />
-    <Compile Include="Aspects\AbstractAspectDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
