@@ -23,6 +23,7 @@ namespace NCop.Aspects.Weaving
             var @params = weavingSettings.MethodInfoImpl.GetParameters();
 
             argumentsWeavingSetings.Parameters = @params.ToArray(@param => @param.ParameterType);
+            argumentsWeavingSetings.BindingsDependency = weavedType;
             argumentsWeaver = new TopMethodInterceptionArgumentsWeaver(argumentsWeavingSetings, aspectWeavingSettings);
 
             if (argumentsWeavingSetings.IsFunction) {
@@ -34,14 +35,10 @@ namespace NCop.Aspects.Weaving
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
             LocalBuilder bindingLocalBuilder = null;
-            Type methodBindingWeaverBaseType = null;
             var bindingsReflectedType = bindingDependency.ReflectedType;
 
-            methodBindingWeaverBaseType = bindingsReflectedType.GetInterfaces().First();
             bindingLocalBuilder = ilGenerator.DeclareLocal(bindingsReflectedType);
-            localBuilderRepository.Add(methodBindingWeaverBaseType, bindingLocalBuilder);
-            ilGenerator.Emit(OpCodes.Ldsfld, bindingDependency);
-            ilGenerator.EmitStoreLocal(bindingLocalBuilder);
+            localBuilderRepository.Add(bindingLocalBuilder);
             argumentsWeaver.Weave(ilGenerator);
             
             return weaver.Weave(ilGenerator);

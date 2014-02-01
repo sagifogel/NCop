@@ -4,6 +4,7 @@ using NCop.Aspects.Weaving;
 using NCop.Core.Extensions;
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace NCop.Aspects.Extensions
 {
@@ -106,7 +107,7 @@ namespace NCop.Aspects.Extensions
                 Array.Copy(arguments, 1, methodParameters.Parameters, 0, length);
             }
             else {
-                arguments.Skip(1).ToArray();
+                methodParameters.Parameters = arguments.Skip(1).ToArray();
             }
 
             return methodParameters;
@@ -126,12 +127,19 @@ namespace NCop.Aspects.Extensions
                 argumentResolver = AspectArgsContractResolver.ToFunctionAspectArgument;
             }
             else {
+                methodParameters.ReturnType = typeof(void);
                 argumentResolver = AspectArgsContractResolver.ToActionAspectArgument;
             }
 
             methodParameters.Parameters[1] = argumentResolver(arguments);
 
             return methodParameters;
+        }
+
+        internal static Type GetDelegateType(this Type[] parameters, bool isFunction) {
+            var delegateFactory = isFunction ? Expression.GetFuncType : (Func<Type[], Type>)Expression.GetActionType;
+
+            return delegateFactory(parameters);
         }
     }
 }

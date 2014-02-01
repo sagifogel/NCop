@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace NCop.Aspects.Engine
         TArg4 Arg4 { get; set; }
         TArg5 Arg5 { get; set; }
         TArg6 Arg6 { get; set; }
+        MethodInfo Method { get; set; }
         TResult ReturnValue { get; set; }
     }
 }

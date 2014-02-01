@@ -124,6 +124,7 @@
     <Compile Include="Engine\IActionInterceptionArgs`7.cs" />
     <Compile Include="Engine\IFunctionInterceptionArgs`8.cs" />
     <Compile Include="Engine\IActionInterceptionArgs`8.cs" />
+    <Compile Include="Engine\LazyInvocationFactroy.cs" />
     <Compile Include="Exceptions\AspectWeavingException.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -3,6 +3,7 @@ using NCop.Core.Extensions;
 using NCop.Weaving.Extensions;
 using System;
 using System.Linq;
+using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
@@ -20,11 +21,16 @@ namespace NCop.Aspects.Weaving
             var declaredLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
             var ctorInterceptionArgs = ArgumentType.GetConstructors().First();
             var argsLocalBuilder = LocalBuilderRepository.Get(previousAspectArgType);
-
+            var delegateType = Parameters.GetDelegateType(IsFunction);
+            var delegateLocalBuilder = LocalBuilderRepository.Get(delegateType);
+            var delegateGetMethodMethodInfo = typeof(Delegate).GetProperty("Method").GetGetMethod();
+            
             LocalBuilderRepository.Add(declaredLocalBuilder);
             contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
+            ilGenerator.EmitLoadLocal(delegateLocalBuilder);
+            ilGenerator.Emit(OpCodes.Callvirt, delegateGetMethodMethodInfo);
             ilGenerator.Emit(OpCodes.Ldsfld, BindingsDependency);
 
             Parameters.ForEach(1, (parameter, i) => {

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace NCop.Aspects.Engine
@@ -11,10 +12,11 @@ namespace NCop.Aspects.Engine
         private TInstance instance = default(TInstance);
         private readonly IActionBinding<TInstance, TArg1> actionBinding = null;
 
-        public ActionInterceptionArgsImpl(TInstance instance, IActionBinding<TInstance, TArg1> actionBinding, TArg1 arg1) {
+        public ActionInterceptionArgsImpl(TInstance instance, MethodInfo method, IActionBinding<TInstance, TArg1> actionBinding, TArg1 arg1) {
             Arg1 = arg1;
+            this.Method = method;
             this.actionBinding = actionBinding;
-            Instance = this.Instance = instance;
+            Instance = this.instance = instance;
         }
 
         public override void Proceed() {
@@ -22,7 +24,6 @@ namespace NCop.Aspects.Engine
         }
 
         public override void Invoke(TArg1 arg1) {
-            throw new NotImplementedException();
         }
     }
 }

@@ -136,7 +136,7 @@ namespace NCop.Aspects.Weaving
         }
 
         public MethodInfo GetMappingArgsAction(int argumentCount) {
-            return funcAspectArgMapperMethodsDictionary[argumentCount];
+            return actionAspectArgMapperMethodsDictionary[argumentCount];
         }
 
         public MethodInfo GetMappingArgsFunction(int argumentCount) {

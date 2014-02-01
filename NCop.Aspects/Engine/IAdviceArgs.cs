@@ -8,7 +8,7 @@ namespace NCop.Aspects.Engine
 {
     public interface IAdviceArgs
     {
-        MethodBase Method { get; }
+        MethodInfo Method { get; }
         Exception Exception { get; }        
     }
 }

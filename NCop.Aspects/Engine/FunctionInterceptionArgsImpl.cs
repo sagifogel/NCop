@@ -12,7 +12,8 @@ namespace NCop.Aspects.Engine
         private TInstance instance = default(TInstance);
         private readonly IFunctionBinding<TInstance, TResult> funcBinding = null;
 
-        public FunctionInterceptionArgsImpl(TInstance instance, IFunctionBinding<TInstance, TResult> funcBinding) {
+        public FunctionInterceptionArgsImpl(TInstance instance, MethodInfo method, IFunctionBinding<TInstance, TResult> funcBinding) {
+            Method = method;
             this.funcBinding = funcBinding;
             Instance = this.instance = instance;
         }

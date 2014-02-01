@@ -9,7 +9,7 @@ namespace NCop.Aspects.Engine
     public abstract class AdviceArgs : IAdviceArgs
     {
         public object Instance { get; set; }
-        public MethodBase Method { get; set; }
+        public MethodInfo Method { get; set; }
         public Exception Exception { get; set; }
     }
 }

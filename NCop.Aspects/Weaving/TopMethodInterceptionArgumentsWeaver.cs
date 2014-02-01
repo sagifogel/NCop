@@ -1,50 +1,58 @@
-﻿using NCop.Aspects.Advices;
-using NCop.Aspects.Aspects;
-using NCop.Aspects.Weaving.Expressions;
-using NCop.Composite.Weaving;
-using NCop.Weaving;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Text;
-using NCop.Aspects.Framework;
-using NCop.Aspects.Engine;
+﻿using NCop.Aspects.Extensions;
 using NCop.Core.Extensions;
-using System.Threading;
+using NCop.Weaving;
 using NCop.Weaving.Extensions;
+using System;
+using System.Linq;
+using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-	internal class TopMethodInterceptionArgumentsWeaver : AbstractTopAspectArgumentsWeaver
-	{
+    internal class TopMethodInterceptionArgumentsWeaver : AbstractTopAspectArgumentsWeaver
+    {
         internal TopMethodInterceptionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
-			: base(argumentWeavingSettings, aspectWeavingSettings) {
-		}
+            : base(argumentWeavingSettings, aspectWeavingSettings) {
+        }
 
-		public override LocalBuilder BuildArguments(ILGenerator ilGenerator, Type[] parameters) {
-			LocalBuilder bindingLocalBuilder = null;
-			FieldBuilder contractFieldBuilder = null;
-			var declaredLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
-			var ctorInterceptionArgs = ArgumentType.GetConstructors().First();
-			var ctorInterceptionArgsParams = ctorInterceptionArgs.GetParameters();
-			var bindingType = ctorInterceptionArgsParams[1].ParameterType;
+        public override LocalBuilder BuildArguments(ILGenerator ilGenerator, Type[] parameters) {
+            LocalBuilder argsImplLocalBuilder = null;
+            LocalBuilder delegateLocalBuilder = null;
+            FieldBuilder contractFieldBuilder = null;
+            var ctorInterceptionArgs = ArgumentType.GetConstructors().First();
+            var ctorInterceptionArgsParams = ctorInterceptionArgs.GetParameters();
+            var delegateType = Parameters.GetDelegateType(IsFunction);
+            var delegateCtor = delegateType.GetConstructors()[0];
+            var delegateGetMethodMethodInfo = typeof(Delegate).GetProperty("Method").GetGetMethod();
+            var bindingLocalBuilder = LocalBuilderRepository.Get(BindingsDependency.ReflectedType);
 
-			ilGenerator.EmitLoadArg(0);
-			bindingLocalBuilder = LocalBuilderRepository.Get(bindingType);
-			contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
-			ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
-			ilGenerator.EmitLoadLocal(bindingLocalBuilder);
+            delegateLocalBuilder = LocalBuilderRepository.GetOrDeclare(delegateType, () => {
+                return ilGenerator.DeclareLocal(delegateType);
+            });
 
-			parameters.ForEach(1, (parameter, i) => {
-				ilGenerator.EmitLoadArg(i);
-			});
+            argsImplLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
+            ilGenerator.EmitLoadArg(0);
+            contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
+            ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
+            ilGenerator.Emit(OpCodes.Dup);
+            ilGenerator.Emit(OpCodes.Ldvirtftn, WeavingSettings.MethodInfoImpl);
+            ilGenerator.Emit(OpCodes.Newobj, delegateCtor);
+            ilGenerator.EmitStoreLocal(delegateLocalBuilder);
+            ilGenerator.Emit(OpCodes.Ldsfld, BindingsDependency);
+            ilGenerator.EmitStoreLocal(bindingLocalBuilder);
+            ilGenerator.EmitLoadArg(0);
+            ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
+            ilGenerator.EmitLoadLocal(delegateLocalBuilder);
+            ilGenerator.Emit(OpCodes.Callvirt, delegateGetMethodMethodInfo);
+            ilGenerator.EmitLoadLocal(bindingLocalBuilder);
 
-			ilGenerator.Emit(OpCodes.Newobj, ctorInterceptionArgs);
-			ilGenerator.EmitStoreLocal(declaredLocalBuilder);
+            parameters.ForEach(1, (parameter, i) => {
+                ilGenerator.EmitLoadArg(i);
+            });
 
-			return declaredLocalBuilder;
-		}
-	}
+            ilGenerator.Emit(OpCodes.Newobj, ctorInterceptionArgs);
+            ilGenerator.EmitStoreLocal(argsImplLocalBuilder);
+
+            return argsImplLocalBuilder;
+        }
+    }
 }

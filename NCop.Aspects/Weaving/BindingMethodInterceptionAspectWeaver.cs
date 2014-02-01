@@ -35,14 +35,18 @@ namespace NCop.Aspects.Weaving
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
-            var returnValueProperty = ArgumentType.GetProperty("ReturnValue");
             var weavedTypeLocal = ilGenerator.DeclareLocal(bindingDependency.FieldType);
 
             localBuilderRepository.Add(weavedTypeLocal);
             argumentsWeaver.Weave(ilGenerator);
             weaver.Weave(ilGenerator);
-            ilGenerator.EmitLoadArg(2);
-            ilGenerator.Emit(OpCodes.Callvirt, returnValueProperty.GetGetMethod());
+
+            if (argumentsWeavingSetings.IsFunction) {
+                var returnValueProperty = ArgumentType.GetProperty("ReturnValue");
+
+                ilGenerator.EmitLoadArg(2);
+                ilGenerator.Emit(OpCodes.Callvirt, returnValueProperty.GetGetMethod());
+            }
 
             return ilGenerator;
         }
