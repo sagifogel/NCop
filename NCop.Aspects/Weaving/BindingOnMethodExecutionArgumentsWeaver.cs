@@ -21,6 +21,7 @@ namespace NCop.Aspects.Weaving
             var delegateCtor = delegateType.GetConstructors()[0];
             var aspectRepository = aspectWeavingSettings.AspectRepository;
             var delegateGetMethodMethodInfo = typeof(Delegate).GetProperty("Method").GetGetMethod();
+            var methodProperty = ArgumentType.GetProperty("Method");
 
             delegateLocalBuilder = LocalBuilderRepository.GetOrDeclare(delegateType, () => {
                 return ilGenerator.DeclareLocal(delegateType);
@@ -32,14 +33,8 @@ namespace NCop.Aspects.Weaving
 
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);
-            ilGenerator.Emit(OpCodes.Dup);
-            ilGenerator.Emit(OpCodes.Ldvirtftn, WeavingSettings.MethodInfoImpl);
-            ilGenerator.Emit(OpCodes.Newobj, delegateCtor);
-            ilGenerator.EmitStoreLocal(delegateLocalBuilder);
-            ilGenerator.EmitLoadArg(1);
-            ilGenerator.Emit(OpCodes.Ldind_Ref);
-            ilGenerator.EmitLoadLocal(delegateLocalBuilder);
-            ilGenerator.Emit(OpCodes.Callvirt, delegateGetMethodMethodInfo);
+            ilGenerator.EmitLoadArg(2);
+            ilGenerator.Emit(OpCodes.Callvirt, methodProperty.GetGetMethod());
 
             Parameters.ForEach(1, (parameter, i) => {
                 var property = ArgumentType.GetProperty("Arg{0}".Fmt(i));

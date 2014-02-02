@@ -46,8 +46,9 @@ namespace NCop.Aspects.Weaving
         private void BuildMethod(TypeBuilder typeBuilder, int numberOfArgs, Func<int, Type> resolveArgsFn, bool hasReturnType) {
             Type argumentType = null;
             ILGenerator ilGenerator = null;
-            PropertyInfo returnValueProperty = null;
+            PropertyInfo methodProperty = null;
             Type genericTypeArgumentType = null;
+            PropertyInfo returnValueProperty = null;
             GenericTypeParameterBuilder[] genericParameters = null;
             var methodAttr = MethodAttributes.Private | MethodAttributes.FamANDAssem | MethodAttributes.Static | MethodAttributes.HideBySig;
             var methodBuilder = typeBuilder.DefineMethod("Map", methodAttr, CallingConventions.Standard);
@@ -64,6 +65,7 @@ namespace NCop.Aspects.Weaving
             argumentType = genericTypeArgumentType.MakeGenericType(genericParameters);
             methodBuilder.SetParameters(new Type[] { argumentType, argumentType });
             ilGenerator = methodBuilder.GetILGenerator();
+            methodProperty = genericTypeArgumentType.GetProperty("Method");
 
             Enumerable.Range(1, numberOfArgs).ForEach(j => {
                 var propertyInfo = genericTypeArgumentType.GetProperty("Arg{0}".Fmt(j));
@@ -73,6 +75,11 @@ namespace NCop.Aspects.Weaving
                 ilGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(argumentType, propertyInfo.GetGetMethod()));
                 ilGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(argumentType, propertyInfo.GetSetMethod()));
             });
+
+            ilGenerator.Emit(OpCodes.Ldarg_1);
+            ilGenerator.Emit(OpCodes.Ldarg_0);
+            ilGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(argumentType, methodProperty.GetGetMethod()));
+            ilGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(argumentType, methodProperty.GetSetMethod()));
 
             if (hasReturnType) {
                 ilGenerator.Emit(OpCodes.Ldarg_1);

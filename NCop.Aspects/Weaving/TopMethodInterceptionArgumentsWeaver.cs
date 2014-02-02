@@ -37,13 +37,11 @@ namespace NCop.Aspects.Weaving
             ilGenerator.Emit(OpCodes.Ldvirtftn, WeavingSettings.MethodInfoImpl);
             ilGenerator.Emit(OpCodes.Newobj, delegateCtor);
             ilGenerator.EmitStoreLocal(delegateLocalBuilder);
-            ilGenerator.Emit(OpCodes.Ldsfld, BindingsDependency);
-            ilGenerator.EmitStoreLocal(bindingLocalBuilder);
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
             ilGenerator.EmitLoadLocal(delegateLocalBuilder);
             ilGenerator.Emit(OpCodes.Callvirt, delegateGetMethodMethodInfo);
-            ilGenerator.EmitLoadLocal(bindingLocalBuilder);
+            ilGenerator.Emit(OpCodes.Ldsfld, BindingsDependency);
 
             parameters.ForEach(1, (parameter, i) => {
                 ilGenerator.EmitLoadArg(i);

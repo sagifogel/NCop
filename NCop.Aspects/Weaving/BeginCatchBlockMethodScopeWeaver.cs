@@ -52,7 +52,6 @@ namespace NCop.Aspects.Weaving
 			ilGenerator.EmitLoadLocal(argsImplLocalBuilder);
 			ilGenerator.Emit(OpCodes.Callvirt, onExceptionMethodInfo);
 			ilGenerator.EmitLoadLocal(argsImplLocalBuilder);
-			
 			ilGenerator.Emit(OpCodes.Callvirt, flowBehaviorMethodInfo);
 			ilGenerator.EmitStoreLocal(flowBehavoiurLocalBuilder); 
 			ilGenerator.EmitLoadLocal(flowBehavoiurLocalBuilder); 
