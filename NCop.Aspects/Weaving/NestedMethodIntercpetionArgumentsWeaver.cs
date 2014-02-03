@@ -1,9 +1,8 @@
-﻿using System.Reflection.Emit;
-using NCop.Core.Extensions;
+﻿using NCop.Core.Extensions;
 using NCop.Weaving.Extensions;
 using System;
 using System.Linq;
-using NCop.Aspects.Extensions;
+using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
@@ -23,18 +22,18 @@ namespace NCop.Aspects.Weaving
             var argsLocalBuilder = LocalBuilderRepository.Get(previousAspectArgType);
             var delegateType = Parameters.GetDelegateType(IsFunction);
             var delegateLocalBuilder = LocalBuilderRepository.Get(delegateType);
-            var delegateGetMethodMethodInfo = typeof(Delegate).GetProperty("Method").GetGetMethod();
+            var methodPropoertyInfo = previousAspectArgType.GetProperty("Method");
             
             LocalBuilderRepository.Add(declaredLocalBuilder);
             contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
-            ilGenerator.EmitLoadLocal(delegateLocalBuilder);
-            ilGenerator.Emit(OpCodes.Callvirt, delegateGetMethodMethodInfo);
+            ilGenerator.EmitLoadLocal(argsLocalBuilder);
+            ilGenerator.Emit(OpCodes.Callvirt, methodPropoertyInfo.GetGetMethod());
             ilGenerator.Emit(OpCodes.Ldsfld, BindingsDependency);
 
             Parameters.ForEach(1, (parameter, i) => {
-                var property = ArgumentType.GetProperty("Arg{0}".Fmt(i));
+                var property = previousAspectArgType.GetProperty("Arg{0}".Fmt(i));
 
                 ilGenerator.EmitLoadLocal(argsLocalBuilder);
                 ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());

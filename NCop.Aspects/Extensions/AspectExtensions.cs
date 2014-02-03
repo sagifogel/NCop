@@ -135,11 +135,5 @@ namespace NCop.Aspects.Extensions
 
             return methodParameters;
         }
-
-        internal static Type GetDelegateType(this Type[] parameters, bool isFunction) {
-            var delegateFactory = isFunction ? Expression.GetFuncType : (Func<Type[], Type>)Expression.GetActionType;
-
-            return delegateFactory(parameters);
-        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using NCop.Aspects.Extensions;
-using NCop.Core.Extensions;
+﻿using NCop.Core.Extensions;
 using NCop.Weaving;
 using NCop.Weaving.Extensions;
 using System;
@@ -40,7 +39,7 @@ namespace NCop.Aspects.Weaving
             ilGenerator.EmitLoadLocal(delegateLocalBuilder);
             ilGenerator.Emit(OpCodes.Callvirt, delegateGetMethodMethodInfo);
             aspectArgLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
-            ctorInterceptionArgs = aspectArgLocalBuilder.LocalType.GetConstructors().First();
+            ctorInterceptionArgs = ArgumentType.GetConstructors().First();
 
             parameters.ForEach(1, (parameter, i) => {
                 ilGenerator.EmitLoadArg(i);

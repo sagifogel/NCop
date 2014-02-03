@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using CSharpBinder = Microsoft.CSharp.RuntimeBinder;
 
 namespace NCop.Core.Extensions
 {
@@ -197,6 +194,12 @@ namespace NCop.Core.Extensions
 
         public static bool Is<TCompareTo>(this object @object) {
             return typeof(TCompareTo).IsAssignableFrom(@object.GetType());
+        }
+        
+        public static Type GetDelegateType(this Type[] parameters, bool isFunction) {
+            var delegateFactory = isFunction ? Expression.GetFuncType : (Func<Type[], Type>)Expression.GetActionType;
+
+            return delegateFactory(parameters);
         }
     }
 }

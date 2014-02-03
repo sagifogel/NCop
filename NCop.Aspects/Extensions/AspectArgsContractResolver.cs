@@ -52,6 +52,14 @@ namespace NCop.Aspects.Extensions
 		
 		internal static Type ToActionAspectArgument(this Type[] typeArguments) {
 			return actionArgsMap[typeArguments.Length].MakeGenericType(typeArguments);
+		}
+		
+		internal static Type ToAspectArgument(this Type[] typeArguments, bool isFunction) {
+			if (isFunction) {
+				return typeArguments.ToFunctionAspectArgument();
+			}
+
+			return typeArguments.ToActionAspectArgument();
 		}	
 	}
 }
