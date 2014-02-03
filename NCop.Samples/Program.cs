@@ -37,7 +37,7 @@ namespace NCop.Samples
         }
     }
 
-    public sealed class MethodInterceptionBindingWeaver : IActionBinding<CSharpDeveloperMixin, string>
+	public sealed class MethodInterceptionBindingWeaver : IActionBinding<IDeveloper<CSharpLanguage5>, string>
     {
         public static MethodInterceptionBindingWeaver singleton = null;
 
@@ -48,9 +48,9 @@ namespace NCop.Samples
         private MethodInterceptionBindingWeaver() {
         }
 
-        public void Invoke(ref CSharpDeveloperMixin instance, IActionArgs<string> args) {
+		public void Invoke(ref IDeveloper<CSharpLanguage5> instance, IActionArgs<string> args) {
             //var binding = MethodDecoratorFunctionBinding.singleton;
-            var aspectArgs = new ActionExecutionArgsImpl<CSharpDeveloperMixin, string>(instance, args.Method, args.Arg1);
+			var aspectArgs = new ActionExecutionArgsImpl<IDeveloper<CSharpLanguage5>, string>(instance, args.Method, args.Arg1);
             Aspects.traceAspect3.OnEntry(aspectArgs);
             instance.Code(args.Arg1);
             //Aspects.traceAspect3.OnSuccess(aspectArgs);
@@ -142,7 +142,7 @@ namespace NCop.Samples
 
     public class Person : IPersonComposite
     {
-        private CSharpDeveloperMixin developer = null;
+        private IDeveloper<CSharpLanguage5> developer = null;
 
         public Person() {
             developer = new CSharpDeveloperMixin();
@@ -152,7 +152,7 @@ namespace NCop.Samples
             Action<string> code = developer.Code;
             //var aspectArgs = new ActionExecutionArgsImpl<CSharpDeveloperMixin, string>(developer, code.Method, sagi);
             //Aspects.traceAspect3.OnEntry(aspectArgs);
-            var interArgs = new ActionInterceptionArgsImpl<CSharpDeveloperMixin, string>(developer, code.Method, MethodInterceptionBindingWeaver.singleton, sagi);
+			var interArgs = new ActionInterceptionArgsImpl<IDeveloper<CSharpLanguage5>, string>(developer, code.Method, MethodInterceptionBindingWeaver.singleton, sagi);
             Aspects.traceAspect.OnInvoke(interArgs);
             //FunctionArgsMapper.Map<string>(interArgs, aspectArgs);
             //try {
@@ -200,15 +200,11 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 2)]
-        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 3)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 4)]
-        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 5)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 6)]
-        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
-        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
-        new void Code(string s);
+		//[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 21)]
+		//[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 21)]
+		[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
+		[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
+         new void Code(string s);
 
     }
 

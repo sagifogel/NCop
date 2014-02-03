@@ -19,11 +19,11 @@ namespace NCop.Aspects.Engine
                     var methodInterceptionAspects = member.GetCustomAttributes<MethodInterceptionAspectAttribute>();
 
                     var onMethodBoundaryAspectDefinitions = onMethodBoundaryAspects.Select(aspect => {
-                        return new OnMethodBoundaryAspectDefinition(aspect, aspectDeclaringType, member);
+						return new OnMethodBoundaryAspectDefinition(aspect, aspectDeclaringType, aspectMembers.Target);
                     });
 
                     var methodInterceptionAspectDefinitions = methodInterceptionAspects.Select(aspect => {
-                        return new MethodInterceptionAspectDefinition(aspect, aspectDeclaringType, member);
+						return new MethodInterceptionAspectDefinition(aspect, aspectDeclaringType, aspectMembers.Target);
                     });
 
                     return methodInterceptionAspectDefinitions.Cast<IAspectDefinition>()
