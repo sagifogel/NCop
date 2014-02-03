@@ -1,4 +1,5 @@
-﻿using NCop.Core.Extensions;
+﻿using NCop.Aspects.Extensions;
+using NCop.Core.Extensions;
 using NCop.Weaving.Extensions;
 using System;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace NCop.Aspects.Weaving
         }
 
         public void Weave(ILGenerator ilGenerator) {
+            Type aspectArgsType = null;
+            Type[] actualParameters = null;
             Type[] argumentTypes = argumentWeavingSettings.ArgumentType.GetGenericArguments();
             Type[] @params = new Type[argumentTypes.Length - 1];
 
@@ -28,8 +31,10 @@ namespace NCop.Aspects.Weaving
 
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);
+            actualParameters = @params.Skip(1).ToArray();
+            aspectArgsType = actualParameters.ToAspectArgument(argumentWeavingSettings.IsFunction);
 
-            @params.Skip(1).ForEach(1, (parameter, i) => {
+            actualParameters.ForEach(1, (parameter, i) => {
                 var property = argumentWeavingSettings.ArgumentType.GetProperty("Arg{0}".Fmt(i));
 
                 ilGenerator.EmitLoadArg(2);

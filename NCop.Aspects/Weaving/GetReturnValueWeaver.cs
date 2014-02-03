@@ -1,5 +1,9 @@
-﻿using NCop.Weaving;
+﻿using NCop.Aspects.Extensions;
+using NCop.Core.Extensions;
+using NCop.Weaving;
 using NCop.Weaving.Extensions;
+using System;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -20,11 +24,13 @@ namespace NCop.Aspects.Weaving
         public ILGenerator Weave(ILGenerator ilGenerator) {
             MethodInfo returnValueGetMethod = null;
             LocalBuilder argsImplLocalBuilder = null;
+            var isFunction = argumentsWeavingSetings.IsFunction;
             var argumentType = argumentsWeavingSetings.ArgumentType;
+            var aspectArgsType = argumentsWeavingSetings.Parameters.ToAspectArgument(isFunction);
 
             argsImplLocalBuilder = localBuilderRepository.Get(argumentType);
             ilGenerator.EmitLoadLocal(argsImplLocalBuilder);
-            returnValueGetMethod = argumentType.GetProperty("ReturnValue").GetGetMethod();
+            returnValueGetMethod = aspectArgsType.GetProperty("ReturnValue").GetGetMethod();
             ilGenerator.Emit(OpCodes.Callvirt, returnValueGetMethod);
 
             return ilGenerator;

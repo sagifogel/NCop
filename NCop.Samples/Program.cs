@@ -147,9 +147,9 @@ namespace NCop.Samples
 
         public void Code(string sagi) {
             Action<string> code = developer.Code;
-            //var aspectArgs = new ActionExecutionArgsImpl<CSharpDeveloperMixin, string>(developer, code.Method, sagi);
-            //Aspects.traceAspect3.OnEntry(aspectArgs);
-			var interArgs = new ActionInterceptionArgsImpl<CSharpDeveloperMixin, string>(developer, code.Method, MethodInterceptionBindingWeaver.singleton, sagi);
+            var aspectArgs = new ActionExecutionArgsImpl<CSharpDeveloperMixin, string>(developer, code.Method, sagi);
+            Aspects.traceAspect3.OnEntry(aspectArgs);
+            var interArgs = new ActionInterceptionArgsImpl<CSharpDeveloperMixin, string>(developer, aspectArgs.Method, MethodDecoratorFunctionBinding.singleton, aspectArgs.Arg1);
             Aspects.traceAspect.OnInvoke(interArgs);
             //FunctionArgsMapper.Map<string>(interArgs, aspectArgs);
             //try {
@@ -174,9 +174,9 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
+        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 4)]
         [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 2)]
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 3)]
+        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 3)]
         new void Code(string s);
 
     }

@@ -35,11 +35,14 @@ namespace NCop.Aspects.Weaving
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
+            var isFunction = argumentsWeavingSetings.IsFunction;
+            var aspectArgsType = argumentsWeavingSetings.Parameters.ToAspectArgument(isFunction);
+
             argumentsWeaver.Weave(ilGenerator);
             weaver.Weave(ilGenerator);
 
             if (argumentsWeavingSetings.IsFunction) {
-                var returnValueProperty = ArgumentType.GetProperty("ReturnValue");
+                var returnValueProperty = aspectArgsType.GetProperty("ReturnValue");
 
                 ilGenerator.EmitLoadArg(2);
                 ilGenerator.Emit(OpCodes.Callvirt, returnValueProperty.GetGetMethod());

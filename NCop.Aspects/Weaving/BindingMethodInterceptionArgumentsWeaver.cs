@@ -34,7 +34,7 @@ namespace NCop.Aspects.Weaving
             ilGenerator.Emit(OpCodes.Ldsfld, bindingsDependency);
 
             Parameters.ForEach(1, (parameter, i) => {
-                var property = ArgumentType.GetProperty("Arg{0}".Fmt(i));
+                var property = aspectArgsType.GetProperty("Arg{0}".Fmt(i));
 
                 ilGenerator.EmitLoadArg(2);
                 ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());
