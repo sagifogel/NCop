@@ -108,22 +108,6 @@
     <Compile Include="Engine\IActionArgs`7.cs" />
     <Compile Include="Engine\IActionArgs`8.cs" />
     <Compile Include="Engine\IActionArgs.cs" />
-    <Compile Include="Engine\IFunctionInterceptionArgs`1.cs" />
-    <Compile Include="Engine\IFunctionInterceptionArgs`2.cs" />
-    <Compile Include="Engine\IActionInterceptionArgs`1.cs" />
-    <Compile Include="Engine\IActionInterceptionArgs`2.cs" />
-    <Compile Include="Engine\IFunctionInterceptionArgs`3.cs" />
-    <Compile Include="Engine\IActionInterceptionArgs`3.cs" />
-    <Compile Include="Engine\IFunctionInterceptionArgs`4.cs" />
-    <Compile Include="Engine\IActionInterceptionArgs`4.cs" />
-    <Compile Include="Engine\IFunctionInterceptionArgs`5.cs" />
-    <Compile Include="Engine\IActionInterceptionArgs`5.cs" />
-    <Compile Include="Engine\IFunctionInterceptionArgs`6.cs" />
-    <Compile Include="Engine\IActionInterceptionArgs`6.cs" />
-    <Compile Include="Engine\IFunctionInterceptionArgs`7.cs" />
-    <Compile Include="Engine\IActionInterceptionArgs`7.cs" />
-    <Compile Include="Engine\IFunctionInterceptionArgs`8.cs" />
-    <Compile Include="Engine\IActionInterceptionArgs`8.cs" />
     <Compile Include="Engine\LazyInvocationFactroy.cs" />
     <Compile Include="Exceptions\AspectWeavingException.cs">
       <AutoGen>True</AutoGen>
@@ -152,9 +136,9 @@
     <Compile Include="Engine\IFunctionArgs`6.cs" />
     <Compile Include="Engine\IFunctionArgs`1.cs" />
     <Compile Include="Engine\IFunctionArgs`7.cs" />
-    <Compile Include="Framework\IActionInterceptionArgs.cs" />
+    <Compile Include="Engine\IActionInterceptionArgs.cs" />
     <Compile Include="Engine\IFunctionArgs`8.cs" />
-    <Compile Include="Framework\IFunctionInterceptionArgs.cs" />
+    <Compile Include="Engine\IFunctionInterceptionArgs.cs" />
     <Compile Include="Weaving\AbstractArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractTopAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodInterceptionBindingWeaver.cs" />
@@ -334,9 +318,9 @@
     <Compile Include="Framework\FunctionIntercaptionArgs`8.cs" />
     <Compile Include="Framework\GenericActionExecutionArgs.cs" />
     <Compile Include="Framework\GenericFunctionExecutionArgs.cs" />
-    <Compile Include="Framework\IActionExecutionArgs.cs" />
+    <Compile Include="Engine\IActionExecutionArgs.cs" />
     <Compile Include="Engine\IAdviceArgs.cs" />
-    <Compile Include="Framework\IFunctionExecutionArgs.cs" />
+    <Compile Include="Engine\IFunctionExecutionArgs.cs" />
     <Compile Include="Framework\IMethodExecutionArgs.cs" />
     <Compile Include="Engine\InterceptionArgs.cs" />
     <Compile Include="Engine\AbstractExecutionArgs.cs" />

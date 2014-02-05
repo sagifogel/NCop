@@ -7,7 +7,7 @@ using System.Text;
 
 namespace NCop.Aspects.Engine
 {
-    public class FunctionInterceptionArgsImpl<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> : FunctionInterceptionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>
+    public class FunctionInterceptionArgsImpl<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> : FunctionInterceptionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>
     {
         private TInstance instance = default(TInstance);
         private IFunctionBinding<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> funcBinding = null;
@@ -29,7 +29,7 @@ namespace NCop.Aspects.Engine
             ReturnValue = funcBinding.Invoke(ref instance, this);
         }
 
-        public override TResult Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7) {
+        public override TResult Invoke() {
             throw new NotImplementedException();
         }
     }

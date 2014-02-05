@@ -21,5 +21,9 @@ namespace NCop.Aspects.Engine
         public override void Proceed() {
             ReturnValue = funcBinding.Invoke(ref instance, this);
         }
+
+        public override TResult Invoke() {
+            throw new NotImplementedException();
+        }
     }
 }

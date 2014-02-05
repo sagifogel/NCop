@@ -6,8 +6,9 @@ using System.Text;
 
 namespace NCop.Aspects.Framework
 {
-	public abstract class FunctionInterceptionArgs<TResult> : InterceptionArgs, IFunctionInterceptionArgs
+	public abstract class FunctionInterceptionArgs<TResult> : InterceptionArgs, IFunctionArgs
 	{
-		public TResult ReturnValue { get; set; }
+        public abstract TResult Invoke();
+        public TResult ReturnValue { get; set; }
 	}
 }

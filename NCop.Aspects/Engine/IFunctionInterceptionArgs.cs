@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NCop.Aspects.Framework
+namespace NCop.Aspects.Engine
 {
-    public interface IFunctionExecutionArgs : IMethodExecutionArgs
+	public interface IFunctionArgs
 	{
 	}
 }

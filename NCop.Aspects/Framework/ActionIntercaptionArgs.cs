@@ -8,5 +8,6 @@ namespace NCop.Aspects.Framework
 {
 	public abstract class ActionInterceptionArgs : InterceptionArgs, IActionInterceptionArgs
 	{
+        public abstract void Invoke();
 	}
 }
