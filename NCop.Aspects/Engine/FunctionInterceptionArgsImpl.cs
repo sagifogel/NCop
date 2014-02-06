@@ -7,23 +7,23 @@ using System.Text;
 
 namespace NCop.Aspects.Engine
 {
-    public class FunctionInterceptionArgsImpl<TInstance, TResult> : FunctionInterceptionArgs<TResult>, IFunctionArgs<TResult>
+	public class FunctionInterceptionArgsImpl<TInstance, TResult> : FunctionInterceptionArgs<TResult>, IFunctionArgs<TResult>
 	{
-        private TInstance instance = default(TInstance);
-        private readonly IFunctionBinding<TInstance, TResult> funcBinding = null;
+		private TInstance instance = default(TInstance);
+		private readonly IFunctionBinding<TInstance, TResult> funcBinding = null;
 
-        public FunctionInterceptionArgsImpl(TInstance instance, MethodInfo method, IFunctionBinding<TInstance, TResult> funcBinding) {
-            Method = method;
-            this.funcBinding = funcBinding;
-            Instance = this.instance = instance;
-        }
+		public FunctionInterceptionArgsImpl(TInstance instance, MethodInfo method, IFunctionBinding<TInstance, TResult> funcBinding) {
+			Method = method;
+			this.funcBinding = funcBinding;
+			Instance = this.instance = instance;
+		}
 
-        public override void Proceed() {
-            ReturnValue = funcBinding.Invoke(ref instance, this);
-        }
+		public override void Proceed() {
+			ReturnValue = funcBinding.Invoke(ref instance, this);
+		}
 
-        public override TResult Invoke() {
-            throw new NotImplementedException();
-        }
-    }
+		public override TResult Invoke() {
+			throw new NotImplementedException();
+		}
+	}
 }

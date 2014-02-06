@@ -6,8 +6,17 @@ using System.Text;
 
 namespace NCop.Aspects.Framework
 {
-    public abstract class FunctionInterceptionArgs<TArg1, TArg2, TResult> : FunctionInterceptionArgs<TArg1, TResult>
-    {
-        public TArg2 Arg2 { get; set; }
-    }
+	public abstract class FunctionInterceptionArgs<TArg1, TArg2, TResult> : FunctionInterceptionArgs<TArg1, TResult>
+	{
+		protected TArg2 arg2;
+
+		public TArg2 Arg2 {
+			get {
+				return arg2;
+			}
+			set {
+				arg2 = value;
+			}
+		}
+	}
 }
