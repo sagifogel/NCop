@@ -37,5 +37,12 @@ namespace NCop.Aspects.Weaving
 
             return localBuilder;
         }
+
+        public LocalBuilder Declare(Func<LocalBuilder> localBuilderFactory) {
+            var localBuilder = localBuilderFactory();
+            localBuilderMap.Add(localBuilder.LocalType, localBuilder);
+
+            return localBuilder;
+        }
     }
 }

@@ -42,6 +42,7 @@ namespace NCop.Aspects.Weaving
 
 			WeaveConstructors(typeBuilder);
 			WeaveInvokeMethod();
+            WeaveProceedMethod();
 			bindingMethodType = typeBuilder.CreateType();
 			
 			return WeavedType = bindingMethodType.GetField(fieldBuilder.Name, BindingFlags.NonPublic | BindingFlags.Static);
@@ -68,9 +69,9 @@ namespace NCop.Aspects.Weaving
 			defaultCtorGenerator.Emit(OpCodes.Call, bindingTypeCtor);
 			defaultCtorGenerator.Emit(OpCodes.Ret);
 
-			cctorILGenerator.Emit(OpCodes.Newobj, defaultCtor);
-			cctorILGenerator.Emit(OpCodes.Stsfld, fieldBuilder);
-			cctorILGenerator.Emit(OpCodes.Ret);
+            cctorILGenerator.Emit(OpCodes.Newobj, defaultCtor);
+            cctorILGenerator.Emit(OpCodes.Stsfld, fieldBuilder);
+            cctorILGenerator.Emit(OpCodes.Ret);
 		}
 
 		protected virtual MethodParameters ResolveParameterTypes() {
@@ -85,6 +86,17 @@ namespace NCop.Aspects.Weaving
             methodBuilder = typeBuilder.DefineMethod("Invoke", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
             ilGenerator = methodBuilder.GetILGenerator();
             methodScopeWeaver.Weave(ilGenerator);
+            ilGenerator.Emit(OpCodes.Ret);
+        }
+
+        protected virtual void WeaveProceedMethod() {
+            ILGenerator ilGenerator = null;
+            MethodBuilder methodBuilder = null;
+            var methodParameters = ResolveParameterTypes();
+
+            methodBuilder = typeBuilder.DefineMethod("Proceed", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
+            ilGenerator = methodBuilder.GetILGenerator();
+            //methodScopeWeaver.Weave(ilGenerator);
             ilGenerator.Emit(OpCodes.Ret);
         }
 	}

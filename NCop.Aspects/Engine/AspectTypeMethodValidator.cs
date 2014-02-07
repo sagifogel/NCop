@@ -31,7 +31,7 @@ namespace NCop.Aspects.Engine
 
             if (aspect.Is<OnMethodBoundaryAspectAttribute>() && !typeof(IOnMethodBoundaryAspect).IsAssignableFrom(aspect.AspectType)) {
                 var argumentException = new ArgumentException(Resources.OnMethodBoundaryAspectAttributeErrorInitialization, "aspectType");
-                
+
                 throw new AspectAnnotationException(argumentException);
             }
 
@@ -92,7 +92,13 @@ namespace NCop.Aspects.Engine
         private static bool ValidateParameters(ParameterInfo[] methodParameters, Type[] comparedTypes) {
             return methodParameters.Length == comparedTypes.Length &&
                    methodParameters.All((p, i) => {
-                       return p.ParameterType.Equals(comparedTypes[i]);
+                       var parameterType = p.ParameterType;
+
+                       if (parameterType.IsByRef) {
+                           parameterType = parameterType.GetElementType();
+                       }
+
+                       return parameterType.Equals(comparedTypes[i]);
                    });
         }
 

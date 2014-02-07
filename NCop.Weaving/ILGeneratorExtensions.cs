@@ -51,204 +51,204 @@ namespace NCop.Weaving.Extensions
             }
         }
 
-        public static void EmitLoadLocal(this ILGenerator ILGenerator, LocalBuilder localBuilder, bool considerType = false) {
+        public static void EmitLoadLocal(this ILGenerator iLGenerator, LocalBuilder localBuilder, bool considerType = false) {
             bool isReferenceType = considerType ? !localBuilder.LocalType.IsValueType : false;
 
             if (localBuilder.LocalIndex <= 255) {
                 if (!isReferenceType) {
-                    ILGenerator.EmitLoadLocalShortForm(localBuilder);
+                    iLGenerator.EmitLoadLocalShortForm(localBuilder);
                 }
                 else {
-                    ILGenerator.Emit(OpCodes.Ldloca_S, localBuilder);
+                    iLGenerator.Emit(OpCodes.Ldloca_S, localBuilder);
                 }
             }
             else {
-                ILGenerator.Emit(isReferenceType ? OpCodes.Ldloca : OpCodes.Ldloc, localBuilder);
+                iLGenerator.Emit(isReferenceType ? OpCodes.Ldloca : OpCodes.Ldloc, localBuilder);
             }
         }
 
-        public static void EmitStoreArgument(this ILGenerator ILGenerator, int index) {
-            ILGenerator.Emit(index > 255 ? OpCodes.Starg : OpCodes.Starg_S, index);
+        public static void EmitStoreArgument(this ILGenerator iLGenerator, int index) {
+            iLGenerator.Emit(index > 255 ? OpCodes.Starg : OpCodes.Starg_S, index);
         }
 
-        public static void EmitStoreLocal(this ILGenerator ILGenerator, LocalBuilder localBuilder) {
+        public static void EmitStoreLocal(this ILGenerator iLGenerator, LocalBuilder localBuilder) {
             if (localBuilder.LocalIndex <= 255) {
-                ILGenerator.EmitStoreLocalShortTerm(localBuilder);
+                iLGenerator.EmitStoreLocalShortTerm(localBuilder);
             }
             else {
-                ILGenerator.Emit(OpCodes.Stloc, localBuilder);
+                iLGenerator.Emit(OpCodes.Stloc, localBuilder);
             }
         }
 
-        private static void EmitStoreLocalShortTerm(this ILGenerator ILGenerator, LocalBuilder localBuilder) {
+        private static void EmitStoreLocalShortTerm(this ILGenerator iLGenerator, LocalBuilder localBuilder) {
             switch (localBuilder.LocalIndex) {
                 case 0:
 
-                    ILGenerator.Emit(OpCodes.Stloc_0);
+                    iLGenerator.Emit(OpCodes.Stloc_0);
                     break;
 
                 case 1:
 
-                    ILGenerator.Emit(OpCodes.Stloc_1);
+                    iLGenerator.Emit(OpCodes.Stloc_1);
                     break;
 
                 case 2:
 
-                    ILGenerator.Emit(OpCodes.Stloc_2);
+                    iLGenerator.Emit(OpCodes.Stloc_2);
                     break;
 
                 case 3:
 
-                    ILGenerator.Emit(OpCodes.Stloc_3);
+                    iLGenerator.Emit(OpCodes.Stloc_3);
                     break;
 
                 default:
 
-                    ILGenerator.Emit(OpCodes.Stloc_S, localBuilder);
+                    iLGenerator.Emit(OpCodes.Stloc_S, localBuilder);
                     break;
             }
         }
 
-        public static void EmitPushInteger(this ILGenerator ILGenerator, int value) {
+        public static void EmitPushInteger(this ILGenerator iLGenerator, int value) {
             if (value >= -128 && value <= 127) {
-                ILGenerator.EmitPushIntegerShortTerm(value);
+                iLGenerator.EmitPushIntegerShortTerm(value);
             }
             else {
-                ILGenerator.Emit(OpCodes.Ldc_I4, value);
+                iLGenerator.Emit(OpCodes.Ldc_I4, value);
             }
         }
 
-        private static void EmitPushIntegerShortTerm(this ILGenerator ILGenerator, int value) {
+        private static void EmitPushIntegerShortTerm(this ILGenerator iLGenerator, int value) {
             switch (value) {
                 case -1:
 
-                    ILGenerator.Emit(OpCodes.Ldc_I4_M1);
+                    iLGenerator.Emit(OpCodes.Ldc_I4_M1);
                     break;
 
                 case 0:
 
-                    ILGenerator.Emit(OpCodes.Ldc_I4_0);
+                    iLGenerator.Emit(OpCodes.Ldc_I4_0);
                     break;
 
                 case 1:
 
-                    ILGenerator.Emit(OpCodes.Ldc_I4_1);
+                    iLGenerator.Emit(OpCodes.Ldc_I4_1);
                     break;
 
                 case 2:
 
-                    ILGenerator.Emit(OpCodes.Ldc_I4_2);
+                    iLGenerator.Emit(OpCodes.Ldc_I4_2);
                     break;
 
                 case 3:
 
-                    ILGenerator.Emit(OpCodes.Ldc_I4_3);
+                    iLGenerator.Emit(OpCodes.Ldc_I4_3);
                     break;
 
                 case 4:
 
-                    ILGenerator.Emit(OpCodes.Ldc_I4_4);
+                    iLGenerator.Emit(OpCodes.Ldc_I4_4);
                     break;
 
                 case 5:
 
-                    ILGenerator.Emit(OpCodes.Ldc_I4_5);
+                    iLGenerator.Emit(OpCodes.Ldc_I4_5);
                     break;
 
                 case 6:
 
-                    ILGenerator.Emit(OpCodes.Ldc_I4_6);
+                    iLGenerator.Emit(OpCodes.Ldc_I4_6);
                     break;
 
                 case 8:
 
-                    ILGenerator.Emit(OpCodes.Ldc_I4_8);
+                    iLGenerator.Emit(OpCodes.Ldc_I4_8);
                     break;
 
                 default:
 
-                    ILGenerator.Emit(OpCodes.Ldc_I4_S, (byte)value);
+                    iLGenerator.Emit(OpCodes.Ldc_I4_S, (byte)value);
                     break;
             }
         }
 
-        public static void EmitConversion(this ILGenerator ILGenerator, Type to, Type from) {
+        public static void EmitConversion(this ILGenerator iLGenerator, Type to, Type from) {
             switch (Type.GetTypeCode(to)) {
                 case TypeCode.Decimal:
 
-                    ILGenerator.Emit(OpCodes.Box, typeof(decimal));
+                    iLGenerator.Emit(OpCodes.Box, typeof(decimal));
                     break;
 
                 case TypeCode.Int32:
 
-                    ILGenerator.Emit(OpCodes.Conv_I4);
+                    iLGenerator.Emit(OpCodes.Conv_I4);
                     break;
 
                 case TypeCode.UInt32:
 
-                    ILGenerator.Emit(OpCodes.Conv_U4);
+                    iLGenerator.Emit(OpCodes.Conv_U4);
                     break;
 
                 case TypeCode.Int64:
 
-                    ILGenerator.Emit(OpCodes.Conv_I8);
+                    iLGenerator.Emit(OpCodes.Conv_I8);
                     break;
 
                 case TypeCode.UInt64:
 
-                    ILGenerator.Emit(OpCodes.Conv_U8);
+                    iLGenerator.Emit(OpCodes.Conv_U8);
                     break;
 
                 case TypeCode.Single:
 
                     if (from.IsUnsigned()) {
-                        ILGenerator.Emit(OpCodes.Conv_R_Un);
+                        iLGenerator.Emit(OpCodes.Conv_R_Un);
                     }
 
-                    ILGenerator.Emit(OpCodes.Conv_R4);
+                    iLGenerator.Emit(OpCodes.Conv_R4);
                     break;
 
                 case TypeCode.Double:
 
                     if (from.IsUnsigned()) {
-                        ILGenerator.Emit(OpCodes.Conv_R_Un);
+                        iLGenerator.Emit(OpCodes.Conv_R_Un);
                     }
 
-                    ILGenerator.Emit(OpCodes.Conv_R8);
+                    iLGenerator.Emit(OpCodes.Conv_R8);
                     return;
             }
         }
 
-        private static void EmitLoadLocalShortForm(this ILGenerator ILGenerator, LocalBuilder localBuilder) {
+        private static void EmitLoadLocalShortForm(this ILGenerator iLGenerator, LocalBuilder localBuilder) {
             switch (localBuilder.LocalIndex) {
                 case 0:
 
-                    ILGenerator.Emit(OpCodes.Ldloc_0);
+                    iLGenerator.Emit(OpCodes.Ldloc_0);
                     break;
 
                 case 1:
 
-                    ILGenerator.Emit(OpCodes.Ldloc_1);
+                    iLGenerator.Emit(OpCodes.Ldloc_1);
                     break;
 
                 case 2:
 
-                    ILGenerator.Emit(OpCodes.Ldloc_2);
+                    iLGenerator.Emit(OpCodes.Ldloc_2);
                     break;
 
                 case 3:
 
-                    ILGenerator.Emit(OpCodes.Ldloc_3);
+                    iLGenerator.Emit(OpCodes.Ldloc_3);
                     break;
 
                 default:
 
-                    ILGenerator.Emit(OpCodes.Ldloc_S, localBuilder);
+                    iLGenerator.Emit(OpCodes.Ldloc_S, localBuilder);
                     break;
             }
         }
 
-        public static void EmitPrimitiveByTypeCode(this ILGenerator ILGenerator, object value, TypeCode typeCode) {
+        public static void EmitPrimitiveByTypeCode(this ILGenerator iLGenerator, object value, TypeCode typeCode) {
             switch (typeCode) {
                 case TypeCode.Byte:
                 case TypeCode.Int16:
@@ -259,85 +259,85 @@ namespace NCop.Weaving.Extensions
                 case TypeCode.Char: {
                         int operand = Convert.ToInt32(value);
 
-                        ILGenerator.EmitPushInteger(operand);
+                        iLGenerator.EmitPushInteger(operand);
                         break;
                     }
                 case TypeCode.Double: {
                         double operand = Convert.ToDouble(value);
 
-                        ILGenerator.Emit(OpCodes.Ldc_R8, operand);
+                        iLGenerator.Emit(OpCodes.Ldc_R8, operand);
                         break;
                     }
                 case TypeCode.Single: {
                         float operand = Convert.ToSingle(value);
 
-                        ILGenerator.Emit(OpCodes.Ldc_R4, operand);
+                        iLGenerator.Emit(OpCodes.Ldc_R4, operand);
                         break;
                     }
                 case TypeCode.String: {
                         string operand = value.ToString();
 
-                        ILGenerator.Emit(OpCodes.Ldstr, operand);
+                        iLGenerator.Emit(OpCodes.Ldstr, operand);
                         break;
                     }
                 case TypeCode.Int64: {
                         long operand = Convert.ToInt64(value);
 
-                        PushIntegerOpCode(ILGenerator, operand);
+                        PushIntegerOpCode(iLGenerator, operand);
                         break;
                     }
                 case TypeCode.UInt64: {
                         ulong operand = Convert.ToUInt64(value);
 
-                        PushIntegerOpCode(ILGenerator, operand);
+                        PushIntegerOpCode(iLGenerator, operand);
                         break;
                     }
                 case TypeCode.Boolean: {
                         bool operand = Convert.ToBoolean(value);
 
-                        ILGenerator.Emit(operand ? OpCodes.Ldc_I4_1 : OpCodes.Ldc_I4_0);
+                        iLGenerator.Emit(operand ? OpCodes.Ldc_I4_1 : OpCodes.Ldc_I4_0);
                         break;
                     }
             }
         }
 
-        public static void EmitLoadElementByType(this ILGenerator ILGenerator, Type type) {
+        public static void EmitLoadElementByType(this ILGenerator iLGenerator, Type type) {
             var typeCode = Type.GetTypeCode(type);
 
             switch (typeCode) {
                 case TypeCode.Byte:
                 case TypeCode.SByte:
                 case TypeCode.Boolean: {
-                        ILGenerator.Emit(OpCodes.Ldelem_I);
+                        iLGenerator.Emit(OpCodes.Ldelem_I);
                         break;
                     }
                 case TypeCode.Int16:
                 case TypeCode.UInt16:
                 case TypeCode.Char: {
-                        ILGenerator.Emit(OpCodes.Ldelem_I2);
+                        iLGenerator.Emit(OpCodes.Ldelem_I2);
                         break;
                     }
                 case TypeCode.Int32:
                 case TypeCode.UInt32: {
-                        ILGenerator.Emit(OpCodes.Ldelem_I4);
+                        iLGenerator.Emit(OpCodes.Ldelem_I4);
                         break;
                     }
                 case TypeCode.Int64:
                 case TypeCode.UInt64: {
-                        ILGenerator.Emit(OpCodes.Ldelem_I8);
+                        iLGenerator.Emit(OpCodes.Ldelem_I8);
                         break;
                     }
                 case TypeCode.Single: {
-                        ILGenerator.Emit(OpCodes.Ldelem_R4);
+                        iLGenerator.Emit(OpCodes.Ldelem_R4);
                         break;
                     }
                 case TypeCode.Double: {
-                        ILGenerator.Emit(OpCodes.Ldelem_R8);
+                        iLGenerator.Emit(OpCodes.Ldelem_R8);
                         break;
                     }
                 case TypeCode.String:
                 case TypeCode.Object: {
-                        ILGenerator.Emit(OpCodes.Ldelem_Ref);
+                        iLGenerator.Emit(OpCodes.Ldelem_Ref);
                         break;
                     }
             }
