@@ -26,7 +26,7 @@ namespace NCop.Aspects.Weaving
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
             argumentsWeaver.Weave(ilGenerator);
-
+            
             return weaver.Weave(ilGenerator);
         }
     }

@@ -23,7 +23,7 @@ namespace NCop.Aspects.Weaving
 			aspectArgsMapperWeaver = new AspectArgsMapperWeaver();
 			aspectAttributeWeaver = new AspectsAttributeWeaver(aspectDefinitions);
 
-			settings = new AspectWeavingSettings {
+			settings = new AspectWeavingSettingsImpl {
                 WeavingSettings = weavingSettings,
 				AspectRepository = aspectAttributeWeaver,
 				AspectArgsMapper = aspectArgsMapperWeaver				

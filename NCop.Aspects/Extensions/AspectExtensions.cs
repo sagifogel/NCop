@@ -81,8 +81,8 @@ namespace NCop.Aspects.Extensions
             };
         }
 
-        internal static AspectWeavingSettings CloneWith(this IAspectWeavingSettings aspectWeavingSettings, Action<AspectWeavingSettings> cloneFunc) {
-            var clonedAspectWeavingSettings = new AspectWeavingSettings {
+        internal static AspectWeavingSettingsImpl CloneWith(this IAspectWeavingSettings aspectWeavingSettings, Action<AspectWeavingSettingsImpl> cloneFunc) {
+            var clonedAspectWeavingSettings = new AspectWeavingSettingsImpl {
                 WeavingSettings = aspectWeavingSettings.WeavingSettings,
                 AspectRepository = aspectWeavingSettings.AspectRepository,
                 AspectArgsMapper = aspectWeavingSettings.AspectArgsMapper,

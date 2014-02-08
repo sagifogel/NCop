@@ -52,11 +52,13 @@
     <Compile Include="AbstractMethodScopeWeaver.cs" />
     <Compile Include="AbstractTypeWeaverBuilder.cs" />
     <Compile Include="AbstractWeaverBuilder.cs" />
+    <Compile Include="DelegateMethodScopeWeaver.cs" />
     <Compile Include="Exceptions\MissingFieldBuilderException.cs">
       <DependentUpon>MissingFieldBuilderException.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Extensions\WeavingExtensions.cs" />
     <Compile Include="IHasWeavingSettings.cs" />
     <Compile Include="IMethodLocalWeaver.cs" />
     <Compile Include="IWeavingSettings.cs" />
@@ -72,7 +74,7 @@
     <Compile Include="PropertyGetDecoratorScopeWeaver.cs" />
     <Compile Include="PropertyGetDecoratorWeaver.cs" />
     <Compile Include="PropertyGetSignatureWeaver.cs" />
-    <Compile Include="ILGeneratorExtensions.cs" />
+    <Compile Include="Extensions\ILGeneratorExtensions.cs" />
     <Compile Include="IPropertyBag.cs" />
     <Compile Include="IPropertyWeaver.cs" />
     <Compile Include="IPropertyWeaverBuilder.cs" />

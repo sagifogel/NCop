@@ -9,16 +9,14 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving
 {
-	internal class AspectWeavingSettings : IAspectWeavingSettings
+	internal class AspectWeavingSettingsImpl : IAspectWeavingSettings
 	{
-		internal static AspectWeavingSettings Empty = new AspectWeavingSettings();
+		internal static AspectWeavingSettingsImpl Empty = new AspectWeavingSettingsImpl();
 
 		public IWeavingSettings WeavingSettings { get; set; }
-
 		public IAspectRepository AspectRepository { get; set; }
-
 		public IAspectArgsMapper AspectArgsMapper { get; set; }
-
-		public ILocalBuilderRepository LocalBuilderRepository { get; set; }
+        public IByRefArgumentsStoreWeaver ByRefArgumentStore { get; set; }
+        public ILocalBuilderRepository LocalBuilderRepository { get; set; }
 	}
 }

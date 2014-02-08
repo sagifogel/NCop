@@ -102,11 +102,11 @@ namespace NCop.Core.Extensions
                          .ToList();
         }
 
-        public static List<TSource> ToList<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, bool> predicate) {
+        public static List<TSource> ToList<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate) {
             return source.Where(predicate).ToList();
         }
 
-        public static TSource[] ToArray<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, bool> predicate) {
+        public static TSource[] ToArray<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate) {
             return source.Where(predicate).ToArray();
         }
 

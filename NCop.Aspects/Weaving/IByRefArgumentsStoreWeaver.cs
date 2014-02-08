@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Weaving
 {
-    interface IByRefArgumentsStoreWeaver
+    public interface IByRefArgumentsStoreWeaver
     {
+        bool Contains(int argPosition);
+        bool ContainsByRefParams { get; }
         void StoreLocalsIfNeeded(ILGenerator ilGenerator);
-        void RestoreLocals(ILGenerator ilGenerator);
+        void RestoreLocalsIfNeeded(ILGenerator ilGenerator);
     }
 }

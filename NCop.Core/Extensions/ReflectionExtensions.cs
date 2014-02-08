@@ -171,7 +171,7 @@ namespace NCop.Core.Extensions
             }
 
             return type.GetTypePublicProperties()
-                       .ToArray<PropertyInfo, PropertyInfo>(t => t.GetIndexParameters().Length == 0);
+                       .ToArray(t => t.GetIndexParameters().Length == 0);
         }
 
         public static PropertyInfo GetPublicProperty(this Type type, string name) {

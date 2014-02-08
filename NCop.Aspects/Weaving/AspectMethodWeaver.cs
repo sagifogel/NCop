@@ -16,7 +16,7 @@ namespace NCop.Aspects.Weaving
 			var aspectExpression = new AspectExpressionTreeBuilder(aspectDefinitions, weavingSettings).Build();
 
 			MethodEndWeaver = new MethodEndWeaver();
-			MethodScopeWeaver = aspectExpression.Reduce(AspectWeavingSettings.Empty);
+			MethodScopeWeaver = aspectExpression.Reduce(AspectWeavingSettingsImpl.Empty);
 			MethodDefintionWeaver = new MethodSignatureWeaver(weavingSettings.TypeDefinition);
 		}
 	}
