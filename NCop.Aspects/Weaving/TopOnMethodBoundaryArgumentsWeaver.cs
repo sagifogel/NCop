@@ -25,14 +25,14 @@ namespace NCop.Aspects.Weaving
                 return ilGenerator.DeclareLocal(typeof(MethodInfo));
             });
 
+            aspectArgLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
             contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
             methodWeaver = new AspectArgsMethodWeaver(methodLocalBuilder, parameters, aspectWeavingSettings);
             methodWeaver.Weave(ilGenerator);
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
             ilGenerator.EmitLoadLocal(methodLocalBuilder);
-            aspectArgLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
-            ctorInterceptionArgs = ArgumentType.GetConstructors().First();
+            ctorInterceptionArgs = ArgumentType.GetConstructors()[0];
 
             parameters.ForEach(1, (parameter, i) => {
                 ilGenerator.EmitLoadArg(i);

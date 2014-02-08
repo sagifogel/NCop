@@ -9,29 +9,17 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class NestedMethodDecoratorArgumentsWeaver : AbstractArgumentsWeaver
+    internal class NestedMethodDecoratorArgumentsWeaver : OptionalByRefParamsMethodDecoratorWeaver
     {
-        private readonly Type previousAspectArgType = null;
-
         internal NestedMethodDecoratorArgumentsWeaver(Type previousAspectArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings)
-            : base(argumentWeavingSettings, aspectWeavingSettings) {
-            this.previousAspectArgType = previousAspectArgType;
+            : base(previousAspectArgType, aspectWeavingSettings, argumentWeavingSettings) {
         }
 
-        public override void Weave(ILGenerator ilGenerator) {
-            var aspectArgsType = Parameters.ToAspectArgument(IsFunction);
-            var argsLocalBuilder = LocalBuilderRepository.Get(previousAspectArgType);
+        protected override void WeaveMethodBody(ILGenerator ilGenerator) {
             var contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
 
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
-
-            Parameters.ForEach(1, (parameter, i) => {
-                var property = aspectArgsType.GetProperty("Arg{0}".Fmt(i));
-
-                ilGenerator.EmitLoadLocal(argsLocalBuilder);
-                ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());
-            });
         }
     }
 }

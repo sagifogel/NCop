@@ -160,21 +160,23 @@ namespace NCop.Samples
         }
 
         public void Code(ref int i, int j, ref int k) {
-            var types = new Type[] { typeof(int), typeof(int).MakeByRefType() };
+            var types = new Type[] { typeof(int).MakeByRefType(), typeof(int), typeof(int).MakeByRefType() };
             var codeMethod = developer.GetType().GetMethod("Code", types);
             var aspectArgs = new ActionExecutionArgsImpl<CSharpDeveloperMixin, int, int, int>(developer, codeMethod, i, j, k);
             Aspects.traceAspect3.OnEntry(aspectArgs);
 
             try {
-                var arg1 = aspectArgs.Arg1;
-                var arg3 = aspectArgs.Arg3;
-                developer.Code(ref arg1, aspectArgs.Arg2, ref arg3);
-                aspectArgs.Arg1 = arg1;
-                aspectArgs.Arg3 = arg3;
+                i = aspectArgs.Arg1;
+                k = aspectArgs.Arg3;
+                developer.Code(ref i, aspectArgs.Arg2, ref k);
+                aspectArgs.Arg1 = i;
+                aspectArgs.Arg3 = k;
                 Aspects.traceAspect3.OnSuccess(aspectArgs);
             }
             finally {
                 Aspects.traceAspect3.OnExit(aspectArgs);
+                //i = aspectArgs.Arg1;
+                //k = aspectArgs.Arg3;
             }
         }
 
@@ -220,7 +222,7 @@ namespace NCop.Samples
     {
         static void Main(string[] args) {
             int i = 0, j = 0, k = 0;
-            //new Person().Code(ref i); return;
+            //new Person().Code(ref i, j, ref k); return;
             var container = new CompositeContainer();
             container.Configure();
             var person = container.TryResolve<IPersonComposite>();
@@ -242,24 +244,24 @@ namespace NCop.Samples
 
 
     [PerThreadAspect]
-    public class TraceAspect3 : OnActionBoundaryAspect<int>
+    public class TraceAspect3 : OnActionBoundaryAspect<int, int, int>
     {
-        public override void OnEntry(ActionExecutionArgs<int> args) {
+        public override void OnEntry(ActionExecutionArgs<int, int, int> args) {
             Console.WriteLine("Code from TraceAspect3 OnEntry");
             base.OnEntry(args);
         }
 
-        public override void OnExit(ActionExecutionArgs<int> args) {
+        public override void OnExit(ActionExecutionArgs<int, int, int> args) {
             Console.WriteLine("Code from TraceAspect3 OnExit");
             base.OnExit(args);
         }
 
-        public override void OnException(ActionExecutionArgs<int> args) {
-            Console.WriteLine("Code from TraceAspect3 OnException");
-            base.OnException(args);
-        }
+        //public override void OnException(ActionExecutionArgs<int> args) {
+        //    Console.WriteLine("Code from TraceAspect3 OnException");
+        //    base.OnException(args);
+        //}
 
-        public override void OnSuccess(ActionExecutionArgs<int> args) {
+        public override void OnSuccess(ActionExecutionArgs<int, int, int> args) {
             Console.WriteLine("Code from TraceAspect3 OnSuccess");
             base.OnSuccess(args);
         }
@@ -303,7 +305,7 @@ namespace NCop.Samples
     public class CSharpDeveloperMixin : AbstractDeveloper<CSharpLanguage5>
     {
         public override void Code(ref int i, int j, ref int k) {
-            i = 10;
+            i = k = 10;
         }
     }
 
