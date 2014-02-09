@@ -175,8 +175,8 @@ namespace NCop.Samples
             }
             finally {
                 Aspects.traceAspect3.OnExit(aspectArgs);
-                //i = aspectArgs.Arg1;
-                //k = aspectArgs.Arg3;
+                i = aspectArgs.Arg1;
+                k = aspectArgs.Arg3;
             }
         }
 
@@ -215,7 +215,6 @@ namespace NCop.Samples
         //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 5)]
         //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 6)]
         new void Code(ref int i, int j, ref int k);
-
     }
 
     class Program

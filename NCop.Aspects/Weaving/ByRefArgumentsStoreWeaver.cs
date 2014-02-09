@@ -31,7 +31,7 @@ namespace NCop.Aspects.Weaving
             }
         }
 
-        public void StoreLocalsIfNeeded(ILGenerator ilGenerator) {
+        public void StoreArgsIfNeeded(ILGenerator ilGenerator) {
             argsLocalBuilder = localBuilderRepository.Get(previousAspectArgType);
 
             parameters.ForEach(param => {
@@ -46,7 +46,7 @@ namespace NCop.Aspects.Weaving
             });
         }
         
-        public void RestoreLocalsIfNeeded(ILGenerator ilGenerator) {
+        public void RestoreArgsIfNeeded(ILGenerator ilGenerator) {
             byRefParamslocalBuilderMap.ForEach(argPosition => {
                 var property = previousAspectArgType.GetProperty("Arg{0}".Fmt(argPosition));
 

@@ -11,7 +11,7 @@ namespace NCop.Aspects.Weaving
     {
         bool Contains(int argPosition);
         bool ContainsByRefParams { get; }
-        void StoreLocalsIfNeeded(ILGenerator ilGenerator);
-        void RestoreLocalsIfNeeded(ILGenerator ilGenerator);
+        void StoreArgsIfNeeded(ILGenerator ilGenerator);
+        void RestoreArgsIfNeeded(ILGenerator ilGenerator);
     }
 }
