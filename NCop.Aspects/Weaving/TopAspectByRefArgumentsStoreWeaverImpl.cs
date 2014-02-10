@@ -1,37 +1,28 @@
-﻿using NCop.Aspects.Extensions;
-using NCop.Core.Extensions;
-using NCop.Weaving;
+﻿using NCop.Core.Extensions;
 using NCop.Weaving.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class TopAspectByRefArgumentsStoreWeaverImpl : IByRefArgumentsStoreWeaver
+    internal class TopAspectByRefArgumentsStoreWeaverImpl : AbstractByRefArgumentsStoreWeaver
     {
         private LocalBuilder argsLocalBuilder;
-        private readonly ParameterInfo[] parameters = null;
         private readonly Type previousAspectArgType = null;
-        private readonly ISet<int> byRefParamslocalBuilderMap = null;
-        private readonly ILocalBuilderRepository localBuilderRepository = null;
+        protected readonly ISet<int> byRefParamslocalBuilderMap = null;
 
-        internal TopAspectByRefArgumentsStoreWeaverImpl(Type previousAspectArgType, MethodInfo methodInfoImpl, ILocalBuilderRepository localBuilderRepository) {
-            byRefParamslocalBuilderMap = new HashSet<int>();
+        internal TopAspectByRefArgumentsStoreWeaverImpl(Type previousAspectArgType, MethodInfo methodInfoImpl, ILocalBuilderRepository localBuilderRepository)
+            : base(methodInfoImpl, localBuilderRepository) {
             this.previousAspectArgType = previousAspectArgType;
-            this.localBuilderRepository = localBuilderRepository;
-            parameters = methodInfoImpl.GetParameters().ToArray(param => param.ParameterType.IsByRef);
         }
 
-        public bool ContainsByRefParams {
-            get {
-                return parameters.Length > 0;
-            }
+        public override bool Contains(int argPosition) {
+            return byRefParamslocalBuilderMap.Contains(argPosition);
         }
 
-        public void StoreArgsIfNeeded(ILGenerator ilGenerator) {
+        public override void StoreArgsIfNeeded(ILGenerator ilGenerator) {
             argsLocalBuilder = localBuilderRepository.Get(previousAspectArgType);
 
             parameters.ForEach(param => {
@@ -45,8 +36,8 @@ namespace NCop.Aspects.Weaving
                 ilGenerator.Emit(OpCodes.Stind_I4);
             });
         }
-        
-        public void RestoreArgsIfNeeded(ILGenerator ilGenerator) {
+
+        public override void RestoreArgsIfNeeded(ILGenerator ilGenerator) {
             byRefParamslocalBuilderMap.ForEach(argPosition => {
                 var property = previousAspectArgType.GetProperty("Arg{0}".Fmt(argPosition));
 
@@ -55,10 +46,6 @@ namespace NCop.Aspects.Weaving
                 ilGenerator.Emit(OpCodes.Ldind_I4);
                 ilGenerator.Emit(OpCodes.Callvirt, property.GetSetMethod());
             });
-        }
-
-        public bool Contains(int argPosition) {
-            return byRefParamslocalBuilderMap.Contains(argPosition);
         }
     }
 }

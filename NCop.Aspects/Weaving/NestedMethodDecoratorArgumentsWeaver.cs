@@ -17,7 +17,7 @@ namespace NCop.Aspects.Weaving
         internal NestedMethodDecoratorArgumentsWeaver(Type previousAspectArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings)
             : base(argumentWeavingSettings, aspectWeavingSettings) {
             this.previousAspectArgType = previousAspectArgType;
-            byRefArgumentStoreWeaver = aspectWeavingSettings.ByRefArgumentStoreWeaver;
+            byRefArgumentStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
         }
 
         public override void Weave(ILGenerator ilGenerator) {
@@ -35,7 +35,7 @@ namespace NCop.Aspects.Weaving
                     ilGenerator.EmitLoadArg(argPosition);
                 }
                 else {
-                    var property = previousAspectArgType.GetProperty("Arg{0}".Fmt(param.Position + 1));
+                    var property = previousAspectArgType.GetProperty("Arg{0}".Fmt(argPosition));
 
                     ilGenerator.EmitLoadLocal(argsLocalBuilder);
                     ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());

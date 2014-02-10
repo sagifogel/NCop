@@ -85,7 +85,7 @@ namespace NCop.Aspects.Weaving
 
             methodBuilder = typeBuilder.DefineMethod("Invoke", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
             ilGenerator = methodBuilder.GetILGenerator();
-            //methodScopeWeaver.Weave(ilGenerator);
+            WeaveInvokeMethodBody(ilGenerator);
             ilGenerator.Emit(OpCodes.Ret);
         }
 
@@ -96,8 +96,15 @@ namespace NCop.Aspects.Weaving
 
             methodBuilder = typeBuilder.DefineMethod("Proceed", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
             ilGenerator = methodBuilder.GetILGenerator();
-            methodScopeWeaver.Weave(ilGenerator);
+            WeaveProceedMethodBody(ilGenerator);
             ilGenerator.Emit(OpCodes.Ret);
+        }
+
+        protected virtual void WeaveProceedMethodBody(ILGenerator ilGenerator) {
+            methodScopeWeaver.Weave(ilGenerator);
+        }
+
+        protected virtual void WeaveInvokeMethodBody(ILGenerator ilGenerator) {
         }
 	}
 }

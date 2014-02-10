@@ -5,6 +5,7 @@ using NCop.Core.Extensions;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace NCop.Aspects.Extensions
 {
@@ -36,6 +37,15 @@ namespace NCop.Aspects.Extensions
             var genericArgumentsWithContext = new[] { declaringType }.Concat(genericArguments);
 
             return argumentType.MakeGenericArgsType(genericArgumentsWithContext.ToArray());
+        }
+
+        internal static Type ToAspectArgumentImpl(this MethodInfo methodInfoImpl) {
+            var argumentType = methodInfoImpl.GetParameters().ToArray(param => {
+                var parameterType = param.ParameterType;
+                return parameterType.IsByRef ? parameterType.GetElementType() : parameterType;
+            });
+
+            return argumentType.ToAspectArgumentContract(!methodInfoImpl.ReturnType.Equals(typeof(void)));
         }
 
         internal static BindingSettings ToBindingSettings(this IAspectDefinition aspectDefinition) {
@@ -86,7 +96,7 @@ namespace NCop.Aspects.Extensions
                 WeavingSettings = aspectWeavingSettings.WeavingSettings,
                 AspectRepository = aspectWeavingSettings.AspectRepository,
                 AspectArgsMapper = aspectWeavingSettings.AspectArgsMapper,
-                ByRefArgumentStoreWeaver = aspectWeavingSettings.ByRefArgumentStoreWeaver,
+                ByRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver,
                 LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository
             };
 
@@ -125,11 +135,11 @@ namespace NCop.Aspects.Extensions
 
             if (bindingSettings.IsFunction) {
                 methodParameters.ReturnType = arguments.Last();
-                argumentResolver = AspectArgsContractResolver.ToFunctionAspectArgument;
+                argumentResolver = AspectArgsContractResolver.ToFunctionAspectArgumentContract;
             }
             else {
                 methodParameters.ReturnType = typeof(void);
-                argumentResolver = AspectArgsContractResolver.ToActionAspectArgument;
+                argumentResolver = AspectArgsContractResolver.ToActionAspectArgumentContract;
             }
 
             methodParameters.Parameters[1] = argumentResolver(arguments);

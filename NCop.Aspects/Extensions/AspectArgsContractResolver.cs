@@ -46,20 +46,20 @@ namespace NCop.Aspects.Extensions
 			actionArgsMap.Add(8, typeof(IActionArgs<,,,,,,,>));	
 		}
 
-		internal static Type ToFunctionAspectArgument(this Type[] typeArguments) {
+		internal static Type ToFunctionAspectArgumentContract(this Type[] typeArguments) {
 			return funcArgsMap[typeArguments.Length].MakeGenericType(typeArguments);
 		}
 		
-		internal static Type ToActionAspectArgument(this Type[] typeArguments) {
+		internal static Type ToActionAspectArgumentContract(this Type[] typeArguments) {
 			return actionArgsMap[typeArguments.Length].MakeGenericType(typeArguments);
 		}
 		
-		internal static Type ToAspectArgument(this Type[] typeArguments, bool isFunction) {
+		internal static Type ToAspectArgumentContract(this Type[] typeArguments, bool isFunction) {
 			if (isFunction) {
-				return typeArguments.ToFunctionAspectArgument();
+				return typeArguments.ToFunctionAspectArgumentContract();
 			}
 
-			return typeArguments.ToActionAspectArgument();
+			return typeArguments.ToActionAspectArgumentContract();
 		}	
 	}
 }

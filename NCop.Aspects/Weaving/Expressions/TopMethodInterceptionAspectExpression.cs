@@ -21,7 +21,7 @@ namespace NCop.Aspects.Weaving.Expressions
                 var aspectArgumentImplType = aspectDefinition.ToAspectArgumentImpl();
 
                 settings.LocalBuilderRepository = localBuilderRepository;
-                settings.ByRefArgumentStoreWeaver = new TopAspectByRefArgumentsStoreWeaverImpl(aspectArgumentImplType, methodImpl, localBuilderRepository);
+                settings.ByRefArgumentsStoreWeaver = new TopAspectByRefArgumentsStoreWeaverImpl(aspectArgumentImplType, methodImpl, localBuilderRepository);
             });
 
             var bindingWeaver = new IsolatedMethodInterceptionBindingWeaver(aspectExpression, aspectDefinition, clonedAspectWeavingSettings);

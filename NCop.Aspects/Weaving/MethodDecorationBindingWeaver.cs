@@ -9,10 +9,10 @@ using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-	internal class MethodDecoratorBindingWeaver : AbstractMethodBindingWeaver
-	{
-        internal MethodDecoratorBindingWeaver(BindingSettings bindingSettings, IAspectWeavingSettings settings, IMethodScopeWeaver methodScopeWeaver)
-			: base(bindingSettings, methodScopeWeaver) {
-		}
-	}
+    internal class MethodDecoratorBindingWeaver : AbstractMethodBindingWeaver
+    {
+        internal MethodDecoratorBindingWeaver(BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IMethodScopeWeaver methodScopeWeaver)
+            : base(bindingSettings, methodScopeWeaver) {
+        }
+    }
 }

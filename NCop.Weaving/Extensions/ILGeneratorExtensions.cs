@@ -51,11 +51,9 @@ namespace NCop.Weaving.Extensions
             }
         }
 
-        public static void EmitLoadLocal(this ILGenerator iLGenerator, LocalBuilder localBuilder, bool considerType = false) {
-            bool isReferenceType = considerType ? !localBuilder.LocalType.IsValueType : false;
-
+        public static void EmitLoadLocal(this ILGenerator iLGenerator, LocalBuilder localBuilder, bool loadAddress = false) {
             if (localBuilder.LocalIndex <= 255) {
-                if (!isReferenceType) {
+                if (!loadAddress) {
                     iLGenerator.EmitLoadLocalShortForm(localBuilder);
                 }
                 else {
@@ -63,7 +61,20 @@ namespace NCop.Weaving.Extensions
                 }
             }
             else {
-                iLGenerator.Emit(isReferenceType ? OpCodes.Ldloca : OpCodes.Ldloc, localBuilder);
+                iLGenerator.Emit(loadAddress ? OpCodes.Ldloca : OpCodes.Ldloc, localBuilder);
+            }
+        }
+
+        public static void EmitLoadLocalAddress(this ILGenerator iLGenerator, LocalBuilder localBuilder) {
+            iLGenerator.EmitLoadLocalAddress(localBuilder.LocalIndex);
+        }
+
+        public static void EmitLoadLocalAddress(this ILGenerator iLGenerator, int localIndex) {
+            if (localIndex <= 255) {
+                iLGenerator.Emit(OpCodes.Ldloca_S, localIndex);
+            }
+            else {
+                iLGenerator.Emit(OpCodes.Ldloca, localIndex);
             }
         }
 

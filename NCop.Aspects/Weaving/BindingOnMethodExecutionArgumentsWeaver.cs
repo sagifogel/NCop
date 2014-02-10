@@ -18,7 +18,7 @@ namespace NCop.Aspects.Weaving
             LocalBuilder argsImplLocalBuilder = null;
             var delegateType = Parameters.GetDelegateType(IsFunction);
             var ctorInterceptionArgs = ArgumentType.GetConstructors()[0];
-            var aspectArgsType = Parameters.ToAspectArgument(IsFunction);
+            var aspectArgsType = Parameters.ToAspectArgumentContract(IsFunction);
             var methodProperty = aspectArgsType.GetProperty("Method");
 
             delegateLocalBuilder = LocalBuilderRepository.GetOrDeclare(delegateType, () => {

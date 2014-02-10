@@ -26,7 +26,7 @@ namespace NCop.Aspects.Weaving
             LocalBuilder argsImplLocalBuilder = null;
             var isFunction = argumentsWeavingSetings.IsFunction;
             var argumentType = argumentsWeavingSetings.ArgumentType;
-            var aspectArgsType = argumentsWeavingSetings.Parameters.ToAspectArgument(isFunction);
+            var aspectArgsType = argumentsWeavingSetings.Parameters.ToAspectArgumentContract(isFunction);
 
             argsImplLocalBuilder = localBuilderRepository.Get(argumentType);
             ilGenerator.EmitLoadLocal(argsImplLocalBuilder);

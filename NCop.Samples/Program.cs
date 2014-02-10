@@ -184,28 +184,32 @@ namespace NCop.Samples
             //}
         }
 
-        //public void Code2(ref int i) {
-        //    var types = new Type[] { typeof(int).MakeByRefType() };
-        //    var codeMethod = developer.GetType().GetMethod("Code", types);
-        //    var interArgs = new ActionInterceptionArgsImpl<CSharpDeveloperMixin, int>(developer, codeMethod, MethodDecoratorFunctionBinding.singleton, i);
-        //    Aspects.traceAspect.OnInvoke(interArgs);
-        //    //FunctionArgsMapper.Map<int>(interArgs, aspectArgs);
-        //    //try {
-        //    //    developer.Code(aspectArgs.Arg1);
-        //    //    Aspects.traceAspect3.OnSuccess(aspectArgs);
-        //    //}
-        //    //catch (Exception ex) {
-        //    //    aspectArgs.Exception = ex;
-        //    //    Aspects.traceAspect3.OnException(aspectArgs);
+        public void Code2(ref int i, int j, ref int k) {
+            var types = new Type[] { typeof(int).MakeByRefType() };
+            var codeMethod = developer.GetType().GetMethod("Code", types);
+            var aspectArgs = new ActionExecutionArgsImpl<CSharpDeveloperMixin, int, int, int>(developer, codeMethod, i, j, k);
+            Aspects.traceAspect3.OnEntry(aspectArgs);
+            
+            try {
+                i = aspectArgs.Arg1;
+                k = aspectArgs.Arg3;
+                developer.Code(ref i, j, ref k);
+                aspectArgs.Arg1 = i;
+                aspectArgs.Arg3 = j;
+                Aspects.traceAspect3.OnSuccess(aspectArgs);
+            }
+            //catch (Exception ex) {
+            //    aspectArgs.Exception = ex;
+            //    Aspects.traceAspect3.OnException(aspectArgs);
 
-        //    //    if (aspectArgs.FlowBehavior == FlowBehavior.RethrowException) {
-        //    //        throw;
-        //    //    }
-        //    //}
-        //    //finally {
-        //    //    Aspects.traceAspect3.OnExit(aspectArgs);
-        //    //}
-        //}
+            //    if (aspectArgs.FlowBehavior == FlowBehavior.RethrowException) {
+            //        throw;
+            //    }
+            //}
+            finally {
+                Aspects.traceAspect3.OnExit(aspectArgs);
+            }
+        }
     }
 
     [TransientComposite]
@@ -214,10 +218,9 @@ namespace NCop.Samples
     {
         //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
         //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 2)]
+        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 2)]
         [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 3)]
-        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 4)]
         //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 5)]
-        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 6)]
         new void Code(ref int i, int j, ref int k);
     }
 

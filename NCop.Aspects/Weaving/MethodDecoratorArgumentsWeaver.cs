@@ -3,16 +3,19 @@ using NCop.Core.Extensions;
 using NCop.Weaving.Extensions;
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
     internal class MethodDecoratorArgumentsWeaver : IArgumentsWeaver
     {
+        private readonly MethodInfo methodInfoImpl = null;
         private readonly IArgumentsWeavingSettings argumentWeavingSettings = null;
-        private readonly IByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver = null;
+        private readonly MethodDecoratorByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver = null;
 
-        internal MethodDecoratorArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver) {
+        internal MethodDecoratorArgumentsWeaver(MethodInfo methodInfoImpl, IArgumentsWeavingSettings argumentWeavingSettings, MethodDecoratorByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver) {
+            this.methodInfoImpl = methodInfoImpl;
             this.argumentWeavingSettings = argumentWeavingSettings;
             this.byRefArgumentsStoreWeaver = byRefArgumentsStoreWeaver;
         }
@@ -20,8 +23,9 @@ namespace NCop.Aspects.Weaving
         public void Weave(ILGenerator ilGenerator) {
             Type aspectArgsType = null;
             Type[] actualParameters = null;
-            Type[] argumentTypes = argumentWeavingSettings.ArgumentType.GetGenericArguments();
-            Type[] @params = new Type[argumentTypes.Length - 1];
+            var argumentTypes = argumentWeavingSettings.ArgumentType.GetGenericArguments();
+            var @params = new Type[argumentTypes.Length - 1];
+            var methodImplParameters = methodInfoImpl.GetParameters();
 
             if (argumentWeavingSettings.IsFunction) {
                 @params = new Type[argumentTypes.Length - 1];
@@ -31,16 +35,24 @@ namespace NCop.Aspects.Weaving
                 @params = argumentTypes;
             }
 
+            actualParameters = @params.Skip(1).ToArray();
+            aspectArgsType = actualParameters.ToAspectArgumentContract(argumentWeavingSettings.IsFunction);
+
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);
-            actualParameters = @params.Skip(1).ToArray();
-            aspectArgsType = actualParameters.ToAspectArgument(argumentWeavingSettings.IsFunction);
 
-            actualParameters.ForEach(1, (parameter, i) => {
-                var property = argumentWeavingSettings.ArgumentType.GetProperty("Arg{0}".Fmt(i));
+            methodImplParameters.ForEach((param) => {
+                int argPosition = param.Position + 1;
 
-                ilGenerator.EmitLoadArg(2);
-                ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+                if (byRefArgumentsStoreWeaver.Contains(argPosition)) {
+                    byRefArgumentsStoreWeaver.EmitLoadLocalAddress(ilGenerator, argPosition);
+                }
+                else {
+                    var property = aspectArgsType.GetProperty("Arg{0}".Fmt(argPosition));
+
+                    ilGenerator.EmitLoadArg(2);
+                    ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+                }
             });
         }
     }

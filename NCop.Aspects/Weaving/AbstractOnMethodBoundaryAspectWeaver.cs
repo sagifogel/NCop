@@ -34,7 +34,7 @@ namespace NCop.Aspects.Weaving
             var adviceWeavingSettings = new AdviceWeavingSettings(aspectWeavingSettings, argumentsWeavingSetings);
 
             ArgumentType = argumentsWeavingSetings.ArgumentType;
-            byRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentStoreWeaver;
+            byRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
             storeArgsAction = byRefArgumentsStoreWeaver.StoreArgsIfNeeded;
             restoreArgsAction = byRefArgumentsStoreWeaver.RestoreArgsIfNeeded;
             storeArgsArgsWeaver = storeArgsAction.ToMethodScopeWeaver();

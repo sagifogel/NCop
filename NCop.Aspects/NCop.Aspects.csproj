@@ -140,6 +140,7 @@
     <Compile Include="Engine\IFunctionArgs`8.cs" />
     <Compile Include="Engine\IFunctionInterceptionArgs.cs" />
     <Compile Include="Weaving\AbstractArgumentsWeaver.cs" />
+    <Compile Include="Weaving\AbstractByRefArgumentsStoreWeaver.cs" />
     <Compile Include="Weaving\AbstractTopAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\AspectArgsMethodWeaver.cs" />

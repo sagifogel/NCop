@@ -36,7 +36,7 @@ namespace NCop.Aspects.Weaving
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
             var isFunction = argumentsWeavingSetings.IsFunction;
-            var aspectArgsType = argumentsWeavingSetings.Parameters.ToAspectArgument(isFunction);
+            var aspectArgsType = argumentsWeavingSetings.Parameters.ToAspectArgumentContract(isFunction);
 
             argumentsWeaver.Weave(ilGenerator);
             weaver.Weave(ilGenerator);
