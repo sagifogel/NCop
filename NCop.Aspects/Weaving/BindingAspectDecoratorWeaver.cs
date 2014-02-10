@@ -16,14 +16,16 @@ namespace NCop.Aspects.Weaving
         private readonly IMethodBindingWeaver weaver = null;
         private readonly IArgumentsWeaver argumentsWeaver = null;
         private readonly NCop.Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
+        private readonly IByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver = null;
 
         internal BindingAspectDecoratorWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {
             var bindingSettings = aspectDefinition.ToBindingSettings();
 
             lazyWeavedType = new Core.Lib.Lazy<FieldInfo>(WeaveType);
+            byRefArgumentsStoreWeaver = new MethodDecoratorByRefArgumentsStoreWeaver();
             bindingSettings.LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
-            argumentsWeaver = new MethodDecoratorArgumentsWeaver(argumentWeavingSettings);
+            argumentsWeaver = new MethodDecoratorArgumentsWeaver(argumentWeavingSettings, byRefArgumentsStoreWeaver);
             weaver = new MethodDecoratorBindingWeaver(bindingSettings, aspectWeavingSettings, this);
         }
 

@@ -21,54 +21,58 @@ namespace NCop.Samples
         }
     }
 
-    //public sealed class MethodDecoratorFunctionBinding : IActionBinding<CSharpDeveloperMixin, int>
-    //{
-    //    public static MethodDecoratorFunctionBinding singleton = null;
+    public sealed class MethodDecoratorFunctionBinding : IActionBinding<CSharpDeveloperMixin, int, int, int>
+    {
+        public static MethodDecoratorFunctionBinding singleton = null;
 
-    //    static MethodDecoratorFunctionBinding() {
-    //        singleton = new MethodDecoratorFunctionBinding();
-    //    }
+        static MethodDecoratorFunctionBinding() {
+            singleton = new MethodDecoratorFunctionBinding();
+        }
 
-    //    private MethodDecoratorFunctionBinding() {
-    //    }
+        private MethodDecoratorFunctionBinding() {
+        }
 
-    //    public void Proceed(ref CSharpDeveloperMixin instance, IActionArgs<int> args) {
-    //        var args1 = args.Arg1;
+        public void Proceed(ref CSharpDeveloperMixin instance, IActionArgs<int, int, int> args) {
+            var arg1 = args.Arg1;
+            var arg3 = args.Arg3;
 
-    //        instance.Code(ref args1);
-    //    }
+            instance.Code(ref arg1, args.Arg2, ref arg3);
 
-    //    public void Invoke(ref CSharpDeveloperMixin instance, IActionArgs<int> args) {
-    //        var arg1 = args.Arg1;
+            args.Arg1 = arg1;
+            args.Arg3 = arg3;
+        }
 
-    //        instance.Code(ref arg1);
+        public void Invoke(ref CSharpDeveloperMixin instance, IActionArgs<int, int, int> args) {
+            //var arg1 = args.Arg1;
 
-    //        args.Arg1 = arg1;
-    //    }
-    //}
+            //instance.Code(ref arg1);
+
+            //args.Arg1 = arg1;
+        }
+    }
 
     //public sealed class MethodInterceptionBindingWeaver : IActionBinding<CSharpDeveloperMixin, int>
     //{
-    //	public static MethodInterceptionBindingWeaver singleton = null;
+    //    public static MethodInterceptionBindingWeaver singleton = null;
 
-    //	static MethodInterceptionBindingWeaver() {
-    //		singleton = new MethodInterceptionBindingWeaver();
-    //	}
+    //    static MethodInterceptionBindingWeaver() {
+    //        singleton = new MethodInterceptionBindingWeaver();
+    //    }
 
-    //	private MethodInterceptionBindingWeaver() {
-    //	}
+    //    private MethodInterceptionBindingWeaver() {
+    //    }
 
-    //	public void Invoke(ref CSharpDeveloperMixin instance, IActionArgs<int> args) {
-    //		//var binding = MethodDecoratorFunctionBinding.singleton;
-    //		var aspectArgs = new ActionExecutionArgsImpl<CSharpDeveloperMixin, int>(instance, args.Method, args.Arg1);
-    //		Aspects.traceAspect3.OnEntry(aspectArgs);
-    //		var interceptionArgs = new ActionInterceptionArgsImpl<CSharpDeveloperMixin, int>(instance, args.Method, null, args.Arg1);
-    //		Aspects.traceAspect.OnInvoke(interceptionArgs);
-    //	}
+    //    public void Invoke(ref CSharpDeveloperMixin instance, IActionArgs<int> args) {
+    //        //var binding = MethodDecoratorFunctionBinding.singleton;
+    //        var aspectArgs = new ActionExecutionArgsImpl<CSharpDeveloperMixin, int>(instance, args.Method, args.Arg1);
+    //        Aspects.traceAspect3.OnEntry(aspectArgs);
+    //        var interceptionArgs = new ActionInterceptionArgsImpl<CSharpDeveloperMixin, int>(instance, args.Method, null, args.Arg1);
+    //        Aspects.traceAspect.OnInvoke(interceptionArgs);
+    //    }
 
-    //	public void Invoke(ref CSharpDeveloperMixin instance, ref int arg1) {
-    //		instance.Code(ref arg1, );
-    //	}
+    //    public void Invoke(ref CSharpDeveloperMixin instance, ref int arg1) {
+    //        instance.Code(ref arg1, );
+    //    }
     //}
 
     internal static class FunctionArgsMapper
@@ -162,22 +166,22 @@ namespace NCop.Samples
         public void Code(ref int i, int j, ref int k) {
             var types = new Type[] { typeof(int).MakeByRefType(), typeof(int), typeof(int).MakeByRefType() };
             var codeMethod = developer.GetType().GetMethod("Code", types);
-            var aspectArgs = new ActionExecutionArgsImpl<CSharpDeveloperMixin, int, int, int>(developer, codeMethod, i, j, k);
-            Aspects.traceAspect3.OnEntry(aspectArgs);
+            var aspectArgs = new ActionInterceptionArgsImpl<CSharpDeveloperMixin, int, int, int>(developer, codeMethod, MethodDecoratorFunctionBinding.singleton, i, j, k);
+            Aspects.traceAspect.OnInvoke(aspectArgs);
 
-            try {
-                i = aspectArgs.Arg1;
-                k = aspectArgs.Arg3;
-                developer.Code(ref i, aspectArgs.Arg2, ref k);
-                aspectArgs.Arg1 = i;
-                aspectArgs.Arg3 = k;
-                Aspects.traceAspect3.OnSuccess(aspectArgs);
-            }
-            finally {
-                Aspects.traceAspect3.OnExit(aspectArgs);
-                i = aspectArgs.Arg1;
-                k = aspectArgs.Arg3;
-            }
+            //try {
+            //    i = aspectArgs.Arg1;
+            //    k = aspectArgs.Arg3;
+            //    developer.Code(ref i, aspectArgs.Arg2, ref k);
+            //    aspectArgs.Arg1 = i;
+            //    aspectArgs.Arg3 = k;
+            //    Aspects.traceAspect3.OnSuccess(aspectArgs);
+            //}
+            //finally {
+            //    Aspects.traceAspect3.OnExit(aspectArgs);
+            //    i = aspectArgs.Arg1;
+            //    k = aspectArgs.Arg3;
+            //}
         }
 
         //public void Code2(ref int i) {
@@ -209,8 +213,8 @@ namespace NCop.Samples
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
         //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 2)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 3)]
+        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 2)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 3)]
         //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 4)]
         //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 5)]
         //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 6)]

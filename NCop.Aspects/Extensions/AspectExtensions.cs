@@ -86,6 +86,7 @@ namespace NCop.Aspects.Extensions
                 WeavingSettings = aspectWeavingSettings.WeavingSettings,
                 AspectRepository = aspectWeavingSettings.AspectRepository,
                 AspectArgsMapper = aspectWeavingSettings.AspectArgsMapper,
+                ByRefArgumentStoreWeaver = aspectWeavingSettings.ByRefArgumentStoreWeaver,
                 LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository
             };
 

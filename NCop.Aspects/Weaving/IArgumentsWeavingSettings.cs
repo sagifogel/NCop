@@ -11,5 +11,6 @@ namespace NCop.Aspects.Weaving
 	{
         Type AspectType { get; }
 		FieldInfo BindingsDependency { get; }
-	}
+        IByRefArgumentsStoreWeaver ByRefArgumentsStoreWeaver { get; }
+    }
 }

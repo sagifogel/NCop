@@ -16,7 +16,7 @@ namespace NCop.Aspects.Weaving
 		public IWeavingSettings WeavingSettings { get; set; }
 		public IAspectRepository AspectRepository { get; set; }
 		public IAspectArgsMapper AspectArgsMapper { get; set; }
-        public IByRefArgumentsStoreWeaver ByRefArgumentStore { get; set; }
         public ILocalBuilderRepository LocalBuilderRepository { get; set; }
-	}
+        public IByRefArgumentsStoreWeaver ByRefArgumentStoreWeaver { get; set; }
+    }
 }

@@ -16,7 +16,12 @@ namespace NCop.Aspects.Weaving.Expressions
 
         public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
             var clonedAspectWeavingSettings = aspectWeavingSettings.CloneWith(settings => {
-                settings.LocalBuilderRepository = new LocalBuilderRepository();
+                var localBuilderRepository = new LocalBuilderRepository();
+                var methodImpl = aspectWeavingSettings.WeavingSettings.MethodInfoImpl;
+                var aspectArgumentImplType = aspectDefinition.ToAspectArgumentImpl();
+
+                settings.LocalBuilderRepository = localBuilderRepository;
+                settings.ByRefArgumentStoreWeaver = new TopAspectByRefArgumentsStoreWeaverImpl(aspectArgumentImplType, methodImpl, localBuilderRepository);
             });
 
             var bindingWeaver = new IsolatedMethodInterceptionBindingWeaver(aspectExpression, aspectDefinition, clonedAspectWeavingSettings);

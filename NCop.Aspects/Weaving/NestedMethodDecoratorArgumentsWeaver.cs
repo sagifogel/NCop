@@ -17,7 +17,7 @@ namespace NCop.Aspects.Weaving
         internal NestedMethodDecoratorArgumentsWeaver(Type previousAspectArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings)
             : base(argumentWeavingSettings, aspectWeavingSettings) {
             this.previousAspectArgType = previousAspectArgType;
-            byRefArgumentStoreWeaver = aspectWeavingSettings.ByRefArgumentStore;
+            byRefArgumentStoreWeaver = aspectWeavingSettings.ByRefArgumentStoreWeaver;
         }
 
         public override void Weave(ILGenerator ilGenerator) {

@@ -36,7 +36,9 @@ namespace NCop.Aspects.Weaving
 
 		public IWeavingSettings WeavingSettings { get; protected set; }
 
-		public ILocalBuilderRepository LocalBuilderRepository { get; protected set; }
+        public IByRefArgumentsStoreWeaver ByRefArgumentsStoreWeaver { get; set; }
+        
+        public ILocalBuilderRepository LocalBuilderRepository { get; protected set; }
 
 		public abstract void Weave(ILGenerator ilGenerator);
 	}

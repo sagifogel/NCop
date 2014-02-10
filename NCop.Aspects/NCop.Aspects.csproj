@@ -145,8 +145,9 @@
     <Compile Include="Weaving\AspectArgsMethodWeaver.cs" />
     <Compile Include="Weaving\BeginCatchBlockMethodScopeWeaver.cs" />
     <Compile Include="Weaving\BindingOnMethodExecutionArgumentsWeaver.cs" />
-    <Compile Include="Weaving\ByRefArgumentsStoreWeaver.cs" />
+    <Compile Include="Weaving\TopAspectByRefArgumentsStoreWeaverImpl.cs" />
     <Compile Include="Weaving\IByRefArgumentsStoreWeaver.cs" />
+    <Compile Include="Weaving\MethodDecoratorByRefArgumentsStoreWeaver.cs" />
     <Compile Include="Weaving\NestedMethodDecoratorArgumentsWeaver.cs" />
     <Compile Include="Weaving\EndExceptionBlockMethodScopeWeaver.cs" />
     <Compile Include="Weaving\FinallyMethodScopeWeaver.cs" />

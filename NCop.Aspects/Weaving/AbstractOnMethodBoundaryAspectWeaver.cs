@@ -19,7 +19,7 @@ namespace NCop.Aspects.Weaving
         protected List<IMethodScopeWeaver> tryWeavers = null;
         protected IMethodScopeWeaver returnValueWeaver = null;
         protected readonly ILocalBuilderRepository localBuilderRepository = null;
-        protected readonly IByRefArgumentsStoreWeaver byRefArgumentsStore = null;
+        protected readonly IByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver = null;
 
         internal AbstractOnMethodBoundaryAspectWeaver(IAspectWeaver nestedAspect, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectDefinition, aspectWeavingSettings) {
@@ -34,9 +34,9 @@ namespace NCop.Aspects.Weaving
             var adviceWeavingSettings = new AdviceWeavingSettings(aspectWeavingSettings, argumentsWeavingSetings);
 
             ArgumentType = argumentsWeavingSetings.ArgumentType;
-            byRefArgumentsStore = aspectWeavingSettings.ByRefArgumentStore;
-            storeArgsAction = byRefArgumentsStore.StoreArgsIfNeeded;
-            restoreArgsAction = byRefArgumentsStore.RestoreArgsIfNeeded;
+            byRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentStoreWeaver;
+            storeArgsAction = byRefArgumentsStoreWeaver.StoreArgsIfNeeded;
+            restoreArgsAction = byRefArgumentsStoreWeaver.RestoreArgsIfNeeded;
             storeArgsArgsWeaver = storeArgsAction.ToMethodScopeWeaver();
             restoreArgsWeaver = restoreArgsAction.ToMethodScopeWeaver();
             tryWeavers = new List<IMethodScopeWeaver>() { storeArgsArgsWeaver, nestedAspect, restoreArgsWeaver };
@@ -76,7 +76,7 @@ namespace NCop.Aspects.Weaving
             else {
                 var weavers = new List<IMethodScopeWeaver> { entryWeaver };
 
-                if (!byRefArgumentsStore.ContainsByRefParams) {
+                if (!byRefArgumentsStoreWeaver.ContainsByRefParams) {
                     weavers.AddRange(tryWeavers);
 
                     if (returnValueWeaver.IsNotNull()) {
