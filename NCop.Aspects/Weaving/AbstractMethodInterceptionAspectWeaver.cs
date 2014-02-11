@@ -42,16 +42,5 @@ namespace NCop.Aspects.Weaving
 
             return adviceExpressionFactory(selectedAdviceDefinition);
         }
-
-        protected void CreateMethodScopeWeaver() {
-            if (argumentsWeavingSetings.IsFunction) {
-                methodScopeWeavers.Add(new FunctionAspectArgsMappingWeaver(aspectWeavingSettings, argumentsWeavingSetings));
-            }
-            else {
-                methodScopeWeavers.Add(new ActionAspectArgsMappingWeaver(aspectWeavingSettings, argumentsWeavingSetings));
-            }
-
-            weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
-        }
     }
 }

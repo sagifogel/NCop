@@ -1,14 +1,9 @@
-﻿using NCop.Aspects.Advices;
-using NCop.Aspects.Aspects;
-using NCop.Aspects.Extensions;
-using NCop.Aspects.Weaving.Expressions;
+﻿using NCop.Aspects.Aspects;
 using NCop.Composite.Weaving;
 using NCop.Core.Extensions;
 using NCop.Weaving;
 using NCop.Weaving.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -16,21 +11,36 @@ namespace NCop.Aspects.Weaving
 {
     internal class TopMethodInterceptionAspectWeaver : AbstractMethodInterceptionAspectWeaver
     {
-		protected IArgumentsWeaver argumentsWeaver = null;
+        protected IArgumentsWeaver argumentsWeaver = null;
 
         internal TopMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
+            IMethodScopeWeaver getReturnValueWeaver = null;
             var @params = weavingSettings.MethodInfoImpl.GetParameters();
+            var byRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
+
+            if (argumentsWeavingSetings.IsFunction) {
+                getReturnValueWeaver = new GetReturnValueWeaver(aspectWeavingSettings, argumentsWeavingSetings);
+            }
 
             argumentsWeavingSetings.Parameters = @params.ToArray(@param => @param.ParameterType);
             argumentsWeavingSetings.BindingsDependency = weavedType;
             argumentsWeaver = new TopMethodInterceptionArgumentsWeaver(argumentsWeavingSetings, aspectWeavingSettings);
 
-            if (argumentsWeavingSetings.IsFunction) {
-                methodScopeWeavers.Add(new GetReturnValueWeaver(aspectWeavingSettings, argumentsWeavingSetings));
+            if (!byRefArgumentsStoreWeaver.ContainsByRefParams) {
+
+                if (getReturnValueWeaver.IsNotNull()) {
+                    methodScopeWeavers.Add(getReturnValueWeaver);
+                }
+
+                weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
             }
-            
-            weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
+            else {
+                Action<ILGenerator> storeArgsIfNeededAction = byRefArgumentsStoreWeaver.StoreArgsIfNeeded;
+                var finallyWeavers = new[] { storeArgsIfNeededAction.ToMethodScopeWeaver() };
+
+                weaver = new TryFinallyAspectWeaver(methodScopeWeavers, finallyWeavers, getReturnValueWeaver);
+            }
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
@@ -40,7 +50,7 @@ namespace NCop.Aspects.Weaving
             bindingLocalBuilder = ilGenerator.DeclareLocal(bindingsReflectedType);
             localBuilderRepository.Add(bindingLocalBuilder);
             argumentsWeaver.Weave(ilGenerator);
-            
+
             return weaver.Weave(ilGenerator);
         }
     }

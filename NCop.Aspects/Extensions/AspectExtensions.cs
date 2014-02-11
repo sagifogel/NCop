@@ -25,9 +25,9 @@ namespace NCop.Aspects.Extensions
         internal static Type GetArgumentType(this IAspectDefinition aspectDefinition) {
             var aspectType = aspectDefinition.Aspect.AspectType;
             var overridenMethods = aspectType.GetOverridenMethods();
-            var adviceMethod = overridenMethods.First();
+            var adviceMethod = overridenMethods[0];
 
-            return adviceMethod.GetParameters().First().ParameterType;
+            return adviceMethod.GetParameters()[0].ParameterType;
         }
 
         internal static Type ToAspectArgumentImpl(this IAspectDefinition aspectDefinition) {
@@ -39,7 +39,7 @@ namespace NCop.Aspects.Extensions
             return argumentType.MakeGenericArgsType(genericArgumentsWithContext.ToArray());
         }
 
-        internal static Type ToAspectArgumentImpl(this MethodInfo methodInfoImpl) {
+        internal static Type ToAspectArgumentContract(this MethodInfo methodInfoImpl) {
             var argumentType = methodInfoImpl.GetParameters().ToArray(param => {
                 var parameterType = param.ParameterType;
                 return parameterType.IsByRef ? parameterType.GetElementType() : parameterType;

@@ -9,7 +9,7 @@ using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-	internal class TryCatchFinallyAspectWeaver : TryFinallyAspectWeaver
+	internal class TryCatchFinallyAspectWeaver : OnMethodBoundaryTryFinallyAspectWeaver
 	{
 		protected readonly IMethodScopeWeaver catchWeaver = null;
 		private readonly TryCatchFinallySettings tryCatchFinallySettings = null;

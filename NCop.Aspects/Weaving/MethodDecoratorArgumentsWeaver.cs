@@ -21,22 +21,8 @@ namespace NCop.Aspects.Weaving
         }
 
         public void Weave(ILGenerator ilGenerator) {
-            Type aspectArgsType = null;
-            Type[] actualParameters = null;
-            var argumentTypes = argumentWeavingSettings.ArgumentType.GetGenericArguments();
-            var @params = new Type[argumentTypes.Length - 1];
             var methodImplParameters = methodInfoImpl.GetParameters();
-
-            if (argumentWeavingSettings.IsFunction) {
-                @params = new Type[argumentTypes.Length - 1];
-                Array.Copy(argumentTypes, 0, @params, 0, argumentTypes.Length - 1);
-            }
-            else {
-                @params = argumentTypes;
-            }
-
-            actualParameters = @params.Skip(1).ToArray();
-            aspectArgsType = actualParameters.ToAspectArgumentContract(argumentWeavingSettings.IsFunction);
+            Type aspectArgsType = methodInfoImpl.ToAspectArgumentContract();
 
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);

@@ -47,13 +47,6 @@ namespace NCop.Aspects.Weaving
             return adviceExpressionFactory(selectedAdviceDefinition);
         }
 
-        protected virtual Type ToImplArgumentType(Type argumentsType) {
-            var genericArguments = argumentsType.GetGenericArguments();
-            var genericArgumentsWithContext = new[] { aspectDefinition.AspectDeclaringType }.Concat(genericArguments);
-
-            return argumentsType.MakeGenericArgsType(genericArgumentsWithContext.ToArray());
-        }
-
         public abstract ILGenerator Weave(ILGenerator ilGenerator);
     }
 }

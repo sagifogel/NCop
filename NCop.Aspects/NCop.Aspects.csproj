@@ -456,8 +456,9 @@
     <Compile Include="Weaving\TopOnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\TryCatchFinallyAspectWeaver.cs" />
     <Compile Include="Weaving\TryCatchFinallySettings.cs" />
-    <Compile Include="Weaving\TryFinallyAspectWeaver.cs" />
+    <Compile Include="Weaving\OnMethodBoundaryTryFinallyAspectWeaver.cs" />
     <Compile Include="Weaving\BeginExceptionBlockMethodScopeWeaver.cs" />
+    <Compile Include="Weaving\TryFinallyAspectWeaver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Exceptions\AspectTypeMismatchException.tt">

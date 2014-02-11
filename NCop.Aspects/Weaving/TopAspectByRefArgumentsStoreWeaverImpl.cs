@@ -16,6 +16,7 @@ namespace NCop.Aspects.Weaving
         internal TopAspectByRefArgumentsStoreWeaverImpl(Type previousAspectArgType, MethodInfo methodInfoImpl, ILocalBuilderRepository localBuilderRepository)
             : base(methodInfoImpl, localBuilderRepository) {
             this.previousAspectArgType = previousAspectArgType;
+            byRefParamslocalBuilderMap = new HashSet<int>();
         }
 
         public override bool Contains(int argPosition) {
@@ -23,7 +24,9 @@ namespace NCop.Aspects.Weaving
         }
 
         public override void StoreArgsIfNeeded(ILGenerator ilGenerator) {
-            argsLocalBuilder = localBuilderRepository.Get(previousAspectArgType);
+            argsLocalBuilder = localBuilderRepository.GetOrDeclare(previousAspectArgType, () => {
+                return ilGenerator.DeclareLocal(previousAspectArgType);
+            });
 
             parameters.ForEach(param => {
                 int argPosition = param.Position + 1;

@@ -18,10 +18,8 @@ namespace NCop.Aspects.Weaving
         public override void Weave(ILGenerator ilGenerator) {
             FieldBuilder contractFieldBuilder = null;
             var declaredLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
-            var ctorInterceptionArgs = ArgumentType.GetConstructors().First();
+            var ctorInterceptionArgs = ArgumentType.GetConstructors()[0];
             var argsLocalBuilder = LocalBuilderRepository.Get(previousAspectArgType);
-            var delegateType = Parameters.GetDelegateType(IsFunction);
-            var delegateLocalBuilder = LocalBuilderRepository.Get(delegateType);
             var methodPropoertyInfo = previousAspectArgType.GetProperty("Method");
             
             LocalBuilderRepository.Add(declaredLocalBuilder);

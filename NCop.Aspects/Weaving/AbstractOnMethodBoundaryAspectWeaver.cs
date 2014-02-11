@@ -25,21 +25,17 @@ namespace NCop.Aspects.Weaving
             : base(aspectDefinition, aspectWeavingSettings) {
             IMethodScopeWeaver entryWeaver = null;
             IMethodScopeWeaver catchWeaver = null;
+            Action<ILGenerator> storeArgsAction = null;
             IAdviceExpression selectedExpression = null;
             IMethodScopeWeaver storeArgsArgsWeaver = null;
-            Action<ILGenerator> storeArgsAction = null;
-            IMethodScopeWeaver restoreArgsWeaver = null;
-            Action<ILGenerator> restoreArgsAction = null;
             var finallyWeavers = new List<IMethodScopeWeaver>();
             var adviceWeavingSettings = new AdviceWeavingSettings(aspectWeavingSettings, argumentsWeavingSetings);
 
             ArgumentType = argumentsWeavingSetings.ArgumentType;
             byRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
             storeArgsAction = byRefArgumentsStoreWeaver.StoreArgsIfNeeded;
-            restoreArgsAction = byRefArgumentsStoreWeaver.RestoreArgsIfNeeded;
             storeArgsArgsWeaver = storeArgsAction.ToMethodScopeWeaver();
-            restoreArgsWeaver = restoreArgsAction.ToMethodScopeWeaver();
-            tryWeavers = new List<IMethodScopeWeaver>() { storeArgsArgsWeaver, nestedAspect, restoreArgsWeaver };
+            tryWeavers = new List<IMethodScopeWeaver>() { nestedAspect};
             localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
 
             if (adviceDiscoveryVistor.HasOnMethodEntryAdvice) {
@@ -70,7 +66,7 @@ namespace NCop.Aspects.Weaving
                     weaver = new TryCatchFinallyAspectWeaver(settings, entryWeaver, tryWeavers, catchWeaver, finallyWeavers, returnValueWeaver);
                 }
                 else {
-                    weaver = new TryFinallyAspectWeaver(entryWeaver, tryWeavers, finallyWeavers, returnValueWeaver);
+                    weaver = new OnMethodBoundaryTryFinallyAspectWeaver(entryWeaver, tryWeavers, finallyWeavers, returnValueWeaver);
                 }
             }
             else {
@@ -87,7 +83,7 @@ namespace NCop.Aspects.Weaving
                 }
                 else {
                     finallyWeavers.Add(storeArgsArgsWeaver);
-                    weaver = new TryFinallyAspectWeaver(entryWeaver, weavers, finallyWeavers, returnValueWeaver);
+                    weaver = new OnMethodBoundaryTryFinallyAspectWeaver(entryWeaver, weavers, finallyWeavers, returnValueWeaver);
                 }
             }
         }

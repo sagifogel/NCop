@@ -23,12 +23,12 @@ namespace NCop.Aspects.Weaving
             var bindingSettings = aspectDefinition.ToBindingSettings();
             var methodInfoImpl = aspectWeavingSettings.WeavingSettings.MethodInfoImpl;
             var localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
-            var aspectArgumentImplType = methodInfoImpl.ToAspectArgumentImpl();
+            var aspectArgumentContract = methodInfoImpl.ToAspectArgumentContract();
             MethodDecoratorByRefArgumentsStoreWeaver methodDecoratorByRefArgumentsStoreWeaver = null;
 
             lazyWeavedType = new Core.Lib.Lazy<FieldInfo>(WeaveType);
             bindingSettings.LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
-            methodDecoratorByRefArgumentsStoreWeaver = new MethodDecoratorByRefArgumentsStoreWeaver(aspectArgumentImplType, methodInfoImpl, localBuilderRepository);
+            methodDecoratorByRefArgumentsStoreWeaver = new MethodDecoratorByRefArgumentsStoreWeaver(aspectArgumentContract, methodInfoImpl, localBuilderRepository);
             argumentsWeaver = new MethodDecoratorArgumentsWeaver(methodInfoImpl, argumentWeavingSettings, methodDecoratorByRefArgumentsStoreWeaver);
             this.byRefArgumentsStoreWeaver = methodDecoratorByRefArgumentsStoreWeaver;
             weaver = new MethodDecoratorBindingWeaver(bindingSettings, aspectWeavingSettings, this);
