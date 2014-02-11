@@ -11,7 +11,7 @@ namespace NCop.Aspects.Weaving
         private readonly IMethodBindingWeaver weaver = null;
         private readonly IArgumentsWeaver argumentsWeaver = null;
         private readonly NCop.Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
-        private readonly MethodDecoratorByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver = null;
+        private readonly ICanEmitLocalBuilderByRefArgumentsWeaver byRefArgumentsStoreWeaver = null;
 
         internal BindingAspectDecoratorWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {
@@ -19,13 +19,11 @@ namespace NCop.Aspects.Weaving
             var methodInfoImpl = aspectWeavingSettings.WeavingSettings.MethodInfoImpl;
             var localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
             var aspectArgumentContract = methodInfoImpl.ToAspectArgumentContract();
-            MethodDecoratorByRefArgumentsStoreWeaver methodDecoratorByRefArgumentsStoreWeaver = null;
 
             lazyWeavedType = new Core.Lib.Lazy<FieldInfo>(WeaveType);
             bindingSettings.LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
-            methodDecoratorByRefArgumentsStoreWeaver = new MethodDecoratorByRefArgumentsStoreWeaver(aspectArgumentContract, methodInfoImpl, localBuilderRepository);
-            argumentsWeaver = new MethodDecoratorArgumentsWeaver(methodInfoImpl, argumentWeavingSettings, methodDecoratorByRefArgumentsStoreWeaver);
-            this.byRefArgumentsStoreWeaver = methodDecoratorByRefArgumentsStoreWeaver;
+            byRefArgumentsStoreWeaver = new MethodDecoratorByRefArgumentsStoreWeaver(aspectArgumentContract, methodInfoImpl, localBuilderRepository);
+            argumentsWeaver = new MethodDecoratorArgumentsWeaver(methodInfoImpl, argumentWeavingSettings, byRefArgumentsStoreWeaver);
             weaver = new MethodDecoratorBindingWeaver(bindingSettings, aspectWeavingSettings, this);
         }
 

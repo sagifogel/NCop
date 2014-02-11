@@ -147,12 +147,12 @@
     <Compile Include="Weaving\BeginCatchBlockMethodScopeWeaver.cs" />
     <Compile Include="Weaving\BindingOnMethodExecutionArgumentsWeaver.cs" />
     <Compile Include="Weaving\Expressions\MethodInvokerAspectExpression.cs" />
-    <Compile Include="Weaving\ICanEmitLocalBuilderByRefArgumentsStoreWeaver.cs" />
+    <Compile Include="Weaving\ICanEmitLocalBuilderByRefArgumentsWeaver.cs" />
     <Compile Include="Weaving\MethodInvokerArgumentsWeaver.cs" />
     <Compile Include="Weaving\MethodInvokerAspectWeaver.cs" />
     <Compile Include="Weaving\MethodInvokerByRefArgumentsWeaver.cs" />
     <Compile Include="Weaving\NullObjectByRefArgumentsWeaver.cs" />
-    <Compile Include="Weaving\TopAspectByRefArgumentsStoreWeaverImpl.cs" />
+    <Compile Include="Weaving\TopAspectByRefArgumentsStoreWeaver.cs" />
     <Compile Include="Weaving\IByRefArgumentsStoreWeaver.cs" />
     <Compile Include="Weaving\MethodDecoratorByRefArgumentsStoreWeaver.cs" />
     <Compile Include="Weaving\NestedMethodInvokerArgumentsWeaver.cs" />

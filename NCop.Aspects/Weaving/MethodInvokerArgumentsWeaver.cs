@@ -9,9 +9,9 @@ namespace NCop.Aspects.Weaving
     internal class MethodInvokerArgumentsWeaver : AbstractArgumentsWeaver
     {
         private readonly Type previousAspectArgType = null;
-        private readonly ICanEmitLocalBuilderByRefArgumentsStoreWeaver byRefArgumentStoreWeaver = null;
+        private readonly ICanEmitLocalBuilderByRefArgumentsWeaver byRefArgumentStoreWeaver = null;
 
-        internal MethodInvokerArgumentsWeaver(Type previousAspectArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings, ICanEmitLocalBuilderByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver)
+        internal MethodInvokerArgumentsWeaver(Type previousAspectArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings, ICanEmitLocalBuilderByRefArgumentsWeaver byRefArgumentsStoreWeaver)
             : base(argumentWeavingSettings, aspectWeavingSettings) {
             this.previousAspectArgType = previousAspectArgType;
             this.byRefArgumentStoreWeaver = byRefArgumentsStoreWeaver;

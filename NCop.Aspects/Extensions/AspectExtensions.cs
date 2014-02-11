@@ -96,8 +96,8 @@ namespace NCop.Aspects.Extensions
                 WeavingSettings = aspectWeavingSettings.WeavingSettings,
                 AspectRepository = aspectWeavingSettings.AspectRepository,
                 AspectArgsMapper = aspectWeavingSettings.AspectArgsMapper,
-                ByRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver,
-                LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository
+                LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository,
+                ByRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver
             };
 
             cloneFunc(clonedAspectWeavingSettings);

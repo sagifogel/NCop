@@ -12,7 +12,7 @@ namespace NCop.Aspects.Weaving
         private readonly Type previousAspectArgType = null;
         private readonly IArgumentsWeaver argumentsWeaver = null;
         private readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
-        private readonly ICanEmitLocalBuilderByRefArgumentsStoreWeaver byRefArgumentStoreWeaver = null;
+        private readonly ICanEmitLocalBuilderByRefArgumentsWeaver byRefArgumentStoreWeaver = null;
 
         internal MethodInvokerAspectWeaver(Type previousAspectArgsType, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {

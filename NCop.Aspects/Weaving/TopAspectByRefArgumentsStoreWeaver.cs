@@ -7,13 +7,13 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class TopAspectByRefArgumentsStoreWeaverImpl : AbstractByRefArgumentsStoreWeaver
+    internal class TopAspectByRefArgumentsStoreWeaver : AbstractByRefArgumentsStoreWeaver
     {
         private LocalBuilder argsLocalBuilder;
         private readonly Type previousAspectArgType = null;
         protected readonly ISet<int> byRefParamslocalBuilderMap = null;
 
-        internal TopAspectByRefArgumentsStoreWeaverImpl(Type previousAspectArgType, MethodInfo methodInfoImpl, ILocalBuilderRepository localBuilderRepository)
+        internal TopAspectByRefArgumentsStoreWeaver(Type previousAspectArgType, MethodInfo methodInfoImpl, ILocalBuilderRepository localBuilderRepository)
             : base(methodInfoImpl, localBuilderRepository) {
             this.previousAspectArgType = previousAspectArgType;
             byRefParamslocalBuilderMap = new HashSet<int>();

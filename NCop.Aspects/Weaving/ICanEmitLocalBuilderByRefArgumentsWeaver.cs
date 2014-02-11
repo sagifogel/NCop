@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Weaving
 {
-    public interface ICanEmitLocalBuilderByRefArgumentsStoreWeaver : IByRefArgumentsStoreWeaver
+    public interface ICanEmitLocalBuilderByRefArgumentsWeaver : IByRefArgumentsStoreWeaver
     {
         void EmitLoadLocalAddress(ILGenerator ilGenerator, int argPosition);
     }

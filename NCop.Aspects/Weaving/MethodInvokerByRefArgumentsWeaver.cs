@@ -7,7 +7,7 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class MethodInvokerByRefArgumentsWeaver : AbstractByRefArgumentsStoreWeaver, ICanEmitLocalBuilderByRefArgumentsStoreWeaver 
+    internal class MethodInvokerByRefArgumentsWeaver : AbstractByRefArgumentsStoreWeaver, ICanEmitLocalBuilderByRefArgumentsWeaver 
     {
         private LocalBuilder argsLocalBuilder;
         private readonly Type previousAspectArgType = null;

@@ -14,7 +14,6 @@ namespace NCop.Aspects.Weaving
         protected override IAspectWeavingSettings GetAspectsWeavingSettings() {
             return aspectWeavingSettings.CloneWith(settings => {
                 settings.LocalBuilderRepository = new LocalBuilderRepository();
-                settings.ByRefArgumentsStoreWeaver = null;
             });
         }
     }

@@ -7,7 +7,7 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class MethodDecoratorByRefArgumentsStoreWeaver : AbstractByRefArgumentsStoreWeaver, ICanEmitLocalBuilderByRefArgumentsStoreWeaver
+    internal class MethodDecoratorByRefArgumentsStoreWeaver : AbstractByRefArgumentsStoreWeaver, ICanEmitLocalBuilderByRefArgumentsWeaver
     {
         private readonly Type aspectArgumentType = null;
         protected readonly IDictionary<int, LocalBuilder> byRefParamslocalBuilderMap = null;

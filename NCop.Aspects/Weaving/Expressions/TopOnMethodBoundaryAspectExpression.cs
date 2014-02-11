@@ -16,7 +16,7 @@ namespace NCop.Aspects.Weaving.Expressions
                 var aspectArgumentImplType = aspectDefinition.ToAspectArgumentImpl();
                     
                 settings.LocalBuilderRepository = localBuilderRepository;
-                settings.ByRefArgumentsStoreWeaver = new TopAspectByRefArgumentsStoreWeaverImpl(aspectArgumentImplType, methodImpl, localBuilderRepository);
+                settings.ByRefArgumentsStoreWeaver = new TopAspectByRefArgumentsStoreWeaver(aspectArgumentImplType, methodImpl, localBuilderRepository);
             });
 
             var nestedWeaver = aspectExpression.Reduce(clonedAspectWeavingSettings);
