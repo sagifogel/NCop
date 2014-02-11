@@ -1,38 +1,34 @@
-﻿using NCop.Aspects.Extensions;
-using NCop.Core.Extensions;
+﻿using NCop.Core.Extensions;
 using NCop.Weaving;
 using NCop.Weaving.Extensions;
 using System;
-using System.Linq;
-using System.Reflection;
 using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class NestedMethodDecoratorArgumentsWeaver : AbstractArgumentsWeaver
+    internal class MethodInvokerArgumentsWeaver : AbstractArgumentsWeaver
     {
         private readonly Type previousAspectArgType = null;
-        private readonly IByRefArgumentsStoreWeaver byRefArgumentStoreWeaver = null;
+        private readonly ICanEmitLocalBuilderByRefArgumentsStoreWeaver byRefArgumentStoreWeaver = null;
 
-        internal NestedMethodDecoratorArgumentsWeaver(Type previousAspectArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings)
+        internal MethodInvokerArgumentsWeaver(Type previousAspectArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings, ICanEmitLocalBuilderByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver)
             : base(argumentWeavingSettings, aspectWeavingSettings) {
             this.previousAspectArgType = previousAspectArgType;
-            byRefArgumentStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
+            this.byRefArgumentStoreWeaver = byRefArgumentsStoreWeaver;
         }
 
         public override void Weave(ILGenerator ilGenerator) {
             var argsLocalBuilder = LocalBuilderRepository.Get(previousAspectArgType);
-            var contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
             var methodImplParameters = WeavingSettings.MethodInfoImpl.GetParameters();
 
-            ilGenerator.EmitLoadArg(0);
-            ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
+            ilGenerator.EmitLoadArg(1);
+            ilGenerator.Emit(OpCodes.Ldind_Ref);
 
             methodImplParameters.ForEach(param => {
                 int argPosition = param.Position + 1;
 
                 if (byRefArgumentStoreWeaver.Contains(argPosition)) {
-                    ilGenerator.EmitLoadArg(argPosition);
+                    byRefArgumentStoreWeaver.EmitLoadLocalAddress(ilGenerator, argPosition);
                 }
                 else {
                     var property = previousAspectArgType.GetProperty("Arg{0}".Fmt(argPosition));
@@ -44,3 +40,4 @@ namespace NCop.Aspects.Weaving
         }
     }
 }
+

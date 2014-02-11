@@ -183,21 +183,18 @@ namespace NCop.Samples
         public void Code(ref int i, int j, ref int k) {
             var types = new Type[] { typeof(int).MakeByRefType() };
             var codeMethod = developer.GetType().GetMethod("Code", types);
-            var aspectArgs = new ActionExecutionArgsImpl<CSharpDeveloperMixin, int, int, int>(developer, codeMethod, i, j, k);
+            //var aspectArgs = new ActionExecutionArgsImpl<CSharpDeveloperMixin, int, int, int>(developer, codeMethod, i, j, k);
             //var interArgs = new ActionInterceptionArgsImpl<CSharpDeveloperMixin, int, int, int>(developer, codeMethod, MethodInterceptionBindingWeaver.singleton, i, j, k);
-            Aspects.traceAspect3.OnEntry(aspectArgs);
             //Aspects.traceAspect3.OnEntry(aspectArgs);
+            //Aspects.traceAspect3.OnEntry(aspectArgs);
+            var interArgs = new ActionInterceptionArgsImpl<CSharpDeveloperMixin, int, int, int>(developer, codeMethod, MethodInterceptionBindingWeaver.singleton, i, j, k);
 
             try {
-                var interArgs = new ActionInterceptionArgsImpl<CSharpDeveloperMixin, int, int, int>(developer, aspectArgs.Method, MethodDecoratorFunctionBinding.singleton, aspectArgs.Arg1, aspectArgs.Arg2, aspectArgs.Arg3);
                 Aspects.traceAspect.OnInvoke(interArgs);
-                FunctionArgsMapper.Map(interArgs, aspectArgs);
-                Aspects.traceAspect3.OnSuccess(aspectArgs);
             }
             finally {
-                Aspects.traceAspect3.OnExit(aspectArgs);
-                i = aspectArgs.Arg1;
-                k = aspectArgs.Arg3;
+                i = interArgs.Arg1;
+                k = interArgs.Arg3;
             }
         }
 
@@ -233,10 +230,13 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 2)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 12)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 13)]
+        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 0)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 2)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 3)]
+        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 4)]
+        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 5)]
+        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 6)]
         new void Code(ref int i, int j, ref int k);
     }
 

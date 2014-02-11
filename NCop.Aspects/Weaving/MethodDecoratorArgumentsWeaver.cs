@@ -12,9 +12,9 @@ namespace NCop.Aspects.Weaving
     {
         private readonly MethodInfo methodInfoImpl = null;
         private readonly IArgumentsWeavingSettings argumentWeavingSettings = null;
-        private readonly MethodDecoratorByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver = null;
+        private readonly ICanEmitLocalBuilderByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver = null;
 
-        internal MethodDecoratorArgumentsWeaver(MethodInfo methodInfoImpl, IArgumentsWeavingSettings argumentWeavingSettings, MethodDecoratorByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver) {
+        internal MethodDecoratorArgumentsWeaver(MethodInfo methodInfoImpl, IArgumentsWeavingSettings argumentWeavingSettings, ICanEmitLocalBuilderByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver) {
             this.methodInfoImpl = methodInfoImpl;
             this.argumentWeavingSettings = argumentWeavingSettings;
             this.byRefArgumentsStoreWeaver = byRefArgumentsStoreWeaver;

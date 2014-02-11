@@ -85,17 +85,23 @@ namespace NCop.Aspects.Weaving.Expressions
             };
         }
 
-        public IAspectExpressionBuilder GetDecorationAspectExpression(IAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentsWeavingSettings) {
+        public IAspectExpressionBuilder VisitInvocation(IAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentsWeavingSettings) {
             Func<IAspectExpression, IAspectExpression> expressionFactory = null;
 
             if (lastAspect.IsInBinding) {
-                expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>((ex) => {
-                    return new BindingAspectDecoratorExpression(aspectDefinition, argumentsWeavingSettings);
-                });
+                if (previousAspectDefinition.AspectType == AspectType.MethodInterceptionAspect)
+                    expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>((ex) => {
+                        return new BindingAspectDecoratorExpression(aspectDefinition, argumentsWeavingSettings);
+                    });
+                else {
+                    expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>((ex) => {
+                        return new MethodInvokerAspectExpression(aspectDefinition, argumentsWeavingSettings, previousAspectDefinition);
+                    });
+                }
             }
             else {
                 expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>((ex) => {
-                    return new NestedMethodDecoratorAspectExpression(argumentsWeavingSettings, previousAspectDefinition);
+                    return new NestedMethodInvokerAspectExpression(argumentsWeavingSettings, previousAspectDefinition);
                 });
             }
 

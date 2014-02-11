@@ -10,19 +10,19 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class NestedMethodDecoratorAspectWeaver : AbstractMethodScopeWeaver, IAspectWeaver
+    internal class NestedMethodInvokerAspectWeaver : AbstractMethodScopeWeaver, IAspectWeaver
     {
         private readonly Type previousAspectArgType = null;
         private readonly IArgumentsWeaver argumentsWeaver = null;
         private readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
         private readonly IByRefArgumentsStoreWeaver byRefArgumentStoreWeaver = null;
 
-        internal NestedMethodDecoratorAspectWeaver(Type previousAspectArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
+        internal NestedMethodInvokerAspectWeaver(Type previousAspectArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {
             this.previousAspectArgType = previousAspectArgType;
             this.argumentsWeavingSettings = argumentsWeavingSettings;
             byRefArgumentStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
-            argumentsWeaver = new NestedMethodDecoratorArgumentsWeaver(previousAspectArgType, aspectWeavingSettings, argumentsWeavingSettings);
+            argumentsWeaver = new NestedMethodInvokerArgumentsWeaver(previousAspectArgType, aspectWeavingSettings, argumentsWeavingSettings);
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {

@@ -66,16 +66,7 @@ namespace NCop.Weaving.Extensions
         }
 
         public static void EmitLoadLocalAddress(this ILGenerator iLGenerator, LocalBuilder localBuilder) {
-            iLGenerator.EmitLoadLocalAddress(localBuilder.LocalIndex);
-        }
-
-        public static void EmitLoadLocalAddress(this ILGenerator iLGenerator, int localIndex) {
-            if (localIndex <= 255) {
-                iLGenerator.Emit(OpCodes.Ldloca_S, localIndex);
-            }
-            else {
-                iLGenerator.Emit(OpCodes.Ldloca, localIndex);
-            }
+            iLGenerator.EmitLoadLocal(localBuilder, true);
         }
 
         public static void EmitStoreArgument(this ILGenerator iLGenerator, int index) {
