@@ -8,7 +8,7 @@ namespace NCop.Aspects.Framework
 {
 	public abstract class FunctionInterceptionArgs<TResult> : InterceptionArgs, IFunctionArgs
 	{
-        public abstract TResult Invoke();
+        public abstract void Invoke();
         public TResult ReturnValue { get; set; }
 	}
 }

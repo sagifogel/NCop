@@ -21,11 +21,11 @@ namespace NCop.Aspects.Engine
 		}
 
 		public override void Proceed() {
-			ReturnValue = funcBinding.Invoke(ref instance, this);
+			ReturnValue = funcBinding.Proceed(ref instance, this);
 		}
 
-		public override TResult Invoke() {
-			return ReturnValue = funcBinding.Proceed(ref instance, this);
+		public override void Invoke() {
+			ReturnValue = funcBinding.Invoke(ref instance, this);
 		}
 	}
 }

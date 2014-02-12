@@ -81,6 +81,7 @@ namespace NCop.Aspects.Weaving
         protected virtual void WeaveInvokeMethod() {
             ILGenerator ilGenerator = null;
             MethodBuilder methodBuilder = null;
+            var byRef = "";
             var methodParameters = ResolveParameterTypes();
 
             methodBuilder = typeBuilder.DefineMethod("Invoke", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
