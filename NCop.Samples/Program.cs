@@ -243,13 +243,13 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 0)]
+        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 0)]
         [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 2)]
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 3)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 4)]
-        [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 5)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 6)]
+		//[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 2)]
+		//[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 3)]
+		//[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 4)]
+		//[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 5)]
+		//[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 6)]
         new int Code(ref int i, int j, ref int k);
     }
 
@@ -257,7 +257,7 @@ namespace NCop.Samples
     {
         static void Main(string[] args) {
             int i = 0, j = 0, k = 0;
-            new Person().Code(ref i, j, ref k); return;
+            //new Person().Code(ref i, j, ref k); return;
             var container = new CompositeContainer();
             container.Configure();
             var person = container.TryResolve<IPersonComposite>();

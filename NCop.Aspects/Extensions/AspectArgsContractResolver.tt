@@ -11,6 +11,7 @@
 // </auto-generated
 // ------------------------------------------------------------------------------
 using System;
+using System.Linq;
 using NCop.Aspects.Engine;
 using NCop.Aspects.Framework;
 using System.Collections.Generic;
@@ -53,6 +54,10 @@ foreach (var i in Enumerable.Range(1, 8)) {
 			}
 
 			return typeArguments.ToActionAspectArgumentContract();
+		}
+		
+		internal static Type ToAspectArgumentContract(this IEnumerable<Type> typeArguments, bool isFunction) {
+			return typeArguments.ToArray().ToActionAspectArgumentContract();
 		}	
 	}
 }

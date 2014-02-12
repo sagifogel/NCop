@@ -36,7 +36,7 @@ namespace NCop.Aspects.Weaving
 
             aspectWeaver = aspectExpression.Reduce(aspectSetings);
             bindingSettings.LocalBuilderRepository = aspectSetings.LocalBuilderRepository;
-            bindingWeaver = new OnMethodInterceptionBindingWeaver(aspectType, bindingSettings, aspectWeaver);
+			bindingWeaver = new OnMethodInterceptionBindingWeaver(aspectType, bindingSettings, aspectWeavingSettings, aspectWeaver);
             
             return bindingWeaver.Weave();
         }

@@ -6,6 +6,7 @@
 // </auto-generated
 // ------------------------------------------------------------------------------
 using System;
+using System.Linq;
 using NCop.Aspects.Engine;
 using NCop.Aspects.Framework;
 using System.Collections.Generic;
@@ -21,45 +22,49 @@ namespace NCop.Aspects.Extensions
 			funcArgsMap = new Dictionary<int, Type>();
 			actionArgsMap = new Dictionary<int, Type>();
 
-			funcArgsMap.Add(1, typeof(IFunctionArgs<>));	
-			actionArgsMap.Add(1, typeof(IActionArgs<>));	
+			funcArgsMap.Add(1, typeof(IFunctionArgs<>));
+			actionArgsMap.Add(1, typeof(IActionArgs<>));
 
-			funcArgsMap.Add(2, typeof(IFunctionArgs<,>));	
-			actionArgsMap.Add(2, typeof(IActionArgs<,>));	
+			funcArgsMap.Add(2, typeof(IFunctionArgs<,>));
+			actionArgsMap.Add(2, typeof(IActionArgs<,>));
 
-			funcArgsMap.Add(3, typeof(IFunctionArgs<,,>));	
-			actionArgsMap.Add(3, typeof(IActionArgs<,,>));	
+			funcArgsMap.Add(3, typeof(IFunctionArgs<,,>));
+			actionArgsMap.Add(3, typeof(IActionArgs<,,>));
 
-			funcArgsMap.Add(4, typeof(IFunctionArgs<,,,>));	
-			actionArgsMap.Add(4, typeof(IActionArgs<,,,>));	
+			funcArgsMap.Add(4, typeof(IFunctionArgs<,,,>));
+			actionArgsMap.Add(4, typeof(IActionArgs<,,,>));
 
-			funcArgsMap.Add(5, typeof(IFunctionArgs<,,,,>));	
-			actionArgsMap.Add(5, typeof(IActionArgs<,,,,>));	
+			funcArgsMap.Add(5, typeof(IFunctionArgs<,,,,>));
+			actionArgsMap.Add(5, typeof(IActionArgs<,,,,>));
 
-			funcArgsMap.Add(6, typeof(IFunctionArgs<,,,,,>));	
-			actionArgsMap.Add(6, typeof(IActionArgs<,,,,,>));	
+			funcArgsMap.Add(6, typeof(IFunctionArgs<,,,,,>));
+			actionArgsMap.Add(6, typeof(IActionArgs<,,,,,>));
 
-			funcArgsMap.Add(7, typeof(IFunctionArgs<,,,,,,>));	
-			actionArgsMap.Add(7, typeof(IActionArgs<,,,,,,>));	
+			funcArgsMap.Add(7, typeof(IFunctionArgs<,,,,,,>));
+			actionArgsMap.Add(7, typeof(IActionArgs<,,,,,,>));
 
-			funcArgsMap.Add(8, typeof(IFunctionArgs<,,,,,,,>));	
-			actionArgsMap.Add(8, typeof(IActionArgs<,,,,,,,>));	
+			funcArgsMap.Add(8, typeof(IFunctionArgs<,,,,,,,>));
+			actionArgsMap.Add(8, typeof(IActionArgs<,,,,,,,>));
 		}
 
 		internal static Type ToFunctionAspectArgumentContract(this Type[] typeArguments) {
 			return funcArgsMap[typeArguments.Length].MakeGenericType(typeArguments);
 		}
-		
+
 		internal static Type ToActionAspectArgumentContract(this Type[] typeArguments) {
 			return actionArgsMap[typeArguments.Length].MakeGenericType(typeArguments);
 		}
-		
+
 		internal static Type ToAspectArgumentContract(this Type[] typeArguments, bool isFunction) {
 			if (isFunction) {
 				return typeArguments.ToFunctionAspectArgumentContract();
 			}
 
 			return typeArguments.ToActionAspectArgumentContract();
-		}	
+		}
+
+		internal static Type ToAspectArgumentContract(this IEnumerable<Type> typeArguments, bool isFunction) {
+			return typeArguments.ToArray().ToActionAspectArgumentContract();
+		}
 	}
 }

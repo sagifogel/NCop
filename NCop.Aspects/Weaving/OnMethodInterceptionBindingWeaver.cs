@@ -22,8 +22,8 @@ namespace NCop.Aspects.Weaving
 	{
 		private readonly ILocalBuilderRepository localBuilderRepository = null;
 
-		internal OnMethodInterceptionBindingWeaver(Type aspectType, BindingSettings bindingSettings, IAspectWeaver methodScopeWeaver)
-			: base(bindingSettings, methodScopeWeaver) {
+		internal OnMethodInterceptionBindingWeaver(Type aspectType, BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IAspectWeaver methodScopeWeaver)
+			: base(bindingSettings, aspectWeavingSettings, methodScopeWeaver) {
 			localBuilderRepository = bindingSettings.LocalBuilderRepository;
 		}
 	}

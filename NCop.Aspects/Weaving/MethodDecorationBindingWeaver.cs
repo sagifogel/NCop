@@ -12,7 +12,7 @@ namespace NCop.Aspects.Weaving
     internal class MethodDecoratorBindingWeaver : AbstractMethodBindingWeaver
     {
         internal MethodDecoratorBindingWeaver(BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IMethodScopeWeaver methodScopeWeaver)
-            : base(bindingSettings, methodScopeWeaver) {
+			: base(bindingSettings, aspectWeavingSettings, methodScopeWeaver) {
         }
     }
 }
