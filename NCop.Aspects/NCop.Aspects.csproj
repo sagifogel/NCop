@@ -148,6 +148,7 @@
     <Compile Include="Weaving\BindingOnMethodExecutionArgumentsWeaver.cs" />
     <Compile Include="Weaving\Expressions\MethodInvokerAspectExpression.cs" />
     <Compile Include="Weaving\ICanEmitLocalBuilderByRefArgumentsWeaver.cs" />
+    <Compile Include="Weaving\MethodDecoratorScopeWeaver.cs" />
     <Compile Include="Weaving\MethodInvokerArgumentsWeaver.cs" />
     <Compile Include="Weaving\MethodInvokerAspectWeaver.cs" />
     <Compile Include="Weaving\MethodInvokerByRefArgumentsWeaver.cs" />

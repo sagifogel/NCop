@@ -29,13 +29,14 @@ namespace NCop.Aspects.Weaving
             byRefArgumentStoreWeaver.StoreArgsIfNeeded(ilGenerator);
             argumentsWeaver.Weave(ilGenerator);
             ilGenerator.Emit(OpCodes.Callvirt, MethodInfoImpl);
-            byRefArgumentStoreWeaver.RestoreArgsIfNeeded(ilGenerator);
 
             if (argumentsWeavingSettings.IsFunction) {
                 var setReturnValueWeaver = new SetReturnValueWeaver(previousAspectArgType);
 
                 setReturnValueWeaver.Weave(ilGenerator);
             }
+
+            byRefArgumentStoreWeaver.RestoreArgsIfNeeded(ilGenerator);
 
             return ilGenerator;
         }

@@ -9,7 +9,7 @@ namespace NCop.Aspects.Weaving
 {
     internal class MethodInvokerAspectWeaver : AbstractMethodScopeWeaver, IAspectWeaver
     {
-        private readonly Type previousAspectArgType = null;
+        private readonly Type previousAspectArgsType = null;
         private readonly IArgumentsWeaver argumentsWeaver = null;
         private readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
         private readonly ICanEmitLocalBuilderByRefArgumentsWeaver byRefArgumentStoreWeaver = null;
@@ -19,6 +19,7 @@ namespace NCop.Aspects.Weaving
             var methodInfoImpl = aspectWeavingSettings.WeavingSettings.MethodInfoImpl;
             var localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
 
+            this.previousAspectArgsType = previousAspectArgsType;
             this.argumentsWeavingSettings = argumentsWeavingSettings;
             byRefArgumentStoreWeaver = new MethodInvokerByRefArgumentsWeaver(previousAspectArgsType, methodInfoImpl, localBuilderRepository);
             argumentsWeaver = new MethodInvokerArgumentsWeaver(previousAspectArgsType, aspectWeavingSettings, argumentsWeavingSettings, byRefArgumentStoreWeaver);
@@ -31,7 +32,7 @@ namespace NCop.Aspects.Weaving
             byRefArgumentStoreWeaver.RestoreArgsIfNeeded(ilGenerator);
 
             if (argumentsWeavingSettings.IsFunction) {
-                var setReturnValueWeaver = new SetReturnValueWeaver(previousAspectArgType);
+                var setReturnValueWeaver = new SetReturnValueWeaver(previousAspectArgsType);
 
                 setReturnValueWeaver.Weave(ilGenerator);
             }

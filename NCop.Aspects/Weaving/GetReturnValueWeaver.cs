@@ -24,9 +24,9 @@ namespace NCop.Aspects.Weaving
         public ILGenerator Weave(ILGenerator ilGenerator) {
             MethodInfo returnValueGetMethod = null;
             LocalBuilder argsImplLocalBuilder = null;
-            var isFunction = argumentsWeavingSetings.IsFunction;
+            var weavingSettings = aspectWeavingSettings.WeavingSettings;
             var argumentType = argumentsWeavingSetings.ArgumentType;
-            var aspectArgsType = argumentsWeavingSetings.Parameters.ToAspectArgumentContract(isFunction);
+            var aspectArgsType = weavingSettings.MethodInfoImpl.ToAspectArgumentContract();
 
             argsImplLocalBuilder = localBuilderRepository.Get(argumentType);
             ilGenerator.EmitLoadLocal(argsImplLocalBuilder);

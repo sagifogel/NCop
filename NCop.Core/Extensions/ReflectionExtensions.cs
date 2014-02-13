@@ -201,5 +201,9 @@ namespace NCop.Core.Extensions
 
             return delegateFactory(parameters);
         }
+
+        public static bool IsFunction(this MethodInfo methodInfo) {
+            return !methodInfo.ReturnType.Equals(typeof(void));
+        }
     }
 }

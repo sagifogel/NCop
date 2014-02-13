@@ -24,7 +24,7 @@ namespace NCop.Aspects.Weaving
 
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);
-
+            
             methodImplParameters.ForEach((param) => {
                 int argPosition = param.Position + 1;
 

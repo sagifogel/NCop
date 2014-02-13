@@ -9,21 +9,17 @@ namespace NCop.Aspects.Weaving
     internal class BindingAspectDecoratorWeaver : AbstractMethodScopeWeaver, IAspectWeaver, IBindingTypeReflector
     {
         private readonly IMethodBindingWeaver weaver = null;
-        private readonly IArgumentsWeaver argumentsWeaver = null;
         private readonly NCop.Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
-        private readonly ICanEmitLocalBuilderByRefArgumentsWeaver byRefArgumentsStoreWeaver = null;
+        private readonly IMethodScopeWeaver methodDecoratorScopeWeaver = null;
 
-        internal BindingAspectDecoratorWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings)
+        internal BindingAspectDecoratorWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {
             var bindingSettings = aspectDefinition.ToBindingSettings();
             var methodInfoImpl = aspectWeavingSettings.WeavingSettings.MethodInfoImpl;
-            var localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
-            var aspectArgumentContract = methodInfoImpl.ToAspectArgumentContract();
-
+            
             lazyWeavedType = new Core.Lib.Lazy<FieldInfo>(WeaveType);
             bindingSettings.LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
-            byRefArgumentsStoreWeaver = new MethodDecoratorByRefArgumentsStoreWeaver(aspectArgumentContract, methodInfoImpl, localBuilderRepository);
-            argumentsWeaver = new MethodDecoratorArgumentsWeaver(methodInfoImpl, byRefArgumentsStoreWeaver);
+            methodDecoratorScopeWeaver = new MethodDecoratorScopeWeaver(aspectWeavingSettings);
             weaver = new MethodDecoratorBindingWeaver(bindingSettings, aspectWeavingSettings, this);
         }
 
@@ -34,12 +30,7 @@ namespace NCop.Aspects.Weaving
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
-            byRefArgumentsStoreWeaver.StoreArgsIfNeeded(ilGenerator);
-            argumentsWeaver.Weave(ilGenerator);
-            ilGenerator.Emit(OpCodes.Callvirt, MethodInfoImpl);
-            byRefArgumentsStoreWeaver.RestoreArgsIfNeeded(ilGenerator);
-            
-            return ilGenerator;
+            return methodDecoratorScopeWeaver.Weave(ilGenerator);
         }
 
         protected FieldInfo WeaveType() {

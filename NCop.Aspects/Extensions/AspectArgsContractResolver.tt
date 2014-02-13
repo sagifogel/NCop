@@ -57,7 +57,7 @@ foreach (var i in Enumerable.Range(1, 8)) {
 		}
 		
 		internal static Type ToAspectArgumentContract(this IEnumerable<Type> typeArguments, bool isFunction) {
-			return typeArguments.ToArray().ToActionAspectArgumentContract();
+			return typeArguments.ToArray().ToAspectArgumentContract(isFunction);
 		}	
 	}
 }
