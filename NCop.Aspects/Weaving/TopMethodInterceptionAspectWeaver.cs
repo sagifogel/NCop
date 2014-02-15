@@ -20,7 +20,7 @@ namespace NCop.Aspects.Weaving
             var byRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
 
             if (argumentsWeavingSetings.IsFunction) {
-                getReturnValueWeaver = new GetReturnValueWeaver(aspectWeavingSettings, argumentsWeavingSetings);
+                getReturnValueWeaver = new TopGetReturnValueWeaver(aspectWeavingSettings, argumentsWeavingSetings);
             }
 
             argumentsWeavingSetings.Parameters = @params.ToArray(@param => @param.ParameterType);

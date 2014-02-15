@@ -111,6 +111,12 @@ namespace NCop.Samples
         }
 
         public int Proceed(ref CSharpDeveloperMixin instance, IFunctionArgs<int, int, int, int> args) {
+            //var aspectArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, int, int, int, int>(instance, args.Method, MethodDecoratorFunctionBinding.singleton, args.Arg1, args.Arg2, args.Arg3);
+
+            //Aspects.traceAspect.OnInvoke(aspectArgs);
+            //FunctionArgsMapper.Map<int, int, int, int>(aspectArgs, args);
+
+            //return args.ReturnValue;
             //var binding = MethodDecoratorFunctionBinding.singleton;
             var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, int, int, int, int>(instance, args.Method, args.Arg1, args.Arg2, args.Arg3);
             Aspects.traceAspect3.OnEntry(aspectArgs);
@@ -118,7 +124,7 @@ namespace NCop.Samples
             try {
                 var i = aspectArgs.Arg1;
                 var k = aspectArgs.Arg3;
-                instance.Code(ref i, aspectArgs.Arg2, ref k);
+                aspectArgs.ReturnValue = instance.Code(ref i, aspectArgs.Arg2, ref k);
                 aspectArgs.Arg1 = i;
                 aspectArgs.Arg3 = k;
                 Aspects.traceAspect3.OnSuccess(aspectArgs);
@@ -233,7 +239,7 @@ namespace NCop.Samples
             //var interArgs = new ActionInterceptionArgsImpl<CSharpDeveloperMixin, int, int, int>(developer, codeMethod, MethodInterceptionBindingWeaver.singleton, i, j, k);
             //Aspects.traceAspect3.OnEntry(aspectArgs);
             //Aspects.traceAspect3.OnEntry(aspectArgs);
-            var interArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, int, int, int, int>(developer, codeMethod, MethodDecoratorFunctionBinding.singleton, i, j, k);
+            var interArgs = new FunctionInterceptionArgsImpl<CSharpDeveloperMixin, int, int, int, int>(developer, codeMethod, MethodInterceptionBindingWeaver.singleton, i, j, k);
 
             try {
                 Aspects.traceAspect.OnInvoke(interArgs);
@@ -279,13 +285,8 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
-        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 0)]
+        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 0)]
         [MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 1)]
-        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 2)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 3)]
-        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 4)]
-        //[MethodInterceptionAspect(typeof(TraceAspect), AspectPriority = 5)]
-        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 6)]
         new int Code(ref int i, int j, ref int k);
     }
 
@@ -328,10 +329,10 @@ namespace NCop.Samples
             base.OnExit(args);
         }
 
-        //public override void OnException(ActionExecutionArgs<int, int, int> args) {
-        //    Console.WriteLine("Code from TraceAspect3 OnException");
-        //    base.OnException(args);
-        //}
+        public override void OnException(FunctionExecutionArgs<int, int, int, int> args) {
+            Console.WriteLine("Code from TraceAspect3 OnException");
+            base.OnException(args);
+        }
 
         public override void OnSuccess(FunctionExecutionArgs<int, int, int, int> args) {
             Console.WriteLine("Code from TraceAspect3 OnSuccess");

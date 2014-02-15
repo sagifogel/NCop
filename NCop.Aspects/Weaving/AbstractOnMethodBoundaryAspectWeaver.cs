@@ -88,7 +88,9 @@ namespace NCop.Aspects.Weaving
             }
         }
 
-        protected virtual void OnFunctionWeavingDetected() { }
+        protected virtual void OnFunctionWeavingDetected() {
+            returnValueWeaver = new TopGetReturnValueWeaver(aspectWeavingSettings, argumentsWeavingSetings);            
+        }
 
         private IAdviceExpression ResolveOnMethodEntryAdvice() {
             IAdviceDefinition selectedAdviceDefinition = null;

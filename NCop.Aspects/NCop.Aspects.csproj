@@ -140,6 +140,7 @@
     <Compile Include="Engine\IFunctionArgs`8.cs" />
     <Compile Include="Engine\IFunctionInterceptionArgs.cs" />
     <Compile Include="Weaving\AbstractArgumentsWeaver.cs" />
+    <Compile Include="Weaving\AbstractBranchedMethodScopeWeaver.cs" />
     <Compile Include="Weaving\AbstractByRefArgumentsStoreWeaver.cs" />
     <Compile Include="Weaving\AbstractTopAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodInterceptionBindingWeaver.cs" />
@@ -196,8 +197,9 @@
     <Compile Include="Weaving\NestedMethodIntercpetionArgumentsWeaver.cs" />
     <Compile Include="Weaving\NestedOnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\SetReturnValueWeaver.cs" />
+    <Compile Include="Weaving\TopGetReturnValueWeaver.cs" />
     <Compile Include="Weaving\TopOnMethodBoundaryArgumentsWeaver.cs" />
-    <Compile Include="Weaving\GetReturnValueWeaver.cs" />
+    <Compile Include="Weaving\AbstractGetReturnValueWeaver.cs" />
     <Compile Include="Weaving\TopMethodInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\Expressions\AbstractAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\BindingAspectDecoratorExpression.cs" />

@@ -81,6 +81,7 @@ namespace NCop.Aspects.Weaving
             ilGenerator = methodBuilder.GetILGenerator();
             methodDecoratorScopeWeaver = new MethodDecoratorScopeWeaver(aspectWeavingSettings);
             methodDecoratorScopeWeaver.Weave(ilGenerator);
+            ilGenerator.Emit(OpCodes.Ret);
         }
 
         protected virtual void WeaveProceedMethod() {
