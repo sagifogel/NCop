@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NCop.IoC
 {
-    public interface INCopArgumentsContainer : INCopContainer
+    public interface INCopDependencyArgumentsResolver : INCopDependencyResolver
     {
         TService Resolve<TArg1, TService>(TArg1 arg1, string name = null);
         TService TryResolve<TArg1, TService>(TArg1 arg1, string name = null);

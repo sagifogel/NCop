@@ -6,18 +6,18 @@ using NCop.Core.Extensions;
 
 namespace NCop.IoC.Fluent
 {
-    public class ReflectionRegistration : AutoRegistration<object>
-    {
-        protected Type ConcreteType = null;
+	public class ReflectionRegistration : AutoRegistration<object>
+	{
+		protected Type concreteType = null;
 
-        public ReflectionRegistration(Type concreteType, Type serviceType)
-            : base(serviceType, MakeFactoryType(serviceType)) {
-            ConcreteType = concreteType;
-            As(Registration.CastTo = concreteType);
-        }
+		public ReflectionRegistration(Type concreteType, Type serviceType)
+			: base(serviceType, MakeFactoryType(serviceType)) {
+			this.concreteType = concreteType;
+			As(Registration.CastTo = concreteType);
+		}
 
-        private static Type MakeFactoryType(Type serviceType) {
-            return typeof(Func<,>).MakeGenericType(typeof(INCopContainer), serviceType);
-        }
-    }
+		private static Type MakeFactoryType(Type serviceType) {
+			return typeof(Func<,>).MakeGenericType(typeof(INCopDependencyResolver), serviceType);
+		}
+	}
 }

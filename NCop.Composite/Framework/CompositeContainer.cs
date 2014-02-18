@@ -9,60 +9,50 @@ using NCop.Core.Extensions;
 using NCop.Composite.Engine;
 using System.Threading;
 using NCop.Core.Runtime;
+using NCop.Composite.Runtime;
+using NCop.Composite.IoC;
 
 namespace NCop.Composite.Framework
 {
-    public class CompositeContainer : AbstractNCopContainer, IContainerConfigurator<IFluentRegistry>
-    {
-        private int locked = 0;
-        private readonly RuntimeSettings settings = null;
-        private readonly CompositeContainer parentContainer = null;
-        private readonly Stack<CompositeContainer> childContainers = new Stack<CompositeContainer>();
+	public class CompositeContainer : INCopDependencyContainer
+	{
+		private readonly INCopDependencyContainerAdapter compositeAdapter = null;
 
-        public CompositeContainer(RuntimeSettings settings = null)
-            : this(null, settings) {
-        }
+		public CompositeContainer(CompositeRuntimeSettings runtimeSettings = null) {
+			IRuntime compositeRuntime = null;
 
-        internal CompositeContainer(CompositeContainer parentContainer, RuntimeSettings settings = null) {
-            this.parentContainer = parentContainer;
-            var composite = new CompositeRuntime(settings, registry);
-            this.settings = settings;
+			runtimeSettings = runtimeSettings ?? CompositeRuntimeSettings.Empty;
+			compositeAdapter = runtimeSettings.DependencyContainerAdapter ?? new CompositeContainerAdapter();
+			compositeRuntime = new CompositeRuntime(runtimeSettings, compositeAdapter);
+			compositeRuntime.Run();
+		}
 
-            composite.Run();
-        }
+		public void Configure() {
+			compositeAdapter.Configure();
+		}
 
-        protected override IContainerRegistry CreateRegistry() {
-            return new CompositeRegistry();
-        }
+		public TService Resolve<TService>() {
+			return compositeAdapter.Resolve<TService>();
+		}
 
-        protected override ServiceEntry GetEntry(ServiceKey key) {
-            ServiceEntry entry = base.GetEntry(key);
+		public TService TryResolve<TService>() {
+			return compositeAdapter.TryResolve<TService>();
+		}
 
-            if (entry.IsNull() && parentContainer.IsNotNull()) {
-                parentContainer.TryGetEntry(key, out entry);
-            }
+		public TService ResolveNamed<TService>(string name) {
+			return compositeAdapter.ResolveNamed<TService>(name);
+		}
 
-            return entry;
-        }
+		public TService TryResolveNamed<TService>(string name) {
+			return compositeAdapter.TryResolveNamed<TService>(name);
+		}
 
-		public CompositeContainer CreateChildContainer(RuntimeSettings childContainerSettings = null) {
-            CompositeContainer container = null;
+		public void Dispose() {
+			compositeAdapter.Dispose();
+		}
 
-            lock (childContainers) {
-				childContainers.Push(container = new CompositeContainer(this, childContainerSettings));
-            }
-
-            return container;
-        }
-
-        public void Configure(Action<IFluentRegistry> registrationAction = null) {
-            if (Interlocked.CompareExchange(ref locked, 1, 0) == 0) {
-                if (registrationAction.IsNotNull()) {
-                    registrationAction(registry);
-                }
-
-                base.Configure();
-            }
-        }
-    }
+		public INCopDependencyResolver CreateChildContainer() {
+			return compositeAdapter.CreateChildContainer();
+		}
+	}
 }

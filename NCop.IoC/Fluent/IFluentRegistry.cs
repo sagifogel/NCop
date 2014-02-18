@@ -9,6 +9,6 @@ namespace NCop.IoC.Fluent
     {
         ICastableRegistration<TCastable> Register<TCastable>();
         ICastableRegistration<TCastable> RegisterAuto<TCastable>();
-        IReuseStrategyRegistration Register<TService>(Func<INCopContainer, TService> factory);        
+        IReuseStrategyRegistration Register<TService>(Func<INCopDependencyResolver, TService> factory);        
     }
 }

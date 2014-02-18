@@ -2,7 +2,6 @@
 using NCop.Aspects.Engine;
 using System;
 using NCop.Aspects.Aspects;
-using NCop.Core.Visitors;
 
 namespace NCop.Aspects.Framework
 {

@@ -10,10 +10,10 @@ namespace NCop.IoC
         internal Owner Owner { get; set; }
         internal object Factory { get; set; }
         internal ReuseScope Scope { get; set; }
-        internal INCopContainer Container { get; set; }
+        internal INCopDependencyResolver Container { get; set; }
         internal ILifetimeStrategy LifetimeStrategy { get; set; }
 
-        internal ServiceEntry CloneFor(INCopContainer container) {
+        internal ServiceEntry CloneFor(INCopDependencyResolver container) {
             return new ServiceEntry {
                 Scope = Scope,
                 Owner = this.Owner,

@@ -93,7 +93,7 @@ namespace NCop.IoC.Fluent
 		}
 
 		protected virtual ICasted As(Type castTo) {
-			var delegateType = Expression.GetFuncType(new[] { typeof(INCopContainer), ServiceType });
+			var delegateType = Expression.GetFuncType(new[] { typeof(INCopDependencyResolver), ServiceType });
 			var ctor = castTo.GetConstructor(Type.EmptyTypes);
 
 			Contract.RequiersConstructorNotNull(ctor, () => {
@@ -102,7 +102,7 @@ namespace NCop.IoC.Fluent
 				return new RegistrationException(new MissingMethodException(message));
 			});
 
-			var paramater = Expression.Parameter(typeof(INCopContainer), "container");
+			var paramater = Expression.Parameter(typeof(INCopDependencyResolver), "container");
 			var lambda = Expression.Lambda(
 							delegateType,
 							Expression.New(ctor),

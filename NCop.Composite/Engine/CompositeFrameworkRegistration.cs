@@ -26,12 +26,12 @@ namespace NCop.Composite.Engine
         }
 
         private bool IsSingletonComposite() {
-            return ConcreteType.IsDefined<SingletonCompositeAttribute>() ||
+            return concreteType.IsDefined<SingletonCompositeAttribute>() ||
                    ServiceType.IsDefined<SingletonCompositeAttribute>();
         }
 
         private bool TryGetNamedAttribute(out NamedAttribute namedAttribute) {
-            namedAttribute = ConcreteType.GetCustomAttribute<NamedAttribute>() ??
+            namedAttribute = concreteType.GetCustomAttribute<NamedAttribute>() ??
                              actualServiceType.GetCustomAttribute<NamedAttribute>();
 
             return namedAttribute.IsNotNull();

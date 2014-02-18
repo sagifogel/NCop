@@ -18,8 +18,8 @@ namespace NCop.IoC.Fluent
 
 		protected override ICasted As(Type castTo) {
 			var typeofService = typeof(TService);
-			var containerParamater = Expression.Parameter(typeof(INCopContainer), "container");
-			var tryResolveMethodInfo = typeof(INCopContainer).GetMethod("TryResolve", Type.EmptyTypes);
+			var containerParamater = Expression.Parameter(typeof(INCopDependencyResolver), "container");
+			var tryResolveMethodInfo = typeof(INCopDependencyResolver).GetMethod("TryResolve", Type.EmptyTypes);
 			var dependencyAware = typeofService.IsDefined<DependencyAware>();
 			var properties = castTo.GetPublicProperties()
 								   .Where(prop => prop.CanWrite)
@@ -35,7 +35,7 @@ namespace NCop.IoC.Fluent
 				return Expression.Bind(prop, methodCallExpression);
 			});
 
-			var ctorResolveMethodInfo = typeof(INCopContainer).GetMethod("Resolve", Type.EmptyTypes);
+			var ctorResolveMethodInfo = typeof(INCopDependencyResolver).GetMethod("Resolve", Type.EmptyTypes);
 			var newExpression = NewExpression(ctorResolveMethodInfo, castTo, containerParamater);
 			var lambda = Expression.Lambda(
 							Expression.MemberInit(newExpression, assignments.ToArray()),
@@ -66,7 +66,7 @@ namespace NCop.IoC.Fluent
 			var ctors = type.GetConstructors();
 
 			if (ctors.Length > 1) {
-                var dependentCtors = ctors.ToArray(ctor => ctor.IsDefined<DependencyAttribute>());
+				var dependentCtors = ctors.ToArray(ctor => ctor.IsDefined<DependencyAttribute>());
 
 				if (dependentCtors.Length != 1) {
 					throw new RegistrationException(Resources.AmbigiousConstructorDependency.Fmt(type));

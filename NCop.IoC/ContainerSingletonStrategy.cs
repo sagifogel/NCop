@@ -8,9 +8,9 @@ namespace NCop.IoC
 {
     internal class ContainerSingletonStrategy : AbstractLifetimeStrategy
     {
-        protected readonly INCopContainer container = null;
+        protected readonly INCopDependencyResolver container = null;
 
-        public ContainerSingletonStrategy(INCopContainer container) {
+        public ContainerSingletonStrategy(INCopDependencyResolver container) {
             this.container = container;
         }
 
@@ -26,7 +26,7 @@ namespace NCop.IoC
             return CloneAndResolve<TService>(context.Key, context.Entry, context.Container, context.Registry, context.Factory);
         }
 
-        private TService CloneAndResolve<TService>(ServiceKey key, ServiceEntry entry, INCopContainer container, Action<ServiceKey, ServiceEntry> registry, Func<TService> factory) {
+        private TService CloneAndResolve<TService>(ServiceKey key, ServiceEntry entry, INCopDependencyResolver container, Action<ServiceKey, ServiceEntry> registry, Func<TService> factory) {
             ServiceEntry clonedEntry = entry.CloneFor(container);
 
             registry(key, clonedEntry);

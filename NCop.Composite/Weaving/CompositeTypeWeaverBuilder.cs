@@ -16,7 +16,7 @@ namespace NCop.Composite.Weaving
     {
         private readonly MixinsTypeWeaverBuilder builder = null;
 
-		internal CompositeTypeWeaverBuilder(Type compositeType, IRegistry registry) {
+		internal CompositeTypeWeaverBuilder(Type compositeType, INCopRegistry registry) {
             var mixinsMap = new MixinsMap(compositeType);
             var aspectMappedMembers = new AspectMemberMapper(compositeType, mixinsMap);
             var aspectsMap = new AspectsMap(compositeType, aspectMappedMembers);

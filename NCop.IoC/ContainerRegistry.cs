@@ -26,7 +26,7 @@ namespace NCop.IoC
 
         public ICastableRegistration<TCastable> Register<TCastable>() {
             Type serviceType = typeof(TCastable);
-            var factoryType = typeof(Func<INCopContainer, TCastable>);
+            var factoryType = typeof(Func<INCopDependencyResolver, TCastable>);
 
             return RegisterImpl<ICastableRegistration<TCastable>>(
                      new CastableRegistration<TCastable>(serviceType, factoryType));
@@ -34,46 +34,46 @@ namespace NCop.IoC
 
         public ICastableRegistration<TCastable> RegisterAuto<TCastable>() {
             Type serviceType = typeof(TCastable);
-            var factoryType = typeof(Func<INCopContainer, TCastable>);
+            var factoryType = typeof(Func<INCopDependencyResolver, TCastable>);
 
             return RegisterImpl<AutoRegistration<TCastable>>(
                      new AutoRegistration<TCastable>(serviceType, factoryType));
         }
 
-        public IReuseStrategyRegistration Register<TService>(Func<INCopContainer, TService> factory) {
-            return RegisterImpl<IReuseStrategyRegistration>(typeof(TService), typeof(Func<INCopContainer, TService>), factory);
+        public IReuseStrategyRegistration Register<TService>(Func<INCopDependencyResolver, TService> factory) {
+            return RegisterImpl<IReuseStrategyRegistration>(typeof(TService), typeof(Func<INCopDependencyResolver, TService>), factory);
         }
 
-        public IFactoryRegistration Register<TService, TArg1>(Func<INCopContainer, TArg1, TService> factory) {
-            return RegisterImpl<IFactoryRegistration>(typeof(TService), typeof(Func<INCopContainer, TArg1, TService>), factory);
+        public IFactoryRegistration Register<TService, TArg1>(Func<INCopDependencyResolver, TArg1, TService> factory) {
+            return RegisterImpl<IFactoryRegistration>(typeof(TService), typeof(Func<INCopDependencyResolver, TArg1, TService>), factory);
         }
 
-        public IFactoryRegistration Register<TService, TArg1, TArg2>(Func<INCopContainer, TArg1, TArg2, TService> factory) {
-            return RegisterImpl<IFactoryRegistration>(typeof(TService), typeof(Func<INCopContainer, TArg1, TArg2, TService>), factory);
+        public IFactoryRegistration Register<TService, TArg1, TArg2>(Func<INCopDependencyResolver, TArg1, TArg2, TService> factory) {
+            return RegisterImpl<IFactoryRegistration>(typeof(TService), typeof(Func<INCopDependencyResolver, TArg1, TArg2, TService>), factory);
         }
 
-        public IFactoryRegistration Register<TService, TArg1, TArg2, TArg3>(Func<INCopContainer, TArg1, TArg2, TArg3, TService> factory) {
-            return RegisterImpl<IFactoryRegistration>(typeof(TService), typeof(Func<INCopContainer, TArg1, TArg2, TArg3, TService>), factory);
+        public IFactoryRegistration Register<TService, TArg1, TArg2, TArg3>(Func<INCopDependencyResolver, TArg1, TArg2, TArg3, TService> factory) {
+            return RegisterImpl<IFactoryRegistration>(typeof(TService), typeof(Func<INCopDependencyResolver, TArg1, TArg2, TArg3, TService>), factory);
         }
 
-        public IFactoryRegistration Register<TService, TArg1, TArg2, TArg3, TArg4>(Func<INCopContainer, TArg1, TArg2, TArg3, TArg4, TService> factory) {
-            return RegisterImpl<IFactoryRegistration>(typeof(TService), typeof(Func<INCopContainer, TArg1, TArg2, TArg3, TArg4, TService>), factory);
+        public IFactoryRegistration Register<TService, TArg1, TArg2, TArg3, TArg4>(Func<INCopDependencyResolver, TArg1, TArg2, TArg3, TArg4, TService> factory) {
+            return RegisterImpl<IFactoryRegistration>(typeof(TService), typeof(Func<INCopDependencyResolver, TArg1, TArg2, TArg3, TArg4, TService>), factory);
         }
 
-        public IFactoryRegistration Register<TService, TArg1, TArg2, TArg3, TArg4, TArg5>(Func<INCopContainer, TArg1, TArg2, TArg3, TArg4, TArg5, TService> factory) {
-            return RegisterImpl<IFactoryRegistration>(typeof(TService), typeof(Func<INCopContainer, TArg1, TArg2, TArg3, TArg4, TArg5, TService>), factory);
+        public IFactoryRegistration Register<TService, TArg1, TArg2, TArg3, TArg4, TArg5>(Func<INCopDependencyResolver, TArg1, TArg2, TArg3, TArg4, TArg5, TService> factory) {
+            return RegisterImpl<IFactoryRegistration>(typeof(TService), typeof(Func<INCopDependencyResolver, TArg1, TArg2, TArg3, TArg4, TArg5, TService>), factory);
         }
 
-        public IFactoryRegistration Register<TService, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Func<INCopContainer, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TService> factory) {
-            return RegisterImpl<IFactoryRegistration>(typeof(TService), typeof(Func<INCopContainer, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TService>), factory);
+        public IFactoryRegistration Register<TService, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Func<INCopDependencyResolver, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TService> factory) {
+            return RegisterImpl<IFactoryRegistration>(typeof(TService), typeof(Func<INCopDependencyResolver, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TService>), factory);
         }
 
-        public IFactoryRegistration Register<TService, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Func<INCopContainer, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TService> factory) {
-            return RegisterImpl<IFactoryRegistration>(typeof(TService), typeof(Func<INCopContainer, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TService>), factory);
+        public IFactoryRegistration Register<TService, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Func<INCopDependencyResolver, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TService> factory) {
+            return RegisterImpl<IFactoryRegistration>(typeof(TService), typeof(Func<INCopDependencyResolver, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TService>), factory);
         }
 
-        public IFactoryRegistration Register<TService, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Func<INCopContainer, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TService> factory) {
-            return RegisterImpl<IFactoryRegistration>(typeof(TService), typeof(Func<INCopContainer, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TService>), factory);
+        public IFactoryRegistration Register<TService, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Func<INCopDependencyResolver, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TService> factory) {
+            return RegisterImpl<IFactoryRegistration>(typeof(TService), typeof(Func<INCopDependencyResolver, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TService>), factory);
         }
 
         public TRegistration RegisterImpl<TRegistration>(Type serviceType, Type factoryType, Delegate factory) where TRegistration : class, IFluentRegistration {
@@ -90,8 +90,8 @@ namespace NCop.IoC
             return registration;
         }
 
-        public virtual IRegistration Register(Type concreteType, Type serviceType) {
-            return RegisterImpl(new ReflectionRegistration(concreteType, serviceType));
+        public virtual void Register(Type concreteType, Type serviceType) {
+            RegisterImpl(new ReflectionRegistration(concreteType, serviceType));
         }
 
         public IEnumerator<IRegistration> GetEnumerator() {
@@ -103,7 +103,7 @@ namespace NCop.IoC
         }
 
         public bool Contains(Type serviceType) {
-            var factoryType = typeof(Func<,>).MakeGenericType(typeof(INCopContainer), serviceType);
+            var factoryType = typeof(Func<,>).MakeGenericType(typeof(INCopDependencyResolver), serviceType);
 
             return Registrations.Any(registration => {
                 return registration.FactoryType.Equals(factoryType);

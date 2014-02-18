@@ -65,6 +65,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MixinAnnotationException.tt</DependentUpon>
     </Compile>
+    <Compile Include="Framework\IMixin.cs" />
     <Compile Include="Framework\MixinsAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Weaving\MixinsTypeDefinition.cs" />

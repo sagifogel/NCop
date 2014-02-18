@@ -12,11 +12,11 @@ namespace NCop.Mixins.Weaving
 {
     internal class MixinsWeaverStrategy : ITypeWeaver
     {
-        private readonly IRegistry registry = null;
+        private readonly INCopRegistry registry = null;
         private readonly ITypeDefinition typeDefinition = null;
         private readonly IEnumerable<IMethodWeaver> methodWeavers = null;
 
-        internal MixinsWeaverStrategy(ITypeDefinition typeDefinition, IEnumerable<IMethodWeaver> methodWeavers, IRegistry registry) {
+        internal MixinsWeaverStrategy(ITypeDefinition typeDefinition, IEnumerable<IMethodWeaver> methodWeavers, INCopRegistry registry) {
             this.registry = registry;
             this.methodWeavers = methodWeavers;
             this.typeDefinition = typeDefinition;

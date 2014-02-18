@@ -74,8 +74,8 @@ namespace NCop.Composite.Tests
 
         [TestMethod]
         public void CompositeContainerSameTypeRegistration_HavingTwoDifferentInterfacesAnnotatedWithDiffrentNamedAttributeAndSameCompositeAttributeCastedToDerivedType_ReturnsDiffrentTypes() {
-            var person2 = container.TryResolve<IPersonComposite>("C#");
-            var person1 = container.TryResolve<IPersonComposite>("JavaScript");
+            var person2 = container.TryResolveNamed<IPersonComposite>("C#");
+            var person1 = container.TryResolveNamed<IPersonComposite>("JavaScript");
 
             Assert.AreNotEqual(person1, person2);
         }

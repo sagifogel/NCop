@@ -100,8 +100,6 @@
     <Compile Include="Runtime\IRuntimeSettings.cs" />
     <Compile Include="Runtime\IgnoredAssemblies.cs" />
     <Compile Include="Lib\Tuples`3.cs" />
-    <Compile Include="Visitors\IEnumerableProjectionTypeVisitor.cs" />
-    <Compile Include="Visitors\IProjectionTypeVisitor.cs" />
     <Compile Include="Lib\Collection.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
@@ -112,7 +110,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runtime\RuntimeSettings.cs" />
     <Compile Include="Lib\Tuples`2.cs" />
-    <Compile Include="Visitors\ITypeVisitor.cs" />
     <Compile Include="Lib\Volatile.cs" />
   </ItemGroup>
   <ItemGroup>

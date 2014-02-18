@@ -60,7 +60,7 @@ namespace NCop.IoC.Tests
             });
 
             var instance = container.Resolve<Foo>();
-            var namedInstance = container.Resolve<Foo>("NCop");
+            var namedInstance = container.ResolveNamed<Foo>("NCop");
 
             Assert.AreNotSame(namedInstance, instance);
         }

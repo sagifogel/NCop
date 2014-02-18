@@ -13,40 +13,40 @@ using NCop.Weaving;
 
 namespace NCop.Composite.Framework
 {
-    internal class CompositeRuntime : IRuntime
-    {
-        private readonly IRegistry registry = null;
-        private readonly RuntimeSettings settings = null;
+	internal class CompositeRuntime : IRuntime
+	{
+		private readonly INCopRegistry registry = null;
+		private readonly IRuntimeSettings settings = null;
 
-        public CompositeRuntime(RuntimeSettings settings, IRegistry registry) {
-            this.registry = registry;
-            this.settings = settings ?? new RuntimeSettings();
-        }
+		public CompositeRuntime(IRuntimeSettings settings, INCopRegistry registry) {
+			this.registry = registry;
+			this.settings = settings ?? new RuntimeSettings();
+		}
 
-        public void Run() {
-            var composites = settings.Assemblies.SelectMany(assembly => {
-                return assembly.GetTypes()
-                               .Select(type => new {
-                                   Type = type,
-                                   Attributes = type.GetCustomAttributesArray<CompositeAttribute>()
-                               })
-                               .Where(composite => composite.Attributes.Length > 0);
-            });
+		public void Run() {
+			var composites = settings.Assemblies.SelectMany(assembly => {
+				return assembly.GetTypes()
+							   .Select(type => new {
+								   Type = type,
+								   Attributes = type.GetCustomAttributesArray<CompositeAttribute>()
+							   })
+							   .Where(composite => composite.Attributes.Length > 0);
+			});
 
-            var bulkWeaving = new BulkWeaving(composites.Select(composite => {
-                CompositeTypeWeaverBuilder builder = null;
+			var bulkWeaving = new BulkWeaving(composites.Select(composite => {
+				CompositeTypeWeaverBuilder builder = null;
 
-                if (composite.Attributes.Length > 1) {
-                    throw new DuplicateCompositeAnnotationException(composite.Type);
-                }
+				if (composite.Attributes.Length > 1) {
+					throw new DuplicateCompositeAnnotationException(composite.Type);
+				}
 
-                builder = new CompositeTypeWeaverBuilder(composite.Type, registry);
+				builder = new CompositeTypeWeaverBuilder(composite.Type, registry);
 
-                return builder.Build();
-            }));
+				return builder.Build();
+			}));
 
-            bulkWeaving.Weave();
-        }
-    }
+			bulkWeaving.Weave();
+		}
+	}
 }
 
