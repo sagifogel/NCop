@@ -4,3 +4,6 @@ obj
 *.user
 TestResults
 *Resharper*
+*packages
+/packages
+packages/repositories.config

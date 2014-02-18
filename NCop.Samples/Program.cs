@@ -5,6 +5,9 @@ using NCop.Mixins.Framework;
 using System;
 using NCop.IoC;
 using NCop.Composite.Runtime;
+using StructureMap.Configuration.DSL;
+using StructureMap;
+using System.Linq;
 
 namespace NCop.Samples
 {
@@ -293,49 +296,7 @@ namespace NCop.Samples
 		new int Code(ref int i, int j, ref int k);
 	}
 
-	public class MockContainer : INCopDependencyContainerAdapter
-	{
-		private object mixin = new Person();
-		private Type type = null;
 
-		int counter = 0;
-
-		public void Configure() {
-		}
-
-		public TService Resolve<TService>() {
-			return (TService)mixin;
-		}
-
-		public TService TryResolve<TService>() {
-			return (TService)mixin;
-		}
-
-		public TService ResolveNamed<TService>(string name) {
-			return (TService)mixin;
-		}
-
-		public TService TryResolveNamed<TService>(string name) {
-			return (TService)mixin;
-		}
-
-		public void Dispose() {
-
-		}
-
-		public INCopDependencyResolver CreateChildContainer() {
-			return this;
-		}
-
-		public void Register(Type concreteType, Type serviceType) {
-			if (counter > 0) {
-				type = serviceType;
-				mixin = Activator.CreateInstance(concreteType, new object[] { new CSharpDeveloperMixin() });
-			}
-
-			counter++;
-		}
-	}
 
 	class Program
 	{
@@ -343,12 +304,11 @@ namespace NCop.Samples
 			int i = 0, j = 0, k = 0;
 			//new Person().Code(ref i, j, ref k); return;
 			var settings = new CompositeRuntimeSettings {
-				DependencyContainerAdapter = new MockContainer(),
-				Assemblies = new[] { typeof(MockContainer).Assembly }
+				DependencyContainerAdapter = new StructureMapAdapter()
 			};
 
 			var container = new CompositeContainer(settings);
-			container.Configure();
+			//container.Configure();
 			var person = container.TryResolve<IPersonComposite>();
 			person.Code(ref i, j, ref k);
 			Console.WriteLine(i);
