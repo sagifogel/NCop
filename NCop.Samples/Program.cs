@@ -288,6 +288,7 @@ namespace NCop.Samples
 	}
 
 	[TransientComposite]
+    [Named("IPersonComposite")]
 	[Mixins(typeof(CSharpDeveloperMixin))]
 	public interface IPersonComposite : IDeveloper<ILanguage>
 	{
@@ -308,9 +309,9 @@ namespace NCop.Samples
 			};
 
 			var container = new CompositeContainer(settings);
-			//container.Configure();
-			var person = container.TryResolve<IPersonComposite>();
-			person.Code(ref i, j, ref k);
+			container.Configure();
+			var person = container.TryResolveNamed<IPersonComposite>("IPersonComposite");
+            person.Code(ref i, j, ref k);
 			Console.WriteLine(i);
 		}
 	}

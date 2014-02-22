@@ -19,11 +19,13 @@ namespace NCop.Composite.Framework
 		private readonly INCopDependencyContainerAdapter compositeAdapter = null;
 
 		public CompositeContainer(CompositeRuntimeSettings runtimeSettings = null) {
-			IRuntime compositeRuntime = null;
+            INCopRegistry registry = null;
+            IRuntime compositeRuntime = null;
 
 			runtimeSettings = runtimeSettings ?? CompositeRuntimeSettings.Empty;
 			compositeAdapter = runtimeSettings.DependencyContainerAdapter ?? new CompositeContainerAdapter();
-			compositeRuntime = new CompositeRuntime(runtimeSettings, compositeAdapter);
+            registry = new CompositeRegistryDecorator(compositeAdapter);
+			compositeRuntime = new CompositeRuntime(runtimeSettings, registry);
 			compositeRuntime.Run();
 		}
 

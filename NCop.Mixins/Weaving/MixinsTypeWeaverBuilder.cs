@@ -1,39 +1,38 @@
 ﻿using NCop.Core;
-using NCop.Weaving;
+using NCop.Core.Extensions;
+using NCop.IoC;
 using NCop.Mixins.Engine;
+using NCop.Weaving;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NCop.IoC;
 
 namespace NCop.Mixins.Weaving
 {
-	public class MixinsTypeWeaverBuilder : AbstractTypeWeaverBuilder, IMixinMapBag
-	{
-		protected readonly INCopRegistry registry = null;
-		protected readonly List<TypeMap> mixinsMap = null;
+    public class MixinsTypeWeaverBuilder : AbstractTypeWeaverBuilder, IMixinMapBag
+    {
+        protected readonly INCopRegistry registry = null;
+        protected readonly ISet<TypeMap> mixinsMap = null;
 
-		public MixinsTypeWeaverBuilder(Type type, ITypeDefinition typeDefinition, INCopRegistry registry)
-			: base(type, typeDefinition) {
-			this.registry = registry;
-			mixinsMap = new List<TypeMap>();
-		}
+        public MixinsTypeWeaverBuilder(Type type, ITypeDefinition typeDefinition, INCopRegistry registry)
+            : base(type, typeDefinition) {
+            this.registry = registry;
+            mixinsMap = new HashSet<TypeMap>();
+        }
 
-		public void Add(TypeMap item) {
-			mixinsMap.Add(item);
-		}
+        public void Add(TypeMap item) {
+            mixinsMap.Add(item);
+        }
 
-		public override void AddMethodWeavers() {
-			base.AddMethodWeavers();
+        public override void AddMethodWeavers() {
+            base.AddMethodWeavers();
 
-			mixinsMap.ForEach(map => {
-				registry.Register(map.ImplementationType, map.ContractType);
-			});
-		}
+            mixinsMap.ForEach(map => {
+                registry.Register(map.ImplementationType, map.ContractType);
+            });
+        }
 
-		public override ITypeWeaver CreateTypeWeaver() {
-			return new MixinsWeaverStrategy(typeDefinition, methodWeavers, registry);
-		}
-	}
+        public override ITypeWeaver CreateTypeWeaver() {
+            return new MixinsWeaverStrategy(typeDefinition, methodWeavers, registry);
+        }
+    }
 }

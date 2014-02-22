@@ -20,7 +20,8 @@ namespace NCop.Composite.Tests
     {
         string Code();
     }
-
+        
+    [Named("GenericCSharpDeveloperImpl")]
     public class GenericCSharpDeveloperImpl : IDeveloper<CSharpLanguage>
     {
         public string Code() {
@@ -49,7 +50,7 @@ namespace NCop.Composite.Tests
         }
     }
 
-    [Named("C#")]
+    [Named("CSharpDeveloperMixin")]
     public class CSharpDeveloperMixin : IDeveloper
     {
         public string Code() {
@@ -57,7 +58,7 @@ namespace NCop.Composite.Tests
         }
     }
 
-    [Named("JavaScript")]
+    [Named("JavaScriptDeveloperMixin")]
     public class JavaScriptDeveloperMixin : IDeveloper
     {
         public string Code() {

@@ -12,15 +12,15 @@ namespace NCop.IoC
 {
     public class ContainerRegistry : IContainerRegistry
     {
-        protected readonly List<IFluentRegistration> registrations = null;
+        protected readonly List<IRegistration> registrations = null;
 
         public ContainerRegistry() {
-            registrations = new List<IFluentRegistration>();
+            registrations = new List<IRegistration>();
         }
 
         private IEnumerable<IRegistration> Registrations {
-            get { 
-                return registrations.Cast<IRegistration>(); 
+            get {
+                return registrations.Cast<IRegistration>();
             }
         }
 
@@ -102,12 +102,8 @@ namespace NCop.IoC
             return GetEnumerator();
         }
 
-        public bool Contains(Type serviceType) {
-            var factoryType = typeof(Func<,>).MakeGenericType(typeof(INCopDependencyResolver), serviceType);
-
-            return Registrations.Any(registration => {
-                return registration.FactoryType.Equals(factoryType);
-            });
+        public void Register(IRegistration registration) {
+            registrations.Add(registration);
         }
     }
 }

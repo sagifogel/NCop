@@ -91,7 +91,7 @@ namespace NCop.IoC
 		protected TService ResolveInternal<TService>(string name = null, bool throwIfMissing = true) {
 			return ResolveImpl<TService, Func<INCopDependencyResolver, TService>>(factory => {
 				return factory(this);
-			}, name);
+			}, name, throwIfMissing);
 		}
 
 		protected TService ResolveImpl<TService, TFunc>(Func<TFunc, TService> factoryInvoker, string name = null, bool throwIfMissing = true) {

@@ -44,7 +44,7 @@ namespace NCop.Composite.IoC
 		public void Register(Type concreteType, Type serviceType, string name = null) {
             var compositeRegistration = new CompositeFrameworkRegistration(concreteType, serviceType);
 
-            container.Register(concreteType, serviceType, compositeRegistration.Name);
+            container.Register(compositeRegistration);
         }
 	}
 }

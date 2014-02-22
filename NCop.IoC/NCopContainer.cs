@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace NCop.IoC
 {
-    public class NCopContainer : AbstractNCopContainer, INCopRegistry, INCopDependencyArgumentsResolver, IContainerConfigurator<IArgumentsFluentRegistry>
+    public class NCopContainer : AbstractNCopContainer, INCopRegistry, IRegisterEntry, INCopDependencyArgumentsResolver, IContainerConfigurator<IArgumentsFluentRegistry>
     {
         private int locked = 0;
         private readonly NCopContainer parentContainer = null;
@@ -162,6 +162,10 @@ namespace NCop.IoC
 
         public void Register(Type concreteType, Type serviceType, string name = null) {
             registry.Register(concreteType, serviceType, name);
+        }
+
+        public void Register(IRegistration registration) {
+            registry.Register(registration);
         }
     }
 }

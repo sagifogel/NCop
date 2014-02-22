@@ -71,6 +71,7 @@
     <Compile Include="INCopDependencyContainer.cs" />
     <Compile Include="INCopDependencyContainerAdapter.cs" />
     <Compile Include="INCopRegistry.cs" />
+    <Compile Include="IRegisterEntry.cs" />
     <Compile Include="Owner.cs" />
     <Compile Include="ResolveContext`1.cs" />
     <Compile Include="ContainerSingletonStrategy.cs" />

@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace NCop.IoC
 {
-    public interface IContainerRegistry : IArgumentsFluentRegistry, INCopRegistry, IEnumerable<IRegistration>, IRegisterEntry
+    public interface IRegisterEntry
     {
+        void Register(IRegistration registration);
     }
 }
