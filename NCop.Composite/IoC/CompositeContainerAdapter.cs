@@ -2,6 +2,7 @@
 using NCop.IoC;
 using System;
 using System.Reflection;
+using NCop.Composite.Extensions;
 
 namespace NCop.Composite.IoC
 {
@@ -42,7 +43,8 @@ namespace NCop.Composite.IoC
 		}
 
 		public void Register(Type concreteType, Type serviceType, string name = null) {
-            var compositeRegistration = new CompositeFrameworkRegistration(concreteType, serviceType);
+            var castAs = serviceType.GetTypeFromAttribute();
+            var compositeRegistration = new CompositeFrameworkRegistration(concreteType, serviceType, castAs);
 
             container.Register(compositeRegistration);
         }

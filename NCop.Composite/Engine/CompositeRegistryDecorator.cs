@@ -17,7 +17,7 @@ namespace NCop.Composite.Engine
         }
 
         public void Register(Type concreteType, Type serviceType, string name = null) {
-            name = serviceType.GetNamedAttribute();
+            name = serviceType.GetNameFromAttribute();
 
             regisrty.Register(concreteType, serviceType, name);
         }
