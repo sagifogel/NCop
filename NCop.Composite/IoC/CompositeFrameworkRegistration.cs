@@ -4,7 +4,7 @@ using System;
 using System.Reflection;
 using NCop.Core.Extensions;
 
-namespace NCop.Composite.Engine
+namespace NCop.Composite.IoC
 {
     public class CompositeFrameworkRegistration : ReflectionRegistration
     {

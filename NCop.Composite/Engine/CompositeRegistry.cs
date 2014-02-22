@@ -7,12 +7,13 @@ using System.Text;
 using NCop.Core.Extensions;
 using NCop.IoC.Fluent;
 using System.Reflection;
+using NCop.Composite.IoC;
 
 namespace NCop.Composite.Engine
 {
 	internal class CompositeRegistry : ContainerRegistry
 	{
-		public override void Register(Type concreteType, Type serviceType) {
+		public override void Register(Type concreteType, Type serviceType, string name = null) {
 			CompositeFrameworkRegistration compositeRegistration = null;
 
 			if (IsNotIgnoreRegistration(concreteType, serviceType)) {

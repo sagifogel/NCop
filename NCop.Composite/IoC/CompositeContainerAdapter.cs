@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NCop.Composite.Framework;
 using NCop.IoC;
+using System;
+using System.Reflection;
 
 namespace NCop.Composite.IoC
 {
@@ -43,8 +41,10 @@ namespace NCop.Composite.IoC
 			return container.CreateChildContainer();
 		}
 
-		public void Register(Type concreteType, Type serviceType) {
-			container.Register(concreteType, serviceType);
-		}
+		public void Register(Type concreteType, Type serviceType, string name = null) {
+            var compositeRegistration = new CompositeFrameworkRegistration(concreteType, serviceType);
+
+            container.Register(concreteType, serviceType, compositeRegistration.Name);
+        }
 	}
 }

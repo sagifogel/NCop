@@ -103,8 +103,7 @@ namespace NCop.IoC.Fluent
 			});
 
 			var paramater = Expression.Parameter(typeof(INCopDependencyResolver), "container");
-			var lambda = Expression.Lambda(
-							delegateType,
+			var lambda = Expression.Lambda(delegateType,
 							Expression.New(ctor),
 								paramater);
 

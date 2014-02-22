@@ -88,7 +88,7 @@
     <Compile Include="Engine\CompositeAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Engine\CompositeFrameworkRegistration.cs" />
+    <Compile Include="IoC\CompositeFrameworkRegistration.cs" />
     <Compile Include="Engine\CompositePropertyMap.cs" />
     <Compile Include="Engine\CompositeRegistry.cs" />
     <Compile Include="Engine\ICompositeMemberCollection.cs" />

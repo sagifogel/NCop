@@ -90,7 +90,7 @@ namespace NCop.IoC
             return registration;
         }
 
-        public virtual void Register(Type concreteType, Type serviceType) {
+        public virtual void Register(Type concreteType, Type serviceType, string name = null) {
             RegisterImpl(new ReflectionRegistration(concreteType, serviceType));
         }
 

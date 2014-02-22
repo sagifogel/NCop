@@ -3,6 +3,7 @@ using NCop.Mixins.Framework;
 using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NCop.Composite.Runtime;
 
 namespace NCop.Composite.Tests
 {

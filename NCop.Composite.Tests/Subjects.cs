@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NCop.Composite.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,6 +49,7 @@ namespace NCop.Composite.Tests
         }
     }
 
+    [Named("C#")]
     public class CSharpDeveloperMixin : IDeveloper
     {
         public string Code() {
@@ -55,6 +57,7 @@ namespace NCop.Composite.Tests
         }
     }
 
+    [Named("JavaScript")]
     public class JavaScriptDeveloperMixin : IDeveloper
     {
         public string Code() {

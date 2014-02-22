@@ -46,17 +46,19 @@ namespace NCop.Samples
 			return new StructureMapAdapter(container.GetNestedContainer());
 		}
 
-		public void Register(Type concreteType, Type serviceType) {
+		public void Register(Type concreteType, Type serviceType, string name = null) {
 			container.Configure(x => {
 				var ctor = concreteType.GetConstructors()[0];
 				var @params = ctor.GetParameters();
-				var use = x.For(serviceType)
-						   .Use(concreteType);
+                var use = x.For(serviceType)
+                           .Use(concreteType);
+
+                if (string.IsNullOrEmpty(name)) {
+                    use.Named(name);
+                }
 
 				foreach (var item in @params) {
-					var value = ObjectFactory.GetInstance(item.ParameterType);
-
-					use.WithCtorArg(item.Name).EqualTo(value);
+					use.CtorDependency<object>(item.Name);
 				}
 			});
 		}
