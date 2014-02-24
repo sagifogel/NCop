@@ -13,30 +13,29 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class AspectsAttributeWeaver : IWeaver, IAspectRepository
+    public class AspectsAttributeWeaver : ITypeWeaver, IAspectRepository
     {
         private Dictionary<Type, FieldInfo> aspects = null;
-        private readonly IAspectDefinitionCollection aspectDefinitions = null;
+        private readonly IEnumerable<Type> aspectTypes = null;
 
-        public AspectsAttributeWeaver(IAspectDefinitionCollection aspectDefinitions) {
-            this.aspectDefinitions = aspectDefinitions;
+        public AspectsAttributeWeaver(IEnumerable<Type> aspectTypes) {
+            this.aspectTypes = aspectTypes;
         }
 
         public FieldInfo GetAspectFieldByType(Type type) {
             return aspects[type];
         }
 
-        internal void Weave() {
+        public void Weave() {
             Type aspectAttributes = null;
             var fieldBuilders = new List<FieldBuilder>();
             var typeAttrs = TypeAttributes.Sealed | TypeAttributes.Abstract;
             var typeBuilder = typeof(object).DefineType("Aspects".ToUniqueName(), attributes: typeAttrs);
             var fieldAttrs = FieldAttributes.Private | FieldAttributes.FamANDAssem | FieldAttributes.Static;
-            var uniqueAspects = aspectDefinitions.Select(definition => definition.Aspect.AspectType).Distinct();
             var cctorAttrs = MethodAttributes.Private | MethodAttributes.Static | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
             var cctor = typeBuilder.DefineConstructor(cctorAttrs, CallingConventions.Standard, Type.EmptyTypes).GetILGenerator();
 
-            uniqueAspects.ForEach((aspect, i) => {
+            aspectTypes.ForEach((aspect, i) => {
                 var fieldBuilder = typeBuilder.DefineField("Aspect_{0}".Fmt(i).ToUniqueName(), aspect, fieldAttrs);
                 var ctor = fieldBuilder.FieldType.GetConstructor(Type.EmptyTypes);
 

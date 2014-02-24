@@ -1,4 +1,5 @@
 ﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Weaving;
 using NCop.Composite.Engine;
 using NCop.Weaving;
 using System;
@@ -13,7 +14,7 @@ namespace NCop.Composite.Weaving
     {
         private readonly ICompositePropertyMap compositePropertyMap = null;
 
-        public CompositePropertyWeaverBuilder(ICompositePropertyMap compositePropertyMap, ITypeDefinition typeDefinition)
+        public CompositePropertyWeaverBuilder(ICompositePropertyMap compositePropertyMap, ITypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
             : base(compositePropertyMap.ImplementationMember, compositePropertyMap.ImplementationType, compositePropertyMap.ContractType, typeDefinition) {
             this.compositePropertyMap = compositePropertyMap;
         }
@@ -21,10 +22,10 @@ namespace NCop.Composite.Weaving
         public IPropertyWeaver Build() {
             if (compositePropertyMap.HasAspectDefinitions) {
 
-                return new PropertyDecoratorWeaver(MemberInfoImpl, ImplementationType, ContractType, TypeDefinition);
+                return new PropertyDecoratorWeaver(memberInfoImpl, implementationType, contractType, typeDefinition);
             }
 
-            return new PropertyDecoratorWeaver(MemberInfoImpl, ImplementationType, ContractType, TypeDefinition);
+            return new PropertyDecoratorWeaver(memberInfoImpl, implementationType, contractType, typeDefinition);
         }
     }
 }

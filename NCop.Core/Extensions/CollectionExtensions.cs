@@ -141,5 +141,11 @@ namespace NCop.Core.Extensions
 
             return new HashSet<TSource>(source);
         }
+
+        public static void AddRange<TSource>(this ISet<TSource> source, IEnumerable<TSource> second) {
+            second.ForEach(item => {
+                source.Add(item);
+            });
+        }
     }
 }

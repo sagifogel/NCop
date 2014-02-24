@@ -9,16 +9,16 @@ namespace NCop.Weaving
 {
     public abstract class AbstractWeaverBuilder<TMember> where TMember : MemberInfo
     {
-        protected readonly Type ContractType = null;
-        protected readonly TMember MemberInfoImpl = null;
-        protected readonly Type ImplementationType = null;
-        protected readonly ITypeDefinition TypeDefinition = null;
+        protected readonly Type contractType = null;
+        protected readonly TMember memberInfoImpl = null;
+        protected readonly Type implementationType = null;
+        protected readonly ITypeDefinition typeDefinition = null;
 
         public AbstractWeaverBuilder(TMember memberInfoImpl, Type implementationType, Type contractType, ITypeDefinition typeDefinition) {
-            ContractType = contractType;
-            MemberInfoImpl = memberInfoImpl;
-            ImplementationType = implementationType;
-            TypeDefinition = typeDefinition;
+            this.contractType = contractType;
+            this.memberInfoImpl = memberInfoImpl;
+            this.implementationType = implementationType;
+            this.typeDefinition = typeDefinition;
         }
     }
 }

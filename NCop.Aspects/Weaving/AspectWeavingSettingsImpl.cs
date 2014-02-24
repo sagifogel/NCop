@@ -9,7 +9,7 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving
 {
-	internal class AspectWeavingSettingsImpl : IAspectWeavingSettings
+	public class AspectWeavingSettingsImpl : IAspectWeavingSettings
 	{
 		internal static AspectWeavingSettingsImpl Empty = new AspectWeavingSettingsImpl();
 

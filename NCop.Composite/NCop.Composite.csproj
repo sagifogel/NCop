@@ -118,6 +118,8 @@
     <Compile Include="Weaving\CompositeMethodWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeTypeWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositePropertyWeaverBuilder.cs" />
+    <Compile Include="Weaving\CompositeWeavinsSettings.cs" />
+    <Compile Include="Weaving\ICompositeWeavingSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

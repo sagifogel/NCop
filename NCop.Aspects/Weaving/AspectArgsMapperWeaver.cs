@@ -9,7 +9,7 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class AspectArgsMapperWeaver : IWeaver, IAspectArgsMapper
+    public class AspectArgsMapperWeaver : ITypeWeaver, IAspectArgsMapper
     {
         internal Dictionary<int, MethodInfo> funcAspectArgMapperMethodsDictionary = null;
         internal Dictionary<int, MethodInfo> actionAspectArgMapperMethodsDictionary = null;

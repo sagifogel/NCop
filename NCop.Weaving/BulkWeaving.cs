@@ -8,7 +8,7 @@ using NCop.Core.Extensions;
 
 namespace NCop.Weaving
 {
-    public class BulkWeaving
+    public class BulkWeaving : ITypeWeaver
     {
         private bool lockTaken = false;
         private static object syncLock = new object();
@@ -19,7 +19,7 @@ namespace NCop.Weaving
         }
 
         public void Weave() {
-             try {
+            try {
                 Monitor.Enter(syncLock, ref lockTaken);
 
                 weavers.ForEach(weaver => {

@@ -13,27 +13,16 @@ namespace NCop.Aspects.Weaving
 	internal class AspectsWeaver : IAspectWeaver
 	{
 		private IAspectWeaver weaver = null;
-		private readonly IAspectWeavingSettings settings = null;
         private readonly IAspectExpression aspectExpression = null;
-        private readonly AspectsAttributeWeaver aspectAttributeWeaver = null;
-		private readonly AspectArgsMapperWeaver aspectArgsMapperWeaver = null;
+        private readonly IAspectWeavingSettings aspectWeavingSettings = null;
 
-		public AspectsWeaver(IAspectExpression aspectExpression, IAspectDefinitionCollection aspectDefinitions, IWeavingSettings weavingSettings) {
+        public AspectsWeaver(IAspectExpression aspectExpression, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings) {
             this.aspectExpression = aspectExpression;
-			aspectArgsMapperWeaver = new AspectArgsMapperWeaver();
-			aspectAttributeWeaver = new AspectsAttributeWeaver(aspectDefinitions);
-
-			settings = new AspectWeavingSettingsImpl {
-                WeavingSettings = weavingSettings,
-				AspectRepository = aspectAttributeWeaver,
-				AspectArgsMapper = aspectArgsMapperWeaver				
-			};
+            this.aspectWeavingSettings = aspectWeavingSettings;
 		}
 
 		public ILGenerator Weave(ILGenerator ilGenerator) {
-			aspectAttributeWeaver.Weave();
-			aspectArgsMapperWeaver.Weave();
-            weaver = aspectExpression.Reduce(settings);
+            weaver = aspectExpression.Reduce(aspectWeavingSettings);
 
 			return weaver.Weave(ilGenerator);
 		}

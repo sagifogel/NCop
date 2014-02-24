@@ -9,6 +9,7 @@ using System.Linq;
 using NCop.Mixins.Engine;
 using NCop.Mixins.Weaving;
 using NCop.Weaving;
+using NCop.Aspects.Weaving;
 
 namespace NCop.Composite.Weaving
 {
@@ -16,28 +17,31 @@ namespace NCop.Composite.Weaving
     {
         private readonly MixinsTypeWeaverBuilder builder = null;
 
-		internal CompositeTypeWeaverBuilder(Type compositeType, INCopRegistry registry) {
-            var mixinsMap = new MixinsMap(compositeType);
-            var aspectMappedMembers = new AspectMemberMapper(compositeType, mixinsMap);
-            var aspectsMap = new AspectsMap(compositeType, aspectMappedMembers);
+        internal CompositeTypeWeaverBuilder(ICompositeWeavingSettings compositeWeavingSettings) {
+            var registry = compositeWeavingSettings.Registry;
+            var mixinsMap = compositeWeavingSettings.MixinsMap;
+            var aspectsMap = compositeWeavingSettings.AspectsMap;
+            var compositeType = compositeWeavingSettings.CompositeType;
+            IAspectWeavingServices weavingServices = compositeWeavingSettings;
+            var aspectMappedMembers = compositeWeavingSettings.AspectMemebrsCollection;
             var typeDefinitionWeaver = new MixinsTypeDefinitionWeaver(compositeType, mixinsMap);
             var compositeMappedMembers = new CompositeMemberMapper(aspectsMap, aspectMappedMembers);
-			var typeDefinition = typeDefinitionWeaver.Weave();
+            var typeDefinition = typeDefinitionWeaver.Weave();
 
-			builder = new MixinsTypeWeaverBuilder(compositeType, typeDefinition, registry);
+            builder = new MixinsTypeWeaverBuilder(compositeType, typeDefinition, registry);
 
             mixinsMap.ForEach(map => {
                 builder.Add(map);
             });
 
             compositeMappedMembers.Methods.ForEach(compositeMethodMap => {
-				var methodBuilder = new CompositeMethodWeaverBuilder(compositeMethodMap, typeDefinition);
+                var methodBuilder = new CompositeMethodWeaverBuilder(compositeMethodMap, typeDefinition, weavingServices);
 
                 builder.Add(methodBuilder);
             });
 
             compositeMappedMembers.Properties.ForEach(compositePropertyMap => {
-				var propertyBuilder = new CompositePropertyWeaverBuilder(compositePropertyMap, typeDefinition);
+                var propertyBuilder = new CompositePropertyWeaverBuilder(compositePropertyMap, typeDefinition, weavingServices);
 
                 builder.Add(propertyBuilder);
             });

@@ -297,8 +297,6 @@ namespace NCop.Samples
 		new int Code(ref int i, int j, ref int k);
 	}
 
-
-
 	class Program
 	{
 		static void Main(string[] args) {
