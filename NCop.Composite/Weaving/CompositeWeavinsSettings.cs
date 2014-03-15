@@ -15,10 +15,10 @@ namespace NCop.Composite.Weaving
     {   
         public Type CompositeType { get; set; }
         public ITypeMap MixinsMap { get; set; }
-        public INCopRegistry Registry { get; set; }
         public IAspectsMap AspectsMap { get; set; }
         public IAspectArgsMapper AspectArgsMapper { get; set; }
         public IAspectRepository AspectRepository { get; set; }
+        public INCopDependencyAwareRegistry Registry { get; set; }
         public IAspectMemebrsCollection AspectMemebrsCollection { get; set; }
     }
 }

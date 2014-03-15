@@ -15,8 +15,8 @@ namespace NCop.Composite.Weaving
     {
         Type CompositeType { get; }
         ITypeMap MixinsMap { get; }
-        INCopRegistry Registry { get; }
         IAspectsMap AspectsMap { get; }
+        INCopDependencyAwareRegistry Registry { get; }
         IAspectMemebrsCollection AspectMemebrsCollection { get; }
     }
 }

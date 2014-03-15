@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace NCop.Composite.IoC
 {
-    internal class CompositeContainerAdapter : INCopDependencyContainerAdapter
+    internal class CompositeContainerAdapter : INCopDependencyContainer, INCopDependencyAwareRegistry
     {
         private readonly CompositeContainer container = null;
 
@@ -44,7 +44,7 @@ namespace NCop.Composite.IoC
             return container.CreateChildContainer();
         }
 
-        public void Register(Type concreteType, Type serviceType, IEnumerable<TypeMap> dependencies = null, string name = null) {
+        public void Register(Type concreteType, Type serviceType, ITypeMap dependencies = null, string name = null) {
             var castAs = serviceType.GetTypeFromAttribute();
             var compositeRegistration = new CompositeFrameworkRegistration(container, concreteType, serviceType, dependencies, castAs);
 

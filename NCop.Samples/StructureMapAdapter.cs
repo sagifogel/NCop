@@ -47,7 +47,7 @@ namespace NCop.Samples
             return new StructureMapAdapter(container.GetNestedContainer());
         }
 
-        public void Register(Type concreteType, Type serviceType, IEnumerable<TypeMap> dependencies, string name = null) {
+        public void Register(Type concreteType, Type serviceType, string name = null) {
             container.Configure(x => {
                 var ctor = concreteType.GetConstructors()[0];
                 var @params = ctor.GetParameters();

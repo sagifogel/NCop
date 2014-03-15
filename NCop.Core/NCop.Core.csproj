@@ -111,6 +111,7 @@
     <Compile Include="Runtime\RuntimeSettings.cs" />
     <Compile Include="Lib\Tuples`2.cs" />
     <Compile Include="Lib\Volatile.cs" />
+    <Compile Include="TypeMapSet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Exceptions\ArgumentExceptionTemplate.tt" />

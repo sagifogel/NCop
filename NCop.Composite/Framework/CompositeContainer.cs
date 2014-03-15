@@ -14,47 +14,60 @@ using NCop.Composite.IoC;
 
 namespace NCop.Composite.Framework
 {
-	public class CompositeContainer : INCopDependencyContainer
-	{
-		private readonly INCopDependencyContainerAdapter compositeAdapter = null;
+    public class CompositeContainer : INCopDependencyContainer
+    {
+        private readonly INCopDependencyContainer dependencyContainer = null;
 
-		public CompositeContainer(CompositeRuntimeSettings runtimeSettings = null) {
-            INCopRegistry registry = null;
+        public CompositeContainer(CompositeRuntimeSettings runtimeSettings = null) {
             IRuntime compositeRuntime = null;
+            INCopDependencyAwareRegistry registry = null;
+            INCopDependencyContainerAdapter compositeAdpater = null;
 
-			runtimeSettings = runtimeSettings ?? CompositeRuntimeSettings.Empty;
-			compositeAdapter = runtimeSettings.DependencyContainerAdapter ?? new CompositeContainerAdapter();
-            registry = new CompositeRegistryDecorator(compositeAdapter);
-			compositeRuntime = new CompositeRuntime(runtimeSettings, registry);
-			compositeRuntime.Run();
-		}
+            runtimeSettings = runtimeSettings ?? CompositeRuntimeSettings.Empty;
+            compositeAdpater = runtimeSettings.DependencyContainerAdapter;
 
-		public void Configure() {
-			compositeAdapter.Configure();
-		}
+            if (compositeAdpater.IsNotNull()) {
+                dependencyContainer = compositeAdpater;
+                registry = new NCopRegistryAdapter(compositeAdpater);
+            }
+            else {
+                var compositeContainerAdapter = new CompositeContainerAdapter();
 
-		public TService Resolve<TService>() {
-			return compositeAdapter.Resolve<TService>();
-		}
+                registry = compositeContainerAdapter;
+                dependencyContainer = compositeContainerAdapter;
+            }
 
-		public TService TryResolve<TService>() {
-			return compositeAdapter.TryResolve<TService>();
-		}
+            registry = new CompositeRegistryDecorator(registry);
+            compositeRuntime = new CompositeRuntime(runtimeSettings, registry);
+            compositeRuntime.Run();
+        }
 
-		public TService ResolveNamed<TService>(string name) {
-			return compositeAdapter.ResolveNamed<TService>(name);
-		}
+        public void Configure() {
+            dependencyContainer.Configure();
+        }
 
-		public TService TryResolveNamed<TService>(string name) {
-			return compositeAdapter.TryResolveNamed<TService>(name);
-		}
+        public TService Resolve<TService>() {
+            return dependencyContainer.Resolve<TService>();
+        }
 
-		public void Dispose() {
-			compositeAdapter.Dispose();
-		}
+        public TService TryResolve<TService>() {
+            return dependencyContainer.TryResolve<TService>();
+        }
 
-		public INCopDependencyResolver CreateChildContainer() {
-			return compositeAdapter.CreateChildContainer();
-		}
-	}
+        public TService ResolveNamed<TService>(string name) {
+            return dependencyContainer.ResolveNamed<TService>(name);
+        }
+
+        public TService TryResolveNamed<TService>(string name) {
+            return dependencyContainer.TryResolveNamed<TService>(name);
+        }
+
+        public void Dispose() {
+            dependencyContainer.Dispose();
+        }
+
+        public INCopDependencyResolver CreateChildContainer() {
+            return dependencyContainer.CreateChildContainer();
+        }
+    }
 }

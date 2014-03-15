@@ -91,7 +91,7 @@ namespace NCop.IoC
             return registration;
         }
 
-        public virtual void Register(Type concreteType, Type serviceType, IEnumerable<TypeMap> dependencies = null, string name = null) {
+        public virtual void Register(Type concreteType, Type serviceType, ITypeMap dependencies = null, string name = null) {
             RegisterImpl(new ReflectionRegistration(concreteType, serviceType));
         }
 

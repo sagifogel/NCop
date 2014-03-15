@@ -20,10 +20,10 @@ namespace NCop.Composite.Framework
 {
     internal class CompositeRuntime : IRuntime
     {
-        private readonly INCopRegistry registry = null;
         private readonly IRuntimeSettings settings = null;
+        private readonly INCopDependencyAwareRegistry registry = null;
 
-        public CompositeRuntime(IRuntimeSettings settings, INCopRegistry registry) {
+        public CompositeRuntime(IRuntimeSettings settings, INCopDependencyAwareRegistry registry) {
             this.registry = registry;
             this.settings = settings ?? new RuntimeSettings();
         }

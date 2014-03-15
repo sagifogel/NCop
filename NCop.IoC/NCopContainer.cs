@@ -8,7 +8,7 @@ using NCop.Core;
 
 namespace NCop.IoC
 {
-    public class NCopContainer : AbstractNCopContainer, INCopRegistry, IRegisterEntry, INCopDependencyArgumentsResolver, IContainerConfigurator<IArgumentsFluentRegistry>
+    public class NCopContainer : AbstractNCopContainer, INCopDependencyAwareRegistry, IRegisterEntry, INCopDependencyArgumentsResolver, IContainerConfigurator<IArgumentsFluentRegistry>
     {
         private int locked = 0;
         private readonly NCopContainer parentContainer = null;
@@ -162,7 +162,7 @@ namespace NCop.IoC
             }, name, false);
         }
 
-        public void Register(Type concreteType, Type serviceType, IEnumerable<TypeMap> dependencies = null, string name = null) {
+        public void Register(Type concreteType, Type serviceType, ITypeMap dependencies = null, string name = null) {
             registry.Register(concreteType, serviceType, dependencies, name);
         }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NCop.IoC
 {
-	public interface INCopDependencyContainerAdapter : INCopDependencyContainer, INCopRegistry
-	{
-	}
+    public interface INCopDependencyContainerAdapter : INCopDependencyContainer, INCopRegistry
+    {
+    }
 }

@@ -9,15 +9,15 @@ using NCop.Core;
 
 namespace NCop.Composite.Engine
 {
-    internal class CompositeRegistryDecorator : INCopRegistry
+    internal class CompositeRegistryDecorator : INCopDependencyAwareRegistry
     {
-        private readonly INCopRegistry regisrty = null;
+        private readonly INCopDependencyAwareRegistry regisrty = null;
 
-        public CompositeRegistryDecorator(INCopRegistry regisrty) {
+        public CompositeRegistryDecorator(INCopDependencyAwareRegistry regisrty) {
             this.regisrty = regisrty;
         }
 
-        public void Register(Type concreteType, Type serviceType, IEnumerable<TypeMap> dependencies, string name = null) {
+        public void Register(Type concreteType, Type serviceType, ITypeMap dependencies, string name = null) {
             name = serviceType.GetNameFromAttribute();
 
             regisrty.Register(concreteType, serviceType, dependencies, name);

@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="AbstractNCopContainer.cs" />
     <Compile Include="AbstractLifetimeStrategy.cs" />
+    <Compile Include="NCopRegistryAdapter.cs" />
     <Compile Include="Extensions\RegistrationExtensions.cs" />
     <Compile Include="Fluent\AbstractRegistration`1.cs" />
     <Compile Include="Fluent\AutoRegistration.cs" />
@@ -72,9 +73,10 @@
     <Compile Include="IContainerConfigurator.cs" />
     <Compile Include="INCopDependencyContainer.cs" />
     <Compile Include="INCopDependencyContainerAdapter.cs" />
-    <Compile Include="INCopRegistry.cs" />
+    <Compile Include="INCopDependencyAwareRegistry.cs" />
     <Compile Include="IRegisterEntry.cs" />
     <Compile Include="IRegistrationResolver.cs" />
+    <Compile Include="INCopRegistry.cs" />
     <Compile Include="Owner.cs" />
     <Compile Include="ResolveContext`1.cs" />
     <Compile Include="ContainerSingletonStrategy.cs" />

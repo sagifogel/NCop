@@ -14,7 +14,7 @@ namespace NCop.Composite.Engine
 {
     internal class CompositeRegistry : ContainerRegistry
     {
-        public override void Register(Type concreteType, Type serviceType, IEnumerable<TypeMap> dependencies, string name = null) {
+        public override void Register(Type concreteType, Type serviceType, ITypeMap dependencies, string name = null) {
             CompositeFrameworkRegistration compositeRegistration = null;
 
             if (IsNotIgnoreRegistration(concreteType, serviceType)) {

@@ -303,7 +303,7 @@ namespace NCop.Samples
             int i = 0, j = 0, k = 0;
             //new Person().Code(ref i, j, ref k); return;
             var settings = new CompositeRuntimeSettings {
-                //DependencyContainerAdapter = new StructureMapAdapter()
+                DependencyContainerAdapter = new StructureMapAdapter()
             };
 
             var container = new CompositeContainer(settings);
