@@ -90,6 +90,7 @@
     </Compile>
     <Compile Include="Engine\CompositeRegistryDecorator.cs" />
     <Compile Include="Extensions\CompositeExtensions.cs" />
+    <Compile Include="IoC\CompositeContainer.cs" />
     <Compile Include="IoC\CompositeFrameworkRegistration.cs" />
     <Compile Include="Engine\CompositePropertyMap.cs" />
     <Compile Include="Engine\CompositeRegistry.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Framework\SingletonCompositeAttribute.cs" />
     <Compile Include="Framework\TransientCompositeAttribute.cs" />
     <Compile Include="IoC\CompositeContainerAdapter.cs" />
+    <Compile Include="IoC\CompositeRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Framework\CompositeRuntime.cs" />
     <Compile Include="Runtime\CompositeRuntimeSettings.cs" />

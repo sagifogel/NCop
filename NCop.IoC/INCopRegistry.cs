@@ -1,4 +1,5 @@
-﻿using NCop.IoC.Fluent;
+﻿using NCop.Core;
+using NCop.IoC.Fluent;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace NCop.IoC
 {
     public interface INCopRegistry
     {
-        void Register(Type concreteType, Type serviceType, string name = null);
+        void Register(Type concreteType, Type serviceType, IEnumerable<TypeMap> dependencies = null, string name = null);
     }
 }

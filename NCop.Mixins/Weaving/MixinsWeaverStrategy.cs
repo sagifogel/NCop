@@ -13,18 +13,20 @@ namespace NCop.Mixins.Weaving
     internal class MixinsWeaverStrategy : ITypeWeaver
     {
         private readonly INCopRegistry registry = null;
+        private readonly ISet<TypeMap> mixinsMap = null;
         private readonly ITypeDefinition typeDefinition = null;
         private readonly IEnumerable<IMethodWeaver> methodWeavers = null;
 
-        internal MixinsWeaverStrategy(ITypeDefinition typeDefinition, IEnumerable<IMethodWeaver> methodWeavers, INCopRegistry registry) {
+        internal MixinsWeaverStrategy(ITypeDefinition typeDefinition, ISet<TypeMap> mixinsMap, IEnumerable<IMethodWeaver> methodWeavers, INCopRegistry registry) {
             this.registry = registry;
+            this.mixinsMap = mixinsMap;
             this.methodWeavers = methodWeavers;
             this.typeDefinition = typeDefinition;
         }
 
         public void Weave() {
             Type weavedType = null;
-            
+
             methodWeavers.ForEach(methodWeaver => {
                 var methodBuilder = methodWeaver.DefineMethod();
                 var ilGenerator = methodBuilder.GetILGenerator();
@@ -34,7 +36,7 @@ namespace NCop.Mixins.Weaving
             });
 
             weavedType = typeDefinition.TypeBuilder.CreateType();
-            registry.Register(weavedType, typeDefinition.Type);
+            registry.Register(weavedType, typeDefinition.Type, mixinsMap);
         }
     }
 }

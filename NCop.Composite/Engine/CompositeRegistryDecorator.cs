@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NCop.Composite.Extensions;
+using NCop.Core;
 
 namespace NCop.Composite.Engine
 {
@@ -16,10 +17,10 @@ namespace NCop.Composite.Engine
             this.regisrty = regisrty;
         }
 
-        public void Register(Type concreteType, Type serviceType, string name = null) {
+        public void Register(Type concreteType, Type serviceType, IEnumerable<TypeMap> dependencies, string name = null) {
             name = serviceType.GetNameFromAttribute();
 
-            regisrty.Register(concreteType, serviceType, name);
+            regisrty.Register(concreteType, serviceType, dependencies, name);
         }
     }
 }

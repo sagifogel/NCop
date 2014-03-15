@@ -7,20 +7,21 @@ using System.Text;
 using NCop.Core.Extensions;
 using System.Collections.Concurrent;
 using System.Collections;
+using NCop.Core;
 
 namespace NCop.IoC
 {
     public class ContainerRegistry : IContainerRegistry
     {
-        protected readonly List<IRegistration> registrations = null;
+        protected readonly Dictionary<Type, IRegistration> registrations = null;
 
         public ContainerRegistry() {
-            registrations = new List<IRegistration>();
+            registrations = new Dictionary<Type, IRegistration>();
         }
 
         private IEnumerable<IRegistration> Registrations {
             get {
-                return registrations.Cast<IRegistration>();
+                return registrations.Values;
             }
         }
 
@@ -85,12 +86,12 @@ namespace NCop.IoC
         }
 
         public TRegistration RegisterImpl<TRegistration>(TRegistration registration) where TRegistration : class, IFluentRegistration {
-            registrations.Add(registration);
+            Register(registration);
 
             return registration;
         }
 
-        public virtual void Register(Type concreteType, Type serviceType, string name = null) {
+        public virtual void Register(Type concreteType, Type serviceType, IEnumerable<TypeMap> dependencies = null, string name = null) {
             RegisterImpl(new ReflectionRegistration(concreteType, serviceType));
         }
 
@@ -103,7 +104,23 @@ namespace NCop.IoC
         }
 
         public void Register(IRegistration registration) {
-            registrations.Add(registration);
+            var concreteType = registration.Func.Method.ReturnType;
+
+            registrations.Add(concreteType, registration);
+        }
+
+        public IRegistration Resolve(Type concreteType) {
+            IRegistration registration;
+
+            if (!TryResolve(concreteType, out registration)) {
+                throw new RegistrationException(Resources.CouldNotResolveType);
+            }
+
+            return registration;
+        }
+
+        public bool TryResolve(Type concreteType, out IRegistration registration) {
+            return registrations.TryGetValue(concreteType, out registration);
         }
     }
 }

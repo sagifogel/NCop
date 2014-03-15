@@ -1,8 +1,10 @@
 ﻿using NCop.Core.Extensions;
 using NCop.IoC.Fluent;
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using NCop.Core;
 
 namespace NCop.IoC
 {
@@ -160,8 +162,8 @@ namespace NCop.IoC
             }, name, false);
         }
 
-        public void Register(Type concreteType, Type serviceType, string name = null) {
-            registry.Register(concreteType, serviceType, name);
+        public void Register(Type concreteType, Type serviceType, IEnumerable<TypeMap> dependencies = null, string name = null) {
+            registry.Register(concreteType, serviceType, dependencies, name);
         }
 
         public void Register(IRegistration registration) {

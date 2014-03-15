@@ -32,7 +32,7 @@ namespace NCop.Mixins.Weaving
         }
 
         public override ITypeWeaver CreateTypeWeaver() {
-            return new MixinsWeaverStrategy(typeDefinition, methodWeavers, registry);
+            return new MixinsWeaverStrategy(typeDefinition, mixinsMap, methodWeavers, registry);
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NCop.IoC;
 using StructureMap;
+using NCop.Core;
 
 namespace NCop.Samples
 {
@@ -46,7 +47,7 @@ namespace NCop.Samples
             return new StructureMapAdapter(container.GetNestedContainer());
         }
 
-        public void Register(Type concreteType, Type serviceType, string name = null) {
+        public void Register(Type concreteType, Type serviceType, IEnumerable<TypeMap> dependencies, string name = null) {
             container.Configure(x => {
                 var ctor = concreteType.GetConstructors()[0];
                 var @params = ctor.GetParameters();

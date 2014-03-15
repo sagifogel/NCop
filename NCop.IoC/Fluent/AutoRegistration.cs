@@ -7,6 +7,7 @@ using NCop.Core.Extensions;
 using System.Reflection;
 using NCop.IoC.Framework;
 using NCop.IoC.Properties;
+using NCop.IoC.Extensions;
 
 namespace NCop.IoC.Fluent
 {
@@ -47,7 +48,7 @@ namespace NCop.IoC.Fluent
 		}
 
 		private NewExpression NewExpression(MethodInfo methodInfo, Type type, ParameterExpression instance) {
-			var ctor = GetSingleConstructorOrAnnotated(type);
+			var ctor = type.GetSingleConstructorOrAnnotated();
 			var @params = ctor.GetParameters()
 							  .Select(pi => {
 								  return MethodCallExpression(methodInfo, pi.ParameterType, instance);
@@ -60,22 +61,6 @@ namespace NCop.IoC.Fluent
 			var method = methodInfo.MakeGenericMethod(parameterType);
 
 			return Expression.Call(instance, method);
-		}
-
-		private ConstructorInfo GetSingleConstructorOrAnnotated(Type type) {
-			var ctors = type.GetConstructors();
-
-			if (ctors.Length > 1) {
-				var dependentCtors = ctors.ToArray(ctor => ctor.IsDefined<DependencyAttribute>());
-
-				if (dependentCtors.Length != 1) {
-					throw new RegistrationException(Resources.AmbigiousConstructorDependency.Fmt(type));
-				}
-
-				ctors = dependentCtors;
-			}
-
-			return ctors[0];
 		}
 	}
 }

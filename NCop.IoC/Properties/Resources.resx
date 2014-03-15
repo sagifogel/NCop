@@ -123,6 +123,9 @@
   <data name="ContainerNotConfigured" xml:space="preserve">
     <value>Container is yet to be configured.</value>
   </data>
+  <data name="CouldNotResolveDependentType" xml:space="preserve">
+    <value>Could not resolve dependent type {0}.</value>
+  </data>
   <data name="CouldNotResolveType" xml:space="preserve">
     <value>Could not resolve type {0}.</value>
   </data>
