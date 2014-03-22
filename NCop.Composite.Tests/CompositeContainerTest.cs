@@ -55,19 +55,19 @@ namespace NCop.Composite.Tests
         {
         }
 
-        [TransientComposite]
+        //[TransientComposite]
         [Mixins(typeof(GenericCovariantDeveloper<CSharpLanguage>))]
         public interface ICovariantCSharpDeveloper : ICovariantDeveloper<MSILLanguage>
         {
         }
 
-        [TransientComposite]
+        //[TransientComposite]
         [Mixins(typeof(GenericDeveloper<CSharpLanguage>))]
         public interface IGenericDeveloperWithCSharpArgument : IDeveloper<CSharpLanguage>
         {
         }
 
-        [TransientComposite]
+        //[TransientComposite]
         [Mixins(typeof(GenericCSharpDeveloperImpl))]
         public interface IGenericCSharpDeveloper : IDeveloper<CSharpLanguage>
         {
@@ -81,7 +81,7 @@ namespace NCop.Composite.Tests
             Assert.AreNotEqual(person1, person2);
         }
 
-        [TestMethod]
+       // [TestMethod]
         public void CompositeContainerGenericTypeRegistration_OfATypeThatHasAGenericArgumentThatIsMoreDerviedFromTheContrartItImplementsAndTheContractIsCovariant_WeavesTheObjectProperly() {
             var person = container.TryResolve<ICovariantCSharpDeveloper>();
 
@@ -89,7 +89,7 @@ namespace NCop.Composite.Tests
             Assert.AreEqual(person.Code(), "C#");
         }
 
-        [TestMethod]
+       // [TestMethod]
         public void CompositeContainerTypeRegistration_OfANonGenericTypeThatImplementsAGenericContractThatHavASpeificGenericArgument_WeavesTheObjectProperly() {
             var person = container.TryResolve<IGenericCSharpDeveloper>();
 

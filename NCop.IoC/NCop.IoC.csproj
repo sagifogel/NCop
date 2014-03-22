@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractContainerRegistry.cs" />
     <Compile Include="AbstractNCopContainer.cs" />
     <Compile Include="AbstractLifetimeStrategy.cs" />
     <Compile Include="NCopRegistryAdapter.cs" />

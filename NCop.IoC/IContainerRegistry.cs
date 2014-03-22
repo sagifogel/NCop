@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NCop.IoC
 {
-    public interface IContainerRegistry : IArgumentsFluentRegistry, INCopDependencyAwareRegistry, IEnumerable<IRegistration>, IRegisterEntry, IRegistrationResolver
+    public interface IContainerRegistry : IArgumentsFluentRegistry, INCopDependencyAwareRegistry, IEnumerable<IRegistration>, IRegisterEntry
     {
     }
 }

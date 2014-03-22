@@ -21,17 +21,17 @@ namespace NCop.Composite.IoC
         private readonly CompositeRegistration registration = null;
         private readonly IRegistrationResolver registrationResolver = null;
 
-        internal CompositeFrameworkRegistration(IRegistrationResolver registrationResolver, Type concreteType, Type serviceType, IEnumerable<TypeMap> dependencies = null, Type castAs = null) {
+        internal CompositeFrameworkRegistration(IRegistrationResolver registrationResolver, Type concreteType, Type serviceType, IEnumerable<TypeMap> dependencies = null, Type castTo = null) {
             NamedAttribute namedAttribute = null;
 
             this.serviceType = serviceType;
             this.concreteType = concreteType;
             this.dependencies = dependencies;
             this.registrationResolver = registrationResolver;
-            
+
             registration = new CompositeRegistration {
-                ServiceType = serviceType,
-                FactoryType = MakeFactoryType(castAs ?? serviceType)
+                ServiceType = castTo ?? serviceType,
+                FactoryType = MakeFactoryType(castTo ?? serviceType)
             };
 
             if (IsSingletonComposite()) {
@@ -42,7 +42,7 @@ namespace NCop.Composite.IoC
                 registration.Name = namedAttribute.Name;
             }
 
-            As(registration.CastTo = concreteType);
+            As(concreteType);
         }
 
         public virtual string Name {
@@ -157,7 +157,7 @@ namespace NCop.Composite.IoC
 
             return Expression.Call(instance, method, Expression.Constant(name));
         }
-                
+
         public virtual void Named(string name) {
             registration.Named(name);
         }

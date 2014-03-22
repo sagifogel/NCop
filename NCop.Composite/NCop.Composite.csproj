@@ -93,7 +93,7 @@
     <Compile Include="IoC\CompositeContainer.cs" />
     <Compile Include="IoC\CompositeFrameworkRegistration.cs" />
     <Compile Include="Engine\CompositePropertyMap.cs" />
-    <Compile Include="Engine\CompositeRegistry.cs" />
+    <Compile Include="IoC\CompositeContainerRegistry.cs" />
     <Compile Include="Engine\ICompositeMemberCollection.cs" />
     <Compile Include="Engine\ICompositeMethodMap.cs" />
     <Compile Include="Engine\ICompositeMethodMapCollection.cs" />
@@ -115,6 +115,11 @@
     <Compile Include="IoC\CompositeRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Framework\CompositeRuntime.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Runtime\CompositeRuntimeSettings.cs" />
     <Compile Include="Weaving\CompositeMethodWeaver.cs" />
     <Compile Include="Weaving\CompositeMethodWeaverBuilder.cs" />
@@ -148,7 +153,12 @@
       <Name>NCop.Weaving</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <None Include="Exceptions\DuplicateCompositeAnnotationException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

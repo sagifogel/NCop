@@ -10,8 +10,12 @@ namespace NCop.Composite.IoC
 {
     internal class CompositeContainer : NCopContainer, IRegistrationResolver
     {
+        protected override IContainerRegistry CreateRegistry() {
+            return new CompositeContainerRegistry();
+        }
+
         public IRegistration Resolve(Type concreteType) {
-            return registry.Resolve(concreteType);
+            return ((CompositeContainerRegistry)registry).Resolve(concreteType);
         }
     }
 }
