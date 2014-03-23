@@ -63,13 +63,33 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AbstractAspectTest.cs" />
+    <Compile Include="ActionWithOneArgumentAspect\ActionWithOneArgumentAspectTest.cs" />
+    <Compile Include="ActionWithOneArgumentAspect\Subjects.cs" />
     <Compile Include="MethodToAspectValidator.cs" />
+    <Compile Include="AspctsOrderedJoinPoints.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NCop.Aspects\NCop.Aspects.csproj">
       <Project>{302add1b-6fdb-4872-bb24-3d783826a91e}</Project>
       <Name>NCop.Aspects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NCop.Composite\NCop.Composite.csproj">
+      <Project>{7100c0df-e619-4ac8-8ed0-048dd118f251}</Project>
+      <Name>NCop.Composite</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NCop.Core\NCop.Core.csproj">
+      <Project>{ef89677e-7af0-4c80-b73f-aea357c5614c}</Project>
+      <Name>NCop.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NCop.IoC\NCop.IoC.csproj">
+      <Project>{0b598341-32a5-4d5f-a11c-e37e5b4ef65d}</Project>
+      <Name>NCop.IoC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NCop.Mixins\NCop.Mixins.csproj">
+      <Project>{cf04be7b-d2af-4218-8317-627ce2edc3f5}</Project>
+      <Name>NCop.Mixins</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

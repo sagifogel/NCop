@@ -84,7 +84,7 @@ namespace NCop.IoC.Fluent
             return this;
         }
 
-        public ICasted As<TService>() where TService : TCastable, new() {
+        public ICasted From<TService>() where TService : TCastable, new() {
             var castTo = typeof(TService);
             AbstractRegistration<TCastable>.RequiersNotInterface(castTo);
 

@@ -297,64 +297,9 @@ namespace NCop.Samples
         new int Code(ref int i, int j, ref int k);
     }
 
-    public interface IFoo { string Name { get; } }
-    public interface IBar { }
-
-    public class Foo : IFoo, IDisposable
-    {
-        public bool IsDisposed { get; set; }
-
-        public Foo() { }
-
-        public Foo(string name) {
-            Name = name;
-        }
-
-        public string Name { get; private set; }
-
-        public void Dispose() {
-            IsDisposed = true;
-        }
-    }
-
-    public class Baz
-    {
-    }
-
-    public class Boo : IFoo
-    {
-        public Baz Baz { get; set; }
-
-        public string Name {
-            get {
-                return string.Empty;
-            }
-        }
-    }
-
-    public class AmbiguousConstructor
-    {
-        public AmbiguousConstructor(IFoo foo) {
-            Foo = foo;
-        }
-
-        public AmbiguousConstructor()
-            : this(new Foo()) {
-        }
-
-        public IFoo Foo { get; private set; }
-    }
-
     class Program
     {
         static void Main(string[] args) {
-            var container1 = new NCopContainer(registry => {
-                registry.Register<Baz>().ToSelf();
-                registry.Register<IFoo>().As<Boo>();
-            });
-
-            var instance = container1.Resolve<IFoo>() as Boo;
-
             int i = 0, j = 0, k = 0;
             //new Person().Code(ref i, j, ref k); return;
             var settings = new CompositeRuntimeSettings {

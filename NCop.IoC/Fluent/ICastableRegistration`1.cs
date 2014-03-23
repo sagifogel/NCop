@@ -8,6 +8,6 @@ namespace NCop.IoC.Fluent
     public interface ICastableRegistration<TCastable> : IFluentInterface, IReuseStrategyRegistration
     {
         ICasted ToSelf();
-        ICasted As<TService>() where TService : TCastable, new();
+        ICasted From<TService>() where TService : TCastable, new();
     }
 }

@@ -44,7 +44,7 @@ namespace NCop.IoC.Tests
         [TestMethod]
         public void Resolve_UsingAutoFactoryAndCastingUsingTheAsExpresion_ReturnsTheResolvedInstance() {
             var container = new NCopContainer(registry => {
-                registry.Register<IFoo>().As<Foo>();
+                registry.Register<IFoo>().From<Foo>();
             });
 
             var instance = container.Resolve<IFoo>();
@@ -92,7 +92,7 @@ namespace NCop.IoC.Tests
         [TestMethod]
         public void Resolve_UsingAutoFactoryAndCastingWithAsExpressionAndAfterThatUsingTheAsSingletonExpressionRegistration_ReturnsTheSameObjectForDifferentResolveCalls() {
             var container = new NCopContainer(registry => {
-                registry.Register<IFoo>().As<Foo>().AsSingleton();
+                registry.Register<IFoo>().From<Foo>().AsSingleton();
             });
 
             var instance = container.Resolve<IFoo>();
@@ -263,7 +263,7 @@ namespace NCop.IoC.Tests
         [TestMethod]
         public void AutoRegister_WithPropertyDependency_ReturnsTheResolvedInstanceFilledWithTheAutoResolvedProperty() {
             var container = new NCopContainer(registry => {
-                registry.Register<IFoo>().As<Foo>();
+                registry.Register<IFoo>().From<Foo>();
                 registry.RegisterAuto<PropertyDependency>();
             });
 
@@ -275,7 +275,7 @@ namespace NCop.IoC.Tests
         [TestMethod]
         public void AutoRegister_WithConstructorDependencyThatHasOneDependentArgument_ReturnsTheResolvedInstanceFilledWithTheDependentArgument() {
             var container = new NCopContainer(registry => {
-                registry.Register<IFoo>().As<Foo>();
+                registry.Register<IFoo>().From<Foo>();
                 registry.RegisterAuto<CtorDependency>();
             });
 
@@ -288,7 +288,7 @@ namespace NCop.IoC.Tests
         [ExpectedException(typeof(RegistrationException))]
         public void AutoRegister_OfTypeThatHasMoreThanOneConstructorAndWithoutDependencyAttribute_ThrowsRegistrationException() {
             var container = new NCopContainer(registry => {
-                registry.Register<IFoo>().As<Foo>();
+                registry.Register<IFoo>().From<Foo>();
                 registry.RegisterAuto<AmbiguousConstructor>();
             });
 
@@ -298,7 +298,7 @@ namespace NCop.IoC.Tests
         [TestMethod]
         public void AutoRegister_OfTypeThatHasMoreThanOneConstructorWithDependencyAttribute_ReturnsResolvedInstanceAndDontThrowsRegistrationException() {
             var container = new NCopContainer(registry => {
-                registry.Register<IFoo>().As<Foo>();
+                registry.Register<IFoo>().From<Foo>();
                 registry.RegisterAuto<AmbiguousConstructorFixedWithDependencyAttribute>();
             });
 
@@ -311,7 +311,7 @@ namespace NCop.IoC.Tests
         [TestMethod]
         public void AutoRegister_OfTypeWithDependencyAwareThatHasTwoDependentPropertiesThatOneOfThemIsAnnotatedWithDependencyAttribute_ReturnsResolvedInstanceWithOnlyOneDependentProperty() {
             var container = new NCopContainer(registry => {
-                registry.Register<IFoo>().As<Foo>();
+                registry.Register<IFoo>().From<Foo>();
                 registry.RegisterAuto<DependencyAwareClass>();
             });
 
@@ -324,7 +324,7 @@ namespace NCop.IoC.Tests
         [TestMethod]
         public void AutoRegister_OfTypeThatHasTwoDependentPropertiesThatOneOfThemIsAnnotatedWithIgnoreDependency_ReturnsResolvedInstanceWithOnlyOneDependentProperty() {
             var container = new NCopContainer(registry => {
-                registry.Register<IFoo>().As<Foo>();
+                registry.Register<IFoo>().From<Foo>();
                 registry.RegisterAuto<IgnoreDependencyClass>();
             });
 
@@ -337,7 +337,7 @@ namespace NCop.IoC.Tests
         [TestMethod]
         public void AutoRegister_OfTypeThatHasTwoPropertiesThatOneOfThemIsDependentAndTheOtherFilledByDependentConstructor_ReturnsResolvedInstanceWithBothPropertiesFilled() {
             var container = new NCopContainer(registry => {
-                registry.Register<IFoo>().As<Foo>().AsSingleton();
+                registry.Register<IFoo>().From<Foo>().AsSingleton();
                 registry.RegisterAuto<Bar>();
             });
 
@@ -352,7 +352,7 @@ namespace NCop.IoC.Tests
 		public void AutoRegister_OfInterfaceAndCastingWithAsExpressionToConcreteTypeThatHasOneDependentProperty_ReturnsResolvedInstanceWithFilledProperty() {
 			var container = new NCopContainer(registry => {
 				registry.Register<Baz>().ToSelf();
-				registry.RegisterAuto<IFoo>().As<Boo>();
+				registry.RegisterAuto<IFoo>().From<Boo>();
 			});
 
 			var instance = container.Resolve<IFoo>() as Boo;
