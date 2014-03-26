@@ -14,26 +14,60 @@ namespace NCop.Aspects.Tests.ActionWithOneArgumentAspect.Subjects
     {
         void InterceptionAspect(List<AspectJoinPoints> joinPoints);
         void OnMethodBoundaryAspect(List<AspectJoinPoints> joinPoints);
+        void MultipleInterceptionAspects(List<AspectJoinPoints> joinPoints);
+        void MultipleOnMethodBoundaryAspects(List<AspectJoinPoints> joinPoints);
+        void AllAspectsStartingWithInterception(List<AspectJoinPoints> joinPoints);
+        void AllAspectsStartingWithOnMethodBoundary(List<AspectJoinPoints> joinPoints);
+        void AlternatelAspectsStartingWithInterception(List<AspectJoinPoints> joinPoints);
+        void AlternateAspectsStartingWithOnMethodBoundary(List<AspectJoinPoints> joinPoints);
         void OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(List<AspectJoinPoints> joinPoints);
-        void OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehavipurAspect(List<AspectJoinPoints> joinPoints);
+        void OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehaviourAspect(List<AspectJoinPoints> joinPoints);
     }
 
     public class CSharpDeveloperMixin : IActionWithOneArgumentBoundaryAspect
     {
-        public void OnMethodBoundaryAspect(List<AspectJoinPoints> joinPoints) {
+        private void AddInMethodJoinPoint(List<AspectJoinPoints> joinPoints) {
             joinPoints.Add(AspectJoinPoints.InMethod);
         }
 
         public void InterceptionAspect(List<AspectJoinPoints> joinPoints) {
-            joinPoints.Add(AspectJoinPoints.InMethod);
+            AddInMethodJoinPoint(joinPoints);
         }
 
+        public void OnMethodBoundaryAspect(List<AspectJoinPoints> joinPoints) {
+            AddInMethodJoinPoint(joinPoints);
+        }
+
+        public void MultipleInterceptionAspects(List<AspectJoinPoints> joinPoints) {
+            AddInMethodJoinPoint(joinPoints);
+        }
+
+        public void MultipleOnMethodBoundaryAspects(List<AspectJoinPoints> joinPoints) {
+            AddInMethodJoinPoint(joinPoints);
+        }
+
+        public void AllAspectsStartingWithInterception(List<AspectJoinPoints> joinPoints) {
+            AddInMethodJoinPoint(joinPoints);
+        }
+
+        public void AllAspectsStartingWithOnMethodBoundary(List<AspectJoinPoints> joinPoints) {
+            AddInMethodJoinPoint(joinPoints);
+        }
+
+        public void AlternatelAspectsStartingWithInterception(List<AspectJoinPoints> joinPoints) {
+            AddInMethodJoinPoint(joinPoints);
+        }
+
+        public void AlternateAspectsStartingWithOnMethodBoundary(List<AspectJoinPoints> joinPoints) {
+            AddInMethodJoinPoint(joinPoints);
+        }
+        
         public void OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(List<AspectJoinPoints> joinPoints) {
-            joinPoints.Add(AspectJoinPoints.InMethod);
+            AddInMethodJoinPoint(joinPoints);
             throw new Exception("InMethodException");
         }
 
-        public void OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehavipurAspect(List<AspectJoinPoints> joinPoints) {
+        public void OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehaviourAspect(List<AspectJoinPoints> joinPoints) {
             OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(joinPoints);
         }
     }
@@ -42,20 +76,54 @@ namespace NCop.Aspects.Tests.ActionWithOneArgumentAspect.Subjects
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IActionWithOneArgumentComposite : IActionWithOneArgumentBoundaryAspect
     {
-        [MethodInterceptionAspect(typeof(ActionWithOneArgumnetInterceptionAspect))]
+        [MethodInterceptionAspect(typeof(ActionWithOneArgumentInterceptionAspect))]
         new void InterceptionAspect(List<AspectJoinPoints> language);
 
-        [OnMethodBoundaryAspect(typeof(ActionWithOneArgumnetBoundaryAspect))]
+        [OnMethodBoundaryAspect(typeof(ActionWithOneArgumentOnMethodBoundaryAspect))]
         new void OnMethodBoundaryAspect(List<AspectJoinPoints> joinPoints);
 
-        [OnMethodBoundaryAspect(typeof(ActionWithOneArgumnetBoundaryAspect))]
+        [OnMethodBoundaryAspect(typeof(ActionWithOneArgumentOnMethodBoundaryAspect))]
+        [OnMethodBoundaryAspect(typeof(ActionWithOneArgumentOnMethodBoundaryAspect))]
+        [OnMethodBoundaryAspect(typeof(ActionWithOneArgumentOnMethodBoundaryAspect))]
+        new void MultipleOnMethodBoundaryAspects(List<AspectJoinPoints> joinPoints);
+
+        [MethodInterceptionAspect(typeof(ActionWithOneArgumentInterceptionAspect))]
+        [MethodInterceptionAspect(typeof(ActionWithOneArgumentInterceptionAspect))]
+        [MethodInterceptionAspect(typeof(ActionWithOneArgumentInterceptionAspect))]
+        new void MultipleInterceptionAspects(List<AspectJoinPoints> joinPoints);
+
+        [MethodInterceptionAspect(typeof(ActionWithOneArgumentInterceptionAspect), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(ActionWithOneArgumentOnMethodBoundaryAspect), AspectPriority = 2)]
+        new void AllAspectsStartingWithInterception(List<AspectJoinPoints> joinPoints);
+
+        [OnMethodBoundaryAspect(typeof(ActionWithOneArgumentOnMethodBoundaryAspect), AspectPriority = 1)]
+        [MethodInterceptionAspect(typeof(ActionWithOneArgumentInterceptionAspect), AspectPriority = 2)]
+        new void AllAspectsStartingWithOnMethodBoundary(List<AspectJoinPoints> joinPoints);
+
+        [MethodInterceptionAspect(typeof(ActionWithOneArgumentInterceptionAspect), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(ActionWithOneArgumentOnMethodBoundaryAspect), AspectPriority = 2)]
+        [MethodInterceptionAspect(typeof(ActionWithOneArgumentInterceptionAspect), AspectPriority = 3)]
+        [OnMethodBoundaryAspect(typeof(ActionWithOneArgumentOnMethodBoundaryAspect), AspectPriority = 4)]
+        [MethodInterceptionAspect(typeof(ActionWithOneArgumentInterceptionAspect), AspectPriority = 5)]
+        [OnMethodBoundaryAspect(typeof(ActionWithOneArgumentOnMethodBoundaryAspect), AspectPriority = 6)]
+        new void AlternatelAspectsStartingWithInterception(List<AspectJoinPoints> joinPoints);
+
+        [OnMethodBoundaryAspect(typeof(ActionWithOneArgumentOnMethodBoundaryAspect), AspectPriority = 1)]
+        [MethodInterceptionAspect(typeof(ActionWithOneArgumentInterceptionAspect), AspectPriority = 2)]
+        [OnMethodBoundaryAspect(typeof(ActionWithOneArgumentOnMethodBoundaryAspect), AspectPriority = 3)]
+        [MethodInterceptionAspect(typeof(ActionWithOneArgumentInterceptionAspect), AspectPriority = 4)]
+        [OnMethodBoundaryAspect(typeof(ActionWithOneArgumentOnMethodBoundaryAspect), AspectPriority = 5)]
+        [MethodInterceptionAspect(typeof(ActionWithOneArgumentInterceptionAspect), AspectPriority = 6)]
+        new void AlternateAspectsStartingWithOnMethodBoundary(List<AspectJoinPoints> joinPoints);
+
+        [OnMethodBoundaryAspect(typeof(ActionWithOneArgumentOnMethodBoundaryAspect))]
         new void OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(List<AspectJoinPoints> joinPoints);
 
-        [OnMethodBoundaryAspect(typeof(WithContinueFlowBehvoiurActionWithOneArgumnetBoundaryAspect))]
-        new void OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehavipurAspect(List<AspectJoinPoints> joinPoints);
+        [OnMethodBoundaryAspect(typeof(WithContinueFlowBehvoiurActionWithOneArgumentBoundaryAspect))]
+        new void OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehaviourAspect(List<AspectJoinPoints> joinPoints);
     }
 
-    public class ActionWithOneArgumnetBoundaryAspect : OnActionBoundaryAspect<List<AspectJoinPoints>>
+    public class ActionWithOneArgumentOnMethodBoundaryAspect : OnActionBoundaryAspect<List<AspectJoinPoints>>
     {
         public override void OnEntry(ActionExecutionArgs<List<AspectJoinPoints>> args) {
             args.Arg1.Add(AspectJoinPoints.OnEntry);
@@ -83,7 +151,7 @@ namespace NCop.Aspects.Tests.ActionWithOneArgumentAspect.Subjects
         }
     }
 
-    public class WithContinueFlowBehvoiurActionWithOneArgumnetBoundaryAspect : OnActionBoundaryAspect<List<AspectJoinPoints>>
+    public class WithContinueFlowBehvoiurActionWithOneArgumentBoundaryAspect : OnActionBoundaryAspect<List<AspectJoinPoints>>
     {
         public override void OnEntry(ActionExecutionArgs<List<AspectJoinPoints>> args) {
             args.FlowBehavior = FlowBehavior.Continue;
@@ -112,7 +180,7 @@ namespace NCop.Aspects.Tests.ActionWithOneArgumentAspect.Subjects
         }
     }
 
-    public class ActionWithOneArgumnetInterceptionAspect : ActionInterceptionAspect<List<AspectJoinPoints>>
+    public class ActionWithOneArgumentInterceptionAspect : ActionInterceptionAspect<List<AspectJoinPoints>>
     {
         public override void OnInvoke(ActionInterceptionArgs<List<AspectJoinPoints>> args) {
             args.Arg1.Add(AspectJoinPoints.OnInvoke);

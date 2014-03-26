@@ -50,7 +50,7 @@ namespace NCop.Aspects.Tests
         #endregion
 
         [TestMethod]
-        public void ActionWithOneArgumentMethod_AnnotatedWithOnMethodBoundaryAspect_ReturnsTheCorrectSequenceOfAdvices() {
+        public void ActionWithOneArgument_AnnotatedWithOnMethodBoundaryAspect_ReturnsTheCorrectSequenceOfAdvices() {
             var instance = container.Resolve<IActionWithOneArgumentComposite>();
             var list = new List<AspectJoinPoints>();
 
@@ -61,7 +61,7 @@ namespace NCop.Aspects.Tests
         }
 
         [TestMethod]
-        public void ActionWithOneArgumentMethod_AnnotatedWithInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
+        public void ActionWithOneArgument_AnnotatedWithInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
             var instance = container.Resolve<IActionWithOneArgumentComposite>();
             var list = new List<AspectJoinPoints>();
 
@@ -70,8 +70,68 @@ namespace NCop.Aspects.Tests
         }
 
         [TestMethod]
+        public void ActionWithOneArgument_AnnotatedWithMultipleInterceptionAspects_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWithOneArgumentComposite>();
+            var list = new List<AspectJoinPoints>();
+
+            instance.MultipleInterceptionAspects(list);
+            CollectionAssert.AreEqual(list, new MultipleInterceptionAspectOrderedJoinPoints());
+        }
+
+        [TestMethod]
+        public void ActionWithOneArgument_AnnotatedWithMultipleOnMethodBoundaryAspects_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWithOneArgumentComposite>();
+            var list = new List<AspectJoinPoints>();
+
+            instance.MultipleOnMethodBoundaryAspects(list);
+
+            CollectionAssert.AreEqual(list, new MultipleOnMethodBoundaryAspectOrderedJoinPoints());
+            CollectionAssert.DoesNotContain(list, AspectJoinPoints.OnException);
+        }
+
+        [TestMethod]
+        public void ActionWithOneArgument_AnnotatedWithAllAspectsStartingWithInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWithOneArgumentComposite>();
+            var list = new List<AspectJoinPoints>();
+
+            instance.AllAspectsStartingWithInterception(list);
+            CollectionAssert.AreEqual(list, new AllAspectOrderedJoinPointsStartingWithInterceptionAspect());
+        }
+
+        [TestMethod]
+        public void ActionWithOneArgument_AnnotatedWithAllAspectsStartingWithOnMethodBoundaryAspect_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWithOneArgumentComposite>();
+            var list = new List<AspectJoinPoints>();
+
+            instance.AllAspectsStartingWithOnMethodBoundary(list);
+
+            CollectionAssert.AreEqual(list, new AllAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect());
+            CollectionAssert.DoesNotContain(list, AspectJoinPoints.OnException);
+        }
+        
+        [TestMethod]
+        public void ActionWithOneArgument_AnnotatedWithAlternateAspectsStartingWithInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWithOneArgumentComposite>();
+            var list = new List<AspectJoinPoints>();
+
+            instance.AlternatelAspectsStartingWithInterception(list);
+            CollectionAssert.AreEqual(list, new AlternateAspectOrderedJoinPointsStartingWithInterceptionAspect());
+        }
+
+        [TestMethod]
+        public void ActionWithOneArgument_AnnotatedWithAlternateAspectsStartingWithOnMethodBoundaryAspect_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWithOneArgumentComposite>();
+            var list = new List<AspectJoinPoints>();
+
+            instance.AlternateAspectsStartingWithOnMethodBoundary(list);
+
+            CollectionAssert.AreEqual(list, new AlternateAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect());
+            CollectionAssert.DoesNotContain(list, AspectJoinPoints.OnException);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(Exception))]
-        public void ActionWithOneArgumentMethod_AnnotatedWithOnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocationWithDefaultFlowBehaviour_ThrowsException() {
+        public void ActionWithOneArgument_AnnotatedWithOnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocationWithDefaultFlowBehaviour_ThrowsException() {
             var instance = container.Resolve<IActionWithOneArgumentComposite>();
             var list = new List<AspectJoinPoints>();
 
@@ -79,11 +139,11 @@ namespace NCop.Aspects.Tests
         }
 
         [TestMethod]
-        public void ActionWithOneArgumentMethod_AnnotatedWithOnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocationWithContinueFlowBehaviour_OmitTheOnSuccessAdvice() {
+        public void ActionWithOneArgument_AnnotatedWithOnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocationWithContinueFlowBehaviour_OmitsTheOnSuccessAdvice() {
             var instance = container.Resolve<IActionWithOneArgumentComposite>();
             var list = new List<AspectJoinPoints>();
 
-            instance.OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehavipurAspect(list);
+            instance.OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehaviourAspect(list);
             CollectionAssert.AreEqual(list, new WithExceptionFlowBehaviourContinueOnMethodBoundaryAspectOrderedJoinPoints());
         }
     }
