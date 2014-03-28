@@ -22,7 +22,7 @@ namespace NCop.Aspects.Weaving
             var funcAspectArgMapperTypeBuilder = typeof(object).DefineType("FunctionArgsMapper".ToUniqueName(), attributes: typeAttrs);
             var actionAspectArgMapperTypeBuilder = typeof(object).DefineType("ActionArgsMapper".ToUniqueName(), attributes: typeAttrs);
 
-            Enumerable.Range(0, 8).ForEach(i => {
+            Enumerable.Range(0, 9).ForEach(i => {
                 if (i > 0) {
                     BuildMethod(actionAspectArgMapperTypeBuilder, i, ResolveIActionArgsType, false);
                 }

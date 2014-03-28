@@ -18,6 +18,7 @@ namespace NCop.Aspects.Engine
             Arg3 = arg3;
             Arg4 = arg4;
             Arg5 = arg5;
+            Arg6 = arg6;
             Method = method;
             this.actionBinding = actionBinding;
             Instance = this.instance = instance;

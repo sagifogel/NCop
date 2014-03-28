@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NCop.Aspects.Tests.ActionWithOneArgumentAspect.Subjects;
+using NCop.Aspects.Tests.ActionWith1ArgumentAspect.Subjects;
 using NCop.Composite.Framework;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace NCop.Aspects.Tests
 {
     [TestClass]
-    public class ActionWithOneArgumentAspectTest : AbstractAspectTest
+    public class ActionWith1ArgumentAspectTest : AbstractAspectTest
     {
         private TestContext testContextInstance;
 
@@ -50,8 +50,8 @@ namespace NCop.Aspects.Tests
         #endregion
 
         [TestMethod]
-        public void ActionWithOneArgument_AnnotatedWithOnMethodBoundaryAspect_ReturnsTheCorrectSequenceOfAdvices() {
-            var instance = container.Resolve<IActionWithOneArgumentComposite>();
+        public void ActionWith1Argument_AnnotatedWithOnMethodBoundaryAspect_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWith1ArgumentComposite>();
             var list = new List<AspectJoinPoints>();
 
             instance.OnMethodBoundaryAspect(list);
@@ -61,8 +61,8 @@ namespace NCop.Aspects.Tests
         }
 
         [TestMethod]
-        public void ActionWithOneArgument_AnnotatedWithInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
-            var instance = container.Resolve<IActionWithOneArgumentComposite>();
+        public void ActionWith1Argument_AnnotatedWithInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWith1ArgumentComposite>();
             var list = new List<AspectJoinPoints>();
 
             instance.InterceptionAspect(list);
@@ -70,8 +70,8 @@ namespace NCop.Aspects.Tests
         }
 
         [TestMethod]
-        public void ActionWithOneArgument_AnnotatedWithMultipleInterceptionAspects_ReturnsTheCorrectSequenceOfAdvices() {
-            var instance = container.Resolve<IActionWithOneArgumentComposite>();
+        public void ActionWith1Argument_AnnotatedWithMultipleInterceptionAspects_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWith1ArgumentComposite>();
             var list = new List<AspectJoinPoints>();
 
             instance.MultipleInterceptionAspects(list);
@@ -79,8 +79,8 @@ namespace NCop.Aspects.Tests
         }
 
         [TestMethod]
-        public void ActionWithOneArgument_AnnotatedWithMultipleOnMethodBoundaryAspects_ReturnsTheCorrectSequenceOfAdvices() {
-            var instance = container.Resolve<IActionWithOneArgumentComposite>();
+        public void ActionWith1Argument_AnnotatedWithMultipleOnMethodBoundaryAspects_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWith1ArgumentComposite>();
             var list = new List<AspectJoinPoints>();
 
             instance.MultipleOnMethodBoundaryAspects(list);
@@ -90,8 +90,8 @@ namespace NCop.Aspects.Tests
         }
 
         [TestMethod]
-        public void ActionWithOneArgument_AnnotatedWithAllAspectsStartingWithInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
-            var instance = container.Resolve<IActionWithOneArgumentComposite>();
+        public void ActionWith1Argument_AnnotatedWithAllAspectsStartingWithInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWith1ArgumentComposite>();
             var list = new List<AspectJoinPoints>();
 
             instance.AllAspectsStartingWithInterception(list);
@@ -99,8 +99,8 @@ namespace NCop.Aspects.Tests
         }
 
         [TestMethod]
-        public void ActionWithOneArgument_AnnotatedWithAllAspectsStartingWithOnMethodBoundaryAspect_ReturnsTheCorrectSequenceOfAdvices() {
-            var instance = container.Resolve<IActionWithOneArgumentComposite>();
+        public void ActionWith1Argument_AnnotatedWithAllAspectsStartingWithOnMethodBoundaryAspect_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWith1ArgumentComposite>();
             var list = new List<AspectJoinPoints>();
 
             instance.AllAspectsStartingWithOnMethodBoundary(list);
@@ -110,8 +110,8 @@ namespace NCop.Aspects.Tests
         }
         
         [TestMethod]
-        public void ActionWithOneArgument_AnnotatedWithAlternateAspectsStartingWithInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
-            var instance = container.Resolve<IActionWithOneArgumentComposite>();
+        public void ActionWith1Argument_AnnotatedWithAlternateAspectsStartingWithInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWith1ArgumentComposite>();
             var list = new List<AspectJoinPoints>();
 
             instance.AlternatelAspectsStartingWithInterception(list);
@@ -119,8 +119,8 @@ namespace NCop.Aspects.Tests
         }
 
         [TestMethod]
-        public void ActionWithOneArgument_AnnotatedWithAlternateAspectsStartingWithOnMethodBoundaryAspect_ReturnsTheCorrectSequenceOfAdvices() {
-            var instance = container.Resolve<IActionWithOneArgumentComposite>();
+        public void ActionWith1Argument_AnnotatedWithAlternateAspectsStartingWithOnMethodBoundaryAspect_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWith1ArgumentComposite>();
             var list = new List<AspectJoinPoints>();
 
             instance.AlternateAspectsStartingWithOnMethodBoundary(list);
@@ -131,16 +131,16 @@ namespace NCop.Aspects.Tests
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
-        public void ActionWithOneArgument_AnnotatedWithOnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocationWithDefaultFlowBehaviour_ThrowsException() {
-            var instance = container.Resolve<IActionWithOneArgumentComposite>();
+        public void ActionWith1Argument_AnnotatedWithOnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocationWithDefaultFlowBehaviour_ThrowsException() {
+            var instance = container.Resolve<IActionWith1ArgumentComposite>();
             var list = new List<AspectJoinPoints>();
 
             instance.OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(list);
         }
 
         [TestMethod]
-        public void ActionWithOneArgument_AnnotatedWithOnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocationWithContinueFlowBehaviour_OmitsTheOnSuccessAdvice() {
-            var instance = container.Resolve<IActionWithOneArgumentComposite>();
+        public void ActionWith1Argument_AnnotatedWithOnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocationWithContinueFlowBehaviour_OmitsTheOnSuccessAdvice() {
+            var instance = container.Resolve<IActionWith1ArgumentComposite>();
             var list = new List<AspectJoinPoints>();
 
             instance.OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehaviourAspect(list);
