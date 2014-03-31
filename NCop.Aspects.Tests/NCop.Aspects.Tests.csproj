@@ -64,6 +64,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AbstractAspectTest.cs" />
+    <Compile Include="Extensions\OnFunctionBoundaryAspectExtension.cs" />
+    <Compile Include="FunctionWith1ArgumentAspect\FunctionWith1ArgumentAspectSubjects.cs" />
+    <Compile Include="FunctionWith1ArgumentAspect\FunctionWith1ArgumentAspectTest.cs" />
     <Compile Include="ActionWith1ArgumentAspect\ActionWith1ArgumentAspectSubjects.cs">
       <SubType>Code</SubType>
     </Compile>
