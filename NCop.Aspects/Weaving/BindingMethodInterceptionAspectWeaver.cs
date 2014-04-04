@@ -19,7 +19,7 @@ namespace NCop.Aspects.Weaving
             ArgumentType = argumentsWeavingSetings.ArgumentType;
             argumentsWeavingSetings.BindingsDependency = weavedType;
             argumentsWeaver = new BindingMethodInterceptionArgumentsWeaver(topAspectInScopeArgType, argumentsWeavingSetings, aspectWeavingSettings);
-            methodScopeWeavers.Add(new AspectArgsMappingWeaverImpl(topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSetings));
+            methodScopeWeavers.Add(new NestedAspectArgsMappingWeaver(topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSetings));
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 

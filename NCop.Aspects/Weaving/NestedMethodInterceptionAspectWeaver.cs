@@ -18,14 +18,7 @@ namespace NCop.Aspects.Weaving
 
             argumentWeavingSettings.BindingsDependency = weavedType;
             argumentsWeaver = new NestedMethodIntercpetionArgumentsWeaver(topAspectInScopeArgType, aspectWeavingSettings, argumentWeavingSettings);
-
-            if (argumentsWeavingSetings.IsFunction) {
-                methodScopeWeavers.Add(new NestedFunctionAspectArgsMappingWeaver(topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSetings));
-            }
-            else {
-                methodScopeWeavers.Add(new NestedActionAspectArgsMappingWeaver(topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSetings));
-            }
-
+            methodScopeWeavers.Add(new NestedAspectArgsMappingWeaver(topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSetings));
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 

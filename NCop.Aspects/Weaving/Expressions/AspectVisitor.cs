@@ -51,7 +51,7 @@ namespace NCop.Aspects.Weaving.Expressions
                     }
                     else {
                         ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
-                            return new NestedOnMethodBoundaryAspectExpression(expression, aspectDefinition, _topAspectInScopeDefinition);
+                            return new NestedOnMethodBoundaryAspectExpression(expression, aspectDefinition);
                         });
                     }
                 }

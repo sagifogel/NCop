@@ -2,14 +2,12 @@
 using NCop.Aspects.Aspects;
 using NCop.Aspects.Weaving.Expressions;
 using NCop.Composite.Weaving;
+using NCop.Core.Extensions;
 using NCop.Weaving;
+using NCop.Weaving.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NCop.Core.Extensions;
-using NCop.Weaving.Extensions;
 using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
@@ -35,7 +33,7 @@ namespace NCop.Aspects.Weaving
             byRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
             storeArgsAction = byRefArgumentsStoreWeaver.StoreArgsIfNeeded;
             storeArgsArgsWeaver = storeArgsAction.ToMethodScopeWeaver();
-            tryWeavers = new List<IMethodScopeWeaver>() { nestedAspect};
+            tryWeavers = new List<IMethodScopeWeaver>() { nestedAspect };
             localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
 
             if (adviceDiscoveryVistor.HasOnMethodEntryAdvice) {
@@ -88,9 +86,7 @@ namespace NCop.Aspects.Weaving
             }
         }
 
-        protected virtual void OnFunctionWeavingDetected() {
-            returnValueWeaver = new TopGetReturnValueWeaver(aspectWeavingSettings, argumentsWeavingSetings);            
-        }
+        protected virtual void OnFunctionWeavingDetected() { }
 
         private IAdviceExpression ResolveOnMethodEntryAdvice() {
             IAdviceDefinition selectedAdviceDefinition = null;

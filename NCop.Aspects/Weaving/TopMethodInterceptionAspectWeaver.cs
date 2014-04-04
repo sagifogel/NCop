@@ -28,7 +28,6 @@ namespace NCop.Aspects.Weaving
             argumentsWeaver = new TopMethodInterceptionArgumentsWeaver(argumentsWeavingSetings, aspectWeavingSettings);
 
             if (!byRefArgumentsStoreWeaver.ContainsByRefParams) {
-
                 if (getReturnValueWeaver.IsNotNull()) {
                     methodScopeWeavers.Add(getReturnValueWeaver);
                 }

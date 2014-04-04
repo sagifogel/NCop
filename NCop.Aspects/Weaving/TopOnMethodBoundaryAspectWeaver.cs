@@ -7,7 +7,7 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class TopOnMethodBoundaryAspectWeaver : AbstractOnMethodBoundaryAspectWeaver
+    internal class TopOnMethodBoundaryAspectWeaver : AbstractTopOnMethodBoundaryAspectWeaver
     {
         protected IArgumentsWeaver argumentsWeaver = null;
 
