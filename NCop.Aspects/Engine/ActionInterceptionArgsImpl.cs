@@ -19,11 +19,11 @@ namespace NCop.Aspects.Engine
         }
 
 		public override void Proceed() {
-			actionBinding.Proceed(ref instance);
+			actionBinding.Proceed(ref instance, this);
 		}
 
 		public override void Invoke() {
-			actionBinding.Invoke(ref instance);
+			actionBinding.Invoke(ref instance, this);
 		}
     }
 }

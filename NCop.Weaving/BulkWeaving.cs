@@ -28,6 +28,9 @@ namespace NCop.Weaving
 
                 NCopModuleBuilder.Flush();
             }
+            catch (Exception ex) {
+                ex.Message.ToString();
+            }
             finally {
                 if (lockTaken) {
                     Monitor.Exit(syncLock);

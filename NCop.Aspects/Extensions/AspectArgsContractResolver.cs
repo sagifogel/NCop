@@ -21,6 +21,8 @@ namespace NCop.Aspects.Extensions
 		static AspectArgsContractResolver() {
 			funcArgsMap = new Dictionary<int, Type>();
 			actionArgsMap = new Dictionary<int, Type>();
+			
+			actionArgsMap.Add(0, typeof(IActionArgs));
 
 			funcArgsMap.Add(1, typeof(IFunctionArgs<>));	
 			actionArgsMap.Add(1, typeof(IActionArgs<>));	
@@ -52,7 +54,14 @@ namespace NCop.Aspects.Extensions
 		}
 		
 		internal static Type ToActionAspectArgumentContract(this Type[] typeArguments) {
-			return actionArgsMap[typeArguments.Length].MakeGenericType(typeArguments);
+			 var mappedArgs = actionArgsMap[typeArguments.Length];
+            
+            if (typeArguments.Length > 0) {
+                mappedArgs = mappedArgs.MakeGenericType(typeArguments);
+
+            }
+
+            return mappedArgs;
 		}
 		
 		internal static Type ToAspectArgumentContract(this Type[] typeArguments, bool isFunction) {

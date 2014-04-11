@@ -40,7 +40,7 @@ namespace NCop.Composite.IoC
             container.Dispose();
         }
 
-        public INCopDependencyResolver CreateChildContainer() {
+        public INCopDependencyContainer CreateChildContainer() {
             return container.CreateChildContainer();
         }
 

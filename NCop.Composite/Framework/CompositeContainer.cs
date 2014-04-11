@@ -66,7 +66,7 @@ namespace NCop.Composite.Framework
             dependencyContainer.Dispose();
         }
 
-        public INCopDependencyResolver CreateChildContainer() {
+        public INCopDependencyContainer CreateChildContainer() {
             return dependencyContainer.CreateChildContainer();
         }
     }

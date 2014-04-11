@@ -64,53 +64,63 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AbstractAspectTest.cs" />
-    <Compile Include="ActionWith2ArgumentAspect\ActionWith2ArgumentAspectSubjects.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ActionWith2ArgumentAspect\ActionWith2ArgumentAspectTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ActionWith3ArgumentAspect\ActionWith3ArgumentAspectSubjects.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ActionWith3ArgumentAspect\ActionWith3ArgumentAspectTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ActionWith4ArgumentAspect\ActionWith4ArgumentAspectSubjects.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ActionWith4ArgumentAspect\ActionWith4ArgumentAspectTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ActionWith5ArgumentAspect\ActionWith5ArgumentAspectSubjects.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ActionWith5ArgumentAspect\ActionWith5ArgumentAspectTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ActionWith6ArgumentAspect\ActionWith6ArgumentAspectSubjects.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ActionWith6ArgumentAspect\ActionWith6ArgumentAspectTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ActionWith7ArgumentAspect\ActionWith7ArgumentAspectSubjects.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ActionWith7ArgumentAspect\ActionWith7ArgumentAspectTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ActionWith8ArgumentAspect\ActionWith8ArgumentAspectSubjects.cs" />
-    <Compile Include="ActionWith8ArgumentAspect\ActionWith8ArgumentAspectTest.cs" />
-    <Compile Include="Extensions\OnFunctionBoundaryAspectExtension.cs" />
-    <Compile Include="FunctionWith1ArgumentAspect\FunctionWith1ArgumentAspectSubjects.cs" />
-    <Compile Include="FunctionWith1ArgumentAspect\FunctionWith1ArgumentAspectTest.cs" />
     <Compile Include="ActionWith1ArgumentAspect\ActionWith1ArgumentAspectSubjects.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ActionWith1ArgumentAspect\ActionWith1ArgumentAspectTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ActionWith2ArgumentsAspect\ActionWith2ArgumentsAspectSubjects.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionWith2ArgumentsAspect\ActionWith2ArgumentsAspectTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionWith3ArgumentsAspect\ActionWith3ArgumentsAspectSubjects.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionWith3ArgumentsAspect\ActionWith3ArgumentsAspectTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionWith4ArgumentsAspect\ActionWith4ArgumentsAspectSubjects.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionWith4ArgumentsAspect\ActionWith4ArgumentsAspectTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionWith5ArgumentsAspect\ActionWith5ArgumentsAspectSubjects.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionWith5ArgumentsAspect\ActionWith5ArgumentsAspectTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionWith6ArgumentsAspect\ActionWith6ArgumentsAspectSubjects.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionWith6ArgumentsAspect\ActionWith6ArgumentsAspectTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionWith7ArgumentsAspect\ActionWith7ArgumentsAspectSubjects.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionWith7ArgumentsAspect\ActionWith7ArgumentsAspectTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionWith8ArgumentsAspect\ActionWith8ArgumentsAspectSubjects.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionWith8ArgumentsAspect\ActionWith8ArgumentsAspectTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionWithoutArgumentsAspect\ActionWithoutArgumentsAspectSubjects.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActionWithoutArgumentsAspect\ActionWithoutArgumentsAspectTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\OnFunctionBoundaryAspectExtension.cs" />
+    <Compile Include="FunctionWith1ArgumentAspect\FunctionWith1ArgumentAspectSubjects.cs" />
+    <Compile Include="FunctionWith1ArgumentAspect\FunctionWith1ArgumentAspectTest.cs" />
     <Compile Include="MethodToAspectValidator.cs" />
     <Compile Include="AspctsOrderedJoinPoints.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

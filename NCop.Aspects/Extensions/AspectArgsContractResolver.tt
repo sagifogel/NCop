@@ -26,6 +26,8 @@ namespace NCop.Aspects.Extensions
 		static AspectArgsContractResolver() {
 			funcArgsMap = new Dictionary<int, Type>();
 			actionArgsMap = new Dictionary<int, Type>();
+			
+			actionArgsMap.Add(0, typeof(IActionArgs));
 
 <#
 foreach (var i in Enumerable.Range(1, 8)) {
@@ -45,7 +47,14 @@ foreach (var i in Enumerable.Range(1, 8)) {
 		}
 		
 		internal static Type ToActionAspectArgumentContract(this Type[] typeArguments) {
-			return actionArgsMap[typeArguments.Length].MakeGenericType(typeArguments);
+			 var mappedArgs = actionArgsMap[typeArguments.Length];
+            
+            if (typeArguments.Length > 0) {
+                mappedArgs = mappedArgs.MakeGenericType(typeArguments);
+
+            }
+
+            return mappedArgs;
 		}
 		
 		internal static Type ToAspectArgumentContract(this Type[] typeArguments, bool isFunction) {

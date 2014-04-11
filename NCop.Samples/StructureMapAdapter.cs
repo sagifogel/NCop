@@ -43,7 +43,7 @@ namespace NCop.Samples
             container.Dispose();
         }
 
-        public INCopDependencyResolver CreateChildContainer() {
+        public INCopDependencyContainer CreateChildContainer() {
             return new StructureMapAdapter(container.GetNestedContainer());
         }
 

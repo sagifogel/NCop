@@ -8,7 +8,7 @@ using NCop.Core;
 
 namespace NCop.IoC
 {
-    public class NCopContainer : AbstractNCopContainer, INCopDependencyAwareRegistry, IRegisterEntry, INCopDependencyArgumentsResolver, IContainerConfigurator<IArgumentsFluentRegistry>
+    public class NCopContainer : AbstractNCopContainer, INCopDependencyAwareRegistry, INCopDependencyContainer, IRegisterEntry, INCopDependencyArgumentsResolver, IContainerConfigurator<IArgumentsFluentRegistry>
     {
         private int locked = 0;
         private readonly NCopContainer parentContainer = null;
@@ -46,7 +46,11 @@ namespace NCop.IoC
             return entry;
         }
 
-        public INCopDependencyResolver CreateChildContainer(Action<IArgumentsFluentRegistry> registrationAction = null) {
+        public INCopDependencyContainer CreateChildContainer() {
+            return CreateChildContainer(null);
+        }
+
+        public INCopDependencyContainer CreateChildContainer(Action<IArgumentsFluentRegistry> registrationAction = null) {
             NCopContainer container = null;
 
             lock (childContainers) {

@@ -23,7 +23,10 @@ namespace NCop.Aspects.Weaving
             var actionAspectArgMapperTypeBuilder = typeof(object).DefineType("ActionArgsMapper".ToUniqueName(), attributes: typeAttrs);
 
             Enumerable.Range(0, 9).ForEach(i => {
-                if (i > 0) {
+                if (i == 0) {
+                    BuildNonGenericTypeMethod(actionAspectArgMapperTypeBuilder, i, ResolveIActionArgsType);
+                } 
+                else {
                     BuildMethod(actionAspectArgMapperTypeBuilder, i, ResolveIActionArgsType, false);
                 }
 
@@ -89,6 +92,25 @@ namespace NCop.Aspects.Weaving
             ilGenerator.Emit(OpCodes.Ret);
         }
 
+        private void BuildNonGenericTypeMethod(TypeBuilder typeBuilder, int numberOfArgs, Func<int, Type> resolveArgsFn) {
+            Type argumentType = null;
+            ILGenerator ilGenerator = null;
+            PropertyInfo methodProperty = null;
+            var methodAttr = MethodAttributes.Private | MethodAttributes.FamANDAssem | MethodAttributes.Static | MethodAttributes.HideBySig;
+            var methodBuilder = typeBuilder.DefineMethod("Map", methodAttr, CallingConventions.Standard);
+
+            argumentType = resolveArgsFn(numberOfArgs);
+            methodBuilder.SetParameters(new Type[] { argumentType, argumentType });
+            ilGenerator = methodBuilder.GetILGenerator();
+            methodProperty = argumentType.GetProperty("Method");
+
+            ilGenerator.Emit(OpCodes.Ldarg_1);
+            ilGenerator.Emit(OpCodes.Ldarg_0);
+            ilGenerator.Emit(OpCodes.Callvirt, methodProperty.GetGetMethod());
+            ilGenerator.Emit(OpCodes.Callvirt, methodProperty.GetSetMethod());
+            ilGenerator.Emit(OpCodes.Ret);
+        }
+        
         private Type ResolveIFunctionArgsType(int count) {
             switch (count) {
                 case 0:

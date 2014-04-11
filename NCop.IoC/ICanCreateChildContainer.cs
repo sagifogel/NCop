@@ -8,6 +8,6 @@ namespace NCop.IoC
 {
 	public interface ICanCreateChildContainer
 	{
-		INCopDependencyResolver CreateChildContainer();
+        INCopDependencyContainer CreateChildContainer();
 	}
 }

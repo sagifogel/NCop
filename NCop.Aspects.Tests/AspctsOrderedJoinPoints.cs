@@ -8,7 +8,7 @@ using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Tests
 {
-    public class ReturnValueAspectOrderedJoinPoints : AbstractAspectOrderedJoinPoints
+    public class ReturnValueAspectOrderedJoinPoints : AspectOrderedJoinPoints
     {
         public ReturnValueAspectOrderedJoinPoints(IEnumerable<AspectJoinPoints> joinPoints) {
             var index = joinPoints.IndexOf(jp => jp == AspectJoinPoints.InMethod);
@@ -17,14 +17,14 @@ namespace NCop.Aspects.Tests
         }
     }
 
-    public abstract class AbstractAspectOrderedJoinPoints : List<AspectJoinPoints>
+    public class AspectOrderedJoinPoints : List<AspectJoinPoints>
     {
         public override string ToString() {
             return this.Stringify();
         }
     }
 
-    public class OnMethodBoundaryAspectOrderedJoinPoints : AbstractAspectOrderedJoinPoints
+    public class OnMethodBoundaryAspectOrderedJoinPoints : AspectOrderedJoinPoints
     {
         public OnMethodBoundaryAspectOrderedJoinPoints() {
             Add(AspectJoinPoints.OnEntry);
@@ -38,7 +38,7 @@ namespace NCop.Aspects.Tests
         }
     }
 
-    public class MultipleOnMethodBoundaryAspectOrderedJoinPoints : AbstractAspectOrderedJoinPoints
+    public class MultipleOnMethodBoundaryAspectOrderedJoinPoints : AspectOrderedJoinPoints
     {
         public MultipleOnMethodBoundaryAspectOrderedJoinPoints() {
             Add(AspectJoinPoints.OnEntry);
@@ -54,7 +54,7 @@ namespace NCop.Aspects.Tests
         }
     }
 
-    public class MultipleInterceptionAspectOrderedJoinPoints : AbstractAspectOrderedJoinPoints
+    public class MultipleInterceptionAspectOrderedJoinPoints : AspectOrderedJoinPoints
     {
         public MultipleInterceptionAspectOrderedJoinPoints() {
             Add(AspectJoinPoints.OnInvoke);
@@ -64,7 +64,7 @@ namespace NCop.Aspects.Tests
         }
     }
 
-    public class AllAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect : AbstractAspectOrderedJoinPoints
+    public class AllAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect : AspectOrderedJoinPoints
     {
         public AllAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect() {
             Add(AspectJoinPoints.OnEntry);
@@ -75,7 +75,7 @@ namespace NCop.Aspects.Tests
         }
     }
 
-    public class AllAspectOrderedJoinPointsStartingWithInterceptionAspect : AbstractAspectOrderedJoinPoints
+    public class AllAspectOrderedJoinPointsStartingWithInterceptionAspect : AspectOrderedJoinPoints
     {
         public AllAspectOrderedJoinPointsStartingWithInterceptionAspect() {
             Add(AspectJoinPoints.OnInvoke);
@@ -86,7 +86,7 @@ namespace NCop.Aspects.Tests
         }
     }
 
-    public class WithExceptionFlowBehaviourContinueOnMethodBoundaryAspectOrderedJoinPoints : AbstractAspectOrderedJoinPoints
+    public class WithExceptionFlowBehaviourContinueOnMethodBoundaryAspectOrderedJoinPoints : AspectOrderedJoinPoints
     {
         public WithExceptionFlowBehaviourContinueOnMethodBoundaryAspectOrderedJoinPoints() {
             Add(AspectJoinPoints.OnEntry);
@@ -96,7 +96,7 @@ namespace NCop.Aspects.Tests
         }
     }
 
-    public class AlternateAspectOrderedJoinPointsStartingWithInterceptionAspect : AbstractAspectOrderedJoinPoints
+    public class AlternateAspectOrderedJoinPointsStartingWithInterceptionAspect : AspectOrderedJoinPoints
     {
         public AlternateAspectOrderedJoinPointsStartingWithInterceptionAspect() {
             Add(AspectJoinPoints.OnInvoke);
@@ -115,7 +115,7 @@ namespace NCop.Aspects.Tests
         }
     }
 
-    public class AlternateAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect : AbstractAspectOrderedJoinPoints
+    public class AlternateAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect : AspectOrderedJoinPoints
     {
         public AlternateAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect() {
             Add(AspectJoinPoints.OnEntry);
@@ -134,7 +134,7 @@ namespace NCop.Aspects.Tests
         }
     }
 
-    public class InterceptionAspectOrderedJoinPoints : AbstractAspectOrderedJoinPoints
+    public class InterceptionAspectOrderedJoinPoints : AspectOrderedJoinPoints
     {
         public InterceptionAspectOrderedJoinPoints() {
             Add(AspectJoinPoints.OnInvoke);

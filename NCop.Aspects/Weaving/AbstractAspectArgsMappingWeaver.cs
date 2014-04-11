@@ -34,16 +34,18 @@ namespace NCop.Aspects.Weaving
             Func<int, MethodInfo> getMappingArgsMethod = null;
             var argsImplLocalBuilder = localBuilderRepository.Get(aspectArgumentType);
 
-            getMappingArgsMethod = argumentsSettings.IsFunction ?
-                                        aspectWeavingSettings.AspectArgsMapper.GetMappingArgsFunction :
-                                        (Func<int, MethodInfo>)aspectWeavingSettings.AspectArgsMapper.GetMappingArgsAction;
+            if (mappingParameters.Length > 0) {
+                getMappingArgsMethod = argumentsSettings.IsFunction ?
+                                            aspectWeavingSettings.AspectArgsMapper.GetMappingArgsFunction :
+                                            (Func<int, MethodInfo>)aspectWeavingSettings.AspectArgsMapper.GetMappingArgsAction;
 
-            mapGenericMethod = getMappingArgsMethod(mappingParameters.Length);
-            mapGenericMethod = mapGenericMethod.MakeGenericMethod(mappingParameters);
+                mapGenericMethod = getMappingArgsMethod(mappingParameters.Length);
+                mapGenericMethod = mapGenericMethod.MakeGenericMethod(mappingParameters);
 
-            ilGenerator.EmitLoadLocal(argsImplLocalBuilder);
-            WeaveAspectArg(ilGenerator);
-            ilGenerator.Emit(OpCodes.Call, mapGenericMethod);
+                ilGenerator.EmitLoadLocal(argsImplLocalBuilder);
+                WeaveAspectArg(ilGenerator);
+                ilGenerator.Emit(OpCodes.Call, mapGenericMethod);
+            }
 
             return ilGenerator;
         }
