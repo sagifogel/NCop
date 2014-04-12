@@ -121,6 +121,10 @@
     <Compile Include="Extensions\OnFunctionBoundaryAspectExtension.cs" />
     <Compile Include="FunctionWith1ArgumentAspect\FunctionWith1ArgumentAspectSubjects.cs" />
     <Compile Include="FunctionWith1ArgumentAspect\FunctionWith1ArgumentAspectTest.cs" />
+    <Compile Include="FunctionWith4ArgumentsAspect\FunctionWith4ArgumentsAspectSubjects.cs" />
+    <Compile Include="FunctionWith4ArgumentsAspect\FunctionWith4ArgumentsAspectTest.cs" />
+    <Compile Include="FunctionWith5ArgumentsAspect\FunctionWith5ArgumentsAspectSubjects.cs" />
+    <Compile Include="FunctionWith5ArgumentsAspect\FunctionWith5ArgumentsAspectTest.cs" />
     <Compile Include="MethodToAspectValidator.cs" />
     <Compile Include="AspctsOrderedJoinPoints.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
