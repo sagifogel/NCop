@@ -125,6 +125,12 @@
     <Compile Include="FunctionWith4ArgumentsAspect\FunctionWith4ArgumentsAspectTest.cs" />
     <Compile Include="FunctionWith5ArgumentsAspect\FunctionWith5ArgumentsAspectSubjects.cs" />
     <Compile Include="FunctionWith5ArgumentsAspect\FunctionWith5ArgumentsAspectTest.cs" />
+    <Compile Include="FunctionWith6ArgumentsAspect\FunctionWith6ArgumentsAspectSubjects.cs" />
+    <Compile Include="FunctionWith6ArgumentsAspect\FunctionWith6ArgumentsAspectTest.cs" />
+    <Compile Include="FunctionWith7ArgumentsAspect\FunctionWith7ArgumentsAspectSubjects.cs" />
+    <Compile Include="FunctionWith7ArgumentsAspect\FunctionWith7ArgumentsAspectTest.cs" />
+    <Compile Include="FunctionWith8ArgumentsAspect\FunctionWith8ArgumentsAspectSubjects.cs" />
+    <Compile Include="FunctionWith8ArgumentsAspect\FunctionWith8ArgumentsAspectTest.cs" />
     <Compile Include="MethodToAspectValidator.cs" />
     <Compile Include="AspctsOrderedJoinPoints.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
