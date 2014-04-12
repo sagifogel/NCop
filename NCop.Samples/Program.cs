@@ -8,6 +8,7 @@ using NCop.Composite.Runtime;
 using StructureMap.Configuration.DSL;
 using StructureMap;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace NCop.Samples
 {
@@ -246,81 +247,81 @@ namespace NCop.Samples
         }
     }
 
-    public class Person : IPersonComposite
-    {
-        private CSharpDeveloperMixin developer = null;
+    //public class Person : IPersonComposite
+    //{
+    //    private CSharpDeveloperMixin developer = null;
 
-        public Person() {
-            developer = new CSharpDeveloperMixin();
-        }
+    //    public Person() {
+    //        developer = new CSharpDeveloperMixin();
+    //    }
 
-        public void Code() {
-            var codeMethod = developer.GetType().GetMethod("Code", Type.EmptyTypes);
-            var aspectArgs = new ActionInterceptionArgsImpl<CSharpDeveloperMixin>(developer, codeMethod, MethodInterceptionBindingWeaver.singleton);
-            Aspects.traceAspect1.OnInvoke(aspectArgs);
-        }
+    //    public void Code() {
+    //        var codeMethod = developer.GetType().GetMethod("Code", Type.EmptyTypes);
+    //        var aspectArgs = new ActionInterceptionArgsImpl<CSharpDeveloperMixin>(developer, codeMethod, MethodInterceptionBindingWeaver.singleton);
+    //        Aspects.traceAspect1.OnInvoke(aspectArgs);
+    //    }
 
-        public string Code2() {
-            var codeMethod = developer.GetType().GetMethod("Code", Type.EmptyTypes);
-            var aspectArgs = new ActionInterceptionArgsImpl<CSharpDeveloperMixin>(developer, codeMethod, MethodInterceptionBindingWeaver.singleton);
-            Aspects.traceAspect1.OnInvoke(aspectArgs);
+    //    public string Code2() {
+    //        var codeMethod = developer.GetType().GetMethod("Code", Type.EmptyTypes);
+    //        var aspectArgs = new ActionInterceptionArgsImpl<CSharpDeveloperMixin>(developer, codeMethod, MethodInterceptionBindingWeaver.singleton);
+    //        Aspects.traceAspect1.OnInvoke(aspectArgs);
 
-            return string.Empty;
-        }
+    //        return string.Empty;
+    //    }
 
-        //public string Code2(string s) {
-        //    var types = new Type[] { typeof(int).MakeByRefType() };
-        //    var codeMethod = developer.GetType().GetMethod("Code", types);
-        //    var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(developer, codeMethod, s);
+    //public string Code2(string s) {
+    //    var types = new Type[] { typeof(int).MakeByRefType() };
+    //    var codeMethod = developer.GetType().GetMethod("Code", types);
+    //    var aspectArgs = new FunctionExecutionArgsImpl<CSharpDeveloperMixin, string, string>(developer, codeMethod, s);
 
-        //    Aspects.traceAspect2.OnEntry(aspectArgs);
+    //    Aspects.traceAspect2.OnEntry(aspectArgs);
 
-        //    try {
-        //        Aspects.traceAspect2.OnEntry(aspectArgs);
+    //    try {
+    //        Aspects.traceAspect2.OnEntry(aspectArgs);
 
-        //        try {
-        //            aspectArgs.ReturnValue = developer.Code2(aspectArgs.Arg1);
-        //            Aspects.traceAspect2.OnSuccess(aspectArgs);
-        //        }
-        //        catch (Exception ex) {
-        //            aspectArgs.Exception = ex;
-        //            Aspects.traceAspect2.OnException(aspectArgs);
+    //        try {
+    //            aspectArgs.ReturnValue = developer.Code2(aspectArgs.Arg1);
+    //            Aspects.traceAspect2.OnSuccess(aspectArgs);
+    //        }
+    //        catch (Exception ex) {
+    //            aspectArgs.Exception = ex;
+    //            Aspects.traceAspect2.OnException(aspectArgs);
 
-        //            switch (aspectArgs.FlowBehavior) {
-        //                case FlowBehavior.ThrowException:
-        //                    throw ex;
-        //                case FlowBehavior.RethrowException:
-        //                    throw;
-        //                default:
-        //                    break;
-        //            }
-        //        }
-        //        finally {
-        //            Aspects.traceAspect2.OnExit(aspectArgs);
-        //        }
+    //            switch (aspectArgs.FlowBehavior) {
+    //                case FlowBehavior.ThrowException:
+    //                    throw ex;
+    //                case FlowBehavior.RethrowException:
+    //                    throw;
+    //                default:
+    //                    break;
+    //            }
+    //        }
+    //        finally {
+    //            Aspects.traceAspect2.OnExit(aspectArgs);
+    //        }
 
-        //        Aspects.traceAspect2.OnSuccess(aspectArgs);
-        //    }
-        //    catch (Exception ex) {
-        //        aspectArgs.Exception = ex;
-        //        Aspects.traceAspect2.OnException(aspectArgs);
+    //        Aspects.traceAspect2.OnSuccess(aspectArgs);
+    //    }
+    //    catch (Exception ex) {
+    //        aspectArgs.Exception = ex;
+    //        Aspects.traceAspect2.OnException(aspectArgs);
 
-        //        switch (aspectArgs.FlowBehavior) {
-        //            case FlowBehavior.ThrowException:
-        //                throw ex;
-        //            case FlowBehavior.RethrowException:
-        //                throw;
-        //            default:
-        //                break;
-        //        }
-        //    }
-        //    finally {
-        //        Aspects.traceAspect2.OnExit(aspectArgs);
-        //    }
+    //        switch (aspectArgs.FlowBehavior) {
+    //            case FlowBehavior.ThrowException:
+    //                throw ex;
+    //            case FlowBehavior.RethrowException:
+    //                throw;
+    //            default:
+    //                break;
+    //        }
+    //    }
+    //    finally {
+    //        Aspects.traceAspect2.OnExit(aspectArgs);
+    //    }
 
-        //    return aspectArgs.ReturnValue;
-        //}
-    }
+    //    return aspectArgs.ReturnValue;
+    //}
+    //}
 
     //[TransientComposite(As = typeof(IPersonComposite))]
 
@@ -329,14 +330,14 @@ namespace NCop.Samples
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
         //[OnMethodBoundaryAspect(typeof(TraceAspect2), AspectPriority = 1)]
-        [MethodInterceptionAspect(typeof(TraceAspect1), AspectPriority = 1)]
-        [MethodInterceptionAspect(typeof(TraceAspect1), AspectPriority = 3)]
+        //[MethodInterceptionAspect(typeof(TraceAspect1), AspectPriority = 1)]
+        //[MethodInterceptionAspect(typeof(TraceAspect1), AspectPriority = 3)]
         new void Code();
 
+        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
+        //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
         [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
-        [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
-        new string Code2();
+        new string Code2(List<string> first, List<string> second);
     }
 
     class Program
@@ -347,48 +348,35 @@ namespace NCop.Samples
                 DependencyContainerAdapter = new StructureMapAdapter()
             };
 
+            var first = new List<string>();
+            var second = new List<string>();
             var container = new CompositeContainer(settings);
             container.Configure();
             var person = container.TryResolve<IPersonComposite>();
-            person.Code();
+            var result = person.Code2(first, second);
         }
     }
 
     #region Composites
 
-    public class TraceAspect3 : OnFunctionBoundaryAspect<string>
+    public class TraceAspect3 : OnFunctionBoundaryAspect<List<string>, List<string>, string>
     {
-        int counter = 0;
-
-        public override void OnEntry(FunctionExecutionArgs<string> args) {
+        public override void OnEntry(FunctionExecutionArgs<List<string>, List<string>, string> args) {
             Console.WriteLine("Code from TraceAspect3 OnEntry");
-            if (counter == 2) {
-                args.FlowBehavior = FlowBehavior.Continue;
-                throw new Exception();
-            }
-
             base.OnEntry(args);
-
-            if (counter != 2) {
-                counter++;
-            }
         }
 
-        public override void OnExit(FunctionExecutionArgs<string> args) {
+        public override void OnExit(FunctionExecutionArgs<List<string>, List<string>, string> args) {
             Console.WriteLine("Code from TraceAspect3 OnExit");
             base.OnExit(args);
         }
 
-        public override void OnException(FunctionExecutionArgs<string> args) {
+        public override void OnException(FunctionExecutionArgs<List<string>, List<string>, string> args) {
             Console.WriteLine("Code from TraceAspect3 OnException");
-            try {
-                base.OnException(args);
-            }
-            catch (Exception) {
-            }
+            base.OnException(args);
         }
 
-        public override void OnSuccess(FunctionExecutionArgs<string> args) {
+        public override void OnSuccess(FunctionExecutionArgs<List<string>, List<string>, string> args) {
             Console.WriteLine("Code from TraceAspect3 OnSuccess");
             base.OnSuccess(args);
         }
@@ -454,7 +442,9 @@ namespace NCop.Samples
 
         public virtual void Code() { }
 
-        public virtual string Code2() { return string.Empty; }
+        public virtual string Code2(List<string> first, List<string> second) {
+            return "12345";
+        }
     }
 
     public interface ILanguage
@@ -491,7 +481,7 @@ namespace NCop.Samples
 
     public interface IDeveloper<out TLanguage>
     {
-        string Code2();
+        string Code2(List<string> first, List<string> second);
         void Code();
     }
 
