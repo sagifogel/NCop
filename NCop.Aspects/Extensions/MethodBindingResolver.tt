@@ -35,7 +35,12 @@ foreach (var i in Enumerable.Range(1, 8)) {
 			funcBindingMap.Add(<#= i #>, typeof(IFunctionBinding<<#= commas #>>));	
 			actionBindingMap.Add(<#= i #>, typeof(IActionBinding<<#=commas#>>));	
 <#
-	if (i != 8) {
+	if (i == 8) {
+		commas += ",";#>
+
+			funcBindingMap.Add(9, typeof(IFunctionBinding<<#= commas #>>));	
+<#}
+	else{
 		WriteLine(""); 
 	}
 }#>

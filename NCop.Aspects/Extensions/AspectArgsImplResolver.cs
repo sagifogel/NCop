@@ -67,6 +67,9 @@ namespace NCop.Aspects.Extensions
 			funcExecutionArgsMap.Add(8, typeof(FunctionExecutionArgsImpl<,,,,,,,,>));	
 			actionInterceptionArgsMap.Add(8, typeof(ActionInterceptionArgsImpl<,,,,,,,,>));	
 			funcInterceptionArgsMap.Add(8, typeof(FunctionInterceptionArgsImpl<,,,,,,,,>));							
+			
+			funcExecutionArgsMap.Add(9, typeof(FunctionExecutionArgsImpl<,,,,,,,,,>));	
+			funcInterceptionArgsMap.Add(9, typeof(FunctionInterceptionArgsImpl<,,,,,,,,,>));							
 		}
 
 		internal static Type MakeGenericArgsType(this Type argumentsType, params Type[] typeArguments) {

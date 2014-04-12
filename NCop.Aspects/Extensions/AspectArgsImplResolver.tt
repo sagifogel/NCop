@@ -42,7 +42,13 @@ foreach (var i in Enumerable.Range(1, 8)) {
 			actionInterceptionArgsMap.Add(<#= i #>, typeof(ActionInterceptionArgsImpl<<#= commas #>>));	
 			funcInterceptionArgsMap.Add(<#= i #>, typeof(FunctionInterceptionArgsImpl<<#= commas #>>));							
 <#
-	if (i != 8) {
+	if (i == 8) {
+		commas += ",";#>
+			
+			funcExecutionArgsMap.Add(9, typeof(FunctionExecutionArgsImpl<<#= commas #>>));	
+			funcInterceptionArgsMap.Add(9, typeof(FunctionInterceptionArgsImpl<<#= commas #>>));							
+<#}
+	else{
 		WriteLine(""); 
 	}
 }#>

@@ -337,7 +337,7 @@ namespace NCop.Samples
         //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
         //[OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
         [OnMethodBoundaryAspect(typeof(TraceAspect3), AspectPriority = 1)]
-        new string Code2(List<string> first, List<string> second);
+        new string Code2(List<string> first, List<string> second, List<string> third, List<string> fourth, List<string> fifth, List<string> sixth);
     }
 
     class Program
@@ -350,34 +350,42 @@ namespace NCop.Samples
 
             var first = new List<string>();
             var second = new List<string>();
+            var third = new List<string>();
+            var fourth = new List<string>();
+            var fifth = new List<string>();
+            var sixth = new List<string>();
             var container = new CompositeContainer(settings);
             container.Configure();
             var person = container.TryResolve<IPersonComposite>();
-            var result = person.Code2(first, second);
+            var result = person.Code2(first, second, third, fourth, fifth, sixth);
         }
     }
 
     #region Composites
 
-    public class TraceAspect3 : OnFunctionBoundaryAspect<List<string>, List<string>, string>
+    public class TraceAspect3 : OnFunctionBoundaryAspect<List<string>, List<string>, List<string>, List<string>, List<string>, List<string>, string>
     {
-        public override void OnEntry(FunctionExecutionArgs<List<string>, List<string>, string> args) {
+        public override void OnEntry(FunctionExecutionArgs<List<string>, List<string>, List<string>, List<string>, List<string>, List<string>, string> args) {
             Console.WriteLine("Code from TraceAspect3 OnEntry");
+            args.Arg6.Add("Code from TraceAspect3 OnEntry");
             base.OnEntry(args);
         }
 
-        public override void OnExit(FunctionExecutionArgs<List<string>, List<string>, string> args) {
+        public override void OnExit(FunctionExecutionArgs<List<string>, List<string>, List<string>, List<string>, List<string>, List<string>, string> args) {
             Console.WriteLine("Code from TraceAspect3 OnExit");
+            args.Arg6.Add("Code from TraceAspect3 OnExit");
             base.OnExit(args);
         }
 
-        public override void OnException(FunctionExecutionArgs<List<string>, List<string>, string> args) {
+        public override void OnException(FunctionExecutionArgs<List<string>, List<string>, List<string>, List<string>, List<string>, List<string>, string> args) {
             Console.WriteLine("Code from TraceAspect3 OnException");
+            args.Arg6.Add("Code from TraceAspect3 OnException");
             base.OnException(args);
         }
 
-        public override void OnSuccess(FunctionExecutionArgs<List<string>, List<string>, string> args) {
+        public override void OnSuccess(FunctionExecutionArgs<List<string>, List<string>, List<string>, List<string>, List<string>, List<string>, string> args) {
             Console.WriteLine("Code from TraceAspect3 OnSuccess");
+            args.Arg6.Add("Code from TraceAspect3 OnSuccess");
             base.OnSuccess(args);
         }
     }
@@ -442,7 +450,7 @@ namespace NCop.Samples
 
         public virtual void Code() { }
 
-        public virtual string Code2(List<string> first, List<string> second) {
+        public virtual string Code2(List<string> first, List<string> second, List<string> third, List<string> fourth, List<string> fifth, List<string> sixth) {
             return "12345";
         }
     }
@@ -481,7 +489,7 @@ namespace NCop.Samples
 
     public interface IDeveloper<out TLanguage>
     {
-        string Code2(List<string> first, List<string> second);
+        string Code2(List<string> first, List<string> second, List<string> third, List<string> fourth, List<string> fifth, List<string> sixth);
         void Code();
     }
 

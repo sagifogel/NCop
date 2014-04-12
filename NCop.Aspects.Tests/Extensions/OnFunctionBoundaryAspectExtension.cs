@@ -15,7 +15,7 @@ namespace NCop.Aspects.Tests.Extensions
             return string.Join(":", source);
         }
         
-        internal static void AddToReturnValue<T>(this FunctionExecutionArgs<T, string> args, AspectJoinPoints joinPoint) {
+        internal static void AddToReturnValue(this FunctionExecutionArgs<string> args, AspectJoinPoints joinPoint) {
             string format = "{0}:{1}";
 
             if (args.ReturnValue.IsNullOrEmpty()) {
@@ -26,7 +26,7 @@ namespace NCop.Aspects.Tests.Extensions
             args.ReturnValue = format.Fmt(args.ReturnValue, joinPoint.ToString());
         }
 
-        internal static void AddToReturnValue<T>(this FunctionInterceptionArgs<T, string> args, AspectJoinPoints joinPoint) {
+        internal static void AddToReturnValue(this FunctionInterceptionArgs<string> args, AspectJoinPoints joinPoint) {
             string format = "{0}:{1}";
 
             if (args.ReturnValue.IsNullOrEmpty()) {

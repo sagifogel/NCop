@@ -36,7 +36,12 @@ foreach (var i in Enumerable.Range(1, 8)) {
 			funcArgsMap.Add(<#= i #>, typeof(IFunctionArgs<<#= commas #>>));	
 			actionArgsMap.Add(<#= i #>, typeof(IActionArgs<<#=commas#>>));	
 <#
-	if (i != 8) {
+	if (i == 8) {
+		commas += ",";#>
+			
+			funcArgsMap.Add(9, typeof(IFunctionArgs<<#= commas #>>));	
+<#}
+	else{
 		WriteLine(""); 
 	}
 }#>

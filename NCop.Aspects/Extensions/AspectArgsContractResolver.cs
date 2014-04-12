@@ -47,6 +47,8 @@ namespace NCop.Aspects.Extensions
 
 			funcArgsMap.Add(8, typeof(IFunctionArgs<,,,,,,,>));	
 			actionArgsMap.Add(8, typeof(IActionArgs<,,,,,,,>));	
+			
+			funcArgsMap.Add(9, typeof(IFunctionArgs<,,,,,,,,>));	
 		}
 
 		internal static Type ToFunctionAspectArgumentContract(this Type[] typeArguments) {

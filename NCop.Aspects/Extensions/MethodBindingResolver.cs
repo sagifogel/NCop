@@ -46,6 +46,8 @@ namespace NCop.Aspects.Extensions
 
 			funcBindingMap.Add(8, typeof(IFunctionBinding<,,,,,,,,>));	
 			actionBindingMap.Add(8, typeof(IActionBinding<,,,,,,,,>));	
+
+			funcBindingMap.Add(9, typeof(IFunctionBinding<,,,,,,,,,>));	
 		}
 
 		internal static Type MakeGenericFunctionBinding(this Type argumentsType, params Type[] typeArguments) {
