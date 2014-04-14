@@ -1,13 +1,8 @@
-﻿using NCop.Aspects.Advices;
-using NCop.Aspects.Aspects;
-using NCop.Aspects.Weaving.Expressions;
-using NCop.Composite.Weaving;
-using NCop.Core.Extensions;
+﻿using NCop.Aspects.Aspects;
 using NCop.Weaving;
 using NCop.Weaving.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
@@ -18,8 +13,13 @@ namespace NCop.Aspects.Weaving
             : base(nestedAspect, aspectDefinition, aspectWeavingSettings) {
         }
 
-        protected override void OnFunctionWeavingDetected() {
-            returnValueWeaver = new TopGetReturnValueWeaver(aspectWeavingSettings, argumentsWeavingSetings);
+        protected override void AddFinallyScopeWeavers(List<IMethodScopeWeaver> finallyWeavers) {
+            if (byRefArgumentsStoreWeaver.ContainsByRefParams) {
+                Action<ILGenerator> storeArgsAction = byRefArgumentsStoreWeaver.StoreArgsIfNeeded;
+                var storeArgsArgsWeaver = storeArgsAction.ToMethodScopeWeaver();
+                
+                finallyWeavers.Add(storeArgsArgsWeaver);
+            }
         }
     }
 }

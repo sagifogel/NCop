@@ -13,5 +13,6 @@ namespace NCop.Aspects.Weaving
         bool ContainsByRefParams { get; }
         void StoreArgsIfNeeded(ILGenerator ilGenerator);
         void RestoreArgsIfNeeded(ILGenerator ilGenerator);
+        void EmitLoadLocalAddress(ILGenerator ilGenerator, int argPosition);
     }
 }

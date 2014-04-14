@@ -21,25 +21,27 @@ namespace NCop.Aspects.Weaving
 
         internal AbstractOnMethodBoundaryAspectWeaver(IAspectWeaver nestedAspect, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectDefinition, aspectWeavingSettings) {
-            IMethodScopeWeaver entryWeaver = null;
-            IMethodScopeWeaver catchWeaver = null;
-            Action<ILGenerator> storeArgsAction = null;
             IAdviceExpression selectedExpression = null;
-            IMethodScopeWeaver storeArgsArgsWeaver = null;
+            var catchWeavers = new List<IMethodScopeWeaver>();
+            var entryWeavers = new List<IMethodScopeWeaver>();
+            Action<ILGenerator> storeArgsIfNeededAction = null;
             var finallyWeavers = new List<IMethodScopeWeaver>();
+            IMethodScopeWeaver storeArgsIfNeededScopeWeaver = null;
             var adviceWeavingSettings = new AdviceWeavingSettings(aspectWeavingSettings, argumentsWeavingSetings);
 
             ArgumentType = argumentsWeavingSetings.ArgumentType;
-            byRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
-            storeArgsAction = byRefArgumentsStoreWeaver.StoreArgsIfNeeded;
-            storeArgsArgsWeaver = storeArgsAction.ToMethodScopeWeaver();
             tryWeavers = new List<IMethodScopeWeaver>() { nestedAspect };
             localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
+            byRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
+            storeArgsIfNeededAction = byRefArgumentsStoreWeaver.StoreArgsIfNeeded;
+            storeArgsIfNeededScopeWeaver = storeArgsIfNeededAction.ToMethodScopeWeaver();
 
             if (adviceDiscoveryVistor.HasOnMethodEntryAdvice) {
                 selectedExpression = ResolveOnMethodEntryAdvice();
-                entryWeaver = selectedExpression.Reduce(adviceWeavingSettings);
+                entryWeavers.Add(selectedExpression.Reduce(adviceWeavingSettings));
             }
+
+            AddEntryScopeWeavers(entryWeavers);
 
             if (adviceDiscoveryVistor.HasOnMethodSuccessAdvice) {
                 selectedExpression = ResolveOnMethodSuccessAdvice();
@@ -53,24 +55,26 @@ namespace NCop.Aspects.Weaving
             if (adviceDiscoveryVistor.HasFinallyAdvice) {
                 selectedExpression = ResolveFinallyAdvice();
                 finallyWeavers.Add(selectedExpression.Reduce(adviceWeavingSettings));
-                finallyWeavers.Add(storeArgsArgsWeaver);
+                AddFinallyScopeWeavers(finallyWeavers);
 
                 if (adviceDiscoveryVistor.HasOnMethodExceptionAdvice) {
                     var aspectMember = aspectRepository.GetAspectFieldByType(aspectDefinition.Aspect.AspectType);
-                    var settings = new TryCatchFinallySettings(ArgumentType, aspectMember, localBuilderRepository);
+                    var settings = new TryCatchFinallySettings(ArgumentType, localBuilderRepository);
 
                     selectedExpression = ResolveOnMethodExceptionAdvice();
-                    catchWeaver = selectedExpression.Reduce(adviceWeavingSettings);
-                    weaver = new TryCatchFinallyAspectWeaver(settings, entryWeaver, tryWeavers, catchWeaver, finallyWeavers, returnValueWeaver);
+                    catchWeavers.Add(storeArgsIfNeededScopeWeaver);
+                    catchWeavers.Add(selectedExpression.Reduce(adviceWeavingSettings));
+                    weaver = new TryCatchFinallyAspectWeaver(settings, entryWeavers, tryWeavers, catchWeavers, finallyWeavers, returnValueWeaver);
                 }
                 else {
-                    weaver = new OnMethodBoundaryTryFinallyAspectWeaver(entryWeaver, tryWeavers, finallyWeavers, returnValueWeaver);
+                    finallyWeavers.Insert(0, storeArgsIfNeededScopeWeaver);
+                    weaver = new OnMethodBoundaryTryFinallyAspectWeaver(entryWeavers, tryWeavers, finallyWeavers, returnValueWeaver);
                 }
             }
             else {
-                var weavers = new List<IMethodScopeWeaver> { entryWeaver };
-
                 if (!byRefArgumentsStoreWeaver.ContainsByRefParams) {
+                    var weavers = entryWeavers;
+
                     weavers.AddRange(tryWeavers);
 
                     if (returnValueWeaver.IsNotNull()) {
@@ -80,13 +84,18 @@ namespace NCop.Aspects.Weaving
                     weaver = new MethodScopeWeaversQueue(weavers);
                 }
                 else {
-                    finallyWeavers.Add(storeArgsArgsWeaver);
-                    weaver = new OnMethodBoundaryTryFinallyAspectWeaver(entryWeaver, weavers, finallyWeavers, returnValueWeaver);
+                    AddFinallyScopeWeavers(finallyWeavers);
+                    weaver = new OnMethodBoundaryTryFinallyAspectWeaver(entryWeavers, tryWeavers, finallyWeavers, returnValueWeaver);
                 }
             }
         }
 
-        protected virtual void OnFunctionWeavingDetected() { }
+        protected virtual void OnFunctionWeavingDetected() {
+            returnValueWeaver = new TopGetReturnValueWeaver(aspectWeavingSettings, argumentsWeavingSetings);
+        }
+
+        protected virtual void AddEntryScopeWeavers(List<IMethodScopeWeaver> entryWeavers) { }
+        protected virtual void AddFinallyScopeWeavers(List<IMethodScopeWeaver> finallyWeavers) { }
 
         private IAdviceExpression ResolveOnMethodEntryAdvice() {
             IAdviceDefinition selectedAdviceDefinition = null;

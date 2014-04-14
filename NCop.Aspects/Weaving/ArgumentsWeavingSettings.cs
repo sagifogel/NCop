@@ -15,6 +15,5 @@ namespace NCop.Aspects.Weaving
         public Type ArgumentType { get; set; }
         public Type[] Parameters { get; set; }
         public FieldInfo BindingsDependency { get; set; }
-        public IByRefArgumentsStoreWeaver ByRefArgumentsStoreWeaver { get; set; }
     }
 }

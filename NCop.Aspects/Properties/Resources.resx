@@ -129,6 +129,9 @@
   <data name="AspectsDefaultCtorHasNotBeenFound" xml:space="preserve">
     <value>The type {0} does not have a default constructor.</value>
   </data>
+  <data name="EmitLoadLocalAddressAtTopAspectIsInvalid" xml:space="preserve">
+    <value>Emit load local address in top aspect is not permitted</value>
+  </data>
   <data name="FunctionAspectMismatch" xml:space="preserve">
     <value>OnFunctionBoundaryAspcets are valid only on method that has return type other than void. Use one of the OnActionBoundaryAspect types.</value>
   </data>

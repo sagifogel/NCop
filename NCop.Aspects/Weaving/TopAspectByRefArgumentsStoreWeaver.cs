@@ -1,4 +1,5 @@
-﻿using NCop.Core.Extensions;
+﻿using NCop.Aspects.Exceptions;
+using NCop.Core.Extensions;
 using NCop.Weaving.Extensions;
 using System;
 using System.Collections.Generic;
@@ -49,6 +50,10 @@ namespace NCop.Aspects.Weaving
                 ilGenerator.Emit(OpCodes.Ldind_I4);
                 ilGenerator.Emit(OpCodes.Callvirt, property.GetSetMethod());
             });
+        }
+
+        public override void EmitLoadLocalAddress(ILGenerator ilGenerator, int argPosition) {
+            throw new TopAspectInvalidOperationException();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace NCop.Aspects.Tests.Extensions
         internal static string Stringify(this IEnumerable<AspectJoinPoints> source) {
             return string.Join(":", source);
         }
-        
+
         internal static void AddToReturnValue(this FunctionExecutionArgs<string> args, AspectJoinPoints joinPoint) {
             string format = "{0}:{1}";
 

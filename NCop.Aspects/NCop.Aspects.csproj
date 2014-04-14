@@ -113,6 +113,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AspectWeavingException.tt</DependentUpon>
     </Compile>
+    <Compile Include="Exceptions\TopAspectInvalidOperationException.cs" />
     <Compile Include="Extensions\AspectArgsImplResolver.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -143,6 +144,7 @@
     <Compile Include="Weaving\AbstractBindingOnMethodExecutionArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractBranchedMethodScopeWeaver.cs" />
     <Compile Include="Weaving\AbstractByRefArgumentsStoreWeaver.cs" />
+    <Compile Include="Weaving\AbstractBindingByRefArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractTopAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\AbstractTopOnMethodBoundaryAspectWeaver.cs" />
@@ -152,11 +154,10 @@
     <Compile Include="Weaving\Expressions\TopBindingOnMethodBoundaryAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\MethodInvokerAspectExpression.cs" />
     <Compile Include="Weaving\IAspectWeavingServices.cs" />
-    <Compile Include="Weaving\ICanEmitLocalBuilderByRefArgumentsWeaver.cs" />
     <Compile Include="Weaving\MethodDecoratorScopeWeaver.cs" />
     <Compile Include="Weaving\MethodInvokerArgumentsWeaver.cs" />
     <Compile Include="Weaving\MethodInvokerAspectWeaver.cs" />
-    <Compile Include="Weaving\MethodInvokerByRefArgumentsWeaver.cs" />
+    <Compile Include="Weaving\BindingByRefArgumentsWeaverImpl.cs" />
     <Compile Include="Weaving\NullObjectByRefArgumentsWeaver.cs" />
     <Compile Include="Weaving\TopAspectByRefArgumentsStoreWeaver.cs" />
     <Compile Include="Weaving\IByRefArgumentsStoreWeaver.cs" />

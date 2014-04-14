@@ -19,6 +19,10 @@ namespace NCop.Aspects.Tests
 
     public class AspectOrderedJoinPoints : List<AspectJoinPoints>
     {
+        public int Calculate() {
+            return this.Sum(jp => (int)jp);
+        }
+
         public override string ToString() {
             return this.Stringify();
         }

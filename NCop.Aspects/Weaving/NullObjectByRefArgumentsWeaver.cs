@@ -29,5 +29,8 @@ namespace NCop.Aspects.Weaving
 
         public void RestoreArgsIfNeeded(ILGenerator ilGenerator) {
         }
+
+        public void EmitLoadLocalAddress(ILGenerator ilGenerator, int argPosition) {
+        }
     }
 }

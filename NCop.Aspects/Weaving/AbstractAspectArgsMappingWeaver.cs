@@ -16,6 +16,7 @@ namespace NCop.Aspects.Weaving
         protected readonly IArgumentsSettings argumentsSettings = null;
         protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
         protected readonly ILocalBuilderRepository localBuilderRepository = null;
+
         internal AbstractAspectArgsMappingWeaver(IAspectWeavingSettings aspectWeavingSettings, IArgumentsSettings argumentsSettings) {
             Type[] @params = null;
 

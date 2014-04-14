@@ -9,7 +9,7 @@ namespace NCop.Aspects.Tests
 {
     public enum AspectJoinPoints
     {
-        OnExit,
+        OnExit = 1,
         OnEntry,
         OnInvoke,
         InMethod,

@@ -11,9 +11,9 @@ namespace NCop.Aspects.Weaving
     internal class MethodDecoratorArgumentsWeaver : IArgumentsWeaver
     {
         private readonly MethodInfo methodInfoImpl = null;
-        private readonly ICanEmitLocalBuilderByRefArgumentsWeaver byRefArgumentsStoreWeaver = null;
+        private readonly IByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver = null;
 
-        internal MethodDecoratorArgumentsWeaver(MethodInfo methodInfoImpl, ICanEmitLocalBuilderByRefArgumentsWeaver byRefArgumentsStoreWeaver) {
+        internal MethodDecoratorArgumentsWeaver(MethodInfo methodInfoImpl, IByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver) {
             this.methodInfoImpl = methodInfoImpl;
             this.byRefArgumentsStoreWeaver = byRefArgumentsStoreWeaver;
         }

@@ -3,6 +3,7 @@ using NCop.Core.Extensions;
 using NCop.Weaving;
 using NCop.Weaving.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -11,12 +12,12 @@ namespace NCop.Aspects.Weaving
 {
 	internal class BeginCatchBlockMethodScopeWeaver : IMethodScopeWeaver
 	{
-		private readonly FieldInfo aspectMember = null;
 		private readonly Type aspectArgumentType = null;
+        private readonly IEnumerable<IMethodScopeWeaver> catchWeavers = null;
 		private readonly ILocalBuilderRepository localBuilderRepository = null;
 
-		internal BeginCatchBlockMethodScopeWeaver(TryCatchFinallySettings tryCatchFinallySettings) {
-			aspectMember = tryCatchFinallySettings.AspectMember;
+		internal BeginCatchBlockMethodScopeWeaver(IEnumerable<IMethodScopeWeaver> catchWeavers,  TryCatchFinallySettings tryCatchFinallySettings) {
+            this.catchWeavers = catchWeavers;
 			aspectArgumentType = tryCatchFinallySettings.AspectArgumentType;
 			localBuilderRepository = tryCatchFinallySettings.LocalBuilderRepository;
 		}
@@ -31,7 +32,6 @@ namespace NCop.Aspects.Weaving
 			var rethrowFlowBehaviorLabel = ilGenerator.DefineLabel();
 			var argsImplLocalBuilder = localBuilderRepository.Get(aspectArgumentType);
 			var jumpTable = new[] { throwFlowBehaviorLabel, rethrowFlowBehaviorLabel };
-			var onExceptionMethodInfo = aspectMember.FieldType.GetMethod("OnException");
 			var setExceptionMethodInfo = aspectArgumentType.GetProperty("Exception").GetSetMethod();
 			var flowBehaviorMethodInfo = aspectArgumentType.GetProperty("FlowBehavior").GetGetMethod();
 			
@@ -48,10 +48,10 @@ namespace NCop.Aspects.Weaving
 			ilGenerator.EmitLoadLocal(argsImplLocalBuilder);
 			ilGenerator.EmitLoadLocal(exceptionLocalBuilder);
 			ilGenerator.Emit(OpCodes.Callvirt, setExceptionMethodInfo);
-			ilGenerator.Emit(OpCodes.Ldsfld, aspectMember);
-			ilGenerator.EmitLoadLocal(argsImplLocalBuilder);
-			ilGenerator.Emit(OpCodes.Callvirt, onExceptionMethodInfo);
-			ilGenerator.EmitLoadLocal(argsImplLocalBuilder);
+
+            catchWeavers.ForEach(weaver => weaver.Weave(ilGenerator));
+
+            ilGenerator.EmitLoadLocal(argsImplLocalBuilder);
 			ilGenerator.Emit(OpCodes.Callvirt, flowBehaviorMethodInfo);
 			ilGenerator.EmitStoreLocal(flowBehavoiurLocalBuilder); 
 			ilGenerator.EmitLoadLocal(flowBehavoiurLocalBuilder); 

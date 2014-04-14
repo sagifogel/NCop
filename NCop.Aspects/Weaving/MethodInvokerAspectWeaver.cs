@@ -13,16 +13,14 @@ namespace NCop.Aspects.Weaving
         private readonly IArgumentsWeaver argumentsWeaver = null;
         private readonly ILocalBuilderRepository localBuilderRepository = null;
         private readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
-        private readonly ICanEmitLocalBuilderByRefArgumentsWeaver byRefArgumentStoreWeaver = null;
+        private readonly IByRefArgumentsStoreWeaver byRefArgumentStoreWeaver = null;
 
         internal MethodInvokerAspectWeaver(Type topAspectInScopeArgType, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {
-            var methodInfoImpl = aspectWeavingSettings.WeavingSettings.MethodInfoImpl;
-
             this.topAspectInScopeArgType = topAspectInScopeArgType;
             this.argumentsWeavingSettings = argumentsWeavingSettings;
             localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
-            byRefArgumentStoreWeaver = new MethodInvokerByRefArgumentsWeaver(topAspectInScopeArgType, methodInfoImpl, localBuilderRepository);
+            byRefArgumentStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
             argumentsWeaver = new MethodInvokerArgumentsWeaver(topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSettings, byRefArgumentStoreWeaver);
         }
 

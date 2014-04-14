@@ -9,38 +9,38 @@ using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-	internal class TryCatchFinallyAspectWeaver : OnMethodBoundaryTryFinallyAspectWeaver
-	{
-		protected readonly IMethodScopeWeaver catchWeaver = null;
-		private readonly TryCatchFinallySettings tryCatchFinallySettings = null;
+    internal class TryCatchFinallyAspectWeaver : OnMethodBoundaryTryFinallyAspectWeaver
+    {
+        protected readonly IEnumerable<IMethodScopeWeaver> catchWeavers = null;
+        private readonly TryCatchFinallySettings tryCatchFinallySettings = null;
 
-		internal TryCatchFinallyAspectWeaver(TryCatchFinallySettings tryCatchFinallySettings, IMethodScopeWeaver entryWeaver, IEnumerable<IMethodScopeWeaver> tryWeavers, IMethodScopeWeaver catchWeaver, IEnumerable<IMethodScopeWeaver> finallyWeavers, IMethodScopeWeaver returnValueWeaver = null)
-			: base(entryWeaver, tryWeavers, finallyWeavers, returnValueWeaver) {
-			this.catchWeaver = catchWeaver;
-			this.tryCatchFinallySettings = tryCatchFinallySettings;
-		}
+        internal TryCatchFinallyAspectWeaver(TryCatchFinallySettings tryCatchFinallySettings, IEnumerable<IMethodScopeWeaver> entryWeavers, IEnumerable<IMethodScopeWeaver> tryWeavers, IEnumerable<IMethodScopeWeaver> catchWeavers, IEnumerable<IMethodScopeWeaver> finallyWeavers, IMethodScopeWeaver returnValueWeaver = null)
+            : base(entryWeavers, tryWeavers, finallyWeavers, returnValueWeaver) {
+            this.catchWeavers = catchWeavers;
+            this.tryCatchFinallySettings = tryCatchFinallySettings;
+        }
 
-		public override ILGenerator Weave(ILGenerator ilGenerator) {
-			var weavers = new List<IMethodScopeWeaver>();
-			MethodScopeWeaversQueue methodScopeWeaversQueue = null;
+        public override ILGenerator Weave(ILGenerator ilGenerator) {
+            var weavers = new List<IMethodScopeWeaver>();
+            MethodScopeWeaversQueue methodScopeWeaversQueue = null;
 
-			weavers.Add(entryWeaver);
-			weavers.Add(new BeginExceptionBlockMethodScopeWeaver());
-			weavers.Add(new BeginExceptionBlockMethodScopeWeaver());
-			weavers.AddRange(tryWeavers);
-			weavers.Add(new BeginCatchBlockMethodScopeWeaver(tryCatchFinallySettings));
-			weavers.Add(new EndExceptionBlockMethodScopeWeaver());
-			weavers.Add(new FinallyMethodScopeWeaver(finallyWeavers));
-			weavers.Add(new EndExceptionBlockMethodScopeWeaver());
+            weavers.AddRange(entryWeavers);
+            weavers.Add(new BeginExceptionBlockMethodScopeWeaver());
+            weavers.Add(new BeginExceptionBlockMethodScopeWeaver());
+            weavers.AddRange(tryWeavers);
+            weavers.Add(new BeginCatchBlockMethodScopeWeaver(catchWeavers, tryCatchFinallySettings));
+            weavers.Add(new EndExceptionBlockMethodScopeWeaver());
+            weavers.Add(new FinallyMethodScopeWeaver(finallyWeavers));
+            weavers.Add(new EndExceptionBlockMethodScopeWeaver());
 
-			if (returnValueWeaver.IsNotNull()) {
-				weavers.Add(returnValueWeaver);
-			}
+            if (returnValueWeaver.IsNotNull()) {
+                weavers.Add(returnValueWeaver);
+            }
 
-			methodScopeWeaversQueue = new MethodScopeWeaversQueue(weavers);
+            methodScopeWeaversQueue = new MethodScopeWeaversQueue(weavers);
 
-			return methodScopeWeaversQueue.Weave(ilGenerator);
-		}
-	}
+            return methodScopeWeaversQueue.Weave(ilGenerator);
+        }
+    }
 }
 

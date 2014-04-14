@@ -13,7 +13,7 @@ namespace NCop.Aspects.Weaving
         private readonly MethodInfo methodInfoImpl = null;
         private readonly IArgumentsWeaver argumentsWeaver = null;
         private readonly IAspectWeavingSettings aspectWeavingSettings = null;
-        private readonly ICanEmitLocalBuilderByRefArgumentsWeaver byRefArgumentsStoreWeaver = null;
+        private readonly IByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver = null;
 
         internal MethodDecoratorScopeWeaver(IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {

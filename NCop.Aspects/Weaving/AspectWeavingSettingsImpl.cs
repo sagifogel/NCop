@@ -11,8 +11,6 @@ namespace NCop.Aspects.Weaving
 {
 	public class AspectWeavingSettingsImpl : IAspectWeavingSettings
 	{
-		internal static AspectWeavingSettingsImpl Empty = new AspectWeavingSettingsImpl();
-
 		public IWeavingSettings WeavingSettings { get; set; }
 		public IAspectRepository AspectRepository { get; set; }
 		public IAspectArgsMapper AspectArgsMapper { get; set; }

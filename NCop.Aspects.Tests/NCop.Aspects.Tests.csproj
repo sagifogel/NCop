@@ -64,6 +64,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AbstractAspectTest.cs" />
+    <Compile Include="ActionWith1RefArgumentAspect\ActionWith1RefArgumentAspectSubjects.cs" />
+    <Compile Include="ActionWith1RefArgumentAspect\ActionWith1RefArgumentAspectTest.cs" />
     <Compile Include="ActionWith1ArgumentAspect\ActionWith1ArgumentAspectSubjects.cs">
       <SubType>Code</SubType>
     </Compile>

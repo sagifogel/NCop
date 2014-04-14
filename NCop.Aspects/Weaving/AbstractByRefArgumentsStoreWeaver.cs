@@ -24,9 +24,11 @@ namespace NCop.Aspects.Weaving
         }
 
         public abstract bool Contains(int argPosition);
-        
+
         public abstract void StoreArgsIfNeeded(ILGenerator ilGenerator);
-        
+
         public abstract void RestoreArgsIfNeeded(ILGenerator ilGenerator);
+
+        public abstract void EmitLoadLocalAddress(ILGenerator ilGenerator, int argPosition);
     }
 }
