@@ -108,7 +108,7 @@ namespace NCop.Aspects.Tests
             CollectionAssert.AreEqual(list, new AllAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect());
             CollectionAssert.DoesNotContain(list, AspectJoinPoints.OnException);
         }
-        
+
         [TestMethod]
         public void ActionWith1Argument_AnnotatedWithAlternateAspectsStartingWithInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
             var instance = container.Resolve<IActionWith1ArgumentComposite>();
@@ -145,6 +145,42 @@ namespace NCop.Aspects.Tests
 
             instance.OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehaviourAspect(list);
             CollectionAssert.AreEqual(list, new WithExceptionFlowBehaviourContinueOnMethodBoundaryAspectOrderedJoinPoints());
+        }
+
+        [TestMethod]
+        public void ActionWith1Argument_AnnotatedWithATryFinallyOnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocation_OmitsTheOnSuccessAdviceAndReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWith1ArgumentComposite>();
+            var list = new List<AspectJoinPoints>();
+
+            try {
+                instance.TryfinallyOnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(list);
+            }
+            catch (Exception) {
+                CollectionAssert.AreEqual(list, new TryFinallyWithExceptionOnMethodBoundaryAspectOrderedJoinPoints());
+            }
+        }
+
+        [TestMethod]
+        public void ActionWith1Argument_OnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocationWithoutTryFinally_OmitsTheOnSuccessAdviceAndReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWith1ArgumentComposite>();
+            var list = new List<AspectJoinPoints>();
+
+            try {
+                instance.OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplWithoutTryFinally(list);
+            }
+            catch (Exception) {
+                CollectionAssert.AreEqual(list, new OnMethodBoundaryAspectWithExceptionAndWithoutTryFinallyOrderedJoinPoints());
+            }
+        }
+
+        [TestMethod]
+        public void ActionWith1Argument_OnMethodBoundaryAspectWithOnlyOnEntryAdvice_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWith1ArgumentComposite>();
+            var list = new List<AspectJoinPoints>();
+
+            instance.OnMethodBoundaryAspectWithOnlyOnEntryAdvide(list);
+
+            CollectionAssert.AreEqual(list, new OnMethodBoundaryAspectWithOnlyOnEntryAdviceOrderedJoinPoints());
         }
     }
 }

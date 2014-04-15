@@ -198,6 +198,7 @@ namespace NCop.Aspects.Tests
         public void ActionWith4RefArguments_OnMethodBoundaryAspectWithOnlyOnEntryAdvice_ReturnsTheCorrectSequenceOfAdvices() {
             var instance = container.Resolve<IActionWith4RefArgumentsComposite>();
             var joinPoints = new OnMethodBoundaryAspectWithOnlyOnEntryAdviceOrderedJoinPoints().Calculate();
+            
             instance.OnMethodBoundaryAspectWithOnlyOnEntryAdvide(ref i, ref j, ref k, ref l);
 
             Assert.AreEqual(i, joinPoints);

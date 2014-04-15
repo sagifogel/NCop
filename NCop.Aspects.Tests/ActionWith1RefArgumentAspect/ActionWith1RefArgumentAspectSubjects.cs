@@ -193,7 +193,7 @@ namespace NCop.Aspects.Tests.ActionWith1RefArgumentAspect.Subjects
         }
 
         public override void OnSuccess(ActionExecutionArgs<int> args) {
-            args.Arg1 = args.Arg1 + (int)AspectJoinPoints.OnSuccess;
+            args.Arg1 += (int)AspectJoinPoints.OnSuccess;
             base.OnSuccess(args);
         }
     }
@@ -207,7 +207,7 @@ namespace NCop.Aspects.Tests.ActionWith1RefArgumentAspect.Subjects
         }
 
         public override void OnSuccess(ActionExecutionArgs<int> args) {
-            args.Arg1 = args.Arg1 + (int)AspectJoinPoints.OnSuccess;
+            args.Arg1 += (int)AspectJoinPoints.OnSuccess;
             base.OnSuccess(args);
         }
 
@@ -226,7 +226,7 @@ namespace NCop.Aspects.Tests.ActionWith1RefArgumentAspect.Subjects
         }
 
         public override void OnSuccess(ActionExecutionArgs<int> args) {
-            args.Arg1 = args.Arg1 + (int)AspectJoinPoints.OnSuccess;
+            args.Arg1 += (int)AspectJoinPoints.OnSuccess;
             base.OnSuccess(args);
         }
 
