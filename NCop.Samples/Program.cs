@@ -309,17 +309,23 @@ namespace NCop.Samples
         new void Code(ref int i);
     }
 
+
     class Program
     {
+        static string RaiseException() {
+            throw new Exception();
+        }
+
         static void Main(string[] args) {
             int i = 0;
-
+            string str = null;
             try {
+                str = RaiseException();
                 new Person().Code(ref i);
                 Console.WriteLine(i);
             }
             catch (Exception) {
-                Console.WriteLine(i);
+                Console.WriteLine(str);
             }
 
             i = 0;

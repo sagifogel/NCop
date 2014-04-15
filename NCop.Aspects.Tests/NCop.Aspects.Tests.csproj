@@ -78,6 +78,8 @@
     <Compile Include="ActionWith2ArgumentsAspect\ActionWith2ArgumentsAspectTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ActionWith8RefArgumentsAspect\ActionWith8RefArgumentsAspectSubjects.cs" />
+    <Compile Include="ActionWith8RefArgumentsAspect\ActionWith8RefArgumentsAspectTest.cs" />
     <Compile Include="ActionWith7RefArgumentsAspect\ActionWith7RefArgumentsAspectSubjects.cs" />
     <Compile Include="ActionWith7RefArgumentsAspect\ActionWith7RefArgumentsAspectTest.cs" />
     <Compile Include="ActionWith6RefArgumentsAspect\ActionWith6RefArgumentsAspectSubjects.cs" />
@@ -133,6 +135,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Extensions\OnFunctionBoundaryAspectExtension.cs" />
+    <Compile Include="FunctionWith2RefArgumentsAspect\FunctionWith2RefArgumentsAspectSubjects.cs" />
+    <Compile Include="FunctionWith2RefArgumentsAspect\FunctionWith2RefArgumentsAspectTest.cs" />
+    <Compile Include="FunctionWith1RefArgumentAspect\FunctionWith1RefArgumentAspectSubjects.cs" />
+    <Compile Include="FunctionWith1RefArgumentAspect\FunctionWith1RefArgumentAspectTest.cs" />
     <Compile Include="FunctionWith1ArgumentAspect\FunctionWith1ArgumentAspectSubjects.cs" />
     <Compile Include="FunctionWith1ArgumentAspect\FunctionWith1ArgumentAspectTest.cs" />
     <Compile Include="FunctionWith4ArgumentsAspect\FunctionWith4ArgumentsAspectSubjects.cs" />
