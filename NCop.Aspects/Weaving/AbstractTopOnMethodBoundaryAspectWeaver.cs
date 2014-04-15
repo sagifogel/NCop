@@ -17,7 +17,7 @@ namespace NCop.Aspects.Weaving
             if (byRefArgumentsStoreWeaver.ContainsByRefParams) {
                 Action<ILGenerator> storeArgsAction = byRefArgumentsStoreWeaver.StoreArgsIfNeeded;
                 var storeArgsArgsWeaver = storeArgsAction.ToMethodScopeWeaver();
-                
+
                 finallyWeavers.Add(storeArgsArgsWeaver);
             }
         }

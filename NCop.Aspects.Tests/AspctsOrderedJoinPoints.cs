@@ -100,6 +100,31 @@ namespace NCop.Aspects.Tests
         }
     }
 
+    public class TryFinallyWithExceptionOnMethodBoundaryAspectOrderedJoinPoints : AspectOrderedJoinPoints
+    {
+        public TryFinallyWithExceptionOnMethodBoundaryAspectOrderedJoinPoints() {
+            Add(AspectJoinPoints.OnEntry);
+            Add(AspectJoinPoints.InMethod);
+            Add(AspectJoinPoints.OnExit);
+        }
+    }
+
+    public class OnMethodBoundaryAspectWithExceptionAndWithoutTryFinallyOrderedJoinPoints : AspectOrderedJoinPoints
+    {
+        public OnMethodBoundaryAspectWithExceptionAndWithoutTryFinallyOrderedJoinPoints() {
+            Add(AspectJoinPoints.OnEntry);
+            Add(AspectJoinPoints.InMethod);
+        }
+    }
+
+    public class OnMethodBoundaryAspectWithOnlyOnEntryAdviceOrderedJoinPoints : AspectOrderedJoinPoints
+    {
+        public OnMethodBoundaryAspectWithOnlyOnEntryAdviceOrderedJoinPoints() {
+            Add(AspectJoinPoints.OnEntry);
+            Add(AspectJoinPoints.InMethod);
+        }
+    }
+
     public class AlternateAspectOrderedJoinPointsStartingWithInterceptionAspect : AspectOrderedJoinPoints
     {
         public AlternateAspectOrderedJoinPointsStartingWithInterceptionAspect() {

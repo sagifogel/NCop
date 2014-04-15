@@ -253,24 +253,24 @@ namespace NCop.Samples
                 aspectArgs.Arg1 = i;
                 Aspects.traceAspect4.OnSuccess(aspectArgs);
             }
-            catch (Exception ex) {
-                aspectArgs.Exception = ex;
-                aspectArgs.Arg1 = i;
-                Aspects.traceAspect4.OnException(aspectArgs);
+            //catch (Exception ex) {
+            //    aspectArgs.Exception = ex;
+            //    aspectArgs.Arg1 = i;
+            //    Aspects.traceAspect4.OnException(aspectArgs);
 
-                switch (aspectArgs.FlowBehavior) {
-                    case FlowBehavior.ThrowException:
-                        throw ex;
-                    case FlowBehavior.RethrowException:
-                        throw;
-                    default:
-                        break;
-                }
-            }
+            //    switch (aspectArgs.FlowBehavior) {
+            //        case FlowBehavior.ThrowException:
+            //            throw ex;
+            //        case FlowBehavior.RethrowException:
+            //            throw;
+            //        default:
+            //            break;
+            //    }
+            //}
             finally {
                 aspectArgs.Arg1 = i;
-                Aspects.traceAspect4.OnExit(aspectArgs);
-                i = aspectArgs.Arg1;
+                //    Aspects.traceAspect4.OnExit(aspectArgs);
+                //    i = aspectArgs.Arg1;
                 //FunctionArgsMapper.Map<int>(aspectArgs, args);
             }
         }
@@ -313,13 +313,26 @@ namespace NCop.Samples
     {
         static void Main(string[] args) {
             int i = 0;
-            //new Person().Code(ref i);
-            //return;
-            var container = new CompositeContainer();
-            container.Configure();
-            var person = container.TryResolve<IPersonComposite>();
-            person.Code(ref i);
-            Console.WriteLine(i);
+
+            try {
+                new Person().Code(ref i);
+                Console.WriteLine(i);
+            }
+            catch (Exception) {
+                Console.WriteLine(i);
+            }
+
+            i = 0;
+
+            try {
+                var container = new CompositeContainer();
+                container.Configure();
+                var person = container.TryResolve<IPersonComposite>();
+                person.Code(ref i);
+            }
+            catch (Exception) {
+                Console.WriteLine(i);
+            }
         }
     }
 
@@ -358,20 +371,20 @@ namespace NCop.Samples
             base.OnSuccess(args);
         }
 
-        public override void OnException(ActionExecutionArgs<int> args) {
-            var ex = args.Exception;
+        //public override void OnException(ActionExecutionArgs<int> args) {
+        //    var ex = args.Exception;
 
-            if (ex != null && ex.GetType() == typeof(Exception) && ex.Message.Equals("InMethodException")) {
-                args.Arg1 += (int)AspectJoinPoints.OnException;
-            }
+        //    if (ex != null && ex.GetType() == typeof(Exception) && ex.Message.Equals("InMethodException")) {
+        //        args.Arg1 += (int)AspectJoinPoints.OnException;
+        //    }
 
-            base.OnException(args);
-        }
+        //    base.OnException(args);
+        //}
 
-        public override void OnExit(ActionExecutionArgs<int> args) {
-            args.Arg1 += (int)AspectJoinPoints.OnExit;
-            base.OnExit(args);
-        }
+        //public override void OnExit(ActionExecutionArgs<int> args) {
+        //    args.Arg1 += (int)AspectJoinPoints.OnExit;
+        //    base.OnExit(args);
+        //}
     }
 
     public class WithContinueFlowBehvoiurActionWith1RefArgumentBoundaryAspect : OnActionBoundaryAspect<int>

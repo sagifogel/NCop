@@ -70,27 +70,27 @@ namespace NCop.Aspects.Tests
         [TestMethod]
         public void ActionWith1RefArgument_AnnotatedWithAllAspectsStartingWithInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
             var instance = container.Resolve<IActionWith1RefArgumentComposite>();
-            
+
             instance.AllAspectsStartingWithInterception(ref i);
-            
+
             Assert.AreEqual(i, new AllAspectOrderedJoinPointsStartingWithInterceptionAspect().Calculate());
         }
 
         [TestMethod]
         public void ActionWith1RefArgument_AnnotatedWithAllAspectsStartingWithOnMethodBoundaryAspect_ReturnsTheCorrectSequenceOfAdvices() {
             var instance = container.Resolve<IActionWith1RefArgumentComposite>();
-            
+
             instance.AllAspectsStartingWithOnMethodBoundary(ref i);
 
             Assert.AreEqual(i, new AllAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect().Calculate());
         }
-        
+
         [TestMethod]
         public void ActionWith1RefArgument_AnnotatedWithAlternateAspectsStartingWithInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
             var instance = container.Resolve<IActionWith1RefArgumentComposite>();
-            
+
             instance.AlternatelAspectsStartingWithInterception(ref i);
-            
+
             Assert.AreEqual(i, new AlternateAspectOrderedJoinPointsStartingWithInterceptionAspect().Calculate());
         }
 
@@ -114,10 +114,43 @@ namespace NCop.Aspects.Tests
         [TestMethod]
         public void ActionWith1RefArgument_AnnotatedWithOnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocationWithContinueFlowBehaviour_OmitsTheOnSuccessAdvice() {
             var instance = container.Resolve<IActionWith1RefArgumentComposite>();
-            
+
             instance.OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehaviourAspect(ref i);
-            
+
             Assert.AreEqual(i, new WithExceptionFlowBehaviourContinueOnMethodBoundaryAspectOrderedJoinPoints().Calculate());
+        }
+
+        [TestMethod]
+        public void ActionWith1RefArgument_AnnotatedWithATryFinallyOnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocation_OmitsTheOnSuccessAdviceAndReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWith1RefArgumentComposite>();
+
+            try {
+                instance.TryfinallyOnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(ref i);
+            }
+            catch (Exception) {
+                Assert.AreEqual(i, new TryFinallyWithExceptionOnMethodBoundaryAspectOrderedJoinPoints().Calculate());
+            }
+        }
+
+        [TestMethod]
+        public void ActionWith1RefArgument_OnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocationWithoutTryFinally_OmitsTheOnSuccessAdviceAndReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWith1RefArgumentComposite>();
+
+            try {
+                instance.OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplWithoutTryFinally(ref i);
+            }
+            catch (Exception) {
+                Assert.AreEqual(i, new OnMethodBoundaryAspectWithExceptionAndWithoutTryFinallyOrderedJoinPoints().Calculate());
+            }
+        }
+
+        [TestMethod]
+        public void ActionWith1RefArgument_OnMethodBoundaryAspectWithOnlyOnEntryAdvice_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IActionWith1RefArgumentComposite>();
+
+            instance.OnMethodBoundaryAspectWithOnlyOnEntryAdvide(ref i);
+        
+            Assert.AreEqual(i, new OnMethodBoundaryAspectWithOnlyOnEntryAdviceOrderedJoinPoints().Calculate());
         }
     }
 }
