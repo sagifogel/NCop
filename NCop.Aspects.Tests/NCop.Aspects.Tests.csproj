@@ -78,6 +78,12 @@
     <Compile Include="ActionWith2ArgumentsAspect\ActionWith2ArgumentsAspectTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ActionWith7RefArgumentsAspect\ActionWith7RefArgumentsAspectSubjects.cs" />
+    <Compile Include="ActionWith7RefArgumentsAspect\ActionWith7RefArgumentsAspectTest.cs" />
+    <Compile Include="ActionWith6RefArgumentsAspect\ActionWith6RefArgumentsAspectSubjects.cs" />
+    <Compile Include="ActionWith6RefArgumentsAspect\ActionWith6RefArgumentsAspectTest.cs" />
+    <Compile Include="ActionWith5RefArgumentsAspect\ActionWith5RefArgumentsAspectSubjects.cs" />
+    <Compile Include="ActionWith5RefArgumentsAspect\ActionWith5RefArgumentsAspectTest.cs" />
     <Compile Include="ActionWith4RefArgumentsAspect\ActionWith4RefArgumentsAspectSubjects.cs" />
     <Compile Include="ActionWith4RefArgumentsAspect\ActionWith4RefArgumentsAspectTest.cs" />
     <Compile Include="ActionWith3RefArgumentsAspect\ActionWith3RefArgumentsAspectSubjects.cs" />
