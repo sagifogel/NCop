@@ -124,5 +124,40 @@ namespace NCop.Aspects.Tests
             CollectionAssert.AreEqual(JoinPointsContainer.JoinPoints, new WithExceptionFlowBehaviourContinueOnMethodBoundaryAspectOrderedJoinPoints());
             Assert.AreEqual(result, JoinPointsContainer.JoinPoints.ToString());
         }
+
+        [TestMethod]
+        public void FunctionWithoutArguments_AnnotatedWithATryFinallyOnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocation_OmitsTheOnSuccessAdviceAndReturnsTheCorrectSequenceOfAdvices() {
+            string result = null;
+            var instance = container.Resolve<IFunctionWithoutArgumentsComposite>();
+
+            try {
+                result = instance.TryfinallyOnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl();
+            }
+            catch (Exception) {
+                Assert.IsNull(result);
+            }
+        }
+
+        [TestMethod]
+        public void FunctionWithoutArguments_OnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocationWithoutTryFinally_OmitsTheOnSuccessAdviceAndReturnsTheCorrectSequenceOfAdvices() {
+            string result = null;
+            var instance = container.Resolve<IFunctionWithoutArgumentsComposite>();
+
+            try {
+                result = instance.OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplWithoutTryFinally();
+            }
+            catch (Exception) {
+                Assert.IsNull(result);
+            }
+        }
+
+        [TestMethod]
+        public void FunctionWithoutArguments_OnMethodBoundaryAspectWithOnlyOnEntryAdvice_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IFunctionWithoutArgumentsComposite>();
+            var result = instance.OnMethodBoundaryAspectWithOnlyOnEntryAdvide();
+            var joinPoints = new OnMethodBoundaryAspectWithOnlyOnEntryAdviceOrderedJoinPoints();
+
+            Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
+        }
     }
 }

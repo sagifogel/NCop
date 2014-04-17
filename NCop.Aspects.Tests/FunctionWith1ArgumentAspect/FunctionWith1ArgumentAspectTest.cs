@@ -161,5 +161,46 @@ namespace NCop.Aspects.Tests
             CollectionAssert.AreEqual(list, joinPoints);
             Assert.AreEqual(result, joinPoints.ToString());
         }
+
+        [TestMethod]
+        public void FunctionWith1Argument_AnnotatedWithATryFinallyOnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocation_OmitsTheOnSuccessAdviceAndReturnsTheCorrectSequenceOfAdvices() {
+            string result = null;
+            var instance = container.Resolve<IFunctionWith1ArgumentComposite>();
+            var list = new List<AspectJoinPoints>();
+
+            try {
+                result = instance.TryfinallyOnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(list);
+            }
+            catch (Exception) {
+                CollectionAssert.AreEqual(list, new TryFinallyWithExceptionOnMethodBoundaryAspectOrderedJoinPoints());
+                Assert.IsNull(result);
+            }
+        }
+
+        [TestMethod]
+        public void FunctionWith1Argument_OnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocationWithoutTryFinally_OmitsTheOnSuccessAdviceAndReturnsTheCorrectSequenceOfAdvices() {
+            string result = null;
+            var instance = container.Resolve<IFunctionWith1ArgumentComposite>();
+            var list = new List<AspectJoinPoints>();
+
+            try {
+                result = instance.OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplWithoutTryFinally(list);
+            }
+            catch (Exception) {
+                CollectionAssert.AreEqual(list, new OnMethodBoundaryAspectWithExceptionAndWithoutTryFinallyOrderedJoinPoints());
+                Assert.IsNull(result);
+            }
+        }
+
+        [TestMethod]
+        public void FunctionWith1Argument_OnMethodBoundaryAspectWithOnlyOnEntryAdvice_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IFunctionWith1ArgumentComposite>();
+            var list = new List<AspectJoinPoints>();
+            var result = instance.OnMethodBoundaryAspectWithOnlyOnEntryAdvide(list);
+            var joinPoints = new OnMethodBoundaryAspectWithOnlyOnEntryAdviceOrderedJoinPoints();
+
+            CollectionAssert.AreEqual(list, joinPoints);
+            Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
+        }
     }
 }

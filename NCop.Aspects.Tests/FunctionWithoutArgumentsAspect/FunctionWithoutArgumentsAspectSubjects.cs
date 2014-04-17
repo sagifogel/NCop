@@ -25,8 +25,11 @@ namespace NCop.Aspects.Tests.FunctionWithoutArgumentAspect.Subjects
         string AllAspectsStartingWithInterception();
         string AllAspectsStartingWithOnMethodBoundary();
         string AlternatelAspectsStartingWithInterception();
+        string OnMethodBoundaryAspectWithOnlyOnEntryAdvide();
         string AlternateAspectsStartingWithOnMethodBoundary();
         string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl();
+        string TryfinallyOnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl();
+        string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplWithoutTryFinally();
         string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehaviourAspect();
     }
 
@@ -66,6 +69,10 @@ namespace NCop.Aspects.Tests.FunctionWithoutArgumentAspect.Subjects
             return AddInMethodJoinPoint();
         }
 
+        public string OnMethodBoundaryAspectWithOnlyOnEntryAdvide() {
+            return AddInMethodJoinPoint();
+        }
+
         public string AlternateAspectsStartingWithOnMethodBoundary() {
             return AddInMethodJoinPoint();
         }
@@ -73,6 +80,14 @@ namespace NCop.Aspects.Tests.FunctionWithoutArgumentAspect.Subjects
         public string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl() {
             AddInMethodJoinPoint();
             throw new Exception("InMethodException");
+        }
+
+        public string TryfinallyOnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl() {
+            return OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl();
+        }
+
+        public string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplWithoutTryFinally() {
+            return OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl();
         }
 
         public string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehaviourAspect() {
@@ -116,6 +131,9 @@ namespace NCop.Aspects.Tests.FunctionWithoutArgumentAspect.Subjects
         [OnMethodBoundaryAspect(typeof(FunctionWithoutArgumentsOnMethodBoundaryAspect), AspectPriority = 6)]
         new string AlternatelAspectsStartingWithInterception();
 
+        [OnMethodBoundaryAspect(typeof(OnEntry_FunctionWithoutArgumentsBoundaryAspect))]
+        new string OnMethodBoundaryAspectWithOnlyOnEntryAdvide();
+
         [OnMethodBoundaryAspect(typeof(FunctionWithoutArgumentsOnMethodBoundaryAspect), AspectPriority = 1)]
         [MethodInterceptionAspect(typeof(FunctionWithoutArgumentsInterceptionAspect), AspectPriority = 2)]
         [OnMethodBoundaryAspect(typeof(FunctionWithoutArgumentsOnMethodBoundaryAspect), AspectPriority = 3)]
@@ -126,6 +144,12 @@ namespace NCop.Aspects.Tests.FunctionWithoutArgumentAspect.Subjects
 
         [OnMethodBoundaryAspect(typeof(FunctionWithoutArgumentsOnMethodBoundaryAspect))]
         new string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl();
+
+        [OnMethodBoundaryAspect(typeof(OnEntry_OnSuccess_OnExit_FunctionWithoutArgumentsBoundaryAspect))]
+        new string TryfinallyOnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl();
+
+        [OnMethodBoundaryAspect(typeof(OnEntry_OnSuccess_FunctionWithoutArgumentsBoundaryAspect))]
+        new string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplWithoutTryFinally();
 
         [OnMethodBoundaryAspect(typeof(WithContinueFlowBehvoiurFunctionWithoutArgumentsBoundaryAspect))]
         new string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehaviourAspect();
@@ -159,6 +183,42 @@ namespace NCop.Aspects.Tests.FunctionWithoutArgumentAspect.Subjects
         public override void OnExit(FunctionExecutionArgs<string> args) {
             JoinPointsContainer.JoinPoints.Add(AspectJoinPoints.OnExit);
             args.AddToReturnValue(AspectJoinPoints.OnExit);
+            base.OnExit(args);
+        }
+    }
+
+    public class OnEntry_FunctionWithoutArgumentsBoundaryAspect : OnFunctionBoundaryAspect<string>
+    {
+        public override void OnEntry(FunctionExecutionArgs<string> args) {
+            args.FlowBehavior = FlowBehavior.Continue;
+            base.OnEntry(args);
+        }
+    }
+
+    public class OnEntry_OnSuccess_FunctionWithoutArgumentsBoundaryAspect : OnFunctionBoundaryAspect<string>
+    {
+        public override void OnEntry(FunctionExecutionArgs<string> args) {
+            args.FlowBehavior = FlowBehavior.Continue;
+            base.OnEntry(args);
+        }
+
+        public override void OnSuccess(FunctionExecutionArgs<string> args) {
+            base.OnSuccess(args);
+        }
+    }
+
+    public class OnEntry_OnSuccess_OnExit_FunctionWithoutArgumentsBoundaryAspect : OnFunctionBoundaryAspect<string>
+    {
+        public override void OnEntry(FunctionExecutionArgs<string> args) {
+            args.FlowBehavior = FlowBehavior.Continue;
+            base.OnEntry(args);
+        }
+
+        public override void OnSuccess(FunctionExecutionArgs<string> args) {
+            base.OnSuccess(args);
+        }
+
+        public override void OnExit(FunctionExecutionArgs<string> args) {
             base.OnExit(args);
         }
     }

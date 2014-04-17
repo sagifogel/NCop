@@ -207,5 +207,60 @@ namespace NCop.Aspects.Tests
             CollectionAssert.AreEqual(third, joinPoints);
             Assert.AreEqual(result, joinPoints.ToString());
         }
+
+        [TestMethod]
+        public void FunctionWith3Arguments_AnnotatedWithATryFinallyOnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocation_OmitsTheOnSuccessAdviceAndReturnsTheCorrectSequenceOfAdvices() {
+            string result = null;
+            var instance = container.Resolve<IFunctionWith3ArgumentsComposite>();
+            var first = new List<AspectJoinPoints>();
+            var second = new List<AspectJoinPoints>();
+            var third = new List<AspectJoinPoints>();
+            var joinPoints = new TryFinallyWithExceptionOnMethodBoundaryAspectOrderedJoinPoints();
+
+            try {
+                result = instance.TryfinallyOnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(first, second, third);
+            }
+            catch (Exception) {
+                CollectionAssert.AreEqual(first, joinPoints);
+                CollectionAssert.AreEqual(second, joinPoints);
+                CollectionAssert.AreEqual(third, joinPoints);
+                Assert.IsNull(result);
+            }
+        }
+
+        [TestMethod]
+        public void FunctionWith3Arguments_OnMethodBoundaryAspectThatRaisesAnExceptionInMethodInvocationWithoutTryFinally_OmitsTheOnSuccessAdviceAndReturnsTheCorrectSequenceOfAdvices() {
+            string result = null;
+            var instance = container.Resolve<IFunctionWith3ArgumentsComposite>();
+            var first = new List<AspectJoinPoints>();
+            var second = new List<AspectJoinPoints>();
+            var third = new List<AspectJoinPoints>();
+            var joinPoints = new OnMethodBoundaryAspectWithExceptionAndWithoutTryFinallyOrderedJoinPoints();
+
+            try {
+                result = instance.OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplWithoutTryFinally(first, second, third);
+            }
+            catch (Exception) {
+                CollectionAssert.AreEqual(first, joinPoints);
+                CollectionAssert.AreEqual(second,joinPoints);
+                CollectionAssert.AreEqual(third, joinPoints);
+                Assert.IsNull(result);
+            }
+        }
+
+        [TestMethod]
+        public void FunctionWith3Arguments_OnMethodBoundaryAspectWithOnlyOnEntryAdvice_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IFunctionWith3ArgumentsComposite>();
+            var first = new List<AspectJoinPoints>();
+            var second = new List<AspectJoinPoints>();
+            var third = new List<AspectJoinPoints>();
+            var result = instance.OnMethodBoundaryAspectWithOnlyOnEntryAdvide(first, second, third);
+            var joinPoints = new OnMethodBoundaryAspectWithOnlyOnEntryAdviceOrderedJoinPoints();
+
+            CollectionAssert.AreEqual(first, joinPoints);
+            CollectionAssert.AreEqual(second, joinPoints);
+            CollectionAssert.AreEqual(third, joinPoints);
+            Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
+        }
     }
 }

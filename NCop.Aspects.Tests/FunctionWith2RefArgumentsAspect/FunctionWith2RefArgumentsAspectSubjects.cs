@@ -186,7 +186,6 @@ namespace NCop.Aspects.Tests.FunctionWith2RefArgumentsAspect.Subjects
         public override void OnEntry(FunctionExecutionArgs<int, int, string> args) {
             args.FlowBehavior = FlowBehavior.Continue;
             args.Arg2 = args.Arg1 += (int)AspectJoinPoints.OnEntry;
-            args.AddToReturnValue(AspectJoinPoints.OnEntry);
             base.OnEntry(args);
         }
     }
@@ -196,13 +195,11 @@ namespace NCop.Aspects.Tests.FunctionWith2RefArgumentsAspect.Subjects
         public override void OnEntry(FunctionExecutionArgs<int, int, string> args) {
             args.FlowBehavior = FlowBehavior.Continue;
             args.Arg2 = args.Arg1 += (int)AspectJoinPoints.OnEntry;
-            args.AddToReturnValue(AspectJoinPoints.OnEntry);
             base.OnEntry(args);
         }
 
         public override void OnSuccess(FunctionExecutionArgs<int, int, string> args) {
             args.Arg1 = args.Arg1 + (int)AspectJoinPoints.OnSuccess;
-            args.AddToReturnValue(AspectJoinPoints.OnSuccess);
             base.OnSuccess(args);
         }
     }
@@ -218,13 +215,11 @@ namespace NCop.Aspects.Tests.FunctionWith2RefArgumentsAspect.Subjects
 
         public override void OnSuccess(FunctionExecutionArgs<int, int, string> args) {
             args.Arg1 = args.Arg1 + (int)AspectJoinPoints.OnSuccess;
-            args.AddToReturnValue(AspectJoinPoints.OnSuccess);
             base.OnSuccess(args);
         }
 
         public override void OnExit(FunctionExecutionArgs<int, int, string> args) {
             args.Arg2 = args.Arg1 += (int)AspectJoinPoints.OnExit;
-            args.AddToReturnValue(AspectJoinPoints.OnExit);
             base.OnExit(args);
         }
     }

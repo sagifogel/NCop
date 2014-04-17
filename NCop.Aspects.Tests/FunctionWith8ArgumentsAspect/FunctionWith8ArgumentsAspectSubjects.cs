@@ -20,8 +20,11 @@ namespace NCop.Aspects.Tests.FunctionWith8ArgumentsAspect.Subjects
         string AllAspectsStartingWithInterception(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth);
         string AllAspectsStartingWithOnMethodBoundary(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth);
         string AlternatelAspectsStartingWithInterception(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth);
+        string OnMethodBoundaryAspectWithOnlyOnEntryAdvide(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth);
         string AlternateAspectsStartingWithOnMethodBoundary(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth);
         string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth);
+        string TryfinallyOnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth);
+        string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplWithoutTryFinally(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth);
         string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehaviourAspect(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth);
     }
 
@@ -68,6 +71,10 @@ namespace NCop.Aspects.Tests.FunctionWith8ArgumentsAspect.Subjects
             return AddInMethodJoinPoint(first, second, third, fourth, fifth, sixth, seventh, eighth);
         }
 
+        public string OnMethodBoundaryAspectWithOnlyOnEntryAdvide(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth) {
+            return AddInMethodJoinPoint(first, second, third, fourth, fifth, sixth, seventh, eighth);
+        }
+
         public string AlternateAspectsStartingWithOnMethodBoundary(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth) {
             return AddInMethodJoinPoint(first, second, third, fourth, fifth, sixth, seventh, eighth);
         }
@@ -75,6 +82,14 @@ namespace NCop.Aspects.Tests.FunctionWith8ArgumentsAspect.Subjects
         public string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth) {
             AddInMethodJoinPoint(first, second, third, fourth, fifth, sixth, seventh, eighth);
             throw new Exception("InMethodException");
+        }
+
+        public string TryfinallyOnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth) {
+            return OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(first, second, third, fourth, fifth, sixth, seventh, eighth);
+        }
+
+        public string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplWithoutTryFinally(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth) {
+            return OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(first, second, third, fourth, fifth, sixth, seventh, eighth);
         }
 
         public string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehaviourAspect(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth) {
@@ -118,6 +133,9 @@ namespace NCop.Aspects.Tests.FunctionWith8ArgumentsAspect.Subjects
         [OnMethodBoundaryAspect(typeof(FunctionWith8ArgumentsOnMethodBoundaryAspect), AspectPriority = 6)]
         new string AlternatelAspectsStartingWithInterception(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth);
 
+        [OnMethodBoundaryAspect(typeof(OnEntry_FunctionWith8ArgumentsBoundaryAspect))]
+        new string OnMethodBoundaryAspectWithOnlyOnEntryAdvide(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth);
+
         [OnMethodBoundaryAspect(typeof(FunctionWith8ArgumentsOnMethodBoundaryAspect), AspectPriority = 1)]
         [MethodInterceptionAspect(typeof(FunctionWith8ArgumentsInterceptionAspect), AspectPriority = 2)]
         [OnMethodBoundaryAspect(typeof(FunctionWith8ArgumentsOnMethodBoundaryAspect), AspectPriority = 3)]
@@ -128,6 +146,12 @@ namespace NCop.Aspects.Tests.FunctionWith8ArgumentsAspect.Subjects
 
         [OnMethodBoundaryAspect(typeof(FunctionWith8ArgumentsOnMethodBoundaryAspect))]
         new string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth);
+
+        [OnMethodBoundaryAspect(typeof(OnEntry_OnSuccess_OnExit_FunctionWith8ArgumentsBoundaryAspect))]
+        new string TryfinallyOnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth);
+
+        [OnMethodBoundaryAspect(typeof(OnEntry_OnSuccess_FunctionWith8ArgumentsBoundaryAspect))]
+        new string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplWithoutTryFinally(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth);
 
         [OnMethodBoundaryAspect(typeof(WithContinueFlowBehvoiurFunctionWith8ArgumentsBoundaryAspect))]
         new string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehaviourAspect(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth);
@@ -189,6 +213,90 @@ namespace NCop.Aspects.Tests.FunctionWith8ArgumentsAspect.Subjects
             args.Arg7.Add(AspectJoinPoints.OnExit);
             args.Arg8.Add(AspectJoinPoints.OnExit);
             args.AddToReturnValue(AspectJoinPoints.OnExit);
+            base.OnExit(args);
+        }
+    }
+
+    public class OnEntry_FunctionWith8ArgumentsBoundaryAspect : OnFunctionBoundaryAspect<List<AspectJoinPoints>,List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, string>
+    {
+        public override void OnEntry(FunctionExecutionArgs<List<AspectJoinPoints>,List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, string> args) {
+            args.FlowBehavior = FlowBehavior.Continue;
+            args.Arg1.Add(AspectJoinPoints.OnEntry);
+            args.Arg2.Add(AspectJoinPoints.OnEntry);
+            args.Arg3.Add(AspectJoinPoints.OnEntry);
+            args.Arg4.Add(AspectJoinPoints.OnEntry);
+            args.Arg5.Add(AspectJoinPoints.OnEntry);
+            args.Arg6.Add(AspectJoinPoints.OnEntry);
+            args.Arg7.Add(AspectJoinPoints.OnEntry);
+            args.Arg8.Add(AspectJoinPoints.OnEntry);
+            base.OnEntry(args);
+        }
+    }
+
+    public class OnEntry_OnSuccess_FunctionWith8ArgumentsBoundaryAspect : OnFunctionBoundaryAspect<List<AspectJoinPoints>,List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, string>
+    {
+        public override void OnEntry(FunctionExecutionArgs<List<AspectJoinPoints>,List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, string> args) {
+            args.FlowBehavior = FlowBehavior.Continue;
+            args.Arg1.Add(AspectJoinPoints.OnEntry);
+            args.Arg2.Add(AspectJoinPoints.OnEntry);
+            args.Arg3.Add(AspectJoinPoints.OnEntry);
+            args.Arg4.Add(AspectJoinPoints.OnEntry);
+            args.Arg5.Add(AspectJoinPoints.OnEntry);
+            args.Arg6.Add(AspectJoinPoints.OnEntry);
+            args.Arg7.Add(AspectJoinPoints.OnEntry);
+            args.Arg8.Add(AspectJoinPoints.OnEntry);
+            base.OnEntry(args);
+        }
+
+        public override void OnSuccess(FunctionExecutionArgs<List<AspectJoinPoints>,List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, string> args) {
+            args.Arg1.Add(AspectJoinPoints.OnSuccess);
+            args.Arg2.Add(AspectJoinPoints.OnSuccess);
+            args.Arg3.Add(AspectJoinPoints.OnSuccess);
+            args.Arg4.Add(AspectJoinPoints.OnSuccess);
+            args.Arg5.Add(AspectJoinPoints.OnSuccess);
+            args.Arg6.Add(AspectJoinPoints.OnSuccess);
+            args.Arg7.Add(AspectJoinPoints.OnSuccess);
+            args.Arg8.Add(AspectJoinPoints.OnSuccess);
+            base.OnSuccess(args);
+        }
+    }
+
+    public class OnEntry_OnSuccess_OnExit_FunctionWith8ArgumentsBoundaryAspect : OnFunctionBoundaryAspect<List<AspectJoinPoints>,List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, string>
+    {
+        public override void OnEntry(FunctionExecutionArgs<List<AspectJoinPoints>,List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, string> args) {
+            args.FlowBehavior = FlowBehavior.Continue;
+            args.Arg1.Add(AspectJoinPoints.OnEntry);
+            args.Arg2.Add(AspectJoinPoints.OnEntry);
+            args.Arg3.Add(AspectJoinPoints.OnEntry);
+            args.Arg4.Add(AspectJoinPoints.OnEntry);
+            args.Arg5.Add(AspectJoinPoints.OnEntry);
+            args.Arg6.Add(AspectJoinPoints.OnEntry);
+            args.Arg7.Add(AspectJoinPoints.OnEntry);
+            args.Arg8.Add(AspectJoinPoints.OnEntry);
+            base.OnEntry(args);
+        }
+
+        public override void OnSuccess(FunctionExecutionArgs<List<AspectJoinPoints>,List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, string> args) {
+            args.Arg1.Add(AspectJoinPoints.OnSuccess);
+            args.Arg2.Add(AspectJoinPoints.OnSuccess);
+            args.Arg3.Add(AspectJoinPoints.OnSuccess);
+            args.Arg4.Add(AspectJoinPoints.OnSuccess);
+            args.Arg5.Add(AspectJoinPoints.OnSuccess);
+            args.Arg6.Add(AspectJoinPoints.OnSuccess);
+            args.Arg7.Add(AspectJoinPoints.OnSuccess);
+            args.Arg8.Add(AspectJoinPoints.OnSuccess);
+            base.OnSuccess(args);
+        }
+
+        public override void OnExit(FunctionExecutionArgs<List<AspectJoinPoints>,List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, string> args) {
+            args.Arg1.Add(AspectJoinPoints.OnExit);
+            args.Arg2.Add(AspectJoinPoints.OnExit);
+            args.Arg3.Add(AspectJoinPoints.OnExit);
+            args.Arg4.Add(AspectJoinPoints.OnExit);
+            args.Arg5.Add(AspectJoinPoints.OnExit);
+            args.Arg6.Add(AspectJoinPoints.OnExit);
+            args.Arg7.Add(AspectJoinPoints.OnExit);
+            args.Arg8.Add(AspectJoinPoints.OnExit);
             base.OnExit(args);
         }
     }
