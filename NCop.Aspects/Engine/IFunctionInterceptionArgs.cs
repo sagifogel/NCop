@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NCop.Aspects.Engine
 {
-	public interface IFunctionArgs
+    public interface IFunctionInterceptionArgs
 	{
 	}
 }

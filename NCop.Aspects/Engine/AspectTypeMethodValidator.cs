@@ -79,7 +79,7 @@ namespace NCop.Aspects.Engine
             else {
                 comparedTypes = genericArguments;
 
-                if (typeof(IFunctionExecutionArgs).IsAssignableFrom(argumentsType)) {
+                if (typeof(IFunctionExecutionArgs).IsAssignableFrom(argumentsType) || typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType)) {
                     throw new AspectAnnotationException(Resources.FunctionAspectMismatch);
                 }
             }

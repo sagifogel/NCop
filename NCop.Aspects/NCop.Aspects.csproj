@@ -114,15 +114,15 @@
       <DependentUpon>AspectWeavingException.tt</DependentUpon>
     </Compile>
     <Compile Include="Exceptions\TopAspectInvalidOperationException.cs" />
-    <Compile Include="Extensions\AspectArgsImplResolver.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AspectArgsImplResolver.tt</DependentUpon>
-    </Compile>
     <Compile Include="Extensions\AspectArgsContractResolver.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AspectArgsContractResolver.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions\AspectArgsImplResolver.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AspectArgsImplResolver.tt</DependentUpon>
     </Compile>
     <Compile Include="Extensions\MethodBindingResolver.cs">
       <AutoGen>True</AutoGen>
@@ -504,8 +504,8 @@
     </None>
     <None Include="Extensions\AspectArgsImplResolver.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AspectArgsImplResolver.cs</LastGenOutput>
       <LastOutputs>.\AspectArgsImplResolver.cs</LastOutputs>
+      <LastGenOutput>AspectArgsImplResolver.cs</LastGenOutput>
     </None>
     <None Include="Extensions\AspectArgsContractResolver.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

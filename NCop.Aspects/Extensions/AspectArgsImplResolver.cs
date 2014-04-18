@@ -76,7 +76,7 @@ namespace NCop.Aspects.Extensions
 			Type type = null;
 			int parametersCount = argumentsType.GetGenericArguments().Length;
 
-			if (typeof(IFunctionArgs).IsAssignableFrom(argumentsType)) {
+			if (typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType)) {
 				type = funcInterceptionArgsMap[parametersCount];
 			}
 			else if (typeof(IActionInterceptionArgs).IsAssignableFrom(argumentsType)) {
@@ -93,8 +93,8 @@ namespace NCop.Aspects.Extensions
 		}
 
 		internal static bool IsFunctionAspectArgs(this Type argumentsType) {
-			return typeof(IFunctionArgs).IsAssignableFrom(argumentsType) ||
-				   typeof(IFunctionExecutionArgs).IsAssignableFrom(argumentsType);
+			return typeof(IFunctionExecutionArgs).IsAssignableFrom(argumentsType)||
+				   typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType);
 		}
 	}
 }

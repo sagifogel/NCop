@@ -10,6 +10,12 @@ namespace NCop.Aspects.Tests
     [TestClass]
     public class MethodToAspectValidator
     {
+        public class TestFunctionInterceptionAspect : FunctionInterceptionAspect<int>
+        {
+            public override void OnInvoke(FunctionInterceptionArgs<int> args) {
+            }
+        }
+
         public class TestInterceptionAspect : FunctionInterceptionAspect<string, bool>
         {
             public override void OnInvoke(FunctionInterceptionArgs<string, bool> args) {
@@ -46,6 +52,9 @@ namespace NCop.Aspects.Tests
 
         public class Subject
         {
+            public void MethodWithIntParamAndNoReturnType(int i) {
+            }
+
             public bool MethodWithStringParamAndBoolReturnType(string value) {
                 return true;
             }
@@ -151,6 +160,15 @@ namespace NCop.Aspects.Tests
 
         private static MethodInfo GetMethod(string name) {
             return typeof(Subject).GetMethod(name);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(AspectAnnotationException))]
+        public void MethodWithoutReturnTypeWithOneArgument_DecoratedWithFunctionAspectThatHasOneArgumentWhichIsTheSameTypeOfTheMethodsArgument_ThrowsAspectTypeMismatchException() {
+            var method = GetMethod("MethodWithIntParamAndNoReturnType");
+            var aspect = new MethodInterceptionAspectAttribute(typeof(TestFunctionInterceptionAspect));
+
+            AspectTypeMethodValidator.ValidateMethodAspect(aspect, method);
         }
     }
 }
