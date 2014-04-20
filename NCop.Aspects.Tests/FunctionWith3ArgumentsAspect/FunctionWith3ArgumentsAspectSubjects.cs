@@ -16,6 +16,7 @@ namespace NCop.Aspects.Tests.FunctionWith3ArgumentsAspect.Subjects
         string InterceptionAspect(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third);
         string OnMethodBoundaryAspect(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third);
         string MultipleInterceptionAspects(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third);
+        string InterceptionAspectUsingInvoke(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third);
         string MultipleOnMethodBoundaryAspects(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third);
         string AllAspectsStartingWithInterception(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third);
         string AllAspectsStartingWithOnMethodBoundary(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third);
@@ -47,6 +48,10 @@ namespace NCop.Aspects.Tests.FunctionWith3ArgumentsAspect.Subjects
         }
 
         public string MultipleInterceptionAspects(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third) {
+            return AddInMethodJoinPoint(first, second, third);
+        }
+
+        public string InterceptionAspectUsingInvoke(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third) {
             return AddInMethodJoinPoint(first, second, third);
         }
 
@@ -111,6 +116,10 @@ namespace NCop.Aspects.Tests.FunctionWith3ArgumentsAspect.Subjects
         [MethodInterceptionAspect(typeof(FunctionWith3ArgumentsInterceptionAspect))]
         [MethodInterceptionAspect(typeof(FunctionWith3ArgumentsInterceptionAspect))]
         new string MultipleInterceptionAspects(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third);
+
+        [MethodInterceptionAspect(typeof(FunctionWith3ArgumentsInterceptionUsinInvokeAspect), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(FunctionWith3ArgumentsOnMethodBoundaryAspect), AspectPriority = 2)]
+        new string InterceptionAspectUsingInvoke(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third);
 
         [MethodInterceptionAspect(typeof(FunctionWith3ArgumentsInterceptionAspect), AspectPriority = 1)]
         [OnMethodBoundaryAspect(typeof(FunctionWith3ArgumentsOnMethodBoundaryAspect), AspectPriority = 2)]
@@ -296,6 +305,13 @@ namespace NCop.Aspects.Tests.FunctionWith3ArgumentsAspect.Subjects
             args.Arg3.Add(AspectJoinPoints.OnInvoke);
             args.AddToReturnValue(AspectJoinPoints.OnInvoke);
             base.OnInvoke(args);
+        }
+    }
+
+    public class FunctionWith3ArgumentsInterceptionUsinInvokeAspect : FunctionInterceptionAspect<List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, string>
+    {
+        public override void OnInvoke(FunctionInterceptionArgs<List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, string> args) {
+            args.Invoke();
         }
     }
 }

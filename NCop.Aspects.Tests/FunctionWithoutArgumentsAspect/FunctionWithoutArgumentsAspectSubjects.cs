@@ -21,6 +21,7 @@ namespace NCop.Aspects.Tests.FunctionWithoutArgumentAspect.Subjects
         string InterceptionAspect();
         string OnMethodBoundaryAspect();
         string MultipleInterceptionAspects();
+        string InterceptionAspectUsingInvoke();
         string MultipleOnMethodBoundaryAspects();
         string AllAspectsStartingWithInterception();
         string AllAspectsStartingWithOnMethodBoundary();
@@ -50,6 +51,10 @@ namespace NCop.Aspects.Tests.FunctionWithoutArgumentAspect.Subjects
         }
 
         public string MultipleInterceptionAspects() {
+            return AddInMethodJoinPoint();
+        }
+
+        public string InterceptionAspectUsingInvoke() {
             return AddInMethodJoinPoint();
         }
 
@@ -114,6 +119,10 @@ namespace NCop.Aspects.Tests.FunctionWithoutArgumentAspect.Subjects
         [MethodInterceptionAspect(typeof(FunctionWithoutArgumentsInterceptionAspect))]
         [MethodInterceptionAspect(typeof(FunctionWithoutArgumentsInterceptionAspect))]
         new string MultipleInterceptionAspects();
+
+        [MethodInterceptionAspect(typeof(FunctionWithoutArgumentsInterceptionUsinInvokeAspect), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(FunctionWithoutArgumentsOnMethodBoundaryAspect), AspectPriority = 2)]
+        new string InterceptionAspectUsingInvoke();
 
         [MethodInterceptionAspect(typeof(FunctionWithoutArgumentsInterceptionAspect), AspectPriority = 1)]
         [OnMethodBoundaryAspect(typeof(FunctionWithoutArgumentsOnMethodBoundaryAspect), AspectPriority = 2)]
@@ -263,6 +272,13 @@ namespace NCop.Aspects.Tests.FunctionWithoutArgumentAspect.Subjects
             JoinPointsContainer.JoinPoints.Add(AspectJoinPoints.OnInvoke);
             args.AddToReturnValue(AspectJoinPoints.OnInvoke);
             base.OnInvoke(args);
+        }
+    }
+
+    public class FunctionWithoutArgumentsInterceptionUsinInvokeAspect : FunctionInterceptionAspect<string>
+    {
+        public override void OnInvoke(FunctionInterceptionArgs<string> args) {
+            args.Invoke();
         }
     }
 }

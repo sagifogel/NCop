@@ -15,6 +15,7 @@ namespace NCop.Aspects.Tests.ActionWith4ArgumentsAspect.Subjects
         void InterceptionAspect(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth);
         void OnMethodBoundaryAspect(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth);
         void MultipleInterceptionAspects(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth);
+        void InterceptionAspectUsingInvoke(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth);
         void MultipleOnMethodBoundaryAspects(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth);
         void AllAspectsStartingWithInterception(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth);
         void AllAspectsStartingWithOnMethodBoundary(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth);
@@ -45,6 +46,10 @@ namespace NCop.Aspects.Tests.ActionWith4ArgumentsAspect.Subjects
         }
 
         public void MultipleInterceptionAspects(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth) {
+            AddInMethodJoinPoint(first, second, third, fourth);
+        }
+
+        public void InterceptionAspectUsingInvoke(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth) {
             AddInMethodJoinPoint(first, second, third, fourth);
         }
 
@@ -109,6 +114,10 @@ namespace NCop.Aspects.Tests.ActionWith4ArgumentsAspect.Subjects
         [MethodInterceptionAspect(typeof(ActionWith4ArgumentsInterceptionAspect))]
         [MethodInterceptionAspect(typeof(ActionWith4ArgumentsInterceptionAspect))]
         new void MultipleInterceptionAspects(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth);
+
+        [MethodInterceptionAspect(typeof(ActionWith4ArgumentsInterceptionUsinInvokeAspect), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(ActionWith4ArgumentsOnMethodBoundaryAspect), AspectPriority = 2)]
+        new void InterceptionAspectUsingInvoke(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth);
 
         [MethodInterceptionAspect(typeof(ActionWith4ArgumentsInterceptionAspect), AspectPriority = 1)]
         [OnMethodBoundaryAspect(typeof(ActionWith4ArgumentsOnMethodBoundaryAspect), AspectPriority = 2)]
@@ -299,6 +308,13 @@ namespace NCop.Aspects.Tests.ActionWith4ArgumentsAspect.Subjects
             args.Arg3.Add(AspectJoinPoints.OnInvoke);
             args.Arg4.Add(AspectJoinPoints.OnInvoke);
             base.OnInvoke(args);
+        }
+    }
+
+    public class ActionWith4ArgumentsInterceptionUsinInvokeAspect : ActionInterceptionAspect<List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>>
+    {
+        public override void OnInvoke(ActionInterceptionArgs<List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>> args) {
+            args.Invoke();
         }
     }
 }

@@ -245,7 +245,25 @@ namespace NCop.Aspects.Tests
         public void ActionWith8RefArguments_OnMethodBoundaryAspectWithOnlyOnEntryAdvice_ReturnsTheCorrectSequenceOfAdvices() {
             var instance = container.Resolve<IActionWith8RefArgumentsComposite>();
             var joinPoints = new OnMethodBoundaryAspectWithOnlyOnEntryAdviceOrderedJoinPoints().Calculate();
+            
             instance.OnMethodBoundaryAspectWithOnlyOnEntryAdvide(ref i, ref j, ref k, ref l, ref m, ref n, ref o, ref p);
+
+            Assert.AreEqual(i, joinPoints);
+            Assert.AreEqual(j, joinPoints);
+            Assert.AreEqual(k, joinPoints);
+            Assert.AreEqual(l, joinPoints);
+            Assert.AreEqual(m, joinPoints);
+            Assert.AreEqual(n, joinPoints);
+            Assert.AreEqual(o, joinPoints);
+            Assert.AreEqual(p, joinPoints);
+        }
+
+        [TestMethod]
+        public void ActionWith8RefArguments_AnnotatedWithAllAspectsStartingFromInterceptionAspectThatCallsTheInvokeMethodOfTheArgs_ReturnsTheInMethodAdviceAndIgnoresAllOtherAspects() {
+            var instance = container.Resolve<IActionWith8RefArgumentsComposite>();
+            var joinPoints = new InterceptionAspectUsingInvokeOrderedJoinPoints().Calculate();
+
+            instance.InterceptionAspectUsingInvoke(ref i, ref j, ref k, ref l, ref m, ref n, ref o, ref p);
 
             Assert.AreEqual(i, joinPoints);
             Assert.AreEqual(j, joinPoints);

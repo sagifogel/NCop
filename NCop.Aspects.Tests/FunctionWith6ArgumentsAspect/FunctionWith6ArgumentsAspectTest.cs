@@ -344,5 +344,26 @@ namespace NCop.Aspects.Tests
             CollectionAssert.AreEqual(sixth, joinPoints);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
+
+        [TestMethod]
+        public void FunctionWith6Arguments_AnnotatedWithAllAspectsStartingFromInterceptionAspectThatCallsTheInvokeMethodOfTheArgs_ReturnsTheInMethodAdviceAndIgnoresAllOtherAspects() {
+            var instance = container.Resolve<IFunctionWith6ArgumentsComposite>();
+            var first = new List<AspectJoinPoints>();
+            var second = new List<AspectJoinPoints>();
+            var third = new List<AspectJoinPoints>();
+            var fourth = new List<AspectJoinPoints>();
+            var fifth = new List<AspectJoinPoints>();
+            var sixth = new List<AspectJoinPoints>();
+            var result = instance.InterceptionAspectUsingInvoke(first, second, third, fourth, fifth, sixth);
+            var joinPoints = new InterceptionAspectUsingInvokeOrderedJoinPoints();
+
+            CollectionAssert.AreEqual(first, joinPoints);
+            CollectionAssert.AreEqual(second, joinPoints);
+            CollectionAssert.AreEqual(third, joinPoints);
+            CollectionAssert.AreEqual(fourth, joinPoints);
+            CollectionAssert.AreEqual(fifth, joinPoints);
+            CollectionAssert.AreEqual(sixth, joinPoints);
+            Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
+        }
     }
 }

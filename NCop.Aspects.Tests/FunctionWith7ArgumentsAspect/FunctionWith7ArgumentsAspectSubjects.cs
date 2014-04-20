@@ -16,6 +16,7 @@ namespace NCop.Aspects.Tests.FunctionWith7ArgumentsAspect.Subjects
         string InterceptionAspect(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh);
         string OnMethodBoundaryAspect(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh);
         string MultipleInterceptionAspects(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh);
+        string InterceptionAspectUsingInvoke(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh);
         string MultipleOnMethodBoundaryAspects(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh);
         string AllAspectsStartingWithInterception(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh);
         string AllAspectsStartingWithOnMethodBoundary(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh);
@@ -51,6 +52,10 @@ namespace NCop.Aspects.Tests.FunctionWith7ArgumentsAspect.Subjects
         }
 
         public string MultipleInterceptionAspects(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh) {
+            return AddInMethodJoinPoint(first, second, third, fourth, fifth, sixth, seventh);
+        }
+
+        public string InterceptionAspectUsingInvoke(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh) {
             return AddInMethodJoinPoint(first, second, third, fourth, fifth, sixth, seventh);
         }
 
@@ -115,6 +120,10 @@ namespace NCop.Aspects.Tests.FunctionWith7ArgumentsAspect.Subjects
         [MethodInterceptionAspect(typeof(FunctionWith7ArgumentsInterceptionAspect))]
         [MethodInterceptionAspect(typeof(FunctionWith7ArgumentsInterceptionAspect))]
         new string MultipleInterceptionAspects(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh);
+
+        [MethodInterceptionAspect(typeof(FunctionWith7ArgumentsInterceptionUsinInvokeAspect), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(FunctionWith7ArgumentsOnMethodBoundaryAspect), AspectPriority = 2)]
+        new string InterceptionAspectUsingInvoke(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh);
 
         [MethodInterceptionAspect(typeof(FunctionWith7ArgumentsInterceptionAspect), AspectPriority = 1)]
         [OnMethodBoundaryAspect(typeof(FunctionWith7ArgumentsOnMethodBoundaryAspect), AspectPriority = 2)]
@@ -360,6 +369,13 @@ namespace NCop.Aspects.Tests.FunctionWith7ArgumentsAspect.Subjects
             args.Arg7.Add(AspectJoinPoints.OnInvoke);
             args.AddToReturnValue(AspectJoinPoints.OnInvoke);
             base.OnInvoke(args);
+        }
+    }
+
+    public class FunctionWith7ArgumentsInterceptionUsinInvokeAspect : FunctionInterceptionAspect<List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, string>
+    {
+        public override void OnInvoke(FunctionInterceptionArgs<List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, List<AspectJoinPoints>, string> args) {
+            args.Invoke();
         }
     }
 }

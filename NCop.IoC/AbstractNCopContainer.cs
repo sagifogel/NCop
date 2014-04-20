@@ -150,7 +150,7 @@ namespace NCop.IoC
 		}
 
 		public virtual void Dispose() {
-			lock (disposables) {
+            lock (disposables) {
 				while (disposables.Count > 0) {
 					var disposable = disposables.Pop();
 

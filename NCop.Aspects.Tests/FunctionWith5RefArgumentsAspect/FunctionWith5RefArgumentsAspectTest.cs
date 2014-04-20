@@ -42,12 +42,13 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith5RefArgumentsComposite>();
             var result = instance.OnMethodBoundaryAspect(ref i, ref j, ref k, ref l, ref m);
             var joinPoints = new OnMethodBoundaryAspectOrderedJoinPoints();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
-            Assert.AreEqual(j, joinPoints.Calculate());
-            Assert.AreEqual(k, joinPoints.Calculate());
-            Assert.AreEqual(l, joinPoints.Calculate());
-            Assert.AreEqual(m, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
+            Assert.AreEqual(j, calculated);
+            Assert.AreEqual(k, calculated);
+            Assert.AreEqual(l, calculated);
+            Assert.AreEqual(m, calculated);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
@@ -56,12 +57,13 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith5RefArgumentsComposite>();
             var result = instance.InterceptionAspect(ref i, ref j, ref k, ref l, ref m);
             var joinPoints = new InterceptionAspectOrderedJoinPoints();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
-            Assert.AreEqual(j, joinPoints.Calculate());
-            Assert.AreEqual(k, joinPoints.Calculate());
-            Assert.AreEqual(l, joinPoints.Calculate());
-            Assert.AreEqual(m, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
+            Assert.AreEqual(j, calculated);
+            Assert.AreEqual(k, calculated);
+            Assert.AreEqual(l, calculated);
+            Assert.AreEqual(m, calculated);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
@@ -70,12 +72,13 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith5RefArgumentsComposite>();
             var result = instance.MultipleInterceptionAspects(ref i, ref j, ref k, ref l, ref m);
             var joinPoints = new MultipleInterceptionAspectOrderedJoinPoints();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
-            Assert.AreEqual(j, joinPoints.Calculate());
-            Assert.AreEqual(k, joinPoints.Calculate());
-            Assert.AreEqual(l, joinPoints.Calculate());
-            Assert.AreEqual(m, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
+            Assert.AreEqual(j, calculated);
+            Assert.AreEqual(k, calculated);
+            Assert.AreEqual(l, calculated);
+            Assert.AreEqual(m, calculated);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
@@ -84,12 +87,13 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith5RefArgumentsComposite>();
             var result = instance.MultipleOnMethodBoundaryAspects(ref i, ref j, ref k, ref l, ref m);
             var joinPoints = new MultipleOnMethodBoundaryAspectOrderedJoinPoints();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
-            Assert.AreEqual(j, joinPoints.Calculate());
-            Assert.AreEqual(k, joinPoints.Calculate());
-            Assert.AreEqual(l, joinPoints.Calculate());
-            Assert.AreEqual(m, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
+            Assert.AreEqual(j, calculated);
+            Assert.AreEqual(k, calculated);
+            Assert.AreEqual(l, calculated);
+            Assert.AreEqual(m, calculated);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
@@ -98,12 +102,13 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith5RefArgumentsComposite>();
             var result = instance.AllAspectsStartingWithInterception(ref i, ref j, ref k, ref l, ref m);
             var joinPoints = new AllAspectOrderedJoinPointsStartingWithInterceptionAspect();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
-            Assert.AreEqual(j, joinPoints.Calculate());
-            Assert.AreEqual(k, joinPoints.Calculate());
-            Assert.AreEqual(l, joinPoints.Calculate());
-            Assert.AreEqual(m, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
+            Assert.AreEqual(j, calculated);
+            Assert.AreEqual(k, calculated);
+            Assert.AreEqual(l, calculated);
+            Assert.AreEqual(m, calculated);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
@@ -112,12 +117,13 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith5RefArgumentsComposite>();
             var result = instance.AllAspectsStartingWithOnMethodBoundary(ref i, ref j, ref k, ref l, ref m);
             var joinPoints = new AllAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
-            Assert.AreEqual(j, joinPoints.Calculate());
-            Assert.AreEqual(k, joinPoints.Calculate());
-            Assert.AreEqual(l, joinPoints.Calculate());
-            Assert.AreEqual(m, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
+            Assert.AreEqual(j, calculated);
+            Assert.AreEqual(k, calculated);
+            Assert.AreEqual(l, calculated);
+            Assert.AreEqual(m, calculated);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
@@ -126,12 +132,13 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith5RefArgumentsComposite>();
             var result = instance.AlternatelAspectsStartingWithInterception(ref i, ref j, ref k, ref l, ref m);
             var joinPoints = new AlternateAspectOrderedJoinPointsStartingWithInterceptionAspect();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
-            Assert.AreEqual(j, joinPoints.Calculate());
-            Assert.AreEqual(k, joinPoints.Calculate());
-            Assert.AreEqual(l, joinPoints.Calculate());
-            Assert.AreEqual(m, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
+            Assert.AreEqual(j, calculated);
+            Assert.AreEqual(k, calculated);
+            Assert.AreEqual(l, calculated);
+            Assert.AreEqual(m, calculated);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
@@ -140,12 +147,13 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith5RefArgumentsComposite>();
             var result = instance.AlternateAspectsStartingWithOnMethodBoundary(ref i, ref j, ref k, ref l, ref m);
             var joinPoints = new AlternateAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
-            Assert.AreEqual(j, joinPoints.Calculate());
-            Assert.AreEqual(k, joinPoints.Calculate());
-            Assert.AreEqual(l, joinPoints.Calculate());
-            Assert.AreEqual(m, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
+            Assert.AreEqual(j, calculated);
+            Assert.AreEqual(k, calculated);
+            Assert.AreEqual(l, calculated);
+            Assert.AreEqual(m, calculated);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
@@ -162,12 +170,13 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith5RefArgumentsComposite>();
             var result = instance.OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehaviourAspect(ref i, ref j, ref k, ref l, ref m);
             var joinPoints = new WithExceptionFlowBehaviourContinueOnMethodBoundaryAspectOrderedJoinPoints();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
-            Assert.AreEqual(j, joinPoints.Calculate());
-            Assert.AreEqual(k, joinPoints.Calculate());
-            Assert.AreEqual(l, joinPoints.Calculate());
-            Assert.AreEqual(m, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
+            Assert.AreEqual(j, calculated);
+            Assert.AreEqual(k, calculated);
+            Assert.AreEqual(l, calculated);
+            Assert.AreEqual(m, calculated);
             Assert.AreEqual(result, joinPoints.ToString());
         }
 
@@ -176,16 +185,17 @@ namespace NCop.Aspects.Tests
             string result = null;
             var instance = container.Resolve<IFunctionWith5RefArgumentsComposite>();
             var joinPoints = new TryFinallyWithExceptionOnMethodBoundaryAspectOrderedJoinPoints();
+            var calculated = joinPoints.Calculate();
 
             try {
                 result = instance.TryfinallyOnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(ref i, ref j, ref k, ref l, ref m);
             }
             catch (Exception) {
-                Assert.AreEqual(i, joinPoints.Calculate());
-                Assert.AreEqual(j, joinPoints.Calculate());
-                Assert.AreEqual(k, joinPoints.Calculate());
-                Assert.AreEqual(l, joinPoints.Calculate());
-                Assert.AreEqual(m, joinPoints.Calculate());
+                Assert.AreEqual(i, calculated);
+                Assert.AreEqual(j, calculated);
+                Assert.AreEqual(k, calculated);
+                Assert.AreEqual(l, calculated);
+                Assert.AreEqual(m, calculated);
                 Assert.IsNull(result);
             }
         }
@@ -195,16 +205,17 @@ namespace NCop.Aspects.Tests
             string result = null;
             var instance = container.Resolve<IFunctionWith5RefArgumentsComposite>();
             var joinPoints = new OnMethodBoundaryAspectWithExceptionAndWithoutTryFinallyOrderedJoinPoints();
+            var calculated = joinPoints.Calculate();
 
             try {
                 result = instance.OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplWithoutTryFinally(ref i, ref j, ref k, ref l, ref m);
             }
             catch (Exception) {
-                Assert.AreEqual(i, joinPoints.Calculate());
-                Assert.AreEqual(j, joinPoints.Calculate());
-                Assert.AreEqual(k, joinPoints.Calculate());
-                Assert.AreEqual(l, joinPoints.Calculate());
-                Assert.AreEqual(m, joinPoints.Calculate());
+                Assert.AreEqual(i, calculated);
+                Assert.AreEqual(j, calculated);
+                Assert.AreEqual(k, calculated);
+                Assert.AreEqual(l, calculated);
+                Assert.AreEqual(m, calculated);
                 Assert.IsNull(result);
             }
         }
@@ -214,12 +225,28 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith5RefArgumentsComposite>();
             var result = instance.OnMethodBoundaryAspectWithOnlyOnEntryAdvide(ref i, ref j, ref k, ref l, ref m);
             var joinPoints = new OnMethodBoundaryAspectWithOnlyOnEntryAdviceOrderedJoinPoints();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
-            Assert.AreEqual(j, joinPoints.Calculate());
-            Assert.AreEqual(k, joinPoints.Calculate());
-            Assert.AreEqual(l, joinPoints.Calculate());
-            Assert.AreEqual(m, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
+            Assert.AreEqual(j, calculated);
+            Assert.AreEqual(k, calculated);
+            Assert.AreEqual(l, calculated);
+            Assert.AreEqual(m, calculated);
+            Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
+        }
+
+        [TestMethod]
+        public void FunctionWith5RefArguments_AnnotatedWithAllAspectsStartingFromInterceptionAspectThatCallsTheInvokeMethodOfTheArgs_ReturnsTheInMethodAdviceAndIgnoresAllOtherAspects() {
+            var instance = container.Resolve<IFunctionWith5RefArgumentsComposite>();
+            var result = instance.InterceptionAspectUsingInvoke(ref i, ref j, ref k, ref l, ref m);
+            var joinPoints = new InterceptionAspectUsingInvokeOrderedJoinPoints();
+            var calculated = joinPoints.Calculate();
+
+            Assert.AreEqual(i, calculated);
+            Assert.AreEqual(j, calculated);
+            Assert.AreEqual(k, calculated);
+            Assert.AreEqual(l, calculated);
+            Assert.AreEqual(m, calculated);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
     }

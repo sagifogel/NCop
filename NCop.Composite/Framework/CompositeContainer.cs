@@ -14,7 +14,7 @@ using NCop.Composite.IoC;
 
 namespace NCop.Composite.Framework
 {
-    public class CompositeContainer : INCopDependencyContainer
+    public sealed class CompositeContainer : INCopDependencyContainer
     {
         private readonly INCopDependencyContainer dependencyContainer = null;
 

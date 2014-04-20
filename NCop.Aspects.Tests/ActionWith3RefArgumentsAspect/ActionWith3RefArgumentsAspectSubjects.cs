@@ -15,6 +15,7 @@ namespace NCop.Aspects.Tests.ActionWith3RefArgumentsAspect.Subjects
         void InterceptionAspect(ref int i, ref int j, ref int k);
         void OnMethodBoundaryAspect(ref int i, ref int j, ref int k);
         void MultipleInterceptionAspects(ref int i, ref int j, ref int k);
+        void InterceptionAspectUsingInvoke(ref int i, ref int j, ref int k);
         void MultipleOnMethodBoundaryAspects(ref int i, ref int j, ref int k);
         void AllAspectsStartingWithInterception(ref int i, ref int j, ref int k);
         void AllAspectsStartingWithOnMethodBoundary(ref int i, ref int j, ref int k);
@@ -42,6 +43,10 @@ namespace NCop.Aspects.Tests.ActionWith3RefArgumentsAspect.Subjects
         }
 
         public void MultipleInterceptionAspects(ref int i, ref int j, ref int k) {
+            AddInMethodJoinPoint(ref i, ref j, ref k);
+        }
+
+        public void InterceptionAspectUsingInvoke(ref int i, ref int j, ref int k) {
             AddInMethodJoinPoint(ref i, ref j, ref k);
         }
 
@@ -106,6 +111,10 @@ namespace NCop.Aspects.Tests.ActionWith3RefArgumentsAspect.Subjects
         [MethodInterceptionAspect(typeof(ActionWith3RefArgumentsInterceptionAspect))]
         [MethodInterceptionAspect(typeof(ActionWith3RefArgumentsInterceptionAspect))]
         new void MultipleInterceptionAspects(ref int i, ref int j, ref int k);
+
+        [MethodInterceptionAspect(typeof(ActionWith3RefArgumentsInterceptionUsinInvokeAspect), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(ActionWith3RefArgumentsOnMethodBoundaryAspect), AspectPriority = 2)]
+        new void InterceptionAspectUsingInvoke(ref int i, ref int j, ref int k);
 
         [MethodInterceptionAspect(typeof(ActionWith3RefArgumentsInterceptionAspect), AspectPriority = 1)]
         [OnMethodBoundaryAspect(typeof(ActionWith3RefArgumentsOnMethodBoundaryAspect), AspectPriority = 2)]
@@ -251,6 +260,13 @@ namespace NCop.Aspects.Tests.ActionWith3RefArgumentsAspect.Subjects
         public override void OnInvoke(ActionInterceptionArgs<int, int, int> args) {
             args.Arg3 = args.Arg2 = args.Arg1 += (int)AspectJoinPoints.OnInvoke;
             base.OnInvoke(args);
+        }
+    }
+
+    public class ActionWith3RefArgumentsInterceptionUsinInvokeAspect : ActionInterceptionAspect<int, int, int>
+    {
+        public override void OnInvoke(ActionInterceptionArgs<int, int, int> args) {
+            args.Invoke();
         }
     }
 }

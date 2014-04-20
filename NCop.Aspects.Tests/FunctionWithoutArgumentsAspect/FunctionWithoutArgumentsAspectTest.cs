@@ -159,5 +159,14 @@ namespace NCop.Aspects.Tests
 
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
+
+        [TestMethod]
+        public void FunctionWithoutArguments_AnnotatedWithAllAspectsStartingFromInterceptionAspectThatCallsTheInvokeMethodOfTheArgs_ReturnsTheInMethodAdviceAndIgnoresAllOtherAspects() {
+            var instance = container.Resolve<IFunctionWithoutArgumentsComposite>();
+            var result = instance.InterceptionAspectUsingInvoke();
+            var joinPoints = new InterceptionAspectUsingInvokeOrderedJoinPoints();
+            
+            Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
+        }
     }
 }

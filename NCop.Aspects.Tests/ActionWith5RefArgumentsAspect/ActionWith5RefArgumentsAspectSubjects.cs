@@ -15,6 +15,7 @@ namespace NCop.Aspects.Tests.ActionWith5RefArgumentsAspect.Subjects
         void InterceptionAspect(ref int i, ref int j, ref int k, ref int l, ref int m);
         void OnMethodBoundaryAspect(ref int i, ref int j, ref int k, ref int l, ref int m);
         void MultipleInterceptionAspects(ref int i, ref int j, ref int k, ref int l, ref int m);
+        void InterceptionAspectUsingInvoke(ref int i, ref int j, ref int k, ref int l, ref int m);
         void MultipleOnMethodBoundaryAspects(ref int i, ref int j, ref int k, ref int l, ref int m);
         void AllAspectsStartingWithInterception(ref int i, ref int j, ref int k, ref int l, ref int m);
         void AllAspectsStartingWithOnMethodBoundary(ref int i, ref int j, ref int k, ref int l, ref int m);
@@ -42,6 +43,10 @@ namespace NCop.Aspects.Tests.ActionWith5RefArgumentsAspect.Subjects
         }
 
         public void MultipleInterceptionAspects(ref int i, ref int j, ref int k, ref int l, ref int m) {
+            AddInMethodJoinPoint(ref i, ref j, ref k, ref l, ref m);
+        }
+
+        public void InterceptionAspectUsingInvoke(ref int i, ref int j, ref int k, ref int l, ref int m) {
             AddInMethodJoinPoint(ref i, ref j, ref k, ref l, ref m);
         }
 
@@ -106,6 +111,10 @@ namespace NCop.Aspects.Tests.ActionWith5RefArgumentsAspect.Subjects
         [MethodInterceptionAspect(typeof(ActionWith5RefArgumentsInterceptionAspect))]
         [MethodInterceptionAspect(typeof(ActionWith5RefArgumentsInterceptionAspect))]
         new void MultipleInterceptionAspects(ref int i, ref int j, ref int k, ref int l, ref int m);
+
+        [MethodInterceptionAspect(typeof(ActionWith5RefArgumentsInterceptionUsinInvokeAspect), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(ActionWith5RefArgumentsOnMethodBoundaryAspect), AspectPriority = 2)]
+        new void InterceptionAspectUsingInvoke(ref int i, ref int j, ref int k, ref int l, ref int m);
 
         [MethodInterceptionAspect(typeof(ActionWith5RefArgumentsInterceptionAspect), AspectPriority = 1)]
         [OnMethodBoundaryAspect(typeof(ActionWith5RefArgumentsOnMethodBoundaryAspect), AspectPriority = 2)]
@@ -251,6 +260,13 @@ namespace NCop.Aspects.Tests.ActionWith5RefArgumentsAspect.Subjects
         public override void OnInvoke(ActionInterceptionArgs<int, int, int, int, int> args) {
             args.Arg5 = args.Arg4 = args.Arg3 = args.Arg2 = args.Arg1 += (int)AspectJoinPoints.OnInvoke;
             base.OnInvoke(args);
+        }
+    }
+
+    public class ActionWith5RefArgumentsInterceptionUsinInvokeAspect : ActionInterceptionAspect<int, int, int, int, int>
+    {
+        public override void OnInvoke(ActionInterceptionArgs<int, int, int, int, int> args) {
+            args.Invoke();
         }
     }
 }

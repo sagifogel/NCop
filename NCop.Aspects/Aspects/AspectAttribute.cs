@@ -14,7 +14,6 @@ namespace NCop.Aspects.Aspects
 	public abstract class AspectAttribute : Attribute, IAspect
 	{
 		public AspectAttribute(Type aspectType) {
-            var p = aspectType as ICustomAttributeProvider;
             var lifetimeStrategyAttr = aspectType.GetCustomAttribute<AspectLifetimeStrategyAttribute>();
             var lifetimeStrategy = (lifetimeStrategyAttr ?? new SingletonAspectAttribute()).LifetimeStrategy;
             

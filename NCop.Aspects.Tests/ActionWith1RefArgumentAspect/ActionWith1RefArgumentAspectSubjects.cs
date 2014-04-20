@@ -15,6 +15,7 @@ namespace NCop.Aspects.Tests.ActionWith1RefArgumentAspect.Subjects
         void InterceptionAspect(ref int i);
         void OnMethodBoundaryAspect(ref int i);
         void MultipleInterceptionAspects(ref int i);
+        void InterceptionAspectUsingInvoke(ref int i);
         void MultipleOnMethodBoundaryAspects(ref int i);
         void AllAspectsStartingWithInterception(ref int i);
         void AllAspectsStartingWithOnMethodBoundary(ref int i);
@@ -42,6 +43,10 @@ namespace NCop.Aspects.Tests.ActionWith1RefArgumentAspect.Subjects
         }
 
         public void MultipleInterceptionAspects(ref int i) {
+            AddInMethodJoinPoint(ref i);
+        }
+
+        public void InterceptionAspectUsingInvoke(ref int i) {
             AddInMethodJoinPoint(ref i);
         }
 
@@ -106,6 +111,10 @@ namespace NCop.Aspects.Tests.ActionWith1RefArgumentAspect.Subjects
         [MethodInterceptionAspect(typeof(ActionWith1RefArgumentInterceptionAspect))]
         [MethodInterceptionAspect(typeof(ActionWith1RefArgumentInterceptionAspect))]
         new void MultipleInterceptionAspects(ref int i);
+
+        [MethodInterceptionAspect(typeof(ActionWith1RefArgumentInterceptionUsinInvokeAspect), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(ActionWith1RefArgumentOnMethodBoundaryAspect), AspectPriority = 2)]
+        new void InterceptionAspectUsingInvoke(ref int i);
 
         [MethodInterceptionAspect(typeof(ActionWith1RefArgumentInterceptionAspect), AspectPriority = 1)]
         [OnMethodBoundaryAspect(typeof(ActionWith1RefArgumentOnMethodBoundaryAspect), AspectPriority = 2)]
@@ -251,6 +260,13 @@ namespace NCop.Aspects.Tests.ActionWith1RefArgumentAspect.Subjects
         public override void OnInvoke(ActionInterceptionArgs<int> args) {
             args.Arg1 += (int)AspectJoinPoints.OnInvoke;
             base.OnInvoke(args);
+        }
+    }
+
+    public class ActionWith1RefArgumentInterceptionUsinInvokeAspect : ActionInterceptionAspect<int>
+    {
+        public override void OnInvoke(ActionInterceptionArgs<int> args) {
+            args.Invoke();
         }
     }
 }

@@ -16,6 +16,7 @@ namespace NCop.Aspects.Tests.FunctionWith1ArgumentAspect.Subjects
         string InterceptionAspect(List<AspectJoinPoints> joinPoints);
         string OnMethodBoundaryAspect(List<AspectJoinPoints> joinPoints);
         string MultipleInterceptionAspects(List<AspectJoinPoints> joinPoints);
+        string InterceptionAspectUsingInvoke(List<AspectJoinPoints> joinPoints);
         string MultipleOnMethodBoundaryAspects(List<AspectJoinPoints> joinPoints);
         string AllAspectsStartingWithInterception(List<AspectJoinPoints> joinPoints);
         string AllAspectsStartingWithOnMethodBoundary(List<AspectJoinPoints> joinPoints);
@@ -45,6 +46,10 @@ namespace NCop.Aspects.Tests.FunctionWith1ArgumentAspect.Subjects
         }
 
         public string MultipleInterceptionAspects(List<AspectJoinPoints> joinPoints) {
+            return AddInMethodJoinPoint(joinPoints);
+        }
+
+        public string InterceptionAspectUsingInvoke(List<AspectJoinPoints> joinPoints) {
             return AddInMethodJoinPoint(joinPoints);
         }
 
@@ -109,6 +114,10 @@ namespace NCop.Aspects.Tests.FunctionWith1ArgumentAspect.Subjects
         [MethodInterceptionAspect(typeof(FunctionWith1ArgumentInterceptionAspect))]
         [MethodInterceptionAspect(typeof(FunctionWith1ArgumentInterceptionAspect))]
         new string MultipleInterceptionAspects(List<AspectJoinPoints> joinPoints);
+
+        [MethodInterceptionAspect(typeof(FunctionWith1ArgumentInterceptionUsinInvokeAspect), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(FunctionWith1ArgumentOnMethodBoundaryAspect), AspectPriority = 2)]
+        new string InterceptionAspectUsingInvoke(List<AspectJoinPoints> joinPoints);
 
         [MethodInterceptionAspect(typeof(FunctionWith1ArgumentInterceptionAspect), AspectPriority = 1)]
         [OnMethodBoundaryAspect(typeof(FunctionWith1ArgumentOnMethodBoundaryAspect), AspectPriority = 2)]
@@ -264,6 +273,13 @@ namespace NCop.Aspects.Tests.FunctionWith1ArgumentAspect.Subjects
             args.Arg1.Add(AspectJoinPoints.OnInvoke);
             args.AddToReturnValue(AspectJoinPoints.OnInvoke);
             base.OnInvoke(args);
+        }
+    }
+
+    public class FunctionWith1ArgumentInterceptionUsinInvokeAspect : FunctionInterceptionAspect<List<AspectJoinPoints>, string>
+    {
+        public override void OnInvoke(FunctionInterceptionArgs<List<AspectJoinPoints>, string> args) {
+            args.Invoke();
         }
     }
 }

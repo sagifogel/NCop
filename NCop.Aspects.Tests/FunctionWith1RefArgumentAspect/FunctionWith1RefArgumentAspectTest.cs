@@ -38,8 +38,9 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith1RefArgumentComposite>();
             var result = instance.OnMethodBoundaryAspect(ref i);
             var joinPoints = new OnMethodBoundaryAspectOrderedJoinPoints();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
@@ -48,8 +49,9 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith1RefArgumentComposite>();
             var result = instance.InterceptionAspect(ref i);
             var joinPoints = new InterceptionAspectOrderedJoinPoints();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
@@ -58,8 +60,9 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith1RefArgumentComposite>();
             var result = instance.MultipleInterceptionAspects(ref i);
             var joinPoints = new MultipleInterceptionAspectOrderedJoinPoints();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
@@ -68,8 +71,9 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith1RefArgumentComposite>();
             var result = instance.MultipleOnMethodBoundaryAspects(ref i);
             var joinPoints = new MultipleOnMethodBoundaryAspectOrderedJoinPoints();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
@@ -78,8 +82,9 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith1RefArgumentComposite>();
             var result = instance.AllAspectsStartingWithInterception(ref i);
             var joinPoints = new AllAspectOrderedJoinPointsStartingWithInterceptionAspect();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
@@ -88,8 +93,9 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith1RefArgumentComposite>();
             var result = instance.AllAspectsStartingWithOnMethodBoundary(ref i);
             var joinPoints = new AllAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
@@ -98,8 +104,9 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith1RefArgumentComposite>();
             var result = instance.AlternatelAspectsStartingWithInterception(ref i);
             var joinPoints = new AlternateAspectOrderedJoinPointsStartingWithInterceptionAspect();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
@@ -108,8 +115,9 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith1RefArgumentComposite>();
             var result = instance.AlternateAspectsStartingWithOnMethodBoundary(ref i);
             var joinPoints = new AlternateAspectOrderedJoinPointsStartingWithOnMethodBoundaryAspect();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
 
@@ -126,8 +134,9 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith1RefArgumentComposite>();
             var result = instance.OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehaviourAspect(ref i);
             var joinPoints = new WithExceptionFlowBehaviourContinueOnMethodBoundaryAspectOrderedJoinPoints();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
             Assert.AreEqual(result, joinPoints.ToString());
         }
 
@@ -136,12 +145,13 @@ namespace NCop.Aspects.Tests
             string result = null;
             var instance = container.Resolve<IFunctionWith1RefArgumentComposite>();
             var joinPoints = new TryFinallyWithExceptionOnMethodBoundaryAspectOrderedJoinPoints();
+            var calculated = joinPoints.Calculate();
 
             try {
                 result = instance.TryfinallyOnMethodBoundaryAspectThatRaiseAnExceptionInMethodImpl(ref i);
             }
             catch (Exception) {
-                Assert.AreEqual(i, joinPoints.Calculate());
+                Assert.AreEqual(i, calculated);
                 Assert.IsNull(result);
             }
         }
@@ -151,12 +161,13 @@ namespace NCop.Aspects.Tests
             string result = null;
             var instance = container.Resolve<IFunctionWith1RefArgumentComposite>();
             var joinPoints = new OnMethodBoundaryAspectWithExceptionAndWithoutTryFinallyOrderedJoinPoints();
+            var calculated = joinPoints.Calculate();
 
             try {
                 result = instance.OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplWithoutTryFinally(ref i);
             }
             catch (Exception) {
-                Assert.AreEqual(i, joinPoints.Calculate());
+                Assert.AreEqual(i, calculated);
                 Assert.IsNull(result);
             }
         }
@@ -166,8 +177,20 @@ namespace NCop.Aspects.Tests
             var instance = container.Resolve<IFunctionWith1RefArgumentComposite>();
             var result = instance.OnMethodBoundaryAspectWithOnlyOnEntryAdvide(ref i);
             var joinPoints = new OnMethodBoundaryAspectWithOnlyOnEntryAdviceOrderedJoinPoints();
+            var calculated = joinPoints.Calculate();
 
-            Assert.AreEqual(i, joinPoints.Calculate());
+            Assert.AreEqual(i, calculated);
+            Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
+        }
+
+        [TestMethod]
+        public void FunctionWith1RefArgument_AnnotatedWithAllAspectsStartingFromInterceptionAspectThatCallsTheInvokeMethodOfTheArgs_ReturnsTheInMethodAdviceAndIgnoresAllOtherAspects() {
+            var instance = container.Resolve<IFunctionWith1RefArgumentComposite>();
+            var result = instance.InterceptionAspectUsingInvoke(ref i);
+            var joinPoints = new InterceptionAspectUsingInvokeOrderedJoinPoints();
+            var calculated = joinPoints.Calculate();
+
+            Assert.AreEqual(i, calculated);
             Assert.AreEqual(result, new ReturnValueAspectOrderedJoinPoints(joinPoints).ToString());
         }
     }

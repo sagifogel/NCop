@@ -170,4 +170,11 @@ namespace NCop.Aspects.Tests
             Add(AspectJoinPoints.InMethod);
         }
     }
+
+    public class InterceptionAspectUsingInvokeOrderedJoinPoints : AspectOrderedJoinPoints
+    {
+        public InterceptionAspectUsingInvokeOrderedJoinPoints() {
+            Add(AspectJoinPoints.InMethod);
+        }
+    }
 }

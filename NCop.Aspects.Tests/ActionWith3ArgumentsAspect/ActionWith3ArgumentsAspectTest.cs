@@ -258,5 +258,21 @@ namespace NCop.Aspects.Tests
             CollectionAssert.AreEqual(second, joinPoints);
             CollectionAssert.AreEqual(third, joinPoints);
         }
+
+        [TestMethod]
+        public void ActionWith3Arguments_AnnotatedWithAllAspectsStartingFromInterceptionAspectThatCallsTheInvokeMethodOfTheArgs_ReturnsTheInMethodAdviceAndIgnoresAllOtherAspects() {
+            var instance = container.Resolve<IActionWith3ArgumentsComposite>();
+            var first = new List<AspectJoinPoints>();
+            var second = new List<AspectJoinPoints>();
+            var third = new List<AspectJoinPoints>();
+            var joinPoints = new InterceptionAspectUsingInvokeOrderedJoinPoints();
+
+            instance.InterceptionAspectUsingInvoke(first, second, third);
+
+
+            CollectionAssert.AreEqual(first, joinPoints);
+            CollectionAssert.AreEqual(second, joinPoints);
+            CollectionAssert.AreEqual(third, joinPoints);
+        }
     }
 }

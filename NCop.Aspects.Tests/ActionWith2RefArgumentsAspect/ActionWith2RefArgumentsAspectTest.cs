@@ -180,5 +180,16 @@ namespace NCop.Aspects.Tests
             Assert.AreEqual(i, joinPoints);
             Assert.AreEqual(j, joinPoints);
         }
+
+        [TestMethod]
+        public void ActionWith2RefArguments_AnnotatedWithAllAspectsStartingFromInterceptionAspectThatCallsTheInvokeMethodOfTheArgs_ReturnsTheInMethodAdviceAndIgnoresAllOtherAspects() {
+            var instance = container.Resolve<IActionWith2RefArgumentsComposite>();
+            var joinPoints = new InterceptionAspectUsingInvokeOrderedJoinPoints().Calculate();
+
+            instance.InterceptionAspectUsingInvoke(ref i, ref j);
+
+            Assert.AreEqual(i, joinPoints);
+            Assert.AreEqual(j, joinPoints);
+        }
     }
 }

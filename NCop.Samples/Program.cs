@@ -305,7 +305,7 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPersonComposite : IDeveloper<ILanguage>
     {
-        [OnMethodBoundaryAspect(typeof(ActionWith1RefArgumentOnMethodBoundaryAspect), AspectPriority = 2)]
+        [MethodInterceptionAspect(typeof(TraceAspect1), AspectPriority = 2)]
         new void Code(ref int i);
     }
 
@@ -318,17 +318,6 @@ namespace NCop.Samples
 
         static void Main(string[] args) {
             int i = 0;
-            string str = null;
-            try {
-                str = RaiseException();
-                new Person().Code(ref i);
-                Console.WriteLine(i);
-            }
-            catch (Exception) {
-                Console.WriteLine(str);
-            }
-
-            i = 0;
 
             try {
                 var container = new CompositeContainer();
@@ -336,7 +325,7 @@ namespace NCop.Samples
                 var person = container.TryResolve<IPersonComposite>();
                 person.Code(ref i);
             }
-            catch (Exception) {
+            catch (Exception ex) {
                 Console.WriteLine(i);
             }
         }
@@ -466,7 +455,7 @@ namespace NCop.Samples
     public class TraceAspect1 : FunctionInterceptionAspect<int>
     {
         public override void OnInvoke(FunctionInterceptionArgs<int> args) {
-            base.OnInvoke(args);
+            args.Invoke();
         }
     }
 

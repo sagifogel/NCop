@@ -16,6 +16,7 @@ namespace NCop.Aspects.Tests.FunctionWith1RefArgumentAspect.Subjects
         string InterceptionAspect(ref int i);
         string OnMethodBoundaryAspect(ref int i);
         string MultipleInterceptionAspects(ref int i);
+        string InterceptionAspectUsingInvoke(ref int i);
         string MultipleOnMethodBoundaryAspects(ref int i);
         string AllAspectsStartingWithInterception(ref int i);
         string AllAspectsStartingWithOnMethodBoundary(ref int i);
@@ -44,6 +45,10 @@ namespace NCop.Aspects.Tests.FunctionWith1RefArgumentAspect.Subjects
         }
 
         public string MultipleInterceptionAspects(ref int i) {
+            return AddInMethodJoinPoint(ref i);
+        }
+
+        public string InterceptionAspectUsingInvoke(ref int i) {
             return AddInMethodJoinPoint(ref i);
         }
 
@@ -108,6 +113,10 @@ namespace NCop.Aspects.Tests.FunctionWith1RefArgumentAspect.Subjects
         [MethodInterceptionAspect(typeof(FunctionWith1RefArgumentInterceptionAspect))]
         [MethodInterceptionAspect(typeof(FunctionWith1RefArgumentInterceptionAspect))]
         new string MultipleInterceptionAspects(ref int i);
+
+        [MethodInterceptionAspect(typeof(FunctionWith1RefArgumentInterceptionUsinInvokeAspect), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(FunctionWith1RefArgumentOnMethodBoundaryAspect), AspectPriority = 2)]
+        new string InterceptionAspectUsingInvoke(ref int i);
 
         [MethodInterceptionAspect(typeof(FunctionWith1RefArgumentInterceptionAspect), AspectPriority = 1)]
         [OnMethodBoundaryAspect(typeof(FunctionWith1RefArgumentOnMethodBoundaryAspect), AspectPriority = 2)]
@@ -263,6 +272,13 @@ namespace NCop.Aspects.Tests.FunctionWith1RefArgumentAspect.Subjects
             args.Arg1 += (int)AspectJoinPoints.OnInvoke;
             args.AddToReturnValue(AspectJoinPoints.OnInvoke);
             base.OnInvoke(args);
+        }
+    }
+
+    public class FunctionWith1RefArgumentInterceptionUsinInvokeAspect : FunctionInterceptionAspect<int, string>
+    {
+        public override void OnInvoke(FunctionInterceptionArgs<int, string> args) {
+            args.Invoke();
         }
     }
 }

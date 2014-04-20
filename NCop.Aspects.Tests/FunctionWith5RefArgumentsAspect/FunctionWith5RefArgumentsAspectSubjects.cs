@@ -16,6 +16,7 @@ namespace NCop.Aspects.Tests.FunctionWith5RefArgumentsAspect.Subjects
         string InterceptionAspect(ref int i, ref int j, ref int k, ref int l, ref int m);
         string OnMethodBoundaryAspect(ref int i, ref int j, ref int k, ref int l, ref int m);
         string MultipleInterceptionAspects(ref int i, ref int j, ref int k, ref int l, ref int m);
+        string InterceptionAspectUsingInvoke(ref int i, ref int j, ref int k, ref int l, ref int m);
         string MultipleOnMethodBoundaryAspects(ref int i, ref int j, ref int k, ref int l, ref int m);
         string AllAspectsStartingWithInterception(ref int i, ref int j, ref int k, ref int l, ref int m);
         string AllAspectsStartingWithOnMethodBoundary(ref int i, ref int j, ref int k, ref int l, ref int m);
@@ -44,6 +45,10 @@ namespace NCop.Aspects.Tests.FunctionWith5RefArgumentsAspect.Subjects
         }
 
         public string MultipleInterceptionAspects(ref int i, ref int j, ref int k, ref int l, ref int m) {
+            return AddInMethodJoinPoint(ref i, ref j, ref k, ref l, ref m);
+        }
+
+        public string InterceptionAspectUsingInvoke(ref int i, ref int j, ref int k, ref int l, ref int m) {
             return AddInMethodJoinPoint(ref i, ref j, ref k, ref l, ref m);
         }
 
@@ -108,6 +113,10 @@ namespace NCop.Aspects.Tests.FunctionWith5RefArgumentsAspect.Subjects
         [MethodInterceptionAspect(typeof(FunctionWith5RefArgumentsInterceptionAspect))]
         [MethodInterceptionAspect(typeof(FunctionWith5RefArgumentsInterceptionAspect))]
         new string MultipleInterceptionAspects(ref int i, ref int j, ref int k, ref int l, ref int m);
+
+        [MethodInterceptionAspect(typeof(FunctionWith5RefArgumentsInterceptionUsinInvokeAspect), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(FunctionWith5RefArgumentsOnMethodBoundaryAspect), AspectPriority = 2)]
+        new string InterceptionAspectUsingInvoke(ref int i, ref int j, ref int k, ref int l, ref int m);
 
         [MethodInterceptionAspect(typeof(FunctionWith5RefArgumentsInterceptionAspect), AspectPriority = 1)]
         [OnMethodBoundaryAspect(typeof(FunctionWith5RefArgumentsOnMethodBoundaryAspect), AspectPriority = 2)]
@@ -263,6 +272,13 @@ namespace NCop.Aspects.Tests.FunctionWith5RefArgumentsAspect.Subjects
             args.Arg5 = args.Arg4 = args.Arg3 = args.Arg2 = args.Arg1 += (int)AspectJoinPoints.OnInvoke;
             args.AddToReturnValue(AspectJoinPoints.OnInvoke);
             base.OnInvoke(args);
+        }
+    }
+
+    public class FunctionWith5RefArgumentsInterceptionUsinInvokeAspect : FunctionInterceptionAspect<int, int, int, int, int, string>
+    {
+        public override void OnInvoke(FunctionInterceptionArgs<int, int, int, int, int, string> args) {
+            args.Invoke();
         }
     }
 }

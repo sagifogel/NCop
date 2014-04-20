@@ -15,6 +15,7 @@ namespace NCop.Aspects.Tests.ActionWith2ArgumentsAspect.Subjects
         void InterceptionAspect(List<AspectJoinPoints> first, List<AspectJoinPoints> second);
         void OnMethodBoundaryAspect(List<AspectJoinPoints> first, List<AspectJoinPoints> second);
         void MultipleInterceptionAspects(List<AspectJoinPoints> first, List<AspectJoinPoints> second);
+        void InterceptionAspectUsingInvoke(List<AspectJoinPoints> first, List<AspectJoinPoints> second);
         void MultipleOnMethodBoundaryAspects(List<AspectJoinPoints> first, List<AspectJoinPoints> second);
         void AllAspectsStartingWithInterception(List<AspectJoinPoints> first, List<AspectJoinPoints> second);
         void AllAspectsStartingWithOnMethodBoundary(List<AspectJoinPoints> first, List<AspectJoinPoints> second);
@@ -43,6 +44,10 @@ namespace NCop.Aspects.Tests.ActionWith2ArgumentsAspect.Subjects
         }
 
         public void MultipleInterceptionAspects(List<AspectJoinPoints> first, List<AspectJoinPoints> second) {
+            AddInMethodJoinPoint(first, second);
+        }
+
+        public void InterceptionAspectUsingInvoke(List<AspectJoinPoints> first, List<AspectJoinPoints> second) {
             AddInMethodJoinPoint(first, second);
         }
 
@@ -107,6 +112,10 @@ namespace NCop.Aspects.Tests.ActionWith2ArgumentsAspect.Subjects
         [MethodInterceptionAspect(typeof(ActionWith2ArgumentsInterceptionAspect))]
         [MethodInterceptionAspect(typeof(ActionWith2ArgumentsInterceptionAspect))]
         new void MultipleInterceptionAspects(List<AspectJoinPoints> first, List<AspectJoinPoints> second);
+
+        [MethodInterceptionAspect(typeof(ActionWith2ArgumentsInterceptionUsinInvokeAspect), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(ActionWith2ArgumentsOnMethodBoundaryAspect), AspectPriority = 2)]
+        new void InterceptionAspectUsingInvoke(List<AspectJoinPoints> first, List<AspectJoinPoints> second);
 
         [MethodInterceptionAspect(typeof(ActionWith2ArgumentsInterceptionAspect), AspectPriority = 1)]
         [OnMethodBoundaryAspect(typeof(ActionWith2ArgumentsOnMethodBoundaryAspect), AspectPriority = 2)]
@@ -267,6 +276,13 @@ namespace NCop.Aspects.Tests.ActionWith2ArgumentsAspect.Subjects
             args.Arg1.Add(AspectJoinPoints.OnInvoke);
             args.Arg2.Add(AspectJoinPoints.OnInvoke);
             base.OnInvoke(args);
+        }
+    }
+
+    public class ActionWith2ArgumentsInterceptionUsinInvokeAspect : ActionInterceptionAspect<List<AspectJoinPoints>, List<AspectJoinPoints>>
+    {
+        public override void OnInvoke(ActionInterceptionArgs<List<AspectJoinPoints>, List<AspectJoinPoints>> args) {
+            args.Invoke();
         }
     }
 }

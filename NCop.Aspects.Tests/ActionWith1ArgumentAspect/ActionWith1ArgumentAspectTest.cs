@@ -182,5 +182,15 @@ namespace NCop.Aspects.Tests
 
             CollectionAssert.AreEqual(list, new OnMethodBoundaryAspectWithOnlyOnEntryAdviceOrderedJoinPoints());
         }
+        
+        [TestMethod]
+        public void ActionWith1Argument_AnnotatedWithAllAspectsStartingFromInterceptionAspectThatCallsTheInvokeMethodOfTheArgs_ReturnsTheInMethodAdviceAndIgnoresAllOtherAspects() {
+            var instance = container.Resolve<IActionWith1ArgumentComposite>();
+            var list = new List<AspectJoinPoints>();
+
+            instance.InterceptionAspectUsingInvoke(list);
+
+            CollectionAssert.AreEqual(list, new InterceptionAspectUsingInvokeOrderedJoinPoints());
+        }
     }
 }

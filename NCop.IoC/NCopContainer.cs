@@ -60,7 +60,7 @@ namespace NCop.IoC
             return container;
         }
 
-        public override void Dispose() {
+        public sealed override void Dispose() {
             base.Dispose();
 
             lock (childContainers) {

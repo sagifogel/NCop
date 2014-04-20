@@ -16,6 +16,7 @@ namespace NCop.Aspects.Tests.FunctionWith6RefArgumentsAspect.Subjects
         string InterceptionAspect(ref int i, ref int j, ref int k, ref int l, ref int m, ref int n);
         string OnMethodBoundaryAspect(ref int i, ref int j, ref int k, ref int l, ref int m, ref int n);
         string MultipleInterceptionAspects(ref int i, ref int j, ref int k, ref int l, ref int m, ref int n);
+        string InterceptionAspectUsingInvoke(ref int i, ref int j, ref int k, ref int l, ref int m, ref int n);
         string MultipleOnMethodBoundaryAspects(ref int i, ref int j, ref int k, ref int l, ref int m, ref int n);
         string AllAspectsStartingWithInterception(ref int i, ref int j, ref int k, ref int l, ref int m, ref int n);
         string AllAspectsStartingWithOnMethodBoundary(ref int i, ref int j, ref int k, ref int l, ref int m, ref int n);
@@ -44,6 +45,10 @@ namespace NCop.Aspects.Tests.FunctionWith6RefArgumentsAspect.Subjects
         }
 
         public string MultipleInterceptionAspects(ref int i, ref int j, ref int k, ref int l, ref int m, ref int n) {
+            return AddInMethodJoinPoint(ref i, ref j, ref k, ref l, ref m, ref n);
+        }
+
+        public string InterceptionAspectUsingInvoke(ref int i, ref int j, ref int k, ref int l, ref int m, ref int n) {
             return AddInMethodJoinPoint(ref i, ref j, ref k, ref l, ref m, ref n);
         }
 
@@ -108,6 +113,10 @@ namespace NCop.Aspects.Tests.FunctionWith6RefArgumentsAspect.Subjects
         [MethodInterceptionAspect(typeof(FunctionWith6RefArgumentsInterceptionAspect))]
         [MethodInterceptionAspect(typeof(FunctionWith6RefArgumentsInterceptionAspect))]
         new string MultipleInterceptionAspects(ref int i, ref int j, ref int k, ref int l, ref int m, ref int n);
+
+        [MethodInterceptionAspect(typeof(FunctionWith6RefArgumentsInterceptionUsinInvokeAspect), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(FunctionWith6RefArgumentsOnMethodBoundaryAspect), AspectPriority = 2)]
+        new string InterceptionAspectUsingInvoke(ref int i, ref int j, ref int k, ref int l, ref int m, ref int n);
 
         [MethodInterceptionAspect(typeof(FunctionWith6RefArgumentsInterceptionAspect), AspectPriority = 1)]
         [OnMethodBoundaryAspect(typeof(FunctionWith6RefArgumentsOnMethodBoundaryAspect), AspectPriority = 2)]
@@ -263,6 +272,13 @@ namespace NCop.Aspects.Tests.FunctionWith6RefArgumentsAspect.Subjects
             args.Arg6 = args.Arg5 = args.Arg4 = args.Arg3 = args.Arg2 = args.Arg1 += (int)AspectJoinPoints.OnInvoke;
             args.AddToReturnValue(AspectJoinPoints.OnInvoke);
             base.OnInvoke(args);
+        }
+    }
+
+    public class FunctionWith6RefArgumentsInterceptionUsinInvokeAspect : FunctionInterceptionAspect<int, int, int, int, int, int, string>
+    {
+        public override void OnInvoke(FunctionInterceptionArgs<int, int, int, int, int, int, string> args) {
+            args.Invoke();
         }
     }
 }
