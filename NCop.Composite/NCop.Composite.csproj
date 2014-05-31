@@ -91,6 +91,7 @@
     <Compile Include="Engine\CompositeRegistryDecorator.cs" />
     <Compile Include="Extensions\CompositeExtensions.cs" />
     <Compile Include="IoC\CompositeContainer.cs" />
+    <Compile Include="IoC\CompositeDependencyResolver.cs" />
     <Compile Include="IoC\CompositeFrameworkRegistration.cs" />
     <Compile Include="Engine\CompositePropertyMap.cs" />
     <Compile Include="IoC\CompositeContainerRegistry.cs" />

@@ -7,6 +7,6 @@ namespace NCop.IoC
 {
     internal interface ILifetimeStrategy
     {
-        TService Resolve<TService>(ResolveContext<TService> context) ;
+        TService Resolve<TService>(ResolveContext<TService> context);
     }
 }

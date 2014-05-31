@@ -46,7 +46,7 @@ namespace NCop.Composite.IoC
 
         public void Register(Type concreteType, Type serviceType, ITypeMap dependencies = null, string name = null) {
             var castAs = serviceType.GetTypeFromAttribute();
-            var compositeRegistration = new CompositeFrameworkRegistration(container, concreteType, serviceType, dependencies, castAs);
+            var compositeRegistration = new CompositeFrameworkRegistration(container, concreteType, serviceType, dependencies, castAs, name);
 
             container.Register(compositeRegistration);
         }

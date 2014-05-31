@@ -10,21 +10,21 @@ namespace NCop.IoC
         private int hash = 0;
 
         public ServiceKey(Type serviceType, Type factoryType, string name = null) {
+            Name = name;
             FactoryType = factoryType;
             ServiceType = serviceType;
             hash = FactoryType.GetHashCode() ^ ServiceType.GetHashCode();
-            Name = name;
 
             if (Name != null) {
                 hash ^= Name.GetHashCode();
             };
         }
 
-        internal string Name { get; private set; }
+        public string Name { get; private set; }
+
+        public Type FactoryType { get; set; }
         
-        internal Type FactoryType { get; set; }
-        
-        internal Type ServiceType { get; private set; }
+        public Type ServiceType { get; private set; }
         
         public override bool Equals(object obj) {
             return Equals((ServiceKey)obj);
