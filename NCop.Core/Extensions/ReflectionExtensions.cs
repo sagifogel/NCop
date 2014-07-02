@@ -12,7 +12,6 @@ namespace NCop.Core.Extensions
     {
         internal static readonly string NCopToken = "5f8f9ac08842d356";
         private static readonly Regex publicKeyTokenValue = new Regex(@"PublicKeyToken=(?<PublicKeyTokenValue>[A-Fa-f0-9]{16})");
-        private static readonly Regex NCopArtifact = new Regex(@"NCop.Artifacts<\b[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}\b>", RegexOptions.IgnoreCase);
 
 #if !NET_4_5
 
@@ -56,10 +55,6 @@ namespace NCop.Core.Extensions
             return assembly.GetPublicKeyToken().Equals(NCopToken);
         }
 
-        public static bool IsNCopArtifact(this Assembly assembly) {
-            return NCopArtifact.IsMatch(assembly.GetName().Name);
-        }
-
         public static bool InNCopAssembly(this Type type) {
             return type.Assembly.IsNCopAssembly();
         }
@@ -90,21 +85,6 @@ namespace NCop.Core.Extensions
         public static IEnumerable<Type> GetImmediateInterfaces(this Type type) {
             var interfaces = type.GetInterfaces();
             var nonInheritedInterfaces = new HashSet<Type>(interfaces);
-
-            foreach (var @interface in interfaces) {
-                @interface.RemoveInheritedInterfaces(nonInheritedInterfaces);
-            }
-
-            return nonInheritedInterfaces;
-        }
-
-        public static IEnumerable<Type> GetInertacesAndSelf(this Type type) {
-            var interfaces = type.GetInterfaces();
-            var nonInheritedInterfaces = new HashSet<Type>(interfaces);
-
-            if (type.IsInterface) {
-                nonInheritedInterfaces.Add(type);
-            }
 
             foreach (var @interface in interfaces) {
                 @interface.RemoveInheritedInterfaces(nonInheritedInterfaces);

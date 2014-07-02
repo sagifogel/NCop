@@ -21,7 +21,7 @@ namespace NCop.Composite.IoC
         private readonly CompositeRegistration registration = null;
         private readonly IRegistrationResolver registrationResolver = null;
 
-        internal CompositeFrameworkRegistration(IRegistrationResolver registrationResolver, Type concreteType, Type serviceType, IEnumerable<TypeMap> dependencies = null, Type castTo = null, string name = null) {
+        internal CompositeFrameworkRegistration(IRegistrationResolver registrationResolver, Type concreteType, Type serviceType, IEnumerable<TypeMap> dependencies = null, Type castTo = null) {
             NamedAttribute namedAttribute = null;
 
             this.serviceType = serviceType;
@@ -38,10 +38,8 @@ namespace NCop.Composite.IoC
                 registration.Scope = ReuseScope.Hierarchy;
             }
 
-            registration.Name = name;
-
             if (TryGetNamedAttribute(out namedAttribute)) {
-                registration.Name = name + namedAttribute.Name;
+                registration.Name = namedAttribute.Name;
             }
 
             As(concreteType);

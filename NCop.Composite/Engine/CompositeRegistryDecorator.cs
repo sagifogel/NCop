@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using NCop.Composite.Extensions;
 using NCop.Core;
-using NCop.Core.Extensions;
 
 namespace NCop.Composite.Engine
 {
@@ -20,10 +19,6 @@ namespace NCop.Composite.Engine
 
         public void Register(Type concreteType, Type serviceType, ITypeMap dependencies, string name = null) {
             name = serviceType.GetNameFromAttribute();
-
-            if (concreteType.Assembly.IsNCopArtifact()) {
-                name = name.ToCompositeName();
-            }
 
             regisrty.Register(concreteType, serviceType, dependencies, name);
         }
