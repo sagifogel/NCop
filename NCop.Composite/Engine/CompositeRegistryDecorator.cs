@@ -18,7 +18,7 @@ namespace NCop.Composite.Engine
         }
 
         public void Register(Type concreteType, Type serviceType, ITypeMap dependencies, string name = null) {
-            name = serviceType.GetNameFromAttribute();
+            name = name ?? serviceType.GetNameFromAttribute();
 
             regisrty.Register(concreteType, serviceType, dependencies, name);
         }

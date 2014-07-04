@@ -10,12 +10,13 @@ using NCop.Mixins.Engine;
 using NCop.Mixins.Weaving;
 using NCop.Weaving;
 using NCop.Aspects.Weaving;
+using NCop.Composite.Mixins.Weaving;
 
 namespace NCop.Composite.Weaving
 {
     internal class CompositeTypeWeaverBuilder : ITypeWeaverBuilder
     {
-        private readonly MixinsTypeWeaverBuilder builder = null;
+        private readonly ICompositeMixinsTypeWeaverBuilder builder = null;
 
         internal CompositeTypeWeaverBuilder(ICompositeWeavingSettings compositeWeavingSettings) {
             var registry = compositeWeavingSettings.Registry;
@@ -28,7 +29,12 @@ namespace NCop.Composite.Weaving
             var compositeMappedMembers = new CompositeMemberMapper(aspectsMap, aspectMappedMembers);
             var typeDefinition = typeDefinitionWeaver.Weave();
 
-            builder = new MixinsTypeWeaverBuilder(compositeType, typeDefinition, registry);
+            if (IsAtomComposite(compositeType, mixinsMap)) {
+                builder = new AtomCompositeMixinsWeaverBuilder(compositeType, typeDefinition, registry);
+            }
+            else {
+                builder = new CompositeMixinsWeaverBuilder(compositeType, typeDefinition, registry);
+            }
 
             mixinsMap.ForEach(map => {
                 builder.Add(map);
@@ -49,6 +55,16 @@ namespace NCop.Composite.Weaving
 
         public ITypeWeaver Build() {
             return builder.Build();
+        }
+
+        private bool IsAtomComposite(Type compositeType, ITypeMap mixinsMap) {
+            if (mixinsMap.Count == 1) {
+                var mixinMap = mixinsMap.First();
+
+                return mixinMap.ContractType.Equals(compositeType);
+            }
+
+            return false;
         }
     }
 }
