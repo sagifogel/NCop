@@ -21,7 +21,7 @@ namespace NCop.Core
             ISet<Type> mappedInterfaces = null;
 
             this.typeFactory = typeFactory;
-            interfaces = type.GetInterfacesAndSelf().ToSet();
+            interfaces = type.GetInterfacesAndSelf();
             map.AddRange(FindTypesRecursively(type));
             mappedInterfaces = GetMappedInterfaces(interfaces.Concat(type));
 

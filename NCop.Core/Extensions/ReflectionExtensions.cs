@@ -93,19 +93,14 @@ namespace NCop.Core.Extensions
             return nonInheritedInterfaces;
         }
 
-        public static IEnumerable<Type> GetInterfacesAndSelf(this Type type) {
-            var interfaces = type.GetInterfaces();
-            var nonInheritedInterfaces = new HashSet<Type>(interfaces);
+        public static ISet<Type> GetInterfacesAndSelf(this Type type) {
+            var interfaces = new HashSet<Type>(type.GetInterfaces());
 
             if (type.IsInterface) {
-                nonInheritedInterfaces.Add(type);
+				interfaces.Add(type);
             }
 
-            foreach (var @interface in interfaces) {
-                @interface.RemoveInheritedInterfaces(nonInheritedInterfaces);
-            }
-
-            return nonInheritedInterfaces;
+			return interfaces;
         }
 
         public static bool HasCovariantType(this ISet<Type> set, Type inspected) {
