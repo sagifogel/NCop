@@ -19,7 +19,7 @@ namespace NCop.Core
 
 		private static bool MatchAccessModifier(PropertyInfo firstProperty, PropertyInfo secondProperty) {
 			if (firstProperty.CanRead && !secondProperty.CanRead || !firstProperty.CanRead && secondProperty.CanRead ||
-				firstProperty.CanWrite && !secondProperty.CanWrite || firstProperty.CanRead && !secondProperty.CanWrite) {
+				firstProperty.CanWrite && !secondProperty.CanWrite || firstProperty.CanWrite && !secondProperty.CanWrite) {
 				return false;
 			}
 

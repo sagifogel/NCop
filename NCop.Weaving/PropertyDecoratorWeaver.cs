@@ -17,7 +17,8 @@ namespace NCop.Weaving
 
         public PropertyDecoratorWeaver(PropertyInfo propertyInfoImpl, Type implementationType, Type contractType, ITypeDefinition typeDefinition) {
             this.contractType = contractType;
-            this.propertyInfoImpl = propertyInfoImpl;
+			this.typeDefinition = typeDefinition;
+			this.propertyInfoImpl = propertyInfoImpl;
             this.implementationType = implementationType;
         }
 
