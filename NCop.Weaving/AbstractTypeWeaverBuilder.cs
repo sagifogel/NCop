@@ -17,7 +17,7 @@ namespace NCop.Weaving
         protected readonly List<IMethodWeaverBuilder> methodWeaversBuilders = null;
         protected readonly List<IPropertyWeaverBuilder> propertyWeaversBuilders = null;
 
-        public AbstractTypeWeaverBuilder(Type type, ITypeDefinition typeDefinition) {
+        protected AbstractTypeWeaverBuilder(Type type, ITypeDefinition typeDefinition) {
             this.type = type;
             methodWeavers = new List<IMethodWeaver>();
             methodWeaversBuilders = new List<IMethodWeaverBuilder>();

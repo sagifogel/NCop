@@ -7,7 +7,7 @@ using System.Text;
 
 namespace NCop.Aspects.Framework
 {
-    public abstract class GenericActionExecutionArgs : AdviceArgs
+    public abstract class GenericActionExecutionArgs : AbstractAdviceArgs
 	{
 		public Arguments Arguments { get; set; }
     }

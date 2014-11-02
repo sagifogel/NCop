@@ -5,7 +5,7 @@ namespace NCop.Aspects.Weaving
 {
     internal class TopAspectArgsMappingWeaverImpl : AbstractAspectArgsMappingWeaver
     {
-        internal TopAspectArgsMappingWeaverImpl(IAspectWeavingSettings aspectWeavingSettings, IArgumentsSettings argumentsSettings)
+        internal TopAspectArgsMappingWeaverImpl(IAspectMethodWeavingSettings aspectWeavingSettings, IArgumentsSettings argumentsSettings)
             : base(aspectWeavingSettings, argumentsSettings) {
         }
 

@@ -7,7 +7,7 @@ namespace NCop.Aspects.Weaving
 {
     internal class TopBindingOnMethodExecutionArgumentsWeaver : AbstractBindingOnMethodExecutionArgumentsWeaver
     {
-        internal TopBindingOnMethodExecutionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+        internal TopBindingOnMethodExecutionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectMethodWeavingSettings aspectWeavingSettings)
             : base(argumentWeavingSettings, aspectWeavingSettings) {
         }
 

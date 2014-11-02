@@ -9,7 +9,7 @@ namespace NCop.Weaving
 {
     public class MethodDecoratorWeaver : AbstractMethodWeaver
     {
-		public MethodDecoratorWeaver(IWeavingSettings weavingSettings)
+		public MethodDecoratorWeaver(IMethodWeavingSettings weavingSettings)
 			: base(weavingSettings) {
             MethodEndWeaver = new MethodEndWeaver();
 			MethodScopeWeaver = new MethodDecoratorScopeWeaver(weavingSettings);

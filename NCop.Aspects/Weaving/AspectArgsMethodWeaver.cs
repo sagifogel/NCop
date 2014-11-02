@@ -12,9 +12,9 @@ namespace NCop.Aspects.Weaving
     {
         private readonly Type[] parameters = null;
         private readonly LocalBuilder methodLocalBuilder = null;
-        private readonly IAspectWeavingSettings aspectWeavingSettings = null;
+        private readonly IAspectMethodWeavingSettings aspectWeavingSettings = null;
 
-        internal AspectArgsMethodWeaver(LocalBuilder methodLocalBuilder, Type[] parameters, IAspectWeavingSettings aspectWeavingSettings) {
+        internal AspectArgsMethodWeaver(LocalBuilder methodLocalBuilder, Type[] parameters, IAspectMethodWeavingSettings aspectWeavingSettings) {
             this.parameters = parameters;
             this.methodLocalBuilder = methodLocalBuilder;
             this.aspectWeavingSettings = aspectWeavingSettings;

@@ -21,10 +21,10 @@ namespace NCop.Composite.Weaving
         }
 
         public IMethodWeaver Build() {
-			var weavingSettings = new WeavingSettings(memberInfoImpl, implementationType, contractType, typeDefinition);
+			var weavingSettings = new MethodWeavingSettings(memberInfoImpl, implementationType, contractType, typeDefinition);
             
 			if (compositeMethodMap.HasAspectDefinitions) {
-                var aspectWeavingSettings = new AspectWeavingSettingsImpl {
+                var aspectWeavingSettings = new AspectMethodWeavingSettingsImpl {
                     WeavingSettings = weavingSettings,
                     AspectRepository = aspectWeavingServices.AspectRepository,
                     AspectArgsMapper = aspectWeavingServices.AspectArgsMapper

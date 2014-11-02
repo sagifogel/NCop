@@ -12,12 +12,12 @@ namespace NCop.Aspects.Weaving
         protected readonly Type[] parameters = null;
         protected readonly Type aspectArgumentType = null;
         protected readonly Type[] mappingParameters = null;
-        protected readonly IWeavingSettings weavingSettings = null;
+        protected readonly IMethodWeavingSettings weavingSettings = null;
         protected readonly IArgumentsSettings argumentsSettings = null;
-        protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
+        protected readonly IAspectMethodWeavingSettings aspectWeavingSettings = null;
         protected readonly ILocalBuilderRepository localBuilderRepository = null;
 
-        internal AbstractAspectArgsMappingWeaver(IAspectWeavingSettings aspectWeavingSettings, IArgumentsSettings argumentsSettings) {
+        internal AbstractAspectArgsMappingWeaver(IAspectMethodWeavingSettings aspectWeavingSettings, IArgumentsSettings argumentsSettings) {
             Type[] @params = null;
 
             this.argumentsSettings = argumentsSettings;

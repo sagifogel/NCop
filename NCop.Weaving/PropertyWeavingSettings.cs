@@ -6,18 +6,18 @@ using System.Text;
 
 namespace NCop.Weaving
 {
-	public class WeavingSettings : IWeavingSettings
+	public class PropertyWeavingSettings : IPropertyWeavingSettings
 	{
-		public WeavingSettings(MethodInfo methodInfoImpl, Type implementationType, Type contractType, ITypeDefinition typeDefinition) {
+		public PropertyWeavingSettings(PropertyInfo propertyInfoImpl, Type implementationType, Type contractType, ITypeDefinition typeDefinition) {
 			ContractType = contractType;
-			MethodInfoImpl = methodInfoImpl;
 			TypeDefinition = typeDefinition;
+			PropertyInfoImpl = propertyInfoImpl;
 			ImplementationType = implementationType;
 		}
 
 		public Type ContractType { get; private set; }
 		public Type ImplementationType { get; private set; }
-		public MethodInfo MethodInfoImpl { get; private set; }
+		public PropertyInfo PropertyInfoImpl { get; private set; }
 		public ITypeDefinition TypeDefinition { get; private set; }
 	}
 }

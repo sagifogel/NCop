@@ -7,11 +7,11 @@ using System.Text;
 
 namespace NCop.Weaving
 {
-	public abstract class AbstractMethodWeaver : IMethodWeaver, IWeavingSettings
+	public abstract class AbstractMethodWeaver : IMethodWeaver, IMethodWeavingSettings
 	{
-		private readonly IWeavingSettings weavingSettings = null;
+		private readonly IMethodWeavingSettings weavingSettings = null;
 
-		public AbstractMethodWeaver(IWeavingSettings weavingSettings) {
+		protected AbstractMethodWeaver(IMethodWeavingSettings weavingSettings) {
 			this.weavingSettings = weavingSettings;
 		}
 

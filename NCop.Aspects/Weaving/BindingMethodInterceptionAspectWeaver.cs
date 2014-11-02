@@ -13,7 +13,7 @@ namespace NCop.Aspects.Weaving
         protected readonly Type topAspectInScopeArgType = null;
         protected readonly IArgumentsWeaver argumentsWeaver = null;
 
-        internal BindingMethodInterceptionAspectWeaver(Type topAspectInScopeArgType, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal BindingMethodInterceptionAspectWeaver(Type topAspectInScopeArgType, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             this.topAspectInScopeArgType = topAspectInScopeArgType;
             ArgumentType = argumentsWeavingSetings.ArgumentType;

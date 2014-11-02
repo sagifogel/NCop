@@ -14,7 +14,7 @@ namespace NCop.Composite.Weaving
 	{
 		private readonly AspectMethodWeaver methodWeaver = null;
 
-		internal CompositeMethodWeaver(IAspectDefinitionCollection aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
+		internal CompositeMethodWeaver(IAspectDefinitionCollection aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {
 			methodWeaver = new AspectMethodWeaver(aspectDefinition, aspectWeavingSettings);
 			MethodDefintionWeaver = methodWeaver.MethodDefintionWeaver;

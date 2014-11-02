@@ -7,7 +7,7 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractBranchedMethodScopeWeaver : AbstractMethodScopeWeaver, IMethodScopeWeaver
     {
-        internal AbstractBranchedMethodScopeWeaver(IWeavingSettings weavingSettings)
+        internal AbstractBranchedMethodScopeWeaver(IMethodWeavingSettings weavingSettings)
             : base(weavingSettings) {
         }
 

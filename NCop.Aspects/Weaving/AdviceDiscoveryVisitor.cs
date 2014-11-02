@@ -52,5 +52,10 @@ namespace NCop.Aspects.Weaving
             OnMethodExceptionAdvice = advice;
             HasOnMethodExceptionAdvice = true;
         }
+
+		internal void Visit(OnGetPropertyInvokeAdviceAttribute advice) {
+			OnMethodInvokeAdvice = advice;
+            HasOnMethodExceptionAdvice = true;
+        }		
     }
 }

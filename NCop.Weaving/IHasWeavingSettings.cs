@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Weaving
 {
-    public interface IHasWeavingSettings : IWeavingSettings
+    public interface IHasWeavingSettings : IMethodWeavingSettings
     {
     }
 }

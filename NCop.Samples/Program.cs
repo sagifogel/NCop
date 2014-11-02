@@ -1,34 +1,60 @@
-﻿using NCop.Aspects.Engine;
+﻿using System;
+using System.Diagnostics;
 using NCop.Aspects.Framework;
 using NCop.Composite.Framework;
 using NCop.Mixins.Framework;
-using System;
 
 namespace NCop.Samples
-{   
-    [TransientComposite]
-    [Mixins(typeof(CSharpDeveloperMixin))]
-    public interface IDeveloper
-    {
-        void Code();
-    }
+{
+	[TransientComposite]
+	[Mixins(typeof(CSharpDeveloperMixin))]
+	public interface IPerson : IDeveloper
+	{
+	}
 
-    public class CSharpDeveloperMixin : IDeveloper
-    {
-        public void Code() {
-            Console.WriteLine("C#");
-        }
-    }
+	public interface IDeveloper
+	{
+		[PropertyInterceptionAspect(typeof(StopWatchAspect))]
+		string Code { get; }
+	}
 
-    class Program
-    {
-        static void Main(string[] args) {
-            IDeveloper developer = null;
-            var container = new CompositeContainer();
+	public class CSharpDeveloperMixin : IDeveloper
+	{
+		public string Code {
+			get { return "C#"; }
+		}
 
-            container.Configure();
-            developer = container.TryResolve<IDeveloper>();
-            developer.Code();
-        }
-    }
+		[MethodInterceptionAspect(typeof(StopWatchAspect))]
+		public void Do() {
+
+		}
+	}
+
+	public class StopWatchAspect : ActionInterceptionAspect
+	{
+		private readonly Stopwatch stopWatch = null;
+
+		public StopWatchAspect() {
+			stopWatch = new Stopwatch();
+		}
+
+		public override void OnInvoke(ActionInterceptionArgs args) {
+			stopWatch.Restart();
+			base.OnInvoke(args);
+			stopWatch.Stop();
+			Console.WriteLine("Elapsed Ticks: {0}", stopWatch.ElapsedTicks);
+		}
+	}
+
+	class Program
+	{
+		static void Main(string[] args) {
+			IPerson developer = null;
+			var container = new CompositeContainer();
+
+			container.Configure();
+			developer = container.Resolve<IPerson>();
+			Console.WriteLine(developer.Code);
+		}
+	}
 }

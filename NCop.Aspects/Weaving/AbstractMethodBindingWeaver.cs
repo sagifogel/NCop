@@ -17,11 +17,11 @@ namespace NCop.Aspects.Weaving
         protected FieldBuilder fieldBuilder = null;
         protected readonly BindingSettings bindingSettings = null;
         protected readonly IMethodScopeWeaver methodScopeWeaver = null;
-        protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
+        protected readonly IAspectMethodWeavingSettings aspectWeavingSettings = null;
         protected readonly MethodAttributes methodAttr = MA.Public | MA.Final | MA.HideBySig | MA.NewSlot | MA.Virtual;
         protected readonly CallingConventions callingConventions = CallingConventions.Standard | CallingConventions.HasThis;
 
-        internal AbstractMethodBindingWeaver(BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IMethodScopeWeaver methodScopeWeaver) {
+        internal AbstractMethodBindingWeaver(BindingSettings bindingSettings, IAspectMethodWeavingSettings aspectWeavingSettings, IMethodScopeWeaver methodScopeWeaver) {
             this.bindingSettings = bindingSettings;
             this.methodScopeWeaver = methodScopeWeaver;
             this.aspectWeavingSettings = aspectWeavingSettings;

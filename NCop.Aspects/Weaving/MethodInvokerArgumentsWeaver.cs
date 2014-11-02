@@ -11,7 +11,7 @@ namespace NCop.Aspects.Weaving
         private readonly Type previousAspectArgType = null;
         private readonly IByRefArgumentsStoreWeaver byRefArgumentStoreWeaver = null;
 
-        internal MethodInvokerArgumentsWeaver(Type previousAspectArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings, IByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver)
+        internal MethodInvokerArgumentsWeaver(Type previousAspectArgType, IAspectMethodWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings, IByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver)
             : base(argumentWeavingSettings, aspectWeavingSettings) {
             this.previousAspectArgType = previousAspectArgType;
             this.byRefArgumentStoreWeaver = byRefArgumentsStoreWeaver;

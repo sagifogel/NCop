@@ -1,6 +1,4 @@
-﻿using NCop.Aspects.Advices;
-using NCop.Aspects.Engine;
-using System;
+﻿using System;
 using NCop.Aspects.Aspects;
 
 namespace NCop.Aspects.Framework

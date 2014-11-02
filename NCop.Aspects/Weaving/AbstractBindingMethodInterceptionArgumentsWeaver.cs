@@ -12,7 +12,7 @@ namespace NCop.Aspects.Weaving
     {
         private readonly FieldInfo bindingsDependency = null;
 
-        internal AbstractBindingMethodInterceptionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+        internal AbstractBindingMethodInterceptionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectMethodWeavingSettings aspectWeavingSettings)
             : base(argumentWeavingSettings, aspectWeavingSettings) {
             bindingsDependency = argumentWeavingSettings.BindingsDependency;
         }

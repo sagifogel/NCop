@@ -12,7 +12,7 @@ namespace NCop.Aspects.Weaving
         private readonly NCop.Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
         private readonly IMethodScopeWeaver methodDecoratorScopeWeaver = null;
 
-        internal BindingAspectDecoratorWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
+        internal BindingAspectDecoratorWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {
             var bindingSettings = aspectDefinition.ToBindingSettings();
             var methodInfoImpl = aspectWeavingSettings.WeavingSettings.MethodInfoImpl;

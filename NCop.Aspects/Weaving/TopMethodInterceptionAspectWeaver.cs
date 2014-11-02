@@ -13,7 +13,7 @@ namespace NCop.Aspects.Weaving
     {
         protected IArgumentsWeaver argumentsWeaver = null;
 
-        internal TopMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal TopMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             IMethodScopeWeaver getReturnValueWeaver = null;
             var @params = weavingSettings.MethodInfoImpl.GetParameters();

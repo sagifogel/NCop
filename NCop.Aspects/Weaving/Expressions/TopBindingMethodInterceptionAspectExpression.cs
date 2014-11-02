@@ -12,13 +12,13 @@ using NCop.Aspects.Weaving.Expressions;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class TopBindingMethodInterceptionAspectExpression : AbstractAspectExpression
+	internal class TopBindingMethodInterceptionAspectExpression : AbstractAspectMethodExpression
     {
-        internal TopBindingMethodInterceptionAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition)
+        internal TopBindingMethodInterceptionAspectExpression(IAspectMethodExpression aspectExpression, IAspectDefinition aspectDefinition)
             : base(aspectExpression, aspectDefinition) {
         }
 
-        public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
+		public override IAspectWeaver Reduce(IAspectMethodWeavingSettings aspectWeavingSettings) {
             var bindingWeaver = new IsolatedMethodInterceptionBindingWeaver(aspectExpression, aspectDefinition, aspectWeavingSettings);
 
             return new TopBindingMethodInterceptionAspectWeaver(aspectDefinition, aspectWeavingSettings, bindingWeaver.WeavedType);

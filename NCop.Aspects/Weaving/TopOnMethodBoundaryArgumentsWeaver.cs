@@ -10,7 +10,7 @@ namespace NCop.Aspects.Weaving
 {
     internal class TopOnMethodBoundaryArgumentsWeaver : AbstractTopAspectArgumentsWeaver
     {
-        internal TopOnMethodBoundaryArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+        internal TopOnMethodBoundaryArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectMethodWeavingSettings aspectWeavingSettings)
             : base(argumentWeavingSettings, aspectWeavingSettings) {
         }
 

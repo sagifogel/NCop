@@ -6,9 +6,9 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving
 {
-	internal class AdviceWeavingSettings : AspectWeavingSettingsImpl, IAdviceWeavingSettings
+	internal class AdviceWeavingSettings : AspectMethodWeavingSettingsImpl, IAdviceWeavingSettings
 	{
-        internal AdviceWeavingSettings(IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings) {
+        internal AdviceWeavingSettings(IAspectMethodWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings) {
 			AspectType = argumentsWeavingSettings.AspectType;
             ArgumentsWeavingSettings = argumentsWeavingSettings;
             WeavingSettings = aspectWeavingSettings.WeavingSettings;

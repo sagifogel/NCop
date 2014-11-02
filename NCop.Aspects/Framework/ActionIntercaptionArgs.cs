@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NCop.Aspects.Framework
 {
-	public abstract class ActionInterceptionArgs : InterceptionArgs, IActionInterceptionArgs
+	public abstract class ActionInterceptionArgs : AbstractMethodInterceptionArgs, IActionInterceptionArgs
 	{
         public abstract void Invoke();
 	}

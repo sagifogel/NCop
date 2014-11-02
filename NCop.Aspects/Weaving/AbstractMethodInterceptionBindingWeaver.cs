@@ -11,11 +11,11 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractMethodInterceptionBindingWeaver : AbstractBindingAspectWeaver
     {
-        protected readonly IAspectExpression aspectExpression = null;
-        protected IAspectWeavingSettings aspectWeavingSettings = null;
+        protected readonly IAspectMethodExpression aspectExpression = null;
+        protected IAspectMethodWeavingSettings aspectWeavingSettings = null;
         protected readonly NCop.Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
 
-        internal AbstractMethodInterceptionBindingWeaver(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
+        internal AbstractMethodInterceptionBindingWeaver(IAspectMethodExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings)
             : base(aspectDefinition) {
             this.aspectExpression = aspectExpression;
             this.aspectWeavingSettings = aspectWeavingSettings;
@@ -41,6 +41,6 @@ namespace NCop.Aspects.Weaving
             return bindingWeaver.Weave();
         }
 
-        protected abstract IAspectWeavingSettings GetAspectsWeavingSettings();
+        protected abstract IAspectMethodWeavingSettings GetAspectsWeavingSettings();
     }
 }

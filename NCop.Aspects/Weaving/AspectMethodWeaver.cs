@@ -11,7 +11,7 @@ namespace NCop.Aspects.Weaving
 {
 	public class AspectMethodWeaver : AbstractMethodWeaver
 	{
-        public AspectMethodWeaver(IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings)
+        public AspectMethodWeaver(IAspectDefinitionCollection aspectDefinitions, IAspectMethodWeavingSettings aspectWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {
 			var aspectExpression = new AspectExpressionTreeBuilder(aspectDefinitions).Build();
             

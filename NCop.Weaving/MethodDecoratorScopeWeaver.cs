@@ -11,7 +11,7 @@ namespace NCop.Weaving
 {
 	public class MethodDecoratorScopeWeaver : AbstractMethodScopeWeaver
     {
-		public MethodDecoratorScopeWeaver(IWeavingSettings weavingSettings)
+		public MethodDecoratorScopeWeaver(IMethodWeavingSettings weavingSettings)
 			:base(weavingSettings) {
         }
 

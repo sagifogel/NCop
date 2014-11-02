@@ -35,5 +35,17 @@ namespace NCop.Aspects.Weaving.Expressions
                 return new OnMethodExceptionAdviceExpression(adviceDefinition);
             };
         }
+
+		internal Func<IAdviceDefinition, IAdviceExpression> Visit(OnGetPropertyInvokeAdviceAttribute advice) {
+			return (adviceDefinition) => {
+				return new OnMethodInvokeAdviceExpression(adviceDefinition);
+			};
+		}
+
+		internal Func<IAdviceDefinition, IAdviceExpression> Visit(OnSetPropertyInvokeAdviceAttribute advice) {
+			return (adviceDefinition) => {
+				return new OnMethodInvokeAdviceExpression(adviceDefinition);
+			};
+		}
     }
 }

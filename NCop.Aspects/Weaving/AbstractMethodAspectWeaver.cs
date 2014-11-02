@@ -14,17 +14,17 @@ namespace NCop.Aspects.Weaving
     internal abstract class AbstractMethodAspectWeaver : IAspectTypeReflectorWeaver
     {
         protected IMethodScopeWeaver weaver = null;
-        protected readonly IWeavingSettings weavingSettings = null;
         protected List<IMethodScopeWeaver> methodScopeWeavers = null;
         protected readonly IAspectRepository aspectRepository = null;
         protected readonly IAspectDefinition aspectDefinition = null;
         protected readonly IAdviceDefinitionCollection advices = null;
-        protected readonly AdviceVisitor adviceVisitor = new AdviceVisitor();
-        protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
+		protected readonly IMethodWeavingSettings weavingSettings = null;
+		protected readonly AdviceVisitor adviceVisitor = new AdviceVisitor();
+        protected readonly IAspectMethodWeavingSettings aspectWeavingSettings = null;
         protected readonly ArgumentsWeavingSettings argumentsWeavingSetings = null;
         protected readonly AdviceDiscoveryVisitor adviceDiscoveryVistor = new AdviceDiscoveryVisitor();
 
-        internal AbstractMethodAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWevingSettings) {
+        internal AbstractMethodAspectWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWevingSettings) {
             advices = aspectDefinition.Advices;
             this.aspectDefinition = aspectDefinition;
             this.aspectWeavingSettings = aspectWevingSettings;

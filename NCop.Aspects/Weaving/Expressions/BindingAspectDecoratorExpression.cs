@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class BindingAspectDecoratorExpression : IAspectExpression
+    internal class BindingAspectDecoratorExpression : IAspectMethodExpression
     {
         private readonly BindingSettings bindingSettings = null;
         private readonly IAspectDefinition aspectDefinition = null;
@@ -17,7 +17,7 @@ namespace NCop.Aspects.Weaving.Expressions
             this.argumentsWeavingSettings = argumentsWeavingSettings;
         }
 
-        public IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
+        public IAspectWeaver Reduce(IAspectMethodWeavingSettings aspectWeavingSettings) {
             return new BindingAspectDecoratorWeaver(aspectDefinition, aspectWeavingSettings, argumentsWeavingSettings);
         }
     }

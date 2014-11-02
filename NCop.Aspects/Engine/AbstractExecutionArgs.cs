@@ -7,11 +7,11 @@ using System.Text;
 
 namespace NCop.Aspects.Engine
 {
-    public abstract class AbstractExecutionArgs : AdviceArgs
+    public abstract class AbstractExecutionArgs : AbstractMethodAdviceArgs
     {
         public FlowBehavior FlowBehavior { get; set; }
 
-        public AbstractExecutionArgs() {
+        protected AbstractExecutionArgs() {
             FlowBehavior = FlowBehavior.RethrowException;
         }
     }

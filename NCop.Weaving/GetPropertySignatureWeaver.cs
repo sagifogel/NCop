@@ -7,9 +7,9 @@ using System.Text;
 
 namespace NCop.Weaving
 {
-    public class PropertyGetSignatureWeaver : AbstractMemberSignatureWeaver
+    public class GetPropertySignatureWeaver : AbstractMemberSignatureWeaver
     {
-		public PropertyGetSignatureWeaver(ITypeDefinition typeDefinition)
+		public GetPropertySignatureWeaver(ITypeDefinition typeDefinition)
 			: base(typeDefinition) {
 		}
 

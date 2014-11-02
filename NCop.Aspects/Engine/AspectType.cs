@@ -8,6 +8,7 @@ namespace NCop.Aspects.Engine
 	public enum AspectType
 	{
 		OnMethodBoundaryAspect,
-		MethodInterceptionAspect
+		MethodInterceptionAspect,
+		PropertyInterceptionAspect
 	}
 }

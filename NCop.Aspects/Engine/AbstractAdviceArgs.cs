@@ -6,10 +6,9 @@ using System.Text;
 
 namespace NCop.Aspects.Engine
 {
-    public abstract class AdviceArgs : IAdviceArgs
+    public abstract class AbstractAdviceArgs : IAdviceArgs
     {
         public object Instance { get; set; }
-        public MethodInfo Method { get; set; }
         public Exception Exception { get; set; }
     }
 }

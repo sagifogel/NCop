@@ -15,7 +15,7 @@ namespace NCop.Aspects.Weaving
         private readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
         private readonly IByRefArgumentsStoreWeaver byRefArgumentStoreWeaver = null;
 
-        internal MethodInvokerAspectWeaver(Type topAspectInScopeArgType, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
+        internal MethodInvokerAspectWeaver(Type topAspectInScopeArgType, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {
             this.topAspectInScopeArgType = topAspectInScopeArgType;
             this.argumentsWeavingSettings = argumentsWeavingSettings;

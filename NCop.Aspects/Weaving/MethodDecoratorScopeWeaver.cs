@@ -12,10 +12,10 @@ namespace NCop.Aspects.Weaving
     {
         private readonly MethodInfo methodInfoImpl = null;
         private readonly IArgumentsWeaver argumentsWeaver = null;
-        private readonly IAspectWeavingSettings aspectWeavingSettings = null;
+        private readonly IAspectMethodWeavingSettings aspectWeavingSettings = null;
         private readonly IByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver = null;
 
-        internal MethodDecoratorScopeWeaver(IAspectWeavingSettings aspectWeavingSettings)
+        internal MethodDecoratorScopeWeaver(IAspectMethodWeavingSettings aspectWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {
             Type aspectArgumentContract = null;
             var localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;

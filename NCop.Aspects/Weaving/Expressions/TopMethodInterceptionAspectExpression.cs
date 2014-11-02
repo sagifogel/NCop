@@ -8,13 +8,13 @@ using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class TopMethodInterceptionAspectExpression : AbstractAspectExpression
+	internal class TopMethodInterceptionAspectExpression : AbstractAspectMethodExpression
     {
-        internal TopMethodInterceptionAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition)
+        internal TopMethodInterceptionAspectExpression(IAspectMethodExpression aspectExpression, IAspectDefinition aspectDefinition)
             : base(aspectExpression, aspectDefinition) {
         }
 
-        public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
+		public override IAspectWeaver Reduce(IAspectMethodWeavingSettings aspectWeavingSettings) {
             var clonedAspectWeavingSettings = aspectWeavingSettings.CloneWith(settings => {
                 var localBuilderRepository = new LocalBuilderRepository();
                 var methodImpl = aspectWeavingSettings.WeavingSettings.MethodInfoImpl;

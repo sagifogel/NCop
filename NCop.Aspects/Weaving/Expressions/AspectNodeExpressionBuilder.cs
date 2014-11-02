@@ -9,13 +9,13 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal class AspectNodeExpressionBuilder : IAspectExpressionBuilder
     {
-        private readonly Func<IAspectExpression, IAspectExpression> expressionBuilderFactory = null;
+        private readonly Func<IAspectMethodExpression, IAspectMethodExpression> expressionBuilderFactory = null;
 
-        internal AspectNodeExpressionBuilder(Func<IAspectExpression, IAspectExpression> expressionBuilderFactory) {
+        internal AspectNodeExpressionBuilder(Func<IAspectMethodExpression, IAspectMethodExpression> expressionBuilderFactory) {
             this.expressionBuilderFactory = expressionBuilderFactory;
         }
 
-        public IAspectExpression Build(IAspectExpression aspectExpression = null) {
+        public IAspectMethodExpression Build(IAspectMethodExpression aspectExpression = null) {
             return expressionBuilderFactory(aspectExpression);
         }
     }

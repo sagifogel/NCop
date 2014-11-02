@@ -9,9 +9,9 @@ using NCop.Aspects.Weaving;
 
 namespace NCop.Aspects.Advices
 {
-    public interface IAdviceDefinition : IAcceptsVisitor<AdviceVisitor, IAdviceExpression>, IAcceptsVisitor<AdviceDiscoveryVisitor>
-    {
-        IAdvice Advice { get; }
-        MethodInfo AdviceMethod { get; }
-    }
+	public interface IAdviceDefinition : IAcceptsVisitor<AdviceVisitor, IAdviceExpression>, IAcceptsVisitor<AdviceDiscoveryVisitor>
+	{
+		IAdvice Advice { get; }
+		MethodInfo AdviceMethod { get; }
+	}
 }

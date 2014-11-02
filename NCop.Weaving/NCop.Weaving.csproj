@@ -61,9 +61,12 @@
     <Compile Include="Extensions\WeavingExtensions.cs" />
     <Compile Include="IHasWeavingSettings.cs" />
     <Compile Include="IMethodLocalWeaver.cs" />
-    <Compile Include="IWeavingSettings.cs" />
+    <Compile Include="IMethodWeavingSettings.cs" />
     <Compile Include="BulkWeaving.cs" />
-    <Compile Include="WeavingSettings.cs" />
+    <Compile Include="IPropertyWeavingSettings.cs" />
+    <Compile Include="IWeavingSettings.cs" />
+    <Compile Include="PropertyWeavingSettings.cs" />
+    <Compile Include="MethodWeavingSettings.cs" />
     <Compile Include="MethodScopeWeaversQueue.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -71,9 +74,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="PropertyEndWeaver.cs" />
-    <Compile Include="PropertyGetDecoratorScopeWeaver.cs" />
-    <Compile Include="PropertyGetDecoratorWeaver.cs" />
-    <Compile Include="PropertyGetSignatureWeaver.cs" />
+    <Compile Include="GetPropertyDecoratorScopeWeaver.cs" />
+    <Compile Include="GetPropertyDecoratorWeaver.cs" />
+    <Compile Include="GetPropertySignatureWeaver.cs" />
     <Compile Include="Extensions\ILGeneratorExtensions.cs" />
     <Compile Include="IPropertyBag.cs" />
     <Compile Include="IPropertyWeaver.cs" />
@@ -82,7 +85,7 @@
     <Compile Include="AbstractMethodWeaver.cs" />
     <Compile Include="IBuilder`1.cs" />
     <Compile Include="IFieldWeaver.cs" />
-    <Compile Include="IPropertyGetWeaver.cs" />
+    <Compile Include="IGetPropertyWeaver.cs" />
     <Compile Include="IMethodEndWeaver.cs" />
     <Compile Include="IMethodScopeWeaver.cs" />
     <Compile Include="IMethodSignatureWeaver.cs" />
@@ -91,7 +94,7 @@
     <Compile Include="IMethodWeaverBuilderBag.cs" />
     <Compile Include="IMethodWeaverHandler.cs" />
     <Compile Include="FieldWeaver.cs" />
-    <Compile Include="IPropertySetWeaver.cs" />
+    <Compile Include="ISetPropertyWeaver.cs" />
     <Compile Include="ITypeDefinition.cs" />
     <Compile Include="ITypeDefinitionWeaver.cs" />
     <Compile Include="ITypeWeaver.cs" />
@@ -108,10 +111,10 @@
     <Compile Include="NCopAssemblyBuilder.cs" />
     <Compile Include="NCopModuleBuilder.cs" />
     <Compile Include="PropertyDecoratorWeaver.cs" />
-    <Compile Include="PropertySetDecoratorScopeWeaver.cs" />
-    <Compile Include="PropertySetSignatureWeaver.cs" />
+    <Compile Include="SetPropertyDecoratorScopeWeaver.cs" />
+    <Compile Include="SetPropertySignatureWeaver.cs" />
     <Compile Include="ReflectionUtils.cs" />
-    <Compile Include="PropertySetDecoratorWeaver.cs" />
+    <Compile Include="SetPropertyDecoratorWeaver.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NCop.Core\NCop.Core.csproj">

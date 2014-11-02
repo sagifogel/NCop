@@ -14,7 +14,7 @@ namespace NCop.Weaving
         protected readonly Type implementationType = null;
         protected readonly ITypeDefinition typeDefinition = null;
 
-        public AbstractWeaverBuilder(TMember memberInfoImpl, Type implementationType, Type contractType, ITypeDefinition typeDefinition) {
+        protected AbstractWeaverBuilder(TMember memberInfoImpl, Type implementationType, Type contractType, ITypeDefinition typeDefinition) {
             this.contractType = contractType;
             this.memberInfoImpl = memberInfoImpl;
             this.implementationType = implementationType;

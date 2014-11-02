@@ -10,7 +10,7 @@ namespace NCop.Aspects.Weaving
     {
         protected readonly IArgumentsWeaver argumentsWeaver = null;
 
-        internal NestedOnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
+        internal NestedOnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings)
             : base(nestedWeaver, aspectDefinition, aspectWeavingSettings) {
         }
 

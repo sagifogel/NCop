@@ -122,7 +122,13 @@ namespace NCop.Core.Extensions
                        .ToArray();
         }
 
-        public static bool IsOverride(this MethodInfo methodInfo, Type declaringType) {
+		public static PropertyInfo[] GetOverridenProperties(this Type type) {
+			return type.GetProperties()
+					   .Where(property => property.IsOverride(type))
+					   .ToArray();
+		}
+
+        public static bool IsOverride(this MemberInfo methodInfo, Type declaringType) {
             return methodInfo.DeclaringType == declaringType;
         }
 

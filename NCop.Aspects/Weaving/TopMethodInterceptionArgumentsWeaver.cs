@@ -10,7 +10,7 @@ namespace NCop.Aspects.Weaving
 {
     internal class TopMethodInterceptionArgumentsWeaver : AbstractTopAspectArgumentsWeaver
     {
-        internal TopMethodInterceptionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+        internal TopMethodInterceptionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectMethodWeavingSettings aspectWeavingSettings)
             : base(argumentWeavingSettings, aspectWeavingSettings) {
         }
 

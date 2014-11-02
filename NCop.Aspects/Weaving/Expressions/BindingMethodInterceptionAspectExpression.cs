@@ -3,16 +3,16 @@ using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class BindingMethodInterceptionAspectExpression : AbstractAspectExpression
+	internal class BindingMethodInterceptionAspectExpression : AbstractAspectMethodExpression
     {
         private readonly IAspectDefinition topAspectInScopeDefinition = null;
 
-        internal BindingMethodInterceptionAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectDefinition topAspectInScopeDefinition)
+        internal BindingMethodInterceptionAspectExpression(IAspectMethodExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectDefinition topAspectInScopeDefinition)
             : base(aspectExpression, aspectDefinition) {
             this.topAspectInScopeDefinition = topAspectInScopeDefinition;
         }
 
-        public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
+		public override IAspectWeaver Reduce(IAspectMethodWeavingSettings aspectWeavingSettings) {
             var topAspectInScopeArgType = topAspectInScopeDefinition.ToAspectArgumentImpl();
             var bindingWeaver = new IsolatedMethodInterceptionBindingWeaver(aspectExpression, aspectDefinition, aspectWeavingSettings);
 

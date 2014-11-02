@@ -7,10 +7,10 @@ namespace NCop.Aspects.Advices
 {
 	public enum AdviceType
 	{
+		FinallyAdvice,
 		OnMethodEntryAdvice,
 		OnMethodInvokeAdvice,
 		OnMethodSuccessAdvice,
 		OnMethodExceptionAdvice,
-		FinallyAdvice
 	}
 }

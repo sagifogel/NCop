@@ -1,26 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NCop.Aspects.Aspects;
-using NCop.Weaving;
-using System.Reflection;
-using NCop.Aspects.Advices;
-using NCop.Core.Extensions;
-using NCop.Aspects.Engine;
+﻿using NCop.Aspects.Aspects;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal abstract class AbstractAspectExpression : IAspectExpression
-    {
-        protected readonly IAspectExpression aspectExpression = null;
-        protected readonly IAspectDefinition aspectDefinition = null;
+	internal abstract class AbstractAspectMethodExpression : IAspectMethodExpression
+	{
+		protected readonly IAspectMethodExpression aspectExpression = null;
+		protected readonly IAspectDefinition aspectDefinition = null;
 
-        internal AbstractAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition = null) {
-            this.aspectExpression = aspectExpression;
-            this.aspectDefinition = aspectDefinition;
-        }
+		internal AbstractAspectMethodExpression(IAspectMethodExpression aspectExpression, IAspectDefinition aspectDefinition = null) {
+			this.aspectExpression = aspectExpression;
+			this.aspectDefinition = aspectDefinition;
+		}
 
-        public abstract IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings );
-    }
+		public abstract IAspectWeaver Reduce(IAspectMethodWeavingSettings aspectWeavingSettings);
+	}
 }

@@ -12,5 +12,6 @@ namespace NCop.Aspects.Weaving.Expressions
     {
         Func<IAspectDefinition, IAspectExpressionBuilder> Visit(OnMethodBoundaryAspectAttribute aspect);
         Func<IAspectDefinition, IAspectExpressionBuilder> Visit(MethodInterceptionAspectAttribute aspect);
+        Func<IAspectDefinition, IAspectExpressionBuilder> Visit(PropertyInterceptionAspectAttribute aspect);
     }
 }

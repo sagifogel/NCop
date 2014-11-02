@@ -17,6 +17,7 @@ namespace NCop.Aspects.Engine
                 var aspects = aspectMembers.Members.SelectMany(member => {
                     var onMethodBoundaryAspects = member.GetCustomAttributes<OnMethodBoundaryAspectAttribute>();
                     var methodInterceptionAspects = member.GetCustomAttributes<MethodInterceptionAspectAttribute>();
+					var propertyInterceptionAspects = member.GetCustomAttributes<PropertyInterceptionAspectAttribute>();
 
                     var onMethodBoundaryAspectDefinitions = onMethodBoundaryAspects.Select(aspect => {
 						return new OnMethodBoundaryAspectDefinition(aspect, aspectDeclaringType, aspectMembers.Target);
@@ -24,6 +25,10 @@ namespace NCop.Aspects.Engine
 
                     var methodInterceptionAspectDefinitions = methodInterceptionAspects.Select(aspect => {
 						return new MethodInterceptionAspectDefinition(aspect, aspectDeclaringType, aspectMembers.Target);
+                    });
+
+                    var propertyInterceptionAspectsDefinitions = propertyInterceptionAspects.Select(aspect => {
+                        return new PropertyInterceptionAspectDefinition(aspect, aspectDeclaringType, aspectMembers.Target);
                     });
 
                     return methodInterceptionAspectDefinitions.Cast<IAspectDefinition>()

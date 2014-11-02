@@ -126,6 +126,7 @@
     <Compile Include="Weaving\AtomMixinsWeaverStartegy.cs" />
     <Compile Include="Weaving\CompositeMethodWeaver.cs" />
     <Compile Include="Weaving\CompositeMethodWeaverBuilder.cs" />
+    <Compile Include="Weaving\CompositePropertyWeaver.cs" />
     <Compile Include="Weaving\CompositeTypeWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositePropertyWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeWeavinsSettings.cs" />

@@ -9,9 +9,9 @@ using NCop.Core.Extensions;
 
 namespace NCop.Weaving
 {
-    public class PropertySetDecoratorScopeWeaver : AbstractMethodScopeWeaver
+    public class SetPropertyDecoratorScopeWeaver : AbstractMethodScopeWeaver
     {
-		public PropertySetDecoratorScopeWeaver(IWeavingSettings weavingSettings)
+		public SetPropertyDecoratorScopeWeaver(IMethodWeavingSettings weavingSettings)
             : base(weavingSettings) {
         }
 

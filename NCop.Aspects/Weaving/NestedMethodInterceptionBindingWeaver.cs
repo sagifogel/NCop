@@ -7,12 +7,8 @@ namespace NCop.Aspects.Weaving
 {
     internal class NestedMethodInterceptionBindingWeaver : MethodInterceptionBindingWeaver
     {
-        internal NestedMethodInterceptionBindingWeaver(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
+        internal NestedMethodInterceptionBindingWeaver(IAspectMethodExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings)
             : base(aspectExpression, aspectDefinition, aspectWeavingSettings) {
-        }
-
-        protected override FieldInfo WeaveType() {
-            return base.WeaveType();
         }
     }
 }

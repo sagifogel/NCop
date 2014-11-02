@@ -12,17 +12,17 @@ namespace NCop.Aspects.Advices
 	{
 		private readonly OnMethodInvokeAdviceAttribute advice = null;
 
-		public OnMethodInvokeAdviceDefinition(OnMethodInvokeAdviceAttribute advice, MethodInfo adviceMethod)
+		internal OnMethodInvokeAdviceDefinition(OnMethodInvokeAdviceAttribute advice, MethodInfo adviceMethod)
 			: base(advice, adviceMethod) {
 			this.advice = advice;
 		}
 
-        public override IAdviceExpression Accept(AdviceVisitor visitor) {
+		public override IAdviceExpression Accept(AdviceVisitor visitor) {
 			return visitor.Visit(advice).Invoke(this);
 		}
 
-        public override void Accept(AdviceDiscoveryVisitor visitor) {
-            visitor.Visit(advice);
-        }
+		public override void Accept(AdviceDiscoveryVisitor visitor) {
+			visitor.Visit(advice);
+		}
 	}
 }

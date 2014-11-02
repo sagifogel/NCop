@@ -7,9 +7,9 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractArgumentsWeaver : IArgumentsWeaver, IArgumentsWeavingSettings
 	{   
-		protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
+		protected readonly IAspectMethodWeavingSettings aspectWeavingSettings = null;
 
-		internal AbstractArgumentsWeaver(IArgumentsWeavingSettings argumentsWeavingSettings, IAspectWeavingSettings aspectWeavingSettings) {
+		internal AbstractArgumentsWeaver(IArgumentsWeavingSettings argumentsWeavingSettings, IAspectMethodWeavingSettings aspectWeavingSettings) {
             ReturnType = argumentsWeavingSettings.ReturnType;
             AspectType = argumentsWeavingSettings.AspectType;
 			Parameters = new Type[argumentsWeavingSettings.Parameters.Length];
@@ -34,7 +34,7 @@ namespace NCop.Aspects.Weaving
 
 		public FieldInfo BindingsDependency { get; protected set; }
 
-		public IWeavingSettings WeavingSettings { get; protected set; }
+		public IMethodWeavingSettings WeavingSettings { get; protected set; }
 
         public IByRefArgumentsStoreWeaver ByRefArgumentsStoreWeaver { get; set; }
 

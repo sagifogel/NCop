@@ -3,13 +3,13 @@ using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class TopBindingOnMethodBoundaryAspectExpression : AbstractAspectExpression
+	internal class TopBindingOnMethodBoundaryAspectExpression : AbstractAspectMethodExpression
     {
-        internal TopBindingOnMethodBoundaryAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition)
+        internal TopBindingOnMethodBoundaryAspectExpression(IAspectMethodExpression aspectExpression, IAspectDefinition aspectDefinition)
             : base(aspectExpression, aspectDefinition) {
         }
 
-        public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
+		public override IAspectWeaver Reduce(IAspectMethodWeavingSettings aspectWeavingSettings) {
             var topBindingArgType = aspectDefinition.ToAspectArgumentImpl();
              var methodInfoImpl = aspectWeavingSettings.WeavingSettings.MethodInfoImpl;
 

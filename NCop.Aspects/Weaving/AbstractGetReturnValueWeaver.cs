@@ -11,11 +11,11 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractGetReturnValueWeaver : IMethodScopeWeaver
     {
-        protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
+        protected readonly IAspectMethodWeavingSettings aspectWeavingSettings = null;
         protected readonly ILocalBuilderRepository localBuilderRepository = null;
         protected readonly IArgumentsWeavingSettings argumentsWeavingSetings = null;
 
-        internal AbstractGetReturnValueWeaver(IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSetings) {
+        internal AbstractGetReturnValueWeaver(IAspectMethodWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSetings) {
             this.aspectWeavingSettings = aspectWeavingSettings;
             this.argumentsWeavingSetings = argumentsWeavingSetings;
             localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
