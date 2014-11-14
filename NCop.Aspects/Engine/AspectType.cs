@@ -9,6 +9,8 @@ namespace NCop.Aspects.Engine
 	{
 		OnMethodBoundaryAspect,
 		MethodInterceptionAspect,
-		PropertyInterceptionAspect
+		PropertyInterceptionAspect,
+        GetPropertyInterceptionAspect,
+        SetPropertyInterceptionAspect
 	}
 }

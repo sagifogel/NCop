@@ -18,7 +18,7 @@ namespace NCop.Aspects.Aspects
 			Member = member;
 			AspectDeclaringType = aspectDeclaringType;
 			advices = new AdviceDefinitionCollection();
-			BulidAdvices();
+            BulidAdvices();
 		}
 
 		public IAspect Aspect { get; private set; }
@@ -35,13 +35,13 @@ namespace NCop.Aspects.Aspects
 			}
 		}
 
-        protected bool TryBulidAdvice<TAdvice>(TMember member, Func<TAdvice, TMember, IAdviceDefinition> adviceDefinitionFactory) where TAdvice : AdviceAttribute {
+        protected bool TryBulidAdvice<TAdvice>(MethodInfo member, Func<TAdvice, MethodInfo, IAdviceDefinition> adviceDefinitionFactory) where TAdvice : AdviceAttribute {
 			var advice = member.GetCustomAttribute<TAdvice>(true);
 
 			return TryBulidAdvice(advice, member, adviceDefinitionFactory);
 		}
 
-        protected bool TryBulidAdvice<TAdvice>(TAdvice advice, TMember member, Func<TAdvice, TMember, IAdviceDefinition> adviceDefinitionFactory) where TAdvice : AdviceAttribute {
+        protected bool TryBulidAdvice<TAdvice>(TAdvice advice, MethodInfo member, Func<TAdvice, MethodInfo, IAdviceDefinition> adviceDefinitionFactory) where TAdvice : AdviceAttribute {
 			if (advice.IsNotNull()) {
 				advices.Add(adviceDefinitionFactory(advice, member));
 
@@ -51,7 +51,7 @@ namespace NCop.Aspects.Aspects
 			return false;
 		}
 
-		protected abstract void BulidAdvices();
+		public abstract void BulidAdvices();
 
 		public abstract IAspectExpressionBuilder Accept(IAspectDefinitionVisitor visitor);
 	}

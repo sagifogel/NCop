@@ -21,19 +21,19 @@ namespace NCop.Composite.Weaving
         }
 
         public IMethodWeaver Build() {
-			var weavingSettings = new MethodWeavingSettings(memberInfoImpl, implementationType, contractType, typeDefinition);
-            
-			if (compositeMethodMap.HasAspectDefinitions) {
+            var weavingSettings = new MethodWeavingSettings(memberInfoImpl, implementationType, contractType, typeDefinition);
+
+            if (compositeMethodMap.HasAspectDefinitions) {
                 var aspectWeavingSettings = new AspectMethodWeavingSettingsImpl {
                     WeavingSettings = weavingSettings,
                     AspectRepository = aspectWeavingServices.AspectRepository,
                     AspectArgsMapper = aspectWeavingServices.AspectArgsMapper
                 };
 
-				return new CompositeMethodWeaver(compositeMethodMap.AspectDefinitions, aspectWeavingSettings);
+                return new CompositeMethodWeaver(compositeMethodMap.AspectDefinitions, aspectWeavingSettings);
             }
 
-			return new MethodDecoratorWeaver(weavingSettings);
+            return new MethodDecoratorWeaver(weavingSettings);
         }
     }
 }

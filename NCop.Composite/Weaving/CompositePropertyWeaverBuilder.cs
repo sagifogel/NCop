@@ -10,31 +10,31 @@ using System.Text;
 
 namespace NCop.Composite.Weaving
 {
-	public class CompositePropertyWeaverBuilder : AbstractWeaverBuilder<PropertyInfo>, IPropertyWeaverBuilder
-	{
-		private readonly ICompositePropertyMap compositePropertyMap = null;
-		private readonly IAspectWeavingServices aspectWeavingServices = null;
+    public class CompositePropertyWeaverBuilder : AbstractWeaverBuilder<PropertyInfo>, IPropertyWeaverBuilder
+    {
+        private readonly ICompositePropertyMap compositePropertyMap = null;
+        private readonly IAspectWeavingServices aspectWeavingServices = null;
 
-		public CompositePropertyWeaverBuilder(ICompositePropertyMap compositePropertyMap, ITypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
-			: base(compositePropertyMap.ImplementationMember, compositePropertyMap.ImplementationType, compositePropertyMap.ContractType, typeDefinition) {
-			this.compositePropertyMap = compositePropertyMap;
-			this.aspectWeavingServices = aspectWeavingServices;
-		}
+        public CompositePropertyWeaverBuilder(ICompositePropertyMap compositePropertyMap, ITypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
+            : base(compositePropertyMap.ImplementationMember, compositePropertyMap.ImplementationType, compositePropertyMap.ContractType, typeDefinition) {
+            this.compositePropertyMap = compositePropertyMap;
+            this.aspectWeavingServices = aspectWeavingServices;
+        }
 
-		public IPropertyWeaver Build() {
-			var weavingSettings = new PropertyWeavingSettings(memberInfoImpl, implementationType, contractType, typeDefinition);
+        public IPropertyWeaver Build() {
+            var weavingSettings = new PropertyWeavingSettings(memberInfoImpl, implementationType, contractType, typeDefinition);
 
-			if (compositePropertyMap.HasAspectDefinitions) {
-				var aspectWeavingSettings = new AspectPropertyWeavingSettingsImpl {
-					WeavingSettings = weavingSettings,
-					AspectRepository = aspectWeavingServices.AspectRepository,
-					AspectArgsMapper = aspectWeavingServices.AspectArgsMapper
-				};
+            if (compositePropertyMap.HasAspectDefinitions) {
+                var aspectWeavingSettings = new AspectPropertyWeavingSettingsImpl {
+                    WeavingSettings = weavingSettings,
+                    AspectRepository = aspectWeavingServices.AspectRepository,
+                    AspectArgsMapper = aspectWeavingServices.AspectArgsMapper
+                };
 
-				return new PropertyDecoratorWeaver(memberInfoImpl, implementationType, contractType, typeDefinition);
-			}
+                return new CompositePropertyWeaver(compositePropertyMap.AspectDefinitions, aspectWeavingSettings);
+            }
 
-			return new PropertyDecoratorWeaver(memberInfoImpl, implementationType, contractType, typeDefinition);
-		}
-	}
+            return new PropertyDecoratorWeaver(weavingSettings);
+        }
+    }
 }

@@ -82,13 +82,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Advices\AbstractAdviceDefinition.cs" />
-    <Compile Include="Advices\AbstractPropertyAdviceDefinition.cs" />
     <Compile Include="Advices\AdviceType.cs" />
     <Compile Include="Advices\AviceDefinitionCollection.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Advices\OnGetPropertyInvokeAdviceAttribute.cs" />
-    <Compile Include="Advices\OnPropertyInvokeAdviceAttribute.cs" />
     <Compile Include="Advices\OnGetPropertyInvokeAdviceDefinition.cs" />
     <Compile Include="Advices\OnSetPropertyInvokeAdviceAttribute.cs" />
     <Compile Include="Advices\OnSetPropertyInvokeAdviceDefinition.cs" />
@@ -98,6 +96,8 @@
     <Compile Include="Aspects\AbstractMethodAspectDefinition.cs" />
     <Compile Include="Aspects\AbstractPropertyAspectDefinition.cs" />
     <Compile Include="Aspects\PropertyInterceptionAspectDefinition.cs" />
+    <Compile Include="Aspects\SetPropertyInterceptionAspectDefinition.cs" />
+    <Compile Include="Aspects\GetPropertyInterceptionAspectDefinition.cs" />
     <Compile Include="Engine\AbstractMethodAdviceArgs.cs" />
     <Compile Include="Engine\AbstractPropertyAdviceArgs.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`2.cs" />
@@ -165,6 +165,7 @@
     <Compile Include="Weaving\AbstractMethodInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\AbstractTopOnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\AspectArgsMethodWeaver.cs" />
+    <Compile Include="Weaving\GetPropertyAspectWeaver.cs" />
     <Compile Include="Weaving\AspectPropertyWeavingSettingsImpl.cs" />
     <Compile Include="Weaving\BeginCatchBlockMethodScopeWeaver.cs" />
     <Compile Include="Weaving\BindingOnMethodExecutionArgumentsWeaver.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="Weaving\MethodInvokerAspectWeaver.cs" />
     <Compile Include="Weaving\BindingByRefArgumentsWeaverImpl.cs" />
     <Compile Include="Weaving\NullObjectByRefArgumentsWeaver.cs" />
+    <Compile Include="Weaving\SetPropertyAspectWeaver.cs" />
     <Compile Include="Weaving\TopAspectByRefArgumentsStoreWeaver.cs" />
     <Compile Include="Weaving\IByRefArgumentsStoreWeaver.cs" />
     <Compile Include="Weaving\MethodDecoratorByRefArgumentsStoreWeaver.cs" />

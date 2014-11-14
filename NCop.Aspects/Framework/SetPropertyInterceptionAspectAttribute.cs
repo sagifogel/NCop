@@ -8,10 +8,11 @@ using NCop.Aspects.Advices;
 
 namespace NCop.Aspects.Framework
 {
-    public class SetPropertyInterceptionAspectAttribute : PropertyInterceptionAspectAttribute
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    public class SetPropertyInterceptionAspectAttribute : AspectAttribute
     {
-		public SetPropertyInterceptionAspectAttribute(Type aspectType)
-			: base(aspectType) {
-		}
+        public SetPropertyInterceptionAspectAttribute(Type aspectType)
+            : base(aspectType) {
+        }
     }
 }

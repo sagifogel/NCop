@@ -4,7 +4,8 @@ using NCop.Aspects.Aspects;
 
 namespace NCop.Aspects.Framework
 {
-    public class GetPropertyInterceptionAspectAttribute : PropertyInterceptionAspectAttribute
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    public class GetPropertyInterceptionAspectAttribute : AspectAttribute
     {
 		public GetPropertyInterceptionAspectAttribute(Type aspectType)
 			: base(aspectType) {

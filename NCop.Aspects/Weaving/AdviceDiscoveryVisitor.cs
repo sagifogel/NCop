@@ -17,7 +17,11 @@ namespace NCop.Aspects.Weaving
         internal bool HasOnMethodSuccessAdvice { get; private set; }
 
         internal bool HasOnMethodExceptionAdvice { get; private set; }
-        
+
+        internal bool HasOnSetPropertyInvokeAdvice { get; private set; }
+
+        internal bool HasOnGetPropertyInvokeAdvice { get; private set; }
+
         internal FinallyAdviceAttribute FinallyAdvice { get; private set; }
 
         internal OnMethodEntryAdviceAttribute OnMethodEntryAdvice { get; private set; }
@@ -27,6 +31,10 @@ namespace NCop.Aspects.Weaving
         internal OnMethodSuccessAdviceAttribute OnMethodSuccessAdvice { get; private set; }
 
         internal OnMethodExceptionAdviceAttribute OnMethodExceptionAdvice { get; private set; }
+        
+        internal OnGetPropertyInvokeAdviceAttribute OnGetPropertyInvokeAdvice { get; private set; }
+
+        internal OnSetPropertyInvokeAdviceAttribute OnSetPropertyInvokeAdvice { get; private set; }
 
         internal void Visit(FinallyAdviceAttribute advice) {
             FinallyAdvice = advice;
@@ -54,8 +62,13 @@ namespace NCop.Aspects.Weaving
         }
 
 		internal void Visit(OnGetPropertyInvokeAdviceAttribute advice) {
-			OnMethodInvokeAdvice = advice;
-            HasOnMethodExceptionAdvice = true;
-        }		
+			OnGetPropertyInvokeAdvice = advice;
+            HasOnGetPropertyInvokeAdvice = true;
+        }
+
+        internal void Visit(OnSetPropertyInvokeAdviceAttribute advice) {
+            OnSetPropertyInvokeAdvice = advice;
+            HasOnSetPropertyInvokeAdvice = true;
+        }
     }
 }

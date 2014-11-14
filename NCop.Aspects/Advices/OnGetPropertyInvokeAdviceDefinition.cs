@@ -9,10 +9,21 @@ using NCop.Aspects.Weaving.Expressions;
 
 namespace NCop.Aspects.Advices
 {
-    internal class OnGetPropertyInvokeAdviceDefinition : AbstractPropertyAdviceDefinition
+    internal class OnGetPropertyInvokeAdviceDefinition : AbstractAdviceDefinition
     {
-        internal OnGetPropertyInvokeAdviceDefinition(OnMethodInvokeAdviceAttribute advice, MethodInfo adviceMethod)
+        private readonly OnGetPropertyInvokeAdviceAttribute advice = null;
+
+        internal OnGetPropertyInvokeAdviceDefinition(OnGetPropertyInvokeAdviceAttribute advice, MethodInfo adviceMethod)
             : base(advice, adviceMethod) {
+            this.advice = advice;
+        }
+
+        public override IAdviceExpression Accept(AdviceVisitor visitor) {
+            return visitor.Visit(advice).Invoke(this);
+        }
+
+        public override void Accept(AdviceDiscoveryVisitor visitor) {
+            visitor.Visit(advice);
         }
     }
 }

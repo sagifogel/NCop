@@ -131,5 +131,13 @@ namespace NCop.Aspects.Weaving.Expressions
         public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(PropertyInterceptionAspectAttribute aspect) {
             throw new NotImplementedException();
         }
+
+        public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(GetPropertyInterceptionAspectAttribute aspect) {
+            throw new NotImplementedException();
+        }
+
+        public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(SetPropertyInterceptionAspectAttribute aspect) {
+            throw new NotImplementedException();
+        }
     }
 }

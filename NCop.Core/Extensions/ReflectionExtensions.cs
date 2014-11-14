@@ -97,10 +97,10 @@ namespace NCop.Core.Extensions
             var interfaces = new HashSet<Type>(type.GetInterfaces());
 
             if (type.IsInterface) {
-				interfaces.Add(type);
+                interfaces.Add(type);
             }
 
-			return interfaces;
+            return interfaces;
         }
 
         public static bool HasCovariantType(this ISet<Type> set, Type inspected) {
@@ -122,12 +122,6 @@ namespace NCop.Core.Extensions
                        .ToArray();
         }
 
-		public static PropertyInfo[] GetOverridenProperties(this Type type) {
-			return type.GetProperties()
-					   .Where(property => property.IsOverride(type))
-					   .ToArray();
-		}
-
         public static bool IsOverride(this MemberInfo methodInfo, Type declaringType) {
             return methodInfo.DeclaringType == declaringType;
         }
@@ -138,6 +132,10 @@ namespace NCop.Core.Extensions
 
         public static ParameterBuilder SetCustomAttribute<TAttribute>(this ParameterBuilder builder) where TAttribute : Attribute {
             return builder.SetCustomAttribute<ParameterBuilder, TAttribute>(builder.SetCustomAttribute);
+        }
+
+        public static bool HasCustomAttributes(this MethodInfo methodInfo) {
+            return methodInfo.GetCustomAttributes(true).Length > 0;
         }
 
         private static TBuilder SetCustomAttribute<TBuilder, TAttribute>(this TBuilder builder, Action<CustomAttributeBuilder> customBuilder) where TAttribute : Attribute {
@@ -211,7 +209,7 @@ namespace NCop.Core.Extensions
         public static bool Is<TCompareTo>(this object @object) {
             return typeof(TCompareTo).IsAssignableFrom(@object.GetType());
         }
-        
+
         public static Type GetDelegateType(this Type[] parameters, bool isFunction) {
             var delegateFactory = isFunction ? Expression.GetFuncType : (Func<Type[], Type>)Expression.GetActionType;
 

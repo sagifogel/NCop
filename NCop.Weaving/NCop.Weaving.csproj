@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="AbstractMemberSignatureWeaver.cs" />
     <Compile Include="AbstractMethodScopeWeaver.cs" />
+    <Compile Include="AbstractPropertyWeaver.cs" />
     <Compile Include="AbstractTypeWeaverBuilder.cs" />
     <Compile Include="AbstractWeaverBuilder.cs" />
     <Compile Include="DelegateMethodScopeWeaver.cs" />

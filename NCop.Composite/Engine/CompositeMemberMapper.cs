@@ -23,9 +23,13 @@ namespace NCop.Composite.Engine
         private void MapMethods(IAspectsMap aspectsMap, IEnumerable<IAspectMethodMap> aspetMappedMethods) {
             var mappedMethodsEnumerable = from mapped in aspetMappedMethods
                                           from aspectMap in aspectsMap.Where(map => {
-                                              var method = map.Member as MethodInfo;
+                                              if (map.Member.MemberType == MemberTypes.Method) {
+                                                  var method = map.Member as MethodInfo;
 
-                                              return method.IsMatchedTo(mapped.ImplementationMember);
+                                                  return method.IsMatchedTo(mapped.ImplementationMember);
+                                              }
+
+                                              return false;
                                           }).DefaultIfEmpty()
                                           select new CompositeMethodMap(mapped.ContractType,
                                                                         mapped.ImplementationType,
@@ -39,9 +43,13 @@ namespace NCop.Composite.Engine
         private void MapProperties(IAspectsMap aspectsMap, IEnumerable<IAspectPropertyMap> aspectMappedProperties) {
             var mappedPropertiesEnumerable = from mapped in aspectMappedProperties
                                              from aspectMap in aspectsMap.Where(map => {
-                                                 var method = map.Member as PropertyInfo;
+                                                 if (map.Member.MemberType == MemberTypes.Property) {
+                                                     var method = map.Member as PropertyInfo;
 
-                                                 return method.IsMatchedTo(mapped.ImplementationMember);
+                                                     return method.IsMatchedTo(mapped.ImplementationMember);
+                                                 }
+
+                                                 return false;
                                              }).DefaultIfEmpty()
                                              select new CompositePropertyMap(mapped.ContractType,
                                                                              mapped.ImplementationType,

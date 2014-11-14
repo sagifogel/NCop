@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using NCop.Aspects.Advices;
 using NCop.Aspects.Engine;
 using NCop.Aspects.Framework;
@@ -27,24 +24,21 @@ namespace NCop.Aspects.Aspects
             }
         }
 
-        protected override void BulidAdvices() {
+        public override void BulidAdvices() {
             Aspect.AspectType
-                 .GetOverridenProperties()
-                 .ForEach(property => {
-                     var propertyInvokeAttribute = property.GetCustomAttribute<OnPropertyInvokeAdviceAttribute>(true);
+                 .GetOverridenMethods()
+                 .ForEach(method => {
+                     if (method.IsDefined<OnGetPropertyInvokeAdviceAttribute>()) {
+                         var getPropertyAspectAttribute = new GetPropertyInterceptionAspectAttribute(Aspect.AspectType);
+                         var getPropertyAspectDefinition = new GetPropertyInterceptionAspectDefinition(getPropertyAspectAttribute, AspectDeclaringType, method);
 
-                     if (propertyInvokeAttribute.IsNotNull()) {
-                         if (property.GetMethod.IsNotNull()) {
-                             TryBulidAdvice<OnMethodInvokeAdviceAttribute>(property, (advice, mi) => {
-                                 return new OnMethodInvokeAdviceDefinition(advice, mi.GetMethod);
-                             });
-                         }
+                         advices.AddRange(getPropertyAspectDefinition.Advices);
+                     }
+                     else if (method.IsDefined<OnSetPropertyInvokeAdviceAttribute>()) {
+                         var setPropertyAspectAttribute = new SetPropertyInterceptionAspectAttribute(Aspect.AspectType);
+                         var setPropertyAspectDefinition = new SetPropertyInterceptionAspectDefinition(setPropertyAspectAttribute, AspectDeclaringType, method);
 
-                         if (property.SetMethod.IsNotNull()) {
-                             TryBulidAdvice<OnMethodInvokeAdviceAttribute>(property, (advice, mi) => {
-                                 return new OnSetPropertyInvokeAdviceDefinition(advice, mi.SetMethod);
-                             });
-                         }
+                         advices.AddRange(setPropertyAspectDefinition.Advices);
                      }
                  });
         }

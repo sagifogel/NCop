@@ -32,7 +32,8 @@ namespace NCop.Aspects.Engine
                     });
 
                     return methodInterceptionAspectDefinitions.Cast<IAspectDefinition>()
-                                                              .Concat(onMethodBoundaryAspectDefinitions);
+                                                              .Concat(onMethodBoundaryAspectDefinitions)
+                                                              .Concat(propertyInterceptionAspectsDefinitions);
                 });
 
                 var aspectsCollection = new AspectDefinitionCollection(aspects) as IAspectDefinitionCollection;

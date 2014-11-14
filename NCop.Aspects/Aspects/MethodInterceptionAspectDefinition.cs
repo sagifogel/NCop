@@ -23,7 +23,7 @@ namespace NCop.Aspects.Aspects
 			}
 		}
 
-		protected override void BulidAdvices() {
+        public override void BulidAdvices() {
 			Aspect.AspectType
 				 .GetOverridenMethods()
 				 .ForEach(method => {

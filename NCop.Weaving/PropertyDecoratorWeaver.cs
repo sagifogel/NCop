@@ -8,52 +8,32 @@ using System.Text;
 
 namespace NCop.Weaving
 {
-    public class PropertyDecoratorWeaver : IPropertyWeaver
+    public class PropertyDecoratorWeaver : AbstractPropertyWeaver
     {
-        private readonly Type contractType = null;
-        private readonly Type implementationType = null;
-		private readonly PropertyInfo propertyInfoImpl = null;
-		private readonly ITypeDefinition typeDefinition = null;
-
-        public PropertyDecoratorWeaver(PropertyInfo propertyInfoImpl, Type implementationType, Type contractType, ITypeDefinition typeDefinition) {
-            this.contractType = contractType;
-			this.typeDefinition = typeDefinition;
-			this.propertyInfoImpl = propertyInfoImpl;
-            this.implementationType = implementationType;
+        public PropertyDecoratorWeaver(IPropertyWeavingSettings weavingSettings)
+            : base(weavingSettings) {
         }
 
-        public IMethodWeaver GetGetMethod() {
-            if (propertyInfoImpl.CanRead) {
-                var getMethodImpl = propertyInfoImpl.GetGetMethod();
-				var weavingSettings = new MethodWeavingSettings(getMethodImpl, implementationType, contractType, typeDefinition);
-				
-				return new GetPropertyDecoratorWeaver(weavingSettings);
+        public override IMethodWeaver GetGetMethod() {
+            if (CanRead) {
+                var getMethodImpl = PropertyInfoImpl.GetGetMethod();
+                var weavingSettings = new MethodWeavingSettings(getMethodImpl, ImplementationType, ContractType, TypeDefinition);
+
+                return new GetPropertyDecoratorWeaver(weavingSettings);
             }
 
             return null;
         }
 
-        public IMethodWeaver GetSetMethod() {
-            if (propertyInfoImpl.CanWrite) {
-                var setMethodImpl = propertyInfoImpl.GetSetMethod();
-				var weavingSettings = new MethodWeavingSettings(setMethodImpl, implementationType, contractType, typeDefinition);
+        public override IMethodWeaver GetSetMethod() {
+            if (CanWrite) {
+                var setMethodImpl = PropertyInfoImpl.GetSetMethod();
+                var weavingSettings = new MethodWeavingSettings(setMethodImpl, ImplementationType, ContractType, TypeDefinition);
 
-				return new SetPropertyDecoratorWeaver(weavingSettings);
+                return new SetPropertyDecoratorWeaver(weavingSettings);
             }
 
             return null;
-        }
-
-        public bool CanRead {
-            get {
-                return propertyInfoImpl.CanRead;     
-            }
-        }
-
-        public bool CanWrite {
-            get {
-                return propertyInfoImpl.CanWrite;
-            }
         }
     }
 }

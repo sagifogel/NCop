@@ -27,7 +27,7 @@ namespace NCop.Aspects.Aspects
 			return visitor.Visit(aspect).Invoke(this);
 		}
 
-		protected override void BulidAdvices() {
+        public override void BulidAdvices() {
 			Aspect.AspectType
 				 .GetOverridenMethods()
 				 .ForEach(method => {
