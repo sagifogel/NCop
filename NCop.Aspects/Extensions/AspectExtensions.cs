@@ -26,7 +26,9 @@ namespace NCop.Aspects.Extensions
         internal static bool IsPropertyLevelAspect(this IAspect aspect) {
             var type = aspect.GetType();
 
-            return typeof(PropertyInterceptionAspectAttribute).IsAssignableFrom(type);
+            return typeof(PropertyInterceptionAspectAttribute).IsAssignableFrom(type) ||
+                   typeof(GetPropertyInterceptionAspectAttribute).IsAssignableFrom(type) ||
+                   typeof(SetPropertyInterceptionAspectAttribute).IsAssignableFrom(type);
         }
 
         internal static Type GetArgumentType(this IAspectDefinition aspectDefinition) {
