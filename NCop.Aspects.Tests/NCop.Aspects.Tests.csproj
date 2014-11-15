@@ -170,6 +170,7 @@
     <Compile Include="FunctionWithoutArgumentsAspect\FunctionWithoutArgumentsAspectSubjects.cs" />
     <Compile Include="FunctionWithoutArgumentsAspect\FunctionWithoutArgumentsAspectTest.cs" />
     <Compile Include="MethodToAspectValidator.cs" />
+    <Compile Include="PropertyToAspectValidator.cs" />
     <Compile Include="AspctsOrderedJoinPoints.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

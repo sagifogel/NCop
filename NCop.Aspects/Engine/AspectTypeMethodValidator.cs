@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using NCop.Aspects.Engine;
-using NCop.Aspects.Exceptions;
-using NCop.Aspects.Framework;
-using NCop.Core.Exceptions;
-using NCop.Core.Extensions;
-using NCop.Aspects.Extensions;
-using NCop.Aspects.Properties;
 using NCop.Aspects.Aspects;
+using NCop.Aspects.Exceptions;
+using NCop.Aspects.Extensions;
+using NCop.Aspects.Framework;
+using NCop.Aspects.Properties;
+using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Engine
 {
@@ -45,7 +41,7 @@ namespace NCop.Aspects.Engine
             aspectParameters = method.GetParameters();
 
             if (aspectParameters.Length == 0) {
-                throw new AspectTypeMismatchException(Resources.AspectParametersMismatach.Fmt(methodInfo.Name));
+                throw new AspectTypeMismatchException(Resources.AspectMethodParametersMismatach.Fmt(methodInfo.Name));
             }
 
             methodParameters = methodInfo.GetParameters();
@@ -85,7 +81,7 @@ namespace NCop.Aspects.Engine
             }
 
             if (!ValidateParameters(methodParameters, comparedTypes)) {
-                throw new AspectTypeMismatchException(Resources.AspectParametersMismatach.Fmt(methodInfo.Name));
+                throw new AspectTypeMismatchException(Resources.AspectMethodParametersMismatach.Fmt(methodInfo.Name));
             }
         }
 

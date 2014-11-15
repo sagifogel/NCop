@@ -14,7 +14,6 @@ namespace NCop.Samples
 
     public interface IDeveloper
     {
-        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         string Code { get; }
 
         void Do();
@@ -23,6 +22,7 @@ namespace NCop.Samples
     public class CSharpDeveloperMixin : IDeveloper
     {
         public string Code {
+            [GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
             get {
                 return "C#";
             }

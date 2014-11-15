@@ -109,6 +109,7 @@
     <Compile Include="Engine\ActionExecutionArgsImpl`8.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`1.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl.cs" />
+    <Compile Include="Engine\AspectTypePropertyValidator.cs" />
     <Compile Include="Engine\IFunctionArgs.cs" />
     <Compile Include="Engine\IActionArgs`1.cs" />
     <Compile Include="Engine\IActionArgs`2.cs" />
@@ -120,6 +121,9 @@
     <Compile Include="Engine\IActionArgs`8.cs" />
     <Compile Include="Engine\IActionArgs.cs" />
     <Compile Include="Engine\IMethodAdviceArgs.cs" />
+    <Compile Include="Engine\IPropertyInterceptionArgs.cs" />
+    <Compile Include="Engine\IPropertyInterceptionAspect`1.cs" />
+    <Compile Include="Engine\IPropertyInterceptionAspect.cs" />
     <Compile Include="Engine\PropertyInterceptionArgsImpl.cs" />
     <Compile Include="Exceptions\AspectWeavingException.cs">
       <AutoGen>True</AutoGen>

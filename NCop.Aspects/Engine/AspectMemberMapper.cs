@@ -30,8 +30,8 @@ namespace NCop.Aspects.Engine
 
                 return new AspectMethodMap(map.ContractType,
                                            map.ImplementationType,
-                                           map.ImplementationMember,
                                            map.ContractMember,
+                                           map.ImplementationMember,
                                            aspectMethod);
             });
 
@@ -49,8 +49,8 @@ namespace NCop.Aspects.Engine
 
                 return new AspectPropertyMap(map.ContractType,
                                              map.ImplementationType,
-                                             map.ImplementationMember,
                                              map.ContractMember,
+                                             map.ImplementationMember,
                                              aspectProperty);
             });
 

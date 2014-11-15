@@ -120,8 +120,11 @@
   <data name="ActionAspectMismatch" xml:space="preserve">
     <value>OnActionBoundaryAspcets are valid only on method that has return type of  void. Use one of the OnFunctionBoundaryAspcets types.</value>
   </data>
-  <data name="AspectParametersMismatach" xml:space="preserve">
+  <data name="AspectMethodParametersMismatach" xml:space="preserve">
     <value>Method {0} has different set of parameters than the parameters of one of its annotated aspects.</value>
+  </data>
+  <data name="AspectPropertyParameterMismatach" xml:space="preserve">
+    <value>Property {0} has different property type than the one of its annotated aspects.</value>
   </data>
   <data name="AspectReturnTypeMismatch" xml:space="preserve">
     <value>Method {0} has a different return type than the return type of one of its annotated aspects.</value>
@@ -130,15 +133,27 @@
     <value>The type {0} does not have a default constructor.</value>
   </data>
   <data name="EmitLoadLocalAddressAtTopAspectIsInvalid" xml:space="preserve">
-    <value>Emit load local address in top aspect is not permitted</value>
+    <value>Emit load local address in top aspect is not permitted.</value>
   </data>
   <data name="FunctionAspectMismatch" xml:space="preserve">
     <value>OnFunctionBoundaryAspcets are valid only on method that has return type other than void. Use one of the OnActionBoundaryAspect types.</value>
+  </data>
+  <data name="IllegalMethodAspectAnnotation" xml:space="preserve">
+    <value>Annotaion of OnMethodBoundaryAspect and MethodInterceptionAspect are valid only on methods.</value>
+  </data>
+  <data name="IllegalPropertyAspectAnnotation" xml:space="preserve">
+    <value>Annotaion of PropertyInterceptionAspect are valid only on properties.</value>
   </data>
   <data name="MethodInterceptionAspectAttributeErrorInitialization" xml:space="preserve">
     <value>MethodInterceptionAspectAttribute can only be initialized with IMethodInterceptionAspect as an aspect type.</value>
   </data>
   <data name="OnMethodBoundaryAspectAttributeErrorInitialization" xml:space="preserve">
     <value>OnMethodBoundaryAspectAttribute can only be initialized with IOnMethodBoundaryAspect as an aspect type.</value>
+  </data>
+  <data name="OnMethodBoundaryAspectAttributeErrorInitialization1" xml:space="preserve">
+    <value>OnMethodBoundaryAspectAttribute can only be initialized with IOnMethodBoundaryAspect as an aspect type.</value>
+  </data>
+  <data name="PropertyInterceptionAspectAttributeErrorInitialization" xml:space="preserve">
+    <value>PropertyInterceptionAspectAttribute can only be initialized with IPropertyInterceptionAspect as an aspect type.</value>
   </data>
 </root>

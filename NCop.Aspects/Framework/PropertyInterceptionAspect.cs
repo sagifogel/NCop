@@ -4,7 +4,7 @@ using NCop.Aspects.Engine;
 
 namespace NCop.Aspects.Framework
 {
-	public abstract class PropertyInterceptionAspect<TArg> : IMethodInterceptionAspect
+    public abstract class PropertyInterceptionAspect<TArg> : IPropertyInterceptionAspect<TArg>, IPropertyInterceptionAspect
 	{
         [OnGetPropertyInvokeAdviceAttribute]
         public virtual void OnGetValue(PropertyInterceptionArgs<TArg> args) {

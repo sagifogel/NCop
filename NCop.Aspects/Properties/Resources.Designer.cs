@@ -72,9 +72,18 @@ namespace NCop.Aspects.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Method {0} has different set of parameters than the parameters of one of its annotated aspects..
         /// </summary>
-        internal static string AspectParametersMismatach {
+        internal static string AspectMethodParametersMismatach {
             get {
-                return ResourceManager.GetString("AspectParametersMismatach", resourceCulture);
+                return ResourceManager.GetString("AspectMethodParametersMismatach", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Property {0} has different property type than the one of its annotated aspects..
+        /// </summary>
+        internal static string AspectPropertyParameterMismatach {
+            get {
+                return ResourceManager.GetString("AspectPropertyParameterMismatach", resourceCulture);
             }
         }
         
@@ -97,7 +106,7 @@ namespace NCop.Aspects.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Emit load local address in top aspect is not permitted.
+        ///   Looks up a localized string similar to Emit load local address in top aspect is not permitted..
         /// </summary>
         internal static string EmitLoadLocalAddressAtTopAspectIsInvalid {
             get {
@@ -111,6 +120,24 @@ namespace NCop.Aspects.Properties {
         internal static string FunctionAspectMismatch {
             get {
                 return ResourceManager.GetString("FunctionAspectMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Annotaion of OnMethodBoundaryAspect and MethodInterceptionAspect are valid only on methods..
+        /// </summary>
+        internal static string IllegalMethodAspectAnnotation {
+            get {
+                return ResourceManager.GetString("IllegalMethodAspectAnnotation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Annotaion of PropertyInterceptionAspect are valid only on properties..
+        /// </summary>
+        internal static string IllegalPropertyAspectAnnotation {
+            get {
+                return ResourceManager.GetString("IllegalPropertyAspectAnnotation", resourceCulture);
             }
         }
         
@@ -129,6 +156,24 @@ namespace NCop.Aspects.Properties {
         internal static string OnMethodBoundaryAspectAttributeErrorInitialization {
             get {
                 return ResourceManager.GetString("OnMethodBoundaryAspectAttributeErrorInitialization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OnMethodBoundaryAspectAttribute can only be initialized with IOnMethodBoundaryAspect as an aspect type..
+        /// </summary>
+        internal static string OnMethodBoundaryAspectAttributeErrorInitialization1 {
+            get {
+                return ResourceManager.GetString("OnMethodBoundaryAspectAttributeErrorInitialization1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PropertyInterceptionAspectAttribute can only be initialized with IPropertyInterceptionAspect as an aspect type..
+        /// </summary>
+        internal static string PropertyInterceptionAspectAttributeErrorInitialization {
+            get {
+                return ResourceManager.GetString("PropertyInterceptionAspectAttributeErrorInitialization", resourceCulture);
             }
         }
     }

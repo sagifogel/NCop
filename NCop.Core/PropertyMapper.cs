@@ -33,8 +33,8 @@ namespace NCop.Core
 
 					return new PropertyMap(map.ContractType,
 										   map.ImplementationType,
-										   match.ImplProperty,
-										   match.ContractProperty);
+										   match.ContractProperty,
+                                           match.ImplProperty);
 				});
 			});
 

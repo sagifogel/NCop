@@ -23,6 +23,12 @@ namespace NCop.Aspects.Extensions
                    typeof(MethodInterceptionAspectAttribute).IsAssignableFrom(type);
         }
 
+        internal static bool IsPropertyLevelAspect(this IAspect aspect) {
+            var type = aspect.GetType();
+
+            return typeof(PropertyInterceptionAspectAttribute).IsAssignableFrom(type);
+        }
+
         internal static Type GetArgumentType(this IAspectDefinition aspectDefinition) {
             var aspectType = aspectDefinition.Aspect.AspectType;
             var overridenMethods = aspectType.GetOverridenMethods();

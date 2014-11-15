@@ -7,7 +7,7 @@ using NCop.Aspects.Engine;
 
 namespace NCop.Aspects.Framework
 {
-    public abstract class PropertyInterceptionArgs<TArg> : AbstractPropertyAdviceArgs, IFunctionInterceptionArgs
+    public abstract class PropertyInterceptionArgs<TArg> : AbstractPropertyAdviceArgs, IPropertyInterceptionArgs
 	{
         public abstract void ProceedSetValue();
         public abstract void ProceedGetValue();

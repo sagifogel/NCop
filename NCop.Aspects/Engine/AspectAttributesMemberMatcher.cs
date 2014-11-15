@@ -14,32 +14,65 @@ namespace NCop.Aspects.Engine
     {
         public AspectAttributesMemberMatcher(Type aspectDeclaringType, IAspectMemebrsCollection aspectMembersCollection) {
             Values = aspectMembersCollection.Select(aspectMembers => {
+                var target = aspectMembers.Target;
                 var aspects = aspectMembers.Members.SelectMany(member => {
-                    var onMethodBoundaryAspects = member.GetCustomAttributes<OnMethodBoundaryAspectAttribute>();
-                    var methodInterceptionAspects = member.GetCustomAttributes<MethodInterceptionAspectAttribute>();
-					var propertyInterceptionAspects = member.GetCustomAttributes<PropertyInterceptionAspectAttribute>();
+                    if (member.MemberType == MemberTypes.Method) {
+                        return CollectMethodsAspectDefinitions(member as MethodInfo, aspectDeclaringType, target);
+                    }
 
-                    var onMethodBoundaryAspectDefinitions = onMethodBoundaryAspects.Select(aspect => {
-						return new OnMethodBoundaryAspectDefinition(aspect, aspectDeclaringType, aspectMembers.Target);
-                    });
-
-                    var methodInterceptionAspectDefinitions = methodInterceptionAspects.Select(aspect => {
-						return new MethodInterceptionAspectDefinition(aspect, aspectDeclaringType, aspectMembers.Target);
-                    });
-
-                    var propertyInterceptionAspectsDefinitions = propertyInterceptionAspects.Select(aspect => {
-                        return new PropertyInterceptionAspectDefinition(aspect, aspectDeclaringType, aspectMembers.Target);
-                    });
-
-                    return methodInterceptionAspectDefinitions.Cast<IAspectDefinition>()
-                                                              .Concat(onMethodBoundaryAspectDefinitions)
-                                                              .Concat(propertyInterceptionAspectsDefinitions);
+                    return CollectPropertiesAspectDefinitions(member as PropertyInfo, aspectDeclaringType, target);
                 });
 
                 var aspectsCollection = new AspectDefinitionCollection(aspects) as IAspectDefinitionCollection;
 
                 return Tuple.Create(aspectMembers.Target, aspectsCollection);
             });
+        }
+
+        private IEnumerable<IAspectDefinition> CollectMethodsAspectDefinitions(MethodInfo member, Type aspectDeclaringType, MemberInfo target) {
+            var onMethodBoundaryAspects = member.GetCustomAttributes<OnMethodBoundaryAspectAttribute>();
+            var methodInterceptionAspects = member.GetCustomAttributes<MethodInterceptionAspectAttribute>();
+
+            var onMethodBoundaryAspectDefinitions = onMethodBoundaryAspects.Select(aspect => {
+                return new OnMethodBoundaryAspectDefinition(aspect, aspectDeclaringType, target);
+            });
+
+            var methodInterceptionAspectDefinitions = methodInterceptionAspects.Select(aspect => {
+                return new MethodInterceptionAspectDefinition(aspect, aspectDeclaringType, target);
+            });
+
+            return methodInterceptionAspectDefinitions.Cast<IAspectDefinition>()
+                                                      .Concat(onMethodBoundaryAspectDefinitions);
+        }
+
+        private IEnumerable<IAspectDefinition> CollectPropertiesAspectDefinitions(PropertyInfo member, Type aspectDeclaringType, MemberInfo target) {
+            var propertyInterceptionAspects = member.GetCustomAttributes<PropertyInterceptionAspectAttribute>();
+            IEnumerable<IAspectDefinition> aspectDefinitions = propertyInterceptionAspects.Select(aspect => {
+                return new PropertyInterceptionAspectDefinition(aspect, aspectDeclaringType, target);
+            });
+
+            if (aspectDefinitions.IsNullOrEmpty()) {
+                var getMethod = member.GetGetMethod();
+                var setMethod = member.GetSetMethod();
+
+                if (getMethod.IsNotNull()) {
+                    var getPropertyInterceptionAspects = getMethod.GetCustomAttributes<GetPropertyInterceptionAspectAttribute>();
+
+                    aspectDefinitions = getPropertyInterceptionAspects.Select(aspect => {
+                        return new GetPropertyInterceptionAspectDefinition(aspect, aspectDeclaringType, getMethod);
+                    });
+                }
+
+                if (setMethod.IsNotNull()) {
+                    var setPropertyInterceptionAspects = setMethod.GetCustomAttributes<SetPropertyInterceptionAspectAttribute>();
+
+                    aspectDefinitions = aspectDefinitions.Concat(setPropertyInterceptionAspects.Select(aspect => {
+                        return new SetPropertyInterceptionAspectDefinition(aspect, aspectDeclaringType, setMethod);
+                    }));
+                }
+            }
+
+            return aspectDefinitions;
         }
     }
 }

@@ -37,8 +37,8 @@ namespace NCop.Core
 
 					return new MethodMap(map.ContractType,
 										 map.ImplementationType,
-										 match.ImplMethod,
-										 match.ContractMethod);
+                                         match.ContractMethod,
+										 match.ImplMethod);
 				});
 			});
 
