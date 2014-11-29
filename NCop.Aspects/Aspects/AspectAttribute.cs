@@ -13,7 +13,7 @@ namespace NCop.Aspects.Aspects
 {
 	public abstract class AspectAttribute : Attribute, IAspect
 	{
-		public AspectAttribute(Type aspectType) {
+		protected AspectAttribute(Type aspectType) {
             var lifetimeStrategyAttr = aspectType.GetCustomAttribute<AspectLifetimeStrategyAttribute>();
             var lifetimeStrategy = (lifetimeStrategyAttr ?? new SingletonAspectAttribute()).LifetimeStrategy;
             
@@ -23,6 +23,6 @@ namespace NCop.Aspects.Aspects
 
 		public int AspectPriority { get; set; }
 		public Type AspectType { get; private set; }
-        public LifetimeStrategy LifetimeStrategy { get; private set; }
+        public LifetimeStrategy LifetimeStrategy { get; internal set; }
     }
 }

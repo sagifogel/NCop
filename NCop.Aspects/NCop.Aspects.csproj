@@ -95,7 +95,6 @@
     </Compile>
     <Compile Include="Aspects\AbstractMethodAspectDefinition.cs" />
     <Compile Include="Aspects\AbstractPropertyAspectDefinition.cs" />
-    <Compile Include="Aspects\PropertyInterceptionAspectDefinition.cs" />
     <Compile Include="Aspects\SetPropertyInterceptionAspectDefinition.cs" />
     <Compile Include="Aspects\GetPropertyInterceptionAspectDefinition.cs" />
     <Compile Include="Engine\AbstractMethodAdviceArgs.cs" />
@@ -109,7 +108,6 @@
     <Compile Include="Engine\ActionExecutionArgsImpl`8.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`1.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl.cs" />
-    <Compile Include="Engine\AspectTypePropertyValidator.cs" />
     <Compile Include="Engine\IFunctionArgs.cs" />
     <Compile Include="Engine\IActionArgs`1.cs" />
     <Compile Include="Engine\IActionArgs`2.cs" />

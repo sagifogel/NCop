@@ -14,7 +14,7 @@ namespace NCop.Aspects.Weaving.Expressions
     internal class AspectExpressionTreeBuilder : IBuilder<IAspectMethodExpression>
     {
         private readonly Stack<IAspectExpressionBuilder> aspectsStack = null;
-        private readonly IAspectDefinitionCollection aspectsDefinitions = null;
+        private readonly IAspectDefinitionCollection aspectDefinitions = null;
 
         internal AspectExpressionTreeBuilder(IAspectDefinitionCollection aspectDefinitions) {
             var aspectVisitor = new AspectVisitor();
@@ -29,7 +29,7 @@ namespace NCop.Aspects.Weaving.Expressions
                                                          return Convert.ToInt32(!value);
                                                      });
 
-            this.aspectsDefinitions = aspectDefinitions;
+            this.aspectDefinitions = aspectDefinitions;
             firstAspectDefinition = aspectDefinitions.First();
             argumentsWeavingSettings = firstAspectDefinition.ToArgumentsWeavingSettings();
             aspectExpressionBuilders = aspectsByPriority.ToList(definition => definition.Accept(aspectVisitor));
@@ -46,7 +46,7 @@ namespace NCop.Aspects.Weaving.Expressions
                 aspectExpression = builder.Build(aspectExpression);
             }
 
-            return new AspectMethodExpression(aspectExpression, aspectsDefinitions);
+            return new AspectMethodExpression(aspectExpression, aspectDefinitions);
         }
     }
 }

@@ -18,8 +18,8 @@ namespace NCop.Core
 			};
 
 			var mapped = typeMap.Select(map => new {
-				ContractType = map.ContractType,
-				ImplementationType = map.ImplementationType,
+				map.ContractType,
+				map.ImplementationType,
 				ContractMethods = map.ContractType.GetMethods().Where(methodPredicate),
 				ImplMethods = map.ImplementationType.GetMethods().ToSet(methodPredicate),
 			});

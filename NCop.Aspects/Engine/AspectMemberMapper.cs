@@ -20,7 +20,7 @@ namespace NCop.Aspects.Engine
         }
 
         private void MapMethods(Type aspectDeclaringType, ITypeMap typeMap) {
-            var methods = aspectDeclaringType.GetMethods();
+            var methods = aspectDeclaringType.GetPublicMethods();
             var methodMapper = new MethodMapper(typeMap);
 
             var mappedMethodsEnumerable = methodMapper.Select(map => {
@@ -39,7 +39,7 @@ namespace NCop.Aspects.Engine
         }
 
         private void MapProperties(Type aspectDeclaringType, ITypeMap typeMap) {
-            var properties = aspectDeclaringType.GetProperties();
+            var properties = aspectDeclaringType.GetPublicProperties();
             var propertyMapper = new PropertyMapper(typeMap);
 
             var mappedPropertiesEnumerable = propertyMapper.Select(map => {

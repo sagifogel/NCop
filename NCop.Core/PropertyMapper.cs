@@ -14,8 +14,8 @@ namespace NCop.Core
 
 		public PropertyMapper(ITypeMap mixinsMap) {
 			var mapped = mixinsMap.Select(mixin => new {
-				ContractType = mixin.ContractType,
-				ImplementationType = mixin.ImplementationType,
+				mixin.ContractType,
+				mixin.ImplementationType,
 				ContractProperties = mixin.ContractType.GetProperties(),
 				ImplProperties = mixin.ImplementationType.GetProperties().ToSet()
 			});

@@ -11,10 +11,12 @@ namespace NCop.Aspects.Engine
     {
         public AspectPropertyMap(Type contractType, Type implementationType, PropertyInfo contractProperty, PropertyInfo implementationProperty, PropertyInfo aspectProperty)
             : base(contractType, implementationType, contractProperty, implementationProperty) {
-            AspectProperty = aspectProperty;
+            AspectGetProperty = aspectProperty.GetGetMethod();
+            AspectSetProperty = aspectProperty.GetSetMethod();
             AddIfNotNull(() => aspectProperty);
         }
 
-        public PropertyInfo AspectProperty { get; private set; }
+        public MethodInfo AspectGetProperty { get; private set; }
+        public MethodInfo AspectSetProperty { get; private set; }
     }
 }

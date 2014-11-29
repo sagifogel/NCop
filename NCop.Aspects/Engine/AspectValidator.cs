@@ -16,13 +16,6 @@ namespace NCop.Aspects.Engine
 
                 AspectTypeMethodValidator.ValidateMethodAspect(aspect, memberInfo as MethodInfo);
             }
-            else if (aspect.IsPropertyLevelAspect()) {
-                if (memberInfo.MemberType != MemberTypes.Property) {
-                    throw new AspectAnnotationException(Resources.IllegalPropertyAspectAnnotation);
-                }
-
-                AspectTypePropertyValidator.ValidatePropertyAspect(aspect, memberInfo as PropertyInfo);
-            }
         }
     }
 }

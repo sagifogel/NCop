@@ -9,21 +9,21 @@ namespace NCop.Core.Extensions
     public static class CollectionExtensions
     {
         public static void ForEach<TSource>(this IEnumerable<TSource> source, int seed, Action<TSource, int> action) {
-            foreach (TSource item in source) {
+            foreach (var item in source) {
                 action(item, seed++);
             }
         }
 
         public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource, int> action) {
-            int count = 0;
+            var count = 0;
 
-            foreach (TSource item in source) {
+            foreach (var item in source) {
                 action(item, count++);
             }
         }
 
         public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource> action) {
-            foreach (TSource item in source) {
+            foreach (var item in source) {
                 action(item);
             }
         }
@@ -31,7 +31,7 @@ namespace NCop.Core.Extensions
         public static bool All<TSource>(this IEnumerable<TSource> source, Func<TSource, int, bool> predicate) {
             int count = 0;
 
-            foreach (TSource local in source) {
+            foreach (var local in source) {
                 if (!predicate(local, count++)) {
                     return false;
                 }
@@ -83,9 +83,9 @@ namespace NCop.Core.Extensions
         }
 
         public static IEnumerable<TSource> Distinct<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> predicate) {
-            HashSet<TKey> keys = new HashSet<TKey>();
+            var keys = new HashSet<TKey>();
 
-            foreach (TSource element in source) {
+            foreach (var element in source) {
                 if (keys.Add(predicate(element))) {
                     yield return element;
                 }
@@ -119,8 +119,8 @@ namespace NCop.Core.Extensions
         }
 
         public static int IndexOf<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate) {
-            int index = -1;
-            int count = -1;
+            var index = -1;
+            var count = -1;
 
             foreach (var item in source) {
                 count++;
@@ -143,9 +143,7 @@ namespace NCop.Core.Extensions
         }
 
         public static void AddRange<TSource>(this ISet<TSource> source, IEnumerable<TSource> second) {
-            second.ForEach(item => {
-                source.Add(item);
-            });
+            second.ForEach(item => source.Add(item));
         }
     }
 }

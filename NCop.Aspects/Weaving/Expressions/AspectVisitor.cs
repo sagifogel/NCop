@@ -22,7 +22,7 @@ namespace NCop.Aspects.Weaving.Expressions
         private IAspectDefinition topAspectInScopeDefinition = null;
 
         public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(OnMethodBoundaryAspectAttribute aspect) {
-            return (IAspectDefinition aspectDefinition) => {
+            return aspectDefinition => {
                 Func<IAspectMethodExpression, IAspectMethodExpression> ctor = null;
 
                 var _topAspectInScopeDefinition = topAspectInScopeDefinition;
@@ -63,7 +63,7 @@ namespace NCop.Aspects.Weaving.Expressions
         }
 
         public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(MethodInterceptionAspectAttribute aspect) {
-            return (IAspectDefinition aspectDefinition) => {
+            return aspectDefinition => {
                 Func<IAspectMethodExpression, IAspectMethodExpression> ctor = null;
 
                 var _topAspectInScopeDefinition = topAspectInScopeDefinition;
@@ -126,10 +126,6 @@ namespace NCop.Aspects.Weaving.Expressions
             }
 
             return new AspectNodeExpressionBuilder(expressionFactory);
-        }
-
-        public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(PropertyInterceptionAspectAttribute aspect) {
-            throw new NotImplementedException();
         }
 
         public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(GetPropertyInterceptionAspectAttribute aspect) {

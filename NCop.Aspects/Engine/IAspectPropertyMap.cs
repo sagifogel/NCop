@@ -9,6 +9,7 @@ namespace NCop.Aspects.Engine
 {
     public interface IAspectPropertyMap : IAspectMembers<PropertyInfo>, IMemberMap<PropertyInfo>
     {
-        PropertyInfo AspectProperty { get; }
+        MethodInfo AspectGetProperty { get; }
+        MethodInfo AspectSetProperty { get; }
     }
 }

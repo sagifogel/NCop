@@ -43,10 +43,10 @@ namespace NCop.Composite.Engine
         private void MapProperties(IAspectsMap aspectsMap, IEnumerable<IAspectPropertyMap> aspectMappedProperties) {
             var mappedPropertiesEnumerable = from mapped in aspectMappedProperties
                                              from aspectMap in aspectsMap.Where(map => {
-                                                 if (map.Member.MemberType == MemberTypes.Property) {
-                                                     var method = map.Member as PropertyInfo;
+                                                 if (map.Member.MemberType == MemberTypes.Method) {
+                                                     var method = map.Member as MethodInfo;
 
-                                                     return method.IsMatchedTo(mapped.ImplementationMember);
+                                                     return method.IsMatchedTo(mapped.AspectGetProperty) || method.IsMatchedTo(mapped.AspectSetProperty);
                                                  }
 
                                                  return false;

@@ -1,20 +1,16 @@
-﻿using NCop.Composite.Engine;
-using NCop.Composite.Weaving;
-using NCop.Core;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using NCop.Aspects.Aspects;
+using NCop.Aspects.Engine;
+using NCop.Aspects.Weaving;
+using NCop.Composite.Engine;
+using NCop.Composite.Weaving;
 using NCop.Core.Extensions;
 using NCop.Core.Runtime;
 using NCop.IoC;
-using System;
-using NCop.IoC.Fluent;
-using System.Reflection;
-using NCop.Composite.Exceptions;
-using NCop.Weaving;
-using System.Collections.Generic;
-using NCop.Aspects.Aspects;
-using NCop.Aspects.Engine;
 using NCop.Mixins.Engine;
-using NCop.Aspects.Weaving;
+using NCop.Weaving;
 
 namespace NCop.Composite.Framework
 {

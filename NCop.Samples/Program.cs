@@ -21,8 +21,9 @@ namespace NCop.Samples
 
     public class CSharpDeveloperMixin : IDeveloper
     {
+        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         public string Code {
-            [GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+            //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
             get {
                 return "C#";
             }
@@ -69,7 +70,7 @@ namespace NCop.Samples
 
             container.Configure();
             developer = container.Resolve<IPerson>();
-            Console.WriteLine(developer.Code);
+            developer.Do();
         }
     }
 }

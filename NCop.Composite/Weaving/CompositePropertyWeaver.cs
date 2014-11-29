@@ -20,9 +20,6 @@ namespace NCop.Composite.Weaving
 
         public override IMethodWeaver GetGetMethod() {
             if (CanRead) {
-                var getMethodImpl = PropertyInfoImpl.GetGetMethod();
-                var weavingSettings = new MethodWeavingSettings(getMethodImpl, ImplementationType, ContractType, TypeDefinition);
-
                 return new GetPropertyAspectWeaver(aspectDefinitions, aspectWeavingSettings.ToGetPropertyAspectWeavingSettings());
             }
 
@@ -31,9 +28,6 @@ namespace NCop.Composite.Weaving
 
         public override IMethodWeaver GetSetMethod() {
             if (CanWrite) {
-                var setMethodImpl = PropertyInfoImpl.GetSetMethod();
-                var weavingSettings = new MethodWeavingSettings(setMethodImpl, ImplementationType, ContractType, TypeDefinition);
-
                 return new SetPropertyAspectWeaver(aspectDefinitions, aspectWeavingSettings.ToSetPropertyAspectWeavingSettings());
             }
 

@@ -141,7 +141,7 @@ namespace NCop.Core.Extensions
         private static TBuilder SetCustomAttribute<TBuilder, TAttribute>(this TBuilder builder, Action<CustomAttributeBuilder> customBuilder) where TAttribute : Attribute {
             var ctor = typeof(TAttribute).GetConstructor(Type.EmptyTypes);
 
-            customBuilder(new CustomAttributeBuilder(ctor, Type.EmptyTypes));
+            customBuilder(new CustomAttributeBuilder(ctor, new object[0]));
 
             return builder;
         }
@@ -188,6 +188,39 @@ namespace NCop.Core.Extensions
                        .ToArray(t => t.GetIndexParameters().Length == 0);
         }
 
+        public static MethodInfo[] GetPublicMethods(this Type type) {
+            if (type.IsInterface) {
+                var queue = new Queue<Type>();
+                var considered = new HashSet<Type>();
+                var methodInfos = new HashSet<MethodInfo>();
+
+                considered.Add(type);
+                queue.Enqueue(type);
+
+                while (queue.Count > 0) {
+                    var subType = queue.Dequeue();
+
+                    foreach (var subInterface in subType.GetInterfaces()) {
+                        if (considered.Contains(subInterface)) {
+                            continue;
+                        }
+
+                        considered.Add(subInterface);
+                        queue.Enqueue(subInterface);
+                    }
+
+                    var typeMethods = subType.GetTypePublicMethods();
+                    var newPropertyInfos = typeMethods.Where(x => !methodInfos.Contains(x));
+
+                    methodInfos.AddRange(newPropertyInfos);
+                }
+
+                return methodInfos.ToArray();
+            }
+
+            return type.GetTypePublicMethods().ToArray();
+        }
+
         public static PropertyInfo GetPublicProperty(this Type type, string name) {
             return type.GetPublicProperties().FirstOrDefault(prop => prop.Name.Equals(name));
         }
@@ -197,13 +230,30 @@ namespace NCop.Core.Extensions
                                          BindingFlags.Public |
                                          BindingFlags.Instance);
         }
+        internal static MethodInfo[] GetTypePublicMethods(this Type subType) {
+            var properties = subType.GetTypePublicProperties();
+            var propertiesMethodsSet = new HashSet<MethodInfo>();
+
+            properties.ForEach(prop => {
+                if (prop.CanRead) {
+                    propertiesMethodsSet.Add(prop.GetGetMethod());
+                }
+
+                if (prop.CanWrite) {
+                    propertiesMethodsSet.Add(prop.GetSetMethod());
+                }
+            });
+
+            return subType.GetMethods(BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.Instance)
+                          .ToArray(method => !propertiesMethodsSet.Contains(method));
+        }
 
         public static bool IsCovariantTo(this Type type, Type inspected) {
             return TypeComparer.Compare(type, inspected);
         }
 
         public static bool HasReturnType(this MethodInfo methodInfo) {
-            return !methodInfo.ReturnType.Equals(typeof(void));
+            return !ReferenceEquals(methodInfo.ReturnType, typeof(void));
         }
 
         public static bool Is<TCompareTo>(this object @object) {
@@ -217,7 +267,7 @@ namespace NCop.Core.Extensions
         }
 
         public static bool IsFunction(this MethodInfo methodInfo) {
-            return !methodInfo.ReturnType.Equals(typeof(void));
+            return !ReferenceEquals(methodInfo.ReturnType, typeof(void));
         }
     }
 }

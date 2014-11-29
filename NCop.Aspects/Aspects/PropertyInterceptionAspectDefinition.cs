@@ -34,7 +34,8 @@ namespace NCop.Aspects.Aspects
 
                          advices.AddRange(getPropertyAspectDefinition.Advices);
                      }
-                     else if (method.IsDefined<OnSetPropertyInvokeAdviceAttribute>()) {
+
+                     if (method.IsDefined<OnSetPropertyInvokeAdviceAttribute>()) {
                          var setPropertyAspectAttribute = new SetPropertyInterceptionAspectAttribute(Aspect.AspectType);
                          var setPropertyAspectDefinition = new SetPropertyInterceptionAspectDefinition(setPropertyAspectAttribute, AspectDeclaringType, method);
 

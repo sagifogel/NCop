@@ -20,7 +20,9 @@ namespace NCop.Aspects.Extensions
             var type = aspect.GetType();
 
             return typeof(OnMethodBoundaryAspectAttribute).IsAssignableFrom(type) ||
-                   typeof(MethodInterceptionAspectAttribute).IsAssignableFrom(type);
+                   typeof(MethodInterceptionAspectAttribute).IsAssignableFrom(type) ||
+                   typeof(GetPropertyInterceptionAspectAttribute).IsAssignableFrom(type) ||
+                   typeof(SetPropertyInterceptionAspectAttribute).IsAssignableFrom(type);
         }
 
         internal static bool IsPropertyLevelAspect(this IAspect aspect) {
@@ -89,12 +91,7 @@ namespace NCop.Aspects.Extensions
         }
 
         internal static ArgumentsWeavingSettings ToArgumentsWeavingSettings(this BindingSettings bindingSettings, Type aspectType = null) {
-            Type bindingsDependencyType = null;
             var methodParameters = bindingSettings.ToMethodParameters();
-
-            if (bindingSettings.BindingDependency.IsNotNull()) {
-                bindingsDependencyType = bindingSettings.BindingDependency.FieldType;
-            }
 
             return new ArgumentsWeavingSettings {
                 AspectType = aspectType,
@@ -125,7 +122,6 @@ namespace NCop.Aspects.Extensions
             var arguments = bindingSettings.BindingType.GetGenericArguments();
 
             if (bindingSettings.IsFunction) {
-                var last = arguments.Last();
                 int length = arguments.Length - 2;
 
                 methodParameters.ReturnType = arguments.Last();

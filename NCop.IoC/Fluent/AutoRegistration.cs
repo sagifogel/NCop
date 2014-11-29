@@ -25,7 +25,7 @@ namespace NCop.IoC.Fluent
 			var properties = castTo.GetPublicProperties()
 								   .Where(prop => prop.CanWrite)
 								   .Where(prop => !prop.PropertyType.IsValueType)
-								   .Where(prop => !prop.PropertyType.Equals(typeof(string)))
+								   .Where(prop => !ReferenceEquals(prop.PropertyType, typeof(string)))
 								   .Where(prop => !dependencyAware && !prop.IsDefined<IgnoreDependency>() ||
 												  dependencyAware && prop.IsDefined<DependencyAttribute>());
 
