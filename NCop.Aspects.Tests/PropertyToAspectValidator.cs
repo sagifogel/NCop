@@ -61,7 +61,8 @@ namespace NCop.Aspects.Tests
             var property = GetProperty("IntProperty");
             var aspect = new PropertyInterceptionAspectAttribute(typeof(IntPropertyInterceptionAspect));
 
-            AspectTypePropertyValidator.ValidatePropertyAspect(aspect, property);
+            AspectTypeMethodValidator.ValidateMethodAspect(aspect, property.GetGetMethod());
+            AspectTypeMethodValidator.ValidateMethodAspect(aspect, property.GetSetMethod());
         }
 
         [TestMethod]
@@ -70,7 +71,8 @@ namespace NCop.Aspects.Tests
             var property = GetProperty("StringProperty");
             var aspect = new PropertyInterceptionAspectAttribute(typeof(StringPropertyInterceptionAspect));
 
-            AspectTypePropertyValidator.ValidatePropertyAspect(aspect, property);
+            AspectTypeMethodValidator.ValidateMethodAspect(aspect, property.GetGetMethod());
+            AspectTypeMethodValidator.ValidateMethodAspect(aspect, property.GetSetMethod());
         }
 
         [TestMethod]
@@ -79,16 +81,18 @@ namespace NCop.Aspects.Tests
             var property = GetProperty("IntProperty");
             var aspect = new PropertyInterceptionAspectAttribute(typeof(DummyAspect));
 
-            AspectTypePropertyValidator.ValidatePropertyAspect(aspect, property);
+            AspectTypeMethodValidator.ValidateMethodAspect(aspect, property.GetGetMethod());
+            AspectTypeMethodValidator.ValidateMethodAspect(aspect, property.GetSetMethod());
         }
 
         [TestMethod]
         [ExpectedException(typeof(AdviceNotFoundException))]
         public void PropertyWithPropertyInterceptionAspectAttribute_DecoratedWithPropertyAspectsThatHasNoAdvices_ThrowsAdviceNotFoundException() {
-            var method = GetProperty("IntProperty");
+            var property = GetProperty("IntProperty");
             var aspect = new PropertyInterceptionAspectAttribute(typeof(NoAdviceAspect));
 
-            AspectTypePropertyValidator.ValidatePropertyAspect(aspect, method);
+            AspectTypeMethodValidator.ValidateMethodAspect(aspect, property.GetGetMethod());
+            AspectTypeMethodValidator.ValidateMethodAspect(aspect, property.GetSetMethod());
         }
 
         private static PropertyInfo GetProperty(string name) {
