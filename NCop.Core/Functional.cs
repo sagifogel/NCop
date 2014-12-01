@@ -8,7 +8,7 @@ namespace NCop.Core
     public static class Functional
     {
         public static Func<TArg1, TResult> Curry<TArg1, TResult>(Func<TArg1, TResult> func) {
-            return (arg1) => func(arg1);
+            return arg1 => func(arg1);
         }
 
         public static Func<TResult> Curry<TArg, TResult>(Func<TArg, TResult> func, TArg arg) {

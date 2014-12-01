@@ -8,21 +8,16 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class MethodDecoratorScopeWeaver : AbstractBranchedMethodScopeWeaver
+    internal class PropertyDecoratorScopeWeaver : AbstractBranchedMethodScopeWeaver
     {
         private readonly MethodInfo methodInfoImpl = null;
         private readonly IArgumentsWeaver argumentsWeaver = null;
         private readonly IByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver = null;
 
-        internal MethodDecoratorScopeWeaver(IAspectMethodWeavingSettings aspectWeavingSettings)
+        internal PropertyDecoratorScopeWeaver(IAspectMethodWeavingSettings aspectWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {
-            Type aspectArgumentContract = null;
-            var localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
-
             methodInfoImpl = aspectWeavingSettings.WeavingSettings.MethodInfoImpl;
-            aspectArgumentContract = methodInfoImpl.ToAspectArgumentContract();
-            byRefArgumentsStoreWeaver = new MethodDecoratorByRefArgumentsStoreWeaver(aspectArgumentContract, methodInfoImpl, localBuilderRepository);
-            argumentsWeaver = new MethodDecoratorArgumentsWeaver(methodInfoImpl, byRefArgumentsStoreWeaver);
+            argumentsWeaver = new PropertyDecoratorArgumentsWeaver(methodInfoImpl);
         }
 
         protected override ILGenerator WeaveAction(ILGenerator ilGenerator) {

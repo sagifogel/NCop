@@ -8,14 +8,14 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class AspectArgsMethodWeaver : IArgumentsWeaver
+    internal class AspectArgsPropertyWeaver : IArgumentsWeaver
     {
-        private readonly Type[] parameters = null;
+        private readonly Type parameter = null;
         private readonly LocalBuilder methodLocalBuilder = null;
         private readonly IAspectMethodWeavingSettings aspectWeavingSettings = null;
 
-        internal AspectArgsMethodWeaver(LocalBuilder methodLocalBuilder, Type[] parameters, IAspectMethodWeavingSettings aspectWeavingSettings) {
-            this.parameters = parameters;
+        internal AspectArgsPropertyWeaver(LocalBuilder methodLocalBuilder, Type parameter, IAspectMethodWeavingSettings aspectWeavingSettings) {
+            this.parameter = parameter;
             this.methodLocalBuilder = methodLocalBuilder;
             this.aspectWeavingSettings = aspectWeavingSettings;
         }
@@ -36,29 +36,12 @@ namespace NCop.Aspects.Weaving
             });
 
             tempTypesArrayLocalBuilder = ilGenerator.DeclareLocal(typeofArrayOfTypes);
-            ilGenerator.EmitPushInteger(parameters.Length);
             ilGenerator.Emit(OpCodes.Newarr, typeofType);
             ilGenerator.EmitStoreLocal(tempTypesArrayLocalBuilder);
-
-            parameters.ForEach((parameter, i) => {
-                var isByRef = parameter.IsByRef;
-
-                if (isByRef) {
-                    parameter = parameter.GetElementType();
-                }
-
-                ilGenerator.EmitLoadLocal(tempTypesArrayLocalBuilder);
-                ilGenerator.EmitPushInteger(i);
-                ilGenerator.Emit(OpCodes.Ldtoken, parameter);
-                ilGenerator.Emit(OpCodes.Call, getTypeFromHandleMethodInfo);
-
-                if (isByRef) {
-                    ilGenerator.Emit(OpCodes.Callvirt, typeofType.GetMethod("MakeByRefType"));
-                }
-
-                ilGenerator.Emit(OpCodes.Stelem_Ref);
-            });
-
+            ilGenerator.EmitLoadLocal(tempTypesArrayLocalBuilder);
+            ilGenerator.Emit(OpCodes.Ldtoken, parameter);
+            ilGenerator.Emit(OpCodes.Call, getTypeFromHandleMethodInfo);
+            ilGenerator.Emit(OpCodes.Stelem_Ref);
             ilGenerator.EmitLoadLocal(tempTypesArrayLocalBuilder);
             ilGenerator.EmitStoreLocal(typesArrayLocalBuilder);
             ilGenerator.EmitLoadArg(0);

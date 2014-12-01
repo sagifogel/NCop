@@ -20,13 +20,13 @@ namespace NCop.Aspects.Weaving
 
         public void Weave(ILGenerator ilGenerator) {
             var methodImplParameters = methodInfoImpl.GetParameters();
-            Type aspectArgsType = methodInfoImpl.ToAspectArgumentContract();
+            var aspectArgsType = methodInfoImpl.ToAspectArgumentContract();
 
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);
-            
-            methodImplParameters.ForEach((param) => {
-                int argPosition = param.Position + 1;
+
+            methodImplParameters.ForEach(param => {
+                var argPosition = param.Position + 1;
 
                 if (byRefArgumentsStoreWeaver.Contains(argPosition)) {
                     byRefArgumentsStoreWeaver.EmitLoadLocalAddress(ilGenerator, argPosition);

@@ -11,7 +11,7 @@ namespace NCop.Weaving
 	{
 		private readonly IMethodWeavingSettings weavingSettings = null;
 
-		public AbstractMethodScopeWeaver(IMethodWeavingSettings weavingSettings) {
+		protected AbstractMethodScopeWeaver(IMethodWeavingSettings weavingSettings) {
 			this.weavingSettings = weavingSettings;
 		}
 

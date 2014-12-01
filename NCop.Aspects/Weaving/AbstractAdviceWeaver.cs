@@ -15,7 +15,7 @@ namespace NCop.Aspects.Weaving
 		protected readonly ILocalBuilderRepository localBuilderRepository = null;
         protected readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
 
-        public AbstractAdviceWeaver(IAdviceWeavingSettings adviceWeavingSettings) {
+        protected AbstractAdviceWeaver(IAdviceWeavingSettings adviceWeavingSettings) {
             aspectType = adviceWeavingSettings.AspectType;
             aspectRepository = adviceWeavingSettings.AspectRepository;
 			localBuilderRepository = adviceWeavingSettings.LocalBuilderRepository;

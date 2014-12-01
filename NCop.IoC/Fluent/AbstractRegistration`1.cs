@@ -14,7 +14,7 @@ namespace NCop.IoC.Fluent
         protected Registration registration = null;
         protected readonly IEnumerable<TypeMap> dependencies = null;
 
-        public AbstractRegistration(IEnumerable<TypeMap> dependencies = null) {
+        protected AbstractRegistration(IEnumerable<TypeMap> dependencies = null) {
             this.dependencies = dependencies;
         }
 

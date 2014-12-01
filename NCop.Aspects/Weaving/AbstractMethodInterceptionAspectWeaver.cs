@@ -27,8 +27,10 @@ namespace NCop.Aspects.Weaving
 
             bindingDependency = weavedType;
             selectedExpression = ResolveOnMethodInvokeAdvice();
-            methodScopeWeavers = new List<IMethodScopeWeaver>();
-            methodScopeWeavers.Add(selectedExpression.Reduce(aspectSettings));
+            methodScopeWeavers = new List<IMethodScopeWeaver> {
+                selectedExpression.Reduce(aspectSettings)
+            };
+
             localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
         }
 

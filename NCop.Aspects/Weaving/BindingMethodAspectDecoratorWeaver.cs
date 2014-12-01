@@ -6,17 +6,16 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class BindingAspectDecoratorWeaver : AbstractMethodScopeWeaver, IAspectWeaver, IBindingTypeReflector
+    internal class BindingMethodAspectDecoratorWeaver : AbstractMethodScopeWeaver, IAspectWeaver, IBindingTypeReflector
     {
         private readonly IMethodBindingWeaver weaver = null;
-        private readonly NCop.Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
+        private readonly Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
         private readonly IMethodScopeWeaver methodDecoratorScopeWeaver = null;
 
-        internal BindingAspectDecoratorWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
+        internal BindingMethodAspectDecoratorWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {
             var bindingSettings = aspectDefinition.ToBindingSettings();
-            var methodInfoImpl = aspectWeavingSettings.WeavingSettings.MethodInfoImpl;
-            
+
             lazyWeavedType = new Core.Lib.Lazy<FieldInfo>(WeaveType);
             bindingSettings.LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
             methodDecoratorScopeWeaver = new MethodDecoratorScopeWeaver(aspectWeavingSettings);

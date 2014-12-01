@@ -1,16 +1,12 @@
-﻿using NCop.Core.Extensions;
-using NCop.Weaving;
-using NCop.Weaving.Extensions;
-using System;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Reflection.Emit;
+using NCop.Weaving.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class TopOnMethodBoundaryArgumentsWeaver : AbstractTopAspectArgumentsWeaver
+    internal class TopGetPropertyInterceptionArgumentsWeaver : AbstractTopAspectArgumentsWeaver
     {
-        internal TopOnMethodBoundaryArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectMethodWeavingSettings aspectWeavingSettings)
+        internal TopGetPropertyInterceptionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectMethodWeavingSettings aspectWeavingSettings)
             : base(argumentWeavingSettings, aspectWeavingSettings) {
         }
 
@@ -18,30 +14,24 @@ namespace NCop.Aspects.Weaving
             LocalBuilder methodLocalBuilder = null;
             FieldBuilder contractFieldBuilder = null;
             LocalBuilder aspectArgLocalBuilder = null;
-            AspectArgsMethodWeaver methodWeaver = null;
             ConstructorInfo ctorInterceptionArgs = null;
+            AspectArgsPropertyWeaver methodWeaver = null;
 
             methodLocalBuilder = LocalBuilderRepository.Declare(() => {
                 return ilGenerator.DeclareLocal(typeof(MethodInfo));
             });
 
+            ctorInterceptionArgs = ArgumentType.GetConstructors()[0];
             aspectArgLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
             contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
-            methodWeaver = new AspectArgsMethodWeaver(methodLocalBuilder, Parameters, aspectWeavingSettings);
+            methodWeaver = new AspectArgsPropertyWeaver(methodLocalBuilder, typeof(string), aspectWeavingSettings);
             methodWeaver.Weave(ilGenerator);
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
             ilGenerator.EmitLoadLocal(methodLocalBuilder);
-            ctorInterceptionArgs = ArgumentType.GetConstructors()[0];
+            ilGenerator.Emit(OpCodes.Ldsfld, BindingsDependency);
 
-            Parameters.ForEach(1, (parameter, i) => {
-                ilGenerator.EmitLoadArg(i);
-
-                if (parameter.IsByRef) {
-                    ilGenerator.Emit(OpCodes.Ldind_I4);
-                }
-            });
-
+            
             ilGenerator.Emit(OpCodes.Newobj, ctorInterceptionArgs);
             ilGenerator.EmitStoreLocal(aspectArgLocalBuilder);
 

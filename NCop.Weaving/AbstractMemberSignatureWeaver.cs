@@ -7,14 +7,14 @@ using System.Text;
 
 namespace NCop.Weaving
 {
-	public abstract class AbstractMemberSignatureWeaver : IMethodSignatureWeaver
-	{
-		protected readonly ITypeDefinition typeDefinition = null;
+    public abstract class AbstractMemberSignatureWeaver : IMethodSignatureWeaver
+    {
+        protected readonly ITypeDefinition typeDefinition = null;
 
-		public AbstractMemberSignatureWeaver(ITypeDefinition typeDefinition) {
-			this.typeDefinition = typeDefinition;
-		}
+        protected AbstractMemberSignatureWeaver(ITypeDefinition typeDefinition) {
+            this.typeDefinition = typeDefinition;
+        }
 
-		public abstract MethodBuilder Weave(MethodInfo methodInfo);
-	}
+        public abstract MethodBuilder Weave(MethodInfo methodInfo);
+    }
 }

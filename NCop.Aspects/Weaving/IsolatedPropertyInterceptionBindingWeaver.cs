@@ -4,9 +4,9 @@ using NCop.Aspects.Weaving.Expressions;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class IsolatedMethodInterceptionBindingWeaver : AbstractMethodInterceptionBindingWeaver
+    internal class IsolatedPropertyInterceptionBindingWeaver : AbstractPropertyInterceptionBindingWeaver
     {
-        internal IsolatedMethodInterceptionBindingWeaver(IAspectMethodExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings)
+        internal IsolatedPropertyInterceptionBindingWeaver(IAspectMethodExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings)
             : base(aspectExpression, aspectDefinition, aspectWeavingSettings) {
         }
 

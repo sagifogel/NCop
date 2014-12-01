@@ -18,7 +18,7 @@ namespace NCop.IoC
 		protected IDictionary<ServiceKey, ServiceEntry> services = null;
 		protected readonly Stack<WeakReference> disposables = new Stack<WeakReference>();
 
-		public AbstractNCopContainer() {
+		protected AbstractNCopContainer() {
 			registry = CreateRegistry();
 		}
 

@@ -55,6 +55,7 @@
     <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -119,6 +120,8 @@
     <Compile Include="Engine\IActionArgs`8.cs" />
     <Compile Include="Engine\IActionArgs.cs" />
     <Compile Include="Engine\IMethodAdviceArgs.cs" />
+    <Compile Include="Engine\IPropertyArg.cs" />
+    <Compile Include="Engine\IPropertyBinding.cs" />
     <Compile Include="Engine\IPropertyInterceptionArgs.cs" />
     <Compile Include="Engine\IPropertyInterceptionAspect`1.cs" />
     <Compile Include="Engine\IPropertyInterceptionAspect.cs" />
@@ -163,10 +166,19 @@
     <Compile Include="Weaving\AbstractBranchedMethodScopeWeaver.cs" />
     <Compile Include="Weaving\AbstractByRefArgumentsStoreWeaver.cs" />
     <Compile Include="Weaving\AbstractBindingByRefArgumentsWeaver.cs" />
+    <Compile Include="Weaving\AbstractPropertyBindingWeaver.cs" />
+    <Compile Include="Weaving\AbstractPropertyInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\AbstractTopAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodInterceptionBindingWeaver.cs" />
+    <Compile Include="Weaving\AbstractTopAspectMethodArgumentsWeaver.cs" />
+    <Compile Include="Weaving\AbstractTopAspectPropertyArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractTopOnMethodBoundaryAspectWeaver.cs" />
+    <Compile Include="Weaving\AspectArgsPropertyWeaver.cs" />
     <Compile Include="Weaving\AspectArgsMethodWeaver.cs" />
+    <Compile Include="Weaving\BindingPropertyAspectDecoratorWeaver.cs" />
+    <Compile Include="Weaving\Expressions\BindingPropertyAspectDecoratorExpression.cs" />
+    <Compile Include="Weaving\Expressions\TopExpressionGetPropertyInterceptionAspect.cs" />
+    <Compile Include="Weaving\Expressions\TopExpressionSetPropertyInterceptionAspect.cs" />
     <Compile Include="Weaving\GetPropertyAspectWeaver.cs" />
     <Compile Include="Weaving\AspectPropertyWeavingSettingsImpl.cs" />
     <Compile Include="Weaving\BeginCatchBlockMethodScopeWeaver.cs" />
@@ -176,11 +188,16 @@
     <Compile Include="Weaving\IAspectPropertyWeavingSettings.cs" />
     <Compile Include="Weaving\IAspectMethodWeavingSettings.cs" />
     <Compile Include="Weaving\IAspectWeavingServices.cs" />
+    <Compile Include="Weaving\IsolatedPropertyInterceptionBindingWeaver.cs" />
+    <Compile Include="Weaving\PropertyDecoratorArgumentsWeaver.cs" />
+    <Compile Include="Weaving\PropertyDecoratorScopeWeaver.cs" />
+    <Compile Include="Weaving\PropertyDecorationBindingWeaver.cs" />
     <Compile Include="Weaving\MethodDecoratorScopeWeaver.cs" />
     <Compile Include="Weaving\MethodInvokerArgumentsWeaver.cs" />
     <Compile Include="Weaving\MethodInvokerAspectWeaver.cs" />
     <Compile Include="Weaving\BindingByRefArgumentsWeaverImpl.cs" />
     <Compile Include="Weaving\NullObjectByRefArgumentsWeaver.cs" />
+    <Compile Include="Weaving\OnPropertyInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\SetPropertyAspectWeaver.cs" />
     <Compile Include="Weaving\TopAspectByRefArgumentsStoreWeaver.cs" />
     <Compile Include="Weaving\IByRefArgumentsStoreWeaver.cs" />
@@ -203,7 +220,7 @@
     <Compile Include="Weaving\BindingMethodInterceptionArgumentsWeaver.cs" />
     <Compile Include="Weaving\AspectsWeaver.cs" />
     <Compile Include="Weaving\AspectsAttributeWeaver.cs" />
-    <Compile Include="Weaving\BindingAspectDecoratorWeaver.cs" />
+    <Compile Include="Weaving\BindingMethodAspectDecoratorWeaver.cs" />
     <Compile Include="Weaving\AspectMethodWeavingSettingsImpl.cs" />
     <Compile Include="Weaving\BindingSettings.cs" />
     <Compile Include="Weaving\AbstractBindingAspectWeaver.cs" />
@@ -225,6 +242,7 @@
     <Compile Include="Weaving\TopBindingMethodInterceptionArgumentsWeaver.cs" />
     <Compile Include="Weaving\TopBindingMethodInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\TopBindingOnMethodBoundaryAspectWeaver.cs" />
+    <Compile Include="Weaving\TopGetPropertyInterceptionArgumentsWeaver.cs" />
     <Compile Include="Weaving\TopBindingOnMethodExecutionArgumentsWeaver.cs" />
     <Compile Include="Weaving\TopAspectArgsMappingWeaverImpl.cs" />
     <Compile Include="Weaving\TopGetReturnValueWeaver.cs" />
@@ -232,7 +250,7 @@
     <Compile Include="Weaving\AbstractGetReturnValueWeaver.cs" />
     <Compile Include="Weaving\TopMethodInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\Expressions\AbstractAspectExpression.cs" />
-    <Compile Include="Weaving\Expressions\BindingAspectDecoratorExpression.cs" />
+    <Compile Include="Weaving\Expressions\BindingMethodAspectDecoratorExpression.cs" />
     <Compile Include="Weaving\Expressions\AspectNodeExpressionBuilder.cs" />
     <Compile Include="Weaving\Expressions\AdviceVisitor.cs" />
     <Compile Include="Advices\FinallyAdviceDefinition.cs" />
@@ -493,6 +511,7 @@
     <Compile Include="Weaving\OnMethodSuccessAdviceWeaver.cs" />
     <Compile Include="Weaving\Expressions\TopBindingMethodInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\TopOnMethodBoundaryAspectWeaver.cs" />
+    <Compile Include="Weaving\TopGetPropertyInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\TryCatchFinallyAspectWeaver.cs" />
     <Compile Include="Weaving\TryCatchFinallySettings.cs" />
     <Compile Include="Weaving\OnMethodBoundaryTryFinallyAspectWeaver.cs" />

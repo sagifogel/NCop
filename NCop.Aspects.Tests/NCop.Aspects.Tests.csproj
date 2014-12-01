@@ -27,6 +27,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -170,7 +171,6 @@
     <Compile Include="FunctionWithoutArgumentsAspect\FunctionWithoutArgumentsAspectSubjects.cs" />
     <Compile Include="FunctionWithoutArgumentsAspect\FunctionWithoutArgumentsAspectTest.cs" />
     <Compile Include="MethodToAspectValidator.cs" />
-    <Compile Include="PropertyToAspectValidator.cs" />
     <Compile Include="AspctsOrderedJoinPoints.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

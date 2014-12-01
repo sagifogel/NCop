@@ -16,11 +16,11 @@ namespace NCop.Aspects.Weaving
         }
 
         public override void Weave(ILGenerator ilGenerator) {
-            var localBuilder = BuildArguments(ilGenerator, Parameters);
+            var localBuilder = BuildArguments(ilGenerator);
 
             LocalBuilderRepository.Add(localBuilder);
         }
 
-        public abstract LocalBuilder BuildArguments(ILGenerator ilGenerator, Type[] parameters);
-	}
+        public abstract LocalBuilder BuildArguments(ILGenerator ilGenerator);
+    }
 }

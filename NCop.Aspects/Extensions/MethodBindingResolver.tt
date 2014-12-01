@@ -56,6 +56,10 @@ foreach (var i in Enumerable.Range(1, 8)) {
 			int parametersCount = argumentsType.GetGenericArguments().Length;
 
 			return actionBindingMap[parametersCount].MakeGenericType(typeArguments);
+		}
+		
+		internal static Type MakeGenericPropertyBinding(this Type argumentsType, params Type[] typeArguments) {
+			return typeof(IPropertyBinding<,>).MakeGenericType(typeArguments);
 		}	
 	}
 }

@@ -16,7 +16,7 @@ namespace NCop.Aspects.Engine
             MethodInfo method = null;
             Type argumentsType = null;
             Type[] genericArguments = null;
-            Type[] comparedTypes = Type.EmptyTypes;
+            var comparedTypes = Type.EmptyTypes;
             ParameterInfo[] methodParameters = null;
             ParameterInfo[] aspectParameters = null;
             var overridenMethods = aspect.AspectType.GetOverridenMethods();
@@ -49,7 +49,7 @@ namespace NCop.Aspects.Engine
             genericArguments = argumentsType.GetGenericArguments();
 
             if (methodInfo.HasReturnType()) {
-                int argumentsLength = 0;
+                var argumentsLength = 0;
                 Type aspectReturnType = null;
 
                 if (typeof(IActionExecutionArgs).IsAssignableFrom(argumentsType)) {
@@ -94,12 +94,12 @@ namespace NCop.Aspects.Engine
                            parameterType = parameterType.GetElementType();
                        }
 
-                       return parameterType.Equals(comparedTypes[i]);
+                       return ReferenceEquals(parameterType, comparedTypes[i]);
                    });
         }
 
         private static bool ValidateReturnType(Type methodReturnType, Type aspectReturnType) {
-            return methodReturnType.Equals(aspectReturnType);
+            return ReferenceEquals(methodReturnType, aspectReturnType);
         }
     }
 }

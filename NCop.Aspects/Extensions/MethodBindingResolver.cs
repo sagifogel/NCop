@@ -60,6 +60,10 @@ namespace NCop.Aspects.Extensions
 			int parametersCount = argumentsType.GetGenericArguments().Length;
 
 			return actionBindingMap[parametersCount].MakeGenericType(typeArguments);
+		}
+		
+		internal static Type MakeGenericPropertyBinding(this Type argumentsType, params Type[] typeArguments) {
+			return typeof(IPropertyBinding<,>).MakeGenericType(typeArguments);
 		}	
 	}
 }

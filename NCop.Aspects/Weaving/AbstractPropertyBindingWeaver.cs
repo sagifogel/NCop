@@ -10,7 +10,7 @@ using MA = System.Reflection.MethodAttributes;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractMethodBindingWeaver : IMethodBindingWeaver, IBindingTypeReflector
+    internal abstract class AbstractPropertyBindingWeaver : IMethodBindingWeaver, IBindingTypeReflector
     {
         protected static int bindingCounter = 0;
         protected TypeBuilder typeBuilder = null;
@@ -21,7 +21,7 @@ namespace NCop.Aspects.Weaving
         protected readonly MethodAttributes methodAttr = MA.Public | MA.Final | MA.HideBySig | MA.NewSlot | MA.Virtual;
         protected readonly CallingConventions callingConventions = CallingConventions.Standard | CallingConventions.HasThis;
 
-        internal AbstractMethodBindingWeaver(BindingSettings bindingSettings, IAspectMethodWeavingSettings aspectWeavingSettings, IMethodScopeWeaver methodScopeWeaver) {
+        internal AbstractPropertyBindingWeaver(BindingSettings bindingSettings, IAspectMethodWeavingSettings aspectWeavingSettings, IMethodScopeWeaver methodScopeWeaver) {
             this.bindingSettings = bindingSettings;
             this.methodScopeWeaver = methodScopeWeaver;
             this.aspectWeavingSettings = aspectWeavingSettings;
@@ -34,15 +34,15 @@ namespace NCop.Aspects.Weaving
             var typeBuilder = WeaveTypeBuilder();
 
             WeaveConstructors(typeBuilder);
-            WeaveInvokeMethod();
-            WeaveProceedMethod();
+            WeaveGetValueMethod();
+            WeaveSetValueMethod();
             bindingMethodType = typeBuilder.CreateType();
 
             return WeavedType = bindingMethodType.GetField(fieldBuilder.Name, BindingFlags.NonPublic | BindingFlags.Static);
         }
 
         protected TypeBuilder WeaveTypeBuilder() {
-            return typeBuilder = typeof(object).DefineType("MethodBinding_{0}".Fmt(Interlocked.Increment(ref bindingCounter)).ToUniqueName(), new[] { bindingSettings.BindingType }, TypeAttributes.Public | TypeAttributes.Sealed);
+            return typeBuilder = typeof(object).DefineType("PropertyBinding_{0}".Fmt(Interlocked.Increment(ref bindingCounter)).ToUniqueName(), new[] { bindingSettings.BindingType }, TypeAttributes.Public | TypeAttributes.Sealed);
         }
 
         protected virtual void WeaveConstructors(TypeBuilder typeBuilder) {
@@ -69,25 +69,25 @@ namespace NCop.Aspects.Weaving
             return bindingSettings.ToBindingMethodParameters();
         }
 
-        protected virtual void WeaveInvokeMethod() {
+        protected virtual void WeaveGetValueMethod() {
             ILGenerator ilGenerator = null;
             MethodBuilder methodBuilder = null;
             var methodParameters = ResolveParameterTypes();
             IMethodScopeWeaver methodDecoratorScopeWeaver = null;
 
-            methodBuilder = typeBuilder.DefineMethod("Invoke", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
+            methodBuilder = typeBuilder.DefineMethod("GetValue", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
             ilGenerator = methodBuilder.GetILGenerator();
             methodDecoratorScopeWeaver = new MethodDecoratorScopeWeaver(aspectWeavingSettings);
             methodDecoratorScopeWeaver.Weave(ilGenerator);
             ilGenerator.Emit(OpCodes.Ret);
         }
 
-        protected virtual void WeaveProceedMethod() {
+        protected virtual void WeaveSetValueMethod() {
             ILGenerator ilGenerator = null;
             MethodBuilder methodBuilder = null;
             var methodParameters = ResolveParameterTypes();
 
-            methodBuilder = typeBuilder.DefineMethod("Proceed", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
+            methodBuilder = typeBuilder.DefineMethod("SetValue", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
             ilGenerator = methodBuilder.GetILGenerator();
             methodScopeWeaver.Weave(ilGenerator);
             ilGenerator.Emit(OpCodes.Ret);
