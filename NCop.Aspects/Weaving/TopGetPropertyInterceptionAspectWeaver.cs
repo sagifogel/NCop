@@ -11,12 +11,12 @@ using NCop.Weaving.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class TopGetPropertyInterceptionAspectWeaver : AbstractMethodInterceptionAspectWeaver
+    internal class TopGetPropertyInterceptionAspectWeaver : AbstractMethodAspectWeaver
     {
         protected readonly IArgumentsWeaver argumentsWeaver = null;
 
         internal TopGetPropertyInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
-            : base(aspectDefinition, aspectWeavingSettings, weavedType) {
+            : base(aspectDefinition, aspectWeavingSettings) {
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {

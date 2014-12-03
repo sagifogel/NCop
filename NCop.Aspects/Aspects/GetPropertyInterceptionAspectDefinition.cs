@@ -8,12 +8,12 @@ using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Aspects
 {
-    internal class GetPropertyInterceptionAspectDefinition : AbstractAspectDefinition<MethodInfo>
+    internal class GetPropertyInterceptionAspectDefinition : AbstractPropertyAspectDefinition
     {
         private readonly GetPropertyInterceptionAspectAttribute aspect = null;
 
-        public GetPropertyInterceptionAspectDefinition(GetPropertyInterceptionAspectAttribute aspect, Type aspectDeclaringType, MethodInfo member)
-            : base(aspect, aspectDeclaringType, member) {
+        public GetPropertyInterceptionAspectDefinition(GetPropertyInterceptionAspectAttribute aspect, Type aspectDeclaringType, MethodInfo member, PropertyInfo property)
+            : base(aspect, aspectDeclaringType, member, property) {
             this.aspect = aspect;
         }
 

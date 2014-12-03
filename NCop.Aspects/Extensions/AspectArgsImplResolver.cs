@@ -7,7 +7,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using NCop.Aspects.Engine;
-using NCop.Aspects.Framework;
 using System.Collections.Generic;
 
 namespace NCop.Aspects.Extensions
@@ -76,7 +75,10 @@ namespace NCop.Aspects.Extensions
 			Type type = null;
 			int parametersCount = argumentsType.GetGenericArguments().Length;
 
-			if (typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType)) {
+			 if (typeof(IPropertyInterceptionArgs).IsAssignableFrom(argumentsType)) {
+                type = typeof(PropertyInterceptionArgsImpl<,>);
+            }
+			else if (typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType)) {
 				type = funcInterceptionArgsMap[parametersCount];
 			}
 			else if (typeof(IActionInterceptionArgs).IsAssignableFrom(argumentsType)) {

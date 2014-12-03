@@ -24,28 +24,17 @@ namespace NCop.Aspects.Weaving
         protected readonly ArgumentsWeavingSettings argumentsWeavingSetings = null;
         protected readonly AdviceDiscoveryVisitor adviceDiscoveryVistor = new AdviceDiscoveryVisitor();
 
-        internal AbstractMethodAspectWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWevingSettings) {
+        internal AbstractMethodAspectWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings) {
             advices = aspectDefinition.Advices;
             this.aspectDefinition = aspectDefinition;
-            this.aspectWeavingSettings = aspectWevingSettings;
-            weavingSettings = aspectWevingSettings.WeavingSettings;
-            aspectRepository = aspectWevingSettings.AspectRepository;
+            this.aspectWeavingSettings = aspectWeavingSettings;
+            weavingSettings = aspectWeavingSettings.WeavingSettings;
+            aspectRepository = aspectWeavingSettings.AspectRepository;
             argumentsWeavingSetings = aspectDefinition.ToArgumentsWeavingSettings();
             aspectDefinition.Advices.ForEach(advice => advice.Accept(adviceDiscoveryVistor));
         }
 
         public Type ArgumentType { get; protected set; }
-
-        private IAdviceExpression ResolveOnMethodEntryAdvice() {
-            IAdviceDefinition selectedAdviceDefinition = null;
-            Func<IAdviceDefinition, IAdviceExpression> adviceExpressionFactory = null;
-            var onMethodInvokeAdvice = adviceDiscoveryVistor.OnMethodInvokeAdvice;
-
-            adviceExpressionFactory = adviceVisitor.Visit(adviceDiscoveryVistor.OnMethodInvokeAdvice);
-            selectedAdviceDefinition = advices.First(advice => advice.Advice.Equals(onMethodInvokeAdvice));
-
-            return adviceExpressionFactory(selectedAdviceDefinition);
-        }
 
         public abstract ILGenerator Weave(ILGenerator ilGenerator);
     }

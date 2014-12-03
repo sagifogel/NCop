@@ -12,6 +12,7 @@ namespace NCop.Composite.Weaving
 {
     public class CompositePropertyWeaverBuilder : AbstractWeaverBuilder<PropertyInfo>, IPropertyWeaverBuilder
     {
+        private readonly PropertyInfo memberInfoContract = null;
         private readonly ICompositePropertyMap compositePropertyMap = null;
         private readonly IAspectWeavingServices aspectWeavingServices = null;
 
@@ -19,13 +20,14 @@ namespace NCop.Composite.Weaving
             : base(compositePropertyMap.ImplementationMember, compositePropertyMap.ImplementationType, compositePropertyMap.ContractType, typeDefinition) {
             this.compositePropertyMap = compositePropertyMap;
             this.aspectWeavingServices = aspectWeavingServices;
+            memberInfoContract = compositePropertyMap.ContractMember;
         }
 
         public IPropertyWeaver Build() {
-            var weavingSettings = new PropertyWeavingSettings(memberInfoImpl, implementationType, contractType, typeDefinition);
+            var weavingSettings = new PropertyWeavingSettings(memberInfoImpl, memberInfoContract, implementationType, contractType, typeDefinition);
 
             if (compositePropertyMap.HasAspectDefinitions) {
-                var aspectWeavingSettings = new AspectPropertyWeavingSettingsImpl {
+                var aspectWeavingSettings = new CompositePropertyWeavingSettings {
                     WeavingSettings = weavingSettings,
                     AspectRepository = aspectWeavingServices.AspectRepository,
                     AspectArgsMapper = aspectWeavingServices.AspectArgsMapper

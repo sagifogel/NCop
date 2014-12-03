@@ -5,12 +5,12 @@ using System.Reflection;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractBindingAspectWeaver : IBindingTypeReflector
+    internal abstract class AbstractBindingPropertyAspectWeaver : IBindingTypeReflector
     {
         protected readonly BindingSettings bindingSettings = null;
-        protected readonly IAspectDefinition aspectDefinition = null;
+        protected readonly IPropertyAspectDefinition aspectDefinition = null;
 
-        internal AbstractBindingAspectWeaver(IAspectDefinition aspectDefinition) {
+        internal AbstractBindingPropertyAspectWeaver(IPropertyAspectDefinition aspectDefinition) {
             this.aspectDefinition = aspectDefinition;
             bindingSettings = aspectDefinition.ToBindingSettings();
         }

@@ -12,7 +12,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using NCop.Aspects.Engine;
-using NCop.Aspects.Framework;
 using System.Collections.Generic;
 
 namespace NCop.Aspects.Extensions
@@ -58,7 +57,10 @@ foreach (var i in Enumerable.Range(1, 8)) {
 			Type type = null;
 			int parametersCount = argumentsType.GetGenericArguments().Length;
 
-			if (typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType)) {
+			 if (typeof(IPropertyInterceptionArgs).IsAssignableFrom(argumentsType)) {
+                type = typeof(PropertyInterceptionArgsImpl<,>);
+            }
+			else if (typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType)) {
 				type = funcInterceptionArgsMap[parametersCount];
 			}
 			else if (typeof(IActionInterceptionArgs).IsAssignableFrom(argumentsType)) {

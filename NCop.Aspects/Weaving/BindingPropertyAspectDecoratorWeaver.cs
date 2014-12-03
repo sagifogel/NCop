@@ -10,15 +10,15 @@ namespace NCop.Aspects.Weaving
     {
         private readonly IMethodBindingWeaver weaver = null;
         private readonly Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
-        private readonly IMethodScopeWeaver methodDecoratorScopeWeaver = null;
+        private readonly IMethodScopeWeaver propertyDecoratorScopeWeaver = null;
 
-        internal BindingPropertyAspectDecoratorWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
+        internal BindingPropertyAspectDecoratorWeaver(IAspectDefinition aspectDefinition, IAspectPropertyMethodWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {
             var bindingSettings = aspectDefinition.ToBindingSettings();
 
             lazyWeavedType = new Core.Lib.Lazy<FieldInfo>(WeaveType);
             bindingSettings.LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
-            methodDecoratorScopeWeaver = new MethodDecoratorScopeWeaver(aspectWeavingSettings);
+            propertyDecoratorScopeWeaver = new GetPropertyDecoratorScopeWeaver(aspectWeavingSettings);
             weaver = new PropertyDecorationBindingWeaver(bindingSettings, aspectWeavingSettings, this);
         }
 
@@ -29,7 +29,7 @@ namespace NCop.Aspects.Weaving
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
-            return methodDecoratorScopeWeaver.Weave(ilGenerator);
+            return propertyDecoratorScopeWeaver.Weave(ilGenerator);
         }
 
         protected FieldInfo WeaveType() {

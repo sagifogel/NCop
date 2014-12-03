@@ -3,9 +3,9 @@ using NCop.Aspects.Aspects;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class TopExpressionSetPropertyInterceptionAspect : AbstractAspectMethodExpression
+    internal class TopExpressionSetPropertyInterceptionAspect : AbstractAspectPropertyExpression
     {
-        internal TopExpressionSetPropertyInterceptionAspect(IAspectMethodExpression aspectExpression, IAspectDefinition aspectDefinition = null)
+        internal TopExpressionSetPropertyInterceptionAspect(IAspectMethodExpression aspectExpression, IPropertyAspectDefinition aspectDefinition = null)
             : base(aspectExpression, aspectDefinition) {
         }
 

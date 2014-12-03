@@ -5,7 +5,7 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractBranchedMethodScopeWeaver : AbstractMethodScopeWeaver, IMethodScopeWeaver
+    internal abstract class AbstractBranchedMethodScopeWeaver : AbstractMethodScopeWeaver
     {
         internal AbstractBranchedMethodScopeWeaver(IMethodWeavingSettings weavingSettings)
             : base(weavingSettings) {

@@ -10,13 +10,13 @@ using NCop.Aspects.Weaving.Expressions;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractPropertyInterceptionBindingWeaver : AbstractBindingAspectWeaver
+    internal abstract class AbstractPropertyInterceptionBindingWeaver : AbstractBindingPropertyAspectWeaver
     {
         protected readonly Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
         protected readonly IAspectMethodExpression aspectExpression = null;
         protected IAspectMethodWeavingSettings aspectWeavingSettings = null;
 
-        internal AbstractPropertyInterceptionBindingWeaver(IAspectMethodExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings)
+        internal AbstractPropertyInterceptionBindingWeaver(IAspectMethodExpression aspectExpression, IPropertyAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings)
             : base(aspectDefinition) {
             this.aspectExpression = aspectExpression;
             this.aspectWeavingSettings = aspectWeavingSettings;
@@ -33,11 +33,11 @@ namespace NCop.Aspects.Weaving
             IAspectWeaver aspectWeaver = null;
             IMethodBindingWeaver bindingWeaver = null;
             var aspectType = aspectDefinition.Aspect.AspectType;
-            var aspectSetings = GetAspectsWeavingSettings();
+            var aspectSettings = GetAspectsWeavingSettings() as IAspectPropertyMethodWeavingSettings;
 
-            aspectWeaver = aspectExpression.Reduce(aspectSetings);
-            bindingSettings.LocalBuilderRepository = aspectSetings.LocalBuilderRepository;
-            bindingWeaver = new OnPropertyInterceptionBindingWeaver(aspectType, bindingSettings, aspectWeavingSettings, aspectWeaver);
+            aspectWeaver = aspectExpression.Reduce(aspectSettings);
+            bindingSettings.LocalBuilderRepository = aspectSettings.LocalBuilderRepository;
+            bindingWeaver = new PropertyInterceptionBindingWeaver(aspectType, bindingSettings, aspectSettings, aspectWeaver);
 
             return bindingWeaver.Weave();
         }

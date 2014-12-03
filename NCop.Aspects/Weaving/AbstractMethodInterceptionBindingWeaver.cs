@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractMethodInterceptionBindingWeaver : AbstractBindingAspectWeaver
+    internal abstract class AbstractMethodInterceptionBindingWeaver : AbstractBindingMethodAspectWeaver
     {
         protected readonly Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
         protected readonly IAspectMethodExpression aspectExpression = null;
@@ -37,7 +37,7 @@ namespace NCop.Aspects.Weaving
 
             aspectWeaver = aspectExpression.Reduce(aspectSetings);
             bindingSettings.LocalBuilderRepository = aspectSetings.LocalBuilderRepository;
-			bindingWeaver = new OnMethodInterceptionBindingWeaver(aspectType, bindingSettings, aspectWeavingSettings, aspectWeaver);
+			bindingWeaver = new MethodInterceptionBindingWeaver(aspectType, bindingSettings, aspectWeavingSettings, aspectWeaver);
             
             return bindingWeaver.Weave();
         }

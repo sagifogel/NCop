@@ -7,7 +7,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using NCop.Aspects.Engine;
-using NCop.Aspects.Framework;
 using System.Collections.Generic;
 
 namespace NCop.Aspects.Extensions

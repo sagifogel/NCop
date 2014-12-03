@@ -1,8 +1,14 @@
-﻿using NCop.Weaving;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using NCop.Aspects.Weaving;
+using NCop.Weaving;
 
-namespace NCop.Aspects.Weaving
+namespace NCop.Composite.Weaving
 {
-    public class AspectPropertyWeavingSettingsImpl : IAspectPropertyWeavingSettings
+    internal class CompositePropertyWeavingSettings : IAspectPropertyWeavingSettings
     {
         public IAspectRepository AspectRepository { get; set; }
         public IAspectArgsMapper AspectArgsMapper { get; set; }

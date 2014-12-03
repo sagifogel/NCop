@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NCop.Aspects.Aspects;
+﻿using NCop.Aspects.Aspects;
 
 namespace NCop.Aspects.Weaving
 {
-    public class SetPropertyAspectWeaver : AspectMethodWeaver
+    public class SetPropertyAspectWeaver : AspectPropertyWeaver
     {
-        public SetPropertyAspectWeaver(IAspectDefinitionCollection aspectDefinitions, IAspectMethodWeavingSettings aspectWeavingSettings)
+        public SetPropertyAspectWeaver(IAspectDefinitionCollection aspectDefinitions, IAspectPropertyMethodWeavingSettings aspectWeavingSettings)
             : base(aspectDefinitions, aspectWeavingSettings) {
         }
     }

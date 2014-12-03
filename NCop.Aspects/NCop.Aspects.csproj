@@ -96,6 +96,7 @@
     </Compile>
     <Compile Include="Aspects\AbstractMethodAspectDefinition.cs" />
     <Compile Include="Aspects\AbstractPropertyAspectDefinition.cs" />
+    <Compile Include="Aspects\IPropertyAspectDefinition.cs" />
     <Compile Include="Aspects\SetPropertyInterceptionAspectDefinition.cs" />
     <Compile Include="Aspects\GetPropertyInterceptionAspectDefinition.cs" />
     <Compile Include="Engine\AbstractMethodAdviceArgs.cs" />
@@ -161,11 +162,13 @@
     <Compile Include="Framework\PropertyInterceptionArgs.cs" />
     <Compile Include="Framework\PropertyInterceptionAspect.cs" />
     <Compile Include="Weaving\AbstractArgumentsWeaver.cs" />
+    <Compile Include="Weaving\AbstractBindingPropertyAspectWeaver.cs" />
     <Compile Include="Weaving\AbstractBindingMethodInterceptionArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractBindingOnMethodExecutionArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractBranchedMethodScopeWeaver.cs" />
     <Compile Include="Weaving\AbstractByRefArgumentsStoreWeaver.cs" />
     <Compile Include="Weaving\AbstractBindingByRefArgumentsWeaver.cs" />
+    <Compile Include="Weaving\AbstractPropertyBinding.cs" />
     <Compile Include="Weaving\AbstractPropertyBindingWeaver.cs" />
     <Compile Include="Weaving\AbstractPropertyInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\AbstractTopAspectArgumentsWeaver.cs" />
@@ -175,7 +178,10 @@
     <Compile Include="Weaving\AbstractTopOnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\AspectArgsPropertyWeaver.cs" />
     <Compile Include="Weaving\AspectArgsMethodWeaver.cs" />
+    <Compile Include="Weaving\AspectPropertyWeaver.cs" />
+    <Compile Include="Weaving\AspectPropertyMethodWeavingSettingsImpl.cs" />
     <Compile Include="Weaving\BindingPropertyAspectDecoratorWeaver.cs" />
+    <Compile Include="Weaving\Expressions\AbstractAspectPropertyExpression.cs" />
     <Compile Include="Weaving\Expressions\BindingPropertyAspectDecoratorExpression.cs" />
     <Compile Include="Weaving\Expressions\TopExpressionGetPropertyInterceptionAspect.cs" />
     <Compile Include="Weaving\Expressions\TopExpressionSetPropertyInterceptionAspect.cs" />
@@ -185,19 +191,21 @@
     <Compile Include="Weaving\BindingOnMethodExecutionArgumentsWeaver.cs" />
     <Compile Include="Weaving\Expressions\TopBindingOnMethodBoundaryAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\MethodInvokerAspectExpression.cs" />
+    <Compile Include="Weaving\IAspectPropertyMethodWeavingSettings.cs" />
+    <Compile Include="Weaving\SetPropertyDecoratorScopeWeaver.cs" />
     <Compile Include="Weaving\IAspectPropertyWeavingSettings.cs" />
     <Compile Include="Weaving\IAspectMethodWeavingSettings.cs" />
     <Compile Include="Weaving\IAspectWeavingServices.cs" />
     <Compile Include="Weaving\IsolatedPropertyInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\PropertyDecoratorArgumentsWeaver.cs" />
-    <Compile Include="Weaving\PropertyDecoratorScopeWeaver.cs" />
+    <Compile Include="Weaving\GetPropertyDecoratorScopeWeaver.cs" />
     <Compile Include="Weaving\PropertyDecorationBindingWeaver.cs" />
     <Compile Include="Weaving\MethodDecoratorScopeWeaver.cs" />
     <Compile Include="Weaving\MethodInvokerArgumentsWeaver.cs" />
     <Compile Include="Weaving\MethodInvokerAspectWeaver.cs" />
     <Compile Include="Weaving\BindingByRefArgumentsWeaverImpl.cs" />
     <Compile Include="Weaving\NullObjectByRefArgumentsWeaver.cs" />
-    <Compile Include="Weaving\OnPropertyInterceptionBindingWeaver.cs" />
+    <Compile Include="Weaving\PropertyInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\SetPropertyAspectWeaver.cs" />
     <Compile Include="Weaving\TopAspectByRefArgumentsStoreWeaver.cs" />
     <Compile Include="Weaving\IByRefArgumentsStoreWeaver.cs" />
@@ -206,7 +214,6 @@
     <Compile Include="Weaving\EndExceptionBlockMethodScopeWeaver.cs" />
     <Compile Include="Weaving\FinallyMethodScopeWeaver.cs" />
     <Compile Include="Weaving\IsolatedMethodInterceptionBindingWeaver .cs" />
-    <Compile Include="Weaving\MethodInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodAspectWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodBindingWeaver.cs" />
     <Compile Include="Weaving\AbstractMethodInterceptionAspectWeaver.cs" />
@@ -223,7 +230,7 @@
     <Compile Include="Weaving\BindingMethodAspectDecoratorWeaver.cs" />
     <Compile Include="Weaving\AspectMethodWeavingSettingsImpl.cs" />
     <Compile Include="Weaving\BindingSettings.cs" />
-    <Compile Include="Weaving\AbstractBindingAspectWeaver.cs" />
+    <Compile Include="Weaving\AbstractBindingMethodAspectWeaver.cs" />
     <Compile Include="Weaving\Expressions\NestedMethodInvokerAspectExpression.cs" />
     <Compile Include="Weaving\NestedAspectArgsMappingWeaver.cs" />
     <Compile Include="Weaving\NestedMethodInvokerAspectWeaver.cs" />
@@ -249,7 +256,7 @@
     <Compile Include="Weaving\TopOnMethodBoundaryArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractGetReturnValueWeaver.cs" />
     <Compile Include="Weaving\TopMethodInterceptionAspectWeaver.cs" />
-    <Compile Include="Weaving\Expressions\AbstractAspectExpression.cs" />
+    <Compile Include="Weaving\Expressions\AbstractAspectMethodExpression.cs" />
     <Compile Include="Weaving\Expressions\BindingMethodAspectDecoratorExpression.cs" />
     <Compile Include="Weaving\Expressions\AspectNodeExpressionBuilder.cs" />
     <Compile Include="Weaving\Expressions\AdviceVisitor.cs" />
@@ -506,7 +513,7 @@
     <Compile Include="Weaving\BindingOnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\OnMethodEntryAdviceWeaver.cs" />
     <Compile Include="Weaving\OnMethodExceptionAdviceWeaver.cs" />
-    <Compile Include="Weaving\OnMethodInterceptionBindingWeaver.cs" />
+    <Compile Include="Weaving\MethodInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\OnMethodInvokeWeaver.cs" />
     <Compile Include="Weaving\OnMethodSuccessAdviceWeaver.cs" />
     <Compile Include="Weaving\Expressions\TopBindingMethodInterceptionAspectExpression.cs" />

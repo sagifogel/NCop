@@ -25,9 +25,9 @@ namespace NCop.Samples
 
     public interface IDeveloper
     {
-        //string Code { get; }
+        string Code { get; }
 
-        void Do();
+        //void Do();
     }
 
     internal static class FunctionArgsMapper
@@ -119,19 +119,16 @@ namespace NCop.Samples
 
     public class CSharpDeveloperMixin : IDeveloper
     {
-        //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
-        //public string Code {
-        //    [GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
-        //    get {
-        //        return "C#";
-        //    }
+        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        public string Code { get; set; }
+        //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+
+
+        //[MethodInterceptionAspect(typeof(StopWatchAspect))]
+        //[MethodInterceptionAspect(typeof(StopWatchAspect))]
+        //public void Do() {
+
         //}
-
-        [MethodInterceptionAspect(typeof(StopWatchAspect))]
-        [MethodInterceptionAspect(typeof(StopWatchAspect))]
-        public void Do() {
-
-        }
     }
 
     public class PropertyBinding : IPropertyBinding<CSharpDeveloperMixin, string>
@@ -142,12 +139,12 @@ namespace NCop.Samples
             singleton = new PropertyBinding();
         }
 
-        public string GetValue(ref CSharpDeveloperMixin instance, IPropertyArg<string> arg)
-        {
-            return "";//instance.Code;
+        public string GetValue(ref CSharpDeveloperMixin instance, IPropertyArg<string> arg) {
+            return instance.Code;
         }
 
         public void SetValue(ref CSharpDeveloperMixin instance, IPropertyArg<string> arg, string value) {
+            instance.Code = value;
         }
     }
 
@@ -168,12 +165,12 @@ namespace NCop.Samples
 
                 return interArgs.Value;
             }
-        }
+            set {
 
-        public void Do() {
-            throw new NotImplementedException();
+            }
         }
     }
+
     public class PropertyStopWatchAspect : PropertyInterceptionAspect<string>
     {
         public override void OnGetValue(PropertyInterceptionArgs<string> args) {

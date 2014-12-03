@@ -106,7 +106,7 @@ namespace NCop.Aspects.Weaving.Expressions
             };
         }
 
-        public IAspectExpressionBuilder VisitInvocation(IAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentsWeavingSettings) {
+        public IAspectExpressionBuilder VisitLast(IAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentsWeavingSettings) {
             Func<IAspectMethodExpression, IAspectMethodExpression> expressionFactory = null;
 
             if (lastAspect.IsInBinding) {
@@ -139,9 +139,15 @@ namespace NCop.Aspects.Weaving.Expressions
             return aspectDefinition => {
                 Func<IAspectMethodExpression, IAspectMethodExpression> ctor = null;
 
+                lastAspect = new Aspect();
+
                 ctor = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(expression => {
-                    return new TopExpressionGetPropertyInterceptionAspect(expression, aspectDefinition);
+                    return new TopExpressionGetPropertyInterceptionAspect(expression, aspectDefinition as IPropertyAspectDefinition);
                 });
+
+                lastAspect.IsInBinding = true;
+                lastAspect.IsTopBinding = true;
+                topAspectInScopeDefinition = aspectDefinition;
 
                 return new AspectNodeExpressionBuilder(ctor);
             };
@@ -154,7 +160,7 @@ namespace NCop.Aspects.Weaving.Expressions
                 lastAspect = new Aspect();
 
                 ctor = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(expression => {
-                    return new TopExpressionSetPropertyInterceptionAspect(expression, aspectDefinition);
+                    return new TopExpressionSetPropertyInterceptionAspect(expression, aspectDefinition as IPropertyAspectDefinition);
                 });
 
 

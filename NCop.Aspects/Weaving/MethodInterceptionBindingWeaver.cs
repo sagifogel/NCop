@@ -1,18 +1,14 @@
-﻿using NCop.Aspects.Aspects;
-using NCop.Aspects.Extensions;
-using NCop.Aspects.Weaving.Expressions;
-using System.Reflection;
+﻿using System;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class MethodInterceptionBindingWeaver : AbstractMethodInterceptionBindingWeaver
-    {
-        internal MethodInterceptionBindingWeaver(IAspectMethodExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings)
-            : base(aspectExpression, aspectDefinition, aspectWeavingSettings) {
-        }
+	internal class MethodInterceptionBindingWeaver : AbstractMethodBindingWeaver
+	{
+		private readonly ILocalBuilderRepository localBuilderRepository = null;
 
-        protected override IAspectMethodWeavingSettings GetAspectsWeavingSettings() {
-            return aspectWeavingSettings;
-        }
-    }
+		internal MethodInterceptionBindingWeaver(Type aspectType, BindingSettings bindingSettings, IAspectMethodWeavingSettings aspectWeavingSettings, IAspectWeaver methodScopeWeaver)
+			: base(bindingSettings, aspectWeavingSettings, methodScopeWeaver) {
+			localBuilderRepository = bindingSettings.LocalBuilderRepository;
+		}
+	}
 }

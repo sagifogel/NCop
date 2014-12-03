@@ -20,10 +20,7 @@ public class ArgumentExceptionTemplate : NCopExceptionTemplate
 // </auto-generated
 // ------------------------------------------------------------------------------
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace <#= Namespace ?? DefaultNamespace  #>
 {

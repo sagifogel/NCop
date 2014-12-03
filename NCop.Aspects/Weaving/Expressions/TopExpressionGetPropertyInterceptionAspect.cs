@@ -8,20 +8,16 @@ using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class TopExpressionGetPropertyInterceptionAspect : AbstractAspectMethodExpression
+    internal class TopExpressionGetPropertyInterceptionAspect : AbstractAspectPropertyExpression
     {
-        internal TopExpressionGetPropertyInterceptionAspect(IAspectMethodExpression aspectExpression, IAspectDefinition aspectDefinition = null)
+        internal TopExpressionGetPropertyInterceptionAspect(IAspectMethodExpression aspectExpression, IPropertyAspectDefinition aspectDefinition = null)
             : base(aspectExpression, aspectDefinition) {
         }
 
         public override IAspectWeaver Reduce(IAspectMethodWeavingSettings aspectWeavingSettings) {
-            var clonedAspectWeavingSettings = aspectWeavingSettings.CloneWith(settings => {
-                var localBuilderRepository = new LocalBuilderRepository();
-                var methodImpl = aspectWeavingSettings.WeavingSettings.MethodInfoImpl;
-                var aspectArgumentImplType = aspectDefinition.ToAspectArgumentImpl();
-
-                settings.LocalBuilderRepository = localBuilderRepository;
-                settings.ByRefArgumentsStoreWeaver = new TopAspectByRefArgumentsStoreWeaver(aspectArgumentImplType, methodImpl, localBuilderRepository);
+            var clonedAspectWeavingSettings = aspectWeavingSettings.CloneToWith<AspectPropertyMethodWeavingSettingsImpl>(settings => {
+                settings.LocalBuilderRepository = new LocalBuilderRepository();
+                settings.PropertyInfoContract = aspectDefinition.PropertyInfoContract;
             });
 
             var bindingWeaver = new IsolatedPropertyInterceptionBindingWeaver(aspectExpression, aspectDefinition, clonedAspectWeavingSettings);

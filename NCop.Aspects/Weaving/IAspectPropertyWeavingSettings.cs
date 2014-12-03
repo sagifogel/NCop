@@ -2,8 +2,8 @@
 
 namespace NCop.Aspects.Weaving
 {
-	public interface IAspectPropertyWeavingSettings : IAspectWeavingSettings
-	{
-		IPropertyWeavingSettings WeavingSettings { get; }
-	}
+    public interface IAspectPropertyWeavingSettings : IAspectWeavingSettings
+    {
+        IPropertyWeavingSettings WeavingSettings { get; }
+    }
 }
