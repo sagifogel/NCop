@@ -44,6 +44,22 @@ namespace NCop.Samples
             second.ReturnValue = first.ReturnValue;
         }
 
+        internal static void Map<TArg>(IFunctionArgs<TArg> first, IPropertyArg<TArg> second) {
+            second.Value = first.ReturnValue;
+        }
+
+        internal static void Map<TArg>(IActionArgs<TArg> first, IPropertyArg<TArg> second) {
+            second.Value = first.Arg1;
+        }
+
+        internal static void Map<TArg>(IPropertyArg<TArg> first, IFunctionArgs<TArg> second) {
+            second.ReturnValue = first.Value;
+        }
+
+        internal static void Map<TArg>(IPropertyArg<TArg> first, IActionArgs<TArg> second) {
+            second.Arg1 = first.Value;
+        }
+
         public static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> second) {
             second.Arg1 = first.Arg1;
             second.Arg2 = first.Arg2;
@@ -55,7 +71,7 @@ namespace NCop.Samples
             second.ReturnValue = first.ReturnValue;
         }
 
-        public static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> second) {
+        public static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> second) {
             second.Arg1 = first.Arg1;
             second.Arg2 = first.Arg2;
             second.Arg3 = first.Arg3;

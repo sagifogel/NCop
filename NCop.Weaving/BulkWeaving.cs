@@ -11,7 +11,7 @@ namespace NCop.Weaving
     public class BulkWeaving : ITypeWeaver
     {
         private bool lockTaken = false;
-        private static object syncLock = new object();
+        private readonly static object syncLock = new object();
         private readonly IEnumerable<ITypeWeaver> weavers = null;
 
         public BulkWeaving(IEnumerable<ITypeWeaver> weavers) {
@@ -21,11 +21,7 @@ namespace NCop.Weaving
         public void Weave() {
             try {
                 Monitor.Enter(syncLock, ref lockTaken);
-
-                weavers.ForEach(weaver => {
-                    weaver.Weave();
-                });
-
+                weavers.ForEach(weaver => weaver.Weave());
                 NCopModuleBuilder.Flush();
             }
             finally {

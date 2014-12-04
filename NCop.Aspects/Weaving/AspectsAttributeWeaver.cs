@@ -29,14 +29,11 @@ namespace NCop.Aspects.Weaving
         public void Weave() {
             Type aspectAttributes = null;
             var fieldBuilders = new List<FieldBuilder>();
-            var typeAttrs = TypeAttributes.Sealed | TypeAttributes.Abstract;
-            var typeBuilder = typeof(object).DefineType("Aspects".ToUniqueName(), attributes: typeAttrs);
-            var fieldAttrs = FieldAttributes.Private | FieldAttributes.FamANDAssem | FieldAttributes.Static;
-            var cctorAttrs = MethodAttributes.Private | MethodAttributes.Static | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
-            var cctor = typeBuilder.DefineConstructor(cctorAttrs, CallingConventions.Standard, Type.EmptyTypes).GetILGenerator();
+            var typeBuilder = typeof(object).DefineType("Aspects".ToUniqueName(), attributes: TypeAttributes.Sealed | TypeAttributes.Abstract);
+            var cctor = typeBuilder.DefineConstructor(MethodAttributes.Private | MethodAttributes.Static | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName, CallingConventions.Standard, Type.EmptyTypes).GetILGenerator();
 
             aspectTypes.ForEach((aspect, i) => {
-                var fieldBuilder = typeBuilder.DefineField("Aspect_{0}".Fmt(i).ToUniqueName(), aspect, fieldAttrs);
+                var fieldBuilder = typeBuilder.DefineField("Aspect_{0}".Fmt(i).ToUniqueName(), aspect, FieldAttributes.Private | FieldAttributes.FamANDAssem | FieldAttributes.Static);
                 var ctor = fieldBuilder.FieldType.GetConstructor(Type.EmptyTypes);
 
                 if (ctor.IsNull()) {

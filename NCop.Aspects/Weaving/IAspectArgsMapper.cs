@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 
 namespace NCop.Aspects.Weaving
 {
     public interface IAspectArgsMapper
     {
-        MethodInfo GetMappingArgsAction(int argumentCount);
-        MethodInfo GetMappingArgsFunction(int argumentCount);
+        MethodInfo GetActionToPropertyMappingArgs();
+        MethodInfo GetPropertyToActionMappingArgs();
+        MethodInfo GetFunctionToPropertyMappingArgs();
+        MethodInfo GetPropertyToFunctionMappingArgs();
+        MethodInfo GetActionMappingArgs(int argumentCount);
+        MethodInfo GetFunctionMappingArgs(int argumentCount);
     }
 }

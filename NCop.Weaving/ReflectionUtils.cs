@@ -1,16 +1,12 @@
-﻿using System;
+﻿using NCop.Core.Extensions;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using NCop.Core.Extensions;
-using System.Runtime.CompilerServices;
-using System.Diagnostics;
-using System.ComponentModel;
-using System.Linq.Expressions;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace NCop.Weaving
 {
@@ -62,6 +58,7 @@ namespace NCop.Weaving
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public static TypeBuilder DefineType(this Type parentType, string name = null, IEnumerable<Type> interfaces = null, TypeAttributes? attributes = null) {
 			var moudleBuilder = NCopModuleBuilder.Instance;
+
 			name = name ?? parentType.ToUniqueName();
 			attributes = attributes ?? parentType.Attributes;
 
@@ -98,7 +95,7 @@ namespace NCop.Weaving
 		}
 
 		internal static FieldBuilder DefineField(this TypeBuilder typeBuilder, Type fieldType, string fieldName = null, FieldAttributes? attributes = null) {
-			string name = fieldName ?? fieldType.ToFieldName();
+			var name = fieldName ?? fieldType.ToFieldName();
 
 			attributes = attributes ?? FieldAttributes.Private;
 
@@ -127,12 +124,10 @@ namespace NCop.Weaving
 			switch (Type.GetTypeCode(type)) {
 				case TypeCode.Single:
 				case TypeCode.Double:
-
-					return true;
+                    return true;
 
 				default:
-
-					return false;
+                    return false;
 			}
 		}
 

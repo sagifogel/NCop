@@ -4,7 +4,7 @@ using NCop.Weaving.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class TopGetPropertyInterceptionArgumentsWeaver : AbstractTopAspectArgumentsWeaver
+    internal class TopGetPropertyInterceptionArgumentsWeaver : AbstractTopPropertyAspectArgumentsWeaver
     {
         internal TopGetPropertyInterceptionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectMethodWeavingSettings aspectWeavingSettings)
             : base(argumentWeavingSettings, aspectWeavingSettings) {
@@ -31,7 +31,7 @@ namespace NCop.Aspects.Weaving
             ilGenerator.EmitLoadLocal(methodLocalBuilder);
             ilGenerator.Emit(OpCodes.Ldsfld, BindingsDependency);
 
-            
+
             ilGenerator.Emit(OpCodes.Newobj, ctorInterceptionArgs);
             ilGenerator.EmitStoreLocal(aspectArgLocalBuilder);
 

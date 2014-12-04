@@ -7,7 +7,7 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractAspectArgsMappingWeaver : IWeaver, IMethodScopeWeaver
+    internal abstract class AbstractAspectArgsMappingWeaver : IMethodScopeWeaver
     {
         protected readonly Type[] parameters = null;
         protected readonly Type aspectArgumentType = null;
@@ -37,8 +37,8 @@ namespace NCop.Aspects.Weaving
 
             if (mappingParameters.Length > 0) {
                 getMappingArgsMethod = argumentsSettings.IsFunction ?
-                                            aspectWeavingSettings.AspectArgsMapper.GetMappingArgsFunction :
-                                            (Func<int, MethodInfo>)aspectWeavingSettings.AspectArgsMapper.GetMappingArgsAction;
+                                            aspectWeavingSettings.AspectArgsMapper.GetFunctionMappingArgs :
+                                            (Func<int, MethodInfo>)aspectWeavingSettings.AspectArgsMapper.GetActionMappingArgs;
 
                 mapGenericMethod = getMappingArgsMethod(mappingParameters.Length);
                 mapGenericMethod = mapGenericMethod.MakeGenericMethod(mappingParameters);

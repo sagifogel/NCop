@@ -10,9 +10,9 @@ namespace NCop.Aspects.Weaving
     {
         private readonly Type topAspectInScopeArgType = null;
 
-        internal NestedAspectArgsMappingWeaver(Type topAspectInScopeType, IAspectMethodWeavingSettings aspectWeavingSettings, IArgumentsSettings argumentsSettings)
+        internal NestedAspectArgsMappingWeaver(Type topAspectInScopeArgType, IAspectMethodWeavingSettings aspectWeavingSettings, IArgumentsSettings argumentsSettings)
             : base(aspectWeavingSettings, argumentsSettings) {
-            this.topAspectInScopeArgType = topAspectInScopeType;
+            this.topAspectInScopeArgType = topAspectInScopeArgType;
         }
         
         protected override void WeaveAspectArg(ILGenerator ilGenerator) {

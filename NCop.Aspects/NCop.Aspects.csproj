@@ -176,6 +176,7 @@
     <Compile Include="Weaving\AbstractTopAspectMethodArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractTopAspectPropertyArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractTopOnMethodBoundaryAspectWeaver.cs" />
+    <Compile Include="Weaving\AbstractTopPropertyAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\AspectArgsPropertyWeaver.cs" />
     <Compile Include="Weaving\AspectArgsMethodWeaver.cs" />
     <Compile Include="Weaving\AspectPropertyWeaver.cs" />

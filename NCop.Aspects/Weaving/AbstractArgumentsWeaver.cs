@@ -22,6 +22,8 @@ namespace NCop.Aspects.Weaving
             BindingsDependency = argumentsWeavingSettings.BindingsDependency;
 		}
 
+        public bool IsProperty { get; set; }
+
         public Type ReturnType { get; set; }
         
         public Type AspectType { get; protected set; }

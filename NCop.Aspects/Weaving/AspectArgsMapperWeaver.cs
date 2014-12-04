@@ -11,21 +11,27 @@ namespace NCop.Aspects.Weaving
 {
     public class AspectArgsMapperWeaver : ITypeWeaver, IAspectArgsMapper
     {
-        internal Dictionary<int, MethodInfo> funcAspectArgMapperMethodsDictionary = null;
-        internal Dictionary<int, MethodInfo> actionAspectArgMapperMethodsDictionary = null;
+        private MethodInfo actionToPropertyMappingArgs = null;
+        private MethodInfo propertyToActionMappingArgs = null;
+        private MethodInfo functionToPropertyMappingArgs = null;
+        private MethodInfo propertyToFunctionMappingArgs = null;
+        private Dictionary<int, MethodInfo> funcAspectArgMapperMethodsDictionary = null;
+        private Dictionary<int, MethodInfo> actionAspectArgMapperMethodsDictionary = null;
+        private readonly BindingFlags weavedMethodsFlags = BindingFlags.NonPublic | BindingFlags.Static;
+        private readonly TypeAttributes typeAttrs = TypeAttributes.NotPublic | TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit;
+        private readonly MethodAttributes methodAttr = MethodAttributes.Private | MethodAttributes.FamANDAssem | MethodAttributes.Static | MethodAttributes.HideBySig;
 
         public void Weave() {
             Type weavedFuncType = null;
             Type weavedActionType = null;
-            BindingFlags weavedMethodsFlags = BindingFlags.NonPublic | BindingFlags.Static;
-            var typeAttrs = TypeAttributes.NotPublic | TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit;
-            var funcAspectArgMapperTypeBuilder = typeof(object).DefineType("FunctionArgsMapper".ToUniqueName(), attributes: typeAttrs);
-            var actionAspectArgMapperTypeBuilder = typeof(object).DefineType("ActionArgsMapper".ToUniqueName(), attributes: typeAttrs);
+            var typefObject = typeof(object);
+            var funcAspectArgMapperTypeBuilder = typefObject.DefineType("FunctionArgsMapper".ToUniqueName(), attributes: typeAttrs);
+            var actionAspectArgMapperTypeBuilder = typefObject.DefineType("ActionArgsMapper".ToUniqueName(), attributes: typeAttrs);
 
             Enumerable.Range(0, 9).ForEach(i => {
                 if (i == 0) {
                     BuildNonGenericTypeMethod(actionAspectArgMapperTypeBuilder, i, ResolveIActionArgsType);
-                } 
+                }
                 else {
                     BuildMethod(actionAspectArgMapperTypeBuilder, i, ResolveIActionArgsType, false);
                 }
@@ -33,6 +39,8 @@ namespace NCop.Aspects.Weaving
                 BuildMethod(funcAspectArgMapperTypeBuilder, i, ResolveIFunctionArgsType, true);
             });
 
+            BuildPropertyToActionMappingMethods();
+            BuildPropertyToAFunctionMappingMethods();
             weavedFuncType = funcAspectArgMapperTypeBuilder.CreateType();
             weavedActionType = actionAspectArgMapperTypeBuilder.CreateType();
 
@@ -48,13 +56,10 @@ namespace NCop.Aspects.Weaving
             ILGenerator ilGenerator = null;
             PropertyInfo methodProperty = null;
             Type genericTypeArgumentType = null;
-            PropertyInfo returnValueProperty = null;
             GenericTypeParameterBuilder[] genericParameters = null;
-            var methodAttr = MethodAttributes.Private | MethodAttributes.FamANDAssem | MethodAttributes.Static | MethodAttributes.HideBySig;
             var methodBuilder = typeBuilder.DefineMethod("Map", methodAttr, CallingConventions.Standard);
             var genericArgumentsArray = Enumerable.Range(1, numberOfArgs)
-                                                  .Select(j => "Arg{0}".Fmt(j))
-                                                  .ToList();
+                                                  .ToList(j => "Arg{0}".Fmt(j));
 
             if (hasReturnType) {
                 genericArgumentsArray.Add("TResult");
@@ -63,7 +68,7 @@ namespace NCop.Aspects.Weaving
             genericParameters = methodBuilder.DefineGenericParameters(genericArgumentsArray.ToArray());
             genericTypeArgumentType = resolveArgsFn(numberOfArgs);
             argumentType = genericTypeArgumentType.MakeGenericType(genericParameters);
-            methodBuilder.SetParameters(new Type[] { argumentType, argumentType });
+            methodBuilder.SetParameters(new[] { argumentType, argumentType });
             ilGenerator = methodBuilder.GetILGenerator();
             methodProperty = genericTypeArgumentType.GetProperty("Method");
 
@@ -82,9 +87,10 @@ namespace NCop.Aspects.Weaving
             ilGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(argumentType, methodProperty.GetSetMethod()));
 
             if (hasReturnType) {
+                var returnValueProperty = genericTypeArgumentType.GetProperty("ReturnValue");
+
                 ilGenerator.Emit(OpCodes.Ldarg_1);
                 ilGenerator.Emit(OpCodes.Ldarg_0);
-                returnValueProperty = genericTypeArgumentType.GetProperty("ReturnValue");
                 ilGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(argumentType, returnValueProperty.GetGetMethod()));
                 ilGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(argumentType, returnValueProperty.GetSetMethod()));
             }
@@ -92,15 +98,21 @@ namespace NCop.Aspects.Weaving
             ilGenerator.Emit(OpCodes.Ret);
         }
 
+        private void BuildPropertyToActionMappingMethods() {
+        }
+
+        private void BuildPropertyToAFunctionMappingMethods() {
+
+        }
+
         private void BuildNonGenericTypeMethod(TypeBuilder typeBuilder, int numberOfArgs, Func<int, Type> resolveArgsFn) {
             Type argumentType = null;
             ILGenerator ilGenerator = null;
             PropertyInfo methodProperty = null;
-            var methodAttr = MethodAttributes.Private | MethodAttributes.FamANDAssem | MethodAttributes.Static | MethodAttributes.HideBySig;
             var methodBuilder = typeBuilder.DefineMethod("Map", methodAttr, CallingConventions.Standard);
 
             argumentType = resolveArgsFn(numberOfArgs);
-            methodBuilder.SetParameters(new Type[] { argumentType, argumentType });
+            methodBuilder.SetParameters(new[] { argumentType, argumentType });
             ilGenerator = methodBuilder.GetILGenerator();
             methodProperty = argumentType.GetProperty("Method");
 
@@ -110,7 +122,7 @@ namespace NCop.Aspects.Weaving
             ilGenerator.Emit(OpCodes.Callvirt, methodProperty.GetSetMethod());
             ilGenerator.Emit(OpCodes.Ret);
         }
-        
+
         private Type ResolveIFunctionArgsType(int count) {
             switch (count) {
                 case 0:
@@ -161,11 +173,27 @@ namespace NCop.Aspects.Weaving
             }
         }
 
-        public MethodInfo GetMappingArgsAction(int argumentCount) {
+        public MethodInfo GetActionToPropertyMappingArgs() {
+            return actionToPropertyMappingArgs;
+        }
+
+        public MethodInfo GetPropertyToActionMappingArgs() {
+            return propertyToActionMappingArgs;
+        }
+
+        public MethodInfo GetFunctionToPropertyMappingArgs() {
+            return functionToPropertyMappingArgs;
+        }
+
+        public MethodInfo GetPropertyToFunctionMappingArgs() {
+            return propertyToFunctionMappingArgs;
+        }
+
+        public MethodInfo GetActionMappingArgs(int argumentCount) {
             return actionAspectArgMapperMethodsDictionary[argumentCount];
         }
 
-        public MethodInfo GetMappingArgsFunction(int argumentCount) {
+        public MethodInfo GetFunctionMappingArgs(int argumentCount) {
             return funcAspectArgMapperMethodsDictionary[argumentCount];
         }
     }
