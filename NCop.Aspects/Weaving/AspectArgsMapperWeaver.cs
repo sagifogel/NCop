@@ -11,13 +11,10 @@ namespace NCop.Aspects.Weaving
 {
     public class AspectArgsMapperWeaver : ITypeWeaver, IAspectArgsMapper
     {
-        private MethodInfo actionToPropertyMappingArgs = null;
-        private MethodInfo propertyToActionMappingArgs = null;
-        private MethodInfo functionToPropertyMappingArgs = null;
-        private MethodInfo propertyToFunctionMappingArgs = null;
         private Dictionary<int, MethodInfo> funcAspectArgMapperMethodsDictionary = null;
         private Dictionary<int, MethodInfo> actionAspectArgMapperMethodsDictionary = null;
         private readonly BindingFlags weavedMethodsFlags = BindingFlags.NonPublic | BindingFlags.Static;
+        private Dictionary<Tuple<Type, Type>, MethodInfo> propertyAspectArgMapperMethodsDictionary = null;
         private readonly TypeAttributes typeAttrs = TypeAttributes.NotPublic | TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit;
         private readonly MethodAttributes methodAttr = MethodAttributes.Private | MethodAttributes.FamANDAssem | MethodAttributes.Static | MethodAttributes.HideBySig;
 
@@ -39,8 +36,7 @@ namespace NCop.Aspects.Weaving
                 BuildMethod(funcAspectArgMapperTypeBuilder, i, ResolveIFunctionArgsType, true);
             });
 
-            BuildPropertyToActionMappingMethods();
-            BuildPropertyToAFunctionMappingMethods();
+            WeavePropertyMappingMethods();
             weavedFuncType = funcAspectArgMapperTypeBuilder.CreateType();
             weavedActionType = actionAspectArgMapperTypeBuilder.CreateType();
 
@@ -98,11 +94,68 @@ namespace NCop.Aspects.Weaving
             ilGenerator.Emit(OpCodes.Ret);
         }
 
-        private void BuildPropertyToActionMappingMethods() {
+        private void WeavePropertyMappingMethods() {
+            Type weavedPropertyType = null;
+            var propertyAspectArgMapperTypeBuilder = typeof(object).DefineType("PropertyArgsMapper".ToUniqueName(), attributes: typeAttrs);
+
+            BuildPropertyMappingMethods(propertyAspectArgMapperTypeBuilder, typeof(IActionArgs<>), typeof(IPropertyArg<>), "Arg1");
+            BuildPropertyMappingMethods(propertyAspectArgMapperTypeBuilder, typeof(IFunctionArgs<>), typeof(IPropertyArg<>), "ReturnValue");
+            weavedPropertyType = propertyAspectArgMapperTypeBuilder.CreateType();
+
+            propertyAspectArgMapperMethodsDictionary = weavedPropertyType.GetMethods(weavedMethodsFlags)
+                                                                         .ToDictionary(method => {
+                                                                             var parameters = method.GetParameters();
+                                                                             var firstParam = parameters[0].ParameterType.GetGenericTypeDefinition();
+                                                                             var secondParam = parameters[1].ParameterType.GetGenericTypeDefinition();
+
+                                                                             return Tuple.Create(firstParam, secondParam);
+                                                                         });
         }
 
-        private void BuildPropertyToAFunctionMappingMethods() {
+        private void BuildPropertyMappingMethods(TypeBuilder typeBuilder, Type fromArgType, Type propertyArgType, string fromArgTypePropertyName) {
+            Type fromArgumentType = null;
+            Type propertyArgumentType = null;
+            ILGenerator fromArgTypeILGenerator = null;
+            ILGenerator fromPropertyILGenerator = null;
+            GenericTypeParameterBuilder[] fromArgTypeGenericParameters = null;
+            GenericTypeParameterBuilder[] propertyArgTypeGenericParameters = null;
+            var fromArgTypeMethodBuilder = typeBuilder.DefineMethod("Map", methodAttr, CallingConventions.Standard);
+            var fromPropertyMethodBuilder = typeBuilder.DefineMethod("Map", methodAttr, CallingConventions.Standard);
 
+            fromArgTypeGenericParameters = fromArgTypeMethodBuilder.DefineGenericParameters(new[] { "TArg" });
+            propertyArgTypeGenericParameters = fromPropertyMethodBuilder.DefineGenericParameters(new[] { "TArg" });
+            fromArgumentType = fromArgType.MakeGenericType(fromArgTypeGenericParameters);
+            propertyArgumentType = propertyArgType.MakeGenericType(propertyArgTypeGenericParameters);
+            fromArgTypeMethodBuilder.SetParameters(new[] { fromArgumentType, propertyArgumentType });
+            fromPropertyMethodBuilder.SetParameters(new[] { propertyArgumentType, fromArgumentType });
+            fromArgTypeMethodBuilder.SetReturnType(typeof(void));
+            fromPropertyMethodBuilder.SetReturnType(typeof(void));
+
+            fromArgTypeILGenerator = fromArgTypeMethodBuilder.GetILGenerator();
+            fromPropertyILGenerator = fromPropertyMethodBuilder.GetILGenerator();
+
+            fromArgTypeILGenerator.Emit(OpCodes.Ldarg_1);
+            fromArgTypeILGenerator.Emit(OpCodes.Ldarg_0);
+            fromArgTypeILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(fromArgumentType, fromArgType.GetProperty(fromArgTypePropertyName).GetGetMethod()));
+            fromArgTypeILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(propertyArgumentType, propertyArgType.GetProperty("Value").GetSetMethod()));
+
+            fromPropertyILGenerator.Emit(OpCodes.Ldarg_1);
+            fromPropertyILGenerator.Emit(OpCodes.Ldarg_0);
+            fromPropertyILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(propertyArgumentType, propertyArgType.GetProperty("Value").GetGetMethod()));
+            fromPropertyILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(fromArgumentType, fromArgType.GetProperty(fromArgTypePropertyName).GetSetMethod()));
+
+            fromArgTypeILGenerator.Emit(OpCodes.Ldarg_1);
+            fromArgTypeILGenerator.Emit(OpCodes.Ldarg_0);
+            fromArgTypeILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(fromArgumentType, fromArgType.GetProperty("Method").GetGetMethod()));
+            fromArgTypeILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(propertyArgumentType, propertyArgType.GetProperty("Method").GetSetMethod()));
+
+            fromPropertyILGenerator.Emit(OpCodes.Ldarg_1);
+            fromPropertyILGenerator.Emit(OpCodes.Ldarg_0);
+            fromPropertyILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(propertyArgumentType, propertyArgType.GetProperty("Method").GetGetMethod()));
+            fromPropertyILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(fromArgumentType, fromArgType.GetProperty("Method").GetSetMethod()));
+
+            fromArgTypeILGenerator.Emit(OpCodes.Ret);
+            fromPropertyILGenerator.Emit(OpCodes.Ret);
         }
 
         private void BuildNonGenericTypeMethod(TypeBuilder typeBuilder, int numberOfArgs, Func<int, Type> resolveArgsFn) {
@@ -173,20 +226,10 @@ namespace NCop.Aspects.Weaving
             }
         }
 
-        public MethodInfo GetActionToPropertyMappingArgs() {
-            return actionToPropertyMappingArgs;
-        }
+        public MethodInfo GetPropertyMappingArgs(Type fromType, Type toType) {
+            var tuple = Tuple.Create(fromType.GetGenericTypeDefinition(), toType.GetGenericTypeDefinition());
 
-        public MethodInfo GetPropertyToActionMappingArgs() {
-            return propertyToActionMappingArgs;
-        }
-
-        public MethodInfo GetFunctionToPropertyMappingArgs() {
-            return functionToPropertyMappingArgs;
-        }
-
-        public MethodInfo GetPropertyToFunctionMappingArgs() {
-            return propertyToFunctionMappingArgs;
+            return propertyAspectArgMapperMethodsDictionary[tuple];
         }
 
         public MethodInfo GetActionMappingArgs(int argumentCount) {

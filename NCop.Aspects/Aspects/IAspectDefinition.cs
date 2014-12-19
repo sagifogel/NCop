@@ -9,7 +9,7 @@ namespace NCop.Aspects.Aspects
     public interface IAspectDefinition : IAcceptsVisitor<IAspectDefinitionVisitor, IAspectExpressionBuilder>
     {
         IAspect Aspect { get; }
-        MemberInfo Member { get; }
+        MethodInfo Member { get; }
         AspectType AspectType { get; }
         Type AspectDeclaringType { get; }
         IAdviceDefinitionCollection Advices { get; }

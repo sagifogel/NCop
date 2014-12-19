@@ -147,7 +147,7 @@ namespace NCop.Core.Extensions
         }
 
         public static bool IsNull(this object value) {
-            return object.ReferenceEquals(value, null);
+            return ReferenceEquals(value, null);
         }
 
         public static bool IsNotNull(this object value) {

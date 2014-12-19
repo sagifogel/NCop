@@ -1,15 +1,19 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 using NCop.Aspects.Framework;
 
 namespace NCop.Aspects.Engine
 {
-    public class PropertyInterceptionArgsImpl<TInstance, TArg> : PropertyInterceptionArgs<TArg>, IPropertyArg<TArg>
+    public abstract class AbstractPropertyInterceptionArgs<TInstance, TArg> : PropertyInterceptionArgs<TArg>, IPropertyArg<TArg>
     {
-        private TInstance instance = default(TInstance);
-        private readonly IPropertyBinding<TInstance, TArg> propertyBinding = null;
+        protected TInstance instance = default(TInstance);
+        protected readonly IPropertyBinding<TInstance, TArg> propertyBinding = null;
 
-        public PropertyInterceptionArgsImpl(TInstance instance, MethodInfo method, IPropertyBinding<TInstance, TArg> propertyBinding, TArg value = default(TArg)) {
-            Value = value;
+        protected AbstractPropertyInterceptionArgs(TInstance instance, MethodInfo method, IPropertyBinding<TInstance, TArg> propertyBinding) {
             Method = method;
             Instance = this.instance = instance;
             this.propertyBinding = propertyBinding;

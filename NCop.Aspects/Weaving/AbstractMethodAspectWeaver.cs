@@ -19,8 +19,8 @@ namespace NCop.Aspects.Weaving
         protected readonly IAdviceDefinitionCollection advices = null;
 		protected readonly IMethodWeavingSettings weavingSettings = null;
 		protected readonly AdviceVisitor adviceVisitor = new AdviceVisitor();
+        protected ArgumentsWeavingSettings argumentsWeavingSettings = null;
         protected readonly IAspectMethodWeavingSettings aspectWeavingSettings = null;
-        protected readonly ArgumentsWeavingSettings argumentsWeavingSetings = null;
         protected readonly AdviceDiscoveryVisitor adviceDiscoveryVistor = new AdviceDiscoveryVisitor();
 
         internal AbstractMethodAspectWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings) {
@@ -29,7 +29,7 @@ namespace NCop.Aspects.Weaving
             this.aspectWeavingSettings = aspectWeavingSettings;
             weavingSettings = aspectWeavingSettings.WeavingSettings;
             aspectRepository = aspectWeavingSettings.AspectRepository;
-            argumentsWeavingSetings = aspectDefinition.ToArgumentsWeavingSettings();
+            argumentsWeavingSettings = aspectDefinition.ToArgumentsWeavingSettings();
             aspectDefinition.Advices.ForEach(advice => advice.Accept(adviceDiscoveryVistor));
         }
 

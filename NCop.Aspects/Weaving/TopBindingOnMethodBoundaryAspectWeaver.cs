@@ -16,8 +16,8 @@ namespace NCop.Aspects.Weaving
             : base(nestedWeaver, aspectDefinition, settings) {
             var @params = weavingSettings.MethodInfoImpl.GetParameters();
 
-            argumentsWeavingSetings.Parameters = @params.ToArray(@param => @param.ParameterType);
-            argumentsWeaver = new TopBindingOnMethodExecutionArgumentsWeaver(argumentsWeavingSetings, settings);
+            argumentsWeavingSettings.Parameters = @params.ToArray(@param => @param.ParameterType);
+            argumentsWeaver = new TopBindingOnMethodExecutionArgumentsWeaver(argumentsWeavingSettings, settings);
         }
 
         protected override void AddEntryScopeWeavers(List<IMethodScopeWeaver> entryWeavers) {
@@ -30,7 +30,7 @@ namespace NCop.Aspects.Weaving
         }
 
         protected override void AddFinallyScopeWeavers(List<IMethodScopeWeaver> finallyWeavers) {
-            finallyWeavers.Add(new TopAspectArgsMappingWeaverImpl(aspectWeavingSettings, argumentsWeavingSetings));
+            finallyWeavers.Add(new TopAspectArgsMappingWeaverImpl(aspectWeavingSettings, argumentsWeavingSettings));
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {

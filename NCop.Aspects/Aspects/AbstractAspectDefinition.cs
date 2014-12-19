@@ -9,50 +9,50 @@ using System.Reflection;
 
 namespace NCop.Aspects.Aspects
 {
-	internal abstract class AbstractAspectDefinition<TMember> : IAspectDefinition where TMember : MemberInfo
-	{
-		protected readonly AdviceDefinitionCollection advices = null;
+    internal abstract class AbstractAspectDefinition : IAspectDefinition
+    {
+        protected readonly AdviceDefinitionCollection advices = null;
 
-		internal AbstractAspectDefinition(IAspect aspect, Type aspectDeclaringType, MemberInfo member) {
-			Aspect = aspect;
-			Member = member;
-			AspectDeclaringType = aspectDeclaringType;
-			advices = new AdviceDefinitionCollection();
+        internal AbstractAspectDefinition(IAspect aspect, Type aspectDeclaringType, MethodInfo method) {
+            Aspect = aspect;
+            Member = method;
+            AspectDeclaringType = aspectDeclaringType;
+            advices = new AdviceDefinitionCollection();
             BulidAdvices();
-		}
+        }
 
-		public IAspect Aspect { get; private set; }
+        public IAspect Aspect { get; private set; }
 
-		public MemberInfo Member { get; private set; }
+        public MethodInfo Member { get; private set; }
 
-		public abstract AspectType AspectType { get; }
+        public abstract AspectType AspectType { get; }
 
-		public Type AspectDeclaringType { get; private set; }
+        public Type AspectDeclaringType { get; private set; }
 
-		public IAdviceDefinitionCollection Advices {
-			get {
-				return advices;
-			}
-		}
+        public IAdviceDefinitionCollection Advices {
+            get {
+                return advices;
+            }
+        }
 
         protected bool TryBulidAdvice<TAdvice>(MethodInfo member, Func<TAdvice, MethodInfo, IAdviceDefinition> adviceDefinitionFactory) where TAdvice : AdviceAttribute {
-			var advice = member.GetCustomAttribute<TAdvice>(true);
+            var advice = member.GetCustomAttribute<TAdvice>(true);
 
-			return TryBulidAdvice(advice, member, adviceDefinitionFactory);
-		}
+            return TryBulidAdvice(advice, member, adviceDefinitionFactory);
+        }
 
         protected bool TryBulidAdvice<TAdvice>(TAdvice advice, MethodInfo member, Func<TAdvice, MethodInfo, IAdviceDefinition> adviceDefinitionFactory) where TAdvice : AdviceAttribute {
-			if (advice.IsNotNull()) {
-				advices.Add(adviceDefinitionFactory(advice, member));
+            if (advice.IsNotNull()) {
+                advices.Add(adviceDefinitionFactory(advice, member));
 
-				return true;
-			}
+                return true;
+            }
 
-			return false;
-		}
+            return false;
+        }
 
-		public abstract void BulidAdvices();
+        public abstract void BulidAdvices();
 
-		public abstract IAspectExpressionBuilder Accept(IAspectDefinitionVisitor visitor);
-	}
+        public abstract IAspectExpressionBuilder Accept(IAspectDefinitionVisitor visitor);
+    }
 }

@@ -48,7 +48,7 @@ namespace NCop.Aspects.Extensions
             var genericArguments = argumentType.GetGenericArguments();
             var genericArgumentsWithContext = new[] { declaringType }.Concat(genericArguments);
 
-            return argumentType.MakeGenericArgsType(genericArgumentsWithContext.ToArray());
+            return argumentType.MakeGenericArgsType(aspectDefinition.Member, genericArgumentsWithContext.ToArray());
         }
 
         internal static Type ToAspectArgumentContract(this MethodInfo methodInfoImpl) {
@@ -66,7 +66,7 @@ namespace NCop.Aspects.Extensions
             return argumentTypes.ToAspectArgumentContract(isFunction);
         }
 
-        internal static Type ToPropertyAspectArgumentContract(this MethodInfo methodInfoImpl) {
+        internal static Type ToPropertyAspectArgument(this MethodInfo methodInfoImpl) {
             var argumentTypes = new Type[1];
 
             if (methodInfoImpl.ReturnType.IsNotNull()) {
@@ -76,7 +76,7 @@ namespace NCop.Aspects.Extensions
                 argumentTypes[0] = methodInfoImpl.GetParameters().First().ParameterType;
             }
 
-            return typeof(IPropertyArg<>).MakeGenericType(argumentTypes);
+            return typeof(PropertyInterceptionArgs<>).MakeGenericType(argumentTypes);
         }
 
         internal static BindingSettings ToBindingSettings(this IAspectDefinition aspectDefinition) {
@@ -133,6 +133,7 @@ namespace NCop.Aspects.Extensions
 
             return new ArgumentsWeavingSettings {
                 AspectType = aspectType,
+                IsProperty = bindingSettings.IsProperty,
                 IsFunction = bindingSettings.IsFunction,
                 ReturnType = methodParameters.ReturnType,
                 Parameters = methodParameters.Parameters,

@@ -6,7 +6,9 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 using System;
+using System.Reflection;
 using NCop.Aspects.Engine;
+using NCop.Core.Extensions;
 using System.Collections.Generic;
 
 namespace NCop.Aspects.Extensions
@@ -71,12 +73,12 @@ namespace NCop.Aspects.Extensions
 			funcInterceptionArgsMap.Add(9, typeof(FunctionInterceptionArgsImpl<,,,,,,,,,>));							
 		}
 
-		internal static Type MakeGenericArgsType(this Type argumentsType, params Type[] typeArguments) {
+		internal static Type MakeGenericArgsType(this Type argumentsType, MethodInfo aspectMember, params Type[] typeArguments) {
 			Type type = null;
 			int parametersCount = argumentsType.GetGenericArguments().Length;
 
 			 if (typeof(IPropertyInterceptionArgs).IsAssignableFrom(argumentsType)) {
-                type = typeof(PropertyInterceptionArgsImpl<,>);
+                type = aspectMember.HasReturnType() ? typeof(GetPropertyInterceptionArgsImpl<,>) : typeof(SetPropertyInterceptionArgsImpl<,>);
             }
 			else if (typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType)) {
 				type = funcInterceptionArgsMap[parametersCount];

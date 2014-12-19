@@ -10,6 +10,10 @@ namespace NCop.Aspects.Weaving
     {
         internal bool HasFinallyAdvice { get; private set; }
 
+        internal bool HasOnSetPropertyAdvice { get; private set; }
+
+        internal bool HasOnGetPropertyAdvice { get; private set; }
+        
         internal bool HasOnMethodEntryAdvice { get; private set; }
 
         internal bool HasOnMethodInvokeAdvice { get; private set; }
@@ -18,23 +22,19 @@ namespace NCop.Aspects.Weaving
 
         internal bool HasOnMethodExceptionAdvice { get; private set; }
 
-        internal bool HasOnSetPropertyInvokeAdvice { get; private set; }
-
-        internal bool HasOnGetPropertyInvokeAdvice { get; private set; }
-
         internal FinallyAdviceAttribute FinallyAdvice { get; private set; }
 
         internal OnMethodEntryAdviceAttribute OnMethodEntryAdvice { get; private set; }
 
+        internal OnGetPropertyAdviceAttribute OnGetPropertyAdvice { get; private set; }
+
+        internal OnSetPropertyAdviceAttribute OnSetPropertyAdvice { get; private set; }
+        
         internal OnMethodInvokeAdviceAttribute OnMethodInvokeAdvice { get; private set; }
 
         internal OnMethodSuccessAdviceAttribute OnMethodSuccessAdvice { get; private set; }
 
         internal OnMethodExceptionAdviceAttribute OnMethodExceptionAdvice { get; private set; }
-        
-        internal OnGetPropertyInvokeAdviceAttribute OnGetPropertyInvokeAdvice { get; private set; }
-
-        internal OnSetPropertyInvokeAdviceAttribute OnSetPropertyInvokeAdvice { get; private set; }
 
         internal void Visit(FinallyAdviceAttribute advice) {
             FinallyAdvice = advice;
@@ -61,14 +61,14 @@ namespace NCop.Aspects.Weaving
             HasOnMethodExceptionAdvice = true;
         }
 
-		internal void Visit(OnGetPropertyInvokeAdviceAttribute advice) {
-			OnGetPropertyInvokeAdvice = advice;
-            HasOnGetPropertyInvokeAdvice = true;
+		internal void Visit(OnGetPropertyAdviceAttribute advice) {
+			OnGetPropertyAdvice = advice;
+            HasOnGetPropertyAdvice = true;
         }
 
-        internal void Visit(OnSetPropertyInvokeAdviceAttribute advice) {
-            OnSetPropertyInvokeAdvice = advice;
-            HasOnSetPropertyInvokeAdvice = true;
+        internal void Visit(OnSetPropertyAdviceAttribute advice) {
+            OnSetPropertyAdvice = advice;
+            HasOnSetPropertyAdvice = true;
         }
     }
 }

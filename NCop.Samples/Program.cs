@@ -26,8 +26,6 @@ namespace NCop.Samples
     public interface IDeveloper
     {
         string Code { get; }
-
-        //void Do();
     }
 
     internal static class FunctionArgsMapper
@@ -46,6 +44,7 @@ namespace NCop.Samples
 
         internal static void Map<TArg>(IFunctionArgs<TArg> first, IPropertyArg<TArg> second) {
             second.Value = first.ReturnValue;
+            second.Method = first.Method;
         }
 
         internal static void Map<TArg>(IActionArgs<TArg> first, IPropertyArg<TArg> second) {
@@ -54,6 +53,7 @@ namespace NCop.Samples
 
         internal static void Map<TArg>(IPropertyArg<TArg> first, IFunctionArgs<TArg> second) {
             second.ReturnValue = first.Value;
+            second.Method = first.Method;
         }
 
         internal static void Map<TArg>(IPropertyArg<TArg> first, IActionArgs<TArg> second) {
@@ -135,19 +135,23 @@ namespace NCop.Samples
 
     public class CSharpDeveloperMixin : IDeveloper
     {
+        private string code = "C#";
+
         [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
-        public string Code { get; set; }
+        public string Code {
+            get { return code; }
+        }
         //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
 
 
         //[MethodInterceptionAspect(typeof(StopWatchAspect))]
-        //[MethodInterceptionAspect(typeof(StopWatchAspect))]
+        ////[MethodInterceptionAspect(typeof(StopWatchAspect))]
         //public void Do() {
 
         //}
     }
 
-    public class PropertyBinding : IPropertyBinding<CSharpDeveloperMixin, string>
+    public class PropertyBinding : IPropertyBinding<IDeveloper, string>
     {
         public static PropertyBinding singleton = null;
 
@@ -155,34 +159,30 @@ namespace NCop.Samples
             singleton = new PropertyBinding();
         }
 
-        public string GetValue(ref CSharpDeveloperMixin instance, IPropertyArg<string> arg) {
+        public string GetValue(ref IDeveloper instance, IPropertyArg<string> arg) {
             return instance.Code;
         }
 
-        public void SetValue(ref CSharpDeveloperMixin instance, IPropertyArg<string> arg, string value) {
-            instance.Code = value;
+        public void SetValue(ref IDeveloper instance, IPropertyArg<string> arg, string value) {
+            throw new NotSupportedException();
         }
     }
 
     public class Person : IPerson
     {
-        private static CSharpDeveloperMixin instance = null;
+        private IDeveloper instance = null;
 
-        static Person() {
-            instance = new CSharpDeveloperMixin();
+        public Person(IDeveloper developer) {
+            instance = developer;
         }
 
         public string Code {
             get {
                 var codeMethod = instance.GetType().GetProperty("Code", typeof(string)).GetGetMethod();
-                var interArgs = new PropertyInterceptionArgsImpl<CSharpDeveloperMixin, string>(instance, codeMethod, PropertyBinding.singleton);
-
+                var interArgs = new GetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding.singleton);
                 Aspects.stopWatchAspect.OnGetValue(interArgs);
 
                 return interArgs.Value;
-            }
-            set {
-
             }
         }
     }
@@ -222,8 +222,9 @@ namespace NCop.Samples
 
             container.Configure();
             developer = container.Resolve<IPerson>();
+            var ctor = developer.GetType().GetConstructors()[0];
             //developer = new Person();
-            //Console.WriteLine(developer.Code);
+            Console.WriteLine(developer.Code);
         }
     }
 }

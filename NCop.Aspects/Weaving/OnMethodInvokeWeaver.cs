@@ -10,7 +10,7 @@ namespace NCop.Aspects.Weaving
 {
     internal class OnMethodInvokeWeaver : AbstractAdviceWeaver
     {
-        public OnMethodInvokeWeaver(IAdviceWeavingSettings adviceWeavingSettings)
+        internal OnMethodInvokeWeaver(IAdviceWeavingSettings adviceWeavingSettings)
             : base(adviceWeavingSettings) {
         }
 

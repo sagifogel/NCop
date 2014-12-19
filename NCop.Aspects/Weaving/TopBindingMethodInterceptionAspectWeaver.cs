@@ -13,10 +13,10 @@ namespace NCop.Aspects.Weaving
 
         internal TopBindingMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
-            argumentsWeavingSetings.BindingsDependency = weavedType;
-            argumentsWeaver = new TopBindingMethodInterceptionArgumentsWeaver(argumentsWeavingSetings, aspectWeavingSettings);
-            methodScopeWeavers.Add(new TopAspectArgsMappingWeaverImpl(aspectWeavingSettings, argumentsWeavingSetings));
-            ArgumentType = argumentsWeavingSetings.ArgumentType;
+            argumentsWeavingSettings.BindingsDependency = weavedType;
+            argumentsWeaver = new TopBindingMethodInterceptionArgumentsWeaver(argumentsWeavingSettings, aspectWeavingSettings);
+            methodScopeWeavers.Add(new TopAspectArgsMappingWeaverImpl(aspectWeavingSettings, argumentsWeavingSettings));
+            ArgumentType = argumentsWeavingSettings.ArgumentType;
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 
@@ -26,7 +26,7 @@ namespace NCop.Aspects.Weaving
             argumentsWeaver.Weave(ilGenerator);
             weaver.Weave(ilGenerator);
 
-            if (argumentsWeavingSetings.IsFunction) {
+            if (argumentsWeavingSettings.IsFunction) {
                 var returnValueProperty = aspectArgsType.GetProperty("ReturnValue");
 
                 ilGenerator.EmitLoadArg(2);

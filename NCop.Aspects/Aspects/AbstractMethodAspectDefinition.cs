@@ -3,10 +3,10 @@ using System.Reflection;
 
 namespace NCop.Aspects.Aspects
 {
-    internal abstract class AbstractMethodAspectDefinition : AbstractAspectDefinition<MethodInfo>
+    internal abstract class AbstractMethodAspectDefinition : AbstractAspectDefinition
     {
-        internal AbstractMethodAspectDefinition(IAspect aspect, Type aspectDeclaringType, MemberInfo member)
-            : base(aspect, aspectDeclaringType, member) {
+        internal AbstractMethodAspectDefinition(IAspect aspect, Type aspectDeclaringType, MethodInfo method)
+            : base(aspect, aspectDeclaringType, method) {
         }
     }
 }

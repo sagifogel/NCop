@@ -87,10 +87,10 @@
     <Compile Include="Advices\AviceDefinitionCollection.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Advices\OnGetPropertyInvokeAdviceAttribute.cs" />
-    <Compile Include="Advices\OnGetPropertyInvokeAdviceDefinition.cs" />
-    <Compile Include="Advices\OnSetPropertyInvokeAdviceAttribute.cs" />
-    <Compile Include="Advices\OnSetPropertyInvokeAdviceDefinition.cs" />
+    <Compile Include="Advices\OnGetPropertyAdviceAttribute.cs" />
+    <Compile Include="Advices\OnGetPropertyAdviceDefinition.cs" />
+    <Compile Include="Advices\OnSetPropertyAdviceAttribute.cs" />
+    <Compile Include="Advices\OnSetPropertyAdviceDefinition.cs" />
     <Compile Include="Aspects\AbstractAspectDefinition.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -101,6 +101,7 @@
     <Compile Include="Aspects\GetPropertyInterceptionAspectDefinition.cs" />
     <Compile Include="Engine\AbstractMethodAdviceArgs.cs" />
     <Compile Include="Engine\AbstractPropertyAdviceArgs.cs" />
+    <Compile Include="Engine\AbstractPropertyInterceptionArgs.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`2.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`3.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`4.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Engine\ActionExecutionArgsImpl`8.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`1.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl.cs" />
+    <Compile Include="Engine\SetPropertyInterceptionArgsImpl.cs" />
     <Compile Include="Engine\IFunctionArgs.cs" />
     <Compile Include="Engine\IActionArgs`1.cs" />
     <Compile Include="Engine\IActionArgs`2.cs" />
@@ -126,7 +128,7 @@
     <Compile Include="Engine\IPropertyInterceptionArgs.cs" />
     <Compile Include="Engine\IPropertyInterceptionAspect`1.cs" />
     <Compile Include="Engine\IPropertyInterceptionAspect.cs" />
-    <Compile Include="Engine\PropertyInterceptionArgsImpl.cs" />
+    <Compile Include="Engine\GetPropertyInterceptionArgsImpl.cs" />
     <Compile Include="Exceptions\AspectWeavingException.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -168,6 +170,7 @@
     <Compile Include="Weaving\AbstractBranchedMethodScopeWeaver.cs" />
     <Compile Include="Weaving\AbstractByRefArgumentsStoreWeaver.cs" />
     <Compile Include="Weaving\AbstractBindingByRefArgumentsWeaver.cs" />
+    <Compile Include="Weaving\AbstractInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\AbstractPropertyBinding.cs" />
     <Compile Include="Weaving\AbstractPropertyBindingWeaver.cs" />
     <Compile Include="Weaving\AbstractPropertyInterceptionBindingWeaver.cs" />
@@ -184,6 +187,8 @@
     <Compile Include="Weaving\BindingPropertyAspectDecoratorWeaver.cs" />
     <Compile Include="Weaving\Expressions\AbstractAspectPropertyExpression.cs" />
     <Compile Include="Weaving\Expressions\BindingPropertyAspectDecoratorExpression.cs" />
+    <Compile Include="Weaving\Expressions\OnSetPropertyAdviceExpression.cs" />
+    <Compile Include="Weaving\Expressions\OnGetPropertyAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\TopExpressionGetPropertyInterceptionAspect.cs" />
     <Compile Include="Weaving\Expressions\TopExpressionSetPropertyInterceptionAspect.cs" />
     <Compile Include="Weaving\GetPropertyAspectWeaver.cs" />
@@ -193,6 +198,8 @@
     <Compile Include="Weaving\Expressions\TopBindingOnMethodBoundaryAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\MethodInvokerAspectExpression.cs" />
     <Compile Include="Weaving\IAspectPropertyMethodWeavingSettings.cs" />
+    <Compile Include="Weaving\OnSetPropertyAdviceWeaver.cs" />
+    <Compile Include="Weaving\OnGetPropertyAdviceWeaver.cs" />
     <Compile Include="Weaving\SetPropertyDecoratorScopeWeaver.cs" />
     <Compile Include="Weaving\IAspectPropertyWeavingSettings.cs" />
     <Compile Include="Weaving\IAspectMethodWeavingSettings.cs" />

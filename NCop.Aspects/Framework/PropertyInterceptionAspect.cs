@@ -6,12 +6,12 @@ namespace NCop.Aspects.Framework
 {
     public abstract class PropertyInterceptionAspect<TArg> : IPropertyInterceptionAspect<TArg>, IPropertyInterceptionAspect
 	{
-        [OnGetPropertyInvokeAdviceAttribute]
+        [OnGetPropertyAdviceAttribute]
         public virtual void OnGetValue(PropertyInterceptionArgs<TArg> args) {
             args.ProceedGetValue();
         }
 
-        [OnSetPropertyInvokeAdviceAttribute]
+        [OnSetPropertyAdviceAttribute]
         public virtual void OnSetValue(PropertyInterceptionArgs<TArg> args) {
             args.ProceedSetValue();
         }

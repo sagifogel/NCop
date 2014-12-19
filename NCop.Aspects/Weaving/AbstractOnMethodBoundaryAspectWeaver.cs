@@ -27,9 +27,9 @@ namespace NCop.Aspects.Weaving
             var finallyWeavers = new List<IMethodScopeWeaver>();
             Action<ILGenerator> restoreArgsIfNeededAction = null;
             IMethodScopeWeaver restoreArgsIfNeededScopeWeaver = null;
-            var adviceWeavingSettings = new AdviceWeavingSettings(aspectWeavingSettings, argumentsWeavingSetings);
+            var adviceWeavingSettings = new AdviceWeavingSettings(aspectWeavingSettings, argumentsWeavingSettings);
 
-            ArgumentType = argumentsWeavingSetings.ArgumentType;
+            ArgumentType = argumentsWeavingSettings.ArgumentType;
             tryWeavers = new List<IMethodScopeWeaver>() { nestedAspect };
             localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
             byRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
@@ -48,7 +48,7 @@ namespace NCop.Aspects.Weaving
                 tryWeavers.Add(selectedExpression.Reduce(adviceWeavingSettings));
             }
 
-            if (argumentsWeavingSetings.IsFunction) {
+            if (argumentsWeavingSettings.IsFunction) {
                 OnFunctionWeavingDetected();
             }
 
@@ -92,7 +92,7 @@ namespace NCop.Aspects.Weaving
         }
 
         protected virtual void OnFunctionWeavingDetected() {
-            returnValueWeaver = new TopGetReturnValueWeaver(aspectWeavingSettings, argumentsWeavingSetings);
+            returnValueWeaver = new TopGetReturnValueWeaver(aspectWeavingSettings, argumentsWeavingSettings);
         }
 
         protected virtual void AddEntryScopeWeavers(List<IMethodScopeWeaver> entryWeavers) { }

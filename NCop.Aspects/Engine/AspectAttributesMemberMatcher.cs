@@ -41,7 +41,7 @@ namespace NCop.Aspects.Engine
             return aspectDefinitionsCollection;
         }
 
-        private IEnumerable<IAspectDefinition> CollectMethodsAspectDefinitions(MethodInfo member, Type aspectDeclaringType, MemberInfo target) {
+        private IEnumerable<IAspectDefinition> CollectMethodsAspectDefinitions(MethodInfo member, Type aspectDeclaringType, MethodInfo target) {
             var onMethodBoundaryAspects = member.GetCustomAttributes<OnMethodBoundaryAspectAttribute>();
             var methodInterceptionAspects = member.GetCustomAttributes<MethodInterceptionAspectAttribute>();
 

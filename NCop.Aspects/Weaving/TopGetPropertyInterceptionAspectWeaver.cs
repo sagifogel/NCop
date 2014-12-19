@@ -1,30 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NCop.Aspects.Advices;
+using NCop.Aspects.Aspects;
+using NCop.Aspects.Extensions;
+using NCop.Aspects.Weaving.Expressions;
+using NCop.Composite.Weaving;
+using NCop.Weaving.Extensions;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using NCop.Aspects.Aspects;
-using NCop.Aspects.Extensions;
-using NCop.Weaving.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class TopGetPropertyInterceptionAspectWeaver : AbstractMethodAspectWeaver
+    internal class TopGetPropertyInterceptionAspectWeaver : AbstractInterceptionAspectWeaver
     {
         protected readonly IArgumentsWeaver argumentsWeaver = null;
 
         internal TopGetPropertyInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
-            : base(aspectDefinition, aspectWeavingSettings) {
+            : base(aspectDefinition, aspectWeavingSettings, weavedType) {
+            argumentsWeavingSettings.BindingsDependency = weavedType;
+            argumentsWeavingSettings.Parameters = new[] { weavingSettings.MethodInfoImpl.ReturnType };
+            argumentsWeaver = new TopGetPropertyInterceptionArgumentsWeaver(argumentsWeavingSettings, aspectWeavingSettings);
+            weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
+        }
+
+        protected override IAdviceExpression ResolveInterceptionAdviceExpression() {
+            IAdviceDefinition selectedAdviceDefinition = null;
+            var onGetPropertyAdvice = adviceDiscoveryVistor.OnGetPropertyAdvice;
+            Func<IAdviceDefinition, IAdviceExpression> adviceExpressionFactory = null;
+
+            adviceExpressionFactory = adviceVisitor.Visit(adviceDiscoveryVistor.OnGetPropertyAdvice);
+            selectedAdviceDefinition = advices.First(advice => advice.Advice.Equals(onGetPropertyAdvice));
+
+            return adviceExpressionFactory(selectedAdviceDefinition);
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
-            var aspectArgsType = weavingSettings.MethodInfoImpl.ToAspectArgumentContract();
+            LocalBuilder argsLocalBuilder = null;
+            var aspectArgsType = weavingSettings.MethodInfoImpl.ToPropertyAspectArgument();
 
             argumentsWeaver.Weave(ilGenerator);
             weaver.Weave(ilGenerator);
-            ilGenerator.EmitLoadArg(2);
+            argsLocalBuilder = localBuilderRepository.Get(argumentsWeavingSettings.ArgumentType);
+            ilGenerator.EmitLoadLocal(argsLocalBuilder);
             ilGenerator.Emit(OpCodes.Callvirt, aspectArgsType.GetProperty("Value").GetGetMethod());
 
             return ilGenerator;

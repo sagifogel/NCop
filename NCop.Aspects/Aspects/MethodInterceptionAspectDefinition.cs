@@ -8,12 +8,12 @@ using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Aspects
 {
-	internal class MethodInterceptionAspectDefinition : AbstractAspectDefinition<MethodInfo>
+	internal class MethodInterceptionAspectDefinition : AbstractAspectDefinition
 	{
 		private readonly MethodInterceptionAspectAttribute aspect = null;
 
-		internal MethodInterceptionAspectDefinition(MethodInterceptionAspectAttribute aspect, Type aspectDeclaringType, MemberInfo member)
-			: base(aspect, aspectDeclaringType, member) {
+		internal MethodInterceptionAspectDefinition(MethodInterceptionAspectAttribute aspect, Type aspectDeclaringType, MethodInfo method)
+			: base(aspect, aspectDeclaringType, method) {
 			this.aspect = aspect;
 		}
 

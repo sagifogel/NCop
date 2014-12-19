@@ -24,9 +24,8 @@ namespace NCop.Aspects.Weaving.Expressions
 
         public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(OnMethodBoundaryAspectAttribute aspect) {
             return aspectDefinition => {
-                Func<IAspectMethodExpression, IAspectMethodExpression> ctor = null;
-
                 var _topAspectInScopeDefinition = topAspectInScopeDefinition;
+                Func<IAspectMethodExpression, IAspectMethodExpression> ctor = null;
 
                 if (lastAspect.Top) {
                     ctor = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(expression => {
@@ -65,9 +64,8 @@ namespace NCop.Aspects.Weaving.Expressions
 
         public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(MethodInterceptionAspectAttribute aspect) {
             return aspectDefinition => {
-                Func<IAspectMethodExpression, IAspectMethodExpression> ctor = null;
-
                 var _topAspectInScopeDefinition = topAspectInScopeDefinition;
+                Func<IAspectMethodExpression, IAspectMethodExpression> ctor = null;
 
                 if (lastAspect.Top) {
                     ctor = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(expression => {
@@ -137,9 +135,8 @@ namespace NCop.Aspects.Weaving.Expressions
 
         public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(GetPropertyInterceptionAspectAttribute aspect) {
             return aspectDefinition => {
-                Func<IAspectMethodExpression, IAspectMethodExpression> ctor = null;
-
                 lastAspect = new Aspect();
+                Func<IAspectMethodExpression, IAspectMethodExpression> ctor = null;
 
                 ctor = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(expression => {
                     return new TopExpressionGetPropertyInterceptionAspect(expression, aspectDefinition as IPropertyAspectDefinition);
@@ -155,9 +152,8 @@ namespace NCop.Aspects.Weaving.Expressions
 
         public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(SetPropertyInterceptionAspectAttribute aspect) {
             return aspectDefinition => {
-                Func<IAspectMethodExpression, IAspectMethodExpression> ctor = null;
-
                 lastAspect = new Aspect();
+                Func<IAspectMethodExpression, IAspectMethodExpression> ctor = null;
 
                 ctor = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(expression => {
                     return new TopExpressionSetPropertyInterceptionAspect(expression, aspectDefinition as IPropertyAspectDefinition);

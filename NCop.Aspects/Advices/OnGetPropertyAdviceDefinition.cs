@@ -9,11 +9,11 @@ using NCop.Aspects.Weaving.Expressions;
 
 namespace NCop.Aspects.Advices
 {
-    internal class OnGetPropertyInvokeAdviceDefinition : AbstractAdviceDefinition
+    internal class OnGetPropertyAdviceDefinition : AbstractAdviceDefinition
     {
-        private readonly OnGetPropertyInvokeAdviceAttribute advice = null;
+        private readonly OnGetPropertyAdviceAttribute advice = null;
 
-        internal OnGetPropertyInvokeAdviceDefinition(OnGetPropertyInvokeAdviceAttribute advice, MethodInfo adviceMethod)
+        internal OnGetPropertyAdviceDefinition(OnGetPropertyAdviceAttribute advice, MethodInfo adviceMethod)
             : base(advice, adviceMethod) {
             this.advice = advice;
         }

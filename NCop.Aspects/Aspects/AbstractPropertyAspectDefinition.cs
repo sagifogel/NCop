@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Aspects
 {
-    internal abstract class AbstractPropertyAspectDefinition : AbstractAspectDefinition<MethodInfo>, IPropertyAspectDefinition
+    internal abstract class AbstractPropertyAspectDefinition : AbstractAspectDefinition, IPropertyAspectDefinition
     {
-        internal AbstractPropertyAspectDefinition(IAspect aspect, Type aspectDeclaringType, MemberInfo method, PropertyInfo propertyInfoContract)
+        internal AbstractPropertyAspectDefinition(IAspect aspect, Type aspectDeclaringType, MethodInfo method, PropertyInfo propertyInfoContract)
             : base(aspect, aspectDeclaringType, method) {
             PropertyInfoContract = propertyInfoContract;
         }

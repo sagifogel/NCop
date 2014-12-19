@@ -19,13 +19,13 @@ namespace NCop.Aspects.Weaving
             var @params = weavingSettings.MethodInfoImpl.GetParameters();
             var byRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
 
-            if (argumentsWeavingSetings.IsFunction) {
-                getReturnValueWeaver = new TopGetReturnValueWeaver(aspectWeavingSettings, argumentsWeavingSetings);
+            if (argumentsWeavingSettings.IsFunction) {
+                getReturnValueWeaver = new TopGetReturnValueWeaver(aspectWeavingSettings, argumentsWeavingSettings);
             }
 
-            argumentsWeavingSetings.Parameters = @params.ToArray(@param => @param.ParameterType);
-            argumentsWeavingSetings.BindingsDependency = weavedType;
-            argumentsWeaver = new TopMethodInterceptionArgumentsWeaver(argumentsWeavingSetings, aspectWeavingSettings);
+            argumentsWeavingSettings.Parameters = @params.ToArray(@param => @param.ParameterType);
+            argumentsWeavingSettings.BindingsDependency = weavedType;
+            argumentsWeaver = new TopMethodInterceptionArgumentsWeaver(argumentsWeavingSettings, aspectWeavingSettings);
 
             if (!byRefArgumentsStoreWeaver.ContainsByRefParams) {
                 if (getReturnValueWeaver.IsNotNull()) {

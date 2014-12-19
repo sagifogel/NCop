@@ -16,10 +16,10 @@ namespace NCop.Aspects.Weaving
         internal BindingMethodInterceptionAspectWeaver(Type topAspectInScopeArgType, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             this.topAspectInScopeArgType = topAspectInScopeArgType;
-            ArgumentType = argumentsWeavingSetings.ArgumentType;
-            argumentsWeavingSetings.BindingsDependency = weavedType;
-            argumentsWeaver = new BindingMethodInterceptionArgumentsWeaver(topAspectInScopeArgType, argumentsWeavingSetings, aspectWeavingSettings);
-            methodScopeWeavers.Add(new NestedAspectArgsMappingWeaver(topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSetings));
+            ArgumentType = argumentsWeavingSettings.ArgumentType;
+            argumentsWeavingSettings.BindingsDependency = weavedType;
+            argumentsWeaver = new BindingMethodInterceptionArgumentsWeaver(topAspectInScopeArgType, argumentsWeavingSettings, aspectWeavingSettings);
+            methodScopeWeavers.Add(new NestedAspectArgsMappingWeaver(topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSettings));
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 

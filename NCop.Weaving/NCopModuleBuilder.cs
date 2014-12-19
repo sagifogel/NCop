@@ -8,7 +8,7 @@ namespace NCop.Weaving
 {
     public sealed class NCopModuleBuilder
     {
-        private ModuleBuilder moduleBuilder = null;
+        private readonly ModuleBuilder moduleBuilder = null;
         private static readonly object syncLock = new object();
         private static Lib.Lazy<NCopModuleBuilder> lazyNCopModuleBuilder = NewNCopModuleBuilder();
 

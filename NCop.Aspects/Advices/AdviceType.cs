@@ -9,6 +9,8 @@ namespace NCop.Aspects.Advices
 	{
 		FinallyAdvice,
 		OnMethodEntryAdvice,
+        OnGetPropertyAdvice,
+        OnSetPropertyAdvice,
 		OnMethodInvokeAdvice,
 		OnMethodSuccessAdvice,
 		OnMethodExceptionAdvice,
