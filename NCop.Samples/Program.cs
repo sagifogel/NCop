@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Reflection;
+using System.Reflection.Emit;
 using NCop.Aspects.Engine;
 using NCop.Aspects.Framework;
+using NCop.Aspects.Weaving;
 using NCop.Composite.Framework;
 using NCop.Mixins.Framework;
+using NCop.Weaving;
+using NCop.Weaving.Extensions;
 
 namespace NCop.Samples
 {
@@ -28,9 +33,16 @@ namespace NCop.Samples
         string Code { get; }
     }
 
+    public interface IDo
+    {
+        void Do();
+    }
+
     internal static class FunctionArgsMapper
     {
-        internal static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> second) {
+        internal static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(
+            IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> first,
+            IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> second) {
             second.Arg1 = first.Arg1;
             second.Arg2 = first.Arg2;
             second.Arg3 = first.Arg3;
@@ -60,7 +72,9 @@ namespace NCop.Samples
             second.Arg1 = first.Value;
         }
 
-        public static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> second) {
+        public static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(
+            IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> first,
+            IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> second) {
             second.Arg1 = first.Arg1;
             second.Arg2 = first.Arg2;
             second.Arg3 = first.Arg3;
@@ -71,7 +85,9 @@ namespace NCop.Samples
             second.ReturnValue = first.ReturnValue;
         }
 
-        public static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> second) {
+        public static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(
+            IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> first,
+            IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> second) {
             second.Arg1 = first.Arg1;
             second.Arg2 = first.Arg2;
             second.Arg3 = first.Arg3;
@@ -81,7 +97,9 @@ namespace NCop.Samples
             second.ReturnValue = first.ReturnValue;
         }
 
-        public static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> second) {
+        public static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(
+            IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> first,
+            IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> second) {
             second.Arg1 = first.Arg1;
             second.Arg2 = first.Arg2;
             second.Arg3 = first.Arg3;
@@ -90,7 +108,9 @@ namespace NCop.Samples
             second.ReturnValue = first.ReturnValue;
         }
 
-        public static void Map<TArg1, TArg2, TArg3, TArg4, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TResult> second) {
+        public static void Map<TArg1, TArg2, TArg3, TArg4, TResult>(
+            IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TResult> first,
+            IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TResult> second) {
             second.Arg1 = first.Arg1;
             second.Arg2 = first.Arg2;
             second.Arg3 = first.Arg3;
@@ -98,14 +118,16 @@ namespace NCop.Samples
             second.ReturnValue = first.ReturnValue;
         }
 
-        public static void Map<TArg1, TArg2, TArg3, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TResult> second) {
+        public static void Map<TArg1, TArg2, TArg3, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TResult> first,
+            IFunctionArgs<TArg1, TArg2, TArg3, TResult> second) {
             second.Arg1 = first.Arg1;
             second.Arg2 = first.Arg2;
             second.Arg3 = first.Arg3;
             second.ReturnValue = first.ReturnValue;
         }
 
-        public static void Map<TArg1, TArg2, TResult>(IFunctionArgs<TArg1, TArg2, TResult> first, IFunctionArgs<TArg1, TArg2, TResult> second) {
+        public static void Map<TArg1, TArg2, TResult>(IFunctionArgs<TArg1, TArg2, TResult> first,
+            IFunctionArgs<TArg1, TArg2, TResult> second) {
             second.Arg1 = first.Arg1;
             second.Arg2 = first.Arg2;
             second.ReturnValue = first.ReturnValue;
@@ -121,7 +143,8 @@ namespace NCop.Samples
             second.Method = second.Method;
         }
 
-        public static void Map<TArg1, TArg2, TArg3>(IActionArgs<TArg1, TArg2, TArg3> first, IActionArgs<TArg1, TArg2, TArg3> second) {
+        public static void Map<TArg1, TArg2, TArg3>(IActionArgs<TArg1, TArg2, TArg3> first,
+            IActionArgs<TArg1, TArg2, TArg3> second) {
             second.Arg1 = first.Arg1;
             second.Arg2 = first.Arg2;
             second.Arg3 = first.Arg3;
@@ -133,7 +156,7 @@ namespace NCop.Samples
         }
     }
 
-    public class CSharpDeveloperMixin : IDeveloper
+    public class CSharpDeveloperMixin : IDeveloper, IDo
     {
         private string code = "C#";
 
@@ -141,54 +164,59 @@ namespace NCop.Samples
         public string Code {
             get { return code; }
         }
+
         //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
 
 
+        [MethodInterceptionAspect(typeof(StopWatchAspect))]
         //[MethodInterceptionAspect(typeof(StopWatchAspect))]
-        ////[MethodInterceptionAspect(typeof(StopWatchAspect))]
-        //public void Do() {
+        public void Do() {
 
-        //}
-    }
-
-    public class PropertyBinding : IPropertyBinding<IDeveloper, string>
-    {
-        public static PropertyBinding singleton = null;
-
-        static PropertyBinding() {
-            singleton = new PropertyBinding();
-        }
-
-        public string GetValue(ref IDeveloper instance, IPropertyArg<string> arg) {
-            return instance.Code;
-        }
-
-        public void SetValue(ref IDeveloper instance, IPropertyArg<string> arg, string value) {
-            throw new NotSupportedException();
         }
     }
+
+    //public class PropertyBinding : AbstractPropertyBinding<IDeveloper, string>
+    //{
+    //    public static PropertyBinding singleton = null;
+
+    //    static PropertyBinding() {
+    //        singleton = new PropertyBinding();
+    //    }
+
+    //    public override string GetValue(ref IDeveloper instance, IPropertyArg<string> arg) {
+    //        return instance.Code;
+    //    }
+
+    //    public override void SetValue(ref IDeveloper instance, IPropertyArg<string> arg, string value) {
+    //        throw new NotSupportedException();
+    //    }
+    //}
 
     public class Person : IPerson
     {
-        private IDeveloper instance = null;
+        private readonly IDeveloper instance = null;
 
-        public Person(IDeveloper developer) {
-            instance = developer;
+        public Person() {
+            instance = new CSharpDeveloperMixin();
         }
 
         public string Code {
             get {
-                var codeMethod = instance.GetType().GetProperty("Code", typeof(string)).GetGetMethod();
-                var interArgs = new GetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding.singleton);
-                Aspects.stopWatchAspect.OnGetValue(interArgs);
+                //var codeMethod = instance.GetType().GetProperty("Code", typeof(string)).GetGetMethod();
+                //var interArgs = new GetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding.singleton);
+                Aspects.stopWatchAspect.OnGetValue(null);
 
-                return interArgs.Value;
+                return "";//interArgs.Value;
             }
         }
     }
 
     public class PropertyStopWatchAspect : PropertyInterceptionAspect<string>
     {
+        public PropertyStopWatchAspect() {
+
+        }
+
         public override void OnGetValue(PropertyInterceptionArgs<string> args) {
             base.OnGetValue(args);
         }
@@ -222,8 +250,6 @@ namespace NCop.Samples
 
             container.Configure();
             developer = container.Resolve<IPerson>();
-            var ctor = developer.GetType().GetConstructors()[0];
-            //developer = new Person();
             Console.WriteLine(developer.Code);
         }
     }

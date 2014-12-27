@@ -15,8 +15,7 @@ namespace NCop.Aspects.Weaving
 
         internal SetPropertyDecoratorScopeWeaver(IAspectMethodWeavingSettings aspectWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {
-            methodInfoImpl = aspectWeavingSettings.WeavingSettings.MethodInfoImpl;
-            argumentsWeaver = new PropertyDecoratorArgumentsWeaver(methodInfoImpl);
+            argumentsWeaver = new PropertyDecoratorArgumentsWeaver();
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {

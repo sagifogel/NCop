@@ -175,7 +175,7 @@ namespace NCop.Aspects.Extensions
             var arguments = bindingSettings.BindingType.GetGenericArguments();
 
             if (bindingSettings.IsFunction) {
-                int length = arguments.Length - 2;
+                var length = arguments.Length - 2;
 
                 methodParameters.ReturnType = arguments.Last();
                 methodParameters.Parameters = new Type[length];

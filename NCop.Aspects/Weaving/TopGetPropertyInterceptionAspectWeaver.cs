@@ -35,14 +35,23 @@ namespace NCop.Aspects.Weaving
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
-            LocalBuilder argsLocalBuilder = null;
-            var aspectArgsType = weavingSettings.MethodInfoImpl.ToPropertyAspectArgument();
+            //LocalBuilder argsLocalBuilder = null;
+            //var aspectArgsType = weavingSettings.MethodInfoImpl.ToPropertyAspectArgument();
 
-            argumentsWeaver.Weave(ilGenerator);
-            weaver.Weave(ilGenerator);
-            argsLocalBuilder = localBuilderRepository.Get(argumentsWeavingSettings.ArgumentType);
-            ilGenerator.EmitLoadLocal(argsLocalBuilder);
-            ilGenerator.Emit(OpCodes.Callvirt, aspectArgsType.GetProperty("Value").GetGetMethod());
+            //argumentsWeaver.Weave(ilGenerator);
+            //weaver.Weave(ilGenerator);
+            //argsLocalBuilder = localBuilderRepository.Get(argumentsWeavingSettings.ArgumentType);
+            //ilGenerator.EmitLoadLocal(argsLocalBuilder);
+            //ilGenerator.Emit(OpCodes.Callvirt, aspectArgsType.GetProperty("Value").GetGetMethod());
+            var arguments = aspectDefinition.ToArgumentsWeavingSettings();
+            var aspectMember = aspectRepository.GetAspectFieldByType(arguments.AspectType);
+            var adviceMethod = aspectMember.FieldType.GetMethod("OnGetValue");
+            var contractFieldBuilder = weavingSettings.TypeDefinition.GetFieldBuilder(weavingSettings.ContractType);
+            
+            ilGenerator.Emit(OpCodes.Ldsfld, contractFieldBuilder);
+            ilGenerator.Emit(OpCodes.Ldnull);
+            ilGenerator.Emit(OpCodes.Ldstr, "");
+            ilGenerator.Emit(OpCodes.Callvirt, adviceMethod);
 
             return ilGenerator;
         }

@@ -6,34 +6,17 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class BindingPropertyAspectDecoratorWeaver : AbstractMethodScopeWeaver, IAspectWeaver, IBindingTypeReflector
+    internal class BindingPropertyAspectDecoratorWeaver : AbstractMethodScopeWeaver, IAspectWeaver
     {
-        private readonly IMethodBindingWeaver weaver = null;
-        private readonly Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
-        private readonly IMethodScopeWeaver propertyDecoratorScopeWeaver = null;
+        private readonly IMethodScopeWeaver weaver = null;
 
-        internal BindingPropertyAspectDecoratorWeaver(IAspectDefinition aspectDefinition, IAspectPropertyMethodWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
+        internal BindingPropertyAspectDecoratorWeaver(IAspectPropertyMethodWeavingSettings aspectWeavingSettings)
             : base(aspectWeavingSettings.WeavingSettings) {
-            var bindingSettings = aspectDefinition.ToBindingSettings();
-
-            lazyWeavedType = new Core.Lib.Lazy<FieldInfo>(WeaveType);
-            bindingSettings.LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
-            propertyDecoratorScopeWeaver = new GetPropertyDecoratorScopeWeaver(aspectWeavingSettings);
-            weaver = new PropertyDecorationBindingWeaver(bindingSettings, aspectWeavingSettings, this);
-        }
-
-        public FieldInfo WeavedType {
-            get {
-                return lazyWeavedType.Value;
-            }
+            weaver = new GetPropertyDecoratorScopeWeaver(aspectWeavingSettings);
         }
 
         public override ILGenerator Weave(ILGenerator ilGenerator) {
-            return propertyDecoratorScopeWeaver.Weave(ilGenerator);
-        }
-
-        protected FieldInfo WeaveType() {
-            return weaver.Weave();
+            return weaver.Weave(ilGenerator);
         }
     }
 }

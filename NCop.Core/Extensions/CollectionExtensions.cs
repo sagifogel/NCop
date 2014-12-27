@@ -28,7 +28,7 @@ namespace NCop.Core.Extensions
         }
 
         public static bool All<TSource>(this IEnumerable<TSource> source, Func<TSource, int, bool> predicate) {
-            int count = 0;
+            var count = 0;
 
             foreach (var local in source) {
                 if (!predicate(local, count++)) {
@@ -71,8 +71,7 @@ namespace NCop.Core.Extensions
 
         public static TResult SelectFirst<TItem, TInner, TResult>(this TItem item, IEnumerable<TInner> inner, Func<TItem, TInner, bool> predicate, Func<TItem, TInner, TResult> selector) {
             Func<TInner, TInner, bool> comparer = EqualityComparer<TInner>.Default.Equals;
-
-            TInner innerResult = inner.FirstOrDefault(innerItem => predicate(item, innerItem));
+            var innerResult = inner.FirstOrDefault(innerItem => predicate(item, innerItem));
 
             if (!comparer(innerResult, default(TInner))) {
                 return selector(item, innerResult);
@@ -84,11 +83,7 @@ namespace NCop.Core.Extensions
         public static IEnumerable<TSource> Distinct<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> predicate) {
             var keys = new HashSet<TKey>();
 
-            foreach (var element in source) {
-                if (keys.Add(predicate(element))) {
-                    yield return element;
-                }
-            }
+            return source.Where(element => keys.Add(predicate(element)));
         }
 
         public static TResult[] ToArrayOf<TResult>(this IEnumerable source) {

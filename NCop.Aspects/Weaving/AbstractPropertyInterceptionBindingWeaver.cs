@@ -32,12 +32,11 @@ namespace NCop.Aspects.Weaving
         protected virtual FieldInfo WeaveType() {
             IAspectWeaver aspectWeaver = null;
             IMethodBindingWeaver bindingWeaver = null;
-            var aspectType = aspectDefinition.Aspect.AspectType;
             var aspectSettings = GetAspectsWeavingSettings() as IAspectPropertyMethodWeavingSettings;
 
             aspectWeaver = aspectExpression.Reduce(aspectSettings);
             bindingSettings.LocalBuilderRepository = aspectSettings.LocalBuilderRepository;
-            bindingWeaver = new PropertyInterceptionBindingWeaver(aspectType, bindingSettings, aspectSettings, aspectWeaver);
+            bindingWeaver = new PropertyInterceptionBindingWeaver(bindingSettings, aspectSettings, aspectWeaver);
 
             return bindingWeaver.Weave();
         }

@@ -47,15 +47,6 @@ namespace NCop.Weaving
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public static PropertyBuilder DefineProperty(this TypeBuilder typeBuilder, PropertyInfo propertyInfo, string name = null, PropertyAttributes? attributes = null, Type propertyType = null) {
-			name = name ?? propertyInfo.Name;
-			attributes = attributes ?? propertyInfo.Attributes;
-			propertyType = propertyType ?? propertyInfo.PropertyType;
-
-			return typeBuilder.DefineProperty(name, attributes.Value, propertyType, Type.EmptyTypes);
-		}
-
-		[EditorBrowsable(EditorBrowsableState.Never)]
 		public static TypeBuilder DefineType(this Type parentType, string name = null, IEnumerable<Type> interfaces = null, TypeAttributes? attributes = null) {
 			var moudleBuilder = NCopModuleBuilder.Instance;
 

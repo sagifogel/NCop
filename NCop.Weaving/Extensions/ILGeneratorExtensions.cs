@@ -17,7 +17,7 @@ namespace NCop.Weaving.Extensions
                 else if (sourceTarget.IsGenericParameter) {
                     ilGenerator.Emit(OpCodes.Box, sourceTarget);
                 }
-                else if (targetType.IsGenericType && !sourceTarget.Equals(targetType)) {
+                else if (targetType.IsGenericType && !ReferenceEquals(sourceTarget, targetType)) {
                     ilGenerator.Emit(OpCodes.Castclass, targetType);
                 }
                 else if (targetType.IsSubclassOf(sourceTarget)) {

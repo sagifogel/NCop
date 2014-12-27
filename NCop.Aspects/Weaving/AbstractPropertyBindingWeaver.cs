@@ -1,4 +1,5 @@
-﻿using NCop.Aspects.Extensions;
+﻿using NCop.Aspects.Engine;
+using NCop.Aspects.Extensions;
 using NCop.Core.Extensions;
 using NCop.Weaving;
 using NCop.Weaving.Extensions;
@@ -12,20 +13,21 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractPropertyBindingWeaver : IMethodBindingWeaver, IBindingTypeReflector
     {
+        private Type baseType = null;
         protected static int bindingCounter = 0;
         protected TypeBuilder typeBuilder = null;
         protected FieldBuilder fieldBuilder = null;
         protected readonly BindingSettings bindingSettings = null;
-        protected readonly IMethodScopeWeaver methodScopeWeaver = null;
+        protected readonly IMethodScopeWeaver getMethodScopeWeaver = null;
         protected readonly IAspectPropertyMethodWeavingSettings aspectWeavingSettings = null;
-        protected readonly MethodAttributes methodAttr = MA.Public | MA.Final | MA.HideBySig | MA.NewSlot | MA.Virtual;
+        protected readonly MethodAttributes methodAttr = MA.Public | MA.HideBySig | MA.Virtual;
         protected readonly CallingConventions callingConventions = CallingConventions.Standard | CallingConventions.HasThis;
         protected readonly FieldAttributes singletonFieldAttributes = FieldAttributes.Private | FieldAttributes.FamANDAssem | FieldAttributes.Static;
         protected readonly MethodAttributes ctorAttributes = MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
 
-        internal AbstractPropertyBindingWeaver(BindingSettings bindingSettings, IAspectPropertyMethodWeavingSettings aspectWeavingSettings, IMethodScopeWeaver methodScopeWeaver) {
+        internal AbstractPropertyBindingWeaver(BindingSettings bindingSettings, IAspectPropertyMethodWeavingSettings aspectWeavingSettings, IMethodScopeWeaver getMethodScopeWeaver) {
             this.bindingSettings = bindingSettings;
-            this.methodScopeWeaver = methodScopeWeaver;
+            this.getMethodScopeWeaver = getMethodScopeWeaver;
             this.aspectWeavingSettings = aspectWeavingSettings;
         }
 
@@ -55,8 +57,8 @@ namespace NCop.Aspects.Weaving
         protected void WeaveTypeBuilder() {
             var declaringType = aspectWeavingSettings.PropertyInfoContract.DeclaringType;
             var types = new[] { declaringType, aspectWeavingSettings.PropertyInfoContract.PropertyType };
-            var baseType = typeof(AbstractPropertyBinding<,>).MakeGenericType(types);
 
+            baseType = typeof(AbstractPropertyBinding<,>).MakeGenericType(types);
             typeBuilder = baseType.DefineType("PropertyBinding_{0}".Fmt(Interlocked.Increment(ref bindingCounter)).ToUniqueName(), attributes: TypeAttributes.Public | TypeAttributes.Sealed);
         }
 
@@ -64,7 +66,7 @@ namespace NCop.Aspects.Weaving
             var cctor = typeBuilder.DefineConstructor(ctorAttributes | MethodAttributes.Static, CallingConventions.Standard, Type.EmptyTypes);
             var cctorILGenerator = cctor.GetILGenerator();
             var defaultCtor = typeBuilder.DefineConstructor(ctorAttributes, CallingConventions.Standard | CallingConventions.HasThis, Type.EmptyTypes);
-            var bindingTypeCtor = typeof(object).GetConstructor(Type.EmptyTypes);
+            var bindingTypeCtor = baseType.GetConstructor(Type.EmptyTypes);
             var defaultCtorGenerator = defaultCtor.GetILGenerator();
 
             fieldBuilder = typeBuilder.DefineField("singleton", typeBuilder, singletonFieldAttributes);
@@ -86,12 +88,10 @@ namespace NCop.Aspects.Weaving
             ILGenerator ilGenerator = null;
             MethodBuilder methodBuilder = null;
             var methodParameters = ResolveParameterTypes();
-            IMethodScopeWeaver methodDecoratorScopeWeaver = null;
 
             methodBuilder = typeBuilder.DefineMethod("GetValue", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
             ilGenerator = methodBuilder.GetILGenerator();
-            methodDecoratorScopeWeaver = new GetPropertyDecoratorScopeWeaver(aspectWeavingSettings);
-            methodDecoratorScopeWeaver.Weave(ilGenerator);
+            getMethodScopeWeaver.Weave(ilGenerator);
             ilGenerator.Emit(OpCodes.Ret);
         }
 

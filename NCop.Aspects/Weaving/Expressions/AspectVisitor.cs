@@ -115,7 +115,7 @@ namespace NCop.Aspects.Weaving.Expressions
                 }
                 else if (topAspectInScopeDefinition.IsPropertyAspectDefinition()) {
                     expressionFactory = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(ex => {
-                        return new BindingPropertyAspectDecoratorExpression(aspectDefinition, argumentsWeavingSettings);
+                        return new BindingPropertyAspectDecoratorExpression(aspectDefinition);
                     });
                 }
                 else {

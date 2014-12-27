@@ -1,12 +1,6 @@
 ﻿using NCop.Aspects.Aspects;
-using NCop.Aspects.Extensions;
 using NCop.Aspects.Weaving.Expressions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NCop.Aspects.Weaving
 {
@@ -32,12 +26,11 @@ namespace NCop.Aspects.Weaving
         protected virtual FieldInfo WeaveType() {
             IAspectWeaver aspectWeaver = null;
             IMethodBindingWeaver bindingWeaver = null;
-            var aspectType = aspectDefinition.Aspect.AspectType;
             var aspectSetings = GetAspectsWeavingSettings();
 
             aspectWeaver = aspectExpression.Reduce(aspectSetings);
             bindingSettings.LocalBuilderRepository = aspectSetings.LocalBuilderRepository;
-			bindingWeaver = new MethodInterceptionBindingWeaver(aspectType, bindingSettings, aspectWeavingSettings, aspectWeaver);
+			bindingWeaver = new MethodInterceptionBindingWeaver(bindingSettings, aspectWeavingSettings, aspectWeaver);
             
             return bindingWeaver.Weave();
         }

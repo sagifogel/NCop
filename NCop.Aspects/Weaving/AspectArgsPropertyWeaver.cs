@@ -26,6 +26,7 @@ namespace NCop.Aspects.Weaving
             var getTypeFromHandleMethodInfo = typeofType.GetMethod("GetTypeFromHandle");
 
             contractFieldBuilder = weavingSettings.TypeDefinition.GetFieldBuilder(weavingSettings.ContractType);
+            ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
             ilGenerator.Emit(OpCodes.Callvirt, typeofObject.GetMethod("GetType"));
             ilGenerator.Emit(OpCodes.Ldstr, weavingSettings.MethodInfoImpl.Name);

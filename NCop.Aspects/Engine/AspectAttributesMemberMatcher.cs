@@ -77,7 +77,7 @@ namespace NCop.Aspects.Engine
                                 LifetimeStrategy = aspect.LifetimeStrategy
                             };
 
-                            getPropertyInterceptionAspects.Add(new GetPropertyInterceptionAspectDefinition(getPropertyAspect, aspectDeclaringType, getMethod, propertyMap.ContractMember));
+                            getPropertyInterceptionAspects.Add(new GetPropertyInterceptionAspectDefinition(getPropertyAspect, aspectDeclaringType, getMethodTarget, propertyMap.ContractMember));
                         });
 
                         getPropertyInterceptionAspects.AddRange(getPropertyInterceptionAspectsAttrs.Select(aspectAttr => {
@@ -111,7 +111,7 @@ namespace NCop.Aspects.Engine
                                 LifetimeStrategy = aspect.LifetimeStrategy
                             };
 
-                            setPropertyInterceptionAspects.Add(new SetPropertyInterceptionAspectDefinition(setPropertyAspect, aspectDeclaringType, setMethod, property));
+                            setPropertyInterceptionAspects.Add(new SetPropertyInterceptionAspectDefinition(setPropertyAspect, aspectDeclaringType, setMethodTarget, property));
                         });
 
                         setPropertyInterceptionAspects.AddRange(setPropertyInterceptionAspectsAttrs.Select(aspectAttr => {
