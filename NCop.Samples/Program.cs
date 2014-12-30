@@ -175,22 +175,22 @@ namespace NCop.Samples
         }
     }
 
-    //public class PropertyBinding : AbstractPropertyBinding<IDeveloper, string>
-    //{
-    //    public static PropertyBinding singleton = null;
+    public class PropertyBinding : AbstractPropertyBinding<IDeveloper, string>
+    {
+        public static PropertyBinding singleton = null;
 
-    //    static PropertyBinding() {
-    //        singleton = new PropertyBinding();
-    //    }
+        static PropertyBinding() {
+            singleton = new PropertyBinding();
+        }
 
-    //    public override string GetValue(ref IDeveloper instance, IPropertyArg<string> arg) {
-    //        return instance.Code;
-    //    }
+        public override string GetValue(ref IDeveloper instance, IPropertyArg<string> arg) {
+            return instance.Code;
+        }
 
-    //    public override void SetValue(ref IDeveloper instance, IPropertyArg<string> arg, string value) {
-    //        throw new NotSupportedException();
-    //    }
-    //}
+        public override void SetValue(ref IDeveloper instance, IPropertyArg<string> arg, string value) {
+            throw new NotSupportedException();
+        }
+    }
 
     public class Person : IPerson
     {
@@ -202,11 +202,11 @@ namespace NCop.Samples
 
         public string Code {
             get {
-                //var codeMethod = instance.GetType().GetProperty("Code", typeof(string)).GetGetMethod();
-                //var interArgs = new GetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding.singleton);
-                Aspects.stopWatchAspect.OnGetValue(null);
+                var codeMethod = instance.GetType().GetProperty("Code", typeof(string)).GetGetMethod();
+                var interArgs = new GetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding.singleton);
+                Aspects.stopWatchAspect.OnGetValue(interArgs);
 
-                return "";//interArgs.Value;
+                return interArgs.Value;
             }
         }
     }
@@ -218,7 +218,9 @@ namespace NCop.Samples
         }
 
         public override void OnGetValue(PropertyInterceptionArgs<string> args) {
-            base.OnGetValue(args);
+            //base.OnGetValue(args);
+            var value = args.GetCurrentValue();
+            args.SetNewValue("Sagi");
         }
 
         public override void OnSetValue(PropertyInterceptionArgs<string> args) {
@@ -245,6 +247,7 @@ namespace NCop.Samples
     class Program
     {
         static void Main(string[] args) {
+            var code = new Person().Code;
             IPerson developer = null;
             var container = new CompositeContainer();
 
