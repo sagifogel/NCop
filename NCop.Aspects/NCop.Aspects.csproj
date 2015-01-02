@@ -180,8 +180,10 @@
     <Compile Include="Weaving\AbstractTopAspectPropertyArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractTopOnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\AbstractTopPropertyAspectArgumentsWeaver.cs" />
-    <Compile Include="Weaving\AspectArgsPropertyWeaver.cs" />
+    <Compile Include="Weaving\AspectArgsGetPropertyWeaver.cs" />
+    <Compile Include="Weaving\AbstractAspectArgsPropertyWeaver.cs" />
     <Compile Include="Weaving\AspectArgsMethodWeaver.cs" />
+    <Compile Include="Weaving\AspectArgsSetPropertyWeaver.cs" />
     <Compile Include="Weaving\AspectPropertyWeaver.cs" />
     <Compile Include="Weaving\AspectPropertyMethodWeavingSettingsImpl.cs" />
     <Compile Include="Weaving\BindingPropertyAspectDecoratorWeaver.cs" />
@@ -190,6 +192,7 @@
     <Compile Include="Weaving\Expressions\OnSetPropertyAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\OnGetPropertyAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\TopExpressionGetPropertyInterceptionAspect.cs" />
+    <Compile Include="Weaving\Expressions\AbstractTopExpressionPropertyInterceptionAspect.cs" />
     <Compile Include="Weaving\Expressions\TopExpressionSetPropertyInterceptionAspect.cs" />
     <Compile Include="Weaving\GetPropertyAspectWeaver.cs" />
     <Compile Include="Weaving\AspectPropertyWeavingSettingsImpl.cs" />
@@ -257,9 +260,11 @@
     <Compile Include="Weaving\TopBindingMethodInterceptionArgumentsWeaver.cs" />
     <Compile Include="Weaving\TopBindingMethodInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\TopBindingOnMethodBoundaryAspectWeaver.cs" />
+    <Compile Include="Weaving\TopSetPropertyInterceptionArgumentsWeaver.cs" />
     <Compile Include="Weaving\TopGetPropertyInterceptionArgumentsWeaver.cs" />
     <Compile Include="Weaving\TopBindingOnMethodExecutionArgumentsWeaver.cs" />
     <Compile Include="Weaving\TopAspectArgsMappingWeaverImpl.cs" />
+    <Compile Include="Weaving\TopSetPropertyInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\TopGetReturnValueWeaver.cs" />
     <Compile Include="Weaving\TopOnMethodBoundaryArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractGetReturnValueWeaver.cs" />

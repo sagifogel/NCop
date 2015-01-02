@@ -30,7 +30,7 @@ namespace NCop.Samples
 
     public interface IDeveloper
     {
-        string Code { get; }
+        string Code { set; }
     }
 
     public interface IDo
@@ -162,7 +162,7 @@ namespace NCop.Samples
 
         [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         public string Code {
-            get { return code; }
+            set { code = value; }
         }
 
         //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
@@ -183,12 +183,8 @@ namespace NCop.Samples
             singleton = new PropertyBinding();
         }
 
-        public override string GetValue(ref IDeveloper instance, IPropertyArg<string> arg) {
-            return instance.Code;
-        }
-
         public override void SetValue(ref IDeveloper instance, IPropertyArg<string> arg, string value) {
-            throw new NotSupportedException();
+            instance.Code = value;
         }
     }
 
@@ -207,6 +203,11 @@ namespace NCop.Samples
                 Aspects.stopWatchAspect.OnGetValue(interArgs);
 
                 return interArgs.Value;
+            }
+            set {
+                var codeMethod = instance.GetType().GetProperty("Code", typeof(string)).GetGetMethod();
+                var interArgs = new SetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding.singleton, value);
+                Aspects.stopWatchAspect.OnGetValue(interArgs);
             }
         }
     }
@@ -247,13 +248,12 @@ namespace NCop.Samples
     class Program
     {
         static void Main(string[] args) {
-            var code = new Person().Code;
             IPerson developer = null;
             var container = new CompositeContainer();
 
             container.Configure();
             developer = container.Resolve<IPerson>();
-            Console.WriteLine(developer.Code);
+            developer.Code = "javascript";
         }
     }
 }

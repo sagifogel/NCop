@@ -8,12 +8,12 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class AspectArgsPropertyWeaver : IArgumentsWeaver
+    internal abstract class AbstractAspectArgsPropertyWeaver : IArgumentsWeaver
     {
         private readonly LocalBuilder methodLocalBuilder = null;
         private readonly IAspectPropertyMethodWeavingSettings aspectWeavingSettings = null;
 
-        internal AspectArgsPropertyWeaver(LocalBuilder methodLocalBuilder, IAspectPropertyMethodWeavingSettings aspectWeavingSettings) {
+        internal AbstractAspectArgsPropertyWeaver(LocalBuilder methodLocalBuilder, IAspectPropertyMethodWeavingSettings aspectWeavingSettings) {
             this.methodLocalBuilder = methodLocalBuilder;
             this.aspectWeavingSettings = aspectWeavingSettings;
         }
@@ -33,8 +33,10 @@ namespace NCop.Aspects.Weaving
             ilGenerator.Emit(OpCodes.Ldtoken, typeof(string));
             ilGenerator.Emit(OpCodes.Call, getTypeFromHandleMethodInfo);
             ilGenerator.Emit(OpCodes.Callvirt, typeofType.GetMethod("GetProperty", new[] { typeof(string), typeof(Type) }));
-            ilGenerator.Emit(OpCodes.Callvirt, typeof(PropertyInfo).GetMethod("GetGetMethod", Type.EmptyTypes));
+            ilGenerator.Emit(OpCodes.Callvirt, PropertyMethod);
             ilGenerator.EmitStoreLocal(methodLocalBuilder);
         }
+
+        protected abstract MethodInfo PropertyMethod { get; }
     }
 }

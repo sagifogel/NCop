@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using NCop.Aspects.Aspects;
-using NCop.Aspects.Extensions;
+﻿using NCop.Aspects.Aspects;
 using NCop.Aspects.Weaving.Expressions;
+using System.Reflection;
 
 namespace NCop.Aspects.Weaving
 {

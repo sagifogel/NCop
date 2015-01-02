@@ -96,17 +96,13 @@ namespace NCop.Aspects.Weaving
         }
 
         protected virtual void WeaveSetValueMethod() {
-            var parameters = new Type[3];
             ILGenerator ilGenerator = null;
             MethodBuilder methodBuilder = null;
             var methodParameters = ResolveParameterTypes();
-            var methodDecoratorScopeWeaver = new SetPropertyDecoratorScopeWeaver(aspectWeavingSettings);
 
-            methodParameters.Parameters.CopyTo(parameters, 0);
-            parameters[parameters.Length - 1] = methodParameters.ReturnType;
-            methodBuilder = typeBuilder.DefineMethod("SetValue", methodAttr, callingConventions, typeof(void), parameters);
+            methodBuilder = typeBuilder.DefineMethod("SetValue", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
             ilGenerator = methodBuilder.GetILGenerator();
-            methodDecoratorScopeWeaver.Weave(ilGenerator);
+            getMethodScopeWeaver.Weave(ilGenerator);
             ilGenerator.Emit(OpCodes.Ret);
         }
     }
