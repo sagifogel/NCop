@@ -5,9 +5,11 @@ namespace NCop.Weaving
 {
     public abstract class AbstractPropertyWeaver : IPropertyWeaver, IPropertyWeavingSettings
     {
-        private readonly IPropertyWeavingSettings weavingSettings = null;
+        protected PropertyInfo propertyInfo = null;
+        private readonly IWeavingSettings weavingSettings = null;
 
-        protected AbstractPropertyWeaver(IPropertyWeavingSettings weavingSettings) {
+        protected AbstractPropertyWeaver(PropertyInfo propertyInfo, IWeavingSettings weavingSettings) {
+            this.propertyInfo = propertyInfo;
             this.weavingSettings = weavingSettings;
         }
 
@@ -17,37 +19,19 @@ namespace NCop.Weaving
 
         public bool CanRead {
             get {
-                return PropertyInfoImpl.CanRead;
+                return propertyInfo.CanRead;
             }
         }
 
         public bool CanWrite {
             get {
-                return PropertyInfoImpl.CanWrite;
-            }
-        }
-
-        public PropertyInfo PropertyInfoImpl {
-            get {
-                return weavingSettings.PropertyInfoImpl;
-            }
-        }
-
-        public PropertyInfo PropertyInfoContract {
-            get {
-                return weavingSettings.PropertyInfoContract;
+                return propertyInfo.CanWrite;
             }
         }
 
         public Type ContractType {
             get {
                 return weavingSettings.ContractType;
-            }
-        }
-
-        public Type ImplementationType {
-            get {
-                return weavingSettings.ImplementationType;
             }
         }
 

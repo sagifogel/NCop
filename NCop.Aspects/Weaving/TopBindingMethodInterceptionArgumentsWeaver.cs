@@ -8,10 +8,10 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class TopBindingMethodInterceptionArgumentsWeaver: AbstractBindingMethodInterceptionArgumentsWeaver
+    internal class TopBindingMethodInterceptionArgumentsWeaver : AbstractBindingMethodInterceptionArgumentsWeaver
     {
-        internal TopBindingMethodInterceptionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectMethodWeavingSettings aspectWeavingSettings)
-            : base(argumentWeavingSettings, aspectWeavingSettings) {
+        internal TopBindingMethodInterceptionArgumentsWeaver(MethodInfo methodInfo, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+            : base(methodInfo, argumentWeavingSettings, aspectWeavingSettings) {
         }
 
         protected override void WeaveAspectArg(ILGenerator ilGenerator) {

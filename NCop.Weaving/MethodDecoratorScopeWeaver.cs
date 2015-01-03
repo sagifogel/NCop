@@ -11,25 +11,23 @@ namespace NCop.Weaving
 {
 	public class MethodDecoratorScopeWeaver : AbstractMethodScopeWeaver
     {
-		public MethodDecoratorScopeWeaver(IMethodWeavingSettings weavingSettings)
-			:base(weavingSettings) {
+		public MethodDecoratorScopeWeaver(MethodInfo methodInfo, IWeavingSettings weavingSettings)
+			:base(methodInfo, weavingSettings) {
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
+        public override void Weave(ILGenerator ilGenerator) {
             FieldBuilder fieldBuilder = TypeDefinition.GetFieldBuilder(ContractType);
 
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, fieldBuilder);
 
-            MethodInfoImpl.GetParameters()
+            MethodInfo.GetParameters()
                       .Select(p => p.ParameterType)
                       .ForEach(1, (paramType, i) => {
                           ilGenerator.EmitLoadArg(i);
                       });
 
-            ilGenerator.Emit(OpCodes.Callvirt, MethodInfoImpl);
-
-            return ilGenerator;
+            ilGenerator.Emit(OpCodes.Callvirt, MethodInfo);
         }
     }
 }

@@ -14,11 +14,9 @@ namespace NCop.Aspects.Weaving
             finallyWeaversQueue = new MethodScopeWeaversQueue(finallyWeavers);
         }
 
-        public ILGenerator Weave(ILGenerator ilGenerator) {
+        public void Weave(ILGenerator ilGenerator) {
             ilGenerator.BeginFinallyBlock();
             finallyWeaversQueue.Weave(ilGenerator);
-
-            return ilGenerator;
         }
     }
 }

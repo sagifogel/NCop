@@ -10,13 +10,13 @@ namespace NCop.Aspects.Weaving
     {
         private readonly IMethodScopeWeaver weaver = null;
 
-        internal BindingPropertyAspectDecoratorWeaver(IAspectPropertyMethodWeavingSettings aspectWeavingSettings)
-            : base(aspectWeavingSettings.WeavingSettings) {
-            weaver = new GetPropertyDecoratorScopeWeaver(aspectWeavingSettings);
+        internal BindingPropertyAspectDecoratorWeaver(MethodInfo methodInfo, IAspectPropertyMethodWeavingSettings aspectWeavingSettings)
+            : base(methodInfo, aspectWeavingSettings.WeavingSettings) {
+            weaver = new GetPropertyDecoratorScopeWeaver(methodInfo, aspectWeavingSettings);
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
-            return weaver.Weave(ilGenerator);
+        public override void Weave(ILGenerator ilGenerator) {
+            weaver.Weave(ilGenerator);
         }
     }
 }

@@ -14,12 +14,10 @@ namespace NCop.Aspects.Weaving
             this.aspectArgType = aspectArgType;
         }
 
-        public ILGenerator Weave(ILGenerator ilGenerator) {
+        public void Weave(ILGenerator ilGenerator) {
             var setReturnValueMethodInfo = aspectArgType.GetProperty("ReturnValue").GetSetMethod();
 
             ilGenerator.Emit(OpCodes.Callvirt, setReturnValueMethodInfo);
-
-            return ilGenerator;
         }
     }
 }

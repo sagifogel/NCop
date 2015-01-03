@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving
 {
-	public interface IAdviceWeavingSettings : IAspectMethodWeavingSettings
+	public interface IAdviceWeavingSettings : IAspectWeavingSettings
 	{
 		Type AspectType { get; }
         IArgumentsWeavingSettings ArgumentsWeavingSettings { get; }

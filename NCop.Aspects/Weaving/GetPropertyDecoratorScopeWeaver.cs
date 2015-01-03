@@ -12,16 +12,14 @@ namespace NCop.Aspects.Weaving
     {
         private readonly IArgumentsWeaver argumentsWeaver = null;
 
-        internal GetPropertyDecoratorScopeWeaver(IAspectMethodWeavingSettings aspectWeavingSettings)
-            : base(aspectWeavingSettings.WeavingSettings) {
+        internal GetPropertyDecoratorScopeWeaver(MethodInfo methodInfo, IAspectWeavingSettings aspectWeavingSettings)
+            : base(methodInfo, aspectWeavingSettings.WeavingSettings) {
             argumentsWeaver = new PropertyDecoratorArgumentsWeaver();
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
+        public override void Weave(ILGenerator ilGenerator) {
             argumentsWeaver.Weave(ilGenerator);
-            ilGenerator.Emit(OpCodes.Callvirt, MethodInfoImpl);
-
-            return ilGenerator;
+            ilGenerator.Emit(OpCodes.Callvirt, MethodInfo);
         }
     }
 }

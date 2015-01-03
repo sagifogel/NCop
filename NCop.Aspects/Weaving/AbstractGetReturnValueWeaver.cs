@@ -11,17 +11,17 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractGetReturnValueWeaver : IMethodScopeWeaver
     {
-        protected readonly IAspectMethodWeavingSettings aspectWeavingSettings = null;
+        protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
         protected readonly ILocalBuilderRepository localBuilderRepository = null;
         protected readonly IArgumentsWeavingSettings argumentsWeavingSetings = null;
 
-        internal AbstractGetReturnValueWeaver(IAspectMethodWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSetings) {
+        internal AbstractGetReturnValueWeaver(IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSetings) {
             this.aspectWeavingSettings = aspectWeavingSettings;
             this.argumentsWeavingSetings = argumentsWeavingSetings;
             localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
         }
 
-        public ILGenerator Weave(ILGenerator ilGenerator) {
+        public void Weave(ILGenerator ilGenerator) {
             MethodInfo returnValueGetMethod = null;
             LocalBuilder argsImplLocalBuilder = null;
             var weavingSettings = aspectWeavingSettings.WeavingSettings;
@@ -32,8 +32,6 @@ namespace NCop.Aspects.Weaving
             ilGenerator.EmitLoadLocal(argsImplLocalBuilder);
             returnValueGetMethod = aspectArgsType.GetProperty("ReturnValue").GetGetMethod();
             ilGenerator.Emit(OpCodes.Callvirt, returnValueGetMethod);
-
-            return ilGenerator;
         }
 
         protected abstract Type GetAspectType();

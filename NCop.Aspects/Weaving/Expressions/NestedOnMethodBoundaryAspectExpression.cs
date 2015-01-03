@@ -15,7 +15,7 @@ namespace NCop.Aspects.Weaving.Expressions
             : base(aspectExpression, aspectDefinition) {
         }
 
-		public override IAspectWeaver Reduce(IAspectMethodWeavingSettings aspectWeavingSettings) {
+		public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
             var nestedWeaver = aspectExpression.Reduce(aspectWeavingSettings);
 
             return new NestedOnMethodBoundaryAspectWeaver(nestedWeaver, aspectDefinition, aspectWeavingSettings);

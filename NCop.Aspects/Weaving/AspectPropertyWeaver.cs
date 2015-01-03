@@ -4,15 +4,10 @@ using NCop.Weaving;
 
 namespace NCop.Aspects.Weaving
 {
-    public class AspectPropertyWeaver : AbstractMethodWeaver
+    public class AspectPropertyWeaver : AspectMethodWeaver
     {
         public AspectPropertyWeaver(IAspectDefinitionCollection aspectDefinitions, IAspectPropertyMethodWeavingSettings aspectWeavingSettings)
-            : base(aspectWeavingSettings.WeavingSettings) {
-            var aspectExpression = new AspectExpressionTreeBuilder(aspectDefinitions).Build();
-
-            MethodEndWeaver = new MethodEndWeaver();
-            MethodScopeWeaver = aspectExpression.Reduce(aspectWeavingSettings);
-            MethodDefintionWeaver = new MethodSignatureWeaver(TypeDefinition);
+            : base(aspectDefinitions, aspectWeavingSettings) {
         }
     }
 }

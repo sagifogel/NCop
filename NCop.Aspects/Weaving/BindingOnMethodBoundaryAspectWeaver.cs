@@ -9,18 +9,17 @@ namespace NCop.Aspects.Weaving
     {
         protected IArgumentsWeaver argumentsWeaver = null;
 
-        internal BindingOnMethodBoundaryAspectWeaver(Type topAspectInScopeArgType, IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings settings)
+        internal BindingOnMethodBoundaryAspectWeaver(Type topAspectInScopeArgType, IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings)
             : base(nestedWeaver, aspectDefinition, settings) {
-            var @params = weavingSettings.MethodInfoImpl.GetParameters();
+            var @params = aspectDefinition.Member.GetParameters();
 
             argumentsWeavingSettings.Parameters = @params.ToArray(@param => @param.ParameterType);
-            argumentsWeaver = new BindingOnMethodExecutionArgumentsWeaver(topAspectInScopeArgType, argumentsWeavingSettings, settings);
+            argumentsWeaver = new BindingOnMethodExecutionArgumentsWeaver(aspectDefinition.Member, topAspectInScopeArgType, argumentsWeavingSettings, settings);
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
+        public override void Weave(ILGenerator ilGenerator) {
             argumentsWeaver.Weave(ilGenerator);
-
-            return weaver.Weave(ilGenerator);
+            weaver.Weave(ilGenerator);
         }
     }
 }

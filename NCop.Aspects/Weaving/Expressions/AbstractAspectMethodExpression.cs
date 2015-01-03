@@ -12,6 +12,6 @@ namespace NCop.Aspects.Weaving.Expressions
 			this.aspectDefinition = aspectDefinition;
 		}
 
-		public abstract IAspectWeaver Reduce(IAspectMethodWeavingSettings aspectWeavingSettings);
+		public abstract IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings);
 	}
 }

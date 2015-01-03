@@ -10,8 +10,8 @@ namespace NCop.Aspects.Weaving
 {
     internal class TopOnMethodBoundaryArgumentsWeaver : AbstractTopAspectArgumentsWeaver
     {
-        internal TopOnMethodBoundaryArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectMethodWeavingSettings aspectWeavingSettings)
-            : base(argumentWeavingSettings, aspectWeavingSettings) {
+        internal TopOnMethodBoundaryArgumentsWeaver(MethodInfo methodInfo, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+            : base(methodInfo, argumentWeavingSettings, aspectWeavingSettings) {
         }
 
         public override LocalBuilder BuildArguments(ILGenerator ilGenerator) {
@@ -27,7 +27,7 @@ namespace NCop.Aspects.Weaving
 
             aspectArgLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
             contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
-            methodWeaver = new AspectArgsMethodWeaver(methodLocalBuilder, Parameters, aspectWeavingSettings);
+            methodWeaver = new AspectArgsMethodWeaver(methodInfo, methodLocalBuilder, Parameters, aspectWeavingSettings);
             methodWeaver.Weave(ilGenerator);
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);

@@ -8,7 +8,7 @@ namespace NCop.Aspects.Weaving
 {
     internal class TopGetReturnValueWeaver : AbstractGetReturnValueWeaver
     {
-        internal TopGetReturnValueWeaver(IAspectMethodWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSetings)
+        internal TopGetReturnValueWeaver(IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSetings)
             : base(aspectWeavingSettings, argumentsWeavingSetings) {
         }
 

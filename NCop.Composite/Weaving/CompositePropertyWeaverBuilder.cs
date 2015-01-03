@@ -17,14 +17,14 @@ namespace NCop.Composite.Weaving
         private readonly IAspectWeavingServices aspectWeavingServices = null;
 
         public CompositePropertyWeaverBuilder(ICompositePropertyMap compositePropertyMap, ITypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
-            : base(compositePropertyMap.ImplementationMember, compositePropertyMap.ImplementationType, compositePropertyMap.ContractType, typeDefinition) {
+            : base(compositePropertyMap.ContractType, typeDefinition) {
             this.compositePropertyMap = compositePropertyMap;
             this.aspectWeavingServices = aspectWeavingServices;
             memberInfoContract = compositePropertyMap.ContractMember;
         }
 
         public IPropertyWeaver Build() {
-            var weavingSettings = new PropertyWeavingSettings(memberInfoImpl, memberInfoContract, implementationType, contractType, typeDefinition);
+            var weavingSettings = new PropertyWeavingSettings(contractType, typeDefinition);
 
             if (compositePropertyMap.HasAspectDefinitions) {
                 var aspectWeavingSettings = new CompositePropertyWeavingSettings {
@@ -33,10 +33,10 @@ namespace NCop.Composite.Weaving
                     AspectArgsMapper = aspectWeavingServices.AspectArgsMapper
                 };
 
-                return new CompositePropertyWeaver(compositePropertyMap.AspectDefinitions, aspectWeavingSettings);
+                return new CompositePropertyWeaver(compositePropertyMap.ContractMember, compositePropertyMap.AspectDefinitions, aspectWeavingSettings);
             }
 
-            return new PropertyDecoratorWeaver(weavingSettings);
+            return new PropertyDecoratorWeaver(compositePropertyMap.ContractMember, weavingSettings);
         }
     }
 }

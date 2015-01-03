@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Weaving
 {
-    public class AspectPropertyMethodWeavingSettingsImpl : AspectMethodWeavingSettingsImpl, IAspectPropertyMethodWeavingSettings
+    public class AspectPropertyMethodWeavingSettingsImpl : AspectWeavingSettingsImpl, IAspectPropertyMethodWeavingSettings
     {
         public PropertyInfo PropertyInfoContract { get; set; }
     }

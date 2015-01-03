@@ -11,10 +11,12 @@ namespace NCop.Aspects.Weaving
     internal class AspectArgsMethodWeaver : IArgumentsWeaver
     {
         private readonly Type[] parameters = null;
+        private readonly MethodInfo methodInfo = null;
         private readonly LocalBuilder methodLocalBuilder = null;
-        private readonly IAspectMethodWeavingSettings aspectWeavingSettings = null;
+        private readonly IAspectWeavingSettings aspectWeavingSettings = null;
 
-        internal AspectArgsMethodWeaver(LocalBuilder methodLocalBuilder, Type[] parameters, IAspectMethodWeavingSettings aspectWeavingSettings) {
+        internal AspectArgsMethodWeaver(MethodInfo methodInfo, LocalBuilder methodLocalBuilder, Type[] parameters, IAspectWeavingSettings aspectWeavingSettings) {
+            this.methodInfo = methodInfo;
             this.parameters = parameters;
             this.methodLocalBuilder = methodLocalBuilder;
             this.aspectWeavingSettings = aspectWeavingSettings;
@@ -65,7 +67,7 @@ namespace NCop.Aspects.Weaving
             contractFieldBuilder = weavingSettings.TypeDefinition.GetFieldBuilder(weavingSettings.ContractType);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
             ilGenerator.Emit(OpCodes.Callvirt, typeofObject.GetMethod("GetType"));
-            ilGenerator.Emit(OpCodes.Ldstr, weavingSettings.MethodInfoImpl.Name);
+            ilGenerator.Emit(OpCodes.Ldstr, methodInfo.Name);
             ilGenerator.EmitLoadLocal(typesArrayLocalBuilder);
             ilGenerator.Emit(OpCodes.Callvirt, typeofType.GetMethod("GetMethod", new[] { typeof(string), typeof(Type[]) }));
             ilGenerator.EmitStoreLocal(methodLocalBuilder);

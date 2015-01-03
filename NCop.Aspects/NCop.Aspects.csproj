@@ -195,7 +195,6 @@
     <Compile Include="Weaving\Expressions\AbstractTopExpressionPropertyInterceptionAspect.cs" />
     <Compile Include="Weaving\Expressions\TopExpressionSetPropertyInterceptionAspect.cs" />
     <Compile Include="Weaving\GetPropertyAspectWeaver.cs" />
-    <Compile Include="Weaving\AspectPropertyWeavingSettingsImpl.cs" />
     <Compile Include="Weaving\BeginCatchBlockMethodScopeWeaver.cs" />
     <Compile Include="Weaving\BindingOnMethodExecutionArgumentsWeaver.cs" />
     <Compile Include="Weaving\Expressions\TopBindingOnMethodBoundaryAspectExpression.cs" />
@@ -204,8 +203,6 @@
     <Compile Include="Weaving\OnSetPropertyAdviceWeaver.cs" />
     <Compile Include="Weaving\OnGetPropertyAdviceWeaver.cs" />
     <Compile Include="Weaving\SetPropertyDecoratorScopeWeaver.cs" />
-    <Compile Include="Weaving\IAspectPropertyWeavingSettings.cs" />
-    <Compile Include="Weaving\IAspectMethodWeavingSettings.cs" />
     <Compile Include="Weaving\IAspectWeavingServices.cs" />
     <Compile Include="Weaving\IsolatedPropertyInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\PropertyDecoratorArgumentsWeaver.cs" />
@@ -239,7 +236,7 @@
     <Compile Include="Weaving\AspectsWeaver.cs" />
     <Compile Include="Weaving\AspectsAttributeWeaver.cs" />
     <Compile Include="Weaving\BindingMethodAspectDecoratorWeaver.cs" />
-    <Compile Include="Weaving\AspectMethodWeavingSettingsImpl.cs" />
+    <Compile Include="Weaving\AspectWeavingSettingsImpl.cs" />
     <Compile Include="Weaving\BindingSettings.cs" />
     <Compile Include="Weaving\AbstractBindingMethodAspectWeaver.cs" />
     <Compile Include="Weaving\Expressions\NestedMethodInvokerAspectExpression.cs" />

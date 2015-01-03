@@ -12,7 +12,7 @@ namespace NCop.Aspects.Weaving
         protected readonly FieldInfo bindingDependency = null;
         protected readonly ILocalBuilderRepository localBuilderRepository = null;
 
-        internal AbstractInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal AbstractInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings) {
             IAdviceExpression selectedExpression = null;
             AdviceWeavingSettings adviceWeavingSettings = null;

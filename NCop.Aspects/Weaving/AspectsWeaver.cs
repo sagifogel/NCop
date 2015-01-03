@@ -8,17 +8,16 @@ namespace NCop.Aspects.Weaving
 	{
 		private IAspectWeaver weaver = null;
         private readonly IAspectMethodExpression aspectExpression = null;
-        private readonly IAspectMethodWeavingSettings aspectWeavingSettings = null;
+        private readonly IAspectWeavingSettings aspectWeavingSettings = null;
 
-        public AspectsWeaver(IAspectMethodExpression aspectExpression, IAspectDefinitionCollection aspectDefinitions, IAspectMethodWeavingSettings aspectWeavingSettings) {
+        public AspectsWeaver(IAspectMethodExpression aspectExpression, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings) {
             this.aspectExpression = aspectExpression;
             this.aspectWeavingSettings = aspectWeavingSettings;
 		}
 
-		public ILGenerator Weave(ILGenerator ilGenerator) {
-            weaver = aspectExpression.Reduce(aspectWeavingSettings);
-
-			return weaver.Weave(ilGenerator);
+		public void Weave(ILGenerator ilGenerator) {
+            aspectExpression.Reduce(aspectWeavingSettings)
+                            .Weave(ilGenerator);
 		}
 	}
 }

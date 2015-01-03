@@ -13,17 +13,15 @@ namespace NCop.Aspects.Weaving
         private readonly MethodInfo methodInfoImpl = null;
         private readonly IArgumentsWeaver argumentsWeaver = null;
 
-        internal SetPropertyDecoratorScopeWeaver(IAspectMethodWeavingSettings aspectWeavingSettings)
-            : base(aspectWeavingSettings.WeavingSettings) {
+        internal SetPropertyDecoratorScopeWeaver(MethodInfo methodInfo, IAspectWeavingSettings aspectWeavingSettings)
+            : base(methodInfo, aspectWeavingSettings.WeavingSettings) {
             argumentsWeaver = new PropertyDecoratorArgumentsWeaver();
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
+        public override void Weave(ILGenerator ilGenerator) {
             argumentsWeaver.Weave(ilGenerator);
             ilGenerator.EmitLoadArg(3);
             ilGenerator.Emit(OpCodes.Callvirt, methodInfoImpl);
-
-            return ilGenerator;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractMethodInterceptionAspectWeaver : AbstractInterceptionAspectWeaver
     {
-        internal AbstractMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal AbstractMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
         }
         

@@ -18,8 +18,8 @@ namespace NCop.Aspects.Weaving
         internal TopGetPropertyInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectPropertyMethodWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             argumentsWeavingSettings.BindingsDependency = weavedType;
-            argumentsWeavingSettings.Parameters = new[] { weavingSettings.MethodInfoImpl.ReturnType };
-            argumentsWeaver = new TopGetPropertyInterceptionArgumentsWeaver(argumentsWeavingSettings, aspectWeavingSettings);
+            argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Member.ReturnType };
+            argumentsWeaver = new TopGetPropertyInterceptionArgumentsWeaver(aspectDefinition.Member, argumentsWeavingSettings, aspectWeavingSettings);
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 
@@ -34,17 +34,15 @@ namespace NCop.Aspects.Weaving
             return adviceExpressionFactory(selectedAdviceDefinition);
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
+        public override void Weave(ILGenerator ilGenerator) {
             LocalBuilder argsLocalBuilder = null;
-            var aspectArgsType = weavingSettings.MethodInfoImpl.ToPropertyAspectArgument();
+            var aspectArgsType = aspectDefinition.Member.ToPropertyAspectArgument();
 
             argumentsWeaver.Weave(ilGenerator);
             weaver.Weave(ilGenerator);
             argsLocalBuilder = localBuilderRepository.Get(argumentsWeavingSettings.ArgumentType);
             ilGenerator.EmitLoadLocal(argsLocalBuilder);
             ilGenerator.Emit(OpCodes.Callvirt, aspectArgsType.GetProperty("Value").GetGetMethod());
-
-            return ilGenerator;
         }
     }
 }

@@ -18,7 +18,7 @@ namespace NCop.Aspects.Weaving.Expressions
             : base(aspectExpression, aspectDefinition) {
         }
 
-		public override IAspectWeaver Reduce(IAspectMethodWeavingSettings aspectWeavingSettings) {
+		public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
             var bindingWeaver = new IsolatedMethodInterceptionBindingWeaver(aspectExpression, aspectDefinition, aspectWeavingSettings);
 
             return new TopBindingMethodInterceptionAspectWeaver(aspectDefinition, aspectWeavingSettings, bindingWeaver.WeavedType);

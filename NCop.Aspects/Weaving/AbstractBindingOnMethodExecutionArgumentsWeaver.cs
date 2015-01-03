@@ -1,20 +1,21 @@
 ﻿using NCop.Aspects.Extensions;
 using NCop.Core.Extensions;
 using NCop.Weaving.Extensions;
+using System.Reflection;
 using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractBindingOnMethodExecutionArgumentsWeaver : AbstractArgumentsWeaver
     {
-        internal AbstractBindingOnMethodExecutionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectMethodWeavingSettings aspectWeavingSettings)
-            : base(argumentWeavingSettings, aspectWeavingSettings) {
+        internal AbstractBindingOnMethodExecutionArgumentsWeaver(MethodInfo methodInfo, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+            : base(methodInfo, argumentWeavingSettings, aspectWeavingSettings) {
         }
 
         public override void Weave(ILGenerator ilGenerator) {
             LocalBuilder argsImplLocalBuilder = null;
             var ctorInterceptionArgs = ArgumentType.GetConstructors()[0];
-            var aspectArgsType = WeavingSettings.MethodInfoImpl.ToAspectArgumentContract();
+            var aspectArgsType = methodInfo.ToAspectArgumentContract();
             var methodProperty = aspectArgsType.GetProperty("Method");
 
             argsImplLocalBuilder = LocalBuilderRepository.GetOrDeclare(ArgumentType, () => {

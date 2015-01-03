@@ -13,10 +13,10 @@ namespace NCop.Aspects.Weaving.Expressions
             this.aspectDefinition = aspectDefinition;
         }
 
-        public IAspectWeaver Reduce(IAspectMethodWeavingSettings aspectWeavingSettings) {
+        public IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
             var aspectSettings = aspectWeavingSettings as IAspectPropertyMethodWeavingSettings;
 
-            return new BindingPropertyAspectDecoratorWeaver(aspectSettings);
+            return new BindingPropertyAspectDecoratorWeaver(aspectDefinition.Member, aspectSettings);
         }
     }
 }

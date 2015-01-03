@@ -9,6 +9,6 @@ namespace NCop.Weaving
 {
     public interface IMethodScopeWeaver : IWeaver
     {
-        ILGenerator Weave(ILGenerator ilGenerator);
+        void Weave(ILGenerator ilGenerator);
     }
 }

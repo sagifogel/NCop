@@ -9,11 +9,11 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving
 {
-	public class AspectMethodWeavingSettingsImpl : IAspectMethodWeavingSettings
+	public class AspectWeavingSettingsImpl : IAspectWeavingSettings
 	{
 		public IAspectRepository AspectRepository { get; set; }
 		public IAspectArgsMapper AspectArgsMapper { get; set; }
-		public IMethodWeavingSettings WeavingSettings { get; set; }
+		public IWeavingSettings WeavingSettings { get; set; }
 		public ILocalBuilderRepository LocalBuilderRepository { get; set; }
 		public IByRefArgumentsStoreWeaver ByRefArgumentsStoreWeaver { get; set; }
 	}

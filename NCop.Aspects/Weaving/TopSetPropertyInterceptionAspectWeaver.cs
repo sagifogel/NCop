@@ -18,8 +18,8 @@ namespace NCop.Aspects.Weaving
         internal TopSetPropertyInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectPropertyMethodWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             argumentsWeavingSettings.BindingsDependency = weavedType;
-            argumentsWeavingSettings.Parameters = new[] { weavingSettings.MethodInfoImpl.ReturnType };
-            argumentsWeaver = new TopSetPropertyInterceptionArgumentsWeaver(argumentsWeavingSettings, aspectWeavingSettings);
+            argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Member.ReturnType };
+            argumentsWeaver = new TopSetPropertyInterceptionArgumentsWeaver(aspectDefinition.Member, argumentsWeavingSettings, aspectWeavingSettings);
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 
@@ -34,11 +34,9 @@ namespace NCop.Aspects.Weaving
             return adviceExpressionFactory(selectedAdviceDefinition);
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
+        public override void Weave(ILGenerator ilGenerator) {
             argumentsWeaver.Weave(ilGenerator);
             weaver.Weave(ilGenerator);
-            
-            return ilGenerator;
         }
     }
 }

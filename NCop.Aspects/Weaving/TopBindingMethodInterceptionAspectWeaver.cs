@@ -11,17 +11,17 @@ namespace NCop.Aspects.Weaving
     {
         protected readonly IArgumentsWeaver argumentsWeaver = null;
 
-        internal TopBindingMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal TopBindingMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             argumentsWeavingSettings.BindingsDependency = weavedType;
-            argumentsWeaver = new TopBindingMethodInterceptionArgumentsWeaver(argumentsWeavingSettings, aspectWeavingSettings);
+            argumentsWeaver = new TopBindingMethodInterceptionArgumentsWeaver(aspectDefinition.Member, argumentsWeavingSettings, aspectWeavingSettings);
             methodScopeWeavers.Add(new TopAspectArgsMappingWeaverImpl(aspectWeavingSettings, argumentsWeavingSettings));
             ArgumentType = argumentsWeavingSettings.ArgumentType;
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
-            var aspectArgsType = weavingSettings.MethodInfoImpl.ToAspectArgumentContract();
+        public override void Weave(ILGenerator ilGenerator) {
+            var aspectArgsType = aspectDefinition.Member.ToAspectArgumentContract();
 
             argumentsWeaver.Weave(ilGenerator);
             weaver.Weave(ilGenerator);
@@ -32,8 +32,6 @@ namespace NCop.Aspects.Weaving
                 ilGenerator.EmitLoadArg(2);
                 ilGenerator.Emit(OpCodes.Callvirt, returnValueProperty.GetGetMethod());
             }
-
-            return ilGenerator;
         }
     }
 }

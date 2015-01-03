@@ -18,7 +18,7 @@ namespace NCop.Aspects.Weaving.Expressions
             this.argumentsWeavingSettings = argumentsWeavingSettings;
         }
 
-        public IAspectWeaver Reduce(IAspectMethodWeavingSettings aspectWeavingSettings) {
+        public IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
             var topAspectInScopeArgType = topAspectInScopeDefinition.ToAspectArgumentImpl();
 
             return new MethodInvokerAspectWeaver(topAspectInScopeArgType, aspectDefinition, aspectWeavingSettings, argumentsWeavingSettings);

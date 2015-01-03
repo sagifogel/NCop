@@ -12,20 +12,19 @@ namespace NCop.Aspects.Weaving
     {
         private readonly IArgumentsWeaver argumentsWeaver = null;
 
-        internal NestedMethodInterceptionAspectWeaver(Type topAspectInScopeArgType, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal NestedMethodInterceptionAspectWeaver(Type topAspectInScopeArgType, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             var argumentWeavingSettings = aspectDefinition.ToArgumentsWeavingSettings();
 
             argumentWeavingSettings.BindingsDependency = weavedType;
-            argumentsWeaver = new NestedMethodIntercpetionArgumentsWeaver(topAspectInScopeArgType, aspectWeavingSettings, argumentWeavingSettings);
+            argumentsWeaver = new NestedMethodIntercpetionArgumentsWeaver(aspectDefinition.Member, topAspectInScopeArgType, aspectWeavingSettings, argumentWeavingSettings);
             methodScopeWeavers.Add(new NestedAspectArgsMappingWeaver(topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSettings));
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
+        public override void Weave(ILGenerator ilGenerator) {
             argumentsWeaver.Weave(ilGenerator);
-
-            return weaver.Weave(ilGenerator);
+            weaver.Weave(ilGenerator);
         }
     }
 }

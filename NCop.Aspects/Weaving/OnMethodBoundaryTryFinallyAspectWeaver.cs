@@ -15,10 +15,9 @@ namespace NCop.Aspects.Weaving
             this.entryWeavers = entryWeavers;
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
+        public override void Weave(ILGenerator ilGenerator) {
             weavers.AddRange(entryWeavers);
-            
-            return base.Weave(ilGenerator);
+            base.Weave(ilGenerator);
         }
     }
 }

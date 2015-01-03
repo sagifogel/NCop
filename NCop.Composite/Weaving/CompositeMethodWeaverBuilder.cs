@@ -15,16 +15,16 @@ namespace NCop.Composite.Weaving
         private readonly IAspectWeavingServices aspectWeavingServices = null;
 
         public CompositeMethodWeaverBuilder(ICompositeMethodMap compositeMethodMap, ITypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
-            : base(compositeMethodMap.ImplementationMember, compositeMethodMap.ImplementationType, compositeMethodMap.ContractType, typeDefinition) {
+            : base(compositeMethodMap.ContractType, typeDefinition) {
             this.compositeMethodMap = compositeMethodMap;
             this.aspectWeavingServices = aspectWeavingServices;
         }
 
         public IMethodWeaver Build() {
-            var weavingSettings = new MethodWeavingSettings(memberInfoImpl, implementationType, contractType, typeDefinition);
+            var weavingSettings = new MethodWeavingSettings(contractType, typeDefinition);
 
             if (compositeMethodMap.HasAspectDefinitions) {
-                var aspectWeavingSettings = new AspectMethodWeavingSettingsImpl {
+                var aspectWeavingSettings = new AspectWeavingSettingsImpl {
                     WeavingSettings = weavingSettings,
                     AspectRepository = aspectWeavingServices.AspectRepository,
                     AspectArgsMapper = aspectWeavingServices.AspectArgsMapper
@@ -33,7 +33,7 @@ namespace NCop.Composite.Weaving
                 return new CompositeMethodWeaver(compositeMethodMap.AspectDefinitions, aspectWeavingSettings);
             }
 
-            return new MethodDecoratorWeaver(weavingSettings);
+            return new MethodDecoratorWeaver(compositeMethodMap.ContractMember, weavingSettings);
         }
     }
 }

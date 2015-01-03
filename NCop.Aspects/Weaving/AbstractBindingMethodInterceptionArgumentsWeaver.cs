@@ -12,16 +12,15 @@ namespace NCop.Aspects.Weaving
     {
         private readonly FieldInfo bindingsDependency = null;
 
-        internal AbstractBindingMethodInterceptionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectMethodWeavingSettings aspectWeavingSettings)
-            : base(argumentWeavingSettings, aspectWeavingSettings) {
+        internal AbstractBindingMethodInterceptionArgumentsWeaver(MethodInfo methodInfo, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+            : base(methodInfo, argumentWeavingSettings, aspectWeavingSettings) {
             bindingsDependency = argumentWeavingSettings.BindingsDependency;
         }
 
         public override void Weave(ILGenerator ilGenerator) {
             LocalBuilder argsImplLocalBuilder = null;
-            var methodInfoImpl = WeavingSettings.MethodInfoImpl;
             var ctorInterceptionArgs = ArgumentType.GetConstructors()[0];
-            var aspectArgsType = methodInfoImpl.ToAspectArgumentContract();
+            var aspectArgsType = methodInfo.ToAspectArgumentContract();
             var methodProperty = aspectArgsType.GetProperty("Method");
 
             argsImplLocalBuilder = LocalBuilderRepository.GetOrDeclare(ArgumentType, () => {

@@ -10,16 +10,16 @@ namespace NCop.Weaving
 {
     public class PropertyDecoratorWeaver : AbstractPropertyWeaver
     {
-        public PropertyDecoratorWeaver(IPropertyWeavingSettings weavingSettings)
-            : base(weavingSettings) {
+        public PropertyDecoratorWeaver(PropertyInfo propertyInfo, IPropertyWeavingSettings weavingSettings)
+            : base(propertyInfo, weavingSettings) {
         }
 
         public override IMethodWeaver GetGetMethod() {
             if (CanRead) {
-                var getMethodImpl = PropertyInfoImpl.GetGetMethod();
-                var weavingSettings = new MethodWeavingSettings(getMethodImpl, ImplementationType, ContractType, TypeDefinition);
+                var getMethodImpl = propertyInfo.GetGetMethod();
+                var weavingSettings = new MethodWeavingSettings(ContractType, TypeDefinition);
 
-                return new GetPropertyDecoratorWeaver(weavingSettings);
+                return new GetPropertyDecoratorWeaver(getMethodImpl, weavingSettings);
             }
 
             return null;
@@ -27,10 +27,10 @@ namespace NCop.Weaving
 
         public override IMethodWeaver GetSetMethod() {
             if (CanWrite) {
-                var setMethodImpl = PropertyInfoImpl.GetSetMethod();
-                var weavingSettings = new MethodWeavingSettings(setMethodImpl, ImplementationType, ContractType, TypeDefinition);
+                var setMethodImpl = propertyInfo.GetSetMethod();
+                var weavingSettings = new MethodWeavingSettings(ContractType, TypeDefinition);
 
-                return new SetPropertyDecoratorWeaver(weavingSettings);
+                return new SetPropertyDecoratorWeaver(setMethodImpl, weavingSettings);
             }
 
             return null;

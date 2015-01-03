@@ -24,7 +24,7 @@ namespace NCop.Samples
 
     [TransientComposite]
     [Mixins(typeof(CSharpDeveloperMixin))]
-    public interface IPerson : IDeveloper
+    public interface IPerson : IDo
     {
     }
 
@@ -210,6 +210,10 @@ namespace NCop.Samples
                 Aspects.stopWatchAspect.OnGetValue(interArgs);
             }
         }
+
+        public void Do() {
+            throw new NotImplementedException();
+        }
     }
 
     public class PropertyStopWatchAspect : PropertyInterceptionAspect<string>
@@ -253,7 +257,8 @@ namespace NCop.Samples
 
             container.Configure();
             developer = container.Resolve<IPerson>();
-            developer.Code = "javascript";
+            developer.Do();
+            //developer.Code = "javascript";
         }
     }
 }

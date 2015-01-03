@@ -6,11 +6,11 @@ namespace NCop.Aspects.Weaving
 {
     internal class IsolatedPropertyInterceptionBindingWeaver : AbstractPropertyInterceptionBindingWeaver
     {
-        internal IsolatedPropertyInterceptionBindingWeaver(IAspectMethodExpression aspectExpression, IPropertyAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings)
+        internal IsolatedPropertyInterceptionBindingWeaver(IAspectMethodExpression aspectExpression, IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectExpression, aspectDefinition, aspectWeavingSettings) {
         }
 
-        protected override IAspectMethodWeavingSettings GetAspectsWeavingSettings() {
+        protected override IAspectWeavingSettings GetAspectsWeavingSettings() {
             return aspectWeavingSettings.CloneToWith<AspectPropertyMethodWeavingSettingsImpl>(settings => {
                 settings.LocalBuilderRepository = new LocalBuilderRepository();
                 settings.PropertyInfoContract = aspectDefinition.PropertyInfoContract;

@@ -13,10 +13,10 @@ namespace NCop.Aspects.Weaving.Expressions
             this.argumentsWeavingSettings = argumentsWeavingSettings;
         }
 
-        public IAspectWeaver Reduce(IAspectMethodWeavingSettings aspectWeavingSettings) {
+        public IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
             var topAspectInScopeArgType = topAspectInScopeDefinition.ToAspectArgumentImpl();
 
-            return new NestedMethodInvokerAspectWeaver(topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSettings);
+            return new NestedMethodInvokerAspectWeaver(topAspectInScopeDefinition.Member, topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSettings);
         }
     }
 }

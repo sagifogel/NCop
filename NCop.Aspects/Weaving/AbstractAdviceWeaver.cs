@@ -22,7 +22,7 @@ namespace NCop.Aspects.Weaving
             argumentsWeavingSettings = adviceWeavingSettings.ArgumentsWeavingSettings;
 		}
 
-        public virtual ILGenerator Weave(ILGenerator ilGenerator) {
+        public virtual void Weave(ILGenerator ilGenerator) {
             LocalBuilder argsLocalBuilder = null;
             var aspectMember = aspectRepository.GetAspectFieldByType(aspectType);
             var adviceMethod = aspectMember.FieldType.GetMethod(AdviceName);
@@ -31,8 +31,6 @@ namespace NCop.Aspects.Weaving
             ilGenerator.Emit(OpCodes.Ldsfld, aspectMember);
             ilGenerator.EmitLoadLocal(argsLocalBuilder);
             ilGenerator.Emit(OpCodes.Callvirt, adviceMethod);
-
-            return ilGenerator;
         }
 
         protected abstract string AdviceName { get; }

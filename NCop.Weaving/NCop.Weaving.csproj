@@ -63,11 +63,11 @@
     <Compile Include="Extensions\WeavingExtensions.cs" />
     <Compile Include="IHasWeavingSettings.cs" />
     <Compile Include="IMethodLocalWeaver.cs" />
-    <Compile Include="IMethodWeavingSettings.cs" />
     <Compile Include="BulkWeaving.cs" />
-    <Compile Include="IPropertyWeavingSettings.cs" />
+    <Compile Include="IPropertyWeavingSettings.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="IWeavingSettings.cs" />
-    <Compile Include="PropertyWeavingSettings.cs" />
     <Compile Include="MethodWeavingSettings.cs" />
     <Compile Include="MethodScopeWeaversQueue.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -113,6 +113,7 @@
     <Compile Include="NCopAssemblyBuilder.cs" />
     <Compile Include="NCopModuleBuilder.cs" />
     <Compile Include="PropertyDecoratorWeaver.cs" />
+    <Compile Include="PropertyWeavingSettings.cs" />
     <Compile Include="SetPropertyDecoratorScopeWeaver.cs" />
     <Compile Include="SetPropertySignatureWeaver.cs" />
     <Compile Include="ReflectionUtils.cs" />

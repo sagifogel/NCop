@@ -9,14 +9,13 @@ namespace NCop.Aspects.Weaving.Expressions
             : base(aspectExpression, aspectDefinition) {
         }
 
-        public override IAspectWeaver Reduce(IAspectMethodWeavingSettings aspectWeavingSettings) {
+        public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
             var clonedAspectWeavingSettings = aspectWeavingSettings.CloneWith(settings => {
                 var localBuilderRepository = new LocalBuilderRepository();
-                var methodImpl = aspectWeavingSettings.WeavingSettings.MethodInfoImpl;
                 var aspectArgumentImplType = aspectDefinition.ToAspectArgumentImpl();
                     
                 settings.LocalBuilderRepository = localBuilderRepository;
-                settings.ByRefArgumentsStoreWeaver = new TopAspectByRefArgumentsStoreWeaver(aspectArgumentImplType, methodImpl, localBuilderRepository);
+                settings.ByRefArgumentsStoreWeaver = new TopAspectByRefArgumentsStoreWeaver(aspectArgumentImplType, aspectDefinition.Member, localBuilderRepository);
             });
 
             var nestedWeaver = aspectExpression.Reduce(clonedAspectWeavingSettings);

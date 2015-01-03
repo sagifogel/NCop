@@ -13,10 +13,10 @@ namespace NCop.Aspects.Weaving
     {
         protected IArgumentsWeaver argumentsWeaver = null;
 
-        internal TopMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal TopMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             IMethodScopeWeaver getReturnValueWeaver = null;
-            var @params = weavingSettings.MethodInfoImpl.GetParameters();
+            var @params = aspectDefinition.Member.GetParameters();
             var byRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
 
             if (argumentsWeavingSettings.IsFunction) {
@@ -25,7 +25,7 @@ namespace NCop.Aspects.Weaving
 
             argumentsWeavingSettings.Parameters = @params.ToArray(@param => @param.ParameterType);
             argumentsWeavingSettings.BindingsDependency = weavedType;
-            argumentsWeaver = new TopMethodInterceptionArgumentsWeaver(argumentsWeavingSettings, aspectWeavingSettings);
+            argumentsWeaver = new TopMethodInterceptionArgumentsWeaver(aspectDefinition.Member, argumentsWeavingSettings, aspectWeavingSettings);
 
             if (!byRefArgumentsStoreWeaver.ContainsByRefParams) {
                 if (getReturnValueWeaver.IsNotNull()) {
@@ -42,15 +42,14 @@ namespace NCop.Aspects.Weaving
             }
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
+        public override void Weave(ILGenerator ilGenerator) {
             LocalBuilder bindingLocalBuilder = null;
             var bindingsReflectedType = bindingDependency.ReflectedType;
 
             bindingLocalBuilder = ilGenerator.DeclareLocal(bindingsReflectedType);
             localBuilderRepository.Add(bindingLocalBuilder);
             argumentsWeaver.Weave(ilGenerator);
-
-            return weaver.Weave(ilGenerator);
+            weaver.Weave(ilGenerator);
         }
     }
 }

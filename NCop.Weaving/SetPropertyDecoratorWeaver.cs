@@ -9,10 +9,10 @@ namespace NCop.Weaving
 {
     public class SetPropertyDecoratorWeaver : AbstractMethodWeaver, ISetPropertyWeaver
     {
-		public SetPropertyDecoratorWeaver(IMethodWeavingSettings weavingSettings)
-            : base(weavingSettings) {
+		public SetPropertyDecoratorWeaver(MethodInfo methodInfo, IWeavingSettings weavingSettings)
+            : base(methodInfo, weavingSettings) {
             MethodEndWeaver = new MethodEndWeaver();
-			MethodScopeWeaver = new SetPropertyDecoratorScopeWeaver(weavingSettings);
+            MethodScopeWeaver = new SetPropertyDecoratorScopeWeaver(methodInfo, weavingSettings);
 			MethodDefintionWeaver = new SetPropertySignatureWeaver(weavingSettings.TypeDefinition);
 		}
     }

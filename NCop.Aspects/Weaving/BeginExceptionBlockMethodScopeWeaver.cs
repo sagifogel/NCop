@@ -11,10 +11,8 @@ namespace NCop.Aspects.Weaving
 		internal BeginExceptionBlockMethodScopeWeaver() {
 		}
 
-		public ILGenerator Weave(ILGenerator ilGenerator) {
+		public void Weave(ILGenerator ilGenerator) {
 			ilGenerator.BeginExceptionBlock();
-
-			return ilGenerator;
 		}
 	}
 }

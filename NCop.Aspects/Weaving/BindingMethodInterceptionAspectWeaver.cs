@@ -13,20 +13,19 @@ namespace NCop.Aspects.Weaving
         protected readonly Type topAspectInScopeArgType = null;
         protected readonly IArgumentsWeaver argumentsWeaver = null;
 
-        internal BindingMethodInterceptionAspectWeaver(Type topAspectInScopeArgType, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal BindingMethodInterceptionAspectWeaver(Type topAspectInScopeArgType, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             this.topAspectInScopeArgType = topAspectInScopeArgType;
             ArgumentType = argumentsWeavingSettings.ArgumentType;
             argumentsWeavingSettings.BindingsDependency = weavedType;
-            argumentsWeaver = new BindingMethodInterceptionArgumentsWeaver(topAspectInScopeArgType, argumentsWeavingSettings, aspectWeavingSettings);
+            argumentsWeaver = new BindingMethodInterceptionArgumentsWeaver(aspectDefinition.Member, topAspectInScopeArgType, argumentsWeavingSettings, aspectWeavingSettings);
             methodScopeWeavers.Add(new NestedAspectArgsMappingWeaver(topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSettings));
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
+        public override void Weave(ILGenerator ilGenerator) {
             argumentsWeaver.Weave(ilGenerator);
-           
-            return weaver.Weave(ilGenerator);
+            weaver.Weave(ilGenerator);
         }
     }
 }

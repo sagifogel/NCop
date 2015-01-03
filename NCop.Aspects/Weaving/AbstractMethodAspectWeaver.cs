@@ -17,13 +17,13 @@ namespace NCop.Aspects.Weaving
         protected readonly IAspectRepository aspectRepository = null;
         protected readonly IAspectDefinition aspectDefinition = null;
         protected readonly IAdviceDefinitionCollection advices = null;
-		protected readonly IMethodWeavingSettings weavingSettings = null;
+		protected readonly IWeavingSettings weavingSettings = null;
 		protected readonly AdviceVisitor adviceVisitor = new AdviceVisitor();
         protected ArgumentsWeavingSettings argumentsWeavingSettings = null;
-        protected readonly IAspectMethodWeavingSettings aspectWeavingSettings = null;
+        protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
         protected readonly AdviceDiscoveryVisitor adviceDiscoveryVistor = new AdviceDiscoveryVisitor();
 
-        internal AbstractMethodAspectWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings) {
+        internal AbstractMethodAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings) {
             advices = aspectDefinition.Advices;
             this.aspectDefinition = aspectDefinition;
             this.aspectWeavingSettings = aspectWeavingSettings;
@@ -35,6 +35,6 @@ namespace NCop.Aspects.Weaving
 
         public Type ArgumentType { get; protected set; }
 
-        public abstract ILGenerator Weave(ILGenerator ilGenerator);
+        public abstract void Weave(ILGenerator ilGenerator);
     }
 }

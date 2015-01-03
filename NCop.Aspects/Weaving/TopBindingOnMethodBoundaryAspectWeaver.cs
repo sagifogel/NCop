@@ -12,12 +12,12 @@ namespace NCop.Aspects.Weaving
     {
         protected IArgumentsWeaver argumentsWeaver = null;
 
-        internal TopBindingOnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings settings)
+        internal TopBindingOnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings)
             : base(nestedWeaver, aspectDefinition, settings) {
-            var @params = weavingSettings.MethodInfoImpl.GetParameters();
+            var @params = aspectDefinition.Member.GetParameters();
 
             argumentsWeavingSettings.Parameters = @params.ToArray(@param => @param.ParameterType);
-            argumentsWeaver = new TopBindingOnMethodExecutionArgumentsWeaver(argumentsWeavingSettings, settings);
+            argumentsWeaver = new TopBindingOnMethodExecutionArgumentsWeaver(aspectDefinition.Member, argumentsWeavingSettings, settings);
         }
 
         protected override void AddEntryScopeWeavers(List<IMethodScopeWeaver> entryWeavers) {
@@ -33,10 +33,9 @@ namespace NCop.Aspects.Weaving
             finallyWeavers.Add(new TopAspectArgsMappingWeaverImpl(aspectWeavingSettings, argumentsWeavingSettings));
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
+        public override void Weave(ILGenerator ilGenerator) {
             argumentsWeaver.Weave(ilGenerator);
-
-            return weaver.Weave(ilGenerator);
+            weaver.Weave(ilGenerator);
         }
     }
 }

@@ -7,8 +7,8 @@ namespace NCop.Aspects.Weaving
 {
     internal class TopSetPropertyInterceptionArgumentsWeaver : AbstractTopPropertyAspectArgumentsWeaver
     {
-        internal TopSetPropertyInterceptionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectPropertyMethodWeavingSettings aspectWeavingSettings)
-            : base(argumentWeavingSettings, aspectWeavingSettings) {
+        internal TopSetPropertyInterceptionArgumentsWeaver(MethodInfo methodInfo, IArgumentsWeavingSettings argumentWeavingSettings, IAspectPropertyMethodWeavingSettings aspectWeavingSettings)
+            : base(methodInfo, argumentWeavingSettings, aspectWeavingSettings) {
         }
 
         public override LocalBuilder BuildArguments(ILGenerator ilGenerator) {
@@ -18,7 +18,7 @@ namespace NCop.Aspects.Weaving
             ConstructorInfo ctorInterceptionArgs = null;
             AbstractAspectArgsPropertyWeaver methodWeaver = null;
             var propertyWeavingSettings = aspectWeavingSettings as IAspectPropertyMethodWeavingSettings;
-            
+
             methodLocalBuilder = LocalBuilderRepository.Declare(() => {
                 return ilGenerator.DeclareLocal(typeof(MethodInfo));
             });

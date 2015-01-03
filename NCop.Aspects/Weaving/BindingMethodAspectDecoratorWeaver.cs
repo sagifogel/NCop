@@ -11,17 +11,17 @@ namespace NCop.Aspects.Weaving
         private readonly IMethodBindingWeaver weaver = null;
         private readonly IMethodScopeWeaver methodDecoratorScopeWeaver = null;
 
-        internal BindingMethodAspectDecoratorWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
-            : base(aspectWeavingSettings.WeavingSettings) {
+        internal BindingMethodAspectDecoratorWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
+            : base(aspectDefinition.Member, aspectWeavingSettings.WeavingSettings) {
             var bindingSettings = aspectDefinition.ToBindingSettings();
 
             bindingSettings.LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
-            methodDecoratorScopeWeaver = new MethodDecoratorScopeWeaver(aspectWeavingSettings);
-            weaver = new MethodDecoratorBindingWeaver(bindingSettings, aspectWeavingSettings, this);
+            methodDecoratorScopeWeaver = new MethodDecoratorScopeWeaver(aspectDefinition.Member, aspectWeavingSettings);
+            weaver = new MethodDecoratorBindingWeaver(aspectDefinition.Member, bindingSettings, aspectWeavingSettings, this);
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
-            return methodDecoratorScopeWeaver.Weave(ilGenerator);
+        public override void Weave(ILGenerator ilGenerator) {
+            methodDecoratorScopeWeaver.Weave(ilGenerator);
         }
     }
 }

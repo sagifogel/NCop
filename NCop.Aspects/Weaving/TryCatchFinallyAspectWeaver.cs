@@ -20,7 +20,7 @@ namespace NCop.Aspects.Weaving
             this.tryCatchFinallySettings = tryCatchFinallySettings;
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
+        public override void Weave(ILGenerator ilGenerator) {
             var weavers = new List<IMethodScopeWeaver>();
             MethodScopeWeaversQueue methodScopeWeaversQueue = null;
 
@@ -38,8 +38,7 @@ namespace NCop.Aspects.Weaving
             }
 
             methodScopeWeaversQueue = new MethodScopeWeaversQueue(weavers);
-
-            return methodScopeWeaversQueue.Weave(ilGenerator);
+            methodScopeWeaversQueue.Weave(ilGenerator);
         }
     }
 }

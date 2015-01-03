@@ -12,7 +12,7 @@ namespace NCop.Aspects.Weaving.Expressions
             this.topAspectInScopeDefinition = topAspectInScopeDefinition;
         }
 
-		public override IAspectWeaver Reduce(IAspectMethodWeavingSettings aspectWeavingSettings) {
+		public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
             var topAspectInScopeArgType = topAspectInScopeDefinition.ToAspectArgumentImpl();
             var bindingWeaver = new IsolatedMethodInterceptionBindingWeaver(aspectExpression, aspectDefinition, aspectWeavingSettings);
 

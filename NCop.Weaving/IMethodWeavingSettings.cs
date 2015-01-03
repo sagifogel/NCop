@@ -4,6 +4,6 @@ namespace NCop.Weaving
 {
 	public interface IMethodWeavingSettings : IWeavingSettings
 	{
-		MethodInfo MethodInfoImpl { get; }
+		//MethodInfo MethodInfoImpl { get; }
 	}
 }

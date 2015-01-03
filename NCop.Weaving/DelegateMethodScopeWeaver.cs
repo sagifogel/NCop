@@ -16,10 +16,8 @@ namespace NCop.Weaving
             this.weaveAction = weaveAction;
         }
 
-        public ILGenerator Weave(ILGenerator ilGenerator) {
+        public void Weave(ILGenerator ilGenerator) {
             weaveAction(ilGenerator);
-
-            return ilGenerator;
         }
     }
 }

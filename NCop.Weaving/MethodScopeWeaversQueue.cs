@@ -12,12 +12,10 @@ namespace NCop.Composite.Weaving
             queue = new Queue<IMethodScopeWeaver>(methodScopeWeavers);
         }
 
-        public ILGenerator Weave(ILGenerator ilGenerator) {
+        public void Weave(ILGenerator ilGenerator) {
             while (queue.Count > 0) {
                 queue.Dequeue().Weave(ilGenerator);
             }
-
-            return ilGenerator;
         }
     }
 }
