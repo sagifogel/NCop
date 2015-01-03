@@ -24,10 +24,10 @@ namespace NCop.Composite.Weaving
         }
 
         public IPropertyWeaver Build() {
-            var weavingSettings = new PropertyWeavingSettings(contractType, typeDefinition);
+            var weavingSettings = new WeavingSettingsImpl(contractType, typeDefinition);
 
             if (compositePropertyMap.HasAspectDefinitions) {
-                var aspectWeavingSettings = new CompositePropertyWeavingSettings {
+                var aspectWeavingSettings = new AspectWeavingSettingsImpl {
                     WeavingSettings = weavingSettings,
                     AspectRepository = aspectWeavingServices.AspectRepository,
                     AspectArgsMapper = aspectWeavingServices.AspectArgsMapper

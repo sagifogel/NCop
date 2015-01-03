@@ -3,7 +3,7 @@ using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class NestedMethodInvokerAspectExpression : IAspectMethodExpression
+    internal class NestedMethodInvokerAspectExpression : IAspectExpression
     {
         private readonly IAspectDefinition topAspectInScopeDefinition = null;
         private readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;

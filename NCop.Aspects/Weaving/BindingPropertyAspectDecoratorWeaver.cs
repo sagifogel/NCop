@@ -10,7 +10,7 @@ namespace NCop.Aspects.Weaving
     {
         private readonly IMethodScopeWeaver weaver = null;
 
-        internal BindingPropertyAspectDecoratorWeaver(MethodInfo methodInfo, IAspectPropertyMethodWeavingSettings aspectWeavingSettings)
+        internal BindingPropertyAspectDecoratorWeaver(MethodInfo methodInfo, IAspectWeavingSettings aspectWeavingSettings)
             : base(methodInfo, aspectWeavingSettings.WeavingSettings) {
             weaver = new GetPropertyDecoratorScopeWeaver(methodInfo, aspectWeavingSettings);
         }

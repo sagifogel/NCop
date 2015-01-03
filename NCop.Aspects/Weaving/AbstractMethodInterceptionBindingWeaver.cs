@@ -7,10 +7,10 @@ namespace NCop.Aspects.Weaving
     internal abstract class AbstractMethodInterceptionBindingWeaver : AbstractBindingMethodAspectWeaver
     {
         protected readonly Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
-        protected readonly IAspectMethodExpression aspectExpression = null;
+        protected readonly IAspectExpression aspectExpression = null;
         protected IAspectWeavingSettings aspectWeavingSettings = null;
 
-        internal AbstractMethodInterceptionBindingWeaver(IAspectMethodExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
+        internal AbstractMethodInterceptionBindingWeaver(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectDefinition) {
             this.aspectExpression = aspectExpression;
             this.aspectWeavingSettings = aspectWeavingSettings;
@@ -29,7 +29,6 @@ namespace NCop.Aspects.Weaving
             var aspectSetings = GetAspectsWeavingSettings();
 
             aspectWeaver = aspectExpression.Reduce(aspectSetings);
-            bindingSettings.LocalBuilderRepository = aspectSetings.LocalBuilderRepository;
             bindingWeaver = new MethodInterceptionBindingWeaver(aspectDefinition.Member, bindingSettings, aspectWeavingSettings, aspectWeaver);
 
             return bindingWeaver.Weave();

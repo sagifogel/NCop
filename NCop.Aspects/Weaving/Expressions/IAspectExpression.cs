@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-	public interface IAspectMethodExpression
+	public interface IAspectExpression
 	{
 		IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings);
 	}

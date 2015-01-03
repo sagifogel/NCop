@@ -26,7 +26,6 @@ namespace NCop.Aspects.Weaving
             methodSignatureWeaver = new MethodSignatureWeaver(aspectWeavingSettings.WeavingSettings.TypeDefinition);
         }
 
-
         public MethodBuilder DefineMethod() {
             return methodSignatureWeaver.Weave(methodInfo);
         }

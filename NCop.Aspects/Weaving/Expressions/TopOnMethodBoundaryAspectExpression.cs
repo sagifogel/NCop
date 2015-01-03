@@ -5,7 +5,7 @@ namespace NCop.Aspects.Weaving.Expressions
 {
 	internal class TopOnMethodBoundaryAspectExpression : AbstractAspectMethodExpression
     {
-        internal TopOnMethodBoundaryAspectExpression(IAspectMethodExpression aspectExpression, IAspectDefinition aspectDefinition)
+        internal TopOnMethodBoundaryAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition)
             : base(aspectExpression, aspectDefinition) {
         }
 

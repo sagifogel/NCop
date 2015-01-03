@@ -8,12 +8,12 @@ using System.Reflection;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-	internal class AspectMethodExpression : IAspectMethodExpression
+	internal class AspectMethodExpression : IAspectExpression
 	{
-		private readonly IAspectMethodExpression aspectExpression = null;
+		private readonly IAspectExpression aspectExpression = null;
 		private readonly IAspectDefinitionCollection aspectsDefinitions = null;
 
-		internal AspectMethodExpression(IAspectMethodExpression aspectExpression, IAspectDefinitionCollection aspectsDefinitions) {
+		internal AspectMethodExpression(IAspectExpression aspectExpression, IAspectDefinitionCollection aspectsDefinitions) {
 			this.aspectExpression = aspectExpression;
 			this.aspectsDefinitions = aspectsDefinitions;
 		}

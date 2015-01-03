@@ -11,7 +11,7 @@ using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class AspectExpressionTreeBuilder : IBuilder<IAspectMethodExpression>
+    internal class AspectExpressionTreeBuilder : IBuilder<IAspectExpression>
     {
         private readonly Stack<IAspectExpressionBuilder> aspectsStack = null;
         private readonly IAspectDefinitionCollection aspectDefinitions = null;
@@ -38,8 +38,8 @@ namespace NCop.Aspects.Weaving.Expressions
             aspectsStack = new Stack<IAspectExpressionBuilder>(aspectExpressionBuilders);
         }
 
-        public IAspectMethodExpression Build() {
-            IAspectMethodExpression aspectExpression = null;
+        public IAspectExpression Build() {
+            IAspectExpression aspectExpression = null;
 
             while (aspectsStack.Count > 0) {
                 var builder = aspectsStack.Pop();

@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace NCop.Weaving
 {
-    public abstract class AbstractPropertyWeaver : IPropertyWeaver, IPropertyWeavingSettings
+    public abstract class AbstractPropertyWeaver : IPropertyWeaver, IWeavingSettings
     {
         protected PropertyInfo propertyInfo = null;
         private readonly IWeavingSettings weavingSettings = null;

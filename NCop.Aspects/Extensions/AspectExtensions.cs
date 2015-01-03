@@ -156,20 +156,6 @@ namespace NCop.Aspects.Extensions
             return clonedAspectWeavingSettings;
         }
 
-        internal static TAspectWeavingSettings CloneToWith<TAspectWeavingSettings>(this IAspectWeavingSettings aspectWeavingSettings, Action<TAspectWeavingSettings> cloneFunc) where TAspectWeavingSettings : AspectWeavingSettingsImpl, new() {
-            var clonedAspectWeavingSettings = new TAspectWeavingSettings {
-                WeavingSettings = aspectWeavingSettings.WeavingSettings,
-                AspectRepository = aspectWeavingSettings.AspectRepository,
-                AspectArgsMapper = aspectWeavingSettings.AspectArgsMapper,
-                LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository,
-                ByRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver
-            };
-
-            cloneFunc(clonedAspectWeavingSettings);
-
-            return clonedAspectWeavingSettings;
-        }
-
         internal static MethodParameters ToMethodParameters(this BindingSettings bindingSettings) {
             var methodParameters = new MethodParameters();
             var arguments = bindingSettings.BindingType.GetGenericArguments();
@@ -215,32 +201,6 @@ namespace NCop.Aspects.Extensions
             methodParameters.Parameters[1] = argumentResolver(arguments);
 
             return methodParameters;
-        }
-
-        public static IAspectPropertyMethodWeavingSettings ToGetPropertyAspectWeavingSettings(this IAspectWeavingSettings aspectWeavingSettings, PropertyInfo propertyInfo) {
-            var methodInfoImpl = propertyInfo.GetGetMethod();
-
-            return aspectWeavingSettings.ToPropertyMethodAspectWeavingSettings(methodInfoImpl, propertyInfo);
-        }
-
-        public static IAspectPropertyMethodWeavingSettings ToSetPropertyAspectWeavingSettings(this IAspectWeavingSettings aspectWeavingSettings, PropertyInfo propertyInfo) {
-            var methodInfoImpl = propertyInfo.GetSetMethod();
-
-            return aspectWeavingSettings.ToPropertyMethodAspectWeavingSettings(methodInfoImpl, propertyInfo);
-        }
-
-        private static IAspectPropertyMethodWeavingSettings ToPropertyMethodAspectWeavingSettings(this IAspectWeavingSettings aspectWeavingSettings, MethodInfo methodInfoImpl, PropertyInfo propertyInfo) {
-            var weavingSettings = aspectWeavingSettings.WeavingSettings;
-            var methodWeavingSettings = new MethodWeavingSettings(weavingSettings.ContractType, weavingSettings.TypeDefinition);
-
-            return new AspectPropertyMethodWeavingSettingsImpl {
-                PropertyInfoContract = propertyInfo,
-                WeavingSettings = methodWeavingSettings,
-                AspectArgsMapper = aspectWeavingSettings.AspectArgsMapper,
-                AspectRepository = aspectWeavingSettings.AspectRepository,
-                LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository,
-                ByRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver
-            };
         }
     }
 }

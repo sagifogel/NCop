@@ -17,15 +17,17 @@ namespace NCop.Aspects.Weaving
         protected static int bindingCounter = 0;
         protected TypeBuilder typeBuilder = null;
         protected FieldBuilder fieldBuilder = null;
+        protected PropertyInfo propertyInfo = null;
         protected readonly BindingSettings bindingSettings = null;
         protected readonly IMethodScopeWeaver getMethodScopeWeaver = null;
-        protected readonly IAspectPropertyMethodWeavingSettings aspectWeavingSettings = null;
+        protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
         protected readonly MethodAttributes methodAttr = MA.Public | MA.HideBySig | MA.Virtual;
         protected readonly CallingConventions callingConventions = CallingConventions.Standard | CallingConventions.HasThis;
         protected readonly FieldAttributes singletonFieldAttributes = FieldAttributes.Private | FieldAttributes.FamANDAssem | FieldAttributes.Static;
         protected readonly MethodAttributes ctorAttributes = MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
 
-        internal AbstractPropertyBindingWeaver(BindingSettings bindingSettings, IAspectPropertyMethodWeavingSettings aspectWeavingSettings, IMethodScopeWeaver getMethodScopeWeaver) {
+        internal AbstractPropertyBindingWeaver(PropertyInfo propertyInfo, BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IMethodScopeWeaver getMethodScopeWeaver) {
+            this.propertyInfo = propertyInfo;
             this.bindingSettings = bindingSettings;
             this.getMethodScopeWeaver = getMethodScopeWeaver;
             this.aspectWeavingSettings = aspectWeavingSettings;
@@ -35,8 +37,8 @@ namespace NCop.Aspects.Weaving
 
         public FieldInfo Weave() {
             Type bindingMethodType = null;
-            var getMethod = aspectWeavingSettings.PropertyInfoContract.GetGetMethod();
-            var setMethod = aspectWeavingSettings.PropertyInfoContract.GetSetMethod();
+            var getMethod = propertyInfo.GetGetMethod();
+            var setMethod = propertyInfo.GetSetMethod();
 
             WeaveTypeBuilder();
             WeaveConstructors();
@@ -55,8 +57,8 @@ namespace NCop.Aspects.Weaving
         }
 
         protected void WeaveTypeBuilder() {
-            var declaringType = aspectWeavingSettings.PropertyInfoContract.DeclaringType;
-            var types = new[] { declaringType, aspectWeavingSettings.PropertyInfoContract.PropertyType };
+            var declaringType = propertyInfo.DeclaringType;
+            var types = new[] { declaringType, propertyInfo.PropertyType };
 
             baseType = typeof(AbstractPropertyBinding<,>).MakeGenericType(types);
             typeBuilder = baseType.DefineType("PropertyBinding_{0}".Fmt(Interlocked.Increment(ref bindingCounter)).ToUniqueName(), attributes: TypeAttributes.Public | TypeAttributes.Sealed);

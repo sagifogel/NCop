@@ -6,9 +6,9 @@ using System.Text;
 
 namespace NCop.Weaving
 {
-	public class MethodWeavingSettings : IWeavingSettings
+	public class WeavingSettingsImpl : IWeavingSettings
 	{
-		public MethodWeavingSettings(Type contractType, ITypeDefinition typeDefinition) {
+		public WeavingSettingsImpl(Type contractType, ITypeDefinition typeDefinition) {
 			ContractType = contractType;
 			TypeDefinition = typeDefinition;
 		}

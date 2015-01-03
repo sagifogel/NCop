@@ -181,11 +181,10 @@
     <Compile Include="Weaving\AbstractTopOnMethodBoundaryAspectWeaver.cs" />
     <Compile Include="Weaving\AbstractTopPropertyAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\AspectArgsGetPropertyWeaver.cs" />
-    <Compile Include="Weaving\AbstractAspectArgsPropertyWeaver.cs" />
+    <Compile Include="Weaving\AbstractAspectPropertyArgsWeaver.cs" />
     <Compile Include="Weaving\AspectArgsMethodWeaver.cs" />
     <Compile Include="Weaving\AspectArgsSetPropertyWeaver.cs" />
     <Compile Include="Weaving\AspectPropertyWeaver.cs" />
-    <Compile Include="Weaving\AspectPropertyMethodWeavingSettingsImpl.cs" />
     <Compile Include="Weaving\BindingPropertyAspectDecoratorWeaver.cs" />
     <Compile Include="Weaving\Expressions\AbstractAspectPropertyExpression.cs" />
     <Compile Include="Weaving\Expressions\BindingPropertyAspectDecoratorExpression.cs" />
@@ -199,7 +198,6 @@
     <Compile Include="Weaving\BindingOnMethodExecutionArgumentsWeaver.cs" />
     <Compile Include="Weaving\Expressions\TopBindingOnMethodBoundaryAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\MethodInvokerAspectExpression.cs" />
-    <Compile Include="Weaving\IAspectPropertyMethodWeavingSettings.cs" />
     <Compile Include="Weaving\OnSetPropertyAdviceWeaver.cs" />
     <Compile Include="Weaving\OnGetPropertyAdviceWeaver.cs" />
     <Compile Include="Weaving\SetPropertyDecoratorScopeWeaver.cs" />
@@ -492,7 +490,7 @@
     <Compile Include="Weaving\Expressions\AspectVisitor.cs" />
     <Compile Include="Weaving\Expressions\FinallyAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\IAdviceExpression.cs" />
-    <Compile Include="Weaving\Expressions\IAspectMethodExpression.cs" />
+    <Compile Include="Weaving\Expressions\IAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\AspectMethodExpression.cs" />
     <Compile Include="Weaving\Expressions\IAspectExpressionBuilder.cs" />
     <Compile Include="Weaving\Expressions\BindingMethodInterceptionAspectExpression.cs" />

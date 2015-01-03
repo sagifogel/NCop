@@ -7,7 +7,7 @@ namespace NCop.Aspects.Weaving
 {
     internal class TopGetPropertyInterceptionArgumentsWeaver : AbstractTopPropertyAspectArgumentsWeaver
     {
-        internal TopGetPropertyInterceptionArgumentsWeaver(MethodInfo methodInfo, IArgumentsWeavingSettings argumentWeavingSettings, IAspectPropertyMethodWeavingSettings aspectWeavingSettings)
+        internal TopGetPropertyInterceptionArgumentsWeaver(MethodInfo methodInfo, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
             : base(methodInfo, argumentWeavingSettings, aspectWeavingSettings) {
         }
 
@@ -16,8 +16,7 @@ namespace NCop.Aspects.Weaving
             FieldBuilder contractFieldBuilder = null;
             LocalBuilder aspectArgLocalBuilder = null;
             ConstructorInfo ctorInterceptionArgs = null;
-            AbstractAspectArgsPropertyWeaver methodWeaver = null;
-            var propertyWeavingSettings = aspectWeavingSettings as IAspectPropertyMethodWeavingSettings;
+            AbstractAspectPropertyArgsWeaver methodWeaver = null;
 
             methodLocalBuilder = LocalBuilderRepository.Declare(() => {
                 return ilGenerator.DeclareLocal(typeof(MethodInfo));
@@ -26,7 +25,7 @@ namespace NCop.Aspects.Weaving
             ctorInterceptionArgs = ArgumentType.GetConstructors()[0];
             aspectArgLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
             contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
-            methodWeaver = new AspectArgsGetPropertyWeaver(methodLocalBuilder, propertyWeavingSettings);
+            methodWeaver = new AspectArgsGetPropertyWeaver(methodInfo, methodLocalBuilder, aspectWeavingSettings);
             methodWeaver.Weave(ilGenerator);
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);

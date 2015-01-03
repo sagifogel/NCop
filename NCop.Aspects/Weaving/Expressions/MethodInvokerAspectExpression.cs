@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class MethodInvokerAspectExpression : IAspectMethodExpression
+    internal class MethodInvokerAspectExpression : IAspectExpression
     {
         private readonly IAspectDefinition aspectDefinition = null;
         private readonly IAspectDefinition topAspectInScopeDefinition = null;

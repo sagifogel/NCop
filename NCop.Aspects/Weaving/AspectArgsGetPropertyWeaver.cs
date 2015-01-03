@@ -8,10 +8,16 @@ using System.Threading.Tasks;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class AspectArgsGetPropertyWeaver : AbstractAspectArgsPropertyWeaver
+    internal class AspectArgsGetPropertyWeaver : AbstractAspectPropertyArgsWeaver
     {
-        internal AspectArgsGetPropertyWeaver(LocalBuilder methodLocalBuilder, IAspectPropertyMethodWeavingSettings aspectWeavingSettings)
-            : base(methodLocalBuilder, aspectWeavingSettings) {
+        internal AspectArgsGetPropertyWeaver(MethodInfo methodInfo, LocalBuilder methodLocalBuilder, IAspectWeavingSettings aspectWeavingSettings)
+            : base(methodInfo, methodLocalBuilder, aspectWeavingSettings) {
+        }
+
+        protected override string PropertyName {
+            get {
+                return methodInfo.Name.Replace("get_", "");
+            }
         }
 
         protected override MethodInfo PropertyMethod {

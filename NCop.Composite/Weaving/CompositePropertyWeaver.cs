@@ -14,14 +14,14 @@ namespace NCop.Composite.Weaving
 
         public CompositePropertyWeaver(PropertyInfo propertyInfo, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings)
             : base(propertyInfo, aspectWeavingSettings.WeavingSettings) {
-            this.propertyInfo = propertyInfo;
             this.aspectDefinitions = aspectDefinitions;
             this.aspectWeavingSettings = aspectWeavingSettings;
         }
 
         public override IMethodWeaver GetGetMethod() {
             if (CanRead) {
-                return new GetPropertyAspectWeaver(aspectDefinitions, aspectWeavingSettings.ToGetPropertyAspectWeavingSettings(propertyInfo));
+
+                return new GetPropertyAspectWeaver(propertyInfo, aspectDefinitions, aspectWeavingSettings);
             }
 
             return null;
@@ -29,7 +29,7 @@ namespace NCop.Composite.Weaving
 
         public override IMethodWeaver GetSetMethod() {
             if (CanWrite) {
-                return new SetPropertyAspectWeaver(aspectDefinitions, aspectWeavingSettings.ToSetPropertyAspectWeavingSettings(propertyInfo));
+                return new SetPropertyAspectWeaver(propertyInfo, aspectDefinitions, aspectWeavingSettings);
             }
 
             return null;

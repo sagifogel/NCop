@@ -7,12 +7,12 @@ using NCop.Aspects.Aspects;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal abstract class AbstractAspectPropertyExpression : IAspectMethodExpression
+    internal abstract class AbstractAspectPropertyExpression : IAspectExpression
     {
-        protected readonly IAspectMethodExpression aspectExpression = null;
+        protected readonly IAspectExpression aspectExpression = null;
         protected readonly IPropertyAspectDefinition aspectDefinition = null;
 
-        internal AbstractAspectPropertyExpression(IAspectMethodExpression aspectExpression, IPropertyAspectDefinition aspectDefinition = null) {
+        internal AbstractAspectPropertyExpression(IAspectExpression aspectExpression, IPropertyAspectDefinition aspectDefinition = null) {
             this.aspectExpression = aspectExpression;
             this.aspectDefinition = aspectDefinition;
         }

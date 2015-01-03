@@ -25,10 +25,10 @@ namespace NCop.Aspects.Weaving.Expressions
         public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(OnMethodBoundaryAspectAttribute aspect) {
             return aspectDefinition => {
                 var _topAspectInScopeDefinition = topAspectInScopeDefinition;
-                Func<IAspectMethodExpression, IAspectMethodExpression> ctor = null;
+                Func<IAspectExpression, IAspectExpression> ctor = null;
 
                 if (lastAspect.Top) {
-                    ctor = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(expression => {
+                    ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
                         return new TopOnMethodBoundaryAspectExpression(expression, aspectDefinition);
                     });
 
@@ -39,18 +39,18 @@ namespace NCop.Aspects.Weaving.Expressions
                         if (lastAspect.IsTopBinding) {
                             lastAspect.IsTopBinding = false;
 
-                            ctor = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(expression => {
+                            ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
                                 return new TopBindingOnMethodBoundaryAspectExpression(expression, aspectDefinition);
                             });
                         }
                         else {
-                            ctor = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(expression => {
+                            ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
                                 return new BindingOnMethodBoundaryAspectExpression(expression, aspectDefinition, _topAspectInScopeDefinition);
                             });
                         }
                     }
                     else {
-                        ctor = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(expression => {
+                        ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
                             return new NestedOnMethodBoundaryAspectExpression(expression, aspectDefinition);
                         });
                     }
@@ -65,10 +65,10 @@ namespace NCop.Aspects.Weaving.Expressions
         public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(MethodInterceptionAspectAttribute aspect) {
             return aspectDefinition => {
                 var _topAspectInScopeDefinition = topAspectInScopeDefinition;
-                Func<IAspectMethodExpression, IAspectMethodExpression> ctor = null;
+                Func<IAspectExpression, IAspectExpression> ctor = null;
 
                 if (lastAspect.Top) {
-                    ctor = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(expression => {
+                    ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
                         return new TopMethodInterceptionAspectExpression(expression, aspectDefinition);
                     });
 
@@ -79,18 +79,18 @@ namespace NCop.Aspects.Weaving.Expressions
                         if (lastAspect.IsTopBinding) {
                             lastAspect.IsTopBinding = false;
 
-                            ctor = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(expression => {
+                            ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
                                 return new TopBindingMethodInterceptionAspectExpression(expression, aspectDefinition);
                             });
                         }
                         else {
-                            ctor = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(expression => {
+                            ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
                                 return new BindingMethodInterceptionAspectExpression(expression, aspectDefinition, _topAspectInScopeDefinition);
                             });
                         }
                     }
                     else {
-                        ctor = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(expression => {
+                        ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
                             return new NestedMethodInterceptionAspectExpression(expression, aspectDefinition, _topAspectInScopeDefinition);
                         });
                     }
@@ -105,27 +105,27 @@ namespace NCop.Aspects.Weaving.Expressions
         }
 
         public IAspectExpressionBuilder VisitLast(IAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentsWeavingSettings) {
-            Func<IAspectMethodExpression, IAspectMethodExpression> expressionFactory = null;
+            Func<IAspectExpression, IAspectExpression> expressionFactory = null;
 
             if (lastAspect.IsInBinding) {
                 if (topAspectInScopeDefinition.AspectType == AspectType.MethodInterceptionAspect) {
-                    expressionFactory = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(ex => {
+                    expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>(ex => {
                         return new BindingMethodAspectDecoratorExpression(aspectDefinition, argumentsWeavingSettings);
                     });
                 }
                 else if (topAspectInScopeDefinition.IsPropertyAspectDefinition()) {
-                    expressionFactory = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(ex => {
+                    expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>(ex => {
                         return new BindingPropertyAspectDecoratorExpression(aspectDefinition);
                     });
                 }
                 else {
-                    expressionFactory = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(ex => {
+                    expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>(ex => {
                         return new MethodInvokerAspectExpression(aspectDefinition, argumentsWeavingSettings, topAspectInScopeDefinition);
                     });
                 }
             }
             else {
-                expressionFactory = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(ex => {
+                expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>(ex => {
                     return new NestedMethodInvokerAspectExpression(argumentsWeavingSettings, topAspectInScopeDefinition);
                 });
             }
@@ -136,9 +136,9 @@ namespace NCop.Aspects.Weaving.Expressions
         public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(GetPropertyInterceptionAspectAttribute aspect) {
             return aspectDefinition => {
                 lastAspect = new Aspect();
-                Func<IAspectMethodExpression, IAspectMethodExpression> ctor = null;
+                Func<IAspectExpression, IAspectExpression> ctor = null;
 
-                ctor = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(expression => {
+                ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
                     return new TopExpressionGetPropertyInterceptionAspect(expression, aspectDefinition as IPropertyAspectDefinition);
                 });
 
@@ -153,9 +153,9 @@ namespace NCop.Aspects.Weaving.Expressions
         public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(SetPropertyInterceptionAspectAttribute aspect) {
             return aspectDefinition => {
                 lastAspect = new Aspect();
-                Func<IAspectMethodExpression, IAspectMethodExpression> ctor = null;
+                Func<IAspectExpression, IAspectExpression> ctor = null;
 
-                ctor = Functional.Curry<IAspectMethodExpression, IAspectMethodExpression>(expression => {
+                ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
                     return new TopExpressionSetPropertyInterceptionAspect(expression, aspectDefinition as IPropertyAspectDefinition);
                 });
 

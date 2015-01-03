@@ -7,7 +7,7 @@ using System.Text;
 
 namespace NCop.Weaving
 {
-    public abstract class AbstractMethodScopeWeaver : IMethodScopeWeaver, IHasWeavingSettings
+    public abstract class AbstractMethodScopeWeaver : IMethodScopeWeaver, IWeavingSettings
     {
         private readonly IWeavingSettings weavingSettings = null;
 

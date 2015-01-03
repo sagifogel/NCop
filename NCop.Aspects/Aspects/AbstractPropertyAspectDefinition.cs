@@ -11,9 +11,9 @@ namespace NCop.Aspects.Aspects
     {
         internal AbstractPropertyAspectDefinition(IAspect aspect, Type aspectDeclaringType, MethodInfo method, PropertyInfo propertyInfoContract)
             : base(aspect, aspectDeclaringType, method) {
-            PropertyInfoContract = propertyInfoContract;
+            PropertyInfo = propertyInfoContract;
         }
 
-        public PropertyInfo PropertyInfoContract { get; protected set; }
+        public PropertyInfo PropertyInfo { get; protected set; }
     }
 }

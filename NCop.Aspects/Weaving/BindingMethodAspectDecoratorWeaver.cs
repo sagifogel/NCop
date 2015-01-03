@@ -15,7 +15,6 @@ namespace NCop.Aspects.Weaving
             : base(aspectDefinition.Member, aspectWeavingSettings.WeavingSettings) {
             var bindingSettings = aspectDefinition.ToBindingSettings();
 
-            bindingSettings.LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
             methodDecoratorScopeWeaver = new MethodDecoratorScopeWeaver(aspectDefinition.Member, aspectWeavingSettings);
             weaver = new MethodDecoratorBindingWeaver(aspectDefinition.Member, bindingSettings, aspectWeavingSettings, this);
         }

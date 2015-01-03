@@ -24,13 +24,13 @@ namespace NCop.Samples
 
     [TransientComposite]
     [Mixins(typeof(CSharpDeveloperMixin))]
-    public interface IPerson : IDo
+    public interface IPerson : IDeveloper
     {
     }
 
     public interface IDeveloper
     {
-        string Code { set; }
+        string Code { get; }
     }
 
     public interface IDo
@@ -162,7 +162,8 @@ namespace NCop.Samples
 
         [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         public string Code {
-            set { code = value; }
+            //set { code = value; }
+            get { return code; }
         }
 
         //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
@@ -184,7 +185,11 @@ namespace NCop.Samples
         }
 
         public override void SetValue(ref IDeveloper instance, IPropertyArg<string> arg, string value) {
-            instance.Code = value;
+            //instance.Code = value;
+        }
+
+        public override string GetValue(ref IDeveloper instance, IPropertyArg<string> arg) {
+            return instance.Code;
         }
     }
 
@@ -257,8 +262,8 @@ namespace NCop.Samples
 
             container.Configure();
             developer = container.Resolve<IPerson>();
-            developer.Do();
-            //developer.Code = "javascript";
+            //developer.Do();
+            var code = developer.Code;
         }
     }
 }

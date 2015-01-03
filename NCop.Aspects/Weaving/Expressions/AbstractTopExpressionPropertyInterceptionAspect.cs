@@ -11,14 +11,13 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal abstract class AbstractTopExpressionPropertyInterceptionAspect : AbstractAspectPropertyExpression
     {
-        protected AbstractTopExpressionPropertyInterceptionAspect(IAspectMethodExpression aspectExpression, IPropertyAspectDefinition aspectDefinition = null)
+        protected AbstractTopExpressionPropertyInterceptionAspect(IAspectExpression aspectExpression, IPropertyAspectDefinition aspectDefinition = null)
             : base(aspectExpression, aspectDefinition) {
         }
 
         public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
-            var clonedAspectWeavingSettings = aspectWeavingSettings.CloneToWith<AspectPropertyMethodWeavingSettingsImpl>(settings => {
+            var clonedAspectWeavingSettings = aspectWeavingSettings.CloneWith(settings => {
                 settings.LocalBuilderRepository = new LocalBuilderRepository();
-                settings.PropertyInfoContract = aspectDefinition.PropertyInfoContract;
             });
 
             var bindingWeaver = new IsolatedPropertyInterceptionBindingWeaver(aspectExpression, aspectDefinition, clonedAspectWeavingSettings);
@@ -26,7 +25,7 @@ namespace NCop.Aspects.Weaving.Expressions
             return CreateAspect(aspectDefinition, clonedAspectWeavingSettings, bindingWeaver.WeavedType);
         }
 
-        protected abstract IAspectWeaver CreateAspect(IAspectDefinition aspectDefinition, IAspectPropertyMethodWeavingSettings aspectWeavingSettings, FieldInfo weavedType);
+        protected abstract IAspectWeaver CreateAspect(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType);
     }
 }
 

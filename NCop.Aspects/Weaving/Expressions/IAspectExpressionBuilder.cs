@@ -9,6 +9,6 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     public interface IAspectExpressionBuilder
     {
-        IAspectMethodExpression Build(IAspectMethodExpression aspectExpression = null);
+        IAspectExpression Build(IAspectExpression aspectExpression = null);
     }
 }
