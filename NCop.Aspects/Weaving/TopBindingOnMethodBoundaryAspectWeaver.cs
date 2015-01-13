@@ -12,12 +12,12 @@ namespace NCop.Aspects.Weaving
     {
         protected IArgumentsWeaver argumentsWeaver = null;
 
-        internal TopBindingOnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings)
+        internal TopBindingOnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings settings)
             : base(nestedWeaver, aspectDefinition, settings) {
-            var @params = aspectDefinition.Member.GetParameters();
+            var @params = aspectDefinition.Method.GetParameters();
 
             argumentsWeavingSettings.Parameters = @params.ToArray(@param => @param.ParameterType);
-            argumentsWeaver = new TopBindingOnMethodExecutionArgumentsWeaver(aspectDefinition.Member, argumentsWeavingSettings, settings);
+            argumentsWeaver = new TopBindingOnMethodExecutionArgumentsWeaver(aspectDefinition.Method, argumentsWeavingSettings, settings);
         }
 
         protected override void AddEntryScopeWeavers(List<IMethodScopeWeaver> entryWeavers) {

@@ -4,6 +4,6 @@ namespace NCop.Aspects.Aspects
 {
     public interface IPropertyAspectDefinition : IAspectDefinition
     {
-        PropertyInfo PropertyInfo { get; }
+        PropertyInfo Property { get; }
     }
 }

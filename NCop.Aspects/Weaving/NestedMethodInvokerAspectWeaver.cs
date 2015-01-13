@@ -15,14 +15,12 @@ namespace NCop.Aspects.Weaving
         private readonly Type topAspectInScopeArgType = null;
         private readonly IArgumentsWeaver argumentsWeaver = null;
         private readonly IAspectWeavingSettings aspectWeavingSettings = null;
-        private readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
         private readonly IByRefArgumentsStoreWeaver byRefArgumentStoreWeaver = null;
 
         internal NestedMethodInvokerAspectWeaver(MethodInfo methodInfo, Type topAspectInScopeArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
             : base(methodInfo, aspectWeavingSettings.WeavingSettings) {
             this.topAspectInScopeArgType = topAspectInScopeArgType;
             this.aspectWeavingSettings = aspectWeavingSettings;
-            this.argumentsWeavingSettings = argumentsWeavingSettings;
             byRefArgumentStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
             argumentsWeaver = new NestedMethodInvokerArgumentsWeaver(methodInfo, topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSettings);
         }

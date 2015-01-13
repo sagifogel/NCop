@@ -10,7 +10,7 @@ using MA = System.Reflection.MethodAttributes;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractMethodBindingWeaver : IMethodBindingWeaver, IBindingTypeReflector
+    internal abstract class AbstractMethodBindingWeaver : IBindingWeaver, IBindingTypeReflector
     {
         protected static int bindingCounter = 0;
         protected TypeBuilder typeBuilder = null;

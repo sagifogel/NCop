@@ -6,9 +6,9 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractPropertyInterceptionBindingWeaver : AbstractBindingPropertyAspectWeaver
     {
-        protected readonly Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
         protected readonly IAspectExpression aspectExpression = null;
         protected IAspectWeavingSettings aspectWeavingSettings = null;
+        protected readonly Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
 
         internal AbstractPropertyInterceptionBindingWeaver(IAspectExpression aspectExpression, IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectDefinition) {
@@ -23,16 +23,7 @@ namespace NCop.Aspects.Weaving
             }
         }
 
-        protected virtual FieldInfo WeaveType() {
-            IAspectWeaver aspectWeaver = null;
-            IMethodBindingWeaver bindingWeaver = null;
-            var aspectSettings = GetAspectsWeavingSettings();
-
-            aspectWeaver = aspectExpression.Reduce(aspectSettings);
-            bindingWeaver = new PropertyInterceptionBindingWeaver(aspectDefinition.PropertyInfo, bindingSettings, aspectSettings, aspectWeaver);
-
-            return bindingWeaver.Weave();
-        }
+        protected abstract FieldInfo WeaveType();
 
         protected abstract IAspectWeavingSettings GetAspectsWeavingSettings();
     }

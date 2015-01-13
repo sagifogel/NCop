@@ -5,10 +5,10 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal class NestedMethodInvokerAspectExpression : IAspectExpression
     {
-        private readonly IAspectDefinition topAspectInScopeDefinition = null;
+        private readonly IMethodAspectDefinition topAspectInScopeDefinition = null;
         private readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
 
-        internal NestedMethodInvokerAspectExpression(IArgumentsWeavingSettings argumentsWeavingSettings, IAspectDefinition topAspectInScopeDefinition) {
+        internal NestedMethodInvokerAspectExpression(IArgumentsWeavingSettings argumentsWeavingSettings, IMethodAspectDefinition topAspectInScopeDefinition) {
             this.topAspectInScopeDefinition = topAspectInScopeDefinition;
             this.argumentsWeavingSettings = argumentsWeavingSettings;
         }
@@ -16,7 +16,7 @@ namespace NCop.Aspects.Weaving.Expressions
         public IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
             var topAspectInScopeArgType = topAspectInScopeDefinition.ToAspectArgumentImpl();
 
-            return new NestedMethodInvokerAspectWeaver(topAspectInScopeDefinition.Member, topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSettings);
+            return new NestedMethodInvokerAspectWeaver(topAspectInScopeDefinition.Method, topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSettings);
         }
     }
 }

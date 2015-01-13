@@ -1,12 +1,9 @@
 ﻿using NCop.Aspects.Aspects;
 using NCop.Aspects.Weaving.Expressions;
 using NCop.Weaving;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
 
 namespace NCop.Aspects.Weaving
 {
@@ -19,9 +16,10 @@ namespace NCop.Aspects.Weaving
 
         public AspectMethodWeaver(IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings) {
             var aspectExpression = new AspectExpressionTreeBuilder(aspectDefinitions).Build();
-
+            var firstDefinition = aspectDefinitions.First() as IMethodAspectDefinition;
+            
+            methodInfo = firstDefinition.Method;
             methodEndWeaver = new MethodEndWeaver();
-            methodInfo = aspectDefinitions.First().Member;
             methodScopeWeaver = aspectExpression.Reduce(aspectWeavingSettings);
             methodSignatureWeaver = new MethodSignatureWeaver(aspectWeavingSettings.WeavingSettings.TypeDefinition);
         }

@@ -8,11 +8,11 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal class MethodInvokerAspectExpression : IAspectExpression
     {
-        private readonly IAspectDefinition aspectDefinition = null;
-        private readonly IAspectDefinition topAspectInScopeDefinition = null;
+        private readonly IMethodAspectDefinition aspectDefinition = null;
+        private readonly IMethodAspectDefinition topAspectInScopeDefinition = null;
         private readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
 
-        internal MethodInvokerAspectExpression(IAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentsWeavingSettings, IAspectDefinition topAspectInScopeDefinition) {
+        internal MethodInvokerAspectExpression(IMethodAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentsWeavingSettings, IMethodAspectDefinition topAspectInScopeDefinition) {
             this.aspectDefinition = aspectDefinition;
             this.topAspectInScopeDefinition = topAspectInScopeDefinition;
             this.argumentsWeavingSettings = argumentsWeavingSettings;

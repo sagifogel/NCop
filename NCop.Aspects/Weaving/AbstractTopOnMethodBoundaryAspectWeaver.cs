@@ -9,7 +9,7 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractTopOnMethodBoundaryAspectWeaver : AbstractOnMethodBoundaryAspectWeaver
     {
-        internal AbstractTopOnMethodBoundaryAspectWeaver(IAspectWeaver nestedAspect, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
+        internal AbstractTopOnMethodBoundaryAspectWeaver(IAspectWeaver nestedAspect, IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(nestedAspect, aspectDefinition, aspectWeavingSettings) {
         }
 

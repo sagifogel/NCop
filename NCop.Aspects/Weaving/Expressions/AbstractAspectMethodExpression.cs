@@ -4,10 +4,10 @@ namespace NCop.Aspects.Weaving.Expressions
 {
 	internal abstract class AbstractAspectMethodExpression : IAspectExpression
 	{
-        protected readonly IAspectDefinition aspectDefinition = null;
         protected readonly IAspectExpression aspectExpression = null;
+        protected readonly IMethodAspectDefinition aspectDefinition = null;
 
-		internal AbstractAspectMethodExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition = null) {
+        internal AbstractAspectMethodExpression(IAspectExpression aspectExpression, IMethodAspectDefinition aspectDefinition = null) {
 			this.aspectExpression = aspectExpression;
 			this.aspectDefinition = aspectDefinition;
 		}

@@ -8,15 +8,15 @@ namespace NCop.Aspects.Weaving
 {
     internal class BindingMethodAspectDecoratorWeaver : AbstractMethodScopeWeaver, IAspectWeaver
     {
-        private readonly IMethodBindingWeaver weaver = null;
+        private readonly IBindingWeaver weaver = null;
         private readonly IMethodScopeWeaver methodDecoratorScopeWeaver = null;
 
-        internal BindingMethodAspectDecoratorWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
-            : base(aspectDefinition.Member, aspectWeavingSettings.WeavingSettings) {
+        internal BindingMethodAspectDecoratorWeaver(IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
+            : base(aspectDefinition.Method, aspectWeavingSettings.WeavingSettings) {
             var bindingSettings = aspectDefinition.ToBindingSettings();
 
-            methodDecoratorScopeWeaver = new MethodDecoratorScopeWeaver(aspectDefinition.Member, aspectWeavingSettings);
-            weaver = new MethodDecoratorBindingWeaver(aspectDefinition.Member, bindingSettings, aspectWeavingSettings, this);
+            methodDecoratorScopeWeaver = new MethodDecoratorScopeWeaver(aspectDefinition.Method, aspectWeavingSettings);
+            weaver = new MethodDecoratorBindingWeaver(aspectDefinition.Method, bindingSettings, aspectWeavingSettings, this);
         }
 
         public override void Weave(ILGenerator ilGenerator) {

@@ -10,31 +10,13 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractMethodAspectWeaver : IAspectTypeReflectorWeaver
+    internal abstract class AbstractMethodAspectWeaver : AbstractAspectWeaver
     {
-        protected IMethodScopeWeaver weaver = null;
-        protected List<IMethodScopeWeaver> methodScopeWeavers = null;
-        protected readonly IAspectRepository aspectRepository = null;
-        protected readonly IAspectDefinition aspectDefinition = null;
-        protected readonly IAdviceDefinitionCollection advices = null;
-		protected readonly IWeavingSettings weavingSettings = null;
-		protected readonly AdviceVisitor adviceVisitor = new AdviceVisitor();
-        protected ArgumentsWeavingSettings argumentsWeavingSettings = null;
-        protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
-        protected readonly AdviceDiscoveryVisitor adviceDiscoveryVistor = new AdviceDiscoveryVisitor();
+        protected readonly IMethodAspectDefinition aspectMethodDefinition = null;
 
-        internal AbstractMethodAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings) {
-            advices = aspectDefinition.Advices;
-            this.aspectDefinition = aspectDefinition;
-            this.aspectWeavingSettings = aspectWeavingSettings;
-            weavingSettings = aspectWeavingSettings.WeavingSettings;
-            aspectRepository = aspectWeavingSettings.AspectRepository;
-            argumentsWeavingSettings = aspectDefinition.ToArgumentsWeavingSettings();
-            aspectDefinition.Advices.ForEach(advice => advice.Accept(adviceDiscoveryVistor));
+        internal AbstractMethodAspectWeaver(IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
+            : base(aspectDefinition, aspectWeavingSettings) {
+            aspectMethodDefinition = aspectDefinition;
         }
-
-        public Type ArgumentType { get; protected set; }
-
-        public abstract void Weave(ILGenerator ilGenerator);
     }
 }

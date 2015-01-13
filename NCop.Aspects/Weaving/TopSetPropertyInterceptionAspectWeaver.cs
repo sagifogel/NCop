@@ -15,11 +15,13 @@ namespace NCop.Aspects.Weaving
     {
         protected readonly IArgumentsWeaver argumentsWeaver = null;
 
-        internal TopSetPropertyInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal TopSetPropertyInterceptionAspectWeaver(IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
+            var method = aspectDefinition.Property.GetSetMethod();
+
             argumentsWeavingSettings.BindingsDependency = weavedType;
-            argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Member.ReturnType };
-            argumentsWeaver = new TopSetPropertyInterceptionArgumentsWeaver(aspectDefinition.Member, argumentsWeavingSettings, aspectWeavingSettings);
+            argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Property.PropertyType };
+            argumentsWeaver = new TopSetPropertyInterceptionArgumentsWeaver(method, argumentsWeavingSettings, aspectWeavingSettings);
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 

@@ -9,10 +9,13 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractMethodInterceptionAspectWeaver : AbstractInterceptionAspectWeaver
     {
-        internal AbstractMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        protected IMethodAspectDefinition aspectMethodDefinition = null;
+
+        internal AbstractMethodInterceptionAspectWeaver(IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
+            aspectMethodDefinition = aspectDefinition;
         }
-        
+
         protected override IAdviceExpression ResolveInterceptionAdviceExpression() {
             IAdviceDefinition selectedAdviceDefinition = null;
             var onMethodInvokeAdvice = adviceDiscoveryVistor.OnMethodInvokeAdvice;

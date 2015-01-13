@@ -15,13 +15,13 @@ namespace NCop.Aspects.Weaving
         private readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
         private readonly IByRefArgumentsStoreWeaver byRefArgumentStoreWeaver = null;
 
-        internal MethodInvokerAspectWeaver(Type topAspectInScopeArgType, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
-            : base(aspectDefinition.Member, aspectWeavingSettings.WeavingSettings) {
+        internal MethodInvokerAspectWeaver(Type topAspectInScopeArgType, IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
+            : base(aspectDefinition.Method, aspectWeavingSettings.WeavingSettings) {
             this.topAspectInScopeArgType = topAspectInScopeArgType;
             this.argumentsWeavingSettings = argumentsWeavingSettings;
             localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
             byRefArgumentStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
-            argumentsWeaver = new MethodInvokerArgumentsWeaver(aspectDefinition.Member, topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSettings, byRefArgumentStoreWeaver);
+            argumentsWeaver = new MethodInvokerArgumentsWeaver(aspectDefinition.Method, topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSettings, byRefArgumentStoreWeaver);
         }
 
         protected override void WeaveAction(ILGenerator ilGenerator) {

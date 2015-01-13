@@ -15,6 +15,6 @@ namespace NCop.Aspects.Weaving
             bindingSettings = aspectDefinition.ToBindingSettings();
         }
 
-        public virtual FieldInfo WeavedType { get; private set; }
+        public virtual FieldInfo WeavedType { get; set; }
     }
 }

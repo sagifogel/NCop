@@ -37,6 +37,7 @@ namespace NCop.Aspects.Engine
 
             CollectGetPropertiesAspectDefinitions(aspectDeclaringType, aspectMembersCollection.Properties, aspectDefinitionsCollection);
             CollectSetPropertiesAspectDefinitions(aspectDeclaringType, aspectMembersCollection.Properties, aspectDefinitionsCollection);
+            //CollectBothAccessorsPropertiesAspectDefinitions(aspectDeclaringType, aspectMembersCollection.Properties, aspectDefinitionsCollection);
 
             return aspectDefinitionsCollection;
         }
@@ -124,5 +125,32 @@ namespace NCop.Aspects.Engine
                 }
             });
         }
+
+        //private void CollectBothAccessorsPropertiesAspectDefinitions(Type aspectDeclaringType, IEnumerable<IAspectPropertyMap> properties, ICollection<Tuple<MemberInfo, IAspectDefinitionCollection>> tuples) {
+        //    properties.ForEach(propertyMap => {
+        //        var setMethodTarget = propertyMap.ContractMember.GetSetMethod();
+        //        var getMethodTarget = propertyMap.ContractMember.GetGetMethod();
+
+        //        if (setMethodTarget.IsNotNull() && getMethodTarget.IsNotNull()) {
+        //            IAspectDefinitionCollection aspectsCollection = null;
+        //            var propertyInterceptionAspects = new List<IAspectDefinition>();
+
+        //            propertyMap.Members.ForEach(property => {
+        //                var propertyInterceptionAspectsAttrs = property.GetCustomAttributes<PropertyInterceptionAspectAttribute>();
+
+        //                propertyInterceptionAspectsAttrs.ForEach(aspect => {
+        //                    propertyInterceptionAspects.Add(new PropertyInterceptionAspectsDefinition(setPropertyAspect, aspectDeclaringType, setMethodTarget, property));
+        //                });
+
+        //                propertyInterceptionAspects.AddRange(setPropertyInterceptionAspectsAttrs.Select(aspectAttr => {
+        //                    return new SetPropertyInterceptionAspectDefinition(aspectAttr, aspectDeclaringType, setMethod, property);
+        //                }));
+        //            });
+
+        //            aspectsCollection = new AspectDefinitionCollection(propertyInterceptionAspects);
+        //            tuples.Add(Tuple.Create(target, aspectsCollection));
+        //        }
+        //    });
+        //}
     }
 }

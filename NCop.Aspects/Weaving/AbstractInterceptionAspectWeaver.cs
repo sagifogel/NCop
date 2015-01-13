@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractInterceptionAspectWeaver : AbstractMethodAspectWeaver
+    internal abstract class AbstractInterceptionAspectWeaver : AbstractAspectWeaver
     {
         protected readonly FieldInfo bindingDependency = null;
         protected readonly ILocalBuilderRepository localBuilderRepository = null;

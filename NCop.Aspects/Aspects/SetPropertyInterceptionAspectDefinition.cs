@@ -13,7 +13,7 @@ namespace NCop.Aspects.Aspects
         private readonly SetPropertyInterceptionAspectAttribute aspect = null;
 
         public SetPropertyInterceptionAspectDefinition(SetPropertyInterceptionAspectAttribute aspect, Type aspectDeclaringType, MethodInfo method, PropertyInfo property)
-            : base(aspect, aspectDeclaringType, method, property) {
+            : base(aspect, aspectDeclaringType, property) {
             this.aspect = aspect;
         }
 

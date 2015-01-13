@@ -43,12 +43,33 @@ namespace NCop.Aspects.Extensions
         }
 
         internal static Type ToAspectArgumentImpl(this IAspectDefinition aspectDefinition) {
+            var methodAspectDefinition = aspectDefinition as IMethodAspectDefinition;
+
+            if (methodAspectDefinition.IsNotNull()) {
+                return methodAspectDefinition.ToAspectArgumentImpl();
+            }
+
+            return ((IPropertyAspectDefinition)aspectDefinition).ToAspectArgumentImpl();
+        }
+
+        internal static Type ToAspectArgumentImpl(this IMethodAspectDefinition aspectDefinition) {
+            return aspectDefinition.ToAspectArgumentImpl(aspectDefinition.Method);
+        }
+
+        internal static Type ToAspectArgumentImpl(this IPropertyAspectDefinition aspectDefinition) {
+            var property = aspectDefinition.Property;
+            var method = property.GetGetMethod() ?? property.GetSetMethod();
+
+            return aspectDefinition.ToAspectArgumentImpl(method);
+        }
+
+        private static Type ToAspectArgumentImpl(this IAspectDefinition aspectDefinition, MethodInfo method) {
+            var declaringType = method.DeclaringType;
             var argumentType = aspectDefinition.GetArgumentType();
-            var declaringType = aspectDefinition.Member.DeclaringType;
             var genericArguments = argumentType.GetGenericArguments();
             var genericArgumentsWithContext = new[] { declaringType }.Concat(genericArguments);
 
-            return argumentType.MakeGenericArgsType(aspectDefinition.Member, genericArgumentsWithContext.ToArray());
+            return argumentType.MakeGenericArgsType(method, genericArgumentsWithContext.ToArray());
         }
 
         internal static Type ToAspectArgumentContract(this MethodInfo methodInfoImpl) {
@@ -80,9 +101,13 @@ namespace NCop.Aspects.Extensions
         }
 
         internal static BindingSettings ToBindingSettings(this IAspectDefinition aspectDefinition) {
-            var bindingSettingsFactory = aspectDefinition.IsPropertyAspectDefinition() ? ToPropertyBindingSettings : (Func<IAspectDefinition, BindingSettings>)ToMethodBindingSettings;
+            var methodAspectDefinition = aspectDefinition as IMethodAspectDefinition;
 
-            return bindingSettingsFactory(aspectDefinition);
+            if (methodAspectDefinition.IsNotNull()) {
+                return methodAspectDefinition.ToMethodBindingSettings();
+            }
+
+            return ((IPropertyAspectDefinition)aspectDefinition).ToPropertyBindingSettings();
         }
 
         private static BindingSettings ToMethodBindingSettings(this IAspectDefinition aspectDefinition) {
@@ -105,7 +130,7 @@ namespace NCop.Aspects.Extensions
             };
         }
 
-        private static BindingSettings ToPropertyBindingSettings(this IAspectDefinition aspectDefinition) {
+        private static BindingSettings ToPropertyBindingSettings(this IPropertyAspectDefinition aspectDefinition) {
             var aspectArgumentType = aspectDefinition.GetArgumentType();
             var aspectArgumentImplType = aspectDefinition.ToAspectArgumentImpl();
             var genericArguments = aspectArgumentImplType.GetGenericArguments();

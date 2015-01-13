@@ -11,15 +11,17 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class TopGetPropertyInterceptionAspectWeaver : AbstractInterceptionAspectWeaver
+    internal class TopGetPropertyInterceptionAspectWeaver : AbstractMethodInterceptionAspectWeaver
     {
         protected readonly IArgumentsWeaver argumentsWeaver = null;
 
-        internal TopGetPropertyInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
-            : base(aspectDefinition, aspectWeavingSettings, weavedType) {
+        internal TopGetPropertyInterceptionAspectWeaver(IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+            : base(null, aspectWeavingSettings, weavedType) {
+            var method = aspectDefinition.Property.GetSetMethod();
+
             argumentsWeavingSettings.BindingsDependency = weavedType;
-            argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Member.ReturnType };
-            argumentsWeaver = new TopGetPropertyInterceptionArgumentsWeaver(aspectDefinition.Member, argumentsWeavingSettings, aspectWeavingSettings);
+            argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Property.PropertyType };
+            argumentsWeaver = new TopGetPropertyInterceptionArgumentsWeaver(method, argumentsWeavingSettings, aspectWeavingSettings);
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 
@@ -36,7 +38,7 @@ namespace NCop.Aspects.Weaving
 
         public override void Weave(ILGenerator ilGenerator) {
             LocalBuilder argsLocalBuilder = null;
-            var aspectArgsType = aspectDefinition.Member.ToPropertyAspectArgument();
+            var aspectArgsType = aspectMethodDefinition.Method.ToPropertyAspectArgument();
 
             argumentsWeaver.Weave(ilGenerator);
             weaver.Weave(ilGenerator);

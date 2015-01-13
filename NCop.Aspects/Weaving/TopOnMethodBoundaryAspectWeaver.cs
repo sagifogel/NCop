@@ -11,13 +11,13 @@ namespace NCop.Aspects.Weaving
     {
         protected IArgumentsWeaver argumentsWeaver = null;
 
-        internal TopOnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
+        internal TopOnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(nestedWeaver, aspectDefinition, aspectWeavingSettings) {
-            var @params = aspectDefinition.Member.GetParameters();
+            var @params = aspectDefinition.Method.GetParameters();
 
             methodScopeWeavers = new List<IMethodScopeWeaver>();
             argumentsWeavingSettings.Parameters = @params.ToArray(@param => @param.ParameterType).ToArray();
-            argumentsWeaver = new TopOnMethodBoundaryArgumentsWeaver(aspectDefinition.Member, argumentsWeavingSettings, aspectWeavingSettings);
+            argumentsWeaver = new TopOnMethodBoundaryArgumentsWeaver(aspectDefinition.Method, argumentsWeavingSettings, aspectWeavingSettings);
         }
 
         public override void Weave(ILGenerator ilGenerator) {

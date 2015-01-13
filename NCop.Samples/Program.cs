@@ -30,7 +30,7 @@ namespace NCop.Samples
 
     public interface IDeveloper
     {
-        string Code { get; }
+        string Code { set; get; }
     }
 
     public interface IDo
@@ -162,7 +162,7 @@ namespace NCop.Samples
 
         [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         public string Code {
-            //set { code = value; }
+            set { code = value; }
             get { return code; }
         }
 
@@ -185,11 +185,7 @@ namespace NCop.Samples
         }
 
         public override void SetValue(ref IDeveloper instance, IPropertyArg<string> arg, string value) {
-            //instance.Code = value;
-        }
-
-        public override string GetValue(ref IDeveloper instance, IPropertyArg<string> arg) {
-            return instance.Code;
+            instance.Code = value;
         }
     }
 
@@ -210,14 +206,10 @@ namespace NCop.Samples
                 return interArgs.Value;
             }
             set {
-                var codeMethod = instance.GetType().GetProperty("Code", typeof(string)).GetGetMethod();
+                var codeMethod = instance.GetType().GetProperty("Code", typeof(string)).GetSetMethod();
                 var interArgs = new SetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding.singleton, value);
-                Aspects.stopWatchAspect.OnGetValue(interArgs);
+                Aspects.stopWatchAspect.OnSetValue(interArgs);
             }
-        }
-
-        public void Do() {
-            throw new NotImplementedException();
         }
     }
 
@@ -262,8 +254,7 @@ namespace NCop.Samples
 
             container.Configure();
             developer = container.Resolve<IPerson>();
-            //developer.Do();
-            var code = developer.Code;
+            developer.Code = "JavaScript";
         }
     }
 }

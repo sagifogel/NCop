@@ -10,7 +10,7 @@ namespace NCop.Aspects.Weaving
         protected readonly IAspectExpression aspectExpression = null;
         protected IAspectWeavingSettings aspectWeavingSettings = null;
 
-        internal AbstractMethodInterceptionBindingWeaver(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
+        internal AbstractMethodInterceptionBindingWeaver(IAspectExpression aspectExpression, IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectDefinition) {
             this.aspectExpression = aspectExpression;
             this.aspectWeavingSettings = aspectWeavingSettings;
@@ -25,11 +25,11 @@ namespace NCop.Aspects.Weaving
 
         protected virtual FieldInfo WeaveType() {
             IAspectWeaver aspectWeaver = null;
-            IMethodBindingWeaver bindingWeaver = null;
+            IBindingWeaver bindingWeaver = null;
             var aspectSetings = GetAspectsWeavingSettings();
 
             aspectWeaver = aspectExpression.Reduce(aspectSetings);
-            bindingWeaver = new MethodInterceptionBindingWeaver(aspectDefinition.Member, bindingSettings, aspectWeavingSettings, aspectWeaver);
+            bindingWeaver = new MethodInterceptionBindingWeaver(aspectDefinition.Method, bindingSettings, aspectWeavingSettings, aspectWeaver);
 
             return bindingWeaver.Weave();
         }
