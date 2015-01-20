@@ -174,5 +174,23 @@ namespace NCop.Aspects.Weaving.Expressions
                 return new AspectNodeExpressionBuilder(ctor);
             };
         }
+
+        public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(PropertyInterceptionAspectAttribute aspect) {
+            return aspectDefinition => {
+                lastAspect = new Aspect();
+                Func<IAspectExpression, IAspectExpression> ctor = null;
+                var propertyAspectDefinition = aspectDefinition as IPropertyAspectDefinition;
+
+                ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
+                    return new TopExpressionSetPropertyInterceptionAspect(expression, propertyAspectDefinition);
+                });
+
+                lastAspect.IsInBinding = true;
+                lastAspect.IsTopBinding = true;
+                topAspectInScopeDefinition = aspectDefinition;
+
+                return new AspectNodeExpressionBuilder(ctor);
+            };
+        }
     }
 }

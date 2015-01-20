@@ -185,7 +185,7 @@ namespace NCop.Samples
         }
 
         public override void SetValue(ref IDeveloper instance, IPropertyArg<string> arg, string value) {
-            instance.Code = value;
+            //instance.Code = value;
         }
     }
 
@@ -254,7 +254,7 @@ namespace NCop.Samples
 
             container.Configure();
             developer = container.Resolve<IPerson>();
-            developer.Code = "JavaScript";
+            //developer.Code = "JavaScript";
         }
     }
 }

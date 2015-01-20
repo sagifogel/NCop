@@ -10,6 +10,7 @@ namespace NCop.Aspects.Aspects
     {
         IAspect Aspect { get; }
         AspectType AspectType { get; }
+        IAspectDefinition BuildAdvices();
         Type AspectDeclaringType { get; }
         IAdviceDefinitionCollection Advices { get; }
     }

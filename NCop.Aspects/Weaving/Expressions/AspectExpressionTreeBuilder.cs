@@ -32,7 +32,7 @@ namespace NCop.Aspects.Weaving.Expressions
             this.aspectDefinitions = aspectDefinitions;
             firstAspectDefinition = aspectDefinitions.First();
             argumentsWeavingSettings = firstAspectDefinition.ToArgumentsWeavingSettings();
-            aspectExpressionBuilders = aspectsByPriority.ToList(definition => definition.Accept(aspectVisitor));
+            aspectExpressionBuilders = aspectsByPriority.ToList(definition => definition.BuildAdvices().Accept(aspectVisitor));
             invocationAspectBuilder = aspectVisitor.VisitLast(firstAspectDefinition, argumentsWeavingSettings);
             aspectExpressionBuilders.Add(invocationAspectBuilder);
             aspectsStack = new Stack<IAspectExpressionBuilder>(aspectExpressionBuilders);

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NCop.Weaving
 {
-    public interface IBuilder<T>
+    public interface IBuilder<out T>
     {
         T Build();
     }

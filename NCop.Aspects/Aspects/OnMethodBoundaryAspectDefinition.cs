@@ -27,7 +27,7 @@ namespace NCop.Aspects.Aspects
 			return visitor.Visit(aspect).Invoke(this);
 		}
 
-        public override void BulidAdvices() {
+        public override IAspectDefinition BuildAdvices() {
 			Aspect.AspectType
 				 .GetOverridenMethods()
 				 .ForEach(method => {
@@ -47,6 +47,8 @@ namespace NCop.Aspects.Aspects
 						 return new FinallyAdviceDefinition(advice, mi);
 					 });
 				 });
+
+            return this;
 		}
 	}
 }

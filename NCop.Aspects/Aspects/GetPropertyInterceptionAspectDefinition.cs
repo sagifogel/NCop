@@ -23,7 +23,7 @@ namespace NCop.Aspects.Aspects
             }
         }
 
-        public override void BulidAdvices() {
+        public override IAspectDefinition BuildAdvices() {
             Aspect.AspectType
                  .GetOverridenMethods()
                  .ForEach(method => {
@@ -31,6 +31,8 @@ namespace NCop.Aspects.Aspects
                          return new OnGetPropertyAdviceDefinition(advice, mi);
                      });
                  });
+
+            return this;
         }
 
         public override IAspectExpressionBuilder Accept(IAspectDefinitionVisitor visitor) {

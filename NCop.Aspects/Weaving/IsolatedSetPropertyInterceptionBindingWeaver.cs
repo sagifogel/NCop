@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class IsolatedSetPropertyInterceptionBindingWeaver : AbstractPropertyInterceptionBindingWeaver
+    internal class IsolatedSetPropertyInterceptionBindingWeaver : AbstractPartialPropertyInterceptionBindingWeaver
     {
         internal IsolatedSetPropertyInterceptionBindingWeaver(IAspectExpression aspectExpression, IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectExpression, aspectDefinition, aspectWeavingSettings) {

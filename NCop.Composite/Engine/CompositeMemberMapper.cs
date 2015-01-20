@@ -49,7 +49,7 @@ namespace NCop.Composite.Engine
                                                      return method.IsMatchedTo(mapped.AspectGetProperty) || method.IsMatchedTo(mapped.AspectSetProperty);
                                                  }
 
-                                                 return false;
+                                                 return true;
                                              }).DefaultIfEmpty()
                                              select new CompositePropertyMap(mapped.ContractType,
                                                                              mapped.ImplementationType,

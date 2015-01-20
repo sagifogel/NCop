@@ -13,14 +13,12 @@ namespace NCop.Aspects.Aspects
     {
         protected readonly AdviceDefinitionCollection advices = null;
 
-        internal AbstractAspectDefinition(IAspect aspect, Type aspectDeclaringType) {
-            Aspect = aspect;
+        internal AbstractAspectDefinition(Type aspectDeclaringType) {
             AspectDeclaringType = aspectDeclaringType;
             advices = new AdviceDefinitionCollection();
-            BulidAdvices();
         }
 
-        public IAspect Aspect { get; private set; }
+        public IAspect Aspect { get; protected set; }
 
         public abstract AspectType AspectType { get; }
 
@@ -48,7 +46,7 @@ namespace NCop.Aspects.Aspects
             return false;
         }
 
-        public abstract void BulidAdvices();
+        public abstract IAspectDefinition BuildAdvices();
 
         public abstract IAspectExpressionBuilder Accept(IAspectDefinitionVisitor visitor);
     }
