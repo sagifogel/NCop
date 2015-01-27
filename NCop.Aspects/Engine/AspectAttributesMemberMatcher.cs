@@ -7,6 +7,7 @@ using NCop.Aspects.Aspects;
 using NCop.Aspects.Framework;
 using NCop.Core.Extensions;
 using NCop.Core.Lib;
+using NCop.Aspects.Weaving;
 
 namespace NCop.Aspects.Engine
 {
@@ -113,17 +114,23 @@ namespace NCop.Aspects.Engine
                     var propertyInterceptionAspectsAttrs = property.GetCustomAttributes<PropertyInterceptionAspectAttribute>();
 
                     propertyInterceptionAspectsAttrs.ForEach(aspectAttribute => {
-                        var getPropertyAspect = new GetPropertyInterceptionAspectAttribute(aspectAttribute.AspectType) {
+                        var aspectDefinition = new PropertyInterceptionAspectsDefinition(aspectAttribute.AspectType, target);
+                        var bindingTypeReflectorBuilder = new FullPropertyBindingTypeReflectorBuilder(aspectDefinition);
+
+                        var getPropertyAspect = new GetPropertyFragmentInterceptionAspect {
+                            AspectType = aspectAttribute.AspectType,
                             AspectPriority = aspectAttribute.AspectPriority,
                             LifetimeStrategy = aspectAttribute.LifetimeStrategy
                         };
 
-                        var setPropertyAspect = new SetPropertyInterceptionAspectAttribute(aspectAttribute.AspectType) {
+                        var setPropertyAspect = new SetPropertyFragmentInterceptionAspect {
+                            AspectType = aspectAttribute.AspectType,
                             AspectPriority = aspectAttribute.AspectPriority,
                             LifetimeStrategy = aspectAttribute.LifetimeStrategy
                         };
 
-                        propertyInterceptionAspects.Add(new PropertyInterceptionAspectsDefinition(aspectAttribute, getPropertyAspect, setPropertyAspect, aspectDeclaringType, target));
+                        propertyInterceptionAspects.Add(new GetPropertyFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, getPropertyAspect, aspectDeclaringType, getMethodTarget, target));
+                        propertyInterceptionAspects.Add(new SetPropertyFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, setPropertyAspect, aspectDeclaringType, setMethodTarget, target));
                     });
                 });
 

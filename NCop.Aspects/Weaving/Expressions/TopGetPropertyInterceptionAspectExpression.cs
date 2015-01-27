@@ -4,9 +4,9 @@ using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class TopExpressionGetPropertyInterceptionAspect : AbstractPartialAspectPropertyExpression
+    internal class TopGetPropertyInterceptionAspectExpression : AbstractPartialAspectPropertyExpression
     {
-        internal TopExpressionGetPropertyInterceptionAspect(IAspectExpression aspectExpression, IPropertyAspectDefinition aspectDefinition = null)
+        internal TopGetPropertyInterceptionAspectExpression(IAspectExpression aspectExpression, IPropertyAspectDefinition aspectDefinition = null)
             : base(aspectExpression, aspectDefinition) {
         }
 

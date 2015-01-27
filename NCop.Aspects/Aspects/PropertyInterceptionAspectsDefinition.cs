@@ -8,43 +8,32 @@ using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Aspects
 {
-    internal class PropertyInterceptionAspectsDefinition : AbstractAspectDefinition, IPropertyAspectDefinition
+    internal sealed class PropertyInterceptionAspectsDefinition : IPropertyAspectDefinition
     {
-        private readonly PropertyInterceptionAspectAttribute aspect = null;
-
-        public PropertyInterceptionAspectsDefinition(PropertyInterceptionAspectAttribute aspect, GetPropertyInterceptionAspectAttribute getAspect, SetPropertyInterceptionAspectAttribute setAspect, Type aspectDeclaringType, PropertyInfo property)
-            : base(aspectDeclaringType) {
+        public PropertyInterceptionAspectsDefinition(Type aspectDeclaringType, PropertyInfo property) {
             Property = property;
-            Aspect = this.aspect = aspect;
+            AspectDeclaringType = aspectDeclaringType;
         }
 
-        public override AspectType AspectType {
+        public AspectType AspectType {
             get {
-                return AspectType.SetPropertyInterceptionAspect;
+                return AspectType.PropertyInterceptionAspect;
             }
         }
+        public IAspect Aspect { get; private set; }
 
-        public override IAspectDefinition BuildAdvices() {
-            Aspect.AspectType
-                 .GetOverridenMethods()
-                 .ForEach(method => {
-                     TryBulidAdvice<OnSetPropertyAdviceAttribute>(method, (advice, mi) => {
-                         return new OnSetPropertyAdviceDefinition(advice, mi);
-                     });
+        public PropertyInfo Property { get; private set; }
 
-                     TryBulidAdvice<OnGetPropertyAdviceAttribute>(method, (advice, mi) => {
-                         return new OnGetPropertyAdviceDefinition(advice, mi);
-                     });
-                 });
+        public Type AspectDeclaringType { get; private set; }
 
-            return this;
+        public IAdviceDefinitionCollection Advices { get; private set; }
+
+        public IAspectExpressionBuilder Accept(IAspectDefinitionVisitor visitor) {
+            throw new NotSupportedException();
         }
 
-        public override IAspectExpressionBuilder Accept(IAspectDefinitionVisitor visitor) {
-            return visitor.Visit(aspect).Invoke(this);
+        public IAspectDefinition BuildAdvices() {
+            throw new NotSupportedException();
         }
-
-        public PropertyInfo Property { get; protected set; }
-
     }
 }

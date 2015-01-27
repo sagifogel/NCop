@@ -5,12 +5,12 @@ using System.Reflection;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class IsolatedBothAccessorsPropertyInterceptionBindingWeaver : AbstractPropertyInterceptionBindingWeaver
+    internal class IsolatedFullPropertyInterceptionBindingWeaver : AbstractPropertyInterceptionBindingWeaver
     {
         private readonly IAspectExpression getAspectExpression = null;
         private readonly IAspectExpression setAspectExpression = null;
 
-        internal IsolatedBothAccessorsPropertyInterceptionBindingWeaver(IAspectExpression getAspectExpression, IAspectExpression setAspectExpression, IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
+        internal IsolatedFullPropertyInterceptionBindingWeaver(IAspectExpression getAspectExpression, IAspectExpression setAspectExpression, IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectDefinition, aspectWeavingSettings) {
             this.getAspectExpression = getAspectExpression;
             this.setAspectExpression = setAspectExpression;

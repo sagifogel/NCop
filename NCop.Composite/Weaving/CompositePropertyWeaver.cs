@@ -20,7 +20,6 @@ namespace NCop.Composite.Weaving
 
         public override IMethodWeaver GetGetMethod() {
             if (CanRead) {
-
                 return new GetPropertyAspectWeaver(propertyInfo, aspectDefinitions, aspectWeavingSettings);
             }
 

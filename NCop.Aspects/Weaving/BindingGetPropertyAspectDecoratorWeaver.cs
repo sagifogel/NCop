@@ -6,11 +6,11 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class BindingPropertyAspectDecoratorWeaver : AbstractMethodScopeWeaver, IAspectWeaver
+    internal class BindingGetPropertyAspectDecoratorWeaver : AbstractMethodScopeWeaver, IAspectWeaver
     {
         private readonly IMethodScopeWeaver weaver = null;
 
-        internal BindingPropertyAspectDecoratorWeaver(MethodInfo methodInfo, IAspectWeavingSettings aspectWeavingSettings)
+        internal BindingGetPropertyAspectDecoratorWeaver(MethodInfo methodInfo, IAspectWeavingSettings aspectWeavingSettings)
             : base(methodInfo, aspectWeavingSettings.WeavingSettings) {
             weaver = new GetPropertyDecoratorScopeWeaver(methodInfo, aspectWeavingSettings);
         }

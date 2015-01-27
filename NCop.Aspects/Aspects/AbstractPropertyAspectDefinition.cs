@@ -9,9 +9,8 @@ namespace NCop.Aspects.Aspects
 {
     internal abstract class AbstractPropertyAspectDefinition : AbstractAspectDefinition, IPropertyAspectDefinition
     {
-        internal AbstractPropertyAspectDefinition(IAspect aspect, Type aspectDeclaringType, PropertyInfo property)
+        internal AbstractPropertyAspectDefinition(Type aspectDeclaringType, PropertyInfo property)
             : base(aspectDeclaringType) {
-            //Aspect = aspect;
             Property = property;
         }
 

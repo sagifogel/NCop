@@ -1,4 +1,5 @@
 ﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Engine;
 using NCop.Aspects.Framework;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,8 @@ namespace NCop.Aspects.Weaving.Expressions
     {
         Func<IAspectDefinition, IAspectExpressionBuilder> Visit(OnMethodBoundaryAspectAttribute aspect);
         Func<IAspectDefinition, IAspectExpressionBuilder> Visit(MethodInterceptionAspectAttribute aspect);
-        Func<IAspectDefinition, IAspectExpressionBuilder> Visit(PropertyInterceptionAspectAttribute aspect);
+        Func<IAspectDefinition, IAspectExpressionBuilder> Visit(GetPropertyFragmentInterceptionAspect aspect);
+        Func<IAspectDefinition, IAspectExpressionBuilder> Visit(SetPropertyFragmentInterceptionAspect aspect); 
         Func<IAspectDefinition, IAspectExpressionBuilder> Visit(GetPropertyInterceptionAspectAttribute aspect);
         Func<IAspectDefinition, IAspectExpressionBuilder> Visit(SetPropertyInterceptionAspectAttribute aspect);
     }

@@ -7,10 +7,11 @@ using NCop.Aspects.Engine;
 using NCop.Aspects.Extensions;
 using NCop.Aspects.Framework;
 using NCop.Core;
+using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    public class AspectVisitor : IAspectDefinitionVisitor
+    internal class AspectVisitor : IAspectDefinitionVisitor
     {
         private struct Aspect
         {
@@ -108,7 +109,7 @@ namespace NCop.Aspects.Weaving.Expressions
 
         public IAspectExpressionBuilder VisitLast(IPropertyAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentsWeavingSettings) {
             var expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>(ex => {
-                return new BindingPropertyAspectDecoratorExpression(aspectDefinition);
+                return new BindingGetPropertyAspectDecoratorExpression(aspectDefinition);
             });
 
             return new AspectNodeExpressionBuilder(expressionFactory);
@@ -122,6 +123,11 @@ namespace NCop.Aspects.Weaving.Expressions
                 if (topAspectInScopeDefinition.AspectType == AspectType.MethodInterceptionAspect) {
                     expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>(ex => {
                         return new BindingMethodAspectDecoratorExpression(methodAspectDefinition, argumentsWeavingSettings);
+                    });
+                }
+                else if (topAspectInScopeDefinition.IsPropertyAspectDefinition()) {
+                    expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>(ex => {
+                        return new BindingBothAccessorsPropertyAspectDecoratorExpression((IPropertyAspectDefinition)aspectDefinition, argumentsWeavingSettings);
                     });
                 }
                 else {
@@ -142,11 +148,9 @@ namespace NCop.Aspects.Weaving.Expressions
         public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(GetPropertyInterceptionAspectAttribute aspect) {
             return aspectDefinition => {
                 lastAspect = new Aspect();
-                Func<IAspectExpression, IAspectExpression> ctor = null;
                 var propertyAspectDefinition = aspectDefinition as IPropertyAspectDefinition;
-
-                ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
-                    return new TopExpressionGetPropertyInterceptionAspect(expression, propertyAspectDefinition);
+                var ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
+                    return new TopGetPropertyInterceptionAspectExpression(expression, propertyAspectDefinition);
                 });
 
                 lastAspect.IsInBinding = true;
@@ -160,11 +164,9 @@ namespace NCop.Aspects.Weaving.Expressions
         public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(SetPropertyInterceptionAspectAttribute aspect) {
             return aspectDefinition => {
                 lastAspect = new Aspect();
-                Func<IAspectExpression, IAspectExpression> ctor = null;
                 var propertyAspectDefinition = aspectDefinition as IPropertyAspectDefinition;
-
-                ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
-                    return new TopExpressionSetPropertyInterceptionAspect(expression, propertyAspectDefinition);
+                var ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
+                    return new TopSetPropertyInterceptionAspectExpression(expression, propertyAspectDefinition);
                 });
 
                 lastAspect.IsInBinding = true;
@@ -175,16 +177,24 @@ namespace NCop.Aspects.Weaving.Expressions
             };
         }
 
-        public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(PropertyInterceptionAspectAttribute aspect) {
+        public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(GetPropertyFragmentInterceptionAspect aspect) {
             return aspectDefinition => {
                 lastAspect = new Aspect();
                 Func<IAspectExpression, IAspectExpression> ctor = null;
-                var propertyAspectDefinition = aspectDefinition as IPropertyAspectDefinition;
+                
+                lastAspect.IsInBinding = true;
+                lastAspect.IsTopBinding = true;
+                topAspectInScopeDefinition = aspectDefinition;
 
-                ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
-                    return new TopExpressionSetPropertyInterceptionAspect(expression, propertyAspectDefinition);
-                });
+                return new AspectNodeExpressionBuilder(ctor);
+            };
+        }
 
+        public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(SetPropertyFragmentInterceptionAspect aspect) {
+            return aspectDefinition => {
+                lastAspect = new Aspect();
+                Func<IAspectExpression, IAspectExpression> ctor = null;
+                
                 lastAspect.IsInBinding = true;
                 lastAspect.IsTopBinding = true;
                 topAspectInScopeDefinition = aspectDefinition;

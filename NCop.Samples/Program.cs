@@ -30,7 +30,7 @@ namespace NCop.Samples
 
     public interface IDeveloper
     {
-        string Code { set; get; }
+        string Code { get; set; }
     }
 
     public interface IDo
@@ -163,6 +163,7 @@ namespace NCop.Samples
         [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         public string Code {
             set { code = value; }
+            //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
             get { return code; }
         }
 
@@ -172,7 +173,7 @@ namespace NCop.Samples
         [MethodInterceptionAspect(typeof(StopWatchAspect))]
         //[MethodInterceptionAspect(typeof(StopWatchAspect))]
         public void Do() {
-
+            Console.WriteLine("Sagi");
         }
     }
 
@@ -210,6 +211,10 @@ namespace NCop.Samples
                 var interArgs = new SetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding.singleton, value);
                 Aspects.stopWatchAspect.OnSetValue(interArgs);
             }
+        }
+
+        public void Do() {
+            throw new NotImplementedException();
         }
     }
 
@@ -254,6 +259,7 @@ namespace NCop.Samples
 
             container.Configure();
             developer = container.Resolve<IPerson>();
+            var code = developer.Code;
             //developer.Code = "JavaScript";
         }
     }

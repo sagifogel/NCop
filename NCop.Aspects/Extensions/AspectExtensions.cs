@@ -149,7 +149,8 @@ namespace NCop.Aspects.Extensions
         }
 
         public static bool IsPropertyAspectDefinition(this IAspectDefinition aspectDefinition) {
-            return aspectDefinition.AspectType == AspectType.GetPropertyInterceptionAspect ||
+            return aspectDefinition.AspectType == AspectType.PropertyInterceptionAspect ||
+                   aspectDefinition.AspectType == AspectType.GetPropertyInterceptionAspect ||
                    aspectDefinition.AspectType == AspectType.SetPropertyInterceptionAspect;
         }
 
