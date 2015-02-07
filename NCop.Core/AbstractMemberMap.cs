@@ -23,12 +23,15 @@ namespace NCop.Core
             AddIfNotNull(() => implementationMember);
         }
 
-        protected void AddIfNotNull(Func<TMember> memberFactory) {
+        protected virtual bool AddIfNotNull(Func<TMember> memberFactory) {
             var memberInfo = memberFactory();
 
             if (memberInfo.IsNotNull()) {
                 members.Add(memberInfo);
+                return true;
             }
+
+            return false;
         }
 
         public TMember Target {
