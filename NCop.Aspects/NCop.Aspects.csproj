@@ -96,6 +96,7 @@
     </Compile>
     <Compile Include="Aspects\AbstractMethodAspectDefinition.cs" />
     <Compile Include="Aspects\AbstractPropertyAspectDefinition.cs" />
+    <Compile Include="Aspects\IFullPropertyAspectDefinition.cs" />
     <Compile Include="Aspects\IMethodAspectDefinition.cs" />
     <Compile Include="Aspects\IPropertyAspectDefinition.cs" />
     <Compile Include="Aspects\PropertyInterceptionAspectsDefinition.cs" />
@@ -114,7 +115,7 @@
     <Compile Include="Engine\ActionExecutionArgsImpl`8.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`1.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl.cs" />
-    <Compile Include="Engine\ClassifiedAspectPropertyMap.cs" />
+    <Compile Include="Engine\AspectDefinitionRegistry.cs" />
     <Compile Include="Aspects\SetPropertyFragmentInterceptionAspectDefinition.cs" />
     <Compile Include="Aspects\GetPropertyFragmentInterceptionAspectDefinition.cs" />
     <Compile Include="Engine\SetPropertyFragmentInterceptionAspect.cs" />
@@ -201,13 +202,13 @@
     <Compile Include="Weaving\FullPropertyBindingTypeReflectorBuilder.cs" />
     <Compile Include="Weaving\Expressions\AbstractPartialAspectPropertyExpression.cs" />
     <Compile Include="Weaving\Expressions\AbstractAspectPropertyExpression.cs" />
-    <Compile Include="Weaving\Expressions\BindingBothAccessorsPropertyAspectDecoratorExpression.cs" />
+    <Compile Include="Weaving\Expressions\TopSetPropertyFragmentInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\BindingSetPropertyAspectDecoratorExpression.cs" />
     <Compile Include="Weaving\Expressions\BindingGetPropertyAspectDecoratorExpression.cs" />
     <Compile Include="Weaving\Expressions\IPropertyExpressionBuilder.cs" />
     <Compile Include="Weaving\Expressions\OnSetPropertyAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\OnGetPropertyAdviceExpression.cs" />
-    <Compile Include="Weaving\Expressions\TopBothAccessorsPropertyAspectExpression.cs" />
+    <Compile Include="Weaving\Expressions\TopGetPropertyFragmentInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\TopGetPropertyInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\TopSetPropertyInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\GetPropertyAspectWeaver.cs" />

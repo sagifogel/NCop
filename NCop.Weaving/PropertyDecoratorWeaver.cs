@@ -16,7 +16,7 @@ namespace NCop.Weaving
 
         public override IMethodWeaver GetGetMethod() {
             if (CanRead) {
-                var getMethodImpl = propertyInfo.GetGetMethod();
+                var getMethodImpl = property.GetGetMethod();
                 var weavingSettings = new WeavingSettingsImpl(ContractType, TypeDefinition);
 
                 return new GetPropertyDecoratorWeaver(getMethodImpl, weavingSettings);
@@ -27,7 +27,7 @@ namespace NCop.Weaving
 
         public override IMethodWeaver GetSetMethod() {
             if (CanWrite) {
-                var setMethodImpl = propertyInfo.GetSetMethod();
+                var setMethodImpl = property.GetSetMethod();
                 var weavingSettings = new WeavingSettingsImpl(ContractType, TypeDefinition);
 
                 return new SetPropertyDecoratorWeaver(setMethodImpl, weavingSettings);

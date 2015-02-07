@@ -20,7 +20,7 @@ namespace NCop.Composite.Weaving
 
         public override IMethodWeaver GetGetMethod() {
             if (CanRead) {
-                return new GetPropertyAspectWeaver(propertyInfo, aspectDefinitions, aspectWeavingSettings);
+                return new GetPropertyAspectWeaver(property.GetGetMethod(), aspectDefinitions, aspectWeavingSettings);
             }
 
             return null;
@@ -28,7 +28,7 @@ namespace NCop.Composite.Weaving
 
         public override IMethodWeaver GetSetMethod() {
             if (CanWrite) {
-                return new SetPropertyAspectWeaver(propertyInfo, aspectDefinitions, aspectWeavingSettings);
+                return new SetPropertyAspectWeaver(property.GetGetMethod(), aspectDefinitions, aspectWeavingSettings);
             }
 
             return null;

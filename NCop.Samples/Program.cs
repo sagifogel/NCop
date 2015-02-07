@@ -1,14 +1,10 @@
-﻿using System;
-using System.Diagnostics;
-using System.Reflection;
-using System.Reflection.Emit;
-using NCop.Aspects.Engine;
+﻿using NCop.Aspects.Engine;
 using NCop.Aspects.Framework;
 using NCop.Aspects.Weaving;
 using NCop.Composite.Framework;
 using NCop.Mixins.Framework;
-using NCop.Weaving;
-using NCop.Weaving.Extensions;
+using System;
+using System.Diagnostics;
 
 namespace NCop.Samples
 {
@@ -40,9 +36,7 @@ namespace NCop.Samples
 
     internal static class FunctionArgsMapper
     {
-        internal static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(
-            IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> first,
-            IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> second) {
+        internal static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> second) {
             second.Arg1 = first.Arg1;
             second.Arg2 = first.Arg2;
             second.Arg3 = first.Arg3;
@@ -163,7 +157,7 @@ namespace NCop.Samples
         [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         public string Code {
             set { code = value; }
-            //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+            [GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
             get { return code; }
         }
 

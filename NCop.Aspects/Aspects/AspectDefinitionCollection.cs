@@ -6,6 +6,9 @@ namespace NCop.Aspects.Aspects
 {
     public class AspectDefinitionCollection : Collection<IAspectDefinition>, IAspectDefinitionCollection
     {
+        public AspectDefinitionCollection() {
+        }
+
         public AspectDefinitionCollection(IEnumerable<IAspectDefinition> aspectDefinitions)
             : base(aspectDefinitions) {
         }

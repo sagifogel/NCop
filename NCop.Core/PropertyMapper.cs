@@ -38,8 +38,7 @@ namespace NCop.Core
 				});
 			});
 
-			mappedProperties = mappedPropertiesEnumerable.Cast<IPropertyMap>()
-														 .ToList();
+			mappedProperties = mappedPropertiesEnumerable.ToListOf<IPropertyMap>();
 		}
 
 		public IEnumerator<IPropertyMap> GetEnumerator() {

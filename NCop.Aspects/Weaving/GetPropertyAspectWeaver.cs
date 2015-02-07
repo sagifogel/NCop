@@ -5,8 +5,8 @@ namespace NCop.Aspects.Weaving
 {
     public class GetPropertyAspectWeaver : AspectPropertyWeaver
     {
-        public GetPropertyAspectWeaver(PropertyInfo propertyInfo, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings)
-            : base(propertyInfo, aspectDefinitions, aspectWeavingSettings) {
+        public GetPropertyAspectWeaver(MethodInfo method, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings)
+            : base(method, aspectDefinitions, aspectWeavingSettings) {
         }
     }
 }

@@ -1,13 +1,11 @@
 ﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Engine;
 using NCop.Aspects.Framework;
 using NCop.Aspects.Weaving;
 using NCop.Core.Extensions;
 using System;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
-using NCop.Weaving;
-using NCop.Aspects.Engine;
 
 namespace NCop.Aspects.Extensions
 {
@@ -149,9 +147,20 @@ namespace NCop.Aspects.Extensions
         }
 
         public static bool IsPropertyAspectDefinition(this IAspectDefinition aspectDefinition) {
-            return aspectDefinition.AspectType == AspectType.PropertyInterceptionAspect ||
-                   aspectDefinition.AspectType == AspectType.GetPropertyInterceptionAspect ||
-                   aspectDefinition.AspectType == AspectType.SetPropertyInterceptionAspect;
+            return aspectDefinition.AspectType == AspectType.GetPropertyInterceptionAspect ||
+                   aspectDefinition.AspectType == AspectType.SetPropertyInterceptionAspect ||
+                   aspectDefinition.AspectType == AspectType.GetPropertyFragmentInterceptionAspect ||
+                   aspectDefinition.AspectType == AspectType.SetPropertyFragmentInterceptionAspect;
+        }
+
+        public static bool IsGetPropertyAspectDefinition(this IAspectDefinition aspectDefinition) {
+            return aspectDefinition.AspectType == AspectType.GetPropertyInterceptionAspect ||
+                   aspectDefinition.AspectType == AspectType.GetPropertyFragmentInterceptionAspect;
+        }
+
+        public static bool IsSetPropertyAspectDefinition(this IAspectDefinition aspectDefinition) {
+            return aspectDefinition.AspectType == AspectType.SetPropertyInterceptionAspect ||
+                   aspectDefinition.AspectType == AspectType.SetPropertyFragmentInterceptionAspect;
         }
 
         internal static ArgumentsWeavingSettings ToArgumentsWeavingSettings(this BindingSettings bindingSettings, Type aspectType = null) {

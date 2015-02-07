@@ -1,32 +1,26 @@
-﻿using System;
-using System.Reflection;
-using NCop.Aspects.Advices;
+﻿using NCop.Aspects.Advices;
 using NCop.Aspects.Engine;
-using NCop.Aspects.Framework;
 using NCop.Aspects.Weaving.Expressions;
 using NCop.Core.Extensions;
-using NCop.Aspects.Aspects;
-using NCop.Aspects.Weaving;
+using System;
+using System.Reflection;
 
-namespace NCop.Aspects.Engine
+namespace NCop.Aspects.Aspects
 {
-    internal class GetPropertyFragmentInterceptionAspectDefinition : AbstractPropertyAspectDefinition, IPropertyFragment
+    internal class GetPropertyFragmentInterceptionAspectDefinition : AbstractPropertyAspectDefinition
     {
         private readonly GetPropertyFragmentInterceptionAspect aspect = null;
 
         internal GetPropertyFragmentInterceptionAspectDefinition(IPropertyExpressionBuilder propertyBuilder, GetPropertyFragmentInterceptionAspect aspect, Type aspectDeclaringType, MethodInfo method, PropertyInfo property)
-            : base(aspectDeclaringType, property) {
+            : base(propertyBuilder, aspectDeclaringType, property) {
             Aspect = this.aspect = aspect;
-            PropertyBuilder = PropertyBuilder;
         }
         
         public override AspectType AspectType {
             get {
-                return AspectType.PropertyInterceptionAspect;
+                return AspectType.GetPropertyFragmentInterceptionAspect;
             }
         }
-        
-        public IPropertyExpressionBuilder PropertyBuilder { get; private set; }
 
         public override IAspectDefinition BuildAdvices() {
             Aspect.AspectType

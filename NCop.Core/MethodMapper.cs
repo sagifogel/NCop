@@ -13,9 +13,7 @@ namespace NCop.Core
 		private readonly List<IMethodMap> mappedMethods = null;
 		
 		public MethodMapper(ITypeMap typeMap) {
-			Func<MethodInfo, bool> methodPredicate = (methodInfo) => {
-				return !methodInfo.IsSpecialName;
-			};
+			Func<MethodInfo, bool> methodPredicate = methodInfo =>  !methodInfo.IsSpecialName;
 
 			var mapped = typeMap.Select(map => new {
 				map.ContractType,
@@ -42,8 +40,7 @@ namespace NCop.Core
 				});
 			});
 
-			mappedMethods = mappedMethodsEnumerable.Cast<IMethodMap>()
-												   .ToList();
+		    mappedMethods = mappedMethodsEnumerable.ToListOf<IMethodMap>();
 		}
 
 		public IEnumerator<IMethodMap> GetEnumerator() {

@@ -30,7 +30,7 @@ namespace NCop.Composite.Weaving
                     AspectArgsMapper = aspectWeavingServices.AspectArgsMapper
                 };
 
-                return new CompositeMethodWeaver(compositeMethodMap.AspectDefinitions, aspectWeavingSettings);
+                return new CompositeMethodWeaver(compositeMethodMap.Target, compositeMethodMap.AspectDefinitions, aspectWeavingSettings);
             }
 
             return new MethodDecoratorWeaver(compositeMethodMap.ContractMember, weavingSettings);
