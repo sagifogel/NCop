@@ -154,10 +154,10 @@ namespace NCop.Samples
     {
         private string code = "C#";
 
-        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         public string Code {
+            [SetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
             set { code = value; }
-            //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
             get { return code; }
         }
 
@@ -180,7 +180,11 @@ namespace NCop.Samples
         }
 
         public override void SetValue(ref IDeveloper instance, IPropertyArg<string> arg, string value) {
-            //instance.Code = value;
+            instance.Code = value;
+        }
+
+        public override string GetValue(ref IDeveloper instance, IPropertyArg<string> arg) {
+             return instance.Code;
         }
     }
 
@@ -220,12 +224,12 @@ namespace NCop.Samples
 
         public override void OnGetValue(PropertyInterceptionArgs<string> args) {
             //base.OnGetValue(args);
-            var value = args.GetCurrentValue();
-            args.SetNewValue("Sagi");
+            args.ProceedGetValue();
         }
 
-        public override void OnSetValue(PropertyInterceptionArgs<string> args) {
-            base.OnSetValue(args);
+        public override void OnSetValue(PropertyInterceptionArgs<string> args)
+        {
+            args.ProceedSetValue();
         }
     }
 
@@ -253,8 +257,8 @@ namespace NCop.Samples
 
             container.Configure();
             developer = container.Resolve<IPerson>();
-            var code = developer.Code;
-            //developer.Code = "JavaScript";
+            //var code = developer.Code;
+            developer.Code = "JavaScript";
         }
     }
 }

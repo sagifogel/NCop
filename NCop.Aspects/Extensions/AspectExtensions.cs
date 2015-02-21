@@ -56,7 +56,9 @@ namespace NCop.Aspects.Extensions
 
         internal static Type ToAspectArgumentImpl(this IPropertyAspectDefinition aspectDefinition) {
             var property = aspectDefinition.Property;
-            var method = property.GetGetMethod() ?? property.GetSetMethod();
+            var method = aspectDefinition.IsGetPropertyAspectDefinition() ?
+                                          property.GetGetMethod() :
+                                          property.GetSetMethod();
 
             return aspectDefinition.ToAspectArgumentImpl(method);
         }
@@ -147,10 +149,8 @@ namespace NCop.Aspects.Extensions
         }
 
         public static bool IsPropertyAspectDefinition(this IAspectDefinition aspectDefinition) {
-            return aspectDefinition.AspectType == AspectType.GetPropertyInterceptionAspect ||
-                   aspectDefinition.AspectType == AspectType.SetPropertyInterceptionAspect ||
-                   aspectDefinition.AspectType == AspectType.GetPropertyFragmentInterceptionAspect ||
-                   aspectDefinition.AspectType == AspectType.SetPropertyFragmentInterceptionAspect;
+            return aspectDefinition.IsGetPropertyAspectDefinition() ||
+                   aspectDefinition.IsSetPropertyAspectDefinition();
         }
 
         public static bool IsGetPropertyAspectDefinition(this IAspectDefinition aspectDefinition) {

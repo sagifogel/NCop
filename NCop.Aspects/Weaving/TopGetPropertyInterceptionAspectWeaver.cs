@@ -17,7 +17,7 @@ namespace NCop.Aspects.Weaving
 
         internal TopGetPropertyInterceptionAspectWeaver(IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
-            var method = aspectDefinition.Property.GetSetMethod();
+            var method = aspectDefinition.Property.GetGetMethod();
 
             argumentsWeavingSettings.BindingsDependency = weavedType;
             argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Property.PropertyType };
@@ -36,9 +36,17 @@ namespace NCop.Aspects.Weaving
             return adviceExpressionFactory(selectedAdviceDefinition);
         }
 
-        public override void Weave(ILGenerator ilGenerator) {
+        public override void Weave(ILGenerator ilGenerator)
+        {
+            LocalBuilder aspectArgLocalBuilder = null;
+            var argumentType = argumentsWeavingSettings.ArgumentType;
+            var valueProperty = argumentType.GetProperty("Value"); 
+
             argumentsWeaver.Weave(ilGenerator);
             weaver.Weave(ilGenerator);
+            aspectArgLocalBuilder = localBuilderRepository.Get(argumentType);
+            ilGenerator.EmitLoadLocal(aspectArgLocalBuilder);
+            ilGenerator.Emit(OpCodes.Callvirt, valueProperty.GetGetMethod());
         }
     }
 }

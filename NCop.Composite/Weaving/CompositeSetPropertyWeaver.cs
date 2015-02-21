@@ -8,7 +8,7 @@ namespace NCop.Composite.Weaving
     public class CompositeSetPropertyWeaver : AspectMethodWeaver
     {
         public CompositeSetPropertyWeaver(PropertyInfo propertyInfo, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings)
-            : base(propertyInfo.GetGetMethod(), aspectDefinitions, aspectWeavingSettings) {
+            : base(propertyInfo.GetSetMethod(), aspectDefinitions, aspectWeavingSettings) {
         }
     }
 }

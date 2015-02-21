@@ -14,9 +14,9 @@ namespace NCop.Aspects.Weaving
     {
         private Type baseType = null;
         protected static int bindingCounter = 0;
+        protected PropertyInfo property = null;
         protected TypeBuilder typeBuilder = null;
         protected FieldBuilder fieldBuilder = null;
-        protected PropertyInfo propertyInfo = null;
         protected readonly BindingSettings bindingSettings = null;
         protected readonly IMethodScopeWeaver getMethodScopeWeaver = null;
         protected readonly IMethodScopeWeaver setMethodScopeWeaver = null;
@@ -26,8 +26,8 @@ namespace NCop.Aspects.Weaving
         protected readonly FieldAttributes singletonFieldAttributes = FieldAttributes.Private | FieldAttributes.FamANDAssem | FieldAttributes.Static;
         protected readonly MethodAttributes ctorAttributes = MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
 
-        internal AbstractPropertyBindingWeaver(PropertyInfo propertyInfo, BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IMethodScopeWeaver getMethodScopeWeaver = null, IMethodScopeWeaver setMethodScopeWeaver = null) {
-            this.propertyInfo = propertyInfo;
+        internal AbstractPropertyBindingWeaver(PropertyInfo property, BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IMethodScopeWeaver getMethodScopeWeaver = null, IMethodScopeWeaver setMethodScopeWeaver = null) {
+            this.property = property;
             this.bindingSettings = bindingSettings;
             this.getMethodScopeWeaver = getMethodScopeWeaver;
             this.setMethodScopeWeaver = setMethodScopeWeaver;
@@ -56,8 +56,8 @@ namespace NCop.Aspects.Weaving
         }
 
         protected void WeaveTypeBuilder() {
-            var declaringType = propertyInfo.DeclaringType;
-            var types = new[] { declaringType, propertyInfo.PropertyType };
+            var declaringType = property.DeclaringType;
+            var types = new[] { declaringType, property.PropertyType };
 
             baseType = typeof(AbstractPropertyBinding<,>).MakeGenericType(types);
             typeBuilder = baseType.DefineType("PropertyBinding_{0}".Fmt(Interlocked.Increment(ref bindingCounter)).ToUniqueName(), attributes: TypeAttributes.Public | TypeAttributes.Sealed);
@@ -81,8 +81,20 @@ namespace NCop.Aspects.Weaving
             cctorILGenerator.Emit(OpCodes.Ret);
         }
 
-        protected virtual MethodParameters ResolveParameterTypes() {
-            return bindingSettings.ToBindingMethodParameters();
+        protected virtual MethodParameters ResolveParameterTypes(bool set = false) {
+            Type[] parameters = null;
+            var methodParameters = bindingSettings.ToBindingMethodParameters();
+
+            if (!set) {
+                return methodParameters;
+            }
+
+            parameters = new Type[methodParameters.Parameters.Length + 1];
+            methodParameters.Parameters.CopyTo(parameters, 0);
+            parameters[methodParameters.Parameters.Length] = property.PropertyType;
+            methodParameters.Parameters = parameters;
+
+            return methodParameters;
         }
 
         protected virtual void WeaveGetValueMethod() {
@@ -99,9 +111,9 @@ namespace NCop.Aspects.Weaving
         protected virtual void WeaveSetValueMethod() {
             ILGenerator ilGenerator = null;
             MethodBuilder methodBuilder = null;
-            var methodParameters = ResolveParameterTypes();
+            var methodParameters = ResolveParameterTypes(true);
 
-            methodBuilder = typeBuilder.DefineMethod("SetValue", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
+            methodBuilder = typeBuilder.DefineMethod("SetValue", methodAttr, callingConventions, typeof(void), methodParameters.Parameters);
             ilGenerator = methodBuilder.GetILGenerator();
             setMethodScopeWeaver.Weave(ilGenerator);
             ilGenerator.Emit(OpCodes.Ret);

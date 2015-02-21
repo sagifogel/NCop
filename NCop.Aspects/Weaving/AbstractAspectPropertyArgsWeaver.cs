@@ -1,8 +1,5 @@
-﻿using NCop.Core.Extensions;
-using NCop.Weaving;
-using NCop.Weaving.Extensions;
+﻿using NCop.Weaving.Extensions;
 using System;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -31,11 +28,11 @@ namespace NCop.Aspects.Weaving
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
             ilGenerator.Emit(OpCodes.Callvirt, typeofObject.GetMethod("GetType"));
-            ilGenerator.Emit(OpCodes.Ldstr, methodInfo.Name);
+            ilGenerator.Emit(OpCodes.Ldstr, PropertyName);
             ilGenerator.Emit(OpCodes.Ldtoken, typeof(string));
             ilGenerator.Emit(OpCodes.Call, getTypeFromHandleMethodInfo);
             ilGenerator.Emit(OpCodes.Callvirt, typeofType.GetMethod("GetProperty", new[] { typeof(string), typeof(Type) }));
-            ilGenerator.Emit(OpCodes.Callvirt, PropertyName);
+            ilGenerator.Emit(OpCodes.Callvirt, PropertyMethod);
             ilGenerator.EmitStoreLocal(methodLocalBuilder);
         }
 
