@@ -6,7 +6,7 @@ using NCop.Core;
 
 namespace NCop.Composite.Engine
 {
-	public interface ICompositePropertyMapper : IReadOnlyCollection<ICompositePropertyMap>
+	public interface ICompositePropertyMapper : IReadOnlyCollection<ICompositeGetPropertyMap>
 	{
 	}
 }

@@ -77,6 +77,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="IAcceptsVisitor.cs" />
     <Compile Include="IMemberMapper.cs" />
     <Compile Include="IMemberMap.cs" />
     <Compile Include="IMethodMap.cs" />

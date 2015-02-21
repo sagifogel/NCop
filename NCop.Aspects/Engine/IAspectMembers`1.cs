@@ -7,10 +7,9 @@ using NCop.Core;
 
 namespace NCop.Aspects.Engine
 {
-	public interface IAspectMembers<out TMember>
-		where TMember : MemberInfo
-	{
-		TMember Target { get; }
-		IEnumerable<TMember> Members { get; }
-	}
+    public interface IAspectMembers<out TMember> where TMember : MemberInfo
+    {
+        TMember Target { get; }
+        IEnumerable<TMember> Members { get; }
+    }
 }

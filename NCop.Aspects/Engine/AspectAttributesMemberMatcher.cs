@@ -104,11 +104,11 @@ namespace NCop.Aspects.Engine
                     });
 
                     getPropertyInterceptionAspectsAttrs.ForEach(aspectAttribute => {
-                        CollectPropertyPartialAspectDefinition(propertyMap, propertyGetMethod, propertySetMethod,  aspectDeclaringType, aspectAttribute, (aspectDefinition) => new FullPropertyBindingTypeReflectorBuilder(aspectDefinition));
+                        CollectPropertyPartialAspectDefinition(propertyMap, propertyGetMethod, propertySetMethod, aspectDeclaringType, aspectAttribute, aspectDefinition => new GetPropertyBindingTypeReflectorBuilder(aspectDefinition));
                     });
 
                     setPropertyInterceptionAspectsAttrs.ForEach(aspectAttribute => {
-                        CollectPropertyPartialAspectDefinition(propertyMap, propertyGetMethod, propertySetMethod, aspectDeclaringType, aspectAttribute, (aspectDefinition) => new FullPropertyBindingTypeReflectorBuilder(aspectDefinition));
+                        CollectPropertyPartialAspectDefinition(propertyMap, propertyGetMethod, propertySetMethod, aspectDeclaringType, aspectAttribute, aspectDefinition => new SetPropertyBindingTypeReflectorBuilder(aspectDefinition));
                     });
                 });
             });

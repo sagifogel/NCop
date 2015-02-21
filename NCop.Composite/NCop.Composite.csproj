@@ -84,21 +84,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\AbstractCompositePropertyMap.cs" />
     <Compile Include="Engine\CompositeMemberMapper.cs" />
     <Compile Include="Engine\CompositeMethodMap.cs" />
     <Compile Include="Engine\CompositeAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Engine\CompositePropertyMapVisitor.cs" />
     <Compile Include="Engine\CompositeRegistryDecorator.cs" />
+    <Compile Include="Engine\IAcceptsCompositePropertyMapVisitor.cs" />
+    <Compile Include="Engine\ICompositePropertyMap.cs" />
+    <Compile Include="Engine\ICompositePropertyMapVisitor.cs" />
+    <Compile Include="Engine\ICompositeSetPropertyMap.cs" />
+    <Compile Include="Engine\SetCompositePropertyMap.cs" />
     <Compile Include="Extensions\CompositeExtensions.cs" />
     <Compile Include="IoC\CompositeContainer.cs" />
     <Compile Include="IoC\CompositeFrameworkRegistration.cs" />
-    <Compile Include="Engine\CompositePropertyMap.cs" />
+    <Compile Include="Engine\GetCompositePropertyMap.cs" />
     <Compile Include="IoC\CompositeContainerRegistry.cs" />
     <Compile Include="Engine\ICompositeMemberCollection.cs" />
     <Compile Include="Engine\ICompositeMethodMap.cs" />
     <Compile Include="Engine\ICompositeMethodMapCollection.cs" />
-    <Compile Include="Engine\ICompositePropertyMap.cs" />
+    <Compile Include="Engine\ICompositeGetPropertyMap.cs" />
     <Compile Include="Engine\ICompositePropertyMapper.cs" />
     <Compile Include="Engine\ICompositePropertyMapCollection.cs" />
     <Compile Include="Engine\IHasAspectDefinition.cs" />

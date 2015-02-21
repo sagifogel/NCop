@@ -1,5 +1,6 @@
 ﻿using NCop.Aspects.Aspects;
 using NCop.Aspects.Weaving.Expressions;
+using System;
 
 namespace NCop.Aspects.Weaving
 {
@@ -7,7 +8,7 @@ namespace NCop.Aspects.Weaving
     {
         private IAspectExpression getAspectExpression = null;
         private IAspectExpression setAspectExpression = null;
-        private Core.Lib.Lazy<IAspectExpression, IAspectExpression, IAspectWeavingSettings, IBindingTypeReflector> lazyBindingTypeReflector = null;
+        private readonly Core.Lib.Lazy<IAspectExpression, IAspectExpression, IAspectWeavingSettings, IBindingTypeReflector> lazyBindingTypeReflector = null;
 
         public FullPropertyBindingTypeReflectorBuilder(IPropertyAspectDefinition aspectDefinition) {
             lazyBindingTypeReflector = new Core.Lib.Lazy<IAspectExpression, IAspectExpression, IAspectWeavingSettings, IBindingTypeReflector>((getAspectExpression, setAspectExpression, aspectWeavingSettings) => {
@@ -15,14 +16,14 @@ namespace NCop.Aspects.Weaving
             });
         }
 
-        public void SetSetExpression(IAspectExpression getAspectExpression) {
+        public void SetSetExpression(IAspectExpression setAspectExpression) {
+            this.setAspectExpression = setAspectExpression;
+        }
+
+        public void SetGetExpression(IAspectExpression getAspectExpression) {
             this.getAspectExpression = getAspectExpression;
         }
 
-        public void SetGetExpression(IAspectExpression setAspectExpression) {
-            this.setAspectExpression = setAspectExpression;
-        }
-        
         public IBindingTypeReflector Build(IAspectWeavingSettings aspectsWeavingSettings) {
             return lazyBindingTypeReflector.Get(getAspectExpression, setAspectExpression, aspectsWeavingSettings);
         }

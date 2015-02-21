@@ -8,8 +8,7 @@ using NCop.Core.Extensions;
 
 namespace NCop.Core
 {
-    public abstract class AbstractMemberMap<TMember> : IMemberMap<TMember>
-        where TMember : MemberInfo
+    public abstract class AbstractMemberMap<TMember> : IMemberMap<TMember> where TMember : MemberInfo
     {
         private readonly ISet<TMember> members = new HashSet<TMember>();
 
@@ -23,15 +22,15 @@ namespace NCop.Core
             AddIfNotNull(() => implementationMember);
         }
 
-        protected virtual bool AddIfNotNull(Func<TMember> memberFactory) {
+        protected bool AddIfNotNull(Func<TMember> memberFactory) {
             var memberInfo = memberFactory();
 
-            if (memberInfo.IsNotNull()) {
-                members.Add(memberInfo);
-                return true;
+            if (memberInfo.IsNull()) {
+                return false;
             }
 
-            return false;
+            members.Add(memberInfo);
+            return true;
         }
 
         public TMember Target {

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
+﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Engine;
 using NCop.Core;
 using NCop.Core.Extensions;
-using NCop.Aspects.Engine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using NCop.Aspects.Aspects;
 
 namespace NCop.Composite.Engine
 {
@@ -41,23 +41,34 @@ namespace NCop.Composite.Engine
         }
 
         private void MapProperties(IAspectsMap aspectsMap, IEnumerable<IAspectPropertyMap> aspectMappedProperties) {
-            var mappedPropertiesEnumerable = from mapped in aspectMappedProperties
-                                             from aspectMap in aspectsMap.Where(map => {
-                                                 if (map.Member.MemberType == MemberTypes.Method) {
-                                                     var method = map.Member as MethodInfo;
+            var mappedGetProperties = MapProperties(aspectsMap, aspectMappedProperties, mapped => mapped.AspectGetProperty, (contractType, implementationType, contractMember, implementationMember, aspectMap) => {
+                return new GetCompositePropertyMap(contractType, implementationType, contractMember, implementationMember, aspectMap);
+            });
 
-                                                     return method.IsMatchedTo(mapped.AspectGetProperty) || method.IsMatchedTo(mapped.AspectSetProperty);
-                                                 }
+            var mappedSetProperties = MapProperties(aspectsMap, aspectMappedProperties, mapped => mapped.AspectSetProperty, (contractType, implementationType, contractMember, implementationMember, aspectMap) => {
+                return new SetCompositePropertyMap(contractType, implementationType, contractMember, implementationMember, aspectMap);
+            });
 
-                                                 return true;
-                                             }).DefaultIfEmpty()
-                                             select new CompositePropertyMap(mapped.ContractType,
-                                                                             mapped.ImplementationType,
-                                                                             mapped.ContractMember,
-                                                                             mapped.ImplementationMember,
-                                                                             aspectMap.Aspects);
+            mappedProperties = mappedSetProperties.Concat(mappedGetProperties)
+                                                  .ToListOf<ICompositePropertyMap>();
+        }
 
-            mappedProperties = mappedPropertiesEnumerable.ToListOf<ICompositePropertyMap>();
+        private IEnumerable<ICompositePropertyMap> MapProperties(IAspectsMap aspectsMap, IEnumerable<IAspectPropertyMap> aspectMappedProperties, Func<IAspectPropertyMap, MethodInfo> propertyFactory, Func<Type, Type, PropertyInfo, PropertyInfo, IAspectDefinitionCollection, ICompositePropertyMap> compositePropertyMapFactory) {
+            return from mapped in aspectMappedProperties
+                   from aspectMap in aspectsMap.Where(map => {
+                       if (map.Member.MemberType == MemberTypes.Method) {
+                           var method = map.Member as MethodInfo;
+
+                           return method.IsMatchedTo(propertyFactory(mapped));
+                       }
+
+                       return false;
+                   }).DefaultIfEmpty()
+                   select compositePropertyMapFactory(mapped.ContractType,
+                                                      mapped.ImplementationType,
+                                                      mapped.ContractMember,
+                                                      mapped.ImplementationMember,
+                                                      aspectMap.Aspects);
         }
 
         public IEnumerable<ICompositeMethodMap> Methods {

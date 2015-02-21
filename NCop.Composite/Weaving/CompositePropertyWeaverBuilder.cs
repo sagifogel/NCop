@@ -1,18 +1,12 @@
-﻿using NCop.Aspects.Aspects;
-using NCop.Aspects.Weaving;
+﻿using NCop.Aspects.Weaving;
 using NCop.Composite.Engine;
 using NCop.Weaving;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace NCop.Composite.Weaving
 {
-    public class CompositePropertyWeaverBuilder : AbstractWeaverBuilder<PropertyInfo>, IPropertyWeaverBuilder
+    internal class CompositePropertyWeaverBuilder : AbstractWeaverBuilder<PropertyInfo>, IPropertyWeaverBuilder
     {
-        private readonly PropertyInfo memberInfoContract = null;
         private readonly ICompositePropertyMap compositePropertyMap = null;
         private readonly IAspectWeavingServices aspectWeavingServices = null;
 
@@ -20,7 +14,6 @@ namespace NCop.Composite.Weaving
             : base(compositePropertyMap.ContractType, typeDefinition) {
             this.compositePropertyMap = compositePropertyMap;
             this.aspectWeavingServices = aspectWeavingServices;
-            memberInfoContract = compositePropertyMap.ContractMember;
         }
 
         public IPropertyWeaver Build() {

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace NCop.Composite.Engine
 {
-    public interface ICompositeMemberCollection : IReadOnlyCollection<IAspectMembers<MemberInfo>>, ICompositePropertyMapCollection, ICompositeMethodMapCollection
+    internal interface ICompositeMemberCollection : IReadOnlyCollection<IAspectMembers<MemberInfo>>, ICompositePropertyMapCollection, ICompositeMethodMapCollection
     {
     }
 }

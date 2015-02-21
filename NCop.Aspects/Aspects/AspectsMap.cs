@@ -9,12 +9,12 @@ namespace NCop.Aspects.Aspects
 {
 	public class AspectsMap : IAspectsMap
 	{
-		private List<AspectMap> map = null;
-		private AspectAttributesMemberMatcher matcher = null;
+		private readonly List<AspectMap> map = null;
 
 		public AspectsMap(Type compositeType, IAspectMemebrsCollection aspectMembers) {
-			matcher = new AspectAttributesMemberMatcher(compositeType, aspectMembers);
-			map = new List<AspectMap>(matcher.Select(tuple => new AspectMap(tuple.Item1, tuple.Item2)));
+			var matcher = new AspectAttributesMemberMatcher(compositeType, aspectMembers);
+			
+            map = new List<AspectMap>(matcher.Select(tuple => new AspectMap(tuple.Item1, tuple.Item2)));
 			EnsureValidAspects(map);
 		}
 

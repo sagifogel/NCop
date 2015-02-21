@@ -199,6 +199,8 @@
     <Compile Include="Weaving\AspectPropertyWeaver.cs" />
     <Compile Include="Weaving\BindingSetPropertyAspectDecoratorWeaver.cs" />
     <Compile Include="Weaving\BindingGetPropertyAspectDecoratorWeaver.cs" />
+    <Compile Include="Weaving\SetPropertyBindingTypeReflectorBuilder.cs" />
+    <Compile Include="Weaving\GetPropertyBindingTypeReflectorBuilder.cs" />
     <Compile Include="Weaving\FullPropertyBindingTypeReflectorBuilder.cs" />
     <Compile Include="Weaving\Expressions\AbstractPartialAspectPropertyExpression.cs" />
     <Compile Include="Weaving\Expressions\AbstractAspectPropertyExpression.cs" />
@@ -471,7 +473,6 @@
     <Compile Include="Framework\PerThreadAspectAttribute.cs" />
     <Compile Include="Framework\SingletonAspectAttribute.cs" />
     <Compile Include="Framework\TransientAspectAttribute.cs" />
-    <Compile Include="Engine\IAcceptsVisitor.cs" />
     <Compile Include="Engine\IAcceptsVisitor`1.cs" />
     <Compile Include="Aspects\IAspectCollection.cs" />
     <Compile Include="Advices\IAdvice.cs" />
