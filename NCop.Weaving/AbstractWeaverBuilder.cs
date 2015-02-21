@@ -7,7 +7,7 @@ using System.Text;
 
 namespace NCop.Weaving
 {
-    public abstract class AbstractWeaverBuilder<TMember> where TMember : MemberInfo
+    public abstract class AbstractWeaverBuilder
     {
         protected readonly Type contractType = null;
         protected readonly ITypeDefinition typeDefinition = null;

@@ -1,4 +1,5 @@
-﻿using NCop.Weaving;
+﻿using NCop.Composite.Weaving;
+using NCop.Weaving;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,16 @@ namespace NCop.Composite.Engine
 {
     internal class CompositePropertyMapVisitor : ICompositePropertyMapVisitor
     {
-        public IPropertyWeaverBuilder Visit(GetCompositePropertyMap propertyMap) {
-            throw new NotImplementedException();
+        public ICompositeMethodWeaverBuilderFactory Visit(GetCompositePropertyMap propertyMap) {
+            return new CompositeMethodWeaverBuilderFactoryImpl((typeDefinition, weavingServices) => {
+                return new CompositeGetPropertyWeaverBuilder(propertyMap, typeDefinition, weavingServices);
+            });
         }
 
-        public IPropertyWeaverBuilder Visit(SetCompositePropertyMap propertyMap) {
-            throw new NotImplementedException();
+        public ICompositeMethodWeaverBuilderFactory Visit(SetCompositePropertyMap propertyMap) {
+            return new CompositeMethodWeaverBuilderFactoryImpl((typeDefinition, weavingServices) => {
+                return new CompositeSetPropertyWeaverBuilder(propertyMap, typeDefinition, weavingServices);
+            });
         }
     }
 }

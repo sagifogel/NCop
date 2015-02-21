@@ -11,12 +11,12 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class TopGetPropertyInterceptionAspectWeaver : AbstractMethodInterceptionAspectWeaver
+    internal class TopGetPropertyInterceptionAspectWeaver : AbstractInterceptionAspectWeaver
     {
         protected readonly IArgumentsWeaver argumentsWeaver = null;
 
         internal TopGetPropertyInterceptionAspectWeaver(IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
-            : base(null, aspectWeavingSettings, weavedType) {
+            : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             var method = aspectDefinition.Property.GetSetMethod();
 
             argumentsWeavingSettings.BindingsDependency = weavedType;
@@ -37,14 +37,8 @@ namespace NCop.Aspects.Weaving
         }
 
         public override void Weave(ILGenerator ilGenerator) {
-            LocalBuilder argsLocalBuilder = null;
-            var aspectArgsType = aspectMethodDefinition.Method.ToPropertyAspectArgument();
-
             argumentsWeaver.Weave(ilGenerator);
             weaver.Weave(ilGenerator);
-            argsLocalBuilder = localBuilderRepository.Get(argumentsWeavingSettings.ArgumentType);
-            ilGenerator.EmitLoadLocal(argsLocalBuilder);
-            ilGenerator.Emit(OpCodes.Callvirt, aspectArgsType.GetProperty("Value").GetGetMethod());
         }
     }
 }

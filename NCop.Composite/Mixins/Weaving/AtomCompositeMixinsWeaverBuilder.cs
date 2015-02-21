@@ -1,15 +1,9 @@
 ﻿using NCop.Composite.Weaving;
 using NCop.Core;
 using NCop.IoC;
-using NCop.Mixins.Engine;
-using NCop.Mixins.Weaving;
 using NCop.Weaving;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace NCop.Composite.Mixins.Weaving
 {

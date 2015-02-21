@@ -1,15 +1,11 @@
 ﻿using NCop.Aspects.Weaving;
 using NCop.Composite.Engine;
 using NCop.Weaving;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace NCop.Composite.Weaving
 {
-    public class CompositeMethodWeaverBuilder : AbstractWeaverBuilder<MethodInfo>, IMethodWeaverBuilder
+    public class CompositeMethodWeaverBuilder : AbstractWeaverBuilder, IMethodWeaverBuilder
     {
         private readonly ICompositeMethodMap compositeMethodMap = null;
         private readonly IAspectWeavingServices aspectWeavingServices = null;

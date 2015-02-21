@@ -118,7 +118,7 @@ namespace NCop.Aspects.Engine
             var target = propertyMap.ContractMember;
             var setMethodTarget = propertyMap.ContractMember.GetSetMethod();
             var getMethodTarget = propertyMap.ContractMember.GetGetMethod();
-            var aspectDefinition = new PropertyInterceptionAspectsDefinition(aspectAttribute.AspectType, target);
+            var aspectDefinition = new PropertyInterceptionAspectsDefinition(aspectAttribute, aspectAttribute.AspectType, target);
             var bindingTypeReflectorBuilder = new FullPropertyBindingTypeReflectorBuilder(aspectDefinition);
 
             var getPropertyAspect = new GetPropertyFragmentInterceptionAspect {
@@ -141,7 +141,7 @@ namespace NCop.Aspects.Engine
             var target = propertyMap.ContractMember;
             var setMethodTarget = propertyMap.ContractMember.GetSetMethod();
             var getMethodTarget = propertyMap.ContractMember.GetGetMethod();
-            var aspectDefinition = new PropertyInterceptionAspectsDefinition(aspectAttribute.AspectType, target);
+            var aspectDefinition = new PropertyInterceptionAspectsDefinition(aspectAttribute, aspectAttribute.AspectType, target);
             var bindingTypeReflectorBuilder = expressionBuilderFactory(aspectDefinition);
 
             var getPropertyAspect = new GetPropertyFragmentInterceptionAspect {

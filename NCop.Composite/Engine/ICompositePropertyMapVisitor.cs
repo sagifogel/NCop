@@ -4,7 +4,7 @@ namespace NCop.Composite.Engine
 {
     public interface ICompositePropertyMapVisitor
     {
-        IPropertyWeaverBuilder Visit(GetCompositePropertyMap propertyMap);
-        IPropertyWeaverBuilder Visit(SetCompositePropertyMap propertyMap);
+        ICompositeMethodWeaverBuilderFactory Visit(GetCompositePropertyMap propertyMap);
+        ICompositeMethodWeaverBuilderFactory Visit(SetCompositePropertyMap propertyMap);
     }
 }

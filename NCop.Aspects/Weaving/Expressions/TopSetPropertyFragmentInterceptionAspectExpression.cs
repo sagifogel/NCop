@@ -1,4 +1,5 @@
 ﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
@@ -13,8 +14,11 @@ namespace NCop.Aspects.Weaving.Expressions
 
         public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
             var bindingWeaver = propertyBuilder.Build(aspectWeavingSettings);
+            var clonedSettings = aspectWeavingSettings.CloneWith(settings => {
+                settings.LocalBuilderRepository = new LocalBuilderRepository();
+            });
 
-            return new TopSetPropertyInterceptionAspectWeaver(aspectDefinition, aspectWeavingSettings, bindingWeaver.WeavedType);
+            return new TopSetPropertyInterceptionAspectWeaver(aspectDefinition, clonedSettings, bindingWeaver.WeavedType);
         }
     }
 }

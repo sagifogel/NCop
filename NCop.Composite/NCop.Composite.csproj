@@ -90,9 +90,11 @@
     <Compile Include="Engine\CompositeAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Engine\CompositeMethodWeaverBuilderFactoryImpl.cs" />
     <Compile Include="Engine\CompositePropertyMapVisitor.cs" />
     <Compile Include="Engine\CompositeRegistryDecorator.cs" />
     <Compile Include="Engine\IAcceptsCompositePropertyMapVisitor.cs" />
+    <Compile Include="Engine\ICompositeMethodWeaverBuilderFactory.cs" />
     <Compile Include="Engine\ICompositePropertyMap.cs" />
     <Compile Include="Engine\ICompositePropertyMapVisitor.cs" />
     <Compile Include="Engine\ICompositeSetPropertyMap.cs" />
@@ -132,11 +134,13 @@
     </Compile>
     <Compile Include="Runtime\CompositeRuntimeSettings.cs" />
     <Compile Include="Weaving\AtomMixinsWeaverStartegy.cs" />
+    <Compile Include="Weaving\CompositeSetPropertyWeaver.cs" />
+    <Compile Include="Weaving\CompositeGetPropertyWeaver.cs" />
     <Compile Include="Weaving\CompositeMethodWeaver.cs" />
     <Compile Include="Weaving\CompositeMethodWeaverBuilder.cs" />
-    <Compile Include="Weaving\CompositePropertyWeaver.cs" />
+    <Compile Include="Weaving\CompositeGetPropertyWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeTypeWeaverBuilder.cs" />
-    <Compile Include="Weaving\CompositePropertyWeaverBuilder.cs" />
+    <Compile Include="Weaving\CompositeSetPropertyWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeWeavinsSettings.cs" />
     <Compile Include="Mixins\Weaving\ICompositeMixinsTypeWeaverBuilder.cs" />
     <Compile Include="Weaving\ICompositeWeavingSettings.cs" />

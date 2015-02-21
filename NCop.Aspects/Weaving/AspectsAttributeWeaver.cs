@@ -1,7 +1,4 @@
-﻿using NCop.Aspects.Aspects;
-using NCop.Aspects.Engine;
-using NCop.Aspects.Exceptions;
-using NCop.Aspects.Framework;
+﻿using NCop.Aspects.Exceptions;
 using NCop.Aspects.Properties;
 using NCop.Core.Extensions;
 using NCop.Weaving;

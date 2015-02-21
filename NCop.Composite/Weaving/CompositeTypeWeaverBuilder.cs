@@ -40,12 +40,15 @@ namespace NCop.Composite.Weaving
                 builder.Add(methodBuilder);
             });
 
-            compositeMappedMembers.Properties.ForEach(compositePropertyMap => {
-                //if ()
-                var propertyBuilder = new CompositePropertyWeaverBuilder(compositePropertyMap, typeDefinition, weavingServices);
+            if (compositeMappedMembers.Properties.IsNotNullOrEmpty()) {
+                var propertyMapVisitor = new CompositePropertyMapVisitor();
 
-                builder.Add(propertyBuilder);
-            });
+                compositeMappedMembers.Properties.ForEach(compositePropertyMap => {
+                    var propertyBuilderFactory = compositePropertyMap.Accept(propertyMapVisitor);
+
+                    builder.Add(propertyBuilderFactory.Get(typeDefinition, weavingServices));
+                });
+            }
         }
 
         public ITypeWeaver Build() {

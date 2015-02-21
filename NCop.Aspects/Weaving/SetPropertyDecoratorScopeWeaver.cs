@@ -10,7 +10,6 @@ namespace NCop.Aspects.Weaving
 {
     internal class SetPropertyDecoratorScopeWeaver : AbstractMethodScopeWeaver
     {
-        private readonly MethodInfo methodInfoImpl = null;
         private readonly IArgumentsWeaver argumentsWeaver = null;
 
         internal SetPropertyDecoratorScopeWeaver(MethodInfo methodInfo, IAspectWeavingSettings aspectWeavingSettings)
@@ -21,7 +20,7 @@ namespace NCop.Aspects.Weaving
         public override void Weave(ILGenerator ilGenerator) {
             argumentsWeaver.Weave(ilGenerator);
             ilGenerator.EmitLoadArg(3);
-            ilGenerator.Emit(OpCodes.Callvirt, methodInfoImpl);
+            ilGenerator.Emit(OpCodes.Callvirt, MethodInfo);
         }
     }
 }

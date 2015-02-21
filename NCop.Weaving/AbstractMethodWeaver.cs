@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
 
 namespace NCop.Weaving
 {
     public abstract class AbstractMethodWeaver : IMethodWeaver, IWeavingSettings
     {
-        private readonly MethodInfo methodInfo = null;
+        protected readonly MethodInfo methodInfo = null;
         private readonly IWeavingSettings weavingSettings = null;
 
         protected AbstractMethodWeaver(MethodInfo methodInfo, IWeavingSettings weavingSettings) {

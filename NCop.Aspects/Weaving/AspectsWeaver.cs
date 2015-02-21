@@ -6,7 +6,6 @@ namespace NCop.Aspects.Weaving
 {
     internal class AspectsWeaver : IAspectWeaver
     {
-        private IAspectWeaver weaver = null;
         private readonly IAspectExpression aspectExpression = null;
         private readonly IAspectWeavingSettings aspectWeavingSettings = null;
 

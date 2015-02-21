@@ -12,7 +12,7 @@ namespace NCop.Weaving
         private readonly IWeavingSettings weavingSettings = null;
 
         protected AbstractMethodScopeWeaver(MethodInfo methodInfo, IWeavingSettings weavingSettings) {
-            this.MethodInfo = methodInfo;
+            MethodInfo = methodInfo;
             this.weavingSettings = weavingSettings;
         }
 

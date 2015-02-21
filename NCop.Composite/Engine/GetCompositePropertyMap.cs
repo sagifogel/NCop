@@ -11,7 +11,7 @@ namespace NCop.Composite.Engine
             : base(contractType, implementationType, contractProperty, implementationProperty, aspectDefinitions) {
         }
 
-        public override IPropertyWeaverBuilder Accept(ICompositePropertyMapVisitor visitor) {
+        public override ICompositeMethodWeaverBuilderFactory Accept(ICompositePropertyMapVisitor visitor) {
             return visitor.Visit(this);
         }
     }
