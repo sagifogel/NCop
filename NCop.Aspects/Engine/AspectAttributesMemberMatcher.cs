@@ -12,7 +12,7 @@ using NCop.Aspects.Weaving.Expressions;
 
 namespace NCop.Aspects.Engine
 {
-    public class AspectAttributesMemberMatcher : Tuples<MemberInfo, IAspectDefinitionCollection>
+    public class AspectAttributesMemberMatcher : Tuples<MethodInfo, IAspectDefinitionCollection>
     {
         private readonly ConcurrentDictionary<MethodInfo, IAspectDefinitionCollection> registry = null;
 
@@ -20,7 +20,7 @@ namespace NCop.Aspects.Engine
             registry = new ConcurrentDictionary<MethodInfo, IAspectDefinitionCollection>();
             CollectMethodsAspectDefinitions(aspectDeclaringType, aspectMembersCollection);
             CollectPropertiesAspectDefinitions(aspectDeclaringType, aspectMembersCollection);
-            Values = registry.Select(keyValue => Tuple.Create(keyValue.Key as MemberInfo, keyValue.Value));
+            Values = registry.Select(keyValue => Tuple.Create(keyValue.Key, keyValue.Value));
         }
 
         private void CollectMethodsAspectDefinitions(Type aspectDeclaringType, IAspectMethodMapCollection aspectMembersCollection) {
@@ -45,9 +45,9 @@ namespace NCop.Aspects.Engine
             CollectFullPropertyAspectDefinitions(aspectDeclaringType, aspectMembersCollection.Properties);
         }
 
-        private IEnumerable<IAspectDefinition> CollectMethodsAspectDefinitions(MethodInfo member, Type aspectDeclaringType, MethodInfo target) {
-            var onMethodBoundaryAspects = member.GetCustomAttributes<OnMethodBoundaryAspectAttribute>();
-            var methodInterceptionAspects = member.GetCustomAttributes<MethodInterceptionAspectAttribute>();
+        private IEnumerable<IAspectDefinition> CollectMethodsAspectDefinitions(MethodInfo method, Type aspectDeclaringType, MethodInfo target) {
+            var onMethodBoundaryAspects = method.GetCustomAttributes<OnMethodBoundaryAspectAttribute>();
+            var methodInterceptionAspects = method.GetCustomAttributes<MethodInterceptionAspectAttribute>();
 
             var onMethodBoundaryAspectDefinitions = onMethodBoundaryAspects.Select(aspect => {
                 return new OnMethodBoundaryAspectDefinition(aspect, aspectDeclaringType, target);

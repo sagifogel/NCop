@@ -7,7 +7,7 @@ namespace NCop.IoC
 {
     public class ServiceKey : IEquatable<ServiceKey>
     {
-        private int hash = 0;
+        private readonly int hash = 0;
 
         public ServiceKey(Type serviceType, Type factoryType, string name = null) {
             FactoryType = factoryType;
@@ -17,7 +17,7 @@ namespace NCop.IoC
 
             if (Name != null) {
                 hash ^= Name.GetHashCode();
-            };
+            }
         }
 
         internal string Name { get; private set; }
@@ -39,7 +39,7 @@ namespace NCop.IoC
         }
 
         public static bool Equals(ServiceKey obj1, ServiceKey obj2) {
-            if (ReferenceEquals(null, obj1) || ReferenceEquals(null, obj2) || !obj1.GetType().Equals(obj2.GetType())) {
+            if (ReferenceEquals(null, obj1) || ReferenceEquals(null, obj2) || !ReferenceEquals(obj1.GetType(), obj2.GetType())) {
                 return false;
             }
 
@@ -47,7 +47,7 @@ namespace NCop.IoC
                 return true;
             }
 
-            return obj1.ServiceType.Equals(obj2.ServiceType) && obj1.FactoryType.Equals(obj2.FactoryType) && obj1.Name == obj2.Name;
+            return ReferenceEquals(obj1.ServiceType, obj2.ServiceType) && ReferenceEquals(obj1.FactoryType, obj2.FactoryType) && obj1.Name == obj2.Name;
         }
     }
 }

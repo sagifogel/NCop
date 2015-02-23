@@ -23,14 +23,8 @@ namespace NCop.Composite.Engine
         private void MapMethods(IAspectsMap aspectsMap, IEnumerable<IAspectMethodMap> aspetMappedMethods) {
             var mappedMethodsEnumerable = from mapped in aspetMappedMethods
                                           from aspectMap in aspectsMap.Where(map => {
-                                              if (map.Member.MemberType == MemberTypes.Method) {
-                                                  var method = map.Member as MethodInfo;
-
-                                                  return method.IsMatchedTo(mapped.ImplementationMember);
-                                              }
-
-                                              return false;
-                                          }).DefaultIfEmpty()
+                                              return map.Method.IsMatchedTo(mapped.ImplementationMember);
+                                          }).DefaultIfEmpty(AspectMap.Empty)
                                           select new CompositeMethodMap(mapped.ContractType,
                                                                         mapped.ImplementationType,
                                                                         mapped.ContractMember,
@@ -56,14 +50,8 @@ namespace NCop.Composite.Engine
         private IEnumerable<ICompositePropertyMap> MapProperties(IAspectsMap aspectsMap, IEnumerable<IAspectPropertyMap> aspectMappedProperties, Func<IAspectPropertyMap, MethodInfo> propertyFactory, Func<Type, Type, PropertyInfo, PropertyInfo, IAspectDefinitionCollection, ICompositePropertyMap> compositePropertyMapFactory) {
             return from mapped in aspectMappedProperties
                    from aspectMap in aspectsMap.Where(map => {
-                       if (map.Member.MemberType == MemberTypes.Method) {
-                           var method = map.Member as MethodInfo;
-
-                           return method.IsMatchedTo(propertyFactory(mapped));
-                       }
-
-                       return false;
-                   }).DefaultIfEmpty()
+                       return map.Method.IsMatchedTo(propertyFactory(mapped));
+                   }).DefaultIfEmpty(AspectMap.Empty)
                    select compositePropertyMapFactory(mapped.ContractType,
                                                       mapped.ImplementationType,
                                                       mapped.ContractMember,

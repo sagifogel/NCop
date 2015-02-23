@@ -21,7 +21,7 @@ namespace NCop.Aspects.Aspects
 		private static void EnsureValidAspects(IEnumerable<AspectMap> aspectsMap) {
 			aspectsMap.ForEach(aspectMap => {
 				aspectMap.Aspects.ForEach(aspectDefinition => {
-					AspectValidator.ValidateAspect(aspectDefinition.Aspect, aspectMap.Member);
+					AspectValidator.ValidateAspect(aspectDefinition.Aspect, aspectMap.Method);
 				});
 			});
 		}

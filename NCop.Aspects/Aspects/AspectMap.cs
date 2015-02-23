@@ -2,14 +2,19 @@
 
 namespace NCop.Aspects.Aspects
 {
-	public class AspectMap
-	{
-        public AspectMap(MemberInfo member, IAspectDefinitionCollection aspects) {
-			Member = member;
-			Aspects = aspects;
-		}
+    public class AspectMap
+    {
+        public static AspectMap Empty = new AspectMap();
 
-		public MemberInfo Member { get; private set; }
-		public IAspectDefinitionCollection Aspects { get; private set; }
-	}
+        private AspectMap() {
+        }
+
+        public AspectMap(MethodInfo method, IAspectDefinitionCollection aspects) {
+            Method = method;
+            Aspects = aspects;
+        }
+
+        public MethodInfo Method { get; private set; }
+        public IAspectDefinitionCollection Aspects { get; private set; }
+    }
 }

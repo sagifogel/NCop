@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using NCop.Core.Extensions;
+using System;
 using System.Reflection;
-using System.Text;
-using NCop.Core.Extensions;
 
 namespace NCop.Core
 {
@@ -35,7 +32,7 @@ namespace NCop.Core
             var firstParameterType = firstParameter.ParameterType;
             var secondParameterType = secondParameter.ParameterType;
 
-            return firstParameterType.Equals(secondParameterType) || TypeComparer.Compare(firstParameterType, secondParameterType);
+            return ReferenceEquals(firstParameterType, secondParameterType) || TypeComparer.Compare(firstParameterType, secondParameterType);
         }
     }
 }

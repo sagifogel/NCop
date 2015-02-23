@@ -1,7 +1,9 @@
-﻿using NCop.Aspects.Engine;
+﻿using System.Collections.Generic;
+using NCop.Aspects.Engine;
 using NCop.Aspects.Framework;
 using NCop.Aspects.Weaving;
 using NCop.Composite.Framework;
+using NCop.IoC;
 using NCop.Mixins.Framework;
 using System;
 using System.Diagnostics;
@@ -156,7 +158,7 @@ namespace NCop.Samples
 
         //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         public string Code {
-            [SetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+            [MethodInterceptionAspect(typeof(StopWatchAspect))]
             set { code = value; }
             get { return code; }
         }
@@ -184,7 +186,7 @@ namespace NCop.Samples
         }
 
         public override string GetValue(ref IDeveloper instance, IPropertyArg<string> arg) {
-             return instance.Code;
+            return instance.Code;
         }
     }
 
@@ -227,21 +229,19 @@ namespace NCop.Samples
             args.ProceedGetValue();
         }
 
-        public override void OnSetValue(PropertyInterceptionArgs<string> args)
-        {
+        public override void OnSetValue(PropertyInterceptionArgs<string> args) {
             args.ProceedSetValue();
         }
     }
 
-    public class StopWatchAspect : ActionInterceptionAspect
+    public class StopWatchAspect : FunctionInterceptionAspect<string>
     {
         private readonly Stopwatch stopWatch = null;
 
         public StopWatchAspect() {
             stopWatch = new Stopwatch();
         }
-
-        public override void OnInvoke(ActionInterceptionArgs args) {
+        public override void OnInvoke(FunctionInterceptionArgs<string> args) {
             stopWatch.Restart();
             base.OnInvoke(args);
             stopWatch.Stop();
