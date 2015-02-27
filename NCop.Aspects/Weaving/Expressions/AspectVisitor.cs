@@ -103,14 +103,6 @@ namespace NCop.Aspects.Weaving.Expressions
             };
         }
 
-        public IAspectExpressionBuilder VisitLast(IPropertyAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentsWeavingSettings) {
-            var expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>(ex => {
-                return new BindingGetPropertyAspectDecoratorExpression(aspectDefinition);
-            });
-
-            return new AspectNodeExpressionBuilder(expressionFactory);
-        }
-
         public IAspectExpressionBuilder VisitLast(IAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentsWeavingSettings) {
             Func<IAspectExpression, IAspectExpression> expressionFactory = null;
             var methodAspectDefinition = aspectDefinition as IMethodAspectDefinition;
@@ -207,20 +199,33 @@ namespace NCop.Aspects.Weaving.Expressions
 
         public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(SetPropertyFragmentInterceptionAspect aspect) {
             return aspectDefinition => {
+                Func<IAspectExpression, IAspectExpression> ctor = null;
                 var propertyAspectDefinition = (IFullPropertyAspectDefinition)aspectDefinition;
-                var ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
-                    var propertyBuilder = propertyAspectDefinition.PropertyBuilder;
 
-                    propertyBuilder.SetSetExpression(expression);
+                if (lastAspect.Top) {
+                    ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
+                        var propertyBuilder = propertyAspectDefinition.PropertyBuilder;
 
-                    return new TopSetPropertyFragmentInterceptionAspectExpression(expression, propertyAspectDefinition, propertyBuilder);
-                });
+                        propertyBuilder.SetSetExpression(expression);
 
-                lastAspect = new Aspect {
-                    IsInBinding = true,
-                    IsTopBinding = true
-                };
+                        return new TopSetPropertyFragmentInterceptionAspectExpression(expression, propertyAspectDefinition, propertyBuilder);
+                    });
 
+                    lastAspect = new Aspect();
+                }
+                else {
+                    if (lastAspect.IsInBinding) {
+                        ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
+                            var propertyBuilder = propertyAspectDefinition.PropertyBuilder;
+
+                            propertyBuilder.SetSetExpression(expression);
+
+                            return new BindingSetPropertyFragmentInterceptionAspectExpression(expression, propertyAspectDefinition, propertyBuilder);
+                        });
+                    }
+                }
+
+                lastAspect.IsInBinding = true;
                 topAspectInScopeDefinition = aspectDefinition;
 
                 return new AspectNodeExpressionBuilder(ctor);

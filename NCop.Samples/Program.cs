@@ -157,8 +157,8 @@ namespace NCop.Samples
         private string code = "C#";
 
         //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         public string Code {
-            [MethodInterceptionAspect(typeof(StopWatchAspect))]
             set { code = value; }
             get { return code; }
         }
@@ -166,19 +166,19 @@ namespace NCop.Samples
         //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
 
 
-        [MethodInterceptionAspect(typeof(StopWatchAspect))]
+        //[MethodInterceptionAspect(typeof(StopWatchAspect))]
         //[MethodInterceptionAspect(typeof(StopWatchAspect))]
         public void Do() {
             Console.WriteLine("Sagi");
         }
     }
 
-    public class PropertyBinding : AbstractPropertyBinding<IDeveloper, string>
+    public class PropertyBinding0 : AbstractPropertyBinding<IDeveloper, string>
     {
-        public static PropertyBinding singleton = null;
+        public static PropertyBinding0 singleton = null;
 
-        static PropertyBinding() {
-            singleton = new PropertyBinding();
+        static PropertyBinding0() {
+            singleton = new PropertyBinding0();
         }
 
         public override void SetValue(ref IDeveloper instance, IPropertyArg<string> arg, string value) {
@@ -187,6 +187,40 @@ namespace NCop.Samples
 
         public override string GetValue(ref IDeveloper instance, IPropertyArg<string> arg) {
             return instance.Code;
+        }
+    }
+
+    public class PropertyBinding1 : AbstractPropertyBinding<IDeveloper, string>
+    {
+        public static PropertyBinding1 singleton = null;
+
+        static PropertyBinding1() {
+            singleton = new PropertyBinding1();
+        }
+
+        public override void SetValue(ref IDeveloper instance, IPropertyArg<string> arg, string value) {
+            var aspectArgs = new SetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, arg.Method, PropertyBinding0.singleton, value);
+
+            try {
+                Aspects.stopWatchAspect.OnSetValue(aspectArgs);
+            }
+            finally {
+                Console.WriteLine("Exc");
+                arg.Value = aspectArgs.Value;
+            }
+        }
+
+        public override string GetValue(ref IDeveloper instance, IPropertyArg<string> arg) {
+            var aspectArgs = new GetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, arg.Method, PropertyBinding0.singleton);
+
+            try {
+                Aspects.stopWatchAspect.OnGetValue(aspectArgs);
+            }
+            finally {
+                arg.Value = aspectArgs.Value;
+            }
+
+            return arg.Value;
         }
     }
 
@@ -201,14 +235,14 @@ namespace NCop.Samples
         public string Code {
             get {
                 var codeMethod = instance.GetType().GetProperty("Code", typeof(string)).GetGetMethod();
-                var interArgs = new GetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding.singleton);
+                var interArgs = new GetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding1.singleton);
                 Aspects.stopWatchAspect.OnGetValue(interArgs);
 
                 return interArgs.Value;
             }
             set {
                 var codeMethod = instance.GetType().GetProperty("Code", typeof(string)).GetSetMethod();
-                var interArgs = new SetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding.singleton, value);
+                var interArgs = new SetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding1.singleton, value);
                 Aspects.stopWatchAspect.OnSetValue(interArgs);
             }
         }

@@ -197,8 +197,11 @@
     <Compile Include="Weaving\AspectArgsMethodWeaver.cs" />
     <Compile Include="Weaving\AspectArgsSetPropertyWeaver.cs" />
     <Compile Include="Weaving\AspectPropertyWeaver.cs" />
+    <Compile Include="Weaving\BindingSetPropertyInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\BindingSetPropertyAspectDecoratorWeaver.cs" />
     <Compile Include="Weaving\BindingGetPropertyAspectDecoratorWeaver.cs" />
+    <Compile Include="Weaving\Expressions\AbstractPartialFragmentAspectPropertyExpression.cs" />
+    <Compile Include="Weaving\Expressions\BindingSetPropertyFragmentInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\SetPropertyBindingTypeReflectorBuilder.cs" />
     <Compile Include="Weaving\GetPropertyBindingTypeReflectorBuilder.cs" />
     <Compile Include="Weaving\FullPropertyBindingTypeReflectorBuilder.cs" />
