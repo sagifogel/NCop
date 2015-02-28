@@ -1,6 +1,6 @@
 ﻿using NCop.Aspects.Aspects;
 using NCop.Aspects.Extensions;
-using NCop.Composite.Weaving;
+using NCop.Weaving;
 using System;
 using System.Reflection;
 using System.Reflection.Emit;

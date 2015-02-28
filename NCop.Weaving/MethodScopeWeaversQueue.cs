@@ -1,8 +1,7 @@
-﻿using NCop.Weaving;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection.Emit;
 
-namespace NCop.Composite.Weaving
+namespace NCop.Weaving
 {
     public class MethodScopeWeaversQueue : IMethodScopeWeaver
     {

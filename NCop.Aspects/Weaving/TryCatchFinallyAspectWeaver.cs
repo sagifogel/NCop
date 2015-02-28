@@ -1,5 +1,4 @@
-﻿using NCop.Composite.Weaving;
-using NCop.Core.Extensions;
+﻿using NCop.Core.Extensions;
 using NCop.Weaving;
 using System.Collections.Generic;
 using System.Reflection.Emit;

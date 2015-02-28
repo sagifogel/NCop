@@ -180,6 +180,7 @@
     <Compile Include="Weaving\AbstractBranchedMethodScopeWeaver.cs" />
     <Compile Include="Weaving\AbstractByRefArgumentsStoreWeaver.cs" />
     <Compile Include="Weaving\AbstractBindingByRefArgumentsWeaver.cs" />
+    <Compile Include="Weaving\AbstractSetPropertyInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\AbstractInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\AbstractAspectWeaver.cs" />
     <Compile Include="Weaving\AbstractPropertyBinding.cs" />
@@ -197,6 +198,7 @@
     <Compile Include="Weaving\AspectArgsMethodWeaver.cs" />
     <Compile Include="Weaving\AspectArgsSetPropertyWeaver.cs" />
     <Compile Include="Weaving\AspectPropertyWeaver.cs" />
+    <Compile Include="Weaving\BindingSetPropertyInterceptionArgumentsWeaver.cs" />
     <Compile Include="Weaving\BindingSetPropertyInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\BindingSetPropertyAspectDecoratorWeaver.cs" />
     <Compile Include="Weaving\BindingGetPropertyAspectDecoratorWeaver.cs" />

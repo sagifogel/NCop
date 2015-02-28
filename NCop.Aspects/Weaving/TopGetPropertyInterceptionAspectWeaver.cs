@@ -1,7 +1,7 @@
 ﻿using NCop.Aspects.Advices;
 using NCop.Aspects.Aspects;
 using NCop.Aspects.Weaving.Expressions;
-using NCop.Composite.Weaving;
+using NCop.Weaving;
 using NCop.Weaving.Extensions;
 using System;
 using System.Linq;

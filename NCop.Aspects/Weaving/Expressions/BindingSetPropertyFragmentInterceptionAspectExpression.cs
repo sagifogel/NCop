@@ -9,7 +9,7 @@ namespace NCop.Aspects.Weaving.Expressions
             : base(aspectExpression, propertyBuilder, aspectDefinition) {
         }
 
-        protected override IAspectWeaver CreateWeaver(IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType) {
+        protected override IAspectWeaver CreateWeaver(IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType) {
             return new BindingSetPropertyInterceptionAspectWeaver(aspectDefinition, aspectWeavingSettings, weavedType);
         }
     }

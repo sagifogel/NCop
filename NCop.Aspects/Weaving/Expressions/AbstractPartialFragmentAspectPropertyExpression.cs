@@ -19,9 +19,9 @@ namespace NCop.Aspects.Weaving.Expressions
                 settings.LocalBuilderRepository = new LocalBuilderRepository();
             });
 
-            return CreateWeaver(aspectDefinition, clonedSettings, bindingWeaver.WeavedType);
+            return CreateWeaver(clonedSettings, bindingWeaver.WeavedType);
         }
 
-        protected abstract IAspectWeaver CreateWeaver(IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType);
+        protected abstract IAspectWeaver CreateWeaver(IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType);
     }
 }
