@@ -1,12 +1,10 @@
-﻿using System;
+﻿using NCop.Core.Extensions;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reflection;
 using CSharpBinder = Microsoft.CSharp.RuntimeBinder;
-using NCop.Core.Extensions;
-using System.Collections;
-using Lib = NCop.Core.Lib;
 
 namespace NCop.Core.Runtime
 {

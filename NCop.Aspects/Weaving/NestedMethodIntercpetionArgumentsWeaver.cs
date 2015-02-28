@@ -1,7 +1,6 @@
 ﻿using NCop.Core.Extensions;
 using NCop.Weaving.Extensions;
 using System;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 

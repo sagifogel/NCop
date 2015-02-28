@@ -1,6 +1,4 @@
-﻿using NCop.Aspects.Extensions;
-using NCop.Core.Extensions;
-using NCop.Weaving.Extensions;
+﻿using NCop.Weaving.Extensions;
 using System.Reflection;
 using System.Reflection.Emit;
 

@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using NCop.Aspects.Framework;
 
 namespace NCop.Aspects.Engine
 {

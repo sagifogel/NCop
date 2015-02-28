@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NCop.Aspects.Framework;
+﻿using NCop.Aspects.Framework;
 using System.Reflection;
 
 namespace NCop.Aspects.Engine

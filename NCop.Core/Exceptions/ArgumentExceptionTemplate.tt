@@ -19,11 +19,12 @@ public class ArgumentExceptionTemplate : NCopExceptionTemplate
 //    the code is regenerated.
 // </auto-generated
 // ------------------------------------------------------------------------------
-using System;
-using System.Runtime.Serialization;
 
 namespace <#= Namespace ?? DefaultNamespace  #>
-{
+{	
+	using System;
+	using System.Runtime.Serialization;
+
 	[Serializable]
 	public class <#=  name #> : ArgumentException
 	{

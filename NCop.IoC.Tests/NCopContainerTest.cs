@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NCop.IoC.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace NCop.IoC.Tests
 {

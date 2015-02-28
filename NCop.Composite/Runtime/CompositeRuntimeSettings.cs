@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using NCop.Core.Extensions;
+﻿using NCop.Core.Extensions;
 using NCop.Core.Runtime;
 using NCop.IoC;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace NCop.Composite.Runtime
 {

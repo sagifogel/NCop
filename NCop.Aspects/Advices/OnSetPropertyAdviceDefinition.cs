@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using NCop.Aspects.Weaving;
+﻿using NCop.Aspects.Weaving;
 using NCop.Aspects.Weaving.Expressions;
+using System.Reflection;
 
 namespace NCop.Aspects.Advices
 {

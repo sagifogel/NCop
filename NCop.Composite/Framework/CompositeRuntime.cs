@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NCop.Aspects.Aspects;
+﻿using NCop.Aspects.Aspects;
 using NCop.Aspects.Engine;
 using NCop.Aspects.Weaving;
 using NCop.Composite.Engine;
@@ -11,6 +8,9 @@ using NCop.Core.Runtime;
 using NCop.IoC;
 using NCop.Mixins.Engine;
 using NCop.Weaving;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NCop.Composite.Framework
 {

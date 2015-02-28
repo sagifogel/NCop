@@ -1,5 +1,4 @@
 ﻿using NCop.Core.Extensions;
-using NCop.Weaving;
 using NCop.Weaving.Extensions;
 using System;
 using System.Reflection;

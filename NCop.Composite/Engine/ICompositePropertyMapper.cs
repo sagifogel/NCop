@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NCop.Core;
+﻿using System.Collections.Generic;
 
 namespace NCop.Composite.Engine
 {

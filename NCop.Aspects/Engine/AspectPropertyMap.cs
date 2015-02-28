@@ -1,7 +1,7 @@
 ﻿using NCop.Core;
+using NCop.Core.Extensions;
 using System;
 using System.Reflection;
-using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Engine
 {

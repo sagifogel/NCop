@@ -1,8 +1,4 @@
-﻿using NCop.Aspects.Extensions;
-using NCop.Core.Extensions;
-using NCop.Weaving.Extensions;
-using System;
-using System.Linq;
+﻿using NCop.Weaving.Extensions;
 using System.Reflection;
 using System.Reflection.Emit;
 

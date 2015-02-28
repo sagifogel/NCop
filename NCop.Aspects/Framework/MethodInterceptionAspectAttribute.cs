@@ -1,5 +1,5 @@
-﻿using System;
-using NCop.Aspects.Aspects;
+﻿using NCop.Aspects.Aspects;
+using System;
 
 namespace NCop.Aspects.Framework
 {

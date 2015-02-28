@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NCop.Core.Extensions;
+using NCop.IoC.Extensions;
+using NCop.IoC.Framework;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using NCop.Core.Extensions;
 using System.Reflection;
-using NCop.IoC.Framework;
-using NCop.IoC.Properties;
-using NCop.IoC.Extensions;
 
 namespace NCop.IoC.Fluent
 {

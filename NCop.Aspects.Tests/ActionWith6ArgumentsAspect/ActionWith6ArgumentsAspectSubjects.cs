@@ -1,12 +1,9 @@
-﻿using NCop.Composite.Framework;
+﻿using NCop.Aspects.Framework;
+using NCop.Composite.Framework;
+using NCop.Core.Extensions;
 using NCop.Mixins.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NCop.Core.Extensions;
-using NCop.Aspects.Framework;
 
 namespace NCop.Aspects.Tests.ActionWith6ArgumentsAspect.Subjects
 {

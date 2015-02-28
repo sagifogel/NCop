@@ -1,6 +1,5 @@
 ﻿using NCop.Aspects.Advices;
 using NCop.Aspects.Engine;
-using NCop.Aspects.Weaving;
 using NCop.Aspects.Weaving.Expressions;
 using NCop.Core.Extensions;
 using System;

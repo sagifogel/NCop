@@ -2,6 +2,7 @@
 using NCop.Core;
 using NCop.Core.Extensions;
 using NCop.IoC;
+using NCop.IoC.Extensions;
 using NCop.IoC.Fluent;
 using NCop.IoC.Framework;
 using System;
@@ -9,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using NCop.IoC.Extensions;
 
 namespace NCop.Composite.IoC
 {

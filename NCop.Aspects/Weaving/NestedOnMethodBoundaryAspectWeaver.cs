@@ -1,8 +1,5 @@
 ﻿using NCop.Aspects.Aspects;
 using System.Reflection.Emit;
-using NCop.Aspects.Extensions;
-using NCop.Weaving.Extensions;
-using System;
 
 namespace NCop.Aspects.Weaving
 {

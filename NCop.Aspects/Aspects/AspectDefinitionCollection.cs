@@ -1,5 +1,4 @@
 ﻿using NCop.Core.Lib;
-using NCop.Core.Extensions;
 using System.Collections.Generic;
 
 namespace NCop.Aspects.Aspects

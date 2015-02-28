@@ -1,7 +1,4 @@
-﻿using NCop.Composite.Weaving;
-using NCop.Core.Extensions;
-using NCop.Weaving;
-using System.Collections.Generic;
+﻿using NCop.Weaving;
 using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving

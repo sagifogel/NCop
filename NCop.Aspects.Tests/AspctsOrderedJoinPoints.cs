@@ -1,10 +1,7 @@
-﻿using System;
+﻿using NCop.Aspects.Tests.Extensions;
+using NCop.Core.Extensions;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using NCop.Aspects.Tests.Extensions;
-using System.Threading.Tasks;
-using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Tests
 {

@@ -1,11 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NCop.Aspects.Tests.ActionWith8ArgumentsAspect.Subjects;
-using NCop.Composite.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NCop.Aspects.Tests
 {

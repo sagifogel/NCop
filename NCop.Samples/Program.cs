@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using NCop.Aspects.Engine;
+﻿using NCop.Aspects.Engine;
 using NCop.Aspects.Framework;
 using NCop.Aspects.Weaving;
 using NCop.Composite.Framework;
-using NCop.IoC;
 using NCop.Mixins.Framework;
 using System;
 using System.Diagnostics;
@@ -205,7 +203,6 @@ namespace NCop.Samples
                 Aspects.stopWatchAspect.OnSetValue(aspectArgs);
             }
             finally {
-                Console.WriteLine("Exc");
                 arg.Value = aspectArgs.Value;
             }
         }
