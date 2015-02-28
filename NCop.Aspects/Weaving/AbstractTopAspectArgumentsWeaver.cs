@@ -5,8 +5,8 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractTopAspectArgumentsWeaver : AbstractArgumentsWeaver, IAspectArgumentsWeaver
     {
-        internal AbstractTopAspectArgumentsWeaver(MethodInfo methodInfo, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
-            : base(methodInfo, argumentWeavingSettings, aspectWeavingSettings) {
+        internal AbstractTopAspectArgumentsWeaver(MethodInfo method, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+            : base(method, argumentWeavingSettings, aspectWeavingSettings) {
         }
 
         public override void Weave(ILGenerator ilGenerator) {

@@ -88,16 +88,29 @@ namespace NCop.Aspects.Extensions
         }
 
         internal static Type ToPropertyAspectArgument(this MethodInfo methodInfoImpl) {
+            var argumentTypes = methodInfoImpl.GetArguments();
+
+            return typeof(PropertyInterceptionArgs<>).MakeGenericType(argumentTypes);
+        }
+
+        internal static Type ToPropertyArgumentContract(this MethodInfo methodInfoImpl) {
+            var argumentTypes = methodInfoImpl.GetArguments();
+
+            return typeof(IPropertyArg<>).MakeGenericType(argumentTypes);
+        }
+
+        private static Type[] GetArguments(this MethodInfo methodInfoImpl)
+        {
             var argumentTypes = new Type[1];
 
-            if (methodInfoImpl.ReturnType.IsNotNull()) {
+            if (methodInfoImpl.ReturnType.IsNotNull() && !ReferenceEquals(methodInfoImpl.ReturnType, typeof(void))) {
                 argumentTypes[0] = methodInfoImpl.ReturnType;
             }
             else {
                 argumentTypes[0] = methodInfoImpl.GetParameters().First().ParameterType;
             }
 
-            return typeof(PropertyInterceptionArgs<>).MakeGenericType(argumentTypes);
+            return argumentTypes;
         }
 
         internal static BindingSettings ToBindingSettings(this IAspectDefinition aspectDefinition) {

@@ -25,7 +25,7 @@ namespace NCop.Aspects.Weaving
             ctorInterceptionArgs = ArgumentType.GetConstructors()[0];
             aspectArgLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
             contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
-            methodWeaver = new AspectArgsSetPropertyWeaver(methodInfo, methodLocalBuilder, propertyWeavingSettings);
+            methodWeaver = new AspectArgsSetPropertyWeaver(method, methodLocalBuilder, propertyWeavingSettings);
             methodWeaver.Weave(ilGenerator);
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);

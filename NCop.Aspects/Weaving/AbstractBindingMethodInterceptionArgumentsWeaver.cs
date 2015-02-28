@@ -18,7 +18,7 @@ namespace NCop.Aspects.Weaving
         public override void Weave(ILGenerator ilGenerator) {
             LocalBuilder argsImplLocalBuilder = null;
             var ctorInterceptionArgs = ArgumentType.GetConstructors()[0];
-            var aspectArgsType = methodInfo.ToAspectArgumentContract();
+            var aspectArgsType = method.ToAspectArgumentContract();
             var methodProperty = aspectArgsType.GetProperty("Method");
 
             argsImplLocalBuilder = LocalBuilderRepository.GetOrDeclare(ArgumentType, () => {

@@ -24,7 +24,7 @@ namespace NCop.Aspects.Weaving
 
             aspectArgLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
             contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
-            methodWeaver = new AspectArgsMethodWeaver(methodInfo, methodLocalBuilder, Parameters, aspectWeavingSettings);
+            methodWeaver = new AspectArgsMethodWeaver(method, methodLocalBuilder, Parameters, aspectWeavingSettings);
             methodWeaver.Weave(ilGenerator);
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);

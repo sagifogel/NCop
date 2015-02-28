@@ -177,20 +177,31 @@ namespace NCop.Aspects.Weaving.Expressions
 
         public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(GetPropertyFragmentInterceptionAspect aspect) {
             return aspectDefinition => {
+                Func<IAspectExpression, IAspectExpression> ctor = null;
                 var propertyAspectDefinition = (IFullPropertyAspectDefinition)aspectDefinition;
-                var ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
-                    var propertyBuilder = propertyAspectDefinition.PropertyBuilder;
 
-                    propertyBuilder.SetGetExpression(expression);
+                if (lastAspect.Top) {
+                    ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
+                        var propertyBuilder = propertyAspectDefinition.PropertyBuilder;
 
-                    return new TopGetPropertyFragmentInterceptionAspectExpression(expression, propertyAspectDefinition, propertyBuilder);
-                });
+                        propertyBuilder.SetGetExpression(expression);
 
-                lastAspect = new Aspect {
-                    IsInBinding = true,
-                    IsTopBinding = true
-                };
+                        return new TopGetPropertyFragmentInterceptionAspectExpression(expression, propertyAspectDefinition, propertyBuilder);
+                    });
+                }
+                else {
+                    if (lastAspect.IsInBinding) {
+                        ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
+                            var propertyBuilder = propertyAspectDefinition.PropertyBuilder;
 
+                            propertyBuilder.SetGetExpression(expression);
+
+                            return new BindingGetPropertyFragmentInterceptionAspectExpression(expression, propertyAspectDefinition, propertyBuilder);
+                        });
+                    }
+                }
+
+                lastAspect.IsInBinding = true;
                 topAspectInScopeDefinition = aspectDefinition;
 
                 return new AspectNodeExpressionBuilder(ctor);

@@ -10,14 +10,14 @@
 //    the code is regenerated.
 // </auto-generated
 // ------------------------------------------------------------------------------
-using System;
-using System.Linq;
-using NCop.Aspects.Engine;
-using NCop.Aspects.Framework;
-using System.Collections.Generic;
 
 namespace NCop.Aspects.Extensions
 {
+    using System;
+    using System.Linq;
+	using NCop.Aspects.Engine;
+    using System.Collections.Generic;
+
 	internal static class AspectArgsContractResolver
 	{
 		private static readonly IDictionary<int, Type> funcArgsMap = null;

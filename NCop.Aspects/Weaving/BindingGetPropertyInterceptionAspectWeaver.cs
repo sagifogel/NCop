@@ -5,17 +5,18 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class BindingSetPropertyInterceptionAspectWeaver : AbstractSetPropertyInterceptionAspectWeaver
+    internal class BindingGetPropertyInterceptionAspectWeaver : AbstractSetPropertyInterceptionAspectWeaver
     {
         protected readonly IArgumentsWeaver argumentsWeaver = null;
 
-        internal BindingSetPropertyInterceptionAspectWeaver(IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal BindingGetPropertyInterceptionAspectWeaver(IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
+            
             var method = aspectDefinition.Property.GetSetMethod();
 
             argumentsWeavingSettings.BindingsDependency = weavedType;
             argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Property.PropertyType };
-            argumentsWeaver = new BindingSetPropertyInterceptionArgumentsWeaver(method, argumentsWeavingSettings, aspectWeavingSettings);
+            argumentsWeaver = new BindingGetPropertyInterceptionArgumentsWeaver(method, argumentsWeavingSettings, aspectWeavingSettings);
             weaver = new TryFinallyAspectWeaver(methodScopeWeavers, null);
         }
 

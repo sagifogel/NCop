@@ -20,7 +20,7 @@ namespace NCop.Aspects.Weaving
         public override void Weave(ILGenerator ilGenerator) {
             var argsLocalBuilder = LocalBuilderRepository.Get(topAspectInScopeArgType);
             var contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
-            var methodImplParameters = methodInfo.GetParameters();
+            var methodImplParameters = method.GetParameters();
 
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);

@@ -19,7 +19,7 @@ namespace NCop.Aspects.Weaving
 
         public override void Weave(ILGenerator ilGenerator) {
             var argsLocalBuilder = LocalBuilderRepository.Get(previousAspectArgType);
-            var methodImplParameters = methodInfo.GetParameters();
+            var methodImplParameters = method.GetParameters();
 
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);

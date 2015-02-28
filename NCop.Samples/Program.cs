@@ -154,7 +154,7 @@ namespace NCop.Samples
     {
         private string code = "C#";
 
-        //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         public string Code {
             set { code = value; }
