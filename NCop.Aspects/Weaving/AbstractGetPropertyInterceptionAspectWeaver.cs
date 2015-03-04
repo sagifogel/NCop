@@ -7,19 +7,19 @@ using System.Reflection;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractSetPropertyInterceptionAspectWeaver : AbstractInterceptionAspectWeaver
+    internal abstract class AbstractGetPropertyInterceptionAspectWeaver : AbstractInterceptionAspectWeaver
     {
-        internal AbstractSetPropertyInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal AbstractGetPropertyInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
         }
 
         protected override IAdviceExpression ResolveInterceptionAdviceExpression() {
             IAdviceDefinition selectedAdviceDefinition = null;
-            var onSetPropertyAdvice = adviceDiscoveryVistor.OnSetPropertyAdvice;
+            var onGetPropertyAdvice = adviceDiscoveryVistor.OnGetPropertyAdvice;
             Func<IAdviceDefinition, IAdviceExpression> adviceExpressionFactory = null;
 
-            adviceExpressionFactory = adviceVisitor.Visit(adviceDiscoveryVistor.OnSetPropertyAdvice);
-            selectedAdviceDefinition = advices.First(advice => advice.Advice.Equals(onSetPropertyAdvice));
+            adviceExpressionFactory = adviceVisitor.Visit(adviceDiscoveryVistor.OnGetPropertyAdvice);
+            selectedAdviceDefinition = advices.First(advice => advice.Advice.Equals(onGetPropertyAdvice));
 
             return adviceExpressionFactory(selectedAdviceDefinition);
         }

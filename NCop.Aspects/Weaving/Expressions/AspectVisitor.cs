@@ -188,6 +188,8 @@ namespace NCop.Aspects.Weaving.Expressions
 
                         return new TopGetPropertyFragmentInterceptionAspectExpression(expression, propertyAspectDefinition, propertyBuilder);
                     });
+
+                    lastAspect = new Aspect();
                 }
                 else {
                     if (lastAspect.IsInBinding) {

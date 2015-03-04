@@ -35,11 +35,10 @@ namespace NCop.Aspects.Weaving
             return adviceExpressionFactory(selectedAdviceDefinition);
         }
 
-        public override void Weave(ILGenerator ilGenerator)
-        {
+        public override void Weave(ILGenerator ilGenerator) {
             LocalBuilder aspectArgLocalBuilder = null;
             var argumentType = argumentsWeavingSettings.ArgumentType;
-            var valueProperty = argumentType.GetProperty("Value"); 
+            var valueProperty = argumentType.GetProperty("Value");
 
             argumentsWeaver.Weave(ilGenerator);
             weaver.Weave(ilGenerator);

@@ -290,6 +290,7 @@ namespace NCop.Samples
             developer = container.Resolve<IPerson>();
             //var code = developer.Code;
             developer.Code = "JavaScript";
+            var code = developer.Code;
         }
     }
 }

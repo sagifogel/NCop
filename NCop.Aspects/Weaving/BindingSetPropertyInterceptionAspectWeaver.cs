@@ -11,12 +11,14 @@ namespace NCop.Aspects.Weaving
 
         internal BindingSetPropertyInterceptionAspectWeaver(IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
+            IMethodScopeWeaver finallyWeaver = null;
             var method = aspectDefinition.Property.GetSetMethod();
 
             argumentsWeavingSettings.BindingsDependency = weavedType;
             argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Property.PropertyType };
+            finallyWeaver = new FinallyBindingPropertyAspectWeaver(method, argumentsWeavingSettings, aspectWeavingSettings);
             argumentsWeaver = new BindingSetPropertyInterceptionArgumentsWeaver(method, argumentsWeavingSettings, aspectWeavingSettings);
-            weaver = new TryFinallyAspectWeaver(methodScopeWeavers, null);
+            weaver = new TryFinallyAspectWeaver(methodScopeWeavers, new[] { finallyWeaver });
         }
 
         public override void Weave(ILGenerator ilGenerator) {
