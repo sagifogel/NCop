@@ -1,10 +1,7 @@
-﻿using System;
+﻿using NCop.Core.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using NCop.Core.Extensions;
 
 namespace NCop.Core
 {
@@ -38,8 +35,7 @@ namespace NCop.Core
 				});
 			});
 
-			mappedProperties = mappedPropertiesEnumerable.Cast<IPropertyMap>()
-														 .ToList();
+			mappedProperties = mappedPropertiesEnumerable.ToListOf<IPropertyMap>();
 		}
 
 		public IEnumerator<IPropertyMap> GetEnumerator() {

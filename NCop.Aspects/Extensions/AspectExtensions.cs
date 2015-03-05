@@ -1,13 +1,11 @@
 ﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Engine;
 using NCop.Aspects.Framework;
 using NCop.Aspects.Weaving;
 using NCop.Core.Extensions;
 using System;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
-using NCop.Weaving;
-using NCop.Aspects.Engine;
 
 namespace NCop.Aspects.Extensions
 {
@@ -43,12 +41,35 @@ namespace NCop.Aspects.Extensions
         }
 
         internal static Type ToAspectArgumentImpl(this IAspectDefinition aspectDefinition) {
+            var methodAspectDefinition = aspectDefinition as IMethodAspectDefinition;
+
+            if (methodAspectDefinition.IsNotNull()) {
+                return methodAspectDefinition.ToAspectArgumentImpl();
+            }
+
+            return ((IPropertyAspectDefinition)aspectDefinition).ToAspectArgumentImpl();
+        }
+
+        internal static Type ToAspectArgumentImpl(this IMethodAspectDefinition aspectDefinition) {
+            return aspectDefinition.ToAspectArgumentImpl(aspectDefinition.Method);
+        }
+
+        internal static Type ToAspectArgumentImpl(this IPropertyAspectDefinition aspectDefinition) {
+            var property = aspectDefinition.Property;
+            var method = aspectDefinition.IsGetPropertyAspectDefinition() ?
+                                          property.GetGetMethod() :
+                                          property.GetSetMethod();
+
+            return aspectDefinition.ToAspectArgumentImpl(method);
+        }
+
+        private static Type ToAspectArgumentImpl(this IAspectDefinition aspectDefinition, MethodInfo method) {
+            var declaringType = method.DeclaringType;
             var argumentType = aspectDefinition.GetArgumentType();
-            var declaringType = aspectDefinition.Member.DeclaringType;
             var genericArguments = argumentType.GetGenericArguments();
             var genericArgumentsWithContext = new[] { declaringType }.Concat(genericArguments);
 
-            return argumentType.MakeGenericArgsType(aspectDefinition.Member, genericArgumentsWithContext.ToArray());
+            return argumentType.MakeGenericArgsType(method, genericArgumentsWithContext.ToArray());
         }
 
         internal static Type ToAspectArgumentContract(this MethodInfo methodInfoImpl) {
@@ -67,22 +88,39 @@ namespace NCop.Aspects.Extensions
         }
 
         internal static Type ToPropertyAspectArgument(this MethodInfo methodInfoImpl) {
+            var argumentTypes = methodInfoImpl.GetArguments();
+
+            return typeof(PropertyInterceptionArgs<>).MakeGenericType(argumentTypes);
+        }
+
+        internal static Type ToPropertyArgumentContract(this MethodInfo methodInfoImpl) {
+            var argumentTypes = methodInfoImpl.GetArguments();
+
+            return typeof(IPropertyArg<>).MakeGenericType(argumentTypes);
+        }
+
+        private static Type[] GetArguments(this MethodInfo methodInfoImpl)
+        {
             var argumentTypes = new Type[1];
 
-            if (methodInfoImpl.ReturnType.IsNotNull()) {
+            if (methodInfoImpl.ReturnType.IsNotNull() && !ReferenceEquals(methodInfoImpl.ReturnType, typeof(void))) {
                 argumentTypes[0] = methodInfoImpl.ReturnType;
             }
             else {
                 argumentTypes[0] = methodInfoImpl.GetParameters().First().ParameterType;
             }
 
-            return typeof(PropertyInterceptionArgs<>).MakeGenericType(argumentTypes);
+            return argumentTypes;
         }
 
         internal static BindingSettings ToBindingSettings(this IAspectDefinition aspectDefinition) {
-            var bindingSettingsFactory = aspectDefinition.IsPropertyAspectDefinition() ? ToPropertyBindingSettings : (Func<IAspectDefinition, BindingSettings>)ToMethodBindingSettings;
+            var methodAspectDefinition = aspectDefinition as IMethodAspectDefinition;
 
-            return bindingSettingsFactory(aspectDefinition);
+            if (methodAspectDefinition.IsNotNull()) {
+                return methodAspectDefinition.ToMethodBindingSettings();
+            }
+
+            return ((IPropertyAspectDefinition)aspectDefinition).ToPropertyBindingSettings();
         }
 
         private static BindingSettings ToMethodBindingSettings(this IAspectDefinition aspectDefinition) {
@@ -105,7 +143,7 @@ namespace NCop.Aspects.Extensions
             };
         }
 
-        private static BindingSettings ToPropertyBindingSettings(this IAspectDefinition aspectDefinition) {
+        private static BindingSettings ToPropertyBindingSettings(this IPropertyAspectDefinition aspectDefinition) {
             var aspectArgumentType = aspectDefinition.GetArgumentType();
             var aspectArgumentImplType = aspectDefinition.ToAspectArgumentImpl();
             var genericArguments = aspectArgumentImplType.GetGenericArguments();
@@ -124,8 +162,18 @@ namespace NCop.Aspects.Extensions
         }
 
         public static bool IsPropertyAspectDefinition(this IAspectDefinition aspectDefinition) {
+            return aspectDefinition.IsGetPropertyAspectDefinition() ||
+                   aspectDefinition.IsSetPropertyAspectDefinition();
+        }
+
+        public static bool IsGetPropertyAspectDefinition(this IAspectDefinition aspectDefinition) {
             return aspectDefinition.AspectType == AspectType.GetPropertyInterceptionAspect ||
-                   aspectDefinition.AspectType == AspectType.SetPropertyInterceptionAspect;
+                   aspectDefinition.AspectType == AspectType.GetPropertyFragmentInterceptionAspect;
+        }
+
+        public static bool IsSetPropertyAspectDefinition(this IAspectDefinition aspectDefinition) {
+            return aspectDefinition.AspectType == AspectType.SetPropertyInterceptionAspect ||
+                   aspectDefinition.AspectType == AspectType.SetPropertyFragmentInterceptionAspect;
         }
 
         internal static ArgumentsWeavingSettings ToArgumentsWeavingSettings(this BindingSettings bindingSettings, Type aspectType = null) {
@@ -142,22 +190,8 @@ namespace NCop.Aspects.Extensions
             };
         }
 
-        internal static AspectMethodWeavingSettingsImpl CloneWith(this IAspectMethodWeavingSettings aspectWeavingSettings, Action<AspectMethodWeavingSettingsImpl> cloneFunc) {
-            var clonedAspectWeavingSettings = new AspectMethodWeavingSettingsImpl {
-                WeavingSettings = aspectWeavingSettings.WeavingSettings,
-                AspectRepository = aspectWeavingSettings.AspectRepository,
-                AspectArgsMapper = aspectWeavingSettings.AspectArgsMapper,
-                LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository,
-                ByRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver
-            };
-
-            cloneFunc(clonedAspectWeavingSettings);
-
-            return clonedAspectWeavingSettings;
-        }
-
-        internal static TAspectWeavingSettings CloneToWith<TAspectWeavingSettings>(this IAspectMethodWeavingSettings aspectWeavingSettings, Action<TAspectWeavingSettings> cloneFunc) where TAspectWeavingSettings : AspectMethodWeavingSettingsImpl, new() {
-            var clonedAspectWeavingSettings = new TAspectWeavingSettings {
+        internal static AspectWeavingSettingsImpl CloneWith(this IAspectWeavingSettings aspectWeavingSettings, Action<AspectWeavingSettingsImpl> cloneFunc) {
+            var clonedAspectWeavingSettings = new AspectWeavingSettingsImpl {
                 WeavingSettings = aspectWeavingSettings.WeavingSettings,
                 AspectRepository = aspectWeavingSettings.AspectRepository,
                 AspectArgsMapper = aspectWeavingSettings.AspectArgsMapper,
@@ -215,35 +249,6 @@ namespace NCop.Aspects.Extensions
             methodParameters.Parameters[1] = argumentResolver(arguments);
 
             return methodParameters;
-        }
-
-        public static IAspectPropertyMethodWeavingSettings ToGetPropertyAspectWeavingSettings(this IAspectPropertyWeavingSettings aspectWeavingSettings) {
-            var methodInfoImpl = aspectWeavingSettings.WeavingSettings.PropertyInfoImpl.GetGetMethod();
-
-            return aspectWeavingSettings.ToPropertyMethodAspectWeavingSettings(methodInfoImpl);
-        }
-
-        public static IAspectPropertyMethodWeavingSettings ToSetPropertyAspectWeavingSettings(this IAspectPropertyWeavingSettings aspectWeavingSettings) {
-            var methodInfoImpl = aspectWeavingSettings.WeavingSettings.PropertyInfoImpl.GetSetMethod();
-
-            return aspectWeavingSettings.ToPropertyMethodAspectWeavingSettings(methodInfoImpl);
-        }
-
-        private static IAspectPropertyMethodWeavingSettings ToPropertyMethodAspectWeavingSettings(this IAspectPropertyWeavingSettings aspectWeavingSettings, MethodInfo methodInfoImpl) {
-            var weavingSettings = aspectWeavingSettings.WeavingSettings;
-            var methodWeavingSettings = new MethodWeavingSettings(methodInfoImpl,
-                                                                  weavingSettings.ImplementationType,
-                                                                  weavingSettings.ContractType,
-                                                                  weavingSettings.TypeDefinition);
-
-            return new AspectPropertyMethodWeavingSettingsImpl {
-                WeavingSettings = methodWeavingSettings,
-                AspectArgsMapper = aspectWeavingSettings.AspectArgsMapper,
-                AspectRepository = aspectWeavingSettings.AspectRepository,
-                LocalBuilderRepository = aspectWeavingSettings.LocalBuilderRepository,
-                PropertyInfoContract = aspectWeavingSettings.WeavingSettings.PropertyInfoImpl,
-                ByRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver
-            };
         }
     }
 }

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using NCop.Core;
+﻿using NCop.Core;
+using System;
 
 namespace NCop.Weaving
 {

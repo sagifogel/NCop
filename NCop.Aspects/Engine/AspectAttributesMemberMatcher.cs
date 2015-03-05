@@ -1,49 +1,53 @@
-﻿using System;
+﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Framework;
+using NCop.Aspects.Weaving;
+using NCop.Aspects.Weaving.Expressions;
+using NCop.Core.Extensions;
+using NCop.Core.Lib;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using NCop.Aspects.Aspects;
-using NCop.Aspects.Framework;
-using NCop.Core.Extensions;
-using NCop.Core.Lib;
 
 namespace NCop.Aspects.Engine
 {
-    public class AspectAttributesMemberMatcher : Tuples<MemberInfo, IAspectDefinitionCollection>
+    public class AspectAttributesMemberMatcher : Tuples<MethodInfo, IAspectDefinitionCollection>
     {
-        public AspectAttributesMemberMatcher(Type aspectDeclaringType, IAspectMemebrsCollection aspectMembersCollection) {
-            var methodAspects = CollectMethodsAspectDefinitions(aspectDeclaringType, aspectMembersCollection);
-            var propertiesAspects = CollectPropertiesAspectDefinitions(aspectDeclaringType, aspectMembersCollection);
+        private readonly ConcurrentDictionary<MethodInfo, IAspectDefinitionCollection> registry = null;
 
-            Values = methodAspects.Concat(propertiesAspects);
+        public AspectAttributesMemberMatcher(Type aspectDeclaringType, IAspectMemebrsCollection aspectMembersCollection) {
+            registry = new ConcurrentDictionary<MethodInfo, IAspectDefinitionCollection>();
+            CollectMethodsAspectDefinitions(aspectDeclaringType, aspectMembersCollection);
+            CollectPropertiesAspectDefinitions(aspectDeclaringType, aspectMembersCollection);
+            Values = registry.Select(keyValue => Tuple.Create(keyValue.Key, keyValue.Value));
         }
 
-        public IEnumerable<Tuple<MemberInfo, IAspectDefinitionCollection>> CollectMethodsAspectDefinitions(Type aspectDeclaringType, IAspectMethodMapCollection aspectMembersCollection) {
-            return aspectMembersCollection.Methods.Select(aspectMembers => {
-                IAspectDefinitionCollection aspectsCollection = null;
+        private void CollectMethodsAspectDefinitions(Type aspectDeclaringType, IAspectMethodMapCollection aspectMembersCollection) {
+            aspectMembersCollection.Methods.ForEach(aspectMembers => {
                 var aspects = aspectMembers.Members.SelectMany(member => {
                     return CollectMethodsAspectDefinitions(member, aspectDeclaringType, aspectMembers.Target);
                 });
 
-                aspectsCollection = new AspectDefinitionCollection(aspects);
-
-                return Tuple.Create(aspectMembers.Target as MemberInfo, aspectsCollection);
+                AddOrUpdate(aspectMembers.Target, aspects);
             });
         }
 
-        public IEnumerable<Tuple<MemberInfo, IAspectDefinitionCollection>> CollectPropertiesAspectDefinitions(Type aspectDeclaringType, IAspectPropertyMapCollection aspectMembersCollection) {
-            var aspectDefinitionsCollection = new List<Tuple<MemberInfo, IAspectDefinitionCollection>>();
+        private void AddOrUpdate(MethodInfo method, IEnumerable<IAspectDefinition> aspects) {
+            var aspectCollection = registry.GetOrAdd(method, new AspectDefinitionCollection());
 
-            CollectGetPropertiesAspectDefinitions(aspectDeclaringType, aspectMembersCollection.Properties, aspectDefinitionsCollection);
-            CollectSetPropertiesAspectDefinitions(aspectDeclaringType, aspectMembersCollection.Properties, aspectDefinitionsCollection);
-
-            return aspectDefinitionsCollection;
+            aspectCollection.AddRange(aspects);
         }
 
-        private IEnumerable<IAspectDefinition> CollectMethodsAspectDefinitions(MethodInfo member, Type aspectDeclaringType, MethodInfo target) {
-            var onMethodBoundaryAspects = member.GetCustomAttributes<OnMethodBoundaryAspectAttribute>();
-            var methodInterceptionAspects = member.GetCustomAttributes<MethodInterceptionAspectAttribute>();
+        private void CollectPropertiesAspectDefinitions(Type aspectDeclaringType, IAspectPropertyMapCollection aspectMembersCollection) {
+            CollectPartialGetPropertyAspectDefinitions(aspectDeclaringType, aspectMembersCollection.Properties);
+            CollectPartialSetPropertiesAspectDefinitions(aspectDeclaringType, aspectMembersCollection.Properties);
+            CollectFullPropertyAspectDefinitions(aspectDeclaringType, aspectMembersCollection.Properties);
+        }
+
+        private IEnumerable<IAspectDefinition> CollectMethodsAspectDefinitions(MethodInfo method, Type aspectDeclaringType, MethodInfo target) {
+            var onMethodBoundaryAspects = method.GetCustomAttributes<OnMethodBoundaryAspectAttribute>();
+            var methodInterceptionAspects = method.GetCustomAttributes<MethodInterceptionAspectAttribute>();
 
             var onMethodBoundaryAspectDefinitions = onMethodBoundaryAspects.Select(aspect => {
                 return new OnMethodBoundaryAspectDefinition(aspect, aspectDeclaringType, target);
@@ -57,72 +61,103 @@ namespace NCop.Aspects.Engine
                                                       .Concat(onMethodBoundaryAspectDefinitions);
         }
 
-        private void CollectGetPropertiesAspectDefinitions(Type aspectDeclaringType, IEnumerable<IAspectPropertyMap> properties, ICollection<Tuple<MemberInfo, IAspectDefinitionCollection>> tuples) {
-            properties.ForEach(propertyMap => {
-                var getMethodTarget = propertyMap.ContractMember.GetGetMethod();
-
-                if (getMethodTarget.IsNotNull()) {
-                    MemberInfo target = propertyMap.Target.GetGetMethod();
-                    IAspectDefinitionCollection aspectsCollection = null;
-                    var getPropertyInterceptionAspects = new List<IAspectDefinition>();
-
-                    propertyMap.Members.ForEach(property => {
-                        var getMethod = property.GetGetMethod();
-                        var propertyInterceptionAspectsAttrs = property.GetCustomAttributes<PropertyInterceptionAspectAttribute>();
-                        var getPropertyInterceptionAspectsAttrs = getMethod.GetCustomAttributes<GetPropertyInterceptionAspectAttribute>();
-
-                        propertyInterceptionAspectsAttrs.ForEach(aspect => {
-                            var getPropertyAspect = new GetPropertyInterceptionAspectAttribute(aspect.AspectType) {
-                                AspectPriority = aspect.AspectPriority,
-                                LifetimeStrategy = aspect.LifetimeStrategy
-                            };
-
-                            getPropertyInterceptionAspects.Add(new GetPropertyInterceptionAspectDefinition(getPropertyAspect, aspectDeclaringType, getMethodTarget, propertyMap.ContractMember));
-                        });
-
-                        getPropertyInterceptionAspects.AddRange(getPropertyInterceptionAspectsAttrs.Select(aspectAttr => {
-                            return new GetPropertyInterceptionAspectDefinition(aspectAttr, aspectDeclaringType, getMethod, propertyMap.ContractMember);
-                        }));
-                    });
-
-                    aspectsCollection = new AspectDefinitionCollection(getPropertyInterceptionAspects);
-                    tuples.Add(Tuple.Create(target, aspectsCollection));
-                }
+        private void CollectPartialGetPropertyAspectDefinitions(Type aspectDeclaringType, IEnumerable<IAspectPropertyMap> properties) {
+            CollectPartialPropertiesAspectDefinitions<GetPropertyInterceptionAspectAttribute>(properties, prop => prop.GetGetMethod(), (aspectsAttrs, method, property) => {
+                return aspectsAttrs.Select(aspectAttr => new GetPropertyInterceptionAspectDefinition(aspectAttr, aspectDeclaringType, method, property));
             });
         }
 
-        private void CollectSetPropertiesAspectDefinitions(Type aspectDeclaringType, IEnumerable<IAspectPropertyMap> properties, ICollection<Tuple<MemberInfo, IAspectDefinitionCollection>> tuples) {
+        private void CollectPartialSetPropertiesAspectDefinitions(Type aspectDeclaringType, IEnumerable<IAspectPropertyMap> properties) {
+            CollectPartialPropertiesAspectDefinitions<SetPropertyInterceptionAspectAttribute>(properties, prop => prop.GetSetMethod(), (aspectsAttrs, method, property) => {
+                return aspectsAttrs.Select(aspectAttr => new SetPropertyInterceptionAspectDefinition(aspectAttr, aspectDeclaringType, method, property));
+            });
+        }
+
+        private void CollectPartialPropertiesAspectDefinitions<TArribute>(IEnumerable<IAspectPropertyMap> properties, Func<PropertyInfo, MethodInfo> methodResolver, Func<IEnumerable<TArribute>, MethodInfo, PropertyInfo, IEnumerable<IAspectDefinition>> definitionFactory) where TArribute : Attribute {
+            properties.Where(propertyMap => propertyMap.IsPartial)
+                      .ForEach(propertyMap => {
+                          var target = methodResolver(propertyMap.Target);
+                          var getPropertyInterceptionAspects = new List<IAspectDefinition>();
+
+                          propertyMap.Members.ForEach(property => {
+                              var getMethod = methodResolver(property);
+                              var getPropertyInterceptionAspectsAttrs = getMethod.GetCustomAttributes<TArribute>();
+
+                              getPropertyInterceptionAspects.AddRange(definitionFactory(getPropertyInterceptionAspectsAttrs, getMethod, property));
+                          });
+
+                          AddOrUpdate(target, getPropertyInterceptionAspects);
+                      });
+        }
+
+        private void CollectFullPropertyAspectDefinitions(Type aspectDeclaringType, IEnumerable<IAspectPropertyMap> properties) {
             properties.ForEach(propertyMap => {
-                var setMethodTarget = propertyMap.ContractMember.GetSetMethod();
+                propertyMap.Members.ForEach(property => {
+                    var propertyGetMethod = property.GetGetMethod();
+                    var propertySetMethod = property.GetSetMethod();
+                    var propertyInterceptionAspectsAttrs = property.GetCustomAttributes<PropertyInterceptionAspectAttribute>();
+                    var getPropertyInterceptionAspectsAttrs = propertyGetMethod.GetCustomAttributes<GetPropertyInterceptionAspectAttribute>();
+                    var setPropertyInterceptionAspectsAttrs = propertySetMethod.GetCustomAttributes<SetPropertyInterceptionAspectAttribute>();
 
-                if (setMethodTarget.IsNotNull()) {
-                    MemberInfo target = propertyMap.Target.GetSetMethod();
-                    IAspectDefinitionCollection aspectsCollection = null;
-                    var setPropertyInterceptionAspects = new List<IAspectDefinition>();
-
-                    propertyMap.Members.ForEach(property => {
-                        var setMethod = property.GetSetMethod();
-                        var propertyInterceptionAspectsAttrs = property.GetCustomAttributes<PropertyInterceptionAspectAttribute>();
-                        var setPropertyInterceptionAspectsAttrs = setMethod.GetCustomAttributes<SetPropertyInterceptionAspectAttribute>();
-
-                        propertyInterceptionAspectsAttrs.ForEach(aspect => {
-                            var setPropertyAspect = new SetPropertyInterceptionAspectAttribute(aspect.AspectType) {
-                                AspectPriority = aspect.AspectPriority,
-                                LifetimeStrategy = aspect.LifetimeStrategy
-                            };
-
-                            setPropertyInterceptionAspects.Add(new SetPropertyInterceptionAspectDefinition(setPropertyAspect, aspectDeclaringType, setMethodTarget, property));
-                        });
-
-                        setPropertyInterceptionAspects.AddRange(setPropertyInterceptionAspectsAttrs.Select(aspectAttr => {
-                            return new SetPropertyInterceptionAspectDefinition(aspectAttr, aspectDeclaringType, setMethod, property);
-                        }));
+                    propertyInterceptionAspectsAttrs.ForEach(aspectAttribute => {
+                        CollectPropertyInterceptionAspectDefinition(propertyMap, propertyGetMethod, propertySetMethod, aspectDeclaringType, aspectAttribute);
                     });
 
-                    aspectsCollection = new AspectDefinitionCollection(setPropertyInterceptionAspects);
-                    tuples.Add(Tuple.Create(target, aspectsCollection));
-                }
+                    getPropertyInterceptionAspectsAttrs.ForEach(aspectAttribute => {
+                        CollectPropertyPartialAspectDefinition(propertyMap, propertyGetMethod, propertySetMethod, aspectDeclaringType, aspectAttribute, aspectDefinition => new GetPropertyBindingTypeReflectorBuilder(aspectDefinition));
+                    });
+
+                    setPropertyInterceptionAspectsAttrs.ForEach(aspectAttribute => {
+                        CollectPropertyPartialAspectDefinition(propertyMap, propertyGetMethod, propertySetMethod, aspectDeclaringType, aspectAttribute, aspectDefinition => new SetPropertyBindingTypeReflectorBuilder(aspectDefinition));
+                    });
+                });
             });
+        }
+
+        private void CollectPropertyInterceptionAspectDefinition(IAspectPropertyMap propertyMap, MethodInfo propertyGetMethod, MethodInfo propertySetMethod, Type aspectDeclaringType, PropertyInterceptionAspectAttribute aspectAttribute) {
+            var target = propertyMap.ContractMember;
+            var setMethodTarget = propertyMap.ContractMember.GetSetMethod();
+            var getMethodTarget = propertyMap.ContractMember.GetGetMethod();
+            var aspectDefinition = new PropertyInterceptionAspectsDefinition(aspectAttribute, aspectAttribute.AspectType, target);
+            var bindingTypeReflectorBuilder = new FullPropertyBindingTypeReflectorBuilder(aspectDefinition);
+
+            var getPropertyAspect = new GetPropertyFragmentInterceptionAspect {
+                AspectType = aspectAttribute.AspectType,
+                AspectPriority = aspectAttribute.AspectPriority,
+                LifetimeStrategy = aspectAttribute.LifetimeStrategy
+            };
+
+            var setPropertyAspect = new SetPropertyFragmentInterceptionAspect {
+                AspectType = aspectAttribute.AspectType,
+                AspectPriority = aspectAttribute.AspectPriority,
+                LifetimeStrategy = aspectAttribute.LifetimeStrategy
+            };
+
+            AddOrUpdate(propertyGetMethod, new[] { new GetPropertyFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, getPropertyAspect, aspectDeclaringType, getMethodTarget, target) });
+            AddOrUpdate(propertySetMethod, new[] { new SetPropertyFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, setPropertyAspect, aspectDeclaringType, setMethodTarget, target) });
+        }
+
+        private void CollectPropertyPartialAspectDefinition<TAspectAttribute>(IAspectPropertyMap propertyMap, MethodInfo propertyGetMethod, MethodInfo propertySetMethod, Type aspectDeclaringType, TAspectAttribute aspectAttribute, Func<IPropertyAspectDefinition, IPropertyExpressionBuilder> expressionBuilderFactory) where TAspectAttribute : AspectAttribute {
+            var target = propertyMap.ContractMember;
+            var setMethodTarget = propertyMap.ContractMember.GetSetMethod();
+            var getMethodTarget = propertyMap.ContractMember.GetGetMethod();
+            var aspectDefinition = new PropertyInterceptionAspectsDefinition(aspectAttribute, aspectAttribute.AspectType, target);
+            var bindingTypeReflectorBuilder = expressionBuilderFactory(aspectDefinition);
+
+            var getPropertyAspect = new GetPropertyFragmentInterceptionAspect {
+                AspectType = aspectAttribute.AspectType,
+                AspectPriority = aspectAttribute.AspectPriority,
+                LifetimeStrategy = aspectAttribute.LifetimeStrategy
+            };
+
+            var setPropertyAspect = new SetPropertyFragmentInterceptionAspect {
+                AspectType = aspectAttribute.AspectType,
+                AspectPriority = aspectAttribute.AspectPriority,
+                LifetimeStrategy = aspectAttribute.LifetimeStrategy
+            };
+
+            AddOrUpdate(propertyGetMethod, new[] { new GetPropertyFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, getPropertyAspect, aspectDeclaringType, getMethodTarget, target) });
+            AddOrUpdate(propertySetMethod, new[] { new SetPropertyFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, setPropertyAspect, aspectDeclaringType, setMethodTarget, target) });
         }
     }
 }

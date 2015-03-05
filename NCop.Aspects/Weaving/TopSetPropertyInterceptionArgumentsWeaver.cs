@@ -1,14 +1,13 @@
-﻿using System;
+﻿using NCop.Weaving.Extensions;
 using System.Reflection;
 using System.Reflection.Emit;
-using NCop.Weaving.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
     internal class TopSetPropertyInterceptionArgumentsWeaver : AbstractTopPropertyAspectArgumentsWeaver
     {
-        internal TopSetPropertyInterceptionArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectPropertyMethodWeavingSettings aspectWeavingSettings)
-            : base(argumentWeavingSettings, aspectWeavingSettings) {
+        internal TopSetPropertyInterceptionArgumentsWeaver(MethodInfo methodInfo, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+            : base(methodInfo, argumentWeavingSettings, aspectWeavingSettings) {
         }
 
         public override LocalBuilder BuildArguments(ILGenerator ilGenerator) {
@@ -16,9 +15,8 @@ namespace NCop.Aspects.Weaving
             FieldBuilder contractFieldBuilder = null;
             LocalBuilder aspectArgLocalBuilder = null;
             ConstructorInfo ctorInterceptionArgs = null;
-            AbstractAspectArgsPropertyWeaver methodWeaver = null;
-            var propertyWeavingSettings = aspectWeavingSettings as IAspectPropertyMethodWeavingSettings;
-            
+            AbstractAspectPropertyArgsWeaver methodWeaver = null;
+
             methodLocalBuilder = LocalBuilderRepository.Declare(() => {
                 return ilGenerator.DeclareLocal(typeof(MethodInfo));
             });
@@ -26,7 +24,7 @@ namespace NCop.Aspects.Weaving
             ctorInterceptionArgs = ArgumentType.GetConstructors()[0];
             aspectArgLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
             contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
-            methodWeaver = new AspectArgsSetPropertyWeaver(methodLocalBuilder, propertyWeavingSettings);
+            methodWeaver = new AspectArgsSetPropertyWeaver(method, methodLocalBuilder, aspectWeavingSettings);
             methodWeaver.Weave(ilGenerator);
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);

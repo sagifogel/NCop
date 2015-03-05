@@ -4,8 +4,6 @@ using NCop.Weaving;
 using NCop.Weaving.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
@@ -22,7 +20,7 @@ namespace NCop.Aspects.Weaving
 			localBuilderRepository = tryCatchFinallySettings.LocalBuilderRepository;
 		}
 
-		public ILGenerator Weave(ILGenerator ilGenerator) {
+		public void Weave(ILGenerator ilGenerator) {
 			var typeofException = typeof(Exception);
 			LocalBuilder exceptionLocalBuilder = null;
 			var typeofFlowBehavior = typeof(FlowBehavior);
@@ -65,12 +63,6 @@ namespace NCop.Aspects.Weaving
 			ilGenerator.MarkLabel(rethrowFlowBehaviorLabel);
 			ilGenerator.Emit(OpCodes.Rethrow);
 			ilGenerator.MarkLabel(afterRethrowLabel);
-
-			return ilGenerator;
 		}
-
-		public object reTthrowFlowBehaviorLabel { get; set; }
-
-		public object reThrowFlowBehaviorLabel { get; set; }
 	}
 }

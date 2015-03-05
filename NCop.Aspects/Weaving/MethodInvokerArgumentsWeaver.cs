@@ -1,7 +1,7 @@
 ﻿using NCop.Core.Extensions;
-using NCop.Weaving;
 using NCop.Weaving.Extensions;
 using System;
+using System.Reflection;
 using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
@@ -11,15 +11,15 @@ namespace NCop.Aspects.Weaving
         private readonly Type previousAspectArgType = null;
         private readonly IByRefArgumentsStoreWeaver byRefArgumentStoreWeaver = null;
 
-        internal MethodInvokerArgumentsWeaver(Type previousAspectArgType, IAspectMethodWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings, IByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver)
-            : base(argumentWeavingSettings, aspectWeavingSettings) {
+        internal MethodInvokerArgumentsWeaver(MethodInfo methodInfo, Type previousAspectArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings, IByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver)
+            : base(methodInfo, argumentWeavingSettings, aspectWeavingSettings) {
             this.previousAspectArgType = previousAspectArgType;
             this.byRefArgumentStoreWeaver = byRefArgumentsStoreWeaver;
         }
 
         public override void Weave(ILGenerator ilGenerator) {
             var argsLocalBuilder = LocalBuilderRepository.Get(previousAspectArgType);
-            var methodImplParameters = WeavingSettings.MethodInfoImpl.GetParameters();
+            var methodImplParameters = method.GetParameters();
 
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);

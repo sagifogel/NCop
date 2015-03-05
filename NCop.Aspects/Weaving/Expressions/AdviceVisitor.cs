@@ -1,6 +1,5 @@
-﻿using System;
-using System.Reflection;
-using NCop.Aspects.Advices;
+﻿using NCop.Aspects.Advices;
+using System;
 
 namespace NCop.Aspects.Weaving.Expressions
 {

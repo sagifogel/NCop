@@ -44,7 +44,7 @@ namespace NCop.Aspects.Weaving
         public override void RestoreArgsIfNeeded(ILGenerator ilGenerator) {
             byRefParamslocalBuilderMap.ForEach(argPosition => {
                 var property = previousAspectArgType.GetProperty("Arg{0}".Fmt(argPosition));
-                
+
                 ilGenerator.EmitLoadLocal(argsLocalBuilder);
                 ilGenerator.EmitLoadArg(argPosition);
                 ilGenerator.Emit(OpCodes.Ldind_I4);

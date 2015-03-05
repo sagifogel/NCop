@@ -4,7 +4,6 @@ using NCop.IoC;
 using NCop.Mixins.Engine;
 using NCop.Weaving;
 using System;
-using System.Collections.Generic;
 
 namespace NCop.Mixins.Weaving
 {

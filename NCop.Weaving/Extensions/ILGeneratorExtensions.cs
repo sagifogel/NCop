@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection.Emit;
-using NCop.Core.Extensions;
 
 namespace NCop.Weaving.Extensions
 {

@@ -1,7 +1,5 @@
 ﻿using NCop.Weaving;
-using NCop.Weaving.Extensions;
 using System;
-using System.Reflection;
 using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
@@ -14,12 +12,10 @@ namespace NCop.Aspects.Weaving
             this.aspectArgType = aspectArgType;
         }
 
-        public ILGenerator Weave(ILGenerator ilGenerator) {
+        public void Weave(ILGenerator ilGenerator) {
             var setReturnValueMethodInfo = aspectArgType.GetProperty("ReturnValue").GetSetMethod();
 
             ilGenerator.Emit(OpCodes.Callvirt, setReturnValueMethodInfo);
-
-            return ilGenerator;
         }
     }
 }

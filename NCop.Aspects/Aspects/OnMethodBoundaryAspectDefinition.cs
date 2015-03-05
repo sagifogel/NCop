@@ -1,10 +1,10 @@
-﻿using System;
-using System.Reflection;
-using NCop.Aspects.Advices;
+﻿using NCop.Aspects.Advices;
 using NCop.Aspects.Engine;
 using NCop.Aspects.Framework;
 using NCop.Aspects.Weaving.Expressions;
 using NCop.Core.Extensions;
+using System;
+using System.Reflection;
 
 namespace NCop.Aspects.Aspects
 {
@@ -27,7 +27,7 @@ namespace NCop.Aspects.Aspects
 			return visitor.Visit(aspect).Invoke(this);
 		}
 
-        public override void BulidAdvices() {
+        public override IAspectDefinition BuildAdvices() {
 			Aspect.AspectType
 				 .GetOverridenMethods()
 				 .ForEach(method => {
@@ -47,6 +47,8 @@ namespace NCop.Aspects.Aspects
 						 return new FinallyAdviceDefinition(advice, mi);
 					 });
 				 });
+
+            return this;
 		}
 	}
 }

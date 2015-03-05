@@ -5,11 +5,11 @@ namespace NCop.Aspects.Weaving
 {
     internal class NestedMethodInterceptionBindingWeaver : AbstractMethodInterceptionBindingWeaver
     {
-        internal NestedMethodInterceptionBindingWeaver(IAspectMethodExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings)
+        internal NestedMethodInterceptionBindingWeaver(IAspectExpression aspectExpression, IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectExpression, aspectDefinition, aspectWeavingSettings) {
         }
 
-        protected override IAspectMethodWeavingSettings GetAspectsWeavingSettings() {
+        protected override IAspectWeavingSettings GetAspectsWeavingSettings() {
             return aspectWeavingSettings;
         }
     }

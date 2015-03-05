@@ -1,7 +1,6 @@
 ﻿using NCop.Aspects.Advices;
 using NCop.Aspects.Aspects;
 using NCop.Aspects.Weaving.Expressions;
-using NCop.Composite.Weaving;
 using NCop.Core.Extensions;
 using NCop.Weaving;
 using NCop.Weaving.Extensions;
@@ -19,7 +18,7 @@ namespace NCop.Aspects.Weaving
         protected readonly ILocalBuilderRepository localBuilderRepository = null;
         protected readonly IByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver = null;
 
-        internal AbstractOnMethodBoundaryAspectWeaver(IAspectWeaver nestedAspect, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings)
+        internal AbstractOnMethodBoundaryAspectWeaver(IAspectWeaver nestedAspect, IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectDefinition, aspectWeavingSettings) {
             IAdviceExpression selectedExpression = null;
             var catchWeavers = new List<IMethodScopeWeaver>();

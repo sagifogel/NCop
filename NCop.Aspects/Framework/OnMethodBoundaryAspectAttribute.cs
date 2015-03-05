@@ -1,10 +1,5 @@
-﻿using System;
-using NCop.Aspects.Advices;
-using NCop.Aspects.Engine;
-using System.Diagnostics;
-using NCop.Aspects.Aspects;
-using NCop.Aspects.Framework;
-using NCop.Aspects.Weaving.Expressions;
+﻿using NCop.Aspects.Aspects;
+using System;
 
 namespace NCop.Aspects.Framework
 {

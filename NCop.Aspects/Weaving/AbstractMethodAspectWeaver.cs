@@ -1,40 +1,14 @@
-﻿using NCop.Aspects.Advices;
-using NCop.Aspects.Aspects;
-using NCop.Aspects.Extensions;
-using NCop.Aspects.Weaving.Expressions;
-using NCop.Core.Extensions;
-using NCop.Weaving;
-using System;
-using System.Collections.Generic;
-using System.Reflection.Emit;
+﻿using NCop.Aspects.Aspects;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractMethodAspectWeaver : IAspectTypeReflectorWeaver
+    internal abstract class AbstractMethodAspectWeaver : AbstractAspectWeaver
     {
-        protected IMethodScopeWeaver weaver = null;
-        protected List<IMethodScopeWeaver> methodScopeWeavers = null;
-        protected readonly IAspectRepository aspectRepository = null;
-        protected readonly IAspectDefinition aspectDefinition = null;
-        protected readonly IAdviceDefinitionCollection advices = null;
-		protected readonly IMethodWeavingSettings weavingSettings = null;
-		protected readonly AdviceVisitor adviceVisitor = new AdviceVisitor();
-        protected ArgumentsWeavingSettings argumentsWeavingSettings = null;
-        protected readonly IAspectMethodWeavingSettings aspectWeavingSettings = null;
-        protected readonly AdviceDiscoveryVisitor adviceDiscoveryVistor = new AdviceDiscoveryVisitor();
+        protected readonly IMethodAspectDefinition aspectMethodDefinition = null;
 
-        internal AbstractMethodAspectWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings) {
-            advices = aspectDefinition.Advices;
-            this.aspectDefinition = aspectDefinition;
-            this.aspectWeavingSettings = aspectWeavingSettings;
-            weavingSettings = aspectWeavingSettings.WeavingSettings;
-            aspectRepository = aspectWeavingSettings.AspectRepository;
-            argumentsWeavingSettings = aspectDefinition.ToArgumentsWeavingSettings();
-            aspectDefinition.Advices.ForEach(advice => advice.Accept(adviceDiscoveryVistor));
+        internal AbstractMethodAspectWeaver(IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
+            : base(aspectDefinition, aspectWeavingSettings) {
+            aspectMethodDefinition = aspectDefinition;
         }
-
-        public Type ArgumentType { get; protected set; }
-
-        public abstract ILGenerator Weave(ILGenerator ilGenerator);
     }
 }

@@ -5,14 +5,15 @@
 //    the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-using System;
-using System.Reflection;
-using NCop.Aspects.Engine;
-using NCop.Core.Extensions;
-using System.Collections.Generic;
 
 namespace NCop.Aspects.Extensions
 {
+	using System;
+	using System.Reflection;
+	using NCop.Aspects.Engine;
+	using NCop.Core.Extensions;
+	using System.Collections.Generic;
+
 	internal static class AspectArgsImplResolver
 	{
 		private static readonly IDictionary<int, Type> funcExecutionArgsMap = null;

@@ -70,13 +70,14 @@ public class NCopExceptionTemplate : CSharpTemplate
 //    the code is regenerated.
 // </auto-generated
 // ------------------------------------------------------------------------------
-using System;
-using NCop.Core.Extensions;
-using System.Runtime.Serialization;
 
 <#+ BuildArguments(); #>
 namespace <#= Namespace ?? DefaultNamespace  #>
-{	
+{
+	using System;
+	using NCop.Core.Extensions;
+	using System.Runtime.Serialization;
+	
 	[Serializable]
 	public class <#= name #> : SystemException, ISerializable
 	{

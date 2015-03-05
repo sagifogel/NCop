@@ -1,44 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
 
 namespace NCop.Weaving
 {
-	public abstract class AbstractMethodScopeWeaver : IMethodScopeWeaver, IHasWeavingSettings
-	{
-		private readonly IMethodWeavingSettings weavingSettings = null;
+    public abstract class AbstractMethodScopeWeaver : IMethodScopeWeaver, IWeavingSettings
+    {
+        private readonly IWeavingSettings weavingSettings = null;
 
-		protected AbstractMethodScopeWeaver(IMethodWeavingSettings weavingSettings) {
-			this.weavingSettings = weavingSettings;
-		}
+        protected AbstractMethodScopeWeaver(MethodInfo methodInfo, IWeavingSettings weavingSettings) {
+            MethodInfo = methodInfo;
+            this.weavingSettings = weavingSettings;
+        }
 
-		public Type ContractType {
-			get {
-				return weavingSettings.ContractType;
-			}
-		}
+        public Type ContractType {
+            get {
+                return weavingSettings.ContractType;
+            }
+        }
 
-		public Type ImplementationType {
-			get {
-				return weavingSettings.ImplementationType;
-			}
-		}
+        public MethodInfo MethodInfo { get; private set; }
 
-		public MethodInfo MethodInfoImpl {
-			get {
-				return weavingSettings.MethodInfoImpl;
-			}
-		}
+        public ITypeDefinition TypeDefinition {
+            get {
+                return weavingSettings.TypeDefinition;
+            }
+        }
 
-		public ITypeDefinition TypeDefinition {
-			get {
-				return weavingSettings.TypeDefinition;
-			}
-		}
-
-		public abstract ILGenerator Weave(ILGenerator ilGenerator);
-	}
+        public abstract void Weave(ILGenerator ilGenerator);
+    }
 }

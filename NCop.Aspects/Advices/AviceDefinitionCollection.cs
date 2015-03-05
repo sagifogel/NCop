@@ -1,9 +1,4 @@
-﻿using NCop.Core;
-using NCop.Core.Lib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using NCop.Core.Lib;
 
 namespace NCop.Aspects.Advices
 {

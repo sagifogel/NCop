@@ -1,18 +1,15 @@
 ﻿using NCop.Aspects.Aspects;
-using NCop.Aspects.Weaving.Expressions;
 using System.Reflection;
 
 namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractPropertyInterceptionBindingWeaver : AbstractBindingPropertyAspectWeaver
     {
+        protected IAspectWeavingSettings aspectWeavingSettings = null;
         protected readonly Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
-        protected readonly IAspectMethodExpression aspectExpression = null;
-        protected IAspectMethodWeavingSettings aspectWeavingSettings = null;
 
-        internal AbstractPropertyInterceptionBindingWeaver(IAspectMethodExpression aspectExpression, IPropertyAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings)
+        internal AbstractPropertyInterceptionBindingWeaver(IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectDefinition) {
-            this.aspectExpression = aspectExpression;
             this.aspectWeavingSettings = aspectWeavingSettings;
             lazyWeavedType = new Core.Lib.Lazy<FieldInfo>(WeaveType);
         }
@@ -23,18 +20,8 @@ namespace NCop.Aspects.Weaving
             }
         }
 
-        protected virtual FieldInfo WeaveType() {
-            IAspectWeaver aspectWeaver = null;
-            IMethodBindingWeaver bindingWeaver = null;
-            var aspectSettings = GetAspectsWeavingSettings() as IAspectPropertyMethodWeavingSettings;
+        protected abstract FieldInfo WeaveType();
 
-            aspectWeaver = aspectExpression.Reduce(aspectSettings);
-            bindingSettings.LocalBuilderRepository = aspectSettings.LocalBuilderRepository;
-            bindingWeaver = new PropertyInterceptionBindingWeaver(bindingSettings, aspectSettings, aspectWeaver);
-
-            return bindingWeaver.Weave();
-        }
-
-        protected abstract IAspectMethodWeavingSettings GetAspectsWeavingSettings();
+        protected abstract IAspectWeavingSettings GetAspectsWeavingSettings();
     }
 }

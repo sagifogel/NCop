@@ -1,13 +1,10 @@
 ﻿using NCop.Aspects.Framework;
+using NCop.Aspects.Tests.Extensions;
 using NCop.Composite.Framework;
+using NCop.Core.Extensions;
 using NCop.Mixins.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NCop.Core.Extensions;
-using NCop.Aspects.Tests.Extensions;
 
 namespace NCop.Aspects.Tests.FunctionWith8ArgumentsAspect.Subjects
 {

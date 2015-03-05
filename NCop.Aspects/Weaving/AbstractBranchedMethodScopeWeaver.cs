@@ -1,24 +1,25 @@
 ﻿using NCop.Core.Extensions;
 using NCop.Weaving;
 using System;
+using System.Reflection;
 using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractBranchedMethodScopeWeaver : AbstractMethodScopeWeaver
     {
-        internal AbstractBranchedMethodScopeWeaver(IMethodWeavingSettings weavingSettings)
-            : base(weavingSettings) {
+        internal AbstractBranchedMethodScopeWeaver(MethodInfo methodInfo, IWeavingSettings weavingSettings)
+            : base(methodInfo, weavingSettings) {
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
-            var isFunction = MethodInfoImpl.IsFunction();
-            var weaveFunction = isFunction ? WeaveFunction : (Func<ILGenerator, ILGenerator>)WeaveAction;
+        public override void Weave(ILGenerator ilGenerator) {
+            var isFunction = MethodInfo.IsFunction();
+            var weaveFunction = isFunction ? WeaveFunction : (Action<ILGenerator>)WeaveAction;
 
-            return weaveFunction(ilGenerator);
+            weaveFunction(ilGenerator);
         }
 
-        protected abstract ILGenerator WeaveAction(ILGenerator ilGenerator);
-        protected abstract ILGenerator WeaveFunction(ILGenerator ilGenerator);
+        protected abstract void WeaveAction(ILGenerator ilGenerator);
+        protected abstract void WeaveFunction(ILGenerator ilGenerator);
     }
 }

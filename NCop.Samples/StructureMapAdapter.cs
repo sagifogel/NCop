@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NCop.IoC;
+﻿using NCop.IoC;
 using StructureMap;
-using NCop.Core;
+using System;
 
 namespace NCop.Samples
 {

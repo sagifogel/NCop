@@ -1,23 +1,57 @@
 ﻿using NCop.Aspects.Aspects;
 using NCop.Aspects.Weaving.Expressions;
 using NCop.Weaving;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
+using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    public class AspectMethodWeaver : AbstractMethodWeaver
+    public class AspectMethodWeaver : IMethodWeaver
     {
-        public AspectMethodWeaver(IAspectDefinitionCollection aspectDefinitions, IAspectMethodWeavingSettings aspectWeavingSettings)
-            : base(aspectWeavingSettings.WeavingSettings) {
-            var aspectExpression = new AspectExpressionTreeBuilder(aspectDefinitions).Build();
+        protected readonly MethodInfo method = null;
+        private readonly IMethodEndWeaver methodEndWeaver = null;
+        private readonly IMethodScopeWeaver methodScopeWeaver = null;
+        private readonly IMethodSignatureWeaver methodSignatureWeaver = null;
 
-            MethodEndWeaver = new MethodEndWeaver();
-            MethodScopeWeaver = aspectExpression.Reduce(aspectWeavingSettings);
-            MethodDefintionWeaver = new MethodSignatureWeaver(TypeDefinition);
+        public AspectMethodWeaver(MethodInfo method, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings) {
+            IAspectExpression aspectExpression = null;
+            var aspectExpressionBuilder = new AspectExpressionTreeBuilder(aspectDefinitions);
+
+            this.method = method;
+            methodEndWeaver = new MethodEndWeaver();
+            aspectExpression = aspectExpressionBuilder.Build();
+            methodScopeWeaver = aspectExpression.Reduce(aspectWeavingSettings);
+            methodSignatureWeaver = new MethodSignatureWeaver(aspectWeavingSettings.WeavingSettings.TypeDefinition);
+        }
+
+        public MethodBuilder DefineMethod() {
+            return methodSignatureWeaver.Weave(method);
+        }
+
+        public IMethodEndWeaver MethodEndWeaver {
+            get {
+                return methodEndWeaver;
+            }
+        }
+
+        public void WeaveEndMethod(ILGenerator ilGenerator) {
+            methodEndWeaver.Weave(method, ilGenerator);
+        }
+
+        public IMethodScopeWeaver MethodScopeWeaver {
+            get {
+                return methodScopeWeaver;
+            }
+        }
+
+        public IMethodSignatureWeaver MethodDefintionWeaver {
+            get {
+                return methodSignatureWeaver;
+            }
+        }
+
+        public void WeaveMethodScope(ILGenerator ilGenerator) {
+            methodScopeWeaver.Weave(ilGenerator);
         }
     }
 }

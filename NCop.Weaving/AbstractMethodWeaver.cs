@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
 
 namespace NCop.Weaving
 {
-    public abstract class AbstractMethodWeaver : IMethodWeaver, IMethodWeavingSettings
+    public abstract class AbstractMethodWeaver : IMethodWeaver, IWeavingSettings
     {
-        private readonly IMethodWeavingSettings weavingSettings = null;
+        protected readonly MethodInfo methodInfo = null;
+        private readonly IWeavingSettings weavingSettings = null;
 
-        protected AbstractMethodWeaver(IMethodWeavingSettings weavingSettings) {
+        protected AbstractMethodWeaver(MethodInfo methodInfo, IWeavingSettings weavingSettings) {
+            this.methodInfo = methodInfo;
             this.weavingSettings = weavingSettings;
         }
 
@@ -21,49 +20,28 @@ namespace NCop.Weaving
             }
         }
 
-        public Type ImplementationType {
-            get {
-                return weavingSettings.ImplementationType;
-            }
-        }
-
-        public MethodInfo MethodInfoImpl {
-            get {
-                return weavingSettings.MethodInfoImpl;
-            }
-        }
-
         public ITypeDefinition TypeDefinition {
             get {
                 return weavingSettings.TypeDefinition;
             }
         }
 
-        public IMethodEndWeaver MethodEndWeaver {
-            get;
-            protected set;
-        }
+        public IMethodEndWeaver MethodEndWeaver { get; protected set; }
 
-        public IMethodScopeWeaver MethodScopeWeaver {
-            get;
-            protected set;
-        }
+        public IMethodScopeWeaver MethodScopeWeaver { get; protected set; }
 
-        public IMethodSignatureWeaver MethodDefintionWeaver {
-            get;
-            protected set;
-        }
+        public IMethodSignatureWeaver MethodDefintionWeaver { get; protected set; }
 
         public virtual MethodBuilder DefineMethod() {
-            return MethodDefintionWeaver.Weave(MethodInfoImpl);
+            return MethodDefintionWeaver.Weave(methodInfo);
         }
 
-        public virtual ILGenerator WeaveMethodScope(ILGenerator ilGenerator) {
-            return MethodScopeWeaver.Weave(ilGenerator);
+        public virtual void WeaveMethodScope(ILGenerator ilGenerator) {
+            MethodScopeWeaver.Weave(ilGenerator);
         }
 
         public virtual void WeaveEndMethod(ILGenerator ilGenerator) {
-            MethodEndWeaver.Weave(MethodInfoImpl, ilGenerator);
+            MethodEndWeaver.Weave(methodInfo, ilGenerator);
         }
     }
 }

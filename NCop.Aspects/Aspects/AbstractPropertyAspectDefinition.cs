@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using NCop.Aspects.Weaving.Expressions;
+using System;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NCop.Aspects.Aspects
 {
-    internal abstract class AbstractPropertyAspectDefinition : AbstractAspectDefinition, IPropertyAspectDefinition
+    internal abstract class AbstractPropertyAspectDefinition : AbstractAspectDefinition, IFullPropertyAspectDefinition
     {
-        internal AbstractPropertyAspectDefinition(IAspect aspect, Type aspectDeclaringType, MethodInfo method, PropertyInfo propertyInfoContract)
-            : base(aspect, aspectDeclaringType, method) {
-            PropertyInfoContract = propertyInfoContract;
+        internal AbstractPropertyAspectDefinition(IPropertyExpressionBuilder propertyBuilder, Type aspectDeclaringType, PropertyInfo property)
+            : base(aspectDeclaringType) {
+            Property = property;
+            PropertyBuilder = propertyBuilder;
         }
 
-        public PropertyInfo PropertyInfoContract { get; protected set; }
+        public PropertyInfo Property { get; protected set; }
+
+        public IPropertyExpressionBuilder PropertyBuilder { get; private set; }
     }
 }

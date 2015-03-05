@@ -1,5 +1,4 @@
 ﻿using NCop.Aspects.Aspects;
-using NCop.Composite.Weaving;
 using NCop.Core.Extensions;
 using NCop.Weaving;
 using NCop.Weaving.Extensions;
@@ -13,10 +12,10 @@ namespace NCop.Aspects.Weaving
     {
         protected IArgumentsWeaver argumentsWeaver = null;
 
-        internal TopMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal TopMethodInterceptionAspectWeaver(IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             IMethodScopeWeaver getReturnValueWeaver = null;
-            var @params = weavingSettings.MethodInfoImpl.GetParameters();
+            var @params = aspectDefinition.Method.GetParameters();
             var byRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
 
             if (argumentsWeavingSettings.IsFunction) {
@@ -25,7 +24,7 @@ namespace NCop.Aspects.Weaving
 
             argumentsWeavingSettings.Parameters = @params.ToArray(@param => @param.ParameterType);
             argumentsWeavingSettings.BindingsDependency = weavedType;
-            argumentsWeaver = new TopMethodInterceptionArgumentsWeaver(argumentsWeavingSettings, aspectWeavingSettings);
+            argumentsWeaver = new TopMethodInterceptionArgumentsWeaver(aspectDefinition.Method, argumentsWeavingSettings, aspectWeavingSettings);
 
             if (!byRefArgumentsStoreWeaver.ContainsByRefParams) {
                 if (getReturnValueWeaver.IsNotNull()) {
@@ -42,15 +41,14 @@ namespace NCop.Aspects.Weaving
             }
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
+        public override void Weave(ILGenerator ilGenerator) {
             LocalBuilder bindingLocalBuilder = null;
             var bindingsReflectedType = bindingDependency.ReflectedType;
 
             bindingLocalBuilder = ilGenerator.DeclareLocal(bindingsReflectedType);
             localBuilderRepository.Add(bindingLocalBuilder);
             argumentsWeaver.Weave(ilGenerator);
-
-            return weaver.Weave(ilGenerator);
+            weaver.Weave(ilGenerator);
         }
     }
 }

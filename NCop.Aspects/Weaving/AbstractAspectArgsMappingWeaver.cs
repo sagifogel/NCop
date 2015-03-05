@@ -12,12 +12,12 @@ namespace NCop.Aspects.Weaving
         protected readonly Type[] parameters = null;
         protected readonly Type aspectArgumentType = null;
         protected readonly Type[] mappingParameters = null;
-        protected readonly IMethodWeavingSettings weavingSettings = null;
+        protected readonly IWeavingSettings weavingSettings = null;
         protected readonly IArgumentsSettings argumentsSettings = null;
-        protected readonly IAspectMethodWeavingSettings aspectWeavingSettings = null;
+        protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
         protected readonly ILocalBuilderRepository localBuilderRepository = null;
 
-        internal AbstractAspectArgsMappingWeaver(IAspectMethodWeavingSettings aspectWeavingSettings, IArgumentsSettings argumentsSettings) {
+        internal AbstractAspectArgsMappingWeaver(IAspectWeavingSettings aspectWeavingSettings, IArgumentsSettings argumentsSettings) {
             Type[] @params = null;
 
             this.argumentsSettings = argumentsSettings;
@@ -30,7 +30,7 @@ namespace NCop.Aspects.Weaving
             mappingParameters = @params.Skip(1).ToArray();
         }
 
-        public virtual ILGenerator Weave(ILGenerator ilGenerator) {
+        public virtual void Weave(ILGenerator ilGenerator) {
             MethodInfo mapGenericMethod = null;
             Func<int, MethodInfo> getMappingArgsMethod = null;
             var argsImplLocalBuilder = localBuilderRepository.Get(aspectArgumentType);
@@ -47,8 +47,6 @@ namespace NCop.Aspects.Weaving
                 WeaveAspectArg(ilGenerator);
                 ilGenerator.Emit(OpCodes.Call, mapGenericMethod);
             }
-
-            return ilGenerator;
         }
 
         protected abstract void WeaveAspectArg(ILGenerator ilGenerator);

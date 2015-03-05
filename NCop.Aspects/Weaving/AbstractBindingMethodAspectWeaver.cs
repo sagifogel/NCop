@@ -1,6 +1,5 @@
 ﻿using NCop.Aspects.Aspects;
 using NCop.Aspects.Extensions;
-using NCop.Aspects.Weaving.Expressions;
 using System.Reflection;
 
 namespace NCop.Aspects.Weaving
@@ -8,9 +7,9 @@ namespace NCop.Aspects.Weaving
     internal abstract class AbstractBindingMethodAspectWeaver : IBindingTypeReflector
     {
         protected readonly BindingSettings bindingSettings = null;
-        protected readonly IAspectDefinition aspectDefinition = null;
+        protected readonly IMethodAspectDefinition aspectDefinition = null;
 
-        internal AbstractBindingMethodAspectWeaver(IAspectDefinition aspectDefinition) {
+        internal AbstractBindingMethodAspectWeaver(IMethodAspectDefinition aspectDefinition) {
             this.aspectDefinition = aspectDefinition;
             bindingSettings = aspectDefinition.ToBindingSettings();
         }

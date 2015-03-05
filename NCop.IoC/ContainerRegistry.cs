@@ -1,13 +1,7 @@
-﻿using NCop.IoC.Fluent;
-using NCop.IoC.Properties;
+﻿using NCop.Core;
+using NCop.IoC.Fluent;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NCop.Core.Extensions;
-using System.Collections.Concurrent;
-using System.Collections;
-using NCop.Core;
 
 namespace NCop.IoC
 {

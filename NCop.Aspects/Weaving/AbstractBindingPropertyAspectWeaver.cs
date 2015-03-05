@@ -1,6 +1,5 @@
 ﻿using NCop.Aspects.Aspects;
 using NCop.Aspects.Extensions;
-using NCop.Aspects.Weaving.Expressions;
 using System.Reflection;
 
 namespace NCop.Aspects.Weaving
@@ -15,6 +14,6 @@ namespace NCop.Aspects.Weaving
             bindingSettings = aspectDefinition.ToBindingSettings();
         }
 
-        public virtual FieldInfo WeavedType { get; private set; }
+        public virtual FieldInfo WeavedType { get; set; }
     }
 }

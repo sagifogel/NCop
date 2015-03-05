@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NCop.Weaving;
-using System.Reflection.Emit;
-using NCop.Mixins.Engine;
+﻿using NCop.Core;
 using NCop.Core.Extensions;
-using System.Reflection;
-using NCop.Weaving.Extensions;
-using NCop.Core;
-using System.Collections.Concurrent;
 using NCop.Mixins.Exceptions;
+using NCop.Weaving;
+using NCop.Weaving.Extensions;
 using NCop.Weaving.Properties;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 
 namespace NCop.Mixins.Weaving
 {

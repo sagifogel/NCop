@@ -4,21 +4,20 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-	internal class AspectsWeaver : IAspectWeaver
-	{
-		private IAspectWeaver weaver = null;
-        private readonly IAspectMethodExpression aspectExpression = null;
-        private readonly IAspectMethodWeavingSettings aspectWeavingSettings = null;
+    internal class AspectsWeaver : IAspectWeaver
+    {
+        private readonly IAspectExpression aspectExpression = null;
+        private readonly IAspectWeavingSettings aspectWeavingSettings = null;
 
-        public AspectsWeaver(IAspectMethodExpression aspectExpression, IAspectDefinitionCollection aspectDefinitions, IAspectMethodWeavingSettings aspectWeavingSettings) {
+        public AspectsWeaver(IAspectExpression aspectExpression, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings) {
             this.aspectExpression = aspectExpression;
             this.aspectWeavingSettings = aspectWeavingSettings;
-		}
+        }
 
-		public ILGenerator Weave(ILGenerator ilGenerator) {
-            weaver = aspectExpression.Reduce(aspectWeavingSettings);
+        public void Weave(ILGenerator ilGenerator) {
+            var weaver = aspectExpression.Reduce(aspectWeavingSettings);
 
-			return weaver.Weave(ilGenerator);
-		}
-	}
+            weaver.Weave(ilGenerator);
+        }
+    }
 }

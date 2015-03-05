@@ -1,16 +1,9 @@
-﻿using NCop.Composite.Framework;
+﻿using NCop.Composite.Properties;
+using NCop.Core;
 using NCop.IoC;
+using NCop.IoC.Fluent;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NCop.Core.Extensions;
-using NCop.IoC.Fluent;
-using System.Reflection;
-using NCop.Composite.IoC;
-using NCop.Core;
-using NCop.Composite.Engine;
-using NCop.Composite.Properties;
 
 namespace NCop.Composite.IoC
 {

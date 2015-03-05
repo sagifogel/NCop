@@ -1,9 +1,8 @@
-﻿using NCop.Composite.Framework;
-using System;
-using System.Linq;
-using System.Reflection;
+﻿using NCop.Composite.Engine;
+using NCop.Composite.Framework;
 using NCop.Core.Extensions;
-using NCop.Composite.Engine;
+using System;
+using System.Reflection;
 
 namespace NCop.Composite.Extensions
 {

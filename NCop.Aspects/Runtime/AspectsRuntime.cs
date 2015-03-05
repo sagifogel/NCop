@@ -1,9 +1,4 @@
-﻿using NCop.Core;
-using NCop.Core.Runtime;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using NCop.Core.Runtime;
 
 namespace NCop.Aspects.Runtime
 {

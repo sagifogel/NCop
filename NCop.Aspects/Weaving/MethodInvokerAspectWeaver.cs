@@ -1,6 +1,4 @@
 ﻿using NCop.Aspects.Aspects;
-using NCop.Core.Extensions;
-using NCop.Weaving;
 using NCop.Weaving.Extensions;
 using System;
 using System.Reflection.Emit;
@@ -15,36 +13,32 @@ namespace NCop.Aspects.Weaving
         private readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
         private readonly IByRefArgumentsStoreWeaver byRefArgumentStoreWeaver = null;
 
-        internal MethodInvokerAspectWeaver(Type topAspectInScopeArgType, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
-            : base(aspectWeavingSettings.WeavingSettings) {
+        internal MethodInvokerAspectWeaver(Type topAspectInScopeArgType, IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
+            : base(aspectDefinition.Method, aspectWeavingSettings.WeavingSettings) {
             this.topAspectInScopeArgType = topAspectInScopeArgType;
             this.argumentsWeavingSettings = argumentsWeavingSettings;
             localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
             byRefArgumentStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
-            argumentsWeaver = new MethodInvokerArgumentsWeaver(topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSettings, byRefArgumentStoreWeaver);
+            argumentsWeaver = new MethodInvokerArgumentsWeaver(aspectDefinition.Method, topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSettings, byRefArgumentStoreWeaver);
         }
 
-        protected override ILGenerator WeaveAction(ILGenerator ilGenerator) {
+        protected override void WeaveAction(ILGenerator ilGenerator) {
             byRefArgumentStoreWeaver.StoreArgsIfNeeded(ilGenerator);
             argumentsWeaver.Weave(ilGenerator);
-            ilGenerator.Emit(OpCodes.Callvirt, MethodInfoImpl);
+            ilGenerator.Emit(OpCodes.Callvirt, MethodInfo);
             byRefArgumentStoreWeaver.RestoreArgsIfNeeded(ilGenerator);
-
-            return ilGenerator;
         }
 
-        protected override ILGenerator WeaveFunction(ILGenerator ilGenerator) {
+        protected override void WeaveFunction(ILGenerator ilGenerator) {
             var setReturnValueWeaver = new SetReturnValueWeaver(topAspectInScopeArgType);
             var argsImplLocalBuilder = localBuilderRepository.Get(topAspectInScopeArgType);
 
             byRefArgumentStoreWeaver.StoreArgsIfNeeded(ilGenerator);
             ilGenerator.EmitLoadLocal(argsImplLocalBuilder);
             argumentsWeaver.Weave(ilGenerator);
-            ilGenerator.Emit(OpCodes.Callvirt, MethodInfoImpl);
+            ilGenerator.Emit(OpCodes.Callvirt, MethodInfo);
             setReturnValueWeaver.Weave(ilGenerator);
             byRefArgumentStoreWeaver.RestoreArgsIfNeeded(ilGenerator);
-
-            return ilGenerator;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using NCop.Composite.Weaving;
-using NCop.Core.Extensions;
+﻿using NCop.Core.Extensions;
 using NCop.Weaving;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -20,7 +19,7 @@ namespace NCop.Aspects.Weaving
             this.returnValueWeaver = returnValueWeaver;
         }
 
-        public virtual ILGenerator Weave(ILGenerator ilGenerator) {
+        public virtual void Weave(ILGenerator ilGenerator) {
             MethodScopeWeaversQueue methodScopeWeaversQueue = null;
 
             weavers.Add(new BeginExceptionBlockMethodScopeWeaver());
@@ -33,8 +32,7 @@ namespace NCop.Aspects.Weaving
             }
 
             methodScopeWeaversQueue = new MethodScopeWeaversQueue(weavers);
-
-            return methodScopeWeaversQueue.Weave(ilGenerator);
+            methodScopeWeaversQueue.Weave(ilGenerator);
         }
     }
 }

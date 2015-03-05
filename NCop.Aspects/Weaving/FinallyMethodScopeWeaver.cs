@@ -1,6 +1,4 @@
-﻿using NCop.Composite.Weaving;
-using NCop.Core.Extensions;
-using NCop.Weaving;
+﻿using NCop.Weaving;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
@@ -14,11 +12,9 @@ namespace NCop.Aspects.Weaving
             finallyWeaversQueue = new MethodScopeWeaversQueue(finallyWeavers);
         }
 
-        public ILGenerator Weave(ILGenerator ilGenerator) {
+        public void Weave(ILGenerator ilGenerator) {
             ilGenerator.BeginFinallyBlock();
             finallyWeaversQueue.Weave(ilGenerator);
-
-            return ilGenerator;
         }
     }
 }

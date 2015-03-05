@@ -1,10 +1,7 @@
-﻿using NCop.Composite.Framework;
+﻿using NCop.Composite.Extensions;
+using NCop.Core;
 using NCop.IoC;
 using System;
-using System.Reflection;
-using NCop.Composite.Extensions;
-using NCop.Core;
-using System.Collections.Generic;
 
 namespace NCop.Composite.IoC
 {

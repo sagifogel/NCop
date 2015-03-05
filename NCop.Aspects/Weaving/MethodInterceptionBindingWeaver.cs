@@ -1,11 +1,11 @@
-﻿using System;
+﻿using System.Reflection;
 
 namespace NCop.Aspects.Weaving
 {
     internal class MethodInterceptionBindingWeaver : AbstractMethodBindingWeaver
     {
-        internal MethodInterceptionBindingWeaver(BindingSettings bindingSettings, IAspectMethodWeavingSettings aspectWeavingSettings, IAspectWeaver methodScopeWeaver)
-            : base(bindingSettings, aspectWeavingSettings, methodScopeWeaver) {
+        internal MethodInterceptionBindingWeaver(MethodInfo methodInfo, BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IAspectWeaver methodScopeWeaver)
+            : base(methodInfo, bindingSettings, aspectWeavingSettings, methodScopeWeaver) {
         }
     }
 }

@@ -1,8 +1,5 @@
-﻿using NCop.Aspects.Extensions;
-using NCop.Core.Extensions;
-using NCop.Weaving.Extensions;
+﻿using NCop.Weaving.Extensions;
 using System;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -12,8 +9,8 @@ namespace NCop.Aspects.Weaving
     {
         private readonly Type topAspectInScopeArgType = null;
 
-        internal BindingMethodInterceptionArgumentsWeaver(Type topAspectInScopeArgType, IArgumentsWeavingSettings argumentWeavingSettings, IAspectMethodWeavingSettings aspectWeavingSettings)
-            : base(argumentWeavingSettings, aspectWeavingSettings) {
+        internal BindingMethodInterceptionArgumentsWeaver(MethodInfo methodInfo, Type topAspectInScopeArgType, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+            : base(methodInfo, argumentWeavingSettings, aspectWeavingSettings) {
             this.topAspectInScopeArgType = topAspectInScopeArgType;
         }
 

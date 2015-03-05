@@ -1,6 +1,4 @@
-﻿using NCop.Composite.Weaving;
-using NCop.Core.Extensions;
-using NCop.Weaving;
+﻿using NCop.Weaving;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
@@ -15,10 +13,9 @@ namespace NCop.Aspects.Weaving
             this.entryWeavers = entryWeavers;
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
+        public override void Weave(ILGenerator ilGenerator) {
             weavers.AddRange(entryWeavers);
-            
-            return base.Weave(ilGenerator);
+            base.Weave(ilGenerator);
         }
     }
 }

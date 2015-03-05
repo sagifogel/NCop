@@ -1,11 +1,7 @@
-﻿using NCop.Composite.Weaving;
+﻿using NCop.Core.Extensions;
 using NCop.Weaving;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection.Emit;
-using System.Text;
-using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
@@ -20,7 +16,7 @@ namespace NCop.Aspects.Weaving
             this.tryCatchFinallySettings = tryCatchFinallySettings;
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
+        public override void Weave(ILGenerator ilGenerator) {
             var weavers = new List<IMethodScopeWeaver>();
             MethodScopeWeaversQueue methodScopeWeaversQueue = null;
 
@@ -38,8 +34,7 @@ namespace NCop.Aspects.Weaving
             }
 
             methodScopeWeaversQueue = new MethodScopeWeaversQueue(weavers);
-
-            return methodScopeWeaversQueue.Weave(ilGenerator);
+            methodScopeWeaversQueue.Weave(ilGenerator);
         }
     }
 }

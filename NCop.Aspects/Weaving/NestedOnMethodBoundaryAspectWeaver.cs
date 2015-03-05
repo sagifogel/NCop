@@ -1,8 +1,5 @@
 ﻿using NCop.Aspects.Aspects;
 using System.Reflection.Emit;
-using NCop.Aspects.Extensions;
-using NCop.Weaving.Extensions;
-using System;
 
 namespace NCop.Aspects.Weaving
 {
@@ -10,12 +7,12 @@ namespace NCop.Aspects.Weaving
     {
         protected readonly IArgumentsWeaver argumentsWeaver = null;
 
-        internal NestedOnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings)
+        internal NestedOnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(nestedWeaver, aspectDefinition, aspectWeavingSettings) {
         }
 
-        public override ILGenerator Weave(ILGenerator ilGenerator) {
-            return weaver.Weave(ilGenerator);
+        public override void Weave(ILGenerator ilGenerator) {
+            weaver.Weave(ilGenerator);
         }
     }
 }

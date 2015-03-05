@@ -1,7 +1,4 @@
-﻿using NCop.Composite.Weaving;
-using NCop.Core.Extensions;
-using NCop.Weaving;
-using System.Collections.Generic;
+﻿using NCop.Weaving;
 using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
@@ -11,10 +8,8 @@ namespace NCop.Aspects.Weaving
 		internal BeginExceptionBlockMethodScopeWeaver() {
 		}
 
-		public ILGenerator Weave(ILGenerator ilGenerator) {
+		public void Weave(ILGenerator ilGenerator) {
 			ilGenerator.BeginExceptionBlock();
-
-			return ilGenerator;
 		}
 	}
 }

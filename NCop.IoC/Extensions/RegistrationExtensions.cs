@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using NCop.Core.Extensions;
-using System.Reflection;
+﻿using NCop.Core.Extensions;
 using NCop.IoC.Framework;
 using NCop.IoC.Properties;
+using System;
+using System.Reflection;
 
 namespace NCop.IoC.Extensions
 {

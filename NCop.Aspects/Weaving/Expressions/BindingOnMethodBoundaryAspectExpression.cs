@@ -7,12 +7,12 @@ namespace NCop.Aspects.Weaving.Expressions
     {
         private readonly IAspectDefinition topAspectInScopeDefinition = null;
 
-        internal BindingOnMethodBoundaryAspectExpression(IAspectMethodExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectDefinition topAspectInScopeDefinition)
+        internal BindingOnMethodBoundaryAspectExpression(IAspectExpression aspectExpression, IMethodAspectDefinition aspectDefinition, IAspectDefinition topAspectInScopeDefinition)
             : base(aspectExpression, aspectDefinition) {
             this.topAspectInScopeDefinition = topAspectInScopeDefinition;
         }
 
-        public override IAspectWeaver Reduce(IAspectMethodWeavingSettings aspectWeavingSettings) {
+        public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
             var topAspectInScopeArgType = topAspectInScopeDefinition.ToAspectArgumentImpl();
 
             var clonedSettings = aspectWeavingSettings.CloneWith(settings => {

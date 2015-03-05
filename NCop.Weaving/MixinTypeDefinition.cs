@@ -1,10 +1,9 @@
-﻿using System;
-using System.Reflection.Emit;
-using NCop.Core.Exceptions;
-using NCop.Weaving;
+﻿using NCop.Core.Exceptions;
 using NCop.Core.Extensions;
-using NCop.Weaving.Properties;
 using NCop.Mixins.Exceptions;
+using NCop.Weaving.Properties;
+using System;
+using System.Reflection.Emit;
 
 namespace NCop.Weaving
 {

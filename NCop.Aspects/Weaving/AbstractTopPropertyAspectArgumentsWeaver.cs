@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 
 namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractTopPropertyAspectArgumentsWeaver : AbstractTopAspectArgumentsWeaver
     {
-        internal AbstractTopPropertyAspectArgumentsWeaver(IArgumentsWeavingSettings argumentWeavingSettings, IAspectMethodWeavingSettings aspectWeavingSettings)
-            : base(argumentWeavingSettings, aspectWeavingSettings) {
+        protected readonly FieldInfo bindingsDependency = null;
+
+        internal AbstractTopPropertyAspectArgumentsWeaver(MethodInfo method, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+            : base(method, argumentWeavingSettings, aspectWeavingSettings) {
             IsProperty = true;
+            bindingsDependency = argumentWeavingSettings.BindingsDependency;
         }
     }
 }

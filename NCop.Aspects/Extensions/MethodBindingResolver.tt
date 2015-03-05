@@ -10,12 +10,13 @@
 //    the code is regenerated.
 // </auto-generated
 // ------------------------------------------------------------------------------
-using System;
-using NCop.Aspects.Engine;
-using System.Collections.Generic;
 
 namespace NCop.Aspects.Extensions
 {
+	using System;
+	using NCop.Aspects.Engine;
+	using System.Collections.Generic;
+
 	internal static class MethodBindingResolver
 	{
 		private static readonly IDictionary<int, Type> funcBindingMap = null;

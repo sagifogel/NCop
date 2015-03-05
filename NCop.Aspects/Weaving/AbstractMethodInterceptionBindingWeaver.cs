@@ -7,10 +7,10 @@ namespace NCop.Aspects.Weaving
     internal abstract class AbstractMethodInterceptionBindingWeaver : AbstractBindingMethodAspectWeaver
     {
         protected readonly Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
-        protected readonly IAspectMethodExpression aspectExpression = null;
-        protected IAspectMethodWeavingSettings aspectWeavingSettings = null;
+        protected readonly IAspectExpression aspectExpression = null;
+        protected IAspectWeavingSettings aspectWeavingSettings = null;
 
-        internal AbstractMethodInterceptionBindingWeaver(IAspectMethodExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectMethodWeavingSettings aspectWeavingSettings)
+        internal AbstractMethodInterceptionBindingWeaver(IAspectExpression aspectExpression, IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectDefinition) {
             this.aspectExpression = aspectExpression;
             this.aspectWeavingSettings = aspectWeavingSettings;
@@ -25,16 +25,15 @@ namespace NCop.Aspects.Weaving
 
         protected virtual FieldInfo WeaveType() {
             IAspectWeaver aspectWeaver = null;
-            IMethodBindingWeaver bindingWeaver = null;
+            IBindingWeaver bindingWeaver = null;
             var aspectSetings = GetAspectsWeavingSettings();
 
             aspectWeaver = aspectExpression.Reduce(aspectSetings);
-            bindingSettings.LocalBuilderRepository = aspectSetings.LocalBuilderRepository;
-			bindingWeaver = new MethodInterceptionBindingWeaver(bindingSettings, aspectWeavingSettings, aspectWeaver);
-            
+            bindingWeaver = new MethodInterceptionBindingWeaver(aspectDefinition.Method, bindingSettings, aspectWeavingSettings, aspectWeaver);
+
             return bindingWeaver.Weave();
         }
 
-        protected abstract IAspectMethodWeavingSettings GetAspectsWeavingSettings();
+        protected abstract IAspectWeavingSettings GetAspectsWeavingSettings();
     }
 }

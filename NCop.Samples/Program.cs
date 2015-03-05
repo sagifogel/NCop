@@ -1,14 +1,10 @@
-﻿using System;
-using System.Diagnostics;
-using System.Reflection;
-using System.Reflection.Emit;
-using NCop.Aspects.Engine;
+﻿using NCop.Aspects.Engine;
 using NCop.Aspects.Framework;
 using NCop.Aspects.Weaving;
 using NCop.Composite.Framework;
 using NCop.Mixins.Framework;
-using NCop.Weaving;
-using NCop.Weaving.Extensions;
+using System;
+using System.Diagnostics;
 
 namespace NCop.Samples
 {
@@ -30,7 +26,7 @@ namespace NCop.Samples
 
     public interface IDeveloper
     {
-        string Code { set; }
+        string Code { get; set; }
     }
 
     public interface IDo
@@ -40,9 +36,7 @@ namespace NCop.Samples
 
     internal static class FunctionArgsMapper
     {
-        internal static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(
-            IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> first,
-            IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> second) {
+        internal static void Map<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> first, IFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> second) {
             second.Arg1 = first.Arg1;
             second.Arg2 = first.Arg2;
             second.Arg3 = first.Arg3;
@@ -161,30 +155,69 @@ namespace NCop.Samples
         private string code = "C#";
 
         [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         public string Code {
             set { code = value; }
+            get { return code; }
         }
 
         //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
 
 
-        [MethodInterceptionAspect(typeof(StopWatchAspect))]
+        //[MethodInterceptionAspect(typeof(StopWatchAspect))]
         //[MethodInterceptionAspect(typeof(StopWatchAspect))]
         public void Do() {
-
+            Console.WriteLine("Sagi");
         }
     }
 
-    public class PropertyBinding : AbstractPropertyBinding<IDeveloper, string>
+    public class PropertyBinding0 : AbstractPropertyBinding<IDeveloper, string>
     {
-        public static PropertyBinding singleton = null;
+        public static PropertyBinding0 singleton = null;
 
-        static PropertyBinding() {
-            singleton = new PropertyBinding();
+        static PropertyBinding0() {
+            singleton = new PropertyBinding0();
         }
 
         public override void SetValue(ref IDeveloper instance, IPropertyArg<string> arg, string value) {
             instance.Code = value;
+        }
+
+        public override string GetValue(ref IDeveloper instance, IPropertyArg<string> arg) {
+            return instance.Code;
+        }
+    }
+
+    public class PropertyBinding1 : AbstractPropertyBinding<IDeveloper, string>
+    {
+        public static PropertyBinding1 singleton = null;
+
+        static PropertyBinding1() {
+            singleton = new PropertyBinding1();
+        }
+
+        public override void SetValue(ref IDeveloper instance, IPropertyArg<string> arg, string value) {
+            var aspectArgs = new SetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, arg.Method, PropertyBinding0.singleton, value);
+
+            try {
+                Aspects.stopWatchAspect.OnSetValue(aspectArgs);
+            }
+            finally {
+                arg.Value = aspectArgs.Value;
+            }
+        }
+
+        public override string GetValue(ref IDeveloper instance, IPropertyArg<string> arg) {
+            var aspectArgs = new GetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, arg.Method, PropertyBinding0.singleton);
+
+            try {
+                Aspects.stopWatchAspect.OnGetValue(aspectArgs);
+            }
+            finally {
+                arg.Value = aspectArgs.Value;
+            }
+
+            return arg.Value;
         }
     }
 
@@ -199,16 +232,20 @@ namespace NCop.Samples
         public string Code {
             get {
                 var codeMethod = instance.GetType().GetProperty("Code", typeof(string)).GetGetMethod();
-                var interArgs = new GetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding.singleton);
+                var interArgs = new GetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding1.singleton);
                 Aspects.stopWatchAspect.OnGetValue(interArgs);
 
                 return interArgs.Value;
             }
             set {
-                var codeMethod = instance.GetType().GetProperty("Code", typeof(string)).GetGetMethod();
-                var interArgs = new SetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding.singleton, value);
-                Aspects.stopWatchAspect.OnGetValue(interArgs);
+                var codeMethod = instance.GetType().GetProperty("Code", typeof(string)).GetSetMethod();
+                var interArgs = new SetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding1.singleton, value);
+                Aspects.stopWatchAspect.OnSetValue(interArgs);
             }
+        }
+
+        public void Do() {
+            throw new NotImplementedException();
         }
     }
 
@@ -220,24 +257,22 @@ namespace NCop.Samples
 
         public override void OnGetValue(PropertyInterceptionArgs<string> args) {
             //base.OnGetValue(args);
-            var value = args.GetCurrentValue();
-            args.SetNewValue("Sagi");
+            args.ProceedGetValue();
         }
 
         public override void OnSetValue(PropertyInterceptionArgs<string> args) {
-            base.OnSetValue(args);
+            args.ProceedSetValue();
         }
     }
 
-    public class StopWatchAspect : ActionInterceptionAspect
+    public class StopWatchAspect : FunctionInterceptionAspect<string>
     {
         private readonly Stopwatch stopWatch = null;
 
         public StopWatchAspect() {
             stopWatch = new Stopwatch();
         }
-
-        public override void OnInvoke(ActionInterceptionArgs args) {
+        public override void OnInvoke(FunctionInterceptionArgs<string> args) {
             stopWatch.Restart();
             base.OnInvoke(args);
             stopWatch.Stop();
@@ -253,7 +288,9 @@ namespace NCop.Samples
 
             container.Configure();
             developer = container.Resolve<IPerson>();
-            developer.Code = "javascript";
+            //var code = developer.Code;
+            developer.Code = "JavaScript";
+            var code = developer.Code;
         }
     }
 }

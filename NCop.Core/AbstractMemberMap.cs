@@ -1,15 +1,11 @@
-﻿using System;
+﻿using NCop.Core.Extensions;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using NCop.Core;
-using NCop.Core.Extensions;
 
 namespace NCop.Core
 {
-    public abstract class AbstractMemberMap<TMember> : IMemberMap<TMember>
-        where TMember : MemberInfo
+    public abstract class AbstractMemberMap<TMember> : IMemberMap<TMember> where TMember : MemberInfo
     {
         private readonly ISet<TMember> members = new HashSet<TMember>();
 
@@ -23,12 +19,15 @@ namespace NCop.Core
             AddIfNotNull(() => implementationMember);
         }
 
-        protected void AddIfNotNull(Func<TMember> memberFactory) {
+        protected bool AddIfNotNull(Func<TMember> memberFactory) {
             var memberInfo = memberFactory();
 
-            if (memberInfo.IsNotNull()) {
-                members.Add(memberInfo);
+            if (memberInfo.IsNull()) {
+                return false;
             }
+
+            members.Add(memberInfo);
+            return true;
         }
 
         public TMember Target {

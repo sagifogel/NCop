@@ -1,18 +1,12 @@
 ﻿using NCop.Aspects.Aspects;
-using NCop.Aspects.Weaving.Expressions;
-using NCop.Weaving;
+using System.Reflection;
 
 namespace NCop.Aspects.Weaving
 {
-    public class AspectPropertyWeaver : AbstractMethodWeaver
+    public class AspectPropertyWeaver : AspectMethodWeaver
     {
-        public AspectPropertyWeaver(IAspectDefinitionCollection aspectDefinitions, IAspectPropertyMethodWeavingSettings aspectWeavingSettings)
-            : base(aspectWeavingSettings.WeavingSettings) {
-            var aspectExpression = new AspectExpressionTreeBuilder(aspectDefinitions).Build();
-
-            MethodEndWeaver = new MethodEndWeaver();
-            MethodScopeWeaver = aspectExpression.Reduce(aspectWeavingSettings);
-            MethodDefintionWeaver = new MethodSignatureWeaver(TypeDefinition);
+        public AspectPropertyWeaver(MethodInfo method, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings)
+            : base(method, aspectDefinitions, aspectWeavingSettings) {
         }
     }
 }

@@ -1,11 +1,9 @@
-﻿using NCop.IoC.Properties;
+﻿using NCop.Core;
+using NCop.Core.Extensions;
+using NCop.IoC.Properties;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NCop.Core.Extensions;
 using System.Linq.Expressions;
-using NCop.Core;
 
 namespace NCop.IoC.Fluent
 {

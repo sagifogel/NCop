@@ -1,14 +1,9 @@
 ﻿using NCop.Mixins.Engine;
 using NCop.Weaving;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace NCop.Composite.Weaving
+namespace NCop.Composite.Mixins.Weaving
 {
-    public interface ICompositeMixinsTypeWeaverBuilder : ITypeWeaverBuilder, IMethodWeaverBuilderBag, IPropertyWeaverBag, IMixinMapBag
+    public interface ICompositeMixinsTypeWeaverBuilder : ITypeWeaverBuilder, IMethodWeaverBuilderBag, IMixinMapBag
     {
     }
 }

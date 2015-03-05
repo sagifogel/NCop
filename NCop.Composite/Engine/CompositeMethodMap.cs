@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
+﻿using NCop.Aspects.Aspects;
 using NCop.Core;
 using NCop.Core.Extensions;
-using NCop.Aspects.Engine;
-using NCop.Aspects.Aspects;
+using System;
+using System.Reflection;
 
 namespace NCop.Composite.Engine
 {

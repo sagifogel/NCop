@@ -1,17 +1,15 @@
 ﻿using NCop.Aspects.Aspects;
+using NCop.Aspects.Extensions;
 using NCop.Aspects.Framework;
+using NCop.Core.Extensions;
 using NCop.Weaving;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using NCop.Aspects.Extensions;
-using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class AspectExpressionTreeBuilder : IBuilder<IAspectMethodExpression>
+    internal class AspectExpressionTreeBuilder : IBuilder<IAspectExpression>
     {
         private readonly Stack<IAspectExpressionBuilder> aspectsStack = null;
         private readonly IAspectDefinitionCollection aspectDefinitions = null;
@@ -32,14 +30,14 @@ namespace NCop.Aspects.Weaving.Expressions
             this.aspectDefinitions = aspectDefinitions;
             firstAspectDefinition = aspectDefinitions.First();
             argumentsWeavingSettings = firstAspectDefinition.ToArgumentsWeavingSettings();
-            aspectExpressionBuilders = aspectsByPriority.ToList(definition => definition.Accept(aspectVisitor));
+            aspectExpressionBuilders = aspectsByPriority.ToList(definition => definition.BuildAdvices().Accept(aspectVisitor));
             invocationAspectBuilder = aspectVisitor.VisitLast(firstAspectDefinition, argumentsWeavingSettings);
             aspectExpressionBuilders.Add(invocationAspectBuilder);
             aspectsStack = new Stack<IAspectExpressionBuilder>(aspectExpressionBuilders);
         }
 
-        public IAspectMethodExpression Build() {
-            IAspectMethodExpression aspectExpression = null;
+        public IAspectExpression Build() {
+            IAspectExpression aspectExpression = null;
 
             while (aspectsStack.Count > 0) {
                 var builder = aspectsStack.Pop();

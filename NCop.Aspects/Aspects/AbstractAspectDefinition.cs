@@ -1,9 +1,7 @@
 ﻿using NCop.Aspects.Advices;
 using NCop.Aspects.Engine;
-using NCop.Core.Extensions;
-using NCop.Aspects.Extensions;
-using NCop.Aspects.Framework;
 using NCop.Aspects.Weaving.Expressions;
+using NCop.Core.Extensions;
 using System;
 using System.Reflection;
 
@@ -13,17 +11,12 @@ namespace NCop.Aspects.Aspects
     {
         protected readonly AdviceDefinitionCollection advices = null;
 
-        internal AbstractAspectDefinition(IAspect aspect, Type aspectDeclaringType, MethodInfo method) {
-            Aspect = aspect;
-            Member = method;
+        internal AbstractAspectDefinition(Type aspectDeclaringType) {
             AspectDeclaringType = aspectDeclaringType;
             advices = new AdviceDefinitionCollection();
-            BulidAdvices();
         }
 
-        public IAspect Aspect { get; private set; }
-
-        public MethodInfo Member { get; private set; }
+        public IAspect Aspect { get; protected set; }
 
         public abstract AspectType AspectType { get; }
 
@@ -51,7 +44,7 @@ namespace NCop.Aspects.Aspects
             return false;
         }
 
-        public abstract void BulidAdvices();
+        public abstract IAspectDefinition BuildAdvices();
 
         public abstract IAspectExpressionBuilder Accept(IAspectDefinitionVisitor visitor);
     }

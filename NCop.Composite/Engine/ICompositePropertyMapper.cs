@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NCop.Core;
+﻿using System.Collections.Generic;
 
 namespace NCop.Composite.Engine
 {
-	public interface ICompositePropertyMapper : IReadOnlyCollection<ICompositePropertyMap>
+	public interface ICompositePropertyMapper : IReadOnlyCollection<ICompositeGetPropertyMap>
 	{
 	}
 }

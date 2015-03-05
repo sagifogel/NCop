@@ -1,6 +1,5 @@
 ﻿using NCop.Core;
 using NCop.Weaving;
-using NCop.Mixins.Engine;
 using System;
 
 namespace NCop.Mixins.Weaving
