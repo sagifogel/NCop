@@ -52,8 +52,7 @@ namespace NCop.Aspects.Tests
             instance.PropertyInterceptionAspectOnFullProperty = list;
             list = instance.PropertyInterceptionAspectOnFullProperty;
 
-            CollectionAssert.AreEqual(list, new OnMethodBoundaryAspectOrderedJoinPoints());
-            CollectionAssert.DoesNotContain(list, AspectJoinPoints.OnException);
+            CollectionAssert.AreEqual(list, new PropertyInterceptionAspectOrderedJoinPoints());
         }
     }
 }

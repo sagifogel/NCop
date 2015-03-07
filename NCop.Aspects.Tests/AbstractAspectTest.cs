@@ -10,7 +10,8 @@ namespace NCop.Aspects.Tests
         InMethod,
         OnSuccess,
         OnException,
-        PropertyInterception
+        GetPropertyInterception,
+        SetPropertyInterception
     }
 
     public abstract class AbstractAspectTest

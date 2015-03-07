@@ -1,7 +1,6 @@
 ﻿using NCop.Aspects.Framework;
 using NCop.Composite.Framework;
 using NCop.Mixins.Framework;
-using System;
 using System.Collections.Generic;
 
 namespace NCop.Aspects.Tests.PropertyAspect.Subjects
@@ -27,90 +26,35 @@ namespace NCop.Aspects.Tests.PropertyAspect.Subjects
 
     public class Mixin : IPropertyAspectSubjects
     {
-        public List<AspectJoinPoints> PropertyInterceptionAspectOnFullProperty {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
-        }
+        [PropertyInterceptionAspect(typeof(FullPropertyInterceptionAspect))]
+        public List<AspectJoinPoints> PropertyInterceptionAspectOnFullProperty { get; set; }
 
-        public List<AspectJoinPoints> PropertyInterceptionAspectOnPartialGetProperty {
-            get { throw new NotImplementedException(); }
-        }
+        public List<AspectJoinPoints> PropertyInterceptionAspectOnPartialGetProperty { get; set; }
 
-        public List<AspectJoinPoints> PropertyInterceptionAspectOnPartialSetProperty {
-            set { throw new NotImplementedException(); }
-        }
+        public List<AspectJoinPoints> PropertyInterceptionAspectOnPartialSetProperty { get; set; }
 
-        public List<AspectJoinPoints> SetPropertyInterceptionAspectOnFullProperty {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
-        }
+        public List<AspectJoinPoints> SetPropertyInterceptionAspectOnFullProperty { get; set; }
 
-        public List<AspectJoinPoints> GetPropertyInterceptionAspectOnFullProperty {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
-        }
+        public List<AspectJoinPoints> GetPropertyInterceptionAspectOnFullProperty { get; set; }
 
-        public List<AspectJoinPoints> SetPropertyInterceptionAspectOnPartialSetProperty {
-            set { throw new NotImplementedException(); }
-        }
+        public List<AspectJoinPoints> SetPropertyInterceptionAspectOnPartialSetProperty { get; set; }
+        public List<AspectJoinPoints> GetPropertyInterceptionAspectOnPartialGetProperty { get; set; }
 
-        public List<AspectJoinPoints> GetPropertyInterceptionAspectOnPartialGetProperty {
-            get { throw new NotImplementedException(); }
-        }
+        public List<AspectJoinPoints> MultipleSetPropertiesInterceptionAspectsOnSetProperty { get; set; }
 
-        public List<AspectJoinPoints> MultipleSetPropertiesInterceptionAspectsOnSetProperty {
-            set { throw new NotImplementedException(); }
-        }
+        public List<AspectJoinPoints> MultipleGetPropertiesInterceptionAspectsOnGetProperty { get; set; }
 
-        public List<AspectJoinPoints> MultipleGetPropertiesInterceptionAspectsOnGetProperty {
-            get { throw new NotImplementedException(); }
-        }
+        public List<AspectJoinPoints> MultiplePropertyInterceptionAspectOnPartialGetProperty { get; set; }
 
-        public List<AspectJoinPoints> MultiplePropertyInterceptionAspectOnPartialGetProperty {
-            get { throw new NotImplementedException(); }
-        }
+        public List<AspectJoinPoints> MultiplePropertyInterceptionAspectOnPartialSetProperty { get; set; }
 
-        public List<AspectJoinPoints> MultiplePropertyInterceptionAspectOnPartialSetProperty {
-            set { throw new NotImplementedException(); }
-        }
+        public List<AspectJoinPoints> MultiplePropertyInterceptionAspectsOnFullProperty { get; set; }
 
-        public List<AspectJoinPoints> MultiplePropertyInterceptionAspectsOnFullProperty {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
-        }
+        public List<AspectJoinPoints> GetAndSetPropertyInterceptionAspectOnFullProperty { get; set; }
 
-        public List<AspectJoinPoints> GetAndSetPropertyInterceptionAspectOnFullProperty {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
-        }
+        public List<AspectJoinPoints> GetPropertyInterceptionAspectWrappedWithPropertyInterceptionAspect { set; get; }
 
-        public List<AspectJoinPoints> GetPropertyInterceptionAspectWrappedWithPropertyInterceptionAspect {
-            get { throw new NotImplementedException(); }
-        }
-
-        public List<AspectJoinPoints> SetPropertyInterceptionAspectWrappedWithPropertyInterceptionAspect {
-            set { throw new NotImplementedException(); }
-        }
+        public List<AspectJoinPoints> SetPropertyInterceptionAspectWrappedWithPropertyInterceptionAspect { set; get; }
     }
 
     [TransientComposite]
@@ -138,12 +82,14 @@ namespace NCop.Aspects.Tests.PropertyAspect.Subjects
     public class FullPropertyInterceptionAspect : PropertyInterceptionAspect<List<AspectJoinPoints>>
     {
         public override void OnGetValue(PropertyInterceptionArgs<List<AspectJoinPoints>> args) {
-            args.Value.Add(AspectJoinPoints.PropertyInterception);
-            base.OnGetValue(args);
+            var value = args.GetCurrentValue();
+
+            value.Add(AspectJoinPoints.GetPropertyInterception);
+            args.ProceedGetValue();
         }
 
         public override void OnSetValue(PropertyInterceptionArgs<List<AspectJoinPoints>> args) {
-            args.Value.Add(AspectJoinPoints.PropertyInterception);
+            args.Value.Add(AspectJoinPoints.SetPropertyInterception);
             base.OnSetValue(args);
         }
     }

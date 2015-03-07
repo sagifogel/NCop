@@ -156,7 +156,7 @@ namespace NCop.Samples
     {
         private List<string> code = new List<string>();
 
-        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         public List<string> Code {
             //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
@@ -261,6 +261,7 @@ namespace NCop.Samples
 
         public override void OnGetValue(PropertyInterceptionArgs<List<string>> args) {
             //base.OnGetValue(args);
+            var val = args.GetCurrentValue();
             args.ProceedGetValue();
         }
 
@@ -295,6 +296,8 @@ namespace NCop.Samples
             //var code = developer.Code;
             developer.Code = new List<string> { "JavaScript" };
             var code = developer.Code;
+
+            Console.WriteLine(code.Count);
         }
     }
 }
