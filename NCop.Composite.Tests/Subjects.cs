@@ -45,8 +45,8 @@ namespace NCop.Composite.Tests
         }
     }
 
-    [Named("CSharpDeveloperMixin")]
-    public class CSharpDeveloperMixin : IDeveloper
+    [Named("Mixin")]
+    public class Mixin : IDeveloper
     {
         public string Code() {
             return "I am coding in C#";

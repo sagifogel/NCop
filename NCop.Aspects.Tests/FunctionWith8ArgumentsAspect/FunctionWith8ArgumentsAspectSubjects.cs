@@ -26,7 +26,7 @@ namespace NCop.Aspects.Tests.FunctionWith8ArgumentsAspect.Subjects
         string OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehaviourAspect(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth);
     }
 
-    public class CSharpDeveloperMixin : IFunctionWith8ArgumentsBoundaryAspect
+    public class Mixin : IFunctionWith8ArgumentsBoundaryAspect
     {
         private string AddInMethodJoinPoint(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third, List<AspectJoinPoints> fourth, List<AspectJoinPoints> fifth, List<AspectJoinPoints> sixth, List<AspectJoinPoints> seventh, List<AspectJoinPoints> eighth) {
             first.Add(AspectJoinPoints.InMethod);
@@ -100,7 +100,7 @@ namespace NCop.Aspects.Tests.FunctionWith8ArgumentsAspect.Subjects
     }
 
     [TransientComposite]
-    [Mixins(typeof(CSharpDeveloperMixin))]
+    [Mixins(typeof(Mixin))]
     public interface IFunctionWith8ArgumentsComposite : IFunctionWith8ArgumentsBoundaryAspect
     {
         [MethodInterceptionAspect(typeof(FunctionWith8ArgumentsInterceptionAspect))]

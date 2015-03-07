@@ -25,7 +25,7 @@ namespace NCop.Aspects.Tests.ActionWith3ArgumentsAspect.Subjects
         void OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehaviourAspect(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third);
     }
 
-    public class CSharpDeveloperMixin : IActionWith3ArgumentsBoundaryAspect
+    public class Mixin : IActionWith3ArgumentsBoundaryAspect
     {
         private void AddInMethodJoinPoint(List<AspectJoinPoints> first, List<AspectJoinPoints> second, List<AspectJoinPoints> third) {
             first.Add(AspectJoinPoints.InMethod);
@@ -92,7 +92,7 @@ namespace NCop.Aspects.Tests.ActionWith3ArgumentsAspect.Subjects
     }
 
     [TransientComposite]
-    [Mixins(typeof(CSharpDeveloperMixin))]
+    [Mixins(typeof(Mixin))]
     public interface IActionWith3ArgumentsComposite : IActionWith3ArgumentsBoundaryAspect
     {
         [MethodInterceptionAspect(typeof(ActionWith3ArgumentsInterceptionAspect))]

@@ -1,4 +1,5 @@
-﻿using NCop.Aspects.Engine;
+﻿using System.Collections.Generic;
+using NCop.Aspects.Engine;
 using NCop.Aspects.Framework;
 using NCop.Aspects.Weaving;
 using NCop.Composite.Framework;
@@ -22,11 +23,12 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPerson : IDeveloper
     {
+        new List<string> Code { get; set; }
     }
 
     public interface IDeveloper
     {
-        string Code { get; set; }
+        List<string> Code { get; set; }
     }
 
     public interface IDo
@@ -152,14 +154,16 @@ namespace NCop.Samples
 
     public class CSharpDeveloperMixin : IDeveloper, IDo
     {
-        private string code = "C#";
+        private List<string> code = new List<string>();
 
         [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
-        public string Code {
+        public List<string> Code {
+            //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
             set { code = value; }
             get { return code; }
         }
+
 
         //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
 
@@ -171,7 +175,7 @@ namespace NCop.Samples
         }
     }
 
-    public class PropertyBinding0 : AbstractPropertyBinding<IDeveloper, string>
+    public class PropertyBinding0 : AbstractPropertyBinding<IDeveloper, List<string>>
     {
         public static PropertyBinding0 singleton = null;
 
@@ -179,16 +183,16 @@ namespace NCop.Samples
             singleton = new PropertyBinding0();
         }
 
-        public override void SetValue(ref IDeveloper instance, IPropertyArg<string> arg, string value) {
+        public override void SetValue(ref IDeveloper instance, IPropertyArg<List<string>> arg, List<string> value) {
             instance.Code = value;
         }
 
-        public override string GetValue(ref IDeveloper instance, IPropertyArg<string> arg) {
+        public override List<string> GetValue(ref IDeveloper instance, IPropertyArg<List<string>> arg) {
             return instance.Code;
         }
     }
 
-    public class PropertyBinding1 : AbstractPropertyBinding<IDeveloper, string>
+    public class PropertyBinding1 : AbstractPropertyBinding<IDeveloper, List<string>>
     {
         public static PropertyBinding1 singleton = null;
 
@@ -196,8 +200,8 @@ namespace NCop.Samples
             singleton = new PropertyBinding1();
         }
 
-        public override void SetValue(ref IDeveloper instance, IPropertyArg<string> arg, string value) {
-            var aspectArgs = new SetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, arg.Method, PropertyBinding0.singleton, value);
+        public override void SetValue(ref IDeveloper instance, IPropertyArg<List<string>> arg, List<string> value) {
+            var aspectArgs = new SetPropertyInterceptionArgsImpl<IDeveloper, List<string>>(instance, arg.Method, PropertyBinding0.singleton, value);
 
             try {
                 Aspects.stopWatchAspect.OnSetValue(aspectArgs);
@@ -207,8 +211,8 @@ namespace NCop.Samples
             }
         }
 
-        public override string GetValue(ref IDeveloper instance, IPropertyArg<string> arg) {
-            var aspectArgs = new GetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, arg.Method, PropertyBinding0.singleton);
+        public override List<string> GetValue(ref IDeveloper instance, IPropertyArg<List<string>> arg) {
+            var aspectArgs = new GetPropertyInterceptionArgsImpl<IDeveloper, List<string>>(instance, arg.Method, PropertyBinding0.singleton);
 
             try {
                 Aspects.stopWatchAspect.OnGetValue(aspectArgs);
@@ -229,17 +233,17 @@ namespace NCop.Samples
             instance = new CSharpDeveloperMixin();
         }
 
-        public string Code {
+        public List<string> Code {
             get {
-                var codeMethod = instance.GetType().GetProperty("Code", typeof(string)).GetGetMethod();
-                var interArgs = new GetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding1.singleton);
+                var codeMethod = instance.GetType().GetProperty("Code", typeof(List<string>)).GetGetMethod();
+                var interArgs = new GetPropertyInterceptionArgsImpl<IDeveloper, List<string>>(instance, codeMethod, PropertyBinding0.singleton);
                 Aspects.stopWatchAspect.OnGetValue(interArgs);
 
                 return interArgs.Value;
             }
             set {
-                var codeMethod = instance.GetType().GetProperty("Code", typeof(string)).GetSetMethod();
-                var interArgs = new SetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding1.singleton, value);
+                var codeMethod = instance.GetType().GetProperty("Code", typeof(List<string>)).GetSetMethod();
+                var interArgs = new SetPropertyInterceptionArgsImpl<IDeveloper, List<string>>(instance, codeMethod, PropertyBinding0.singleton, value);
                 Aspects.stopWatchAspect.OnSetValue(interArgs);
             }
         }
@@ -249,18 +253,18 @@ namespace NCop.Samples
         }
     }
 
-    public class PropertyStopWatchAspect : PropertyInterceptionAspect<string>
+    public class PropertyStopWatchAspect : PropertyInterceptionAspect<List<string>>
     {
         public PropertyStopWatchAspect() {
 
         }
 
-        public override void OnGetValue(PropertyInterceptionArgs<string> args) {
+        public override void OnGetValue(PropertyInterceptionArgs<List<string>> args) {
             //base.OnGetValue(args);
             args.ProceedGetValue();
         }
 
-        public override void OnSetValue(PropertyInterceptionArgs<string> args) {
+        public override void OnSetValue(PropertyInterceptionArgs<List<string>> args) {
             args.ProceedSetValue();
         }
     }
@@ -289,7 +293,7 @@ namespace NCop.Samples
             container.Configure();
             developer = container.Resolve<IPerson>();
             //var code = developer.Code;
-            developer.Code = "JavaScript";
+            developer.Code = new List<string> { "JavaScript" };
             var code = developer.Code;
         }
     }

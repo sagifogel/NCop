@@ -24,7 +24,7 @@ namespace NCop.Aspects.Tests.ActionWith6RefArgumentsAspect.Subjects
         void OnMethodBoundaryAspectThatRaiseAnExceptionInMethodImplDecoratedWithContinueFlowBehaviourAspect(ref int i, ref int j, ref int k, ref int l, ref int m, ref int n);
     }
 
-    public class CSharpDeveloperMixin : IActionWith6RefArgumentsBoundaryAspect
+    public class Mixin : IActionWith6RefArgumentsBoundaryAspect
     {
         private void AddInMethodJoinPoint(ref int i, ref int j, ref int k, ref int l, ref int m, ref int n) {
             n = m = l = k = j = i += (int)AspectJoinPoints.InMethod;
@@ -89,7 +89,7 @@ namespace NCop.Aspects.Tests.ActionWith6RefArgumentsAspect.Subjects
     }
 
     [TransientComposite]
-    [Mixins(typeof(CSharpDeveloperMixin))]
+    [Mixins(typeof(Mixin))]
     public interface IActionWith6RefArgumentsComposite : IActionWith6RefArgumentsBoundaryAspect
     {
         [MethodInterceptionAspect(typeof(ActionWith6RefArgumentsInterceptionAspect))]

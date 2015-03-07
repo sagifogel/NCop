@@ -9,7 +9,8 @@ namespace NCop.Aspects.Tests
         OnInvoke,
         InMethod,
         OnSuccess,
-        OnException
+        OnException,
+        PropertyInterception
     }
 
     public abstract class AbstractAspectTest

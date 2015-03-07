@@ -6,13 +6,24 @@ namespace NCop.Aspects.Weaving
 {
     internal class AspectArgsSetPropertyWeaver : AbstractAspectPropertyArgsWeaver
     {
+        private readonly Type propertyType = null;
+
         internal AspectArgsSetPropertyWeaver(MethodInfo methodInfo, LocalBuilder methodLocalBuilder, IAspectWeavingSettings aspectWeavingSettings)
             : base(methodInfo, methodLocalBuilder, aspectWeavingSettings) {
+            var @params = method.GetParameters();
+
+            propertyType = @params[0].ParameterType;
+        }
+
+        protected override Type PropertyType {
+            get {
+                return propertyType;
+            }
         }
 
         protected override string PropertyName {
             get {
-                return methodInfo.Name.Replace("set_", "");
+                return method.Name.Replace("set_", "");
             }
         }
 
