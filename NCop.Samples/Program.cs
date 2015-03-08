@@ -23,11 +23,16 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPerson : IDeveloper
     {
+        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         new List<string> Code { get; set; }
+
+        //[MethodInterceptionAspect(typeof(StopWatchAspect))]
+        //new void Do();
     }
 
     public interface IDeveloper
     {
+        void Do();
         List<string> Code { get; set; }
     }
 
@@ -157,7 +162,6 @@ namespace NCop.Samples
         private List<string> code = new List<string>();
 
         //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
-        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         public List<string> Code {
             //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
             set { code = value; }

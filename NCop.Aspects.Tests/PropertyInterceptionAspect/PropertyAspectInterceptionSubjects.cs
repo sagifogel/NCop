@@ -26,7 +26,6 @@ namespace NCop.Aspects.Tests.PropertyAspect.Subjects
 
     public class Mixin : IPropertyAspectSubjects
     {
-        [PropertyInterceptionAspect(typeof(FullPropertyInterceptionAspect))]
         public List<AspectJoinPoints> PropertyInterceptionAspectOnFullProperty { get; set; }
 
         public List<AspectJoinPoints> PropertyInterceptionAspectOnPartialGetProperty { get; set; }
@@ -38,6 +37,7 @@ namespace NCop.Aspects.Tests.PropertyAspect.Subjects
         public List<AspectJoinPoints> GetPropertyInterceptionAspectOnFullProperty { get; set; }
 
         public List<AspectJoinPoints> SetPropertyInterceptionAspectOnPartialSetProperty { get; set; }
+        
         public List<AspectJoinPoints> GetPropertyInterceptionAspectOnPartialGetProperty { get; set; }
 
         public List<AspectJoinPoints> MultipleSetPropertiesInterceptionAspectsOnSetProperty { get; set; }

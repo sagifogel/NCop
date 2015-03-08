@@ -156,9 +156,9 @@ namespace NCop.Core.Extensions
 
         public static PropertyInfo[] GetPublicProperties(this Type type) {
             if (type.IsInterface) {
-                var propertyInfos = new List<PropertyInfo>();
-                var considered = new List<Type>();
                 var queue = new Queue<Type>();
+                var considered = new List<Type>();
+                var propertyInfos = new HashSet<PropertyInfo>();
 
                 considered.Add(type);
                 queue.Enqueue(type);
@@ -178,7 +178,7 @@ namespace NCop.Core.Extensions
                     var typeProperties = subType.GetTypePublicProperties();
                     var newPropertyInfos = typeProperties.Where(x => !propertyInfos.Contains(x));
 
-                    propertyInfos.InsertRange(0, newPropertyInfos);
+                    propertyInfos.AddRange(newPropertyInfos);
                 }
 
                 return propertyInfos.ToArray();
