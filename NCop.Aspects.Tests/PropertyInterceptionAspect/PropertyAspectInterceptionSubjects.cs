@@ -24,37 +24,82 @@ namespace NCop.Aspects.Tests.PropertyAspect.Subjects
         //List<AspectJoinPoints> SetPropertyInterceptionAspectWrappedWithPropertyInterceptionAspect { set; }
     }
 
+    public static class PropertyInterceptionAspects
+    {
+        public static List<AspectJoinPoints> PropertyInterceptionAspectsList = new List<AspectJoinPoints>();
+    }
+
     public class Mixin : IPropertyAspectSubjects
     {
         public List<AspectJoinPoints> PropertyInterceptionAspectOnFullProperty { get; set; }
 
-        public List<AspectJoinPoints> PropertyInterceptionAspectOnPartialGetProperty { get; set; }
+        public List<AspectJoinPoints> PropertyInterceptionAspectOnPartialGetProperty {
+            get {
+                return PropertyInterceptionAspects.PropertyInterceptionAspectsList;
+            }
+        }
 
-        public List<AspectJoinPoints> PropertyInterceptionAspectOnPartialSetProperty { get; set; }
+        public List<AspectJoinPoints> PropertyInterceptionAspectOnPartialSetProperty {
+            set {
+                PropertyInterceptionAspects.PropertyInterceptionAspectsList = value;
+            }
+        }
 
         public List<AspectJoinPoints> SetPropertyInterceptionAspectOnFullProperty { get; set; }
 
         public List<AspectJoinPoints> GetPropertyInterceptionAspectOnFullProperty { get; set; }
 
-        public List<AspectJoinPoints> SetPropertyInterceptionAspectOnPartialSetProperty { get; set; }
-        
-        public List<AspectJoinPoints> GetPropertyInterceptionAspectOnPartialGetProperty { get; set; }
+        public List<AspectJoinPoints> SetPropertyInterceptionAspectOnPartialSetProperty {
+            set {
+                PropertyInterceptionAspects.PropertyInterceptionAspectsList = value;
+            }
+        }
 
-        public List<AspectJoinPoints> MultipleSetPropertiesInterceptionAspectsOnSetProperty { get; set; }
+        public List<AspectJoinPoints> GetPropertyInterceptionAspectOnPartialGetProperty {
+            set {
+                PropertyInterceptionAspects.PropertyInterceptionAspectsList = value;
+            }
+        }
 
-        public List<AspectJoinPoints> MultipleGetPropertiesInterceptionAspectsOnGetProperty { get; set; }
+        public List<AspectJoinPoints> MultipleSetPropertiesInterceptionAspectsOnSetProperty {
+            set {
+                PropertyInterceptionAspects.PropertyInterceptionAspectsList = value;
+            }
+        }
 
-        public List<AspectJoinPoints> MultiplePropertyInterceptionAspectOnPartialGetProperty { get; set; }
+        public List<AspectJoinPoints> MultipleGetPropertiesInterceptionAspectsOnGetProperty {
+            get {
+                return PropertyInterceptionAspects.PropertyInterceptionAspectsList;
+            }
+        }
 
-        public List<AspectJoinPoints> MultiplePropertyInterceptionAspectOnPartialSetProperty { get; set; }
+        public List<AspectJoinPoints> MultiplePropertyInterceptionAspectOnPartialGetProperty {
+            get {
+                return PropertyInterceptionAspects.PropertyInterceptionAspectsList;
+            }
+        }
+
+        public List<AspectJoinPoints> MultiplePropertyInterceptionAspectOnPartialSetProperty {
+            set {
+                PropertyInterceptionAspects.PropertyInterceptionAspectsList = value;
+            }
+        }
 
         public List<AspectJoinPoints> MultiplePropertyInterceptionAspectsOnFullProperty { get; set; }
 
         public List<AspectJoinPoints> GetAndSetPropertyInterceptionAspectOnFullProperty { get; set; }
 
-        public List<AspectJoinPoints> GetPropertyInterceptionAspectWrappedWithPropertyInterceptionAspect { set; get; }
+        public List<AspectJoinPoints> GetPropertyInterceptionAspectWrappedWithPropertyInterceptionAspect {
+            get {
+                return PropertyInterceptionAspects.PropertyInterceptionAspectsList;
+            }
+        }
 
-        public List<AspectJoinPoints> SetPropertyInterceptionAspectWrappedWithPropertyInterceptionAspect { set; get; }
+        public List<AspectJoinPoints> SetPropertyInterceptionAspectWrappedWithPropertyInterceptionAspect {
+            set {
+                PropertyInterceptionAspects.PropertyInterceptionAspectsList = value;
+            }
+        }
     }
 
     [TransientComposite]
@@ -63,6 +108,8 @@ namespace NCop.Aspects.Tests.PropertyAspect.Subjects
     {
         [PropertyInterceptionAspect(typeof(FullPropertyInterceptionAspect))]
         new List<AspectJoinPoints> PropertyInterceptionAspectOnFullProperty { get; set; }
+
+        //[PropertyInterceptionAspect(typeof(FullPropertyInterceptionAspect))]
         //new List<AspectJoinPoints> PropertyInterceptionAspectOnPartialGetProperty { get; }
         //new List<AspectJoinPoints> PropertyInterceptionAspectOnPartialSetProperty { set; }
         //new List<AspectJoinPoints> SetPropertyInterceptionAspectOnFullProperty { get; set; }

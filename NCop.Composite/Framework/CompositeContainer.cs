@@ -32,13 +32,7 @@ namespace NCop.Composite.Framework
 
             registry = new CompositeRegistryDecorator(registry);
             compositeRuntime = new CompositeRuntime(runtimeSettings, registry);
-            try {
-
-                compositeRuntime.Run();
-            }
-            catch (System.Exception) {
-                
-            }
+            compositeRuntime.Run();
         }
 
         public void Configure() {

@@ -16,7 +16,7 @@ namespace NCop.Aspects.Weaving.Expressions
 
             var bindingWeaver = new IsolatedSetPropertyInterceptionBindingWeaver(aspectExpression, aspectDefinition, clonedAspectWeavingSettings);
 
-            return new TopSetPropertyInterceptionAspectWeaver(aspectDefinition, aspectWeavingSettings, bindingWeaver.WeavedType);
+            return new TopSetPropertyInterceptionAspectWeaver(aspectDefinition, clonedAspectWeavingSettings, bindingWeaver.WeavedType);
         }
     }
 }

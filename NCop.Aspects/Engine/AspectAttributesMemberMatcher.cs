@@ -14,6 +14,7 @@ namespace NCop.Aspects.Engine
 {
     public class AspectAttributesMemberMatcher : Tuples<MethodInfo, IAspectDefinitionCollection>
     {
+        private static readonly bool partial = true;
         private readonly ConcurrentDictionary<MethodInfo, IAspectDefinitionCollection> registry = null;
 
         public AspectAttributesMemberMatcher(Type aspectDeclaringType, IAspectMemebrsCollection aspectMembersCollection) {
@@ -29,20 +30,33 @@ namespace NCop.Aspects.Engine
                     return CollectMethodsAspectDefinitions(member, aspectDeclaringType, aspectMembers.Target);
                 });
 
-                AddOrUpdate(aspectMembers.Target, aspects);
+                AddOrUpdate(aspectMembers.Target, aspects.ToList());
             });
         }
 
-        private void AddOrUpdate(MethodInfo method, IEnumerable<IAspectDefinition> aspects) {
-            var aspectCollection = registry.GetOrAdd(method, new AspectDefinitionCollection());
+        private void AddOrUpdate(MethodInfo method, ICollection<IAspectDefinition> aspects) {
+            if (aspects.Count > 0) {
+                var aspectCollection = registry.GetOrAdd(method, new AspectDefinitionCollection());
 
-            aspectCollection.AddRange(aspects);
+                aspectCollection.AddRange(aspects);
+            }
         }
 
         private void CollectPropertiesAspectDefinitions(Type aspectDeclaringType, IAspectPropertyMapCollection aspectMembersCollection) {
-            CollectPartialGetPropertyAspectDefinitions(aspectDeclaringType, aspectMembersCollection.Properties);
-            CollectPartialSetPropertiesAspectDefinitions(aspectDeclaringType, aspectMembersCollection.Properties);
-            CollectFullPropertyAspectDefinitions(aspectDeclaringType, aspectMembersCollection.Properties);
+            List<IAspectPropertyMap> properties = null;
+            var groupedProperties = aspectMembersCollection.Properties
+                                                           .GroupBy(map => map.IsPartial)
+                                                           .ToDictionary(group => group.Key, group => group.ToList());
+
+            if (groupedProperties.TryGetValue(partial, out properties)) {
+                CollectPartialGetPropertyAspectDefinitions(aspectDeclaringType, properties);
+                CollectPartialSetPropertyAspectDefinitions(aspectDeclaringType, properties);
+                CollectPartialPropertyAspectDefinitionsByPropertyInterceptionAttribute(aspectDeclaringType, properties);
+            }
+
+            if (groupedProperties.TryGetValue(!partial, out properties)) {
+                CollectFullPropertyAspectDefinitions(aspectDeclaringType, properties);
+            }
         }
 
         private IEnumerable<IAspectDefinition> CollectMethodsAspectDefinitions(MethodInfo method, Type aspectDeclaringType, MethodInfo target) {
@@ -67,27 +81,74 @@ namespace NCop.Aspects.Engine
             });
         }
 
-        private void CollectPartialSetPropertiesAspectDefinitions(Type aspectDeclaringType, IEnumerable<IAspectPropertyMap> properties) {
+        private void CollectPartialSetPropertyAspectDefinitions(Type aspectDeclaringType, IEnumerable<IAspectPropertyMap> properties) {
             CollectPartialPropertiesAspectDefinitions<SetPropertyInterceptionAspectAttribute>(properties, prop => prop.GetSetMethod(), (aspectsAttrs, method, property) => {
                 return aspectsAttrs.Select(aspectAttr => new SetPropertyInterceptionAspectDefinition(aspectAttr, aspectDeclaringType, method, property));
             });
         }
 
-        private void CollectPartialPropertiesAspectDefinitions<TArribute>(IEnumerable<IAspectPropertyMap> properties, Func<PropertyInfo, MethodInfo> methodResolver, Func<IEnumerable<TArribute>, MethodInfo, PropertyInfo, IEnumerable<IAspectDefinition>> definitionFactory) where TArribute : Attribute {
-            properties.Where(propertyMap => propertyMap.IsPartial)
-                      .ForEach(propertyMap => {
-                          var target = methodResolver(propertyMap.Target);
-                          var getPropertyInterceptionAspects = new List<IAspectDefinition>();
+        private void CollectPartialPropertyAspectDefinitionsByPropertyInterceptionAttribute(Type aspectDeclaringType, IEnumerable<IAspectPropertyMap> properties) {
+            properties.ForEach(propertyMap => {
+                MethodInfo target = null;
+                var propertyInterceptionAspects = new List<IAspectDefinition>();
 
-                          propertyMap.Members.ForEach(property => {
-                              var getMethod = methodResolver(property);
-                              var getPropertyInterceptionAspectsAttrs = getMethod.GetCustomAttributes<TArribute>();
+                if (propertyMap.Target.IsNotNull()) {
+                    propertyMap.Members.ForEach(property => {
+                        IEnumerable<IAspectDefinition> aspectDefinitions = null;
+                        var aspectsAttrs = property.GetCustomAttributes<PropertyInterceptionAspectAttribute>().ToArray();
 
-                              getPropertyInterceptionAspects.AddRange(definitionFactory(getPropertyInterceptionAspectsAttrs, getMethod, property));
-                          });
+                        if (aspectsAttrs.IsNotNullOrEmpty()) {
+                            if (property.CanWrite) {
+                                target = propertyMap.Target.GetSetMethod();
+                                aspectDefinitions = aspectsAttrs.Select(aspectAttr => {
+                                    var aspect = new SetPropertyInterceptionAspectAttribute(aspectAttr.AspectType) {
+                                        AspectPriority = aspectAttr.AspectPriority,
+                                        LifetimeStrategy = aspectAttr.LifetimeStrategy
+                                    };
 
-                          AddOrUpdate(target, getPropertyInterceptionAspects);
-                      });
+                                    return new SetPropertyInterceptionAspectDefinition(aspect, aspectDeclaringType, target, property);
+                                });
+                            }
+                            else {
+                                target = propertyMap.Target.GetGetMethod();
+                                aspectDefinitions = aspectsAttrs.Select(aspectAttr => {
+                                    var aspect = new GetPropertyInterceptionAspectAttribute(aspectAttr.AspectType) {
+                                        AspectPriority = aspectAttr.AspectPriority,
+                                        LifetimeStrategy = aspectAttr.LifetimeStrategy
+                                    };
+
+                                    return new GetPropertyInterceptionAspectDefinition(aspect, aspectDeclaringType, target, property);
+                                });
+                            }
+
+                            propertyInterceptionAspects.AddRange(aspectDefinitions);
+                        }
+                    });
+
+                    AddOrUpdate(target, propertyInterceptionAspects);
+                }
+            });
+        }
+
+        private void CollectPartialPropertiesAspectDefinitions<TAttribute>(IEnumerable<IAspectPropertyMap> properties, Func<PropertyInfo, MethodInfo> methodResolver, Func<IEnumerable<TAttribute>, MethodInfo, PropertyInfo, IEnumerable<IAspectDefinition>> definitionFactory) where TAttribute : Attribute {
+            properties.ForEach(propertyMap => {
+                var target = methodResolver(propertyMap.Target);
+                var propertyInterceptionAspects = new List<IAspectDefinition>();
+
+                if (target.IsNotNull()) {
+                    propertyMap.Members.ForEach(property => {
+                        var method = methodResolver(property);
+
+                        if (method.IsNotNull()) {
+                            var propertyInterceptionAspectsAttrs = method.GetCustomAttributes<TAttribute>();
+
+                            propertyInterceptionAspects.AddRange(definitionFactory(propertyInterceptionAspectsAttrs, method, property));
+                        }
+                    });
+
+                    AddOrUpdate(target, propertyInterceptionAspects);
+                }
+            });
         }
 
         private void CollectFullPropertyAspectDefinitions(Type aspectDeclaringType, IEnumerable<IAspectPropertyMap> properties) {
@@ -95,21 +156,25 @@ namespace NCop.Aspects.Engine
                 propertyMap.Members.ForEach(property => {
                     var propertyGetMethod = property.GetGetMethod();
                     var propertySetMethod = property.GetSetMethod();
-                    var propertyInterceptionAspectsAttrs = property.GetCustomAttributes<PropertyInterceptionAspectAttribute>();
-                    var getPropertyInterceptionAspectsAttrs = propertyGetMethod.GetCustomAttributes<GetPropertyInterceptionAspectAttribute>();
-                    var setPropertyInterceptionAspectsAttrs = propertySetMethod.GetCustomAttributes<SetPropertyInterceptionAspectAttribute>();
 
-                    propertyInterceptionAspectsAttrs.ForEach(aspectAttribute => {
-                        CollectPropertyInterceptionAspectDefinition(propertyMap, propertyGetMethod, propertySetMethod, aspectDeclaringType, aspectAttribute);
-                    });
+                    property.GetCustomAttributes<PropertyInterceptionAspectAttribute>()
+                            .ForEach(aspectAttribute => {
+                                CollectPropertyInterceptionAspectDefinition(propertyMap, propertyGetMethod, propertySetMethod, aspectDeclaringType, aspectAttribute);
+                            });
 
-                    getPropertyInterceptionAspectsAttrs.ForEach(aspectAttribute => {
-                        CollectPropertyPartialAspectDefinition(propertyMap, propertyGetMethod, propertySetMethod, aspectDeclaringType, aspectAttribute, aspectDefinition => new GetPropertyBindingTypeReflectorBuilder(aspectDefinition));
-                    });
+                    if (propertyGetMethod.IsNotNull()) {
+                        propertyGetMethod.GetCustomAttributes<GetPropertyInterceptionAspectAttribute>()
+                                         .ForEach(aspectAttribute => {
+                                             CollectPropertyPartialAspectDefinition(propertyMap, propertyGetMethod, propertySetMethod, aspectDeclaringType, aspectAttribute, aspectDefinition => new GetPropertyBindingTypeReflectorBuilder(aspectDefinition));
+                                         });
+                    }
 
-                    setPropertyInterceptionAspectsAttrs.ForEach(aspectAttribute => {
-                        CollectPropertyPartialAspectDefinition(propertyMap, propertyGetMethod, propertySetMethod, aspectDeclaringType, aspectAttribute, aspectDefinition => new SetPropertyBindingTypeReflectorBuilder(aspectDefinition));
-                    });
+                    if (propertySetMethod.IsNotNull()) {
+                        propertySetMethod.GetCustomAttributes<SetPropertyInterceptionAspectAttribute>()
+                                         .ForEach(aspectAttribute => {
+                                             CollectPropertyPartialAspectDefinition(propertyMap, propertyGetMethod, propertySetMethod, aspectDeclaringType, aspectAttribute, aspectDefinition => new SetPropertyBindingTypeReflectorBuilder(aspectDefinition));
+                                         });
+                    }
                 });
             });
         }

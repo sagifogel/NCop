@@ -44,7 +44,7 @@ namespace NCop.Composite.Engine
             });
 
             mappedProperties = mappedSetProperties.Concat(mappedGetProperties)
-                                                  .ToListOf<ICompositePropertyMap>();
+                                                  .ToList(propertyMap => propertyMap.HasAspectDefinitions);
         }
 
         private IEnumerable<ICompositePropertyMap> MapProperties(IAspectsMap aspectsMap, IEnumerable<IAspectPropertyMap> aspectMappedProperties, Func<IAspectPropertyMap, MethodInfo> propertyFactory, Func<Type, Type, PropertyInfo, PropertyInfo, IAspectDefinitionCollection, ICompositePropertyMap> compositePropertyMapFactory) {

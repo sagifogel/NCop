@@ -35,8 +35,12 @@ namespace NCop.Aspects.Tests
         // public static void MyClassCleanup() { }
         //
         // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
+       
+        [TestInitialize]
+        public void ResetPropertyInterceptionAspectsList() {
+            PropertyInterceptionAspects.PropertyInterceptionAspectsList = new List<AspectJoinPoints>();
+        }
+
         //
         // Use TestCleanup to run code after each test has run
         // [TestCleanup()]
@@ -45,7 +49,7 @@ namespace NCop.Aspects.Tests
         #endregion
 
         [TestMethod]
-        public void Property_AnnotatedWitPropertyInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
+        public void Property_AnnotatedWithPropertyInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
             var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
             var list = new List<AspectJoinPoints>();
 
@@ -53,6 +57,14 @@ namespace NCop.Aspects.Tests
             list = instance.PropertyInterceptionAspectOnFullProperty;
 
             CollectionAssert.AreEqual(list, new PropertyInterceptionAspectOrderedJoinPoints());
+        }
+
+        [TestMethod]
+        public void GetProperty_AnnotatedWithPropertyInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
+            //var list = instance.PropertyInterceptionAspectOnPartialGetProperty;
+
+            //CollectionAssert.AreEqual(list, new PropertyInterceptionAspectOrderedJoinPoints());
         }
     }
 }

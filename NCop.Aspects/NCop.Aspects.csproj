@@ -96,6 +96,7 @@
     </Compile>
     <Compile Include="Aspects\AbstractMethodAspectDefinition.cs" />
     <Compile Include="Aspects\AbstractPropertyAspectDefinition.cs" />
+    <Compile Include="Aspects\AbstractPropertyFragmentInterceptionAspectDefinition.cs" />
     <Compile Include="Aspects\IFullPropertyAspectDefinition.cs" />
     <Compile Include="Aspects\IMethodAspectDefinition.cs" />
     <Compile Include="Aspects\IPropertyAspectDefinition.cs" />

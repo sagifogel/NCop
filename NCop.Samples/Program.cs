@@ -24,7 +24,7 @@ namespace NCop.Samples
     public interface IPerson : IDeveloper
     {
         [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
-        new List<string> Code { get; set; }
+        new List<string> Code { get; }
 
         //[MethodInterceptionAspect(typeof(StopWatchAspect))]
         //new void Do();
@@ -32,8 +32,7 @@ namespace NCop.Samples
 
     public interface IDeveloper
     {
-        void Do();
-        List<string> Code { get; set; }
+        List<string> Code { get; }
     }
 
     public interface IDo
@@ -187,9 +186,9 @@ namespace NCop.Samples
             singleton = new PropertyBinding0();
         }
 
-        public override void SetValue(ref IDeveloper instance, IPropertyArg<List<string>> arg, List<string> value) {
-            instance.Code = value;
-        }
+        //public override void SetValue(ref IDeveloper instance, IPropertyArg<List<string>> arg, List<string> value) {
+        //    instance.Code = value;
+        //}
 
         public override List<string> GetValue(ref IDeveloper instance, IPropertyArg<List<string>> arg) {
             return instance.Code;
@@ -298,7 +297,7 @@ namespace NCop.Samples
             container.Configure();
             developer = container.Resolve<IPerson>();
             //var code = developer.Code;
-            developer.Code = new List<string> { "JavaScript" };
+            //developer.Code = new List<string> { "JavaScript" };
             var code = developer.Code;
 
             Console.WriteLine(code.Count);

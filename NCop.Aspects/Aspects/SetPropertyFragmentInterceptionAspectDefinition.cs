@@ -7,12 +7,12 @@ using System.Reflection;
 
 namespace NCop.Aspects.Aspects
 {
-    internal class SetPropertyFragmentInterceptionAspectDefinition : AbstractPropertyAspectDefinition
+    internal class SetPropertyFragmentInterceptionAspectDefinition : AbstractPropertyFragmentInterceptionAspectDefinition
     {
         private readonly SetPropertyFragmentInterceptionAspect aspect = null;
 
         internal SetPropertyFragmentInterceptionAspectDefinition(IPropertyExpressionBuilder propertyBuilder, SetPropertyFragmentInterceptionAspect aspect, Type aspectDeclaringType, MethodInfo method, PropertyInfo property)
-            : base(propertyBuilder, aspectDeclaringType, property) {
+            : base(propertyBuilder, aspect, aspectDeclaringType, method, property) {
             Aspect = this.aspect = aspect;
         }
 
