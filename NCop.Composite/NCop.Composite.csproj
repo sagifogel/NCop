@@ -91,10 +91,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Engine\CompositeMethodWeaverBuilderFactoryImpl.cs" />
+    <Compile Include="Engine\CompositePropertyMap.cs" />
     <Compile Include="Engine\CompositePropertyMapVisitor.cs" />
     <Compile Include="Engine\CompositeRegistryDecorator.cs" />
     <Compile Include="Engine\IAcceptsCompositePropertyMapVisitor.cs" />
     <Compile Include="Engine\ICompositeMethodWeaverBuilderFactory.cs" />
+    <Compile Include="Engine\ICompositePropertyFragmentMap.cs" />
     <Compile Include="Engine\ICompositePropertyMap.cs" />
     <Compile Include="Engine\ICompositePropertyMapVisitor.cs" />
     <Compile Include="Engine\ICompositeSetPropertyMap.cs" />

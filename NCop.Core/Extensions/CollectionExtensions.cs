@@ -139,5 +139,14 @@ namespace NCop.Core.Extensions
         public static void AddRange<TSource>(this ISet<TSource> source, IEnumerable<TSource> second) {
             second.ForEach(item => source.Add(item));
         }
+
+        public static IDictionary<TKey, TElement> ToGroupedDictionary<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<IGrouping<TKey, TSource>, TElement> elementSelector) {
+            return source.GroupBy(keySelector)
+                         .ToDictionary(group => group.Key, elementSelector);
+        }
+
+        public static IDictionary<TKey, IEnumerable<TSource>> ToGroupedDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector) {
+            return source.ToGroupedDictionary(keySelector, group => group.AsEnumerable());
+        }
     }
 }

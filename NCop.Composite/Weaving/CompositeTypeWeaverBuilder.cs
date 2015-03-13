@@ -44,9 +44,11 @@ namespace NCop.Composite.Weaving
                 var propertyMapVisitor = new CompositePropertyMapVisitor();
 
                 compositeMappedMembers.Properties.ForEach(compositePropertyMap => {
-                    var propertyBuilderFactory = compositePropertyMap.Accept(propertyMapVisitor);
+                    compositePropertyMap.ForEach(fragment => {
+                        var propertyBuilderFactory = fragment.Accept(propertyMapVisitor);
 
-                    builder.Add(propertyBuilderFactory.Get(typeDefinition, weavingServices));
+                        builder.Add(propertyBuilderFactory.Get(typeDefinition, weavingServices));
+                    });
                 });
             }
         }

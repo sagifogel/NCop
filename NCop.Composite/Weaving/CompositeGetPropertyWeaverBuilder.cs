@@ -6,10 +6,10 @@ namespace NCop.Composite.Weaving
 {
     internal class CompositeGetPropertyWeaverBuilder : AbstractWeaverBuilder, IMethodWeaverBuilder
     {
-        private readonly ICompositePropertyMap compositePropertyMap = null;
         private readonly IAspectWeavingServices aspectWeavingServices = null;
+        private readonly ICompositePropertyFragmentMap compositePropertyMap = null;
 
-        public CompositeGetPropertyWeaverBuilder(ICompositePropertyMap compositePropertyMap, ITypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
+        public CompositeGetPropertyWeaverBuilder(ICompositePropertyFragmentMap compositePropertyMap, ITypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
             : base(compositePropertyMap.ContractType, typeDefinition) {
             this.compositePropertyMap = compositePropertyMap;
             this.aspectWeavingServices = aspectWeavingServices;

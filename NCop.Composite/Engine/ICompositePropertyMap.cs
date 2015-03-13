@@ -1,10 +1,8 @@
-﻿using NCop.Aspects.Engine;
-using NCop.Core;
-using System.Reflection;
+﻿using System.Collections.Generic;
 
 namespace NCop.Composite.Engine
 {
-    public interface ICompositePropertyMap : IAspectMembers<PropertyInfo>, IMemberMap<PropertyInfo>, IHasAspectDefinitions, IAcceptsCompositePropertyMapVisitor
+    public interface ICompositePropertyMap : IEnumerable<ICompositePropertyFragmentMap>
     {
     }
 }

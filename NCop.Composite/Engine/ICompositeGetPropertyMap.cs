@@ -1,7 +1,7 @@
 ﻿
 namespace NCop.Composite.Engine
 {
-    public interface ICompositeGetPropertyMap
+    public interface ICompositeGetPropertyMap : ICompositePropertyFragmentMap
     {
     }
 }

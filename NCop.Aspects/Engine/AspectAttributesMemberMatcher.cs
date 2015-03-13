@@ -44,9 +44,7 @@ namespace NCop.Aspects.Engine
 
         private void CollectPropertiesAspectDefinitions(Type aspectDeclaringType, IAspectPropertyMapCollection aspectMembersCollection) {
             List<IAspectPropertyMap> properties = null;
-            var groupedProperties = aspectMembersCollection.Properties
-                                                           .GroupBy(map => map.IsPartial)
-                                                           .ToDictionary(group => group.Key, group => group.ToList());
+            var groupedProperties = aspectMembersCollection.Properties.ToGroupedDictionary(map => map.IsPartial, group => group.ToList());
 
             if (groupedProperties.TryGetValue(partial, out properties)) {
                 CollectPartialGetPropertyAspectDefinitions(aspectDeclaringType, properties);
@@ -90,11 +88,11 @@ namespace NCop.Aspects.Engine
         private void CollectPartialPropertyAspectDefinitionsByPropertyInterceptionAttribute(Type aspectDeclaringType, IEnumerable<IAspectPropertyMap> properties) {
             properties.ForEach(propertyMap => {
                 MethodInfo target = null;
-                MethodInfo contractMethod = null;
                 var propertyInterceptionAspects = new List<IAspectDefinition>();
 
                 if (propertyMap.Target.IsNotNull()) {
                     propertyMap.Members.ForEach(property => {
+                        MethodInfo contractMethod = null;
                         IEnumerable<IAspectDefinition> aspectDefinitions = null;
                         var aspectsAttrs = property.GetCustomAttributes<PropertyInterceptionAspectAttribute>().ToArray();
 

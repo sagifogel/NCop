@@ -6,12 +6,10 @@ using System.Reflection;
 
 namespace NCop.Composite.Engine
 {
-    public abstract class AbstractCompositePropertyMap : AbstractMemberMap<PropertyInfo>, ICompositePropertyMap
+    public abstract class AbstractCompositeFragmentPropertyMap : AbstractMemberMap<PropertyInfo>, ICompositePropertyFragmentMap
     {
-        internal AbstractCompositePropertyMap(Type contractType, Type implementationType, PropertyInfo contractProperty,
-            PropertyInfo implementationProperty, IAspectDefinitionCollection aspectDefinitions)
-            : base(contractType, implementationType, contractProperty, implementationProperty)
-        {
+        internal AbstractCompositeFragmentPropertyMap(Type contractType, Type implementationType, PropertyInfo contractProperty, PropertyInfo implementationProperty, IAspectDefinitionCollection aspectDefinitions)
+            : base(contractType, implementationType, contractProperty, implementationProperty) {
             AspectDefinitions = aspectDefinitions;
             HasAspectDefinitions = aspectDefinitions.IsNotNullOrEmpty();
         }

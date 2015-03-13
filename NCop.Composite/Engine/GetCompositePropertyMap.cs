@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace NCop.Composite.Engine
 {
-    public class GetCompositePropertyMap : AbstractCompositePropertyMap, ICompositeGetPropertyMap
+    public class GetCompositePropertyMap : AbstractCompositeFragmentPropertyMap, ICompositeGetPropertyMap
     {
         internal GetCompositePropertyMap(Type contractType, Type implementationType, PropertyInfo contractProperty, PropertyInfo implementationProperty, IAspectDefinitionCollection aspectDefinitions)
             : base(contractType, implementationType, contractProperty, implementationProperty, aspectDefinitions) {

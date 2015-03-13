@@ -24,7 +24,8 @@ namespace NCop.Composite.Engine
             var mappedMethodsEnumerable = from mapped in aspetMappedMethods
                                           from aspectMap in aspectsMap.Where(map => {
                                               return map.Method.IsMatchedTo(mapped.ImplementationMember);
-                                          }).DefaultIfEmpty(AspectMap.Empty)
+                                          })
+                                          .DefaultIfEmpty(AspectMap.Empty)
                                           select new CompositeMethodMap(mapped.ContractType,
                                                                         mapped.ImplementationType,
                                                                         mapped.ContractMember,
@@ -35,23 +36,25 @@ namespace NCop.Composite.Engine
         }
 
         private void MapProperties(IAspectsMap aspectsMap, IEnumerable<IAspectPropertyMap> aspectMappedProperties) {
-            var mappedGetProperties = MapProperties(aspectsMap, aspectMappedProperties, mapped => mapped.AspectGetProperty, (contractType, implementationType, contractMember, implementationMember, aspectMap) => {
+            var mappedFragmentProperties = MapProperties(aspectsMap, aspectMappedProperties, mapped => mapped.AspectGetProperty, (contractType, implementationType, contractMember, implementationMember, aspectMap) => {
                 return new GetCompositePropertyMap(contractType, implementationType, contractMember, implementationMember, aspectMap);
             });
 
-            var mappedSetProperties = MapProperties(aspectsMap, aspectMappedProperties, mapped => mapped.AspectSetProperty, (contractType, implementationType, contractMember, implementationMember, aspectMap) => {
+            mappedFragmentProperties = mappedFragmentProperties.Concat(MapProperties(aspectsMap, aspectMappedProperties, mapped => mapped.AspectSetProperty, (contractType, implementationType, contractMember, implementationMember, aspectMap) => {
                 return new SetCompositePropertyMap(contractType, implementationType, contractMember, implementationMember, aspectMap);
-            });
+            }));
 
-            mappedProperties = mappedSetProperties.Concat(mappedGetProperties)
-                                                  .ToList(propertyMap => propertyMap.HasAspectDefinitions);
+            mappedProperties = mappedFragmentProperties.Where(map => map.HasAspectDefinitions)
+                                                       .ToGroupedDictionary(map => map.Target)
+                                                       .ToList(keyValue => new CompositePropertyMap(keyValue.Value) as ICompositePropertyMap);
         }
 
-        private IEnumerable<ICompositePropertyMap> MapProperties(IAspectsMap aspectsMap, IEnumerable<IAspectPropertyMap> aspectMappedProperties, Func<IAspectPropertyMap, MethodInfo> propertyFactory, Func<Type, Type, PropertyInfo, PropertyInfo, IAspectDefinitionCollection, ICompositePropertyMap> compositePropertyMapFactory) {
+        private IEnumerable<ICompositePropertyFragmentMap> MapProperties(IAspectsMap aspectsMap, IEnumerable<IAspectPropertyMap> aspectMappedProperties, Func<IAspectPropertyMap, MethodInfo> propertyFactory, Func<Type, Type, PropertyInfo, PropertyInfo, IAspectDefinitionCollection, ICompositePropertyFragmentMap> compositePropertyMapFactory) {
             return from mapped in aspectMappedProperties
                    from aspectMap in aspectsMap.Where(map => {
                        return map.Method.IsMatchedTo(propertyFactory(mapped));
-                   }).DefaultIfEmpty(AspectMap.Empty)
+                   })
+                   .DefaultIfEmpty(AspectMap.Empty)
                    select compositePropertyMapFactory(mapped.ContractType,
                                                       mapped.ImplementationType,
                                                       mapped.ContractMember,
