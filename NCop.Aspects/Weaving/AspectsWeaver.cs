@@ -9,7 +9,7 @@ namespace NCop.Aspects.Weaving
         private readonly IAspectExpression aspectExpression = null;
         private readonly IAspectWeavingSettings aspectWeavingSettings = null;
 
-        public AspectsWeaver(IAspectExpression aspectExpression, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings) {
+        public AspectsWeaver(IAspectExpression aspectExpression, IAspectWeavingSettings aspectWeavingSettings) {
             this.aspectExpression = aspectExpression;
             this.aspectWeavingSettings = aspectWeavingSettings;
         }

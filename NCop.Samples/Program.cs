@@ -263,8 +263,6 @@ namespace NCop.Samples
         }
 
         public override void OnGetValue(PropertyInterceptionArgs<List<string>> args) {
-            //base.OnGetValue(args);
-            var val = args.GetCurrentValue();
             args.ProceedGetValue();
         }
 
@@ -291,14 +289,15 @@ namespace NCop.Samples
     class Program
     {
         static void Main(string[] args) {
+            var p = new Person();
+            List<string> code = null;//p.Code;
             IPerson developer = null;
             var container = new CompositeContainer();
-
             container.Configure();
             developer = container.Resolve<IPerson>();
             //var code = developer.Code;
             //developer.Code = new List<string> { "JavaScript" };
-            var code = developer.Code;
+            code = developer.Code;
 
             Console.WriteLine(code.Count);
         }

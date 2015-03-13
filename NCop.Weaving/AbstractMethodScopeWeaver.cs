@@ -8,8 +8,8 @@ namespace NCop.Weaving
     {
         private readonly IWeavingSettings weavingSettings = null;
 
-        protected AbstractMethodScopeWeaver(MethodInfo methodInfo, IWeavingSettings weavingSettings) {
-            MethodInfo = methodInfo;
+        protected AbstractMethodScopeWeaver(MethodInfo method, IWeavingSettings weavingSettings) {
+            Method = method;
             this.weavingSettings = weavingSettings;
         }
 
@@ -19,7 +19,7 @@ namespace NCop.Weaving
             }
         }
 
-        public MethodInfo MethodInfo { get; private set; }
+        public MethodInfo Method { get; private set; }
 
         public ITypeDefinition TypeDefinition {
             get {

@@ -18,7 +18,10 @@ namespace NCop.Aspects.Aspects
 
         public IAspect Aspect { get; protected set; }
 
+
         public abstract AspectType AspectType { get; }
+
+        public MethodInfo Method { get; protected set; }
 
         public Type AspectDeclaringType { get; private set; }
 

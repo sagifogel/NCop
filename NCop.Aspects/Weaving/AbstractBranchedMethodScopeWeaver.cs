@@ -13,7 +13,7 @@ namespace NCop.Aspects.Weaving
         }
 
         public override void Weave(ILGenerator ilGenerator) {
-            var isFunction = MethodInfo.IsFunction();
+            var isFunction = Method.IsFunction();
             var weaveFunction = isFunction ? WeaveFunction : (Action<ILGenerator>)WeaveAction;
 
             weaveFunction(ilGenerator);

@@ -11,7 +11,7 @@ namespace NCop.Aspects.Weaving
     {
         protected IArgumentsWeaver argumentsWeaver = null;
 
-        internal TopOnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
+        internal TopOnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(nestedWeaver, aspectDefinition, aspectWeavingSettings) {
             var @params = aspectDefinition.Method.GetParameters();
 

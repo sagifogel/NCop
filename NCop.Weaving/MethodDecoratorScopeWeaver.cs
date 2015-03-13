@@ -18,13 +18,13 @@ namespace NCop.Weaving
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, fieldBuilder);
 
-            MethodInfo.GetParameters()
+            Method.GetParameters()
                       .Select(p => p.ParameterType)
                       .ForEach(1, (paramType, i) => {
                           ilGenerator.EmitLoadArg(i);
                       });
 
-            ilGenerator.Emit(OpCodes.Callvirt, MethodInfo);
+            ilGenerator.Emit(OpCodes.Callvirt, Method);
         }
     }
 }

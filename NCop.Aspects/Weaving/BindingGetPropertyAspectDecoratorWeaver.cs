@@ -8,9 +8,9 @@ namespace NCop.Aspects.Weaving
     {
         private readonly IMethodScopeWeaver weaver = null;
 
-        internal BindingGetPropertyAspectDecoratorWeaver(MethodInfo methodInfo, IAspectWeavingSettings aspectWeavingSettings)
-            : base(methodInfo, aspectWeavingSettings.WeavingSettings) {
-            weaver = new GetPropertyDecoratorScopeWeaver(methodInfo, aspectWeavingSettings);
+        internal BindingGetPropertyAspectDecoratorWeaver(MethodInfo method, IAspectWeavingSettings aspectWeavingSettings)
+            : base(method, aspectWeavingSettings.WeavingSettings) {
+            weaver = new GetPropertyDecoratorScopeWeaver(method, aspectWeavingSettings);
         }
 
         public override void Weave(ILGenerator ilGenerator) {

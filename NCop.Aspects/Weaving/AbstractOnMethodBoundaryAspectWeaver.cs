@@ -18,7 +18,7 @@ namespace NCop.Aspects.Weaving
         protected readonly ILocalBuilderRepository localBuilderRepository = null;
         protected readonly IByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver = null;
 
-        internal AbstractOnMethodBoundaryAspectWeaver(IAspectWeaver nestedAspect, IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
+        internal AbstractOnMethodBoundaryAspectWeaver(IAspectWeaver nestedAspect, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectDefinition, aspectWeavingSettings) {
             IAdviceExpression selectedExpression = null;
             var catchWeavers = new List<IMethodScopeWeaver>();

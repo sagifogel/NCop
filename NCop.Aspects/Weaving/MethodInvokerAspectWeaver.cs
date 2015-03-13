@@ -13,7 +13,7 @@ namespace NCop.Aspects.Weaving
         private readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
         private readonly IByRefArgumentsStoreWeaver byRefArgumentStoreWeaver = null;
 
-        internal MethodInvokerAspectWeaver(Type topAspectInScopeArgType, IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
+        internal MethodInvokerAspectWeaver(Type topAspectInScopeArgType, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
             : base(aspectDefinition.Method, aspectWeavingSettings.WeavingSettings) {
             this.topAspectInScopeArgType = topAspectInScopeArgType;
             this.argumentsWeavingSettings = argumentsWeavingSettings;
@@ -25,7 +25,7 @@ namespace NCop.Aspects.Weaving
         protected override void WeaveAction(ILGenerator ilGenerator) {
             byRefArgumentStoreWeaver.StoreArgsIfNeeded(ilGenerator);
             argumentsWeaver.Weave(ilGenerator);
-            ilGenerator.Emit(OpCodes.Callvirt, MethodInfo);
+            ilGenerator.Emit(OpCodes.Callvirt, Method);
             byRefArgumentStoreWeaver.RestoreArgsIfNeeded(ilGenerator);
         }
 
@@ -36,7 +36,7 @@ namespace NCop.Aspects.Weaving
             byRefArgumentStoreWeaver.StoreArgsIfNeeded(ilGenerator);
             ilGenerator.EmitLoadLocal(argsImplLocalBuilder);
             argumentsWeaver.Weave(ilGenerator);
-            ilGenerator.Emit(OpCodes.Callvirt, MethodInfo);
+            ilGenerator.Emit(OpCodes.Callvirt, Method);
             setReturnValueWeaver.Weave(ilGenerator);
             byRefArgumentStoreWeaver.RestoreArgsIfNeeded(ilGenerator);
         }

@@ -12,7 +12,7 @@ namespace NCop.Aspects.Weaving
     {
         protected IArgumentsWeaver argumentsWeaver = null;
 
-        internal TopBindingOnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings settings)
+        internal TopBindingOnMethodBoundaryAspectWeaver(IAspectWeaver nestedWeaver, IAspectDefinition aspectDefinition, IAspectWeavingSettings settings)
             : base(nestedWeaver, aspectDefinition, settings) {
             var @params = aspectDefinition.Method.GetParameters();
 

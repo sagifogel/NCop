@@ -21,6 +21,8 @@ namespace NCop.Aspects.Aspects
         }
         public IAspect Aspect { get; private set; }
 
+        public MethodInfo Method { get; private set; }
+
         public PropertyInfo Property { get; private set; }
 
         public Type AspectDeclaringType { get; private set; }

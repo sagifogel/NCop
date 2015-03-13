@@ -6,8 +6,8 @@ namespace NCop.Aspects.Weaving
 {
     internal class TopGetPropertyInterceptionArgumentsWeaver : AbstractTopPropertyAspectArgumentsWeaver
     {
-        internal TopGetPropertyInterceptionArgumentsWeaver(MethodInfo methodInfo, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
-            : base(methodInfo, argumentWeavingSettings, aspectWeavingSettings) {
+        internal TopGetPropertyInterceptionArgumentsWeaver(MethodInfo method, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+            : base(method, argumentWeavingSettings, aspectWeavingSettings) {
         }
 
         public override LocalBuilder BuildArguments(ILGenerator ilGenerator) {

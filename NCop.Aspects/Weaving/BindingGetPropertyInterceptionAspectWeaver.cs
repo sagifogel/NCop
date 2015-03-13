@@ -16,7 +16,7 @@ namespace NCop.Aspects.Weaving
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             IMethodScopeWeaver finallyWeaver = null;
 
-            method = aspectDefinition.Property.GetSetMethod();
+            method = aspectDefinition.Method;
             argumentsWeavingSettings.BindingsDependency = weavedType;
             argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Property.PropertyType };
             argumentsWeaver = new BindingGetPropertyInterceptionArgumentsWeaver(method, argumentsWeavingSettings, aspectWeavingSettings);

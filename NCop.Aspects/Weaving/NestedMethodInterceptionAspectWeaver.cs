@@ -11,7 +11,7 @@ namespace NCop.Aspects.Weaving
     {
         private readonly IArgumentsWeaver argumentsWeaver = null;
 
-        internal NestedMethodInterceptionAspectWeaver(Type topAspectInScopeArgType, IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal NestedMethodInterceptionAspectWeaver(Type topAspectInScopeArgType, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             var argumentWeavingSettings = aspectDefinition.ToArgumentsWeavingSettings();
 

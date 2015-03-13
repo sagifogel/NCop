@@ -6,11 +6,11 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractMethodInterceptionBindingWeaver : AbstractBindingMethodAspectWeaver
     {
-        protected readonly Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
         protected readonly IAspectExpression aspectExpression = null;
         protected IAspectWeavingSettings aspectWeavingSettings = null;
+        protected readonly Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
 
-        internal AbstractMethodInterceptionBindingWeaver(IAspectExpression aspectExpression, IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
+        internal AbstractMethodInterceptionBindingWeaver(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectDefinition) {
             this.aspectExpression = aspectExpression;
             this.aspectWeavingSettings = aspectWeavingSettings;

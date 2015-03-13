@@ -17,7 +17,7 @@ namespace NCop.Aspects.Weaving
         public override void Weave(ILGenerator ilGenerator) {
             argumentsWeaver.Weave(ilGenerator);
             ilGenerator.EmitLoadArg(3);
-            ilGenerator.Emit(OpCodes.Callvirt, MethodInfo);
+            ilGenerator.Emit(OpCodes.Callvirt, Method);
         }
     }
 }

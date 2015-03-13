@@ -12,8 +12,7 @@ namespace NCop.Aspects.Engine
 {
     public static class AspectTypeMethodValidator
     {
-        public static void ValidateMethodAspect(IAspect aspect, MethodInfo methodInfo) {
-            MethodInfo method = null;
+        public static void ValidateMethodAspect(IAspect aspect, MethodInfo method) {
             Type argumentsType = null;
             Type[] genericArguments = null;
             var comparedTypes = Type.EmptyTypes;
@@ -37,18 +36,17 @@ namespace NCop.Aspects.Engine
                 throw new AspectAnnotationException(argumentException);
             }
 
-            method = overridenMethods[0];
-            aspectParameters = method.GetParameters();
+            aspectParameters = overridenMethods[0].GetParameters();
 
             if (aspectParameters.Length == 0) {
-                throw new AspectTypeMismatchException(Resources.AspectMethodParametersMismatach.Fmt(methodInfo.Name));
+                throw new AspectTypeMismatchException(Resources.AspectMethodParametersMismatach.Fmt(method.Name));
             }
 
-            methodParameters = methodInfo.GetParameters();
+            methodParameters = method.GetParameters();
             argumentsType = aspectParameters[0].ParameterType;
             genericArguments = argumentsType.GetGenericArguments();
 
-            if (methodInfo.HasReturnType()) {
+            if (method.HasReturnType()) {
                 var argumentsLength = 0;
                 Type aspectReturnType = null;
 
@@ -57,7 +55,7 @@ namespace NCop.Aspects.Engine
                 }
 
                 if (genericArguments.Length == 0) {
-                    throw new AspectTypeMismatchException(Resources.AspectReturnTypeMismatch.Fmt(methodInfo.Name));
+                    throw new AspectTypeMismatchException(Resources.AspectReturnTypeMismatch.Fmt(method.Name));
                 }
 
                 argumentsLength = genericArguments.Length - 1;
@@ -68,8 +66,8 @@ namespace NCop.Aspects.Engine
                                                     .ToArray();
                 }
 
-                if (!ValidateReturnType(methodInfo.ReturnType, aspectReturnType)) {
-                    throw new AspectTypeMismatchException(Resources.AspectReturnTypeMismatch.Fmt(methodInfo.Name));
+                if (!ValidateReturnType(method.ReturnType, aspectReturnType)) {
+                    throw new AspectTypeMismatchException(Resources.AspectReturnTypeMismatch.Fmt(method.Name));
                 }
             }
             else {
@@ -81,7 +79,7 @@ namespace NCop.Aspects.Engine
             }
 
             if (!ValidateParameters(methodParameters, comparedTypes)) {
-                throw new AspectTypeMismatchException(Resources.AspectMethodParametersMismatach.Fmt(methodInfo.Name));
+                throw new AspectTypeMismatchException(Resources.AspectMethodParametersMismatach.Fmt(method.Name));
             }
         }
 

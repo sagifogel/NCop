@@ -44,20 +44,20 @@ namespace NCop.IoC.Fluent
 			return this;
 		}
 
-		private NewExpression NewExpression(MethodInfo methodInfo, Type type, ParameterExpression instance) {
+		private NewExpression NewExpression(MethodInfo method, Type type, ParameterExpression instance) {
 			var ctor = type.GetSingleConstructorOrAnnotated();
 			var @params = ctor.GetParameters()
 							  .Select(pi => {
-								  return MethodCallExpression(methodInfo, pi.ParameterType, instance);
+								  return MethodCallExpression(method, pi.ParameterType, instance);
 							  });
 
 			return Expression.New(ctor, @params.ToArray());
 		}
 
-		private MethodCallExpression MethodCallExpression(MethodInfo methodInfo, Type parameterType, ParameterExpression instance) {
-			var method = methodInfo.MakeGenericMethod(parameterType);
+		private MethodCallExpression MethodCallExpression(MethodInfo method, Type parameterType, ParameterExpression instance) {
+			var genericMethod = method.MakeGenericMethod(parameterType);
 
-			return Expression.Call(instance, method);
+            return Expression.Call(instance, genericMethod);
 		}
 	}
 }

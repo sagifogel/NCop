@@ -90,6 +90,7 @@ namespace NCop.Aspects.Engine
         private void CollectPartialPropertyAspectDefinitionsByPropertyInterceptionAttribute(Type aspectDeclaringType, IEnumerable<IAspectPropertyMap> properties) {
             properties.ForEach(propertyMap => {
                 MethodInfo target = null;
+                MethodInfo contractMethod = null;
                 var propertyInterceptionAspects = new List<IAspectDefinition>();
 
                 if (propertyMap.Target.IsNotNull()) {
@@ -100,24 +101,26 @@ namespace NCop.Aspects.Engine
                         if (aspectsAttrs.IsNotNullOrEmpty()) {
                             if (property.CanWrite) {
                                 target = propertyMap.Target.GetSetMethod();
+                                contractMethod = propertyMap.ContractMember.GetSetMethod();
                                 aspectDefinitions = aspectsAttrs.Select(aspectAttr => {
                                     var aspect = new SetPropertyInterceptionAspectAttribute(aspectAttr.AspectType) {
                                         AspectPriority = aspectAttr.AspectPriority,
                                         LifetimeStrategy = aspectAttr.LifetimeStrategy
                                     };
 
-                                    return new SetPropertyInterceptionAspectDefinition(aspect, aspectDeclaringType, target, property);
+                                    return new SetPropertyInterceptionAspectDefinition(aspect, aspectDeclaringType, contractMethod, property);
                                 });
                             }
                             else {
                                 target = propertyMap.Target.GetGetMethod();
+                                contractMethod = propertyMap.ContractMember.GetGetMethod();
                                 aspectDefinitions = aspectsAttrs.Select(aspectAttr => {
                                     var aspect = new GetPropertyInterceptionAspectAttribute(aspectAttr.AspectType) {
                                         AspectPriority = aspectAttr.AspectPriority,
                                         LifetimeStrategy = aspectAttr.LifetimeStrategy
                                     };
 
-                                    return new GetPropertyInterceptionAspectDefinition(aspect, aspectDeclaringType, target, property);
+                                    return new GetPropertyInterceptionAspectDefinition(aspect, aspectDeclaringType, contractMethod, property);
                                 });
                             }
 
@@ -132,7 +135,7 @@ namespace NCop.Aspects.Engine
 
         private void CollectPartialPropertiesAspectDefinitions<TAttribute>(IEnumerable<IAspectPropertyMap> properties, Func<PropertyInfo, MethodInfo> methodResolver, Func<IEnumerable<TAttribute>, MethodInfo, PropertyInfo, IEnumerable<IAspectDefinition>> definitionFactory) where TAttribute : Attribute {
             properties.ForEach(propertyMap => {
-                var target = methodResolver(propertyMap.Target);
+                var target = methodResolver(propertyMap.ContractMember);
                 var propertyInterceptionAspects = new List<IAspectDefinition>();
 
                 if (target.IsNotNull()) {

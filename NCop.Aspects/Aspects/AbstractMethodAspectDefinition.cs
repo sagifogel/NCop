@@ -10,7 +10,5 @@ namespace NCop.Aspects.Aspects
             Aspect = aspect;
             Method = method;
         }
-
-        public MethodInfo Method { get; protected set; }
     }
 }

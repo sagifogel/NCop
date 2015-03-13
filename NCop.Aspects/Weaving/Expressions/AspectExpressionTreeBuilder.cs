@@ -44,7 +44,7 @@ namespace NCop.Aspects.Weaving.Expressions
                 aspectExpression = builder.Build(aspectExpression);
             }
 
-            return new AspectMethodExpression(aspectExpression, aspectDefinitions);
+            return new AspectMethodExpression(aspectExpression);
         }
     }
 }

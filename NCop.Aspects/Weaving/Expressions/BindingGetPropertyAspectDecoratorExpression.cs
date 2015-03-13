@@ -11,9 +11,7 @@ namespace NCop.Aspects.Weaving.Expressions
         }
 
         public IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
-            var methodInfo = aspectDefinition.Property.GetGetMethod();
-
-            return new BindingGetPropertyAspectDecoratorWeaver(methodInfo, aspectWeavingSettings);
+            return new BindingGetPropertyAspectDecoratorWeaver(aspectDefinition.Method, aspectWeavingSettings);
         }
     }
 }

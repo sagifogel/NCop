@@ -15,7 +15,7 @@ namespace NCop.Weaving
 
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, fieldBuilder);
-            ilGenerator.Emit(OpCodes.Callvirt, MethodInfo);
+            ilGenerator.Emit(OpCodes.Callvirt, Method);
         }
     }
 }

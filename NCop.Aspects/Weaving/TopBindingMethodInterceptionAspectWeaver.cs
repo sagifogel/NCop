@@ -11,7 +11,7 @@ namespace NCop.Aspects.Weaving
     {
         protected readonly IArgumentsWeaver argumentsWeaver = null;
 
-        internal TopBindingMethodInterceptionAspectWeaver(IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal TopBindingMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             argumentsWeavingSettings.BindingsDependency = weavedType;
             argumentsWeaver = new TopBindingMethodInterceptionArgumentsWeaver(aspectDefinition.Method, argumentsWeavingSettings, aspectWeavingSettings);

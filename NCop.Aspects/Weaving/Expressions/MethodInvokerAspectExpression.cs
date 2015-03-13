@@ -5,14 +5,14 @@ namespace NCop.Aspects.Weaving.Expressions
 {
     internal class MethodInvokerAspectExpression : IAspectExpression
     {
-        private readonly IMethodAspectDefinition aspectDefinition = null;
-        private readonly IMethodAspectDefinition topAspectInScopeDefinition = null;
+        private readonly IAspectDefinition aspectDefinition = null;
+        private readonly IAspectDefinition topAspectInScopeDefinition = null;
         private readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
 
-        internal MethodInvokerAspectExpression(IMethodAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentsWeavingSettings, IMethodAspectDefinition topAspectInScopeDefinition) {
+        internal MethodInvokerAspectExpression(IAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentsWeavingSettings, IAspectDefinition topAspectInScopeDefinition) {
             this.aspectDefinition = aspectDefinition;
-            this.topAspectInScopeDefinition = topAspectInScopeDefinition;
             this.argumentsWeavingSettings = argumentsWeavingSettings;
+            this.topAspectInScopeDefinition = topAspectInScopeDefinition;
         }
 
         public IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {

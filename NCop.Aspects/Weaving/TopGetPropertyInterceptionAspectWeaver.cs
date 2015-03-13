@@ -16,11 +16,9 @@ namespace NCop.Aspects.Weaving
 
         internal TopGetPropertyInterceptionAspectWeaver(IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
-            var method = aspectDefinition.Property.GetGetMethod();
-
             argumentsWeavingSettings.BindingsDependency = weavedType;
             argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Property.PropertyType };
-            argumentsWeaver = new TopGetPropertyInterceptionArgumentsWeaver(method, argumentsWeavingSettings, aspectWeavingSettings);
+            argumentsWeaver = new TopGetPropertyInterceptionArgumentsWeaver(aspectDefinition.Method, argumentsWeavingSettings, aspectWeavingSettings);
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 

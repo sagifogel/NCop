@@ -23,7 +23,7 @@ namespace NCop.Aspects.Weaving
         protected override void WeaveAction(ILGenerator ilGenerator) {
             byRefArgumentStoreWeaver.StoreArgsIfNeeded(ilGenerator);
             argumentsWeaver.Weave(ilGenerator);
-            ilGenerator.Emit(OpCodes.Callvirt, MethodInfo);
+            ilGenerator.Emit(OpCodes.Callvirt, Method);
             byRefArgumentStoreWeaver.RestoreArgsIfNeeded(ilGenerator);
         }
 
@@ -35,7 +35,7 @@ namespace NCop.Aspects.Weaving
             byRefArgumentStoreWeaver.StoreArgsIfNeeded(ilGenerator);
             ilGenerator.EmitLoadLocal(argsLocalBuilder);
             argumentsWeaver.Weave(ilGenerator);
-            ilGenerator.Emit(OpCodes.Callvirt, MethodInfo);
+            ilGenerator.Emit(OpCodes.Callvirt, Method);
             setReturnValueWeaver.Weave(ilGenerator);
             byRefArgumentStoreWeaver.RestoreArgsIfNeeded(ilGenerator);
         }

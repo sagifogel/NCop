@@ -7,9 +7,9 @@ namespace NCop.Aspects.Weaving
     internal abstract class AbstractBindingMethodAspectWeaver : IBindingTypeReflector
     {
         protected readonly BindingSettings bindingSettings = null;
-        protected readonly IMethodAspectDefinition aspectDefinition = null;
+        protected readonly IAspectDefinition aspectDefinition = null;
 
-        internal AbstractBindingMethodAspectWeaver(IMethodAspectDefinition aspectDefinition) {
+        internal AbstractBindingMethodAspectWeaver(IAspectDefinition aspectDefinition) {
             this.aspectDefinition = aspectDefinition;
             bindingSettings = aspectDefinition.ToBindingSettings();
         }
