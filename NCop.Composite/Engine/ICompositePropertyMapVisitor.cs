@@ -1,9 +1,10 @@
-﻿
+﻿using NCop.Weaving;
+
 namespace NCop.Composite.Engine
 {
     public interface ICompositePropertyMapVisitor
-    {
-        ICompositeMethodWeaverBuilderFactory Visit(GetCompositePropertyMap propertyMap);
-        ICompositeMethodWeaverBuilderFactory Visit(SetCompositePropertyMap propertyMap);
+    {       
+        void Visit(GetCompositePropertyMap propertyMap);
+        void Visit(SetCompositePropertyMap propertyMap);
     }
 }

@@ -4,18 +4,13 @@ using NCop.Weaving;
 
 namespace NCop.Composite.Weaving
 {
-    internal class CompositeGetPropertyWeaverBuilder : AbstractWeaverBuilder, IMethodWeaverBuilder
+    internal class CompositeGetPropertyWeaverBuilder : AbstractCompositePropertyWeaver
     {
-        private readonly IAspectWeavingServices aspectWeavingServices = null;
-        private readonly ICompositePropertyFragmentMap compositePropertyMap = null;
-
-        public CompositeGetPropertyWeaverBuilder(ICompositePropertyFragmentMap compositePropertyMap, ITypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
-            : base(compositePropertyMap.ContractType, typeDefinition) {
-            this.compositePropertyMap = compositePropertyMap;
-            this.aspectWeavingServices = aspectWeavingServices;
+        public CompositeGetPropertyWeaverBuilder(IPropertyTypeBuilder propertyTypeBuilder, ICompositePropertyFragmentMap compositePropertyMap, ITypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
+            : base(propertyTypeBuilder, compositePropertyMap, typeDefinition, aspectWeavingServices) {
         }
 
-        public IMethodWeaver Build() {
+        public override IMethodWeaver Build() {
             var weavingSettings = new WeavingSettingsImpl(contractType, typeDefinition);
             var aspectWeavingSettings = new AspectWeavingSettingsImpl {
                 WeavingSettings = weavingSettings,
@@ -23,7 +18,7 @@ namespace NCop.Composite.Weaving
                 AspectArgsMapper = aspectWeavingServices.AspectArgsMapper
             };
 
-            return new CompositeGetPropertyWeaver(compositePropertyMap.ContractMember, compositePropertyMap.AspectDefinitions, aspectWeavingSettings);
+            return new CompositeGetPropertyWeaver(propertyTypeBuilder, typeDefinition, compositePropertyMap.ContractMember, compositePropertyMap.AspectDefinitions, aspectWeavingSettings);
         }
     }
 }

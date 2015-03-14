@@ -5,6 +5,6 @@ namespace NCop.Composite.Engine
 {
     public interface ICompositeMethodWeaverBuilderFactory
     {
-        IMethodWeaverBuilder Get(ITypeDefinition typeDefinition, IAspectWeavingServices weavingServices);
+        void Get(IPropertyTypeBuilder propertyTypeBuilder, ITypeDefinition typeDefinition, IAspectWeavingServices weavingServices);
     }
 }

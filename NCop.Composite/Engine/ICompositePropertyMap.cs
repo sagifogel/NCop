@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace NCop.Composite.Engine
 {
-    public interface ICompositePropertyMap : IEnumerable<ICompositePropertyFragmentMap>
+    public interface ICompositePropertyMap
     {
+        Type ContractType { get; }
+        ICompositePropertyFragmentMap GetPropertyFragmentMap { get; }
+        ICompositePropertyFragmentMap SetPropertyFragmentMap { get; }
     }
 }

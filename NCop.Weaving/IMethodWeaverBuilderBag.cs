@@ -1,8 +1,8 @@
-﻿
+﻿using NCop.Core;
+
 namespace NCop.Weaving
 {
-    public interface IMethodWeaverBuilder : IBuilder<IMethodWeaver>
+    public interface IMethodWeaverBuilderBag : IBag<IMethodWeaverBuilder>
     {
     }
 }
-    

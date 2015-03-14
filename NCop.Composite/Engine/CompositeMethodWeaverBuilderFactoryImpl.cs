@@ -7,14 +7,14 @@ namespace NCop.Composite.Engine
 {
     internal class CompositeMethodWeaverBuilderFactoryImpl : ICompositeMethodWeaverBuilderFactory
     {
-        private readonly Func<ITypeDefinition, IAspectWeavingServices, IMethodWeaverBuilder> methodBuilderFactory = null;
+        private readonly Action<IPropertyTypeBuilder, ITypeDefinition, IAspectWeavingServices> methodBuilderFactory = null;
 
-        internal CompositeMethodWeaverBuilderFactoryImpl(Func<ITypeDefinition, IAspectWeavingServices, IMethodWeaverBuilder> methodBuilderFactory) {
+        internal CompositeMethodWeaverBuilderFactoryImpl(Action<IPropertyTypeBuilder, ITypeDefinition, IAspectWeavingServices> methodBuilderFactory) {
             this.methodBuilderFactory = methodBuilderFactory;
         }
 
-        public IMethodWeaverBuilder Get(ITypeDefinition typeDefinition, IAspectWeavingServices weavingServices) {
-            return methodBuilderFactory(typeDefinition, weavingServices);
+        public void Get(IPropertyTypeBuilder propertyTypeBuilder, ITypeDefinition typeDefinition, IAspectWeavingServices weavingServices) {
+            methodBuilderFactory(propertyTypeBuilder, typeDefinition, weavingServices);
         }
     }
 }

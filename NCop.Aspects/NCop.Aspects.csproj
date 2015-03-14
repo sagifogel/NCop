@@ -175,6 +175,7 @@
     <Compile Include="Framework\PropertyInterceptionArgs.cs" />
     <Compile Include="Framework\PropertyInterceptionAspect.cs" />
     <Compile Include="Weaving\AbstractArgumentsWeaver.cs" />
+    <Compile Include="Weaving\AbstractAspectMethodWeaver.cs" />
     <Compile Include="Weaving\AbstractBindingPropertyAspectWeaver.cs" />
     <Compile Include="Weaving\AbstractBindingMethodInterceptionArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractBindingOnMethodExecutionArgumentsWeaver.cs" />

@@ -148,5 +148,15 @@ namespace NCop.Core.Extensions
         public static IDictionary<TKey, IEnumerable<TSource>> ToGroupedDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector) {
             return source.ToGroupedDictionary(keySelector, group => group.AsEnumerable());
         }
+
+        public static TValue SetIfNotNull<TSource, TValue>(this IEnumerable<TSource> source, Func<TSource, TValue> selctor) where TSource : class where TValue : class {
+            foreach (var item in source) {
+                if (!ReferenceEquals(item, null)) {
+                    return selctor(item);
+                }
+            }
+
+            return null;
+        }
     }
 }

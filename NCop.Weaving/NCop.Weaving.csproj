@@ -60,9 +60,16 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Extensions\WeavingExtensions.cs" />
+    <Compile Include="GetPropertyMethodSignatureWeaver.cs" />
     <Compile Include="IMethodLocalWeaver.cs" />
     <Compile Include="BulkWeaving.cs" />
+    <Compile Include="IPropertyTypeBuilder.cs" />
+    <Compile Include="IPropertyWeaver.cs" />
+    <Compile Include="IPropertyWeaverBuilder.cs" />
+    <Compile Include="IPropertyWeaverBuilderBag.cs" />
     <Compile Include="IWeavingSettings.cs" />
+    <Compile Include="AbstractPropertyMethodSingatureWeaver.cs" />
+    <Compile Include="SetPropertyMethodSignatureWeaver.cs" />
     <Compile Include="WeavingSettingsImpl.cs" />
     <Compile Include="MethodScopeWeaversQueue.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -84,8 +91,8 @@
     <Compile Include="IMethodScopeWeaver.cs" />
     <Compile Include="IMethodSignatureWeaver.cs" />
     <Compile Include="IMethodWeaver.cs" />
-    <Compile Include="IMethodWeaverBag.cs" />
     <Compile Include="IMethodWeaverBuilderBag.cs" />
+    <Compile Include="IMethodWeaverBuilder.cs" />
     <Compile Include="IMethodWeaverHandler.cs" />
     <Compile Include="FieldWeaver.cs" />
     <Compile Include="ISetPropertyWeaver.cs" />

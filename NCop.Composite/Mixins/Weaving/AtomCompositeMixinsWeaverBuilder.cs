@@ -18,12 +18,11 @@ namespace NCop.Composite.Mixins.Weaving
             this.registry = registry;
         }
 
-        public override void AddMethodWeavers() {
-            base.AddMethodWeavers();
+        public override ITypeWeaver Build() {
+            AddMethodWeavers();
+            AddPropertyWeavers();
             registry.Register(mixin.ImplementationType, mixin.ContractType, name: atomIdentifier);
-        }
-
-        public override ITypeWeaver CreateTypeWeaver() {
+            
             return new AtomMixinsWeaverStartegy(typeDefinition, mixin, methodWeavers, registry);
         }
 

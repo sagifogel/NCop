@@ -18,6 +18,6 @@ namespace NCop.Composite.Engine
 
         public IAspectDefinitionCollection AspectDefinitions { get; private set; }
 
-        public abstract ICompositeMethodWeaverBuilderFactory Accept(ICompositePropertyMapVisitor visitor);
+        public abstract void Accept(ICompositePropertyMapVisitor visitor);
     }
 }

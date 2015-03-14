@@ -11,6 +11,6 @@ namespace NCop.Weaving
             this.typeDefinition = typeDefinition;
         }
 
-        public abstract MethodBuilder Weave(MethodInfo methodInfo);
+        public abstract MethodBuilder Weave(MethodInfo method);
     }
 }

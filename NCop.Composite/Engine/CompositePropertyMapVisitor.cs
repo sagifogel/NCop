@@ -1,19 +1,23 @@
-﻿using NCop.Composite.Weaving;
+﻿using System;
+using NCop.Composite.Weaving;
+using NCop.Weaving;
 
 namespace NCop.Composite.Engine
 {
     internal class CompositePropertyMapVisitor : ICompositePropertyMapVisitor
     {
-        public ICompositeMethodWeaverBuilderFactory Visit(GetCompositePropertyMap propertyMap) {
-            return new CompositeMethodWeaverBuilderFactoryImpl((typeDefinition, weavingServices) => {
-                return new CompositeGetPropertyWeaverBuilder(propertyMap, typeDefinition, weavingServices);
-            });
+        public Type ContractType { get; set; }
+        public ICompositePropertyFragmentMap SetPropertyFragmentMap { get; private set; }
+        public ICompositePropertyFragmentMap GetPropertyFragmentMap { get; private set; }
+
+        public void Visit(GetCompositePropertyMap propertyMap) {
+            GetPropertyFragmentMap = propertyMap;
+            ContractType = propertyMap.ContractType;
         }
 
-        public ICompositeMethodWeaverBuilderFactory Visit(SetCompositePropertyMap propertyMap) {
-            return new CompositeMethodWeaverBuilderFactoryImpl((typeDefinition, weavingServices) => {
-                return new CompositeSetPropertyWeaverBuilder(propertyMap, typeDefinition, weavingServices);
-            });
+        public void Visit(SetCompositePropertyMap propertyMap) {
+            SetPropertyFragmentMap = propertyMap;
+            ContractType = propertyMap.ContractType;
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace NCop.Aspects.Tests
 {
-    [TestClass]
+    //[TestClass]
     public class PropertyAspectInterceptionTest : AbstractAspectTest
     {
         private TestContext testContextInstance;
@@ -48,7 +48,7 @@ namespace NCop.Aspects.Tests
         //
         #endregion
 
-        [TestMethod]
+        //[TestMethod]
         public void Property_AnnotatedWithPropertyInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
             var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
             var list = new List<AspectJoinPoints>();
@@ -59,7 +59,7 @@ namespace NCop.Aspects.Tests
             CollectionAssert.AreEqual(list, new PropertyInterceptionAspectOrderedJoinPoints());
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void GetProperty_AnnotatedWithPropertyInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
             var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
             //var list = instance.PropertyInterceptionAspectOnPartialGetProperty;

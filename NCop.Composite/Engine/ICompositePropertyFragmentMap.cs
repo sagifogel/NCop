@@ -1,5 +1,6 @@
 ﻿using NCop.Aspects.Engine;
 using NCop.Core;
+using System;
 using System.Reflection;
 
 namespace NCop.Composite.Engine

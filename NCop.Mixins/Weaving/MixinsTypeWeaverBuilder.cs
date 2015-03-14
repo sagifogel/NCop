@@ -22,15 +22,11 @@ namespace NCop.Mixins.Weaving
             mixinsMap.Add(item);
         }
 
-        public override void AddMethodWeavers() {
-            base.AddMethodWeavers();
+        public override ITypeWeaver Build() {
+            AddMethodWeavers();
+            AddPropertyWeavers();
+            mixinsMap.ForEach(map => registry.Register(map.ImplementationType, map.ContractType));
 
-            mixinsMap.ForEach(map => {
-                registry.Register(map.ImplementationType, map.ContractType);
-            });
-        }
-
-        public override ITypeWeaver CreateTypeWeaver() {
             return new MixinsWeaverStrategy(typeDefinition, mixinsMap, methodWeavers, registry);
         }
     }

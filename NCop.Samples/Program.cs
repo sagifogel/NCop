@@ -26,8 +26,9 @@ namespace NCop.Samples
         [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         new List<string> Code { get; }
 
-        //[MethodInterceptionAspect(typeof(StopWatchAspect))]
-        //new void Do();
+        //[MethodInterceptionAspect(typeof(ActionWith1ArgumentInterceptionUsinInvokeAspect), AspectPriority = 1)]
+        //[OnMethodBoundaryAspect(typeof(ActionWith1ArgumentOnMethodBoundaryAspect), AspectPriority = 2)]
+        //new void Do(string s);
     }
 
     public interface IDeveloper
@@ -37,7 +38,7 @@ namespace NCop.Samples
 
     public interface IDo
     {
-        void Do();
+        void Do(string name);
     }
 
     internal static class FunctionArgsMapper
@@ -173,8 +174,8 @@ namespace NCop.Samples
 
         //[MethodInterceptionAspect(typeof(StopWatchAspect))]
         //[MethodInterceptionAspect(typeof(StopWatchAspect))]
-        public void Do() {
-            Console.WriteLine("Sagi");
+        public void Do(string name) {
+            Console.WriteLine(name);
         }
     }
 
@@ -251,7 +252,7 @@ namespace NCop.Samples
             }
         }
 
-        public void Do() {
+        public void Do(string name) {
             throw new NotImplementedException();
         }
     }
@@ -286,6 +287,32 @@ namespace NCop.Samples
         }
     }
 
+    public class ActionWith1ArgumentInterceptionUsinInvokeAspect : ActionInterceptionAspect<string>
+    {
+        public override void OnInvoke(ActionInterceptionArgs<string> args) {
+            args.Proceed();
+        }
+    }
+
+    public class ActionWith1ArgumentOnMethodBoundaryAspect : OnActionBoundaryAspect<string>
+    {
+        public override void OnEntry(ActionExecutionArgs<string> args) {
+            base.OnEntry(args);
+        }
+
+        public override void OnSuccess(ActionExecutionArgs<string> args) {
+            base.OnSuccess(args);
+        }
+
+        public override void OnException(ActionExecutionArgs<string> args) {
+            base.OnException(args);
+        }
+
+        public override void OnExit(ActionExecutionArgs<string> args) {
+            base.OnExit(args);
+        }
+    }
+
     class Program
     {
         static void Main(string[] args) {
@@ -295,11 +322,7 @@ namespace NCop.Samples
             var container = new CompositeContainer();
             container.Configure();
             developer = container.Resolve<IPerson>();
-            //var code = developer.Code;
-            //developer.Code = new List<string> { "JavaScript" };
             code = developer.Code;
-
-            Console.WriteLine(code.Count);
         }
     }
 }

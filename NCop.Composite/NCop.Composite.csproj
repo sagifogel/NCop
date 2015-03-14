@@ -135,7 +135,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Runtime\CompositeRuntimeSettings.cs" />
+    <Compile Include="Weaving\AbstractCompositePropertyWeaver.cs" />
     <Compile Include="Weaving\AtomMixinsWeaverStartegy.cs" />
+    <Compile Include="Weaving\CompositePropertyWeaver.cs" />
+    <Compile Include="Weaving\CompositePropertyWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeSetPropertyWeaver.cs" />
     <Compile Include="Weaving\CompositeGetPropertyWeaver.cs" />
     <Compile Include="Weaving\CompositeMethodWeaver.cs" />

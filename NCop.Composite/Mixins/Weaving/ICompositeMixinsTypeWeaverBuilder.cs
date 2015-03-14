@@ -3,7 +3,7 @@ using NCop.Weaving;
 
 namespace NCop.Composite.Mixins.Weaving
 {
-    public interface ICompositeMixinsTypeWeaverBuilder : ITypeWeaverBuilder, IMethodWeaverBuilderBag, IMixinMapBag
+    public interface ICompositeMixinsTypeWeaverBuilder : ITypeWeaverBuilder, IMethodWeaverBuilderBag, IPropertyWeaverBuilderBag, IMixinMapBag
     {
     }
 }
