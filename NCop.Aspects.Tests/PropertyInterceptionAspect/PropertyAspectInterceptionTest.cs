@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace NCop.Aspects.Tests
 {
-    //[TestClass]
+    [TestClass]
     public class PropertyAspectInterceptionTest : AbstractAspectTest
     {
         private TestContext testContextInstance;

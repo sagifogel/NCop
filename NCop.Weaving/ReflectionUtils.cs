@@ -13,7 +13,7 @@ namespace NCop.Weaving
     public static class ReflectionUtils
     {
         public static PropertyBuilder DefineProperty(this TypeBuilder typeBuilder, PropertyInfo property, PropertyAttributes? attributes = null) {
-            attributes = attributes ?? property.Attributes | PropertyAttributes.HasDefault;
+            attributes = attributes ?? property.Attributes | PropertyAttributes.None;
 
             return typeBuilder.DefineProperty(property.Name, attributes.Value, property.PropertyType, null);
         }

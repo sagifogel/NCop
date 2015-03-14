@@ -173,6 +173,12 @@
     <Compile Include="MethodToAspectValidator.cs" />
     <Compile Include="AspctsOrderedJoinPoints.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyInterceptionAspect\PropertyAspectInterceptionSubjects.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PropertyInterceptionAspect\PropertyAspectInterceptionTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NCop.Aspects\NCop.Aspects.csproj">
