@@ -21,7 +21,7 @@ namespace NCop.Aspects.Weaving
             IAspectWeaver aspectWeaver = null;
             IBindingWeaver bindingWeaver = null;
             var aspectSettings = GetAspectsWeavingSettings();
-
+            
             aspectWeaver = aspectExpression.Reduce(aspectSettings);
             bindingWeaver = new SetPropertyInterceptionBindingWeaver(aspectDefinition.Property, bindingSettings, aspectSettings, aspectWeaver);
 

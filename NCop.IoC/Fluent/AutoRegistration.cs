@@ -39,7 +39,7 @@ namespace NCop.IoC.Fluent
 							Expression.MemberInit(newExpression, assignments.ToArray()),
 								  containerParamater);
 
-			Registration.Func = lambda.Compile();
+			registration.Func = lambda.Compile();
 
 			return this;
 		}

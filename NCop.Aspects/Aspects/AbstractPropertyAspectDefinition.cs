@@ -4,10 +4,12 @@ using System.Reflection;
 
 namespace NCop.Aspects.Aspects
 {
-    internal abstract class AbstractPropertyAspectDefinition : AbstractMethodAspectDefinition, IPropertyAspectDefinition
+    internal abstract class AbstractPropertyAspectDefinition : AbstractAspectDefinition, IPropertyAspectDefinition
     {
         internal AbstractPropertyAspectDefinition(IAspect aspect, Type aspectDeclaringType, MethodInfo method, PropertyInfo property)
-            : base(aspect, aspectDeclaringType, method) {
+            : base(aspectDeclaringType) {
+            Aspect = aspect;
+            Method = method;
             Property = property;
         }
 

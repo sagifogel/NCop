@@ -13,8 +13,8 @@ namespace NCop.Aspects.Weaving
     internal abstract class AbstractPropertyBindingWeaver : IPropertyBindingWeaver, IBindingWeaver, IBindingTypeReflector
     {
         private Type baseType = null;
-        protected static int bindingCounter = 0;
         protected PropertyInfo property = null;
+        protected static int bindingCounter = 0;
         protected TypeBuilder typeBuilder = null;
         protected FieldBuilder fieldBuilder = null;
         protected readonly BindingSettings bindingSettings = null;

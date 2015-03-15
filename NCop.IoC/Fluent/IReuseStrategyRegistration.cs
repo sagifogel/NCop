@@ -1,7 +1,7 @@
 ﻿
 namespace NCop.IoC.Fluent
 {
-    public interface IReuseStrategyRegistration : IFluentInterface, IFluentRegistration, ICasted, IOwnedBy
+    public interface IReuseStrategyRegistration : IFluentRegistration, ICasted, IOwnedBy
     {
     }
 }

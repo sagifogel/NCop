@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace NCop.IoC.Fluent
 {
-    public abstract class AbstractRegistration<TCastable> : IDescriptable, IRegistration, IFluentRegistration, ICastableRegistration<TCastable>, ICasted, IOwnedBy
+    public abstract class AbstractRegistration<TCastable> : ICastableRegistration<TCastable>
     {
         protected Registration registration = null;
         protected readonly IEnumerable<TypeMap> dependencies = null;
@@ -69,14 +69,14 @@ namespace NCop.IoC.Fluent
         public IReusedWithin AsSingleton() {
             var type = registration.CastTo.IsNull() ? ServiceType : CastTo;
 
-            AbstractRegistration<TCastable>.RequiersNotInterface(type);
+            RequiersNotInterface(type);
             As(type);
 
             return registration.AsSingleton();
         }
 
         public ICasted ToSelf() {
-            AbstractRegistration<TCastable>.RequiersNotInterface(ServiceType);
+            RequiersNotInterface(ServiceType);
             As(registration.CastTo = ServiceType);
 
             return this;
@@ -84,7 +84,7 @@ namespace NCop.IoC.Fluent
 
         public ICasted From<TService>() where TService : TCastable, new() {
             var castTo = typeof(TService);
-            AbstractRegistration<TCastable>.RequiersNotInterface(castTo);
+            RequiersNotInterface(castTo);
 
             return As(registration.CastTo = castTo);
         }

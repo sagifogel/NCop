@@ -2,7 +2,7 @@
 
 namespace NCop.IoC.Fluent
 {
-    public class Registration : IReuseStrategyRegistration, IFactoryRegistration, IRegistration, IReusedWithin
+    public class Registration : IReuseStrategyRegistration, IFactoryRegistration, IReusedWithin
     {
         public string Name { get; protected internal set; }
 

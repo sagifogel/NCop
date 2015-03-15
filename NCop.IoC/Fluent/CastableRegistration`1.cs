@@ -5,12 +5,12 @@ using System.Linq.Expressions;
 
 namespace NCop.IoC.Fluent
 {
-    public class CastableRegistration<TCastable> : IDescriptable, IRegistration, IFluentRegistration, ICastableRegistration<TCastable>, ICasted, IOwnedBy
+    public class CastableRegistration<TCastable> : ICastableRegistration<TCastable>
     {
-        protected readonly Registration Registration = null;
+        protected readonly Registration registration = null;
 
         public CastableRegistration(Type serviceType, Type factoryType) {
-            Registration = new Registration {
+            registration = new Registration {
                 ServiceType = serviceType,
                 FactoryType = factoryType
             };
@@ -18,75 +18,76 @@ namespace NCop.IoC.Fluent
 
         public string Name {
             get {
-                return Registration.Name;
+                return registration.Name;
             }
         }
 
         public Type CastTo {
             get {
-                return Registration.CastTo;
+                return registration.CastTo;
             }
         }
 
         public Delegate Func {
             get {
-                if (Registration.Func.IsNull()) {
+                if (registration.Func.IsNull()) {
                     ToSelf();
                 }
 
-                return Registration.Func;
+                return registration.Func;
             }
         }
 
         public Type FactoryType {
             get {
-                return Registration.FactoryType;
+                return registration.FactoryType;
             }
         }
 
         public Type ServiceType {
             get {
-                return Registration.ServiceType;
+                return registration.ServiceType;
             }
         }
 
         public ReuseScope Scope {
             get {
-                return Registration.Scope;
+                return registration.Scope;
             }
         }
 
         public Owner Owner {
             get {
-                return Registration.Owner;
+                return registration.Owner;
             }
         }
 
         public void Named(string name) {
-            Registration.Named(name);
+            registration.Named(name);
         }
 
         public IReusedWithin AsSingleton() {
-            var type = Registration.CastTo.IsNull() ? ServiceType : CastTo;
+            var type = registration.CastTo.IsNull() ? ServiceType : CastTo;
 
-            CastableRegistration<TCastable>.RequiersNotInterface(type);
+            RequiersNotInterface(type);
             As(type);
 
-            return Registration.AsSingleton();
+            return registration.AsSingleton();
         }
 
         public ICasted ToSelf() {
-            CastableRegistration<TCastable>.RequiersNotInterface(ServiceType);
-            As(Registration.CastTo = ServiceType);
+            RequiersNotInterface(ServiceType);
+            As(registration.CastTo = ServiceType);
 
             return this;
         }
 
         public ICasted From<TService>() where TService : TCastable, new() {
             var castTo = typeof(TService);
-            CastableRegistration<TCastable>.RequiersNotInterface(castTo);
+            
+            RequiersNotInterface(castTo);
 
-            return As(Registration.CastTo = castTo);
+            return As(registration.CastTo = castTo);
         }
 
         protected virtual ICasted As(Type castTo) {
@@ -104,7 +105,7 @@ namespace NCop.IoC.Fluent
                             Expression.New(ctor),
                                 paramater);
 
-            Registration.Func = lambda.Compile();
+            registration.Func = lambda.Compile();
 
             return this;
         }
@@ -114,17 +115,17 @@ namespace NCop.IoC.Fluent
         }
 
         IReuseStrategy IDescriptable.Named(string name) {
-            Registration.Named(name);
+            registration.Named(name);
 
             return this;
         }
 
         public void OwnedExternally() {
-            Registration.OwnedExternally();
+            registration.OwnedExternally();
         }
 
         public void OwnedByContainer() {
-            Registration.OwnedByContainer();
+            registration.OwnedByContainer();
         }
     }
 }

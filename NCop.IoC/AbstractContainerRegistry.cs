@@ -8,7 +8,7 @@ namespace NCop.IoC
     public abstract class AbstractContainerRegistry : IContainerRegistry
     {   
         public ICastableRegistration<TCastable> Register<TCastable>() {
-            Type serviceType = typeof(TCastable);
+            var serviceType = typeof(TCastable);
             var factoryType = typeof(Func<INCopDependencyResolver, TCastable>);
 
             return RegisterImpl<ICastableRegistration<TCastable>>(
@@ -16,11 +16,10 @@ namespace NCop.IoC
         }
 
         public ICastableRegistration<TCastable> RegisterAuto<TCastable>() {
-            Type serviceType = typeof(TCastable);
+            var serviceType = typeof(TCastable);
             var factoryType = typeof(Func<INCopDependencyResolver, TCastable>);
 
-            return RegisterImpl<AutoRegistration<TCastable>>(
-                     new AutoRegistration<TCastable>(serviceType, factoryType));
+            return RegisterImpl(new AutoRegistration<TCastable>(serviceType, factoryType));
         }
 
         public IReuseStrategyRegistration Register<TService>(Func<INCopDependencyResolver, TService> factory) {

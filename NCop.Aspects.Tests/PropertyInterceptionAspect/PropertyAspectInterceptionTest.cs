@@ -48,7 +48,7 @@ namespace NCop.Aspects.Tests
         //
         #endregion
 
-        //[TestMethod]
+        [TestMethod]
         public void Property_AnnotatedWithPropertyInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
             var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
             var list = new List<AspectJoinPoints>();
@@ -59,12 +59,40 @@ namespace NCop.Aspects.Tests
             CollectionAssert.AreEqual(list, new PropertyInterceptionAspectOrderedJoinPoints());
         }
 
-        //[TestMethod]
+        [TestMethod]
         public void GetProperty_AnnotatedWithPropertyInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
             var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
-            //var list = instance.PropertyInterceptionAspectOnPartialGetProperty;
+            var list = instance.PropertyInterceptionAspectOnPartialGetProperty;
 
-            //CollectionAssert.AreEqual(list, new PropertyInterceptionAspectOrderedJoinPoints());
+            CollectionAssert.AreEqual(list, new GetPropertyInterceptionAspectOrderedJoinPoints());
+        }
+
+        [TestMethod]
+        public void SetProperty_AnnotatedWithPropertyInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
+            var list = new List<AspectJoinPoints>();
+
+            instance.PropertyInterceptionAspectOnPartialSetProperty = list;
+
+            CollectionAssert.AreEqual(list, new SetPropertyInterceptionAspectOrderedJoinPoints());
+        }
+
+        [TestMethod]
+        public void Property_AnnotatedWithSetPropertyInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
+            var list = new List<AspectJoinPoints>();
+
+            instance.SetPropertyInterceptionAspectOnFullProperty = list;
+
+            CollectionAssert.AreEqual(list, new SetPropertyInterceptionAspectOrderedJoinPoints());
+        }
+
+        [TestMethod]
+        public void Property_AnnotatedWithGetPropertyInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
+            var list  = instance.GetPropertyInterceptionAspectOnFullProperty;
+
+            CollectionAssert.AreEqual(list, new GetPropertyInterceptionAspectOrderedJoinPoints());
         }
     }
 }

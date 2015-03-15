@@ -12,19 +12,19 @@ namespace NCop.IoC
         }
 
         public override TService Resolve<TService>(ResolveContext<TService> context) {
-            if (context.Container.Equals(this.container)) {
+            if (context.Container.Equals(container)) {
                 return (TService)(instance ?? ExchangeInstanceConditionally(ref instance, context.Factory));
             }
 
-            return CloneAndResolve<TService>(context);
+            return CloneAndResolve(context);
         }
 
         private TService CloneAndResolve<TService>(ResolveContext<TService> context) {
-            return CloneAndResolve<TService>(context.Key, context.Entry, context.Container, context.Registry, context.Factory);
+            return CloneAndResolve(context.Key, context.Entry, context.Container, context.Registry, context.Factory);
         }
 
-        private TService CloneAndResolve<TService>(ServiceKey key, ServiceEntry entry, INCopDependencyResolver container, Action<ServiceKey, ServiceEntry> registry, Func<TService> factory) {
-            ServiceEntry clonedEntry = entry.CloneFor(container);
+        private TService CloneAndResolve<TService>(ServiceKey key, ServiceEntry entry, INCopDependencyResolver containerResolver, Action<ServiceKey, ServiceEntry> registry, Func<TService> factory) {
+            var clonedEntry = entry.CloneFor(containerResolver);
 
             registry(key, clonedEntry);
 
@@ -33,10 +33,10 @@ namespace NCop.IoC
                 Factory = factory,
                 Entry = clonedEntry,
                 Registry = registry,
-                Container = container
+                Container = containerResolver
             };
 
-            return (TService)clonedEntry.LifetimeStrategy.Resolve<TService>(context);
+            return clonedEntry.LifetimeStrategy.Resolve(context);
         }
 
         private object ExchangeInstanceConditionally<TService>(ref object instance, Func<TService> factory) {

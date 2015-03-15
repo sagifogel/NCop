@@ -11,7 +11,7 @@ namespace NCop.IoC
     {
         private int locked = 0;
         private readonly NCopContainer parentContainer = null;
-        private Stack<NCopContainer> childContainers = new Stack<NCopContainer>();
+        private readonly Stack<NCopContainer> childContainers = new Stack<NCopContainer>();
 
         public NCopContainer(Action<IArgumentsFluentRegistry> registrationAction = null)
             : this(registrationAction, null) {
@@ -36,7 +36,7 @@ namespace NCop.IoC
         }
 
         protected override ServiceEntry GetEntry(ServiceKey key) {
-            ServiceEntry entry = base.GetEntry(key);
+            var entry = base.GetEntry(key);
 
             if (entry.IsNull() && parentContainer.IsNotNull()) {
                 parentContainer.TryGetEntry(key, out entry);
@@ -49,7 +49,7 @@ namespace NCop.IoC
             return CreateChildContainer(null);
         }
 
-        public INCopDependencyContainer CreateChildContainer(Action<IArgumentsFluentRegistry> registrationAction = null) {
+        public INCopDependencyContainer CreateChildContainer(Action<IArgumentsFluentRegistry> registrationAction) {
             NCopContainer container = null;
 
             lock (childContainers) {

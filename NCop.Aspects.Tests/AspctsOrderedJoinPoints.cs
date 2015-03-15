@@ -183,4 +183,18 @@ namespace NCop.Aspects.Tests
             Add(AspectJoinPoints.GetPropertyInterception);
         }
     }
+
+    public class GetPropertyInterceptionAspectOrderedJoinPoints : AspectOrderedJoinPoints
+    {
+        public GetPropertyInterceptionAspectOrderedJoinPoints() {
+            Add(AspectJoinPoints.GetPropertyInterception);
+        }
+    }
+
+    public class SetPropertyInterceptionAspectOrderedJoinPoints : AspectOrderedJoinPoints
+    {
+        public SetPropertyInterceptionAspectOrderedJoinPoints() {
+            Add(AspectJoinPoints.SetPropertyInterception);
+        }
+    }
 }

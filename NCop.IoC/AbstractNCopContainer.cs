@@ -77,7 +77,7 @@ namespace NCop.IoC
         }
 
         public TService ResolveNamed<TService>(string name) {
-            return ResolveInternal<TService>(name: name);
+            return ResolveInternal<TService>(name);
         }
 
         public TService TryResolveNamed<TService>(string name) {
@@ -93,7 +93,7 @@ namespace NCop.IoC
         protected TService ResolveImpl<TService, TFunc>(Func<TFunc, TService> factoryInvoker, string name = null, bool throwIfMissing = true) {
             ResolveContext<TService> context = null;
             var identifier = new ServiceKey(typeof(TService), typeof(TFunc), name);
-            ServiceEntry entry = GetEntry(identifier);
+            var entry = GetEntry(identifier);
 
             if (entry.IsNull()) {
                 if (throwIfMissing) {

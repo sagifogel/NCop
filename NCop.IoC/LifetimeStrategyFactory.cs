@@ -4,7 +4,7 @@ namespace NCop.IoC
 {
 	internal static class LifetimeStrategyFactory
 	{
-		private static IdentityLifetimeStrategy defaultLifetimeStrategy = new IdentityLifetimeStrategy();
+		private static readonly IdentityLifetimeStrategy defaultLifetimeStrategy = new IdentityLifetimeStrategy();
 
         public static ILifetimeStrategy Get(ReuseScope scope, INCopDependencyResolver container) {
 			switch (scope) {

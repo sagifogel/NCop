@@ -37,14 +37,14 @@ namespace NCop.Composite.IoC
             if (IsSingletonComposite()) {
                 registration.Scope = ReuseScope.Hierarchy;
             }
-            
+
             registration.Name = name;
 
             if (name.IsNullOrEmpty() && TryGetNamedAttribute(out namedAttribute)) {
                 registration.Name = namedAttribute.Name;
             }
 
-            As(concreteType);
+            As(concreteType, false);
         }
 
         public virtual string Name {
@@ -93,30 +93,35 @@ namespace NCop.Composite.IoC
             }
         }
 
-        public void As(Type castTo) {
+        public void As(Type castTo, bool resolveDependenyProperties = true) {
+            LambdaExpression lambda = null;
+            NewExpression newExpression = null;
             var typeofService = typeof(object);
+            var assignments = Enumerable.Empty<MemberBinding>();
             var containerParamater = Expression.Parameter(typeof(INCopDependencyResolver), "container");
             var tryResolveMethodInfo = typeof(INCopDependencyResolver).GetMethod("TryResolve", Type.EmptyTypes);
             var dependencyAware = typeofService.IsDefined<DependencyAware>();
+            
+            if (resolveDependenyProperties) {
+                var properties = castTo.GetPublicProperties()
+                                       .Where(prop => prop.CanWrite)
+                                       .Where(prop => !prop.PropertyType.IsValueType)
+                                       .Where(prop => !ReferenceEquals(prop.PropertyType, typeof(string)))
+                                       .Where(prop => !dependencyAware && !prop.IsDefined<IgnoreDependency>() ||
+                                                      dependencyAware && prop.IsDefined<DependencyAttribute>());
 
-            var properties = castTo.GetPublicProperties()
-                                   .Where(prop => prop.CanWrite)
-                                   .Where(prop => !prop.PropertyType.IsValueType)
-                                   .Where(prop => !prop.PropertyType.Equals(typeof(string)))
-                                   .Where(prop => !dependencyAware && !prop.IsDefined<IgnoreDependency>() ||
-                                                  dependencyAware && prop.IsDefined<DependencyAttribute>());
+                assignments = properties.Select(prop => {
+                    var propertyType = prop.PropertyType;
+                    var methodCallExpression = MethodCallExpression(tryResolveMethodInfo, propertyType, containerParamater);
 
-            var assignments = properties.Select(prop => {
-                var propertyType = prop.PropertyType;
-                var methodCallExpression = MethodCallExpression(tryResolveMethodInfo, propertyType, containerParamater);
+                    return Expression.Bind(prop, methodCallExpression);
+                });
+            }
 
-                return Expression.Bind(prop, methodCallExpression);
-            });
-
-            var newExpression = NewExpression(castTo, containerParamater);
-            var lambda = Expression.Lambda(
-                            Expression.MemberInit(newExpression, assignments.ToArray()),
-                                  containerParamater);
+            newExpression = NewExpression(castTo, containerParamater);
+            lambda = Expression.Lambda(
+                        Expression.MemberInit(newExpression, assignments.ToArray()),
+                                containerParamater);
 
             registration.Func = lambda.Compile();
         }

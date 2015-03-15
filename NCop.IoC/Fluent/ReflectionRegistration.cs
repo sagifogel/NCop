@@ -9,7 +9,7 @@ namespace NCop.IoC.Fluent
 		public ReflectionRegistration(Type concreteType, Type serviceType)
 			: base(serviceType, MakeFactoryType(serviceType)) {
 			this.concreteType = concreteType;
-			As(Registration.CastTo = concreteType);
+			As(registration.CastTo = concreteType);
 		}
 
 		private static Type MakeFactoryType(Type serviceType) {
