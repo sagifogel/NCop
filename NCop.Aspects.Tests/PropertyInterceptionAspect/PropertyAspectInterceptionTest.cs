@@ -94,5 +94,34 @@ namespace NCop.Aspects.Tests
 
             CollectionAssert.AreEqual(list, new GetPropertyInterceptionAspectOrderedJoinPoints());
         }
+
+        [TestMethod]
+        public void SetProperty_AnnotatedWithSetPropertyInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
+            var list = new List<AspectJoinPoints>();
+
+            instance.SetPropertyInterceptionAspectOnPartialSetProperty = list;
+
+            CollectionAssert.AreEqual(list, new SetPropertyInterceptionAspectOrderedJoinPoints());
+        }
+
+        [TestMethod]
+        public void GetProperty_AnnotatedWithGetPropertyInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
+            var list = instance.GetPropertyInterceptionAspectOnPartialGetProperty;
+
+            CollectionAssert.AreEqual(list, new GetPropertyInterceptionAspectOrderedJoinPoints());
+        }
+
+        [TestMethod]
+        public void Property_AnnotatedWithMultiplePropertyInterceptionAspects_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
+            var list = new List<AspectJoinPoints>();
+
+            instance.MultiplePropertyInterceptionAspectsOnFullProperty = list;
+            list = instance.MultiplePropertyInterceptionAspectsOnFullProperty;
+
+            CollectionAssert.AreEqual(list, new MultiplePropertyInterceptionAspectOrderedJoinPoints());
+        }
     }
 }

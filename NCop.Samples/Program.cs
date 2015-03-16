@@ -37,8 +37,11 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPerson : IDeveloper
     {
-        [PropertyInterceptionAspect(typeof(FullPropertyInterceptionAspect))]
-        new List<string> Code { get; set; }
+        //[PropertyInterceptionAspect(typeof(FullPropertyInterceptionAspect))]
+        new List<string> Code {
+            [GetPropertyInterceptionAspect(typeof(FullPropertyInterceptionAspect))]
+            get;
+        }
 
         //[MethodInterceptionAspect(typeof(ActionWith1ArgumentInterceptionUsinInvokeAspect), AspectPriority = 1)]
         //[OnMethodBoundaryAspect(typeof(ActionWith1ArgumentOnMethodBoundaryAspect), AspectPriority = 2)]
@@ -47,7 +50,7 @@ namespace NCop.Samples
 
     public interface IDeveloper
     {
-        List<string> Code { get; set; }
+        List<string> Code { get; }
     }
 
     public interface IDo
@@ -178,7 +181,7 @@ namespace NCop.Samples
         //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         public List<string> Code {
             //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
-            set { code = value; }
+            //set { code = value; }
             get { return code; }
         }
 
@@ -201,9 +204,9 @@ namespace NCop.Samples
             singleton = new PropertyBinding0();
         }
 
-        public override void SetValue(ref IDeveloper instance, IPropertyArg<List<string>> arg, List<string> value) {
-            instance.Code = value;
-        }
+        //public override void SetValue(ref IDeveloper instance, IPropertyArg<List<string>> arg, List<string> value) {
+        //    instance.Code = value;
+        //}
 
         public override List<string> GetValue(ref IDeveloper instance, IPropertyArg<List<string>> arg) {
             return instance.Code;
@@ -335,7 +338,7 @@ namespace NCop.Samples
             var container = new CompositeContainer();
             container.Configure();
             developer = container.Resolve<IPerson>();
-            developer.Code = new List<string> { "Sagi" };
+            code = developer.Code;
             //Console.WriteLine(code);
         }
     }
