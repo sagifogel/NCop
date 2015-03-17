@@ -37,9 +37,11 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPerson : IDeveloper
     {
-        //[PropertyInterceptionAspect(typeof(FullPropertyInterceptionAspect))]
-        new List<string> Code {
-            [GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        new List<string> Code
+        {
+            //[SetPropertyInterceptionAspect(typeof(FullPropertyInterceptionAspect))]
+            set;
+            [GetPropertyInterceptionAspect(typeof(FullPropertyInterceptionAspect))]
             get;
         }
 
@@ -50,7 +52,7 @@ namespace NCop.Samples
 
     public interface IDeveloper
     {
-        List<string> Code { [GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]get; }
+        List<string> Code { set; get; }
     }
 
     public interface IDo
@@ -180,14 +182,9 @@ namespace NCop.Samples
 
         //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         public List<string> Code {
-            [GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
-            //set { code = value; }
+            set { code = value; }
             get { return code; }
         }
-
-
-        //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
-
 
         //[MethodInterceptionAspect(typeof(StopWatchAspect))]
         //[MethodInterceptionAspect(typeof(StopWatchAspect))]
@@ -204,13 +201,13 @@ namespace NCop.Samples
             singleton = new PropertyBinding0();
         }
 
-        //public override void SetValue(ref IDeveloper instance, IPropertyArg<List<string>> arg, List<string> value) {
-        //    instance.Code = value;
-        //}
-
-        public override List<string> GetValue(ref IDeveloper instance, IPropertyArg<List<string>> arg) {
-            return instance.Code;
+        public override void SetValue(ref IDeveloper instance, IPropertyArg<List<string>> arg, List<string> value) {
+            instance.Code = value;
         }
+
+        //public override List<string> GetValue(ref IDeveloper instance, IPropertyArg<List<string>> arg) {
+        //    return instance.Code;
+        //}
     }
 
     public class PropertyBinding1 : AbstractPropertyBinding<IDeveloper, List<string>>
@@ -338,7 +335,7 @@ namespace NCop.Samples
             var container = new CompositeContainer();
             container.Configure();
             developer = container.Resolve<IPerson>();
-            code = developer.Code;
+            code = developer.Code;// = new List<string>();
             //Console.WriteLine(code);
         }
     }

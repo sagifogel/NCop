@@ -177,8 +177,7 @@ namespace NCop.Aspects.Tests
 
     public class PropertyInterceptionAspectOrderedJoinPoints : AspectOrderedJoinPoints
     {
-        public PropertyInterceptionAspectOrderedJoinPoints()
-        {
+        public PropertyInterceptionAspectOrderedJoinPoints() {
             Add(AspectJoinPoints.SetPropertyInterception);
             Add(AspectJoinPoints.GetPropertyInterception);
         }
@@ -202,11 +201,29 @@ namespace NCop.Aspects.Tests
     {
         public MultiplePropertyInterceptionAspectOrderedJoinPoints() {
             Add(AspectJoinPoints.SetPropertyInterception);
-            Add(AspectJoinPoints.SetPropertyInterception); 
             Add(AspectJoinPoints.SetPropertyInterception);
-            Add(AspectJoinPoints.GetPropertyInterception); 
+            Add(AspectJoinPoints.SetPropertyInterception);
             Add(AspectJoinPoints.GetPropertyInterception);
             Add(AspectJoinPoints.GetPropertyInterception);
+            Add(AspectJoinPoints.GetPropertyInterception);
+        }
+    }
+
+    public class MultipleGetPropertyInterceptionAspectOrderedJoinPoints : AspectOrderedJoinPoints
+    {
+        public MultipleGetPropertyInterceptionAspectOrderedJoinPoints() {
+            Add(AspectJoinPoints.GetPropertyInterception);
+            Add(AspectJoinPoints.GetPropertyInterception);
+            Add(AspectJoinPoints.GetPropertyInterception);
+        }
+    }
+
+    public class MultipleSetPropertyInterceptionAspectOrderedJoinPoints : AspectOrderedJoinPoints
+    {
+        public MultipleSetPropertyInterceptionAspectOrderedJoinPoints() {
+            Add(AspectJoinPoints.SetPropertyInterception);
+            Add(AspectJoinPoints.SetPropertyInterception);
+            Add(AspectJoinPoints.SetPropertyInterception);
         }
     }
 }
