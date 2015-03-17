@@ -39,7 +39,7 @@ namespace NCop.Samples
     {
         //[PropertyInterceptionAspect(typeof(FullPropertyInterceptionAspect))]
         new List<string> Code {
-            [GetPropertyInterceptionAspect(typeof(FullPropertyInterceptionAspect))]
+            [GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
             get;
         }
 
@@ -50,8 +50,7 @@ namespace NCop.Samples
 
     public interface IDeveloper
     {
-
-        List<string> Code { get; }
+        List<string> Code { [GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]get; }
     }
 
     public interface IDo
@@ -181,7 +180,7 @@ namespace NCop.Samples
 
         //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         public List<string> Code {
-            //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+            [GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
             //set { code = value; }
             get { return code; }
         }

@@ -209,6 +209,8 @@
     <Compile Include="Weaving\BindingGetPropertyAspectDecoratorWeaver.cs" />
     <Compile Include="Weaving\Expressions\AbstractPartialFragmentAspectPropertyExpression.cs" />
     <Compile Include="Weaving\Expressions\BindingGetPropertyFragmentInterceptionAspectExpression.cs" />
+    <Compile Include="Weaving\Expressions\BindingSetPropertyInterceptionAspectExpression.cs" />
+    <Compile Include="Weaving\Expressions\BindingGetPropertyInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\BindingSetPropertyFragmentInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\FinallyBindingPropertyAspectWeaver.cs" />
     <Compile Include="Weaving\SetPropertyBindingTypeReflectorBuilder.cs" />
