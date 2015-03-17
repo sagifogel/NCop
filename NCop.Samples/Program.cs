@@ -50,6 +50,7 @@ namespace NCop.Samples
 
     public interface IDeveloper
     {
+
         List<string> Code { get; }
     }
 

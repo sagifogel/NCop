@@ -74,14 +74,14 @@ namespace NCop.Aspects.Engine
         }
 
         private void CollectPartialGetPropertyAspectDefinitions(Type aspectDeclaringType, IEnumerable<IAspectPropertyMap> properties) {
-            CollectPartialPropertiesAspectDefinitions<GetPropertyInterceptionAspectAttribute>(properties, prop => prop.GetGetMethod(), (aspectsAttrs, method, property) => {
-                return aspectsAttrs.Select(aspectAttr => new GetPropertyInterceptionAspectDefinition(aspectAttr, aspectDeclaringType, method, property));
+            CollectPartialPropertiesAspectDefinitions<GetPropertyInterceptionAspectAttribute>(properties, prop => prop.GetGetMethod(), (aspectsAttrs, method, propertyMap, property) => {
+                return aspectsAttrs.Select(aspectAttr => new GetPropertyInterceptionAspectDefinition(aspectAttr, propertyMap.ContractType, method, property));
             });
         }
 
         private void CollectPartialSetPropertyAspectDefinitions(Type aspectDeclaringType, IEnumerable<IAspectPropertyMap> properties) {
-            CollectPartialPropertiesAspectDefinitions<SetPropertyInterceptionAspectAttribute>(properties, prop => prop.GetSetMethod(), (aspectsAttrs, method, property) => {
-                return aspectsAttrs.Select(aspectAttr => new SetPropertyInterceptionAspectDefinition(aspectAttr, aspectDeclaringType, method, property));
+            CollectPartialPropertiesAspectDefinitions<SetPropertyInterceptionAspectAttribute>(properties, prop => prop.GetSetMethod(), (aspectsAttrs, method, propertyMap, property) => {
+                return aspectsAttrs.Select(aspectAttr => new SetPropertyInterceptionAspectDefinition(aspectAttr, propertyMap.ContractType, method, property));
             });
         }
 
@@ -131,7 +131,7 @@ namespace NCop.Aspects.Engine
             });
         }
 
-        private void CollectPartialPropertiesAspectDefinitions<TAttribute>(IEnumerable<IAspectPropertyMap> properties, Func<PropertyInfo, MethodInfo> methodResolver, Func<IEnumerable<TAttribute>, MethodInfo, PropertyInfo, IEnumerable<IAspectDefinition>> definitionFactory) where TAttribute : Attribute {
+        private void CollectPartialPropertiesAspectDefinitions<TAttribute>(IEnumerable<IAspectPropertyMap> properties, Func<PropertyInfo, MethodInfo> methodResolver, Func<IEnumerable<TAttribute>, MethodInfo, IAspectPropertyMap, PropertyInfo, IEnumerable<IAspectDefinition>> definitionFactory) where TAttribute : Attribute {
             properties.ForEach(propertyMap => {
                 var target = methodResolver(propertyMap.ContractMember);
                 var propertyInterceptionAspects = new List<IAspectDefinition>();
@@ -143,7 +143,7 @@ namespace NCop.Aspects.Engine
                         if (method.IsNotNull()) {
                             var propertyInterceptionAspectsAttrs = method.GetCustomAttributes<TAttribute>();
 
-                            propertyInterceptionAspects.AddRange(definitionFactory(propertyInterceptionAspectsAttrs, method, property));
+                            propertyInterceptionAspects.AddRange(definitionFactory(propertyInterceptionAspectsAttrs, target, propertyMap, propertyMap.ContractMember));
                         }
                     });
 
