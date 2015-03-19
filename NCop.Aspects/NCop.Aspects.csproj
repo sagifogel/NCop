@@ -510,12 +510,12 @@
     <Compile Include="Aspects\AspectDefinitionCollection.cs" />
     <Compile Include="Aspects\MethodInterceptionAspectDefinition.cs" />
     <Compile Include="Framework\EventInterceptionAspectAttribute.cs" />
-    <Compile Include="Framework\GetPropertyInterceptionAspectAttribute.cs" />
+    <Compile Include="Engine\GetPropertyInterceptionAspect.cs" />
     <Compile Include="Framework\MethodInterceptionAspectAttribute.cs" />
     <Compile Include="Advices\OnMethodExceptionAdviceAttribute.cs" />
     <Compile Include="Framework\OnFunctionBoundaryAspect`1.cs" />
     <Compile Include="Framework\PropertyInterceptionAspectAttribute.cs" />
-    <Compile Include="Framework\SetPropertyInterceptionAspectAttribute.cs" />
+    <Compile Include="Engine\SetPropertyInterceptionAspect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

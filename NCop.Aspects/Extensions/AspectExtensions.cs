@@ -20,16 +20,16 @@ namespace NCop.Aspects.Extensions
 
             return typeof(OnMethodBoundaryAspectAttribute).IsAssignableFrom(type) ||
                    typeof(MethodInterceptionAspectAttribute).IsAssignableFrom(type) ||
-                   typeof(GetPropertyInterceptionAspectAttribute).IsAssignableFrom(type) ||
-                   typeof(SetPropertyInterceptionAspectAttribute).IsAssignableFrom(type);
+                   typeof(GetPropertyInterceptionAspect).IsAssignableFrom(type) ||
+                   typeof(SetPropertyInterceptionAspect).IsAssignableFrom(type);
         }
 
         internal static bool IsPropertyLevelAspect(this IAspect aspect) {
             var type = aspect.GetType();
 
             return typeof(PropertyInterceptionAspectAttribute).IsAssignableFrom(type) ||
-                   typeof(GetPropertyInterceptionAspectAttribute).IsAssignableFrom(type) ||
-                   typeof(SetPropertyInterceptionAspectAttribute).IsAssignableFrom(type);
+                   typeof(GetPropertyInterceptionAspect).IsAssignableFrom(type) ||
+                   typeof(SetPropertyInterceptionAspect).IsAssignableFrom(type);
         }
 
         internal static Type GetArgumentType(this IAspectDefinition aspectDefinition) {

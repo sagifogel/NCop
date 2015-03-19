@@ -139,7 +139,7 @@ namespace NCop.Aspects.Weaving.Expressions
             return new AspectNodeExpressionBuilder(expressionFactory);
         }
 
-        public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(GetPropertyInterceptionAspectAttribute aspect) {
+        public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(GetPropertyInterceptionAspect aspect) {
             return aspectDefinition => {
                 Func<IAspectExpression, IAspectExpression> ctor = null;
                 var propertyAspectDefinition = aspectDefinition as IPropertyAspectDefinition;
@@ -166,7 +166,7 @@ namespace NCop.Aspects.Weaving.Expressions
             };
         }
 
-        public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(SetPropertyInterceptionAspectAttribute aspect) {
+        public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(SetPropertyInterceptionAspect aspect) {
             return aspectDefinition => {
                 Func<IAspectExpression, IAspectExpression> ctor = null;
                 var propertyAspectDefinition = aspectDefinition as IPropertyAspectDefinition;

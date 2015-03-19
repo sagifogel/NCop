@@ -11,8 +11,8 @@ namespace NCop.Aspects.Aspects
 	{
 		private readonly List<AspectMap> map = null;
 
-		public AspectsMap(Type compositeType, IAspectMemebrsCollection aspectMembers) {
-			var matcher = new AspectAttributesMemberMatcher(compositeType, aspectMembers);
+		public AspectsMap(IAspectMemebrsCollection aspectMembers) {
+			var matcher = new AspectAttributesMemberMatcher(aspectMembers);
 			
             map = new List<AspectMap>(matcher.Select(tuple => new AspectMap(tuple.Item1, tuple.Item2)));
 			EnsureValidAspects(map);

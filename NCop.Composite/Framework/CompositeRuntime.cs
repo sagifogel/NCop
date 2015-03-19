@@ -44,7 +44,7 @@ namespace NCop.Composite.Framework
                 var compositeType = composite.Type;
                 var mixinsMap = new MixinsMap(compositeType);
                 var aspectMappedMembers = new AspectMemberMapper(compositeType, mixinsMap);
-                var aspectsMap = new AspectsMap(compositeType, aspectMappedMembers);
+                var aspectsMap = new AspectsMap(aspectMappedMembers);
 
                 var aspectDefinitionsTypes = aspectsMap.SelectMany(aspectMap => {
                     return aspectMap.Aspects.Select(aspectDefinition => {

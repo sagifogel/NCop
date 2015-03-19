@@ -1,24 +1,17 @@
-﻿using NCop.Aspects.Aspects;
+﻿using System.Reflection;
+using NCop.Aspects.Aspects;
 using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class TopGetPropertyFragmentInterceptionAspectExpression : AbstractPartialAspectPropertyExpression
+    internal class TopGetPropertyFragmentInterceptionAspectExpression : AbstractPartialFragmentAspectPropertyExpression
     {
-        private readonly IBindingTypeReflectorBuilder propertyBuilder = null;
-
         internal TopGetPropertyFragmentInterceptionAspectExpression(IAspectExpression aspectExpression, IPropertyAspectDefinition aspectDefinition, IBindingTypeReflectorBuilder propertyBuilder)
-            : base(aspectExpression, aspectDefinition) {
-            this.propertyBuilder = propertyBuilder;
+            : base(aspectExpression, propertyBuilder, aspectDefinition) {
         }
 
-        public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
-            var bindingWeaver = propertyBuilder.Build(aspectWeavingSettings);
-            var clonedSettings = aspectWeavingSettings.CloneWith(settings => {
-                settings.LocalBuilderRepository = new LocalBuilderRepository();
-            });
-
-            return new TopGetPropertyInterceptionAspectWeaver(aspectDefinition, clonedSettings, bindingWeaver.WeavedType);
+        protected override IAspectWeaver CreateWeaver(IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType) {
+            return new TopGetPropertyInterceptionAspectWeaver(aspectDefinition, aspectWeavingSettings, weavedType);
         }
     }
 }

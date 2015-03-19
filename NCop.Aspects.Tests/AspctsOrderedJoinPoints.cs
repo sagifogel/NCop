@@ -33,10 +33,6 @@ namespace NCop.Aspects.Tests
             Add(AspectJoinPoints.OnSuccess);
             Add(AspectJoinPoints.OnExit);
         }
-
-        public override string ToString() {
-            return base.ToString();
-        }
     }
 
     public class MultipleOnMethodBoundaryAspectOrderedJoinPoints : AspectOrderedJoinPoints

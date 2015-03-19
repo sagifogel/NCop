@@ -41,7 +41,6 @@ namespace NCop.Samples
         {
             //[SetPropertyInterceptionAspect(typeof(FullPropertyInterceptionAspect))]
             set;
-            [GetPropertyInterceptionAspect(typeof(FullPropertyInterceptionAspect))]
             get;
         }
 

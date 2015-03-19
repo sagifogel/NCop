@@ -78,60 +78,6 @@ namespace NCop.Aspects.Tests
         }
 
         [TestMethod]
-        public void Property_AnnotatedWithSetPropertyInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
-            var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
-            var list = new List<AspectJoinPoints>();
-
-            instance.SetPropertyInterceptionAspectOnFullProperty = list;
-
-            CollectionAssert.AreEqual(list, new SetPropertyInterceptionAspectOrderedJoinPoints());
-        }
-
-        [TestMethod]
-        public void Property_AnnotatedWithGetPropertyInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
-            var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
-            var list = instance.GetPropertyInterceptionAspectOnFullProperty;
-
-            CollectionAssert.AreEqual(list, new GetPropertyInterceptionAspectOrderedJoinPoints());
-        }
-
-        [TestMethod]
-        public void SetProperty_AnnotatedWithSetPropertyInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
-            var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
-            var list = new List<AspectJoinPoints>();
-
-            instance.SetPropertyInterceptionAspectOnPartialSetProperty = list;
-
-            CollectionAssert.AreEqual(list, new SetPropertyInterceptionAspectOrderedJoinPoints());
-        }
-
-        [TestMethod]
-        public void GetProperty_AnnotatedWithGetPropertyInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
-            var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
-            var list = instance.GetPropertyInterceptionAspectOnPartialGetProperty;
-
-            CollectionAssert.AreEqual(list, new GetPropertyInterceptionAspectOrderedJoinPoints());
-        }
-
-        [TestMethod]
-        public void GetProperty_AnnotatedWithMultipleGetPropertyInterceptionAspects_ReturnsTheCorrectSequenceOfAdvices() {
-            var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
-            var list = instance.MultipleGetPropertiesInterceptionAspectsOnGetProperty;
-
-            CollectionAssert.AreEqual(list, new MultipleGetPropertyInterceptionAspectOrderedJoinPoints());
-        }
-
-        [TestMethod]
-        public void SetProperty_AnnotatedWithMultipleSetPropertyInterceptionAspects_ReturnsTheCorrectSequenceOfAdvices() {
-            var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
-            var list = new List<AspectJoinPoints>();
-
-            instance.MultipleSetPropertiesInterceptionAspectsOnSetProperty = list;
-
-            CollectionAssert.AreEqual(list, new MultipleSetPropertyInterceptionAspectOrderedJoinPoints());
-        }
-
-        [TestMethod]
         public void GetProperty_AnnotatedWithMultiplePropertyInterceptionAspects_ReturnsTheCorrectSequenceOfAdvices() {
             var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
             var list = instance.MultiplePropertyInterceptionAspectOnPartialGetProperty;
@@ -149,15 +95,15 @@ namespace NCop.Aspects.Tests
             CollectionAssert.AreEqual(list, new MultipleSetPropertyInterceptionAspectOrderedJoinPoints());
         }
 
-        //[TestMethod]
-        //public void SetAndGetProperty_AnnotatedWithMultiplePropertyInterceptionAspects_ReturnsTheCorrectSequenceOfAdvices() {
-        //    var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
-        //    var list = new List<AspectJoinPoints>();
+        [TestMethod]
+        public void Property_AnnotatedWithMultiplePropertyInterceptionAspects_ReturnsTheCorrectSequenceOfAdvices() {
+            var instance = container.Resolve<IPropertyAspectSubjectsComposite>();
+            var list = new List<AspectJoinPoints>();
 
-        //    instance.GetAndSetPropertyInterceptionAspectOnFullProperty = list;
-        //    list = instance.GetAndSetPropertyInterceptionAspectOnFullProperty;
+            instance.MultiplePropertyInterceptionAspectsOnFullProperty = list;
+            list = instance.MultiplePropertyInterceptionAspectsOnFullProperty;
 
-        //    CollectionAssert.AreEqual(list, new MultiplePropertyInterceptionAspectOrderedJoinPoints());
-        //}
+            CollectionAssert.AreEqual(list, new MultiplePropertyInterceptionAspectOrderedJoinPoints());
+        }
     }
 }
