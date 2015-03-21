@@ -8,7 +8,10 @@ namespace NCop.Composite.Engine
     {
         internal GetCompositePropertyMap(Type contractType, Type implementationType, PropertyInfo contractProperty, PropertyInfo implementationProperty, IAspectDefinitionCollection aspectDefinitions)
             : base(contractType, implementationType, contractProperty, implementationProperty, aspectDefinitions) {
+            FragmentMethod = contractProperty.GetGetMethod();
         }
+
+        public override MethodInfo FragmentMethod { get; protected set; }
 
         public override void Accept(ICompositePropertyMapVisitor visitor) {
             visitor.Visit(this);

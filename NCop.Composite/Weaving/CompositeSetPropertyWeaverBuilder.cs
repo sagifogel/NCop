@@ -12,13 +12,18 @@ namespace NCop.Composite.Weaving
 
         public override IMethodWeaver Build() {
             var weavingSettings = new WeavingSettingsImpl(contractType, typeDefinition);
-            var aspectWeavingSettings = new AspectWeavingSettingsImpl {
-                WeavingSettings = weavingSettings,
-                AspectRepository = aspectWeavingServices.AspectRepository,
-                AspectArgsMapper = aspectWeavingServices.AspectArgsMapper
-            };
 
-            return new CompositeSetPropertyWeaver(propertyTypeBuilder, typeDefinition, compositePropertyMap.ContractMember, compositePropertyMap.AspectDefinitions, aspectWeavingSettings);
+            if (compositePropertyMap.HasAspectDefinitions) {
+                var aspectWeavingSettings = new AspectWeavingSettingsImpl {
+                    WeavingSettings = weavingSettings,
+                    AspectRepository = aspectWeavingServices.AspectRepository,
+                    AspectArgsMapper = aspectWeavingServices.AspectArgsMapper
+                };
+
+                return new CompositeSetPropertyWeaver(propertyTypeBuilder, typeDefinition, compositePropertyMap.ContractMember, compositePropertyMap.AspectDefinitions, aspectWeavingSettings);
+            }
+
+            return new SetPropertyDecoratorWeaver(compositePropertyMap.ContractMember.GetSetMethod(), weavingSettings);
         }
     }
 }

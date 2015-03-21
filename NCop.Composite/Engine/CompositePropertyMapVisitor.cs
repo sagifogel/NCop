@@ -1,6 +1,4 @@
 ﻿using System;
-using NCop.Composite.Weaving;
-using NCop.Weaving;
 
 namespace NCop.Composite.Engine
 {

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Linq;
-using System.Collections;
+﻿using NCop.Core.Extensions;
+using System;
 using System.Collections.Generic;
-using NCop.Core.Extensions;
 
 namespace NCop.Composite.Engine
 {

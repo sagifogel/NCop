@@ -16,6 +16,8 @@ namespace NCop.Composite.Engine
 
         public bool HasAspectDefinitions { get; private set; }
 
+        public abstract MethodInfo FragmentMethod { get; protected set; }
+
         public IAspectDefinitionCollection AspectDefinitions { get; private set; }
 
         public abstract void Accept(ICompositePropertyMapVisitor visitor);

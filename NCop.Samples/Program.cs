@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using NCop.Aspects.Engine;
+﻿using NCop.Aspects.Engine;
 using NCop.Aspects.Framework;
 using NCop.Aspects.Weaving;
 using NCop.Composite.Framework;
 using NCop.Mixins.Framework;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace NCop.Samples
@@ -37,10 +37,8 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPerson : IDeveloper
     {
-        new List<string> Code
-        {
-            //[SetPropertyInterceptionAspect(typeof(FullPropertyInterceptionAspect))]
-            set;
+        //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        new List<string> Code {
             get;
         }
 
@@ -51,7 +49,7 @@ namespace NCop.Samples
 
     public interface IDeveloper
     {
-        List<string> Code { set; get; }
+        List<string> Code { get; }
     }
 
     public interface IDo
@@ -181,7 +179,6 @@ namespace NCop.Samples
 
         //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         public List<string> Code {
-            set { code = value; }
             get { return code; }
         }
 
@@ -200,13 +197,13 @@ namespace NCop.Samples
             singleton = new PropertyBinding0();
         }
 
-        public override void SetValue(ref IDeveloper instance, IPropertyArg<List<string>> arg, List<string> value) {
-            instance.Code = value;
-        }
-
-        //public override List<string> GetValue(ref IDeveloper instance, IPropertyArg<List<string>> arg) {
-        //    return instance.Code;
+        //public override void SetValue(ref IDeveloper instance, IPropertyArg<List<string>> arg, List<string> value) {
+        //    instance.Code = value;
         //}
+
+        public override List<string> GetValue(ref IDeveloper instance, IPropertyArg<List<string>> arg) {
+            return instance.Code;
+        }
     }
 
     public class PropertyBinding1 : AbstractPropertyBinding<IDeveloper, List<string>>

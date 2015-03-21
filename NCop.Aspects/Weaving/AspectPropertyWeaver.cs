@@ -1,6 +1,5 @@
 ﻿using NCop.Aspects.Aspects;
 using System.Reflection;
-using NCop.Weaving;
 
 namespace NCop.Aspects.Weaving
 {

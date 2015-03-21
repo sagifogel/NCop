@@ -44,7 +44,7 @@ namespace NCop.Composite.Engine
                 return new SetCompositePropertyMap(contractType, implementationType, contractMember, implementationMember, aspectMap);
             }));
 
-            mappedProperties = mappedFragmentProperties.Where(map => map.HasAspectDefinitions)
+            mappedProperties = mappedFragmentProperties.Where(compositefragment => compositefragment.FragmentMethod.IsNotNull())
                                                        .ToGroupedDictionary(map => map.Target)
                                                        .ToList(keyValue => new CompositePropertyMap(keyValue.Value) as ICompositePropertyMap);
         }

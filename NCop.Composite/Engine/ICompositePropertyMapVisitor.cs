@@ -1,5 +1,4 @@
-﻿using NCop.Weaving;
-
+﻿
 namespace NCop.Composite.Engine
 {
     public interface ICompositePropertyMapVisitor

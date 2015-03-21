@@ -1,9 +1,9 @@
 ﻿
-using System.Reflection.Emit;
 using NCop.Aspects.Aspects;
 using NCop.Aspects.Weaving.Expressions;
 using NCop.Weaving;
 using System.Reflection;
+using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {

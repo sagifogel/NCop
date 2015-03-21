@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using NCop.Aspects.Weaving;
+﻿using NCop.Aspects.Weaving;
 using NCop.Composite.Engine;
 using NCop.Core.Extensions;
 using NCop.Weaving;
@@ -22,22 +21,18 @@ namespace NCop.Composite.Weaving
             var setPropertyMap = compositePropertyMap.SetPropertyFragmentMap;
             var propertyMaps = new[] { getPropertyMap, setPropertyMap };
             var property = propertyMaps.SetIfNotNull(item => item.ContractMember);
-            var weavingSettings = new WeavingSettingsImpl(contractType, typeDefinition);
             var propertyWeaver = new CompositePropertyWeaver(typeDefinition, property);
-            var aspectWeavingSettings = new AspectWeavingSettingsImpl {
-                WeavingSettings = weavingSettings,
-                AspectRepository = aspectWeavingServices.AspectRepository,
-                AspectArgsMapper = aspectWeavingServices.AspectArgsMapper
-            };
-
+            
             if (getPropertyMap.IsNotNull()) {
-                var getPropertyWeaver = new CompositeGetPropertyWeaver(propertyWeaver, typeDefinition, property, getPropertyMap.AspectDefinitions, aspectWeavingSettings);
+                var getPropertyWeaverBuilder = new CompositeGetPropertyWeaverBuilder(propertyWeaver, getPropertyMap, typeDefinition, aspectWeavingServices);
+                var getPropertyWeaver = getPropertyWeaverBuilder.Build();
 
                 propertyWeaver.SetGetMethodWeaver(getPropertyWeaver);
             }
 
             if (setPropertyMap.IsNotNull()) {
-                var setPropertyWeaver = new CompositeSetPropertyWeaver(propertyWeaver, typeDefinition, property, setPropertyMap.AspectDefinitions, aspectWeavingSettings);
+                var setPropertyWeaverBuilder = new CompositeSetPropertyWeaverBuilder(propertyWeaver, setPropertyMap, typeDefinition, aspectWeavingServices);
+                var setPropertyWeaver = setPropertyWeaverBuilder.Build();
 
                 propertyWeaver.SetSetMethodWeaver(setPropertyWeaver);
             }
