@@ -1,0 +1,10 @@
+﻿<#@ template language="C#" hostspecific="True" debug="True" #>
+<#@ output extension="cs" #>
+<#@ include file="NCopExceptionTemplate.tt" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#
+	var template = new NCopExceptionTemplate();
+	template.KeyPrefix = "TypeDefinition";
+    template.Render();
+#>

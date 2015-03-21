@@ -40,6 +40,7 @@ namespace NCop.Samples
         //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         new List<string> Code {
             get;
+            set;
         }
 
         //[MethodInterceptionAspect(typeof(ActionWith1ArgumentInterceptionUsinInvokeAspect), AspectPriority = 1)]
@@ -180,6 +181,7 @@ namespace NCop.Samples
         //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         public List<string> Code {
             get { return code; }
+            set { code = value; }
         }
 
         //[MethodInterceptionAspect(typeof(StopWatchAspect))]

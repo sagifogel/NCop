@@ -120,4 +120,7 @@
   <data name="AbstracClassAnnotationIsNotSupported" xml:space="preserve">
     <value>Could not define type {0}. Annotation of an abstract class is not supported</value>
   </data>
+  <data name="PropertiesAccessorsMismatach" xml:space="preserve">
+    <value>The property {0} of type {1} has different accessors than the same property of type {2}.</value>
+  </data>
 </root>

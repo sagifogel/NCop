@@ -55,6 +55,16 @@
   <ItemGroup>
     <Compile Include="AbstractMemberMap.cs" />
     <Compile Include="AttributeTypeMatcher.cs" />
+    <None Include="Exceptions\PropertyAccessorsMismatchException.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PropertyAccessorsMismatchException.cs</LastGenOutput>
+      <LastOutputs>.\PropertyAccessorsMismatchException.cs</LastOutputs>
+    </None>
+    <Compile Include="Exceptions\PropertyAccessorsMismatchException.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PropertyAccessorsMismatchException.tt</DependentUpon>
+    </Compile>
     <Compile Include="Functional.cs" />
     <Compile Include="Exceptions\AttributeNotFoundException.cs">
       <AutoGen>True</AutoGen>
