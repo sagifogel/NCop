@@ -10,7 +10,7 @@ namespace NCop.Aspects.Engine
 
         public ActionInterceptionArgsImpl(TInstance instance, MethodInfo method, IActionBinding<TInstance, TArg1> actionBinding, TArg1 arg1) {
             Arg1 = arg1;
-            this.Method = method;
+            Method = method;
             this.actionBinding = actionBinding;
             Instance = this.instance = instance;
         }

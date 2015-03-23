@@ -37,20 +37,24 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPerson : IDeveloper
     {
-        //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
         new List<string> Code {
             get;
             set;
         }
 
-        //[MethodInterceptionAspect(typeof(ActionWith1ArgumentInterceptionUsinInvokeAspect), AspectPriority = 1)]
-        //[OnMethodBoundaryAspect(typeof(ActionWith1ArgumentOnMethodBoundaryAspect), AspectPriority = 2)]
-        //new void Do(string s);
+        [MethodInterceptionAspect(typeof(ActionWith1ArgumentInterceptionUsinInvokeAspect), AspectPriority = 1)]
+        [OnMethodBoundaryAspect(typeof(ActionWith1ArgumentOnMethodBoundaryAspect), AspectPriority = 2)]
+        new void Do(string s);
     }
 
     public interface IDeveloper
     {
-        List<string> Code { get; }
+        void Do(string name);
+        List<string> Code { get; set; }
     }
 
     public interface IDo
@@ -275,7 +279,9 @@ namespace NCop.Samples
 
         }
 
-        public override void OnGetValue(PropertyInterceptionArgs<List<string>> args) {
+        public override void OnGetValue(PropertyInterceptionArgs<List<string>> args)
+        {
+            Console.WriteLine("OnGetValue");
             args.ProceedGetValue();
         }
 
@@ -334,7 +340,7 @@ namespace NCop.Samples
             container.Configure();
             developer = container.Resolve<IPerson>();
             code = developer.Code;// = new List<string>();
-            //Console.WriteLine(code);
+            developer.Do("Sagi");
         }
     }
 }

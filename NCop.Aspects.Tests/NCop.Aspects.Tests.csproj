@@ -170,6 +170,8 @@
     <Compile Include="FunctionWith8RefArgumentsAspect\FunctionWith8RefArgumentsAspectTest.cs" />
     <Compile Include="FunctionWithoutArgumentsAspect\FunctionWithoutArgumentsAspectSubjects.cs" />
     <Compile Include="FunctionWithoutArgumentsAspect\FunctionWithoutArgumentsAspectTest.cs" />
+    <Compile Include="MethodsAndProperties\MethodsAndPropertiesAspectSubjects.cs" />
+    <Compile Include="MethodsAndProperties\MethodsAndPropertiesAspectTest.cs" />
     <Compile Include="MethodToAspectValidator.cs" />
     <Compile Include="AspctsOrderedJoinPoints.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
