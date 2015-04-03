@@ -47,7 +47,7 @@ namespace NCop.Samples
                 var ctor = concreteType.GetConstructors()[0];
                 var @params = ctor.GetParameters();
                 var use = x.For(serviceType)
-                           .Use(concreteType);
+                            .Use(concreteType);
 
                 if (!string.IsNullOrEmpty(name)) {
                     use.Named(name);

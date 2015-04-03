@@ -12,9 +12,9 @@ namespace NCop.IoC
         internal ServiceEntry CloneFor(INCopDependencyResolver container) {
             return new ServiceEntry {
                 Scope = Scope,
-                Owner = this.Owner,
+                Owner = Owner,
+                Factory = Factory,
                 Container = container,
-                Factory = this.Factory,
                 LifetimeStrategy = Scope.ToStrategy(container)
             };
         }
