@@ -13,12 +13,12 @@ namespace NCop.IoC.Tests
             var identifier3 = new ServiceKey(typeof(Action), typeof(Action), "second");
             var identifier4 = new ServiceKey(typeof(Delegate), typeof(Action), "second");
 
-            Assert.IsTrue(identifier1 != identifier2 &&
-                          identifier1 != identifier3 &&
-                          identifier1 != identifier4 &&
-                          identifier2 != identifier3 &&
-                          identifier2 != identifier4 &&
-                          identifier3 != identifier4);
+            Assert.IsTrue(identifier1.Equals(identifier2) &&
+                          identifier1.Equals(identifier3) &&
+                          identifier1.Equals(identifier4) &&
+                          identifier2.Equals(identifier3) &&
+                          identifier2.Equals(identifier4) &&
+                          identifier3.Equals(identifier4));
         }
 
         [TestMethod]

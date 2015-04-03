@@ -131,9 +131,9 @@ namespace NCop.IoC
         }
 
         protected virtual ServiceEntry GetEntry(ServiceKey key) {
-            ServiceEntry entry;
-
             try {
+                ServiceEntry entry;
+
                 if (services.TryGetValue(key, out entry)) {
                     return entry;
                 }
@@ -142,7 +142,7 @@ namespace NCop.IoC
                 throw new ResolutionException(Resources.ContainerNotConfigured, ex);
             }
 
-            return entry;
+            return null;
         }
 
         public virtual void Dispose() {

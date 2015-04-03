@@ -6,5 +6,7 @@ namespace NCop.Composite.Engine
     public abstract class CompositeAttribute : Attribute
     {
         public Type As { get; set; }
+
+        public bool Disposable { get; set; }
     }
 }

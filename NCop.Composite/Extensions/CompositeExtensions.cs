@@ -19,5 +19,15 @@ namespace NCop.Composite.Extensions
 
             return compositeAtrribute.IsNotNull() ? compositeAtrribute.As : null;
         }
+
+        public static bool GetDisposableFromAttribute(this Type type) {
+            var compositeAtrribute = type.GetCustomAttribute<CompositeAttribute>();
+
+            if (compositeAtrribute.IsNotNull()) {
+                return compositeAtrribute.Disposable;
+            }
+
+            return false;
+        }
     }
 }

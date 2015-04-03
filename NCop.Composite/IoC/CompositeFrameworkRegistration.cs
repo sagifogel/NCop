@@ -21,7 +21,7 @@ namespace NCop.Composite.IoC
         private readonly CompositeRegistration registration = null;
         private readonly IRegistrationResolver registrationResolver = null;
 
-        internal CompositeFrameworkRegistration(IRegistrationResolver registrationResolver, Type concreteType, Type serviceType, IEnumerable<TypeMap> dependencies = null, Type castTo = null, string name = null) {
+        internal CompositeFrameworkRegistration(IRegistrationResolver registrationResolver, Type concreteType, Type serviceType, IEnumerable<TypeMap> dependencies = null, Type castTo = null, string name = null, bool disposable = false) {
             NamedAttribute namedAttribute = null;
 
             this.serviceType = serviceType;
@@ -42,6 +42,10 @@ namespace NCop.Composite.IoC
 
             if (name.IsNullOrEmpty() && TryGetNamedAttribute(out namedAttribute)) {
                 registration.Name = namedAttribute.Name;
+            }
+
+            if (disposable) {
+                registration.OwnedByContainer();
             }
 
             As(concreteType, false);
@@ -101,7 +105,7 @@ namespace NCop.Composite.IoC
             var containerParamater = Expression.Parameter(typeof(INCopDependencyResolver), "container");
             var tryResolveMethodInfo = typeof(INCopDependencyResolver).GetMethod("TryResolve", Type.EmptyTypes);
             var dependencyAware = typeofService.IsDefined<DependencyAware>();
-            
+
             if (resolveDependenyProperties) {
                 var properties = castTo.GetPublicProperties()
                                        .Where(prop => prop.CanWrite)

@@ -19,7 +19,7 @@ namespace NCop.IoC.Tests
         public void ResolveOfDependetType_UsingFactoryThatCallsResolveOfDependencyObject_ReturnsTheResolvedInstance() {
             var container = new NCopContainer(registry => {
                 registry.Register<Foo>();
-                registry.Register<IBar>((r) => new Bar(r.Resolve<Foo>()));
+                registry.Register<IBar>(r => new Bar(r.Resolve<Foo>()));
             });
 
             Assert.IsNotNull(container.Resolve<IBar>());
@@ -76,7 +76,7 @@ namespace NCop.IoC.Tests
         [TestMethod]
         public void Resolve_UsingAsSingletonExpressionRegistrationWithFactory_ReturnsTheSameObjectForDifferentResolveCalls() {
             var container = new NCopContainer(registry => {
-                registry.Register<Foo>((reg) => new Foo()).AsSingleton();
+                registry.Register(reg => new Foo()).AsSingleton();
             });
 
             var instance = container.Resolve<Foo>();
@@ -116,14 +116,14 @@ namespace NCop.IoC.Tests
                 registry.Register<IFoo>().ToSelf();
             });
 
-            var instance = container.Resolve<IFoo>();
+            container.Resolve<IFoo>();
         }
 
         [TestMethod]
         [ExpectedException(typeof(ResolutionException))]
         public void TryResolve_NotRegisteredService_ThrowsRegistrationException() {
             var container = new NCopContainer(registry => { });
-            var instance = container.Resolve<IFoo>();
+            container.Resolve<IFoo>();
         }
 
         [TestMethod]

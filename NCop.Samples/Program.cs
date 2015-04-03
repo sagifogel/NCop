@@ -5,7 +5,7 @@ using System;
 
 namespace NCop.Samples
 {
-    [TransientComposite]
+    [SingletonComposite(Disposable = true)]
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IDeveloper : IDisposable
     {
@@ -40,7 +40,7 @@ namespace NCop.Samples
             container.Configure();
             developer = container.Resolve<IDeveloper>();
             developer.Code();
-            developer.Dispose();
+            container.Dispose();
         }
     }
 }

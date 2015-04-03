@@ -11,9 +11,7 @@ namespace NCop.IoC
             }
         }
 
-        public static void RequiersNotNull<T, TException>(T value, Func<TException> exceptionFactory)
-            where T : class
-            where TException : Exception {
+        public static void RequiersNotNull<T, TException>(T value, Func<TException> exceptionFactory) where T : class where TException : Exception {
             if (ReferenceEquals(null, value)) {
                 throw exceptionFactory();
             }
