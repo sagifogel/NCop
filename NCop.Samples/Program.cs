@@ -59,7 +59,7 @@ namespace NCop.Samples
 
     }
 
-    [IgnoreRegistrationAttribute]
+    [IgnoreRegistration]
     public class CSharpDeveloperMixin : IDeveloper
     {
         private readonly ITest test = null;

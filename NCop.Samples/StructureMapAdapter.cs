@@ -8,8 +8,8 @@ namespace NCop.Samples
     {
         private readonly IContainer container = null;
 
-        public StructureMapAdapter() {
-            container = ObjectFactory.Container;
+        public StructureMapAdapter()
+            : this(ObjectFactory.Container) {
         }
 
         public StructureMapAdapter(IContainer container) {
