@@ -12,10 +12,10 @@ namespace NCop.Core
     public class AttributeTypeMatcher<TAttribute> : IEnumerable<Tuple<Type, Type>>
         where TAttribute : Attribute
     {
-        private ISet<Type> interfaces = null;
-        private ISet<Type> registered = new HashSet<Type>();
-        private Func<TAttribute, Type[]> typeFactory = null;
-        private List<Tuple<Type, Type>> map = new List<Tuple<Type, Type>>();
+        private readonly ISet<Type> interfaces = null;
+        private readonly ISet<Type> registered = new HashSet<Type>();
+        private readonly Func<TAttribute, Type[]> typeFactory = null;
+        private readonly List<Tuple<Type, Type>> map = new List<Tuple<Type, Type>>();
 
         public AttributeTypeMatcher(Type type, Func<TAttribute, Type[]> typeFactory) {
             ISet<Type> mappedInterfaces = null;

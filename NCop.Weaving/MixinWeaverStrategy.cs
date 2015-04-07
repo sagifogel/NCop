@@ -15,7 +15,7 @@ namespace NCop.Weaving
         public ITypeDefinitionWeaver TypeDefinitionWeaver { get; private set; }
 
         public void Weave() {
-            var typeDefinition = TypeDefinitionWeaver.Weave();
+            TypeDefinitionWeaver.Weave();
 
             MethodWeavers.ForEach(methodWeaver => {
                 var methodBuilder = methodWeaver.DefineMethod();

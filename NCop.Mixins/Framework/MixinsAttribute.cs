@@ -9,6 +9,12 @@ namespace NCop.Mixins.Framework
             Mixins = mixins;
         }
 
+        public MixinsAttribute(Type[] mixins, Type[] ignoreMixins) {
+            Mixins = mixins;
+            IgnoredMixins = ignoreMixins;
+        }
+
         internal Type[] Mixins { get; private set; }
+        internal Type[] IgnoredMixins { get; private set; }
     }
 }

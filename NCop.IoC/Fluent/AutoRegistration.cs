@@ -18,12 +18,12 @@ namespace NCop.IoC.Fluent
 			var typeofService = typeof(TService);
 			var containerParamater = Expression.Parameter(typeof(INCopDependencyResolver), "container");
 			var tryResolveMethodInfo = typeof(INCopDependencyResolver).GetMethod("TryResolve", Type.EmptyTypes);
-			var dependencyAware = typeofService.IsDefined<DependencyAware>();
+			var dependencyAware = typeofService.IsDefined<DependencyAwareAttribute>();
 			var properties = castTo.GetPublicProperties()
 								   .Where(prop => prop.CanWrite)
 								   .Where(prop => !prop.PropertyType.IsValueType)
 								   .Where(prop => !ReferenceEquals(prop.PropertyType, typeof(string)))
-								   .Where(prop => !dependencyAware && !prop.IsDefined<IgnoreDependency>() ||
+								   .Where(prop => !dependencyAware && !prop.IsDefined<IgnoreDependencyAttribute>() ||
 												  dependencyAware && prop.IsDefined<DependencyAttribute>());
 
 			var assignments = properties.Select(prop => {

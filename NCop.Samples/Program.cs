@@ -1,46 +1,99 @@
-﻿using NCop.Aspects.Framework;
+﻿using System;
+using System.Diagnostics;
+using NCop.Aspects.Framework;
 using NCop.Composite.Framework;
+using NCop.Composite.Runtime;
 using NCop.Mixins.Framework;
-using System;
+using StructureMap;
 
 namespace NCop.Samples
 {
-    [SingletonComposite(Disposable = true)]
-    [Mixins(typeof(CSharpDeveloperMixin))]
-    public interface IDeveloper : IDisposable
+    [TransientComposite]
+    [Mixins(typeof(GuitarPlayerMixin), typeof(CSharpDeveloperMixin))]
+    public interface IPerson : IDeveloper, IMusician
     {
+    }
+
+    public interface IDeveloper
+    {
+        [MethodInterceptionAspect(typeof(StopwatchInterceptionAspect))]
         void Code();
     }
 
-
-    public class CSharpDeveloperMixin : IDeveloper
+    public class StopwatchInterceptionAspect : ActionInterceptionAspect
     {
-        public void Code() {
+        private readonly Stopwatch stopwatch = null;
+
+        public StopwatchInterceptionAspect() {
+            stopwatch = new Stopwatch();
         }
 
-        [MethodInterceptionAspect(typeof(SimpleActionInterceptionAspect))]
-        public void Dispose() {
+        public override void OnInvoke(ActionInterceptionArgs args) {
+            stopwatch.Restart();
+            base.OnInvoke(args);
+            stopwatch.Stop();
+            Console.WriteLine("Elapsed Ticks: {0}", stopwatch.ElapsedTicks);
         }
     }
 
-    public class SimpleActionInterceptionAspect : ActionInterceptionAspect
+    public interface IMusician
     {
-        public override void OnInvoke(ActionInterceptionArgs args) {
-            Console.WriteLine("OnInvoke");
-            args.Proceed();
+        void Play();
+    }
+
+    [Named("GuitarPlayerMixin")]
+    public class GuitarPlayerMixin : IMusician
+    {
+        public void Play() {
+            Console.WriteLine("Playing C# accord with Fender Telecaster");
+        }
+    }
+
+    public interface ITest
+    {
+
+    }
+
+    public class TestImpl : ITest
+    {
+
+    }
+
+    [IgnoreRegistrationAttribute]
+    public class CSharpDeveloperMixin : IDeveloper
+    {
+        private readonly ITest test = null;
+
+        public CSharpDeveloperMixin(TestImpl test) {
+            this.test = test;
+        }
+
+        public void Code() {
+            Console.WriteLine("C# coding");
         }
     }
 
     class Program
     {
         static void Main(string[] args) {
-            IDeveloper developer = null;
-            var container = new CompositeContainer();
+            var smContainer = ObjectFactory.Container;
+            var settings = new CompositeRuntimeSettings {
+                DependencyContainerAdapter = new StructureMapAdapter(smContainer)
+            };
+
+            IPerson person = null;
+            var container = new CompositeContainer(settings);
 
             container.Configure();
-            developer = container.Resolve<IDeveloper>();
-            developer.Code();
-            container.Dispose();
+
+            smContainer.Configure(x => {
+                x.For<ITest>().Use<TestImpl>();
+                x.For<IDeveloper>().Use<CSharpDeveloperMixin>();
+            });
+
+            person = container.Resolve<IPerson>();
+            person.Code();
+            person.Play();
         }
     }
 }

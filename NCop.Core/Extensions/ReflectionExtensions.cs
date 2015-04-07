@@ -59,6 +59,10 @@ namespace NCop.Core.Extensions
             return type.Assembly.IsNCopAssembly();
         }
 
+        public static bool IsNotDefined<TAttribute>(this Type type, bool inherit = true) where TAttribute : Attribute {
+            return !type.IsDefined<TAttribute>(inherit);
+        }
+
         public static bool IsDefined<TAttribute>(this Type type, bool inherit = true) where TAttribute : Attribute {
             return type.IsDefined(typeof(TAttribute), inherit);
         }

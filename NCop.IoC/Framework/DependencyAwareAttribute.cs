@@ -3,7 +3,7 @@
 namespace NCop.IoC.Framework
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class DependencyAware : Attribute
+    public class DependencyAwareAttribute : Attribute
     {
     }
 }

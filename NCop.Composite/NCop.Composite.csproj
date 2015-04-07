@@ -119,7 +119,7 @@
       <DependentUpon>DuplicateCompositeAnnotationException.tt</DependentUpon>
     </Compile>
     <Compile Include="Framework\CompositeContainer.cs" />
-    <Compile Include="Framework\IgnoreRegistration.cs" />
+    <Compile Include="Framework\IgnoreRegistrationAttribute.cs" />
     <Compile Include="Framework\NamedAttribute.cs" />
     <Compile Include="Framework\SingletonCompositeAttribute.cs" />
     <Compile Include="Framework\TransientCompositeAttribute.cs" />

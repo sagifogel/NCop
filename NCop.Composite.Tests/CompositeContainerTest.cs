@@ -46,7 +46,7 @@ namespace NCop.Composite.Tests
         }
 
         [Named("C#")]
-        [Mixins(typeof(Mixin))]
+        [Mixins(typeof(CSharpDeveloperMixin))]
         [TransientComposite(As = typeof(IPersonComposite))]
         public interface ICSharpPerson : IPersonComposite
         {

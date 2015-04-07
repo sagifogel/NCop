@@ -7,14 +7,14 @@ using System.Collections.Generic;
 
 namespace NCop.Mixins.Weaving
 {
-    internal class MixinsWeaverStrategy : ITypeWeaver
+    public class MixinsWeaverStrategy : ITypeWeaver
     {
         private readonly ITypeMap mixinsMap = null;
         private readonly ITypeDefinition typeDefinition = null;
         private readonly INCopDependencyAwareRegistry registry = null;
         private readonly IEnumerable<IMethodWeaver> methodWeavers = null;
 
-        internal MixinsWeaverStrategy(ITypeDefinition typeDefinition, ITypeMap mixinsMap, IEnumerable<IMethodWeaver> methodWeavers, INCopDependencyAwareRegistry registry) {
+        public MixinsWeaverStrategy(ITypeDefinition typeDefinition, ITypeMap mixinsMap, IEnumerable<IMethodWeaver> methodWeavers, INCopDependencyAwareRegistry registry) {
             this.registry = registry;
             this.mixinsMap = mixinsMap;
             this.methodWeavers = methodWeavers;

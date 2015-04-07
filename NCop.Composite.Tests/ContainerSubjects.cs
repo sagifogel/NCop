@@ -64,7 +64,7 @@ namespace NCop.Composite.Tests
         public IFoo Foo { get; private set; }
     }
 
-    [DependencyAware]
+    [DependencyAwareAttribute]
     public class DependencyAwareClass
     {
         public IFoo Ignored { get; set; }
@@ -75,7 +75,7 @@ namespace NCop.Composite.Tests
 
     public class IgnoreDependencyClass
     {
-        [IgnoreDependency]
+        [IgnoreDependencyAttribute]
         public IFoo Ignored { get; set; }
 
         public IFoo Injected { get; set; }
@@ -83,7 +83,7 @@ namespace NCop.Composite.Tests
 
     public class Bar : IBar
     {
-        [IgnoreDependency]
+        [IgnoreDependencyAttribute]
         public IFoo ByCtor { get; set; }
 
         public IFoo ByProperty { get; set; }

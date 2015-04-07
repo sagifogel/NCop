@@ -30,13 +30,7 @@ namespace NCop.Core.Extensions
         public static bool All<TSource>(this IEnumerable<TSource> source, Func<TSource, int, bool> predicate) {
             var count = 0;
 
-            foreach (var local in source) {
-                if (!predicate(local, count++)) {
-                    return false;
-                }
-            }
-
-            return true;
+            return source.All(local => predicate(local, count++));
         }
 
         public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource> source) {
@@ -149,14 +143,11 @@ namespace NCop.Core.Extensions
             return source.ToGroupedDictionary(keySelector, group => group.AsEnumerable());
         }
 
-        public static TValue SetIfNotNull<TSource, TValue>(this IEnumerable<TSource> source, Func<TSource, TValue> selctor) where TSource : class where TValue : class {
-            foreach (var item in source) {
-                if (!ReferenceEquals(item, null)) {
-                    return selctor(item);
-                }
-            }
-
-            return null;
+        public static TValue SetIfNotNull<TSource, TValue>(this IEnumerable<TSource> source, Func<TSource, TValue> selctor) where TSource : class where TValue : class
+        {
+            return source.Where(e => !ReferenceEquals(e, null))
+                         .Select(selctor)
+                         .FirstOrDefault();
         }
     }
 }

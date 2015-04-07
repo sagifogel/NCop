@@ -67,8 +67,8 @@
     <Compile Include="Fluent\IOwnedBy.cs" />
     <Compile Include="Fluent\ReflectionRegistration.cs" />
     <Compile Include="Framework\DependencyAttribute.cs" />
-    <Compile Include="Framework\DependencyAware.cs" />
-    <Compile Include="Framework\IgnoreDependency.cs" />
+    <Compile Include="Framework\DependencyAwareAttribute.cs" />
+    <Compile Include="Framework\IgnoreDependencyAttribute.cs" />
     <Compile Include="ICanCreateChildContainer.cs" />
     <Compile Include="IContainerRegistry.cs" />
     <Compile Include="INCopDependencyArgumentsResolver.cs" />

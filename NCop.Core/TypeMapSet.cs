@@ -13,7 +13,7 @@ namespace NCop.Core
         }
 
         public int Count {
-            get { 
+            get {
                 return maps.Count;
             }
         }
@@ -27,7 +27,7 @@ namespace NCop.Core
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
     }
 }

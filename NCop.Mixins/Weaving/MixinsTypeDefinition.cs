@@ -15,6 +15,7 @@ namespace NCop.Mixins.Weaving
     {
         private readonly ITypeMap mixinsMap = null;
         private readonly Dictionary<Type, MixinTypeDefinition> mixinTypeDefinitions = null;
+        private readonly MethodAttributes attrs = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
 
         internal MixinsTypeDefinition(Type mixinsType, ITypeMap mixinsMap) {
             Type = mixinsType;
@@ -53,9 +54,8 @@ namespace NCop.Mixins.Weaving
 
         private void CreateDefaultConstructor() {
             ILGenerator ilGenerator = null;
-            var attr = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
             var @params = mixinsMap.ToArray(map => map.ContractType);
-            var ctorBuilder = TypeBuilder.DefineConstructor(attr, CallingConventions.HasThis, @params);
+            var ctorBuilder = TypeBuilder.DefineConstructor(attrs, CallingConventions.HasThis, @params);
 
             @params.ForEach(1, (param, i) => {
                 ctorBuilder.DefineParameter(i, ParameterAttributes.None, "param{0}".Fmt(i));

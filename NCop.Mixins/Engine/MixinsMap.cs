@@ -16,7 +16,7 @@ namespace NCop.Mixins.Engine
 
         public MixinsMap(Type compositeType) {
             try {
-                matcher = new AttributeTypeMatcher<MixinsAttribute>(compositeType, (attr) => attr.Mixins);
+                matcher = new AttributeTypeMatcher<MixinsAttribute>(compositeType, attr => attr.Mixins);
                 map = new List<TypeMap>(
                     matcher.Select(tuple => {
                         return new TypeMap(tuple.Item1, tuple.Item2);

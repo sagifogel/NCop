@@ -12,7 +12,7 @@ namespace NCop.Samples
             container = ObjectFactory.Container;
         }
 
-        private StructureMapAdapter(IContainer container) {
+        public StructureMapAdapter(IContainer container) {
             this.container = container;
         }
 
@@ -44,17 +44,11 @@ namespace NCop.Samples
 
         public void Register(Type concreteType, Type serviceType, string name = null) {
             container.Configure(x => {
-                var ctor = concreteType.GetConstructors()[0];
-                var @params = ctor.GetParameters();
                 var use = x.For(serviceType)
-                            .Use(concreteType);
+                           .Use(concreteType);
 
                 if (!string.IsNullOrEmpty(name)) {
                     use.Named(name);
-                }
-
-                foreach (var item in @params) {
-                    use.CtorDependency<object>(item.Name);
                 }
             });
         }
