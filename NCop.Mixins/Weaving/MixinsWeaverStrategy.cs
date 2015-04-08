@@ -33,7 +33,7 @@ namespace NCop.Mixins.Weaving
             });
 
             weavedType = typeDefinition.TypeBuilder.CreateType();
-            registry.Register(weavedType, typeDefinition.Type, mixinsMap);
+            registry.Register(weavedType, typeDefinition.Type, mixinsMap, isComposite: true);
         }
     }
 }

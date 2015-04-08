@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace NCop.IoC
 {
     public abstract class AbstractContainerRegistry : IContainerRegistry
-    {   
+    {
         public ICastableRegistration<TCastable> Register<TCastable>() {
             var serviceType = typeof(TCastable);
             var factoryType = typeof(Func<INCopDependencyResolver, TCastable>);
@@ -80,6 +80,6 @@ namespace NCop.IoC
 
         public abstract void Register(IRegistration registration);
 
-        public abstract void Register(Type concreteType, Type serviceType, Core.ITypeMap dependencies = null, string name = null);
+        public abstract void Register(Type concreteType, Type serviceType, Core.ITypeMap dependencies = null, string name = null, bool isComposite = false);
     }
 }

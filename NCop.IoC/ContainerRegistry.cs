@@ -19,7 +19,7 @@ namespace NCop.IoC
             }
         }
 
-        public override void Register(Type concreteType, Type serviceType, ITypeMap dependencies = null, string name = null) {
+        public override void Register(Type concreteType, Type serviceType, ITypeMap dependencies = null, string name = null, bool isComposite = false) {
             RegisterImpl(new ReflectionRegistration(concreteType, serviceType));
         }
 

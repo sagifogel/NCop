@@ -13,10 +13,10 @@ namespace NCop.Composite.Engine
             this.regisrty = regisrty;
         }
 
-        public void Register(Type concreteType, Type serviceType, ITypeMap dependencies, string name = null) {
+        public void Register(Type concreteType, Type serviceType, ITypeMap dependencies, string name = null, bool isComposite = false) {
             name = name ?? serviceType.GetNameFromAttribute() ?? concreteType.GetNameFromAttribute();
 
-            regisrty.Register(concreteType, serviceType, dependencies, name);
+            regisrty.Register(concreteType, serviceType, dependencies, name, isComposite);
         }
     }
 }

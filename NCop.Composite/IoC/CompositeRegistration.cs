@@ -4,7 +4,7 @@ using System;
 
 namespace NCop.Composite.IoC
 {
-    internal class CompositeRegistration : IReuseStrategyRegistration, IFactoryRegistration, IRegistration, IReusedWithin
+    internal class CompositeRegistration : IReuseStrategyRegistration, IFactoryRegistration, IReusedWithin
     {
         public string Name { get; internal set; }
 

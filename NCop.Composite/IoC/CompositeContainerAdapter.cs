@@ -2,6 +2,7 @@
 using NCop.Core;
 using NCop.IoC;
 using System;
+using NCop.IoC.Fluent;
 
 namespace NCop.Composite.IoC
 {
@@ -41,10 +42,14 @@ namespace NCop.Composite.IoC
             return container.CreateChildContainer();
         }
 
-        public void Register(Type concreteType, Type serviceType, ITypeMap dependencies = null, string name = null) {
+        public void Register(Type concreteType, Type serviceType, ITypeMap dependencies = null, string name = null, bool isComposite = false) {
+            IRegistration compositeRegistration = null;
             var castAs = serviceType.GetTypeFromAttribute();
             var disposable = serviceType.GetDisposableFromAttribute();
-            var compositeRegistration = new CompositeFrameworkRegistration(container, concreteType, serviceType, dependencies, castAs, name, disposable);
+
+            compositeRegistration = isComposite ? 
+                                    new CompositeTypeRegistration(container, concreteType, serviceType, dependencies, castAs, name, disposable) :
+                                    new CompositeFrameworkRegistration(container, concreteType, serviceType, dependencies, castAs, name, disposable);
 
             container.Register(compositeRegistration);
         }

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace NCop.Composite.IoC
 {
     internal class CompositeContainerRegistry : AbstractContainerRegistry, IRegistrationResolver
-    {   
+    {
         protected readonly Dictionary<Type, IRegistration> registrations = null;
 
         internal CompositeContainerRegistry() {
@@ -30,7 +30,7 @@ namespace NCop.Composite.IoC
             registrations.Add(concreteType, registration);
         }
 
-        public override void Register(Type concreteType, Type serviceType, ITypeMap dependencies = null, string name = null) {
+        public override void Register(Type concreteType, Type serviceType, ITypeMap dependencies = null, string name = null, bool isComposite = false) {
             RegisterImpl(new ReflectionRegistration(concreteType, serviceType));
         }
 

@@ -52,10 +52,10 @@ namespace NCop.IoC
             return new ServiceKey(registration.ServiceType, registration.FactoryType, registration.Name);
         }
 
-        protected ServiceEntry CreateServiceEntry(IRegistration registration) {
+        protected virtual ServiceEntry CreateServiceEntry(IRegistration registration) {
             return new ServiceEntry {
-                Owner = registration.Owner,
                 Container = this,
+                Owner = registration.Owner,
                 Scope = registration.Scope,
                 Factory = registration.Func,
                 LifetimeStrategy = registration.Scope.ToStrategy(this)
@@ -92,7 +92,7 @@ namespace NCop.IoC
 
         protected TService ResolveImpl<TService, TFunc>(Func<TFunc, TService> factoryInvoker, string name = null, bool throwIfMissing = true) {
             ResolveContext<TService> context = null;
-            var identifier = new ServiceKey(typeof(TService), typeof(TFunc), name);
+            var identifier = CreateServiceKey<TService, TFunc>(name);
             var entry = GetEntry(identifier);
 
             if (entry.IsNull()) {
@@ -114,16 +114,24 @@ namespace NCop.IoC
             return entry.LifetimeStrategy.Resolve(context);
         }
 
-        protected TService CreateInstance<TService, TFunc>(ServiceEntry entry, TFunc factory, Func<TFunc, TService> factoryInvoker) {
+        protected virtual ServiceKey CreateServiceKey<TService, TFunc>(string name = null) {
+            return new ServiceKey(typeof(TService), typeof(TFunc), name);
+        }
+
+        protected virtual TService CreateInstance<TService, TFunc>(ServiceEntry entry, TFunc factory, Func<TFunc, TService> factoryInvoker) {
             var instance = factoryInvoker(factory);
 
+            RegisterAsDisposableIfNeeded(entry, instance);
+
+            return instance;
+        }
+
+        protected virtual void RegisterAsDisposableIfNeeded<TService>(ServiceEntry entry, TService instance) {
             if (entry.Owner == Owner.Container && instance is IDisposable) {
                 lock (disposables) {
                     disposables.Push(new WeakReference(instance));
                 }
             }
-
-            return instance;
         }
 
         protected internal bool TryGetEntry(ServiceKey key, out ServiceEntry entry) {

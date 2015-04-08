@@ -125,6 +125,8 @@
     <Compile Include="Framework\TransientCompositeAttribute.cs" />
     <Compile Include="IoC\CompositeContainerAdapter.cs" />
     <Compile Include="IoC\CompositeRegistration.cs" />
+    <Compile Include="IoC\CompositeServiceEntry.cs" />
+    <Compile Include="IoC\CompositeTypeRegistration.cs" />
     <Compile Include="Mixins\Weaving\AtomCompositeMixinsWeaverBuilder.cs" />
     <Compile Include="Mixins\Weaving\CompositeMixinsWeaverBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

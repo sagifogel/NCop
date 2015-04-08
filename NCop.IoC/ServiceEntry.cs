@@ -3,11 +3,11 @@ namespace NCop.IoC
 {
     public class ServiceEntry
     {
-        internal Owner Owner { get; set; }
-        internal object Factory { get; set; }
-        internal ReuseScope Scope { get; set; }
-        internal INCopDependencyResolver Container { get; set; }
-        internal ILifetimeStrategy LifetimeStrategy { get; set; }
+        public Owner Owner { get; set; }
+        public object Factory { get; set; }
+        public ReuseScope Scope { get; set; }
+        public INCopDependencyResolver Container { get; set; }
+        public ILifetimeStrategy LifetimeStrategy { get; set; }
 
         internal ServiceEntry CloneFor(INCopDependencyResolver container) {
             return new ServiceEntry {

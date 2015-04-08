@@ -2,7 +2,7 @@
 
 namespace NCop.IoC
 {
-    internal class ResolveContext<TService>
+    public class ResolveContext<TService>
     {
         internal ServiceKey Key { get; set; }
         internal ServiceEntry Entry { get; set; }
