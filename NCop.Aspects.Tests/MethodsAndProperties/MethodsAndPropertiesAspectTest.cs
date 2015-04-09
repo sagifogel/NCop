@@ -52,7 +52,7 @@ namespace NCop.Aspects.Tests
         [TestMethod]
         public void PropertyAndMethod_WithoutAnyAspectsAnnotations_ReturnsTheCorrectSequenceOfAdvices() {
             var list = new List<AspectJoinPoints>();
-            var instance = container.Resolve<IMethodsAndPropertiesAspectSubjects>();
+            var instance = container.Resolve<IMethodsAndPropertiesSubjectsComposite>();
 
             instance.VanillaMethodWithoutAnyAspects(list);
             instance.VanillaPropertyWithoutAnyAspects = list;

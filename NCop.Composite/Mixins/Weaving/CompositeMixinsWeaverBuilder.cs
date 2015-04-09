@@ -21,7 +21,7 @@ namespace NCop.Composite.Mixins.Weaving
 
             mixinsMap.ForEach(map => {
                 if (map.ImplementationType.IsNotDefined<IgnoreRegistrationAttribute>()) {
-                    registry.Register(map.ImplementationType, map.ContractType);
+                    registry.Register(map.ImplementationType, map.ContractType, name: Guid.NewGuid().ToString());
                 }
             });
 

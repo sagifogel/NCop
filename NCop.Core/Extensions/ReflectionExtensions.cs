@@ -63,6 +63,17 @@ namespace NCop.Core.Extensions
             return !type.IsDefined<TAttribute>(inherit);
         }
 
+        public static bool IsDefined<TAttribute>(this Type type, out TAttribute attribute, bool inherit = true) where TAttribute : Attribute {
+            attribute = default(TAttribute);
+
+            if (type.IsDefined(typeof(TAttribute), inherit)) {
+                attribute = type.GetCustomAttribute<TAttribute>(inherit);
+                return true;
+            }
+
+            return false;
+        }
+
         public static bool IsDefined<TAttribute>(this Type type, bool inherit = true) where TAttribute : Attribute {
             return type.IsDefined(typeof(TAttribute), inherit);
         }
