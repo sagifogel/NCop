@@ -15,7 +15,7 @@ namespace NCop.Composite.Tests
     {
         string Code();
     }
-        
+
     [Named("GenericCSharpDeveloperImpl")]
     public class GenericCSharpDeveloperImpl : IDeveloper<CSharpLanguage>
     {
@@ -24,21 +24,18 @@ namespace NCop.Composite.Tests
         }
     }
 
-
-    public class GenericDeveloper<T> : IDeveloper<T>
-        where T : MSILLanguage, new()
+    public class GenericDeveloper<T> : IDeveloper<T> where T : CILLanguage, new()
     {
-        private MSILLanguage langugae = new T();
+        private CILLanguage langugae = new T();
 
         public string Code() {
             return langugae.Name;
         }
     }
 
-    public class GenericCovariantDeveloper<T> : ICovariantDeveloper<T>
-        where T : MSILLanguage, new()
+    public class GenericCovariantDeveloper<T> : ICovariantDeveloper<T> where T : CILLanguage, new()
     {
-        private T langugae = new T();
+        private readonly T langugae = new T();
 
         public string Code() {
             return langugae.Name;
@@ -66,7 +63,7 @@ namespace NCop.Composite.Tests
         string Code();
     }
 
-    public class CSharpLanguage : MSILLanguage
+    public class CSharpLanguage : CILLanguage
     {
         public override string Name {
             get {
@@ -75,7 +72,7 @@ namespace NCop.Composite.Tests
         }
     }
 
-    public class VBNet : MSILLanguage
+    public class VBNet : CILLanguage
     {
         public override string Name {
             get {
@@ -84,7 +81,7 @@ namespace NCop.Composite.Tests
         }
     }
 
-    public abstract class MSILLanguage
+    public abstract class CILLanguage
     {
         public abstract string Name { get; }
     }

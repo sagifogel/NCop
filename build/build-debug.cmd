@@ -1,0 +1,3 @@
+set build_path=%cd%
+set root=..%Pathname%
+ILMerge.exe /target:library /keyfile:"%build_path%\NCop.snk" /copyattrs /targetplatform:4.0 /out:"%build_path%\NCop.dll" "%root%\NCop.Composite\bin\debug\NCop.Composite.dll" "%root%\NCop.Core\bin\debug\NCop.Core.dll" "%root%\NCop.Aspects\bin\debug\NCop.Aspects.dll" "%root%\NCop.IoC\bin\debug\NCop.IoC.dll" "%root%\NCop.Mixins\bin\debug\NCop.Mixins.dll" "%root%\NCop.Weaving\bin\debug\NCop.Weaving.dll"

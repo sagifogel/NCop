@@ -45,14 +45,12 @@ namespace NCop.Weaving
             return methodBuilder;
         }
 
-        [EditorBrowsable(EditorBrowsableState.Never)]
         internal static MethodBuilder DefineParameterlessMethod(this TypeBuilder typeBuilder, MethodInfo methodInfo, MethodAttributes? attributes = null) {
             attributes = attributes ?? methodInfo.Attributes & ~MethodAttributes.Abstract;
 
             return typeBuilder.DefineMethod(methodInfo.Name, attributes.Value, methodInfo.ReturnType, Type.EmptyTypes);
         }
 
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public static TypeBuilder DefineType(this Type parentType, string name = null, IEnumerable<Type> interfaces = null, TypeAttributes? attributes = null) {
             var moudleBuilder = NCopModuleBuilder.Instance;
 
@@ -66,17 +64,14 @@ namespace NCop.Weaving
             return moudleBuilder.DefineType(name, attributes.Value, parentType);
         }
 
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public static string ToUniqueName(this string name) {
             return string.Format("<NCop>.{0}", name);
         }
 
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public static string ToUniqueName(this Type type) {
             return type.FullName.ToUniqueName();
         }
 
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public static string ToFieldName(this Type type) {
             string name = type.Name;
 
