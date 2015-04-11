@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Threading;
 
 namespace NCop.IoC
 {
-    internal class ContainerSingletonStrategy : AbstractLifetimeStrategy
+    internal class ContainerSingletonLifetimeStrategy : AbstractSingletonLifetimeStrategy
     {
         protected readonly INCopDependencyResolver container = null;
 
-        public ContainerSingletonStrategy(INCopDependencyResolver container) {
+        public ContainerSingletonLifetimeStrategy(INCopDependencyResolver container) {
             this.container = container;
         }
 
         public override TService Resolve<TService>(ResolveContext<TService> context) {
             if (context.Container.Equals(container)) {
-                return (TService)(instance ?? ExchangeInstanceConditionally(ref instance, context.Factory));
+                return lazy.Get(context.Factory);
             }
 
             return CloneAndResolve(context);
@@ -37,12 +36,6 @@ namespace NCop.IoC
             };
 
             return clonedEntry.LifetimeStrategy.Resolve(context);
-        }
-
-        private object ExchangeInstanceConditionally<TService>(ref object instance, Func<TService> factory) {
-            Interlocked.CompareExchange(ref instance, factory(), null);
-
-            return instance;
         }
     }
 }

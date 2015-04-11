@@ -1,9 +1,10 @@
 ﻿
 namespace NCop.IoC
 {
-    public enum ReuseScope
+    public enum Lifetime
     {
         None,
+        Request,
         Container,
         Hierarchy
     }

@@ -138,7 +138,7 @@
   <data name="TypeIsInterface" xml:space="preserve">
     <value>Could not register interface {0}.</value>
   </data>
-  <data name="UnknownReuseScope" xml:space="preserve">
-    <value>Unknow resue scope.</value>
+  <data name="UnknownLifetime" xml:space="preserve">
+    <value>Unknow lifetime.</value>
   </data>
 </root>

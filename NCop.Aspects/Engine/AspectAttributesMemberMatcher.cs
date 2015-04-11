@@ -20,7 +20,7 @@ namespace NCop.Aspects.Engine
             registry = new ConcurrentDictionary<MethodInfo, IAspectDefinitionCollection>();
             CollectMethodsAspectDefinitions(aspectMembersCollection);
             CollectPropertiesAspectDefinitions(aspectMembersCollection);
-            Values = registry.Select(keyValue => Tuple.Create(keyValue.Key, keyValue.Value));
+            values = registry.Select(keyValue => Tuple.Create(keyValue.Key, keyValue.Value));
         }
 
         private void CollectMethodsAspectDefinitions(IAspectMethodMapCollection aspectMembersCollection) {

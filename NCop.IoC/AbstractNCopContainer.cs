@@ -56,9 +56,9 @@ namespace NCop.IoC
             return new ServiceEntry {
                 Container = this,
                 Owner = registration.Owner,
-                Scope = registration.Scope,
                 Factory = registration.Func,
-                LifetimeStrategy = registration.Scope.ToStrategy(this)
+                Lifetime = registration.Lifetime,
+                LifetimeStrategy = registration.Lifetime.ToStrategy(this)
             };
         }
 

@@ -6,9 +6,9 @@ namespace NCop.Core.Lib
     public sealed class Lazy<T>
     {
         private bool initialized = false;
-        private Func<T> valueFactory = null;
         private object syncLock = new object();
         private static T instance = default(T);
+        private readonly Func<T> valueFactory = null;
 
 #if NET_4_5
 

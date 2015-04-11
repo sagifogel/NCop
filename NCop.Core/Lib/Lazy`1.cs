@@ -7,8 +7,8 @@ namespace NCop.Core.Lib
     {
         private bool initialized = false;
         private object syncLock = new object();
-        private Func<TParam, TValue> valueFactory = null;
         private static TValue instance = default(TValue);
+        private readonly Func<TParam, TValue> valueFactory = null;
 
         public Lazy(Func<TParam, TValue> valueFactory) {
             this.valueFactory = valueFactory;

@@ -157,7 +157,7 @@ namespace NCop.IoC.Tests
         [TestMethod]
         public void ResolveInChildContainerAndInParentContainer_UsingSingletonRegistrationInParentContainer_ReturnsTheSameInstance() {
             var container = new NCopContainer(registry => {
-                registry.Register<Foo>().AsSingleton();
+                registry.Register<Foo>().AsSingleton().WithinHierarchy();
             });
 
             var childContainer = container.CreateChildContainer(registry => { });
@@ -170,7 +170,7 @@ namespace NCop.IoC.Tests
         [TestMethod]
         public void ResolveInChildContainerAndInParentContainer_UsingAutoRegistrationInParentContainerAsSingletonReusedWithinContainer_ReturnsTheSameInstance() {
             var container = new NCopContainer(registry => {
-                registry.Register<Foo>().AsSingleton().ReusedWithinHierarchy();
+                registry.Register<Foo>().AsSingleton().WithinHierarchy();
             });
 
             var childContainer = container.CreateChildContainer(registry => { });
@@ -183,7 +183,7 @@ namespace NCop.IoC.Tests
         [TestMethod]
         public void ResolveInChildContainerAndInParentContainer_UsingAutoRegistrationInParentContainerAsSingletoneReusedWithinHierarchy_ReturnsNotTheSameInstance() {
             var container = new NCopContainer(registry => {
-                registry.Register<Foo>().AsSingleton().ReusedWithinContainer();
+                registry.Register<Foo>().AsSingleton().WithinContainer();
             });
 
             var childContainer = container.CreateChildContainer(registry => { });

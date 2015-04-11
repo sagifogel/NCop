@@ -54,7 +54,7 @@ namespace NCop.Composite.Tests
 
         [TransientComposite]
         [Mixins(typeof(GenericCovariantDeveloper<CSharpLanguage>))]
-        public interface ICovariantCSharpDeveloper : ICovariantDeveloper<MSILLanguage>
+        public interface ICovariantCSharpDeveloper : ICovariantDeveloper<CILLanguage>
         {
         }
 

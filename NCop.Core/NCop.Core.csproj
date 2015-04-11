@@ -65,6 +65,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PropertyAccessorsMismatchException.tt</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\ReaderWriterLockSlimExtensions.cs" />
     <Compile Include="Functional.cs" />
     <Compile Include="Exceptions\AttributeNotFoundException.cs">
       <AutoGen>True</AutoGen>
@@ -94,6 +95,7 @@
     <Compile Include="IMethodMapper.cs" />
     <Compile Include="IPropertyMap.cs" />
     <Compile Include="IPropertyMapper.cs" />
+    <Compile Include="Lib\LazyFactory.cs" />
     <Compile Include="Lib\Lazy`3.cs" />
     <Compile Include="Lib\Lazy`2.cs" />
     <Compile Include="Lib\Lazy`1.cs" />

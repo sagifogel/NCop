@@ -102,6 +102,8 @@
     <Compile Include="Engine\ICompositeSetPropertyMap.cs" />
     <Compile Include="Engine\SetCompositePropertyMap.cs" />
     <Compile Include="Extensions\CompositeExtensions.cs" />
+    <Compile Include="Framework\PerHttpRequestCompositeAttribute.cs" />
+    <Compile Include="Framework\PerThreadCompositeAttribute.cs" />
     <Compile Include="IoC\CompositeContainer.cs" />
     <Compile Include="IoC\CompositeFrameworkRegistration.cs" />
     <Compile Include="Engine\GetCompositePropertyMap.cs" />

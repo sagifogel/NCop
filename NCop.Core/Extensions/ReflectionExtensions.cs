@@ -11,6 +11,7 @@ namespace NCop.Core.Extensions
     public static class ReflectionExtensions
     {
         internal static readonly string NCopToken = "5f8f9ac08842d356";
+        private static readonly MethodInfo getDefualtMethod = ((Func<object>)GetDefault<object>).Method;
         private static readonly Regex publicKeyTokenValue = new Regex(@"PublicKeyToken=(?<PublicKeyTokenValue>[A-Fa-f0-9]{16})");
 
 #if !NET_4_5
@@ -163,6 +164,26 @@ namespace NCop.Core.Extensions
 
         public static bool IsNull(this object value) {
             return ReferenceEquals(value, null);
+        }
+
+        public static bool IsNotNullOrDefault(this object value) {
+            return value.IsNullOrDefault();
+        }
+
+        public static bool IsNullOrDefault(this object value) {
+            var type = value.GetType();
+
+            return type.IsValueType ? value.IsDefualtValue(type) : ReferenceEquals(value, null);
+        }
+
+        public static bool IsDefualtValue(this object value, Type type) {
+            var genericMethod = getDefualtMethod.GetGenericMethodDefinition().MakeGenericMethod(type);
+
+            return value == genericMethod.Invoke(null, null);
+        }
+
+        private static T GetDefault<T>() {
+            return default(T);
         }
 
         public static bool IsNotNull(this object value) {

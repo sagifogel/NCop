@@ -6,16 +6,16 @@ namespace NCop.Core.Lib
 {
     public class Tuples<T1, T2> : IEnumerable<Tuple<T1, T2>>
     {
-        protected IEnumerable<Tuple<T1, T2>> Values = null;
+        protected IEnumerable<Tuple<T1, T2>> values = null;
 
         public Tuples(IEnumerable<Tuple<T1, T2>> tuples) {
-            Values = tuples;
+            values = tuples;
         }
 
         public Tuples() { }
 
         public IEnumerator<Tuple<T1, T2>> GetEnumerator() {
-            return Values.GetEnumerator();
+            return values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() {

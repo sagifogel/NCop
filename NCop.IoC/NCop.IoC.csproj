@@ -59,6 +59,13 @@
     <Compile Include="AbstractContainerRegistry.cs" />
     <Compile Include="AbstractNCopContainer.cs" />
     <Compile Include="AbstractLifetimeStrategy.cs" />
+    <Compile Include="AbstractSingletonLifetimeStrategy.cs" />
+    <Compile Include="HttpRequestLifetimeStrategy.cs" />
+    <Compile Include="HybridRequestLifetimeStrategy.cs" />
+    <Compile Include="ILifetimeCache.cs" />
+    <Compile Include="LifetimeCacheImpl.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="NCopRegistryAdapter.cs" />
     <Compile Include="Extensions\RegistrationExtensions.cs" />
     <Compile Include="Fluent\AbstractRegistration`1.cs" />
@@ -80,13 +87,14 @@
     <Compile Include="IRegistrationResolver.cs" />
     <Compile Include="INCopRegistry.cs" />
     <Compile Include="Owner.cs" />
+    <Compile Include="PerThreadLifetimeStrategy.cs" />
     <Compile Include="ResolveContext`1.cs" />
-    <Compile Include="ContainerSingletonStrategy.cs" />
+    <Compile Include="ContainerSingletonLifetimeStrategy.cs" />
     <Compile Include="Fluent\IReusedWithin.cs" />
     <Compile Include="IdentityLifetimeStrategy.cs" />
     <Compile Include="IoCExtensions.cs" />
     <Compile Include="LifetimeStrategyFactory.cs" />
-    <Compile Include="HierarchySingletonStrategy.cs" />
+    <Compile Include="HierarchySingletonLifetimeStrategy.cs" />
     <Compile Include="ContainerRegistry.cs" />
     <Compile Include="Contract.cs" />
     <Compile Include="Fluent\ICastableRegistration`1.cs" />
@@ -121,7 +129,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResolutionException.tt</DependentUpon>
     </Compile>
-    <Compile Include="ReuseScope.cs" />
+    <Compile Include="Lifetime.cs" />
     <Compile Include="ServiceEntry.cs" />
     <Compile Include="ServiceKey.cs" />
   </ItemGroup>
@@ -148,6 +156,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

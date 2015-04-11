@@ -50,9 +50,9 @@ namespace NCop.IoC.Fluent
             }
         }
 
-        public ReuseScope Scope {
+        public Lifetime Lifetime {
             get {
-                return registration.Scope;
+                return registration.Lifetime;
             }
         }
 
@@ -126,6 +126,14 @@ namespace NCop.IoC.Fluent
 
         public void OwnedByContainer() {
             registration.OwnedByContainer();
+        }
+
+        public IOwnedBy PerThread() {
+            return registration.PerThread();
+        }
+
+        public IOwnedBy PerHttpRequest() {
+            return registration.PerHttpRequest();
         }
     }
 }

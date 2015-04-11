@@ -35,7 +35,7 @@ namespace NCop.Composite.IoC
             };
 
             if (IsSingletonComposite()) {
-                registration.Scope = ReuseScope.Hierarchy;
+                registration.Lifetime = Lifetime.Hierarchy;
             }
 
             registration.Name = name;
@@ -85,9 +85,9 @@ namespace NCop.Composite.IoC
             }
         }
 
-        public virtual ReuseScope Scope {
+        public virtual Lifetime Lifetime {
             get {
-                return registration.Scope;
+                return registration.Lifetime;
             }
         }
 

@@ -7,6 +7,9 @@ namespace NCop.IoC.Fluent
     public interface IRegistration
     {
         [EditorBrowsable(EditorBrowsableState.Never)]
+        Owner Owner { get; }
+        
+        [EditorBrowsable(EditorBrowsableState.Never)]
         string Name { get; }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -19,9 +22,6 @@ namespace NCop.IoC.Fluent
         Type ServiceType { get; }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        ReuseScope Scope { get; }
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        Owner Owner { get; }
+        Lifetime Lifetime { get; }
     }
 }

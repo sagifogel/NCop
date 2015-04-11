@@ -16,10 +16,10 @@ namespace NCop.IoC.Fluent
 
         public Type ServiceType { get; protected internal set; }
 
-        public ReuseScope Scope { get; protected internal set; }
-        
+        public Lifetime Lifetime { get; protected internal set; }
+
         public IReusedWithin AsSingleton() {
-            Scope = ReuseScope.Hierarchy;
+            Lifetime = Lifetime.Container;
             return this;
         }
 
@@ -35,15 +35,15 @@ namespace NCop.IoC.Fluent
             return this;
         }
 
-        public IOwnedBy ReusedWithinHierarchy() {
-            Scope = ReuseScope.Hierarchy;
-            
+        public IOwnedBy WithinHierarchy() {
+            Lifetime = Lifetime.Hierarchy;
+
             return this;
         }
 
-        public IOwnedBy ReusedWithinContainer() {
-            Scope = ReuseScope.Container;
-            
+        public IOwnedBy WithinContainer() {
+            Lifetime = Lifetime.Container;
+
             return this;
         }
 
@@ -53,6 +53,18 @@ namespace NCop.IoC.Fluent
 
         public void OwnedExternally() {
             Owner = Owner.External;
+        }
+
+        public IOwnedBy PerThread() {
+            Lifetime = Lifetime.Request;
+
+            return this;
+        }
+
+        public IOwnedBy PerHttpRequest() {
+            Lifetime = Lifetime.Request;
+
+            return this;
         }
     }
 }
