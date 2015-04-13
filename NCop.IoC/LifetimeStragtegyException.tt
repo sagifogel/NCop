@@ -1,0 +1,8 @@
+<#@ template language="C#" hostspecific="True" debug="True" #>
+<#@ output extension="cs" #>
+<#@ include file="$(SolutionDir)\NCop.Core\Exceptions\ArgumentExceptionTemplate.tt" #>
+<#
+	var template = new ArgumentExceptionTemplate();
+    template.Message = "Could not create lifetime strategy within context";
+    template.Render();
+#>

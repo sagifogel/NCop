@@ -34,9 +34,7 @@ namespace NCop.Composite.IoC
                 FactoryType = MakeFactoryType(castTo ?? serviceType)
             };
 
-            if (IsSingletonComposite()) {
-                registration.Lifetime = Lifetime.Hierarchy;
-            }
+            SetLifetime();
 
             registration.Name = name;
 
@@ -179,9 +177,22 @@ namespace NCop.Composite.IoC
             return typeof(Func<,>).MakeGenericType(typeof(INCopDependencyResolver), serviceType);
         }
 
-        private bool IsSingletonComposite() {
-            return concreteType.IsDefined<SingletonCompositeAttribute>() ||
-                   serviceType.IsDefined<SingletonCompositeAttribute>();
+        private void SetLifetime() {
+            var types = new[] { concreteType, serviceType };
+
+            if (types.AnyHasAttribute<PerThreadCompositeAttribute>()) {
+                registration.PerThread();
+                return;
+            }
+
+            if (types.AnyHasAttribute<SingletonCompositeAttribute>()) {
+                registration.WithinHierarchy();
+                return;
+            }
+
+            if (types.AnyHasAttribute<PerHttpRequestCompositeAttribute>()) {
+                registration.PerHttpRequest();
+            }
         }
 
         private bool TryGetNamedAttribute(out NamedAttribute namedAttribute) {

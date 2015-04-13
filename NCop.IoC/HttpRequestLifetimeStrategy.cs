@@ -4,21 +4,13 @@ using System.Reflection;
 using System.Web;
 using NCop.Core.Extensions;
 using System.Collections;
+using NCop.IoC.Properties;
 
 namespace NCop.IoC
 {
     internal class HttpRequestLifetimeStrategy : AbstractLifetimeStrategy
     {
         public static readonly string itemsName = "NCop<{0}>".Fmt(Assembly.GetExecutingAssembly().GetName().Version);
-
-        private HttpRequestLifetimeStrategy() {
-        }
-
-        static HttpRequestLifetimeStrategy() {
-            Instance = new HttpRequestLifetimeStrategy();
-        }
-
-        public static HttpRequestLifetimeStrategy Instance { get; private set; }
 
         public override TService Resolve<TService>(ResolveContext<TService> context) {
             ILifetimeCache cache = null;
@@ -40,7 +32,7 @@ namespace NCop.IoC
 
         private IDictionary EnsureHttpContextItems() {
             if (!HasContext()) {
-                throw new NotSupportedException();
+                throw new LifetimeStragtegyException(Resources.HttpRequestLifetimeStrategyNotSupportedInContext);
             }
 
             return HttpContext.Current.Items;

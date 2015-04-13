@@ -88,6 +88,11 @@
     <Compile Include="INCopRegistry.cs" />
     <Compile Include="Owner.cs" />
     <Compile Include="PerThreadLifetimeStrategy.cs" />
+    <Compile Include="LifetimeStragtegyException.cs">
+      <DependentUpon>LifetimeStragtegyException.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="ResolveContext`1.cs" />
     <Compile Include="ContainerSingletonLifetimeStrategy.cs" />
     <Compile Include="Fluent\IReusedWithin.cs" />
@@ -143,6 +148,10 @@
     <None Include="RegistrationException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>RegistrationException.cs</LastGenOutput>
+    </None>
+    <None Include="LifetimeStragtegyException.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>LifetimeStragtegyException.cs</LastGenOutput>
     </None>
     <None Include="ResolutionException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

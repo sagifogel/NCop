@@ -4,16 +4,16 @@ namespace NCop.IoC
 {
     internal class HybridRequestLifetimeStrategy : ILifetimeStrategy
     {
-        private static readonly Func<ILifetimeStrategy> lifetimeStrategyFactory = null;
+        private static readonly ILifetimeStrategy lifetimeStrategyFactory = null;
 
         static HybridRequestLifetimeStrategy() {
             lifetimeStrategyFactory = HttpRequestLifetimeStrategy.HasContext() ?
-                                        () => HttpRequestLifetimeStrategy.Instance :
-                                        (Func<ILifetimeStrategy>)(() => new PerThreadLifetimeStrategy());
+                                        new HttpRequestLifetimeStrategy() :
+                                        (ILifetimeStrategy)new PerThreadLifetimeStrategy();
         }
 
         public TService Resolve<TService>(ResolveContext<TService> context) {
-            return lifetimeStrategyFactory().Resolve<TService>(context);
+            return lifetimeStrategyFactory.Resolve(context);
         }
     }
 }

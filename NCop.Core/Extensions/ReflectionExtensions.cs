@@ -75,6 +75,12 @@ namespace NCop.Core.Extensions
             return false;
         }
 
+        public static bool AnyHasAttribute<TAttribute>(this IEnumerable<Type> types, bool inherit = false) where TAttribute : Attribute {
+            return types.Any(type => {
+                return type.IsDefined<TAttribute>(inherit);
+            });
+        }
+
         public static bool IsDefined<TAttribute>(this Type type, bool inherit = true) where TAttribute : Attribute {
             return type.IsDefined(typeof(TAttribute), inherit);
         }
@@ -167,13 +173,20 @@ namespace NCop.Core.Extensions
         }
 
         public static bool IsNotNullOrDefault(this object value) {
-            return value.IsNullOrDefault();
+            return !value.IsNullOrDefault();
         }
 
         public static bool IsNullOrDefault(this object value) {
-            var type = value.GetType();
+            Type type = null;
+            var isNull = ReferenceEquals(value, null);
 
-            return type.IsValueType ? value.IsDefualtValue(type) : ReferenceEquals(value, null);
+            if (isNull) {
+                return true;
+            }
+
+            type = value.GetType();
+
+            return type.IsValueType && value.IsDefualtValue(type);
         }
 
         public static bool IsDefualtValue(this object value, Type type) {

@@ -106,6 +106,15 @@ namespace NCop.IoC.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not create HttpRequestLifetimeStrategy. HttpContext is null..
+        /// </summary>
+        internal static string HttpRequestLifetimeStrategyNotSupportedInContext {
+            get {
+                return ResourceManager.GetString("HttpRequestLifetimeStrategyNotSupportedInContext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not auto register type {0}. No parameterless constructor defined for this object..
         /// </summary>
         internal static string NoParameterlessConstructorFound {

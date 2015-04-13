@@ -30,8 +30,8 @@ namespace NCop.IoC
         }
 
         public TService GetOrAdd<TService>(Func<TService> factory) {
+            var result = default(TService);
             var serviceType = typeof(TService);
-            TService result = default(TService);
 
             locker.UpgradeableRead(() => {
                 object service;

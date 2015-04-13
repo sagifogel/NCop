@@ -6,15 +6,17 @@ namespace NCop.IoC
 {
     internal class PerThreadLifetimeStrategy : AbstractLifetimeStrategy
     {
-        private readonly string slotName = Guid.NewGuid().ToString();
+        private static readonly string slotName = Guid.NewGuid().ToString();
 
         public override TService Resolve<TService>(ResolveContext<TService> context) {
             TService service;
 
-            if (!TryResolve(context, out service)) {
-                service = context.Factory();
-                CallContext.LogicalSetData(slotName, service);
+            if (TryResolve(context, out service)) {
+                return service;
             }
+
+            service = context.Factory();
+            CallContext.LogicalSetData(slotName, service);
 
             return service;
         }
