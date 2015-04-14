@@ -1,11 +1,9 @@
-﻿using NCop.Composite.Framework;
+﻿using System;
+using NCop.Composite.Framework;
 using NCop.Core.Extensions;
 using NCop.IoC;
-using NCop.IoC.Framework;
 using NCop.Mixins.Weaving;
 using NCop.Weaving;
-using System;
-using NCop.Mixins.Weaving;
 
 namespace NCop.Composite.Mixins.Weaving
 {

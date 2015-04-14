@@ -9,6 +9,10 @@ namespace NCop.Samples
     {
         private readonly T langugae = new T();
 
+        public GenericCovariantDeveloper() {
+            Console.WriteLine("GenericCovariantDeveloper");
+        }
+
         public string Code() {
             return langugae.Name;
         }
@@ -49,7 +53,8 @@ namespace NCop.Samples
             var container = new CompositeContainer();
             
             container.Configure();
-            task1 = Task.Factory.StartNew(() => developer1 = container.Resolve<ICSharpDeveloper>());
+            task1 = Task.Factory.StartNew(() => 
+            developer1 = container.Resolve<ICSharpDeveloper>());
             task2 = Task.Factory.StartNew(() => developer2 = container.Resolve<ICSharpDeveloper>());
 
             Task.WhenAll(task1, task2).Wait();

@@ -10,7 +10,15 @@ namespace NCop.IoC
 {
     internal class HttpRequestLifetimeStrategy : AbstractLifetimeStrategy
     {
-        public static readonly string itemsName = "NCop<{0}>".Fmt(Assembly.GetExecutingAssembly().GetName().Version);
+        private static readonly string itemsName = "NCop<{0}>".Fmt(Assembly.GetExecutingAssembly().GetName().Version);
+
+        private HttpRequestLifetimeStrategy() { }
+
+        static HttpRequestLifetimeStrategy() {
+            Instance = new HttpRequestLifetimeStrategy();
+        }
+
+        public static HttpRequestLifetimeStrategy Instance { get; private set; }
 
         public override TService Resolve<TService>(ResolveContext<TService> context) {
             ILifetimeCache cache = null;

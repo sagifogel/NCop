@@ -193,6 +193,10 @@ namespace NCop.Composite.IoC
             if (types.AnyHasAttribute<PerHttpRequestCompositeAttribute>()) {
                 registration.PerHttpRequest();
             }
+
+            if (types.AnyHasAttribute<PerHybridRequestComposite>()) {
+                registration.PerHybridRequest();
+            }
         }
 
         private bool TryGetNamedAttribute(out NamedAttribute namedAttribute) {

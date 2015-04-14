@@ -8,6 +8,14 @@ namespace NCop.IoC
     {
         private static readonly string slotName = Guid.NewGuid().ToString();
 
+        private PerThreadLifetimeStrategy() { }
+
+        static PerThreadLifetimeStrategy() {
+            Instance = new PerThreadLifetimeStrategy();
+        }
+
+        public static PerThreadLifetimeStrategy Instance { get; private set; }
+
         public override TService Resolve<TService>(ResolveContext<TService> context) {
             TService service;
 

@@ -56,13 +56,19 @@ namespace NCop.IoC.Fluent
         }
 
         public IOwnedBy PerThread() {
-            Lifetime = Lifetime.Request;
+            Lifetime = Lifetime.HttpRequest;
 
             return this;
         }
 
         public IOwnedBy PerHttpRequest() {
-            Lifetime = Lifetime.Request;
+            Lifetime = Lifetime.HttpRequest;
+
+            return this;
+        }
+
+        public IOwnedBy PerHybridRequest() {
+            Lifetime = Lifetime.HybridRequest;
 
             return this;
         }

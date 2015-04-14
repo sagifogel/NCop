@@ -4,8 +4,10 @@ namespace NCop.IoC
     public enum Lifetime
     {
         None,
-        Request,
+        PerThread,
         Container,
-        Hierarchy
+        Hierarchy,
+        HttpRequest,
+        HybridRequest
     }
 }

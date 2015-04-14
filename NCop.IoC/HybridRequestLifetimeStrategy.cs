@@ -8,8 +8,8 @@ namespace NCop.IoC
 
         static HybridRequestLifetimeStrategy() {
             lifetimeStrategyFactory = HttpRequestLifetimeStrategy.HasContext() ?
-                                        new HttpRequestLifetimeStrategy() :
-                                        (ILifetimeStrategy)new PerThreadLifetimeStrategy();
+                                        HttpRequestLifetimeStrategy.Instance :
+                                        (ILifetimeStrategy)PerThreadLifetimeStrategy.Instance;
         }
 
         public TService Resolve<TService>(ResolveContext<TService> context) {

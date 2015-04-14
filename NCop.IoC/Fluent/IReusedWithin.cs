@@ -7,5 +7,6 @@ namespace NCop.IoC.Fluent
         IOwnedBy PerHttpRequest();
         IOwnedBy WithinHierarchy();
         IOwnedBy WithinContainer();
+        IOwnedBy PerHybridRequest();
     }
 }

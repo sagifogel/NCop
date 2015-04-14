@@ -96,7 +96,7 @@
     <Compile Include="ResolveContext`1.cs" />
     <Compile Include="ContainerSingletonLifetimeStrategy.cs" />
     <Compile Include="Fluent\IReusedWithin.cs" />
-    <Compile Include="IdentityLifetimeStrategy.cs" />
+    <Compile Include="TransientLifetimeStrategy.cs" />
     <Compile Include="IoCExtensions.cs" />
     <Compile Include="LifetimeStrategyFactory.cs" />
     <Compile Include="HierarchySingletonLifetimeStrategy.cs" />

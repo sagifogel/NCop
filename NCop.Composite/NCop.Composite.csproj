@@ -103,6 +103,7 @@
     <Compile Include="Engine\SetCompositePropertyMap.cs" />
     <Compile Include="Extensions\CompositeExtensions.cs" />
     <Compile Include="Framework\PerHttpRequestCompositeAttribute.cs" />
+    <Compile Include="Framework\PerHybridRequestComposite.cs" />
     <Compile Include="Framework\PerThreadCompositeAttribute.cs" />
     <Compile Include="IoC\CompositeContainer.cs" />
     <Compile Include="IoC\CompositeFrameworkRegistration.cs" />
