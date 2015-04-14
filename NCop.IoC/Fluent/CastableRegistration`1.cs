@@ -127,13 +127,5 @@ namespace NCop.IoC.Fluent
         public void OwnedByContainer() {
             registration.OwnedByContainer();
         }
-
-        public IOwnedBy PerThread() {
-            return registration.PerThread();
-        }
-
-        public IOwnedBy PerHttpRequest() {
-            return registration.PerHttpRequest();
-        }
     }
 }

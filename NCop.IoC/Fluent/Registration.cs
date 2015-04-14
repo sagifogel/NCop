@@ -56,7 +56,7 @@ namespace NCop.IoC.Fluent
         }
 
         public IOwnedBy PerThread() {
-            Lifetime = Lifetime.HttpRequest;
+            Lifetime = Lifetime.PerThread;
 
             return this;
         }

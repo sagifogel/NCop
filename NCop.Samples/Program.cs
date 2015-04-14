@@ -51,9 +51,9 @@ namespace NCop.Samples
             ICSharpDeveloper developer1 = null;
             ICSharpDeveloper developer2 = null;
             var container = new CompositeContainer();
-            
+
             container.Configure();
-            task1 = Task.Factory.StartNew(() => 
+            task1 = Task.Factory.StartNew(() =>
             developer1 = container.Resolve<ICSharpDeveloper>());
             task2 = Task.Factory.StartNew(() => developer2 = container.Resolve<ICSharpDeveloper>());
 

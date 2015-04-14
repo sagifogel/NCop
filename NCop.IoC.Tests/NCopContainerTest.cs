@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace NCop.IoC.Tests
 {
@@ -356,5 +357,34 @@ namespace NCop.IoC.Tests
 			Assert.IsNotNull(instance);
 			Assert.IsNotNull(instance.Baz);
 		}
+
+        [TestMethod]
+        public void Resolve_UsingAsPerThreadSingletonExpressionRegistrationWithAutoFactory_ReturnsDiffrentOjectsForDiffrentThreadsAndTheSameObjectForDifferentResolveCallsOnTheSameThread() {
+            Foo foo1 = null;
+            Foo foo2 = null;
+            Task task1 = null;
+            Task task2 = null;
+            
+            var container = new NCopContainer(registry => {
+                registry.Register<Foo>().AsSingleton().PerThread();
+            });
+
+            task1 = Task.Factory.StartNew(() => foo1 = container.Resolve<Foo>());
+            task2 = Task.Factory.StartNew(() => foo2 = container.Resolve<Foo>());
+            Task.WhenAll(task1, task2).Wait();
+            
+            Assert.AreNotEqual(foo1, foo2);
+            Assert.AreEqual(container.Resolve<Foo>(), container.Resolve<Foo>());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(LifetimeStragtegyException))]
+        public void Resolve_UsingAsPerHttpRequestExpressionRegistrationWhenThereIsNoHttpContext_ThrowsLifetimeStragtegyException() {
+            var container = new NCopContainer(registry => {
+                registry.Register<Foo>().AsSingleton().PerHttpRequest();
+            });
+
+            container.Resolve<Foo>();
+        }
     }
 }
