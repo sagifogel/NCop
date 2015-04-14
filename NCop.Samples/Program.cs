@@ -2,6 +2,7 @@
 using NCop.Mixins.Framework;
 using System;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace NCop.Samples
 {
@@ -37,7 +38,7 @@ namespace NCop.Samples
         }
     }
 
-    [PerThreadComposite]
+    [PerHttpRequestComposite]
     [Mixins(typeof(GenericCovariantDeveloper<CSharpLanguage>))]
     public interface ICSharpDeveloper : ICovariantDeveloper<CSharpLanguage>
     {
@@ -46,20 +47,20 @@ namespace NCop.Samples
     class Program
     {
         static void Main(string[] args) {
-            Task task1 = null;
-            Task task2 = null;
-            ICSharpDeveloper developer1 = null;
-            ICSharpDeveloper developer2 = null;
-            var container = new CompositeContainer();
+            CompositeContainer container = null;
+            ICSharpDeveloper developer = null;
 
+            SetHttpContext();
+            container = new CompositeContainer();
             container.Configure();
-            task1 = Task.Factory.StartNew(() =>
-            developer1 = container.Resolve<ICSharpDeveloper>());
-            task2 = Task.Factory.StartNew(() => developer2 = container.Resolve<ICSharpDeveloper>());
+            developer = container.Resolve<ICSharpDeveloper>();
+            Console.WriteLine(developer == container.Resolve<ICSharpDeveloper>());
+            SetHttpContext();
+            Console.WriteLine(developer == container.Resolve<ICSharpDeveloper>());
+        }
 
-            Task.WhenAll(task1, task2).Wait();
-            Console.WriteLine(developer1.Equals(developer2));
-            Console.WriteLine(container.Resolve<ICSharpDeveloper>() == container.Resolve<ICSharpDeveloper>());
+        private static void SetHttpContext() {
+            HttpContext.Current = new HttpContext(new HttpRequest(null, "http://tempuri.org", null), new HttpResponse(null));
         }
     }
 }

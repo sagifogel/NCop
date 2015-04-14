@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Web;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace NCop.IoC.Tests
@@ -6,6 +7,11 @@ namespace NCop.IoC.Tests
     [TestClass]
     public class NCopContainerTest
     {
+        [TestInitialize()]
+        public void InitializeAllprivateVariablesForEachTest() {
+            HttpContext.Current = null;
+        }
+
         [TestMethod]
         [ExpectedException(typeof(RegistrationException))]
         public void Resolve_UsingAutoFactoryOfInterface_ThrowsRegistrationException() {
@@ -330,7 +336,7 @@ namespace NCop.IoC.Tests
             Assert.IsNotNull(instance.Injected);
             Assert.IsNull(instance.Ignored);
         }
-        
+
         [TestMethod]
         public void AutoRegister_OfTypeThatHasTwoPropertiesThatOneOfThemIsDependentAndTheOtherFilledByDependentConstructor_ReturnsResolvedInstanceWithBothPropertiesFilled() {
             var container = new NCopContainer(registry => {
@@ -345,18 +351,18 @@ namespace NCop.IoC.Tests
             Assert.AreSame(instance.ByCtor, instance.ByProperty);
         }
 
-		[TestMethod]
-		public void AutoRegister_OfInterfaceAndCastingWithAsExpressionToConcreteTypeThatHasOneDependentProperty_ReturnsResolvedInstanceWithFilledProperty() {
-			var container = new NCopContainer(registry => {
-				registry.Register<Baz>().ToSelf();
-				registry.RegisterAuto<IFoo>().From<Boo>();
-			});
+        [TestMethod]
+        public void AutoRegister_OfInterfaceAndCastingWithAsExpressionToConcreteTypeThatHasOneDependentProperty_ReturnsResolvedInstanceWithFilledProperty() {
+            var container = new NCopContainer(registry => {
+                registry.Register<Baz>().ToSelf();
+                registry.RegisterAuto<IFoo>().From<Boo>();
+            });
 
-			var instance = container.Resolve<IFoo>() as Boo;
+            var instance = container.Resolve<IFoo>() as Boo;
 
-			Assert.IsNotNull(instance);
-			Assert.IsNotNull(instance.Baz);
-		}
+            Assert.IsNotNull(instance);
+            Assert.IsNotNull(instance.Baz);
+        }
 
         [TestMethod]
         public void Resolve_UsingAsPerThreadSingletonExpressionRegistrationWithAutoFactory_ReturnsDiffrentOjectsForDiffrentThreadsAndTheSameObjectForDifferentResolveCallsOnTheSameThread() {
@@ -364,7 +370,7 @@ namespace NCop.IoC.Tests
             Foo foo2 = null;
             Task task1 = null;
             Task task2 = null;
-            
+
             var container = new NCopContainer(registry => {
                 registry.Register<Foo>().AsSingleton().PerThread();
             });
@@ -372,7 +378,7 @@ namespace NCop.IoC.Tests
             task1 = Task.Factory.StartNew(() => foo1 = container.Resolve<Foo>());
             task2 = Task.Factory.StartNew(() => foo2 = container.Resolve<Foo>());
             Task.WhenAll(task1, task2).Wait();
-            
+
             Assert.AreNotEqual(foo1, foo2);
             Assert.AreEqual(container.Resolve<Foo>(), container.Resolve<Foo>());
         }
@@ -385,6 +391,58 @@ namespace NCop.IoC.Tests
             });
 
             container.Resolve<Foo>();
+        }
+
+        [TestMethod]
+        public void Resolve_UsingAsPerHttpRequestExpressionRegistrationWhenUsingTwoDiffrentContext_ReturnsDiffrentInstancesPerHttpContextInstance() {
+            Foo foo = null;
+            var container = new NCopContainer(registry => {
+                registry.Register<Foo>().AsSingleton().PerHttpRequest();
+            });
+
+            SetHttpContext();
+            foo = container.Resolve<Foo>();
+            Assert.AreEqual(foo, container.Resolve<Foo>());
+            SetHttpContext();
+            Assert.AreNotEqual(foo, container.Resolve<Foo>());
+        }
+
+        [TestMethod]
+        public void Resolve_UsingAsPerHybridRequestExpressionRegistrationWhenHttpContextIsAvailable_ReturnsDiffrentInstancesPerHttpContextInstance() {
+            Foo foo = null;
+            NCopContainer container = null;
+            
+            SetHttpContext();
+            container = new NCopContainer(registry => {
+                registry.Register<Foo>().AsSingleton().PerHybridRequest();
+            });
+            
+            foo = container.Resolve<Foo>();
+            Assert.AreEqual(foo, container.Resolve<Foo>());
+            SetHttpContext();
+            Assert.AreNotEqual(foo, container.Resolve<Foo>());
+        }
+
+        [TestMethod]
+        public void Resolve_UsingAsPerHybridRequestExpressionRegistrationWhenHttpContextIsNotAvailable_ReturnsTheSameInstancePerThreadRequest() {
+            Foo foo = null;
+            Foo foo2 = null;
+            Task task1 = null;
+            NCopContainer container = null;
+
+            container = new NCopContainer(registry => {
+                registry.Register<Foo>().AsSingleton().PerHybridRequest();
+            });
+
+            foo = container.Resolve<Foo>();
+            Assert.AreEqual(foo, container.Resolve<Foo>());
+            task1 = Task.Factory.StartNew(() => foo2 = container.Resolve<Foo>());
+            Task.WhenAll(task1).Wait();
+            Assert.AreEqual(foo, foo2);
+        }
+
+        private static void SetHttpContext() {
+            HttpContext.Current = new HttpContext(new HttpRequest(null, "http://tempuri.org", null), new HttpResponse(null));
         }
     }
 }
