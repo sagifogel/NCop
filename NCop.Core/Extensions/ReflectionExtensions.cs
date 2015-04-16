@@ -259,15 +259,48 @@ namespace NCop.Core.Extensions
                     }
 
                     var typeMethods = subType.GetTypePublicMethods();
-                    var newPropertyInfos = typeMethods.Where(x => !methodInfos.Contains(x));
+                    var newMethodsInfos = typeMethods.Where(x => !methodInfos.Contains(x));
 
-                    methodInfos.AddRange(newPropertyInfos);
+                    methodInfos.AddRange(newMethodsInfos);
                 }
 
                 return methodInfos.ToArray();
             }
 
             return type.GetTypePublicMethods().ToArray();
+        }
+
+        public static EventInfo[] GetPublicEvents(this Type type) {
+            if (type.IsInterface) {
+                var queue = new Queue<Type>();
+                var considered = new HashSet<Type>();
+                var eventInfos = new HashSet<EventInfo>();
+
+                considered.Add(type);
+                queue.Enqueue(type);
+
+                while (queue.Count > 0) {
+                    var subType = queue.Dequeue();
+
+                    foreach (var subInterface in subType.GetInterfaces()) {
+                        if (considered.Contains(subInterface)) {
+                            continue;
+                        }
+
+                        considered.Add(subInterface);
+                        queue.Enqueue(subInterface);
+                    }
+
+                    var typeEvents = subType.GetTypePublicEvents();
+                    var newEventsInfos = typeEvents.Where(x => !eventInfos.Contains(x));
+
+                    eventInfos.AddRange(newEventsInfos);
+                }
+
+                return eventInfos.ToArray();
+            }
+
+            return type.GetTypePublicEvents().ToArray();
         }
 
         public static PropertyInfo GetPublicProperty(this Type type, string name) {
@@ -279,6 +312,13 @@ namespace NCop.Core.Extensions
                                          BindingFlags.Public |
                                          BindingFlags.Instance);
         }
+
+        internal static EventInfo[] GetTypePublicEvents(this Type subType) {
+            return subType.GetEvents(BindingFlags.FlattenHierarchy |
+                                     BindingFlags.Public |
+                                     BindingFlags.Instance);
+        }
+
         internal static MethodInfo[] GetTypePublicMethods(this Type subType) {
             var properties = subType.GetTypePublicProperties();
             var propertiesMethodsSet = new HashSet<MethodInfo>();

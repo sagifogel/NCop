@@ -97,6 +97,7 @@
     <Compile Include="Aspects\AbstractMethodAspectDefinition.cs" />
     <Compile Include="Aspects\AbstractPropertyAspectDefinition.cs" />
     <Compile Include="Aspects\AbstractPropertyFragmentInterceptionAspectDefinition.cs" />
+    <Compile Include="Aspects\EventInterceptionAspectDefinition.cs" />
     <Compile Include="Aspects\IFullPropertyAspectDefinition.cs" />
     <Compile Include="Aspects\IMethodAspectDefinition.cs" />
     <Compile Include="Aspects\IPropertyAspectDefinition.cs" />
@@ -119,6 +120,9 @@
     <Compile Include="Engine\AspectDefinitionRegistry.cs" />
     <Compile Include="Aspects\SetPropertyFragmentInterceptionAspectDefinition.cs" />
     <Compile Include="Aspects\GetPropertyFragmentInterceptionAspectDefinition.cs" />
+    <Compile Include="Engine\AspectEventMap.cs" />
+    <Compile Include="Engine\IAspectEventMap.cs" />
+    <Compile Include="Engine\IAspectEventMapCollection.cs" />
     <Compile Include="Engine\SetPropertyFragmentInterceptionAspect.cs" />
     <Compile Include="Engine\GetPropertyFragmentInterceptionAspect.cs" />
     <Compile Include="Engine\IPropertyFragment.cs" />

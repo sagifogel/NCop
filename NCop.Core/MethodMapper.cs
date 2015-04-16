@@ -18,24 +18,24 @@ namespace NCop.Core
                 map.ContractType,
                 map.ImplementationType,
                 ContractMethods = map.ContractType.GetPublicMethods().Where(methodPredicate),
-                ImplMethods = map.ImplementationType.GetPublicMethods().ToSet(methodPredicate),
+                MethodsImpl = map.ImplementationType.GetPublicMethods().ToSet(methodPredicate),
             });
 
             var mappedMethodsEnumerable = mapped.SelectMany(map => {
                 var methods = map.ContractMethods;
 
                 return methods.Select(method => {
-                    var match = method.SelectFirst(map.ImplMethods,
+                    var match = method.SelectFirst(map.MethodsImpl,
                                                   (c, impl) => c.IsMatchedTo(impl),
                                                   (c, impl) => new {
-                                                      ImplMethod = impl,
+                                                      MethodImpl = impl,
                                                       ContractMethod = c
                                                   });
 
                     return new MethodMap(map.ContractType,
                                          map.ImplementationType,
                                          match.ContractMethod,
-                                         match.ImplMethod);
+                                         match.MethodImpl);
                 });
             });
 

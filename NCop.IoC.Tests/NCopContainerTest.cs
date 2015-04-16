@@ -365,20 +365,17 @@ namespace NCop.IoC.Tests
         }
 
         [TestMethod]
-        public void Resolve_UsingAsPerThreadSingletonExpressionRegistrationWithAutoFactory_ReturnsDiffrentOjectsForDiffrentThreadsAndTheSameObjectForDifferentResolveCallsOnTheSameThread() {
+        public async Task Resolve_UsingAsPerThreadSingletonExpressionRegistrationWithAutoFactory_ReturnsDiffrentOjectsForDiffrentThreadsAndTheSameObjectForDifferentResolveCallsOnTheSameThread() {
             Foo foo1 = null;
             Foo foo2 = null;
-            Task task1 = null;
-            Task task2 = null;
 
             var container = new NCopContainer(registry => {
                 registry.Register<Foo>().AsSingleton().PerThread();
             });
 
-            task1 = Task.Factory.StartNew(() => foo1 = container.Resolve<Foo>());
-            task2 = Task.Factory.StartNew(() => foo2 = container.Resolve<Foo>());
-            Task.WhenAll(task1, task2).Wait();
-
+            foo1 = await Task.Factory.StartNew(() => container.Resolve<Foo>());
+            foo2 = await Task.Factory.StartNew(() => container.Resolve<Foo>());
+            
             Assert.AreNotEqual(foo1, foo2);
             Assert.AreEqual(container.Resolve<Foo>(), container.Resolve<Foo>());
         }
@@ -411,12 +408,12 @@ namespace NCop.IoC.Tests
         public void Resolve_UsingAsPerHybridRequestExpressionRegistrationWhenHttpContextIsAvailable_ReturnsDiffrentInstancesPerHttpContextInstance() {
             Foo foo = null;
             NCopContainer container = null;
-            
+
             SetHttpContext();
             container = new NCopContainer(registry => {
                 registry.Register<Foo>().AsSingleton().PerHybridRequest();
             });
-            
+
             foo = container.Resolve<Foo>();
             Assert.AreEqual(foo, container.Resolve<Foo>());
             SetHttpContext();
@@ -424,10 +421,9 @@ namespace NCop.IoC.Tests
         }
 
         [TestMethod]
-        public void Resolve_UsingAsPerHybridRequestExpressionRegistrationWhenHttpContextIsNotAvailable_ReturnsTheSameInstancePerThreadRequest() {
+        public async Task Resolve_UsingAsPerHybridRequestExpressionRegistrationWhenHttpContextIsNotAvailable_ReturnsTheSameInstancePerThreadRequest() {
             Foo foo = null;
             Foo foo2 = null;
-            Task task1 = null;
             NCopContainer container = null;
 
             container = new NCopContainer(registry => {
@@ -436,8 +432,7 @@ namespace NCop.IoC.Tests
 
             foo = container.Resolve<Foo>();
             Assert.AreEqual(foo, container.Resolve<Foo>());
-            task1 = Task.Factory.StartNew(() => foo2 = container.Resolve<Foo>());
-            Task.WhenAll(task1).Wait();
+            foo2 = await Task.Factory.StartNew(() => container.Resolve<Foo>());
             Assert.AreEqual(foo, foo2);
         }
 

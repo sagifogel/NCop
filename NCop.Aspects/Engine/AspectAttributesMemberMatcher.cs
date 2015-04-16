@@ -11,13 +11,14 @@ using System.Reflection;
 
 namespace NCop.Aspects.Engine
 {
-    public class AspectAttributesMemberMatcher : Tuples<MethodInfo, IAspectDefinitionCollection>
+    public class AspectAttributesMemberMatcher : Tuples<MemberInfo, IAspectDefinitionCollection>
     {
         private static readonly bool partial = true;
-        private readonly ConcurrentDictionary<MethodInfo, IAspectDefinitionCollection> registry = null;
+        private readonly ConcurrentDictionary<MemberInfo, IAspectDefinitionCollection> registry = null;
 
         public AspectAttributesMemberMatcher(IAspectMemebrsCollection aspectMembersCollection) {
-            registry = new ConcurrentDictionary<MethodInfo, IAspectDefinitionCollection>();
+            registry = new ConcurrentDictionary<MemberInfo, IAspectDefinitionCollection>();
+            CollectEventsAspectDefinitions(aspectMembersCollection);
             CollectMethodsAspectDefinitions(aspectMembersCollection);
             CollectPropertiesAspectDefinitions(aspectMembersCollection);
             values = registry.Select(keyValue => Tuple.Create(keyValue.Key, keyValue.Value));
@@ -33,9 +34,19 @@ namespace NCop.Aspects.Engine
             });
         }
 
-        private void AddOrUpdate(MethodInfo method, ICollection<IAspectDefinition> aspects) {
+        private void CollectEventsAspectDefinitions(IAspectEventMapCollection aspectMembersCollection) {
+            aspectMembersCollection.Events.ForEach(aspectMembers => {
+                var aspects = aspectMembers.Members.SelectMany(member => {
+                    return CollectEventsAspectDefinitions(member, aspectMembers.ContractType, aspectMembers.Target);
+                });
+
+                AddOrUpdate(aspectMembers.Target, aspects.ToList());
+            });
+        }
+
+        private void AddOrUpdate(MemberInfo member, ICollection<IAspectDefinition> aspects) {
             if (aspects.Count > 0) {
-                var aspectCollection = registry.GetOrAdd(method, new AspectDefinitionCollection());
+                var aspectCollection = registry.GetOrAdd(member, new AspectDefinitionCollection());
 
                 aspectCollection.AddRange(aspects);
             }
@@ -68,6 +79,14 @@ namespace NCop.Aspects.Engine
 
             return methodInterceptionAspectDefinitions.Cast<IAspectDefinition>()
                                                       .Concat(onMethodBoundaryAspectDefinitions);
+        }
+
+        private IEnumerable<IAspectDefinition> CollectEventsAspectDefinitions(EventInfo @event, Type aspectDeclaringType, EventInfo target) {
+            var eventInterceptionAspect = @event.GetCustomAttributes<EventInterceptionAspectAttribute>();
+
+            return eventInterceptionAspect.Select(aspect => {
+                return new EventInterceptionAspectDefinition();
+            });
         }
 
         private void CollectPartialPropertyAspectDefinitionsByPropertyInterceptionAttribute(IEnumerable<IAspectPropertyMap> properties) {

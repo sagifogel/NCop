@@ -1,66 +1,64 @@
-﻿using NCop.Composite.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using NCop.Composite.Framework;
+using NCop.Composite.Runtime;
 using NCop.Mixins.Framework;
-using System;
-using System.Threading.Tasks;
-using System.Web;
+using StructureMap;
 
 namespace NCop.Samples
 {
-    public class GenericCovariantDeveloper<T> : ICovariantDeveloper<T> where T : CILLanguage, new()
+    [TransientComposite]
+    [Mixins(typeof(CSharpDeveloperMixin))]
+    public interface IDeveloper
     {
-        private readonly T langugae = new T();
-
-        public GenericCovariantDeveloper() {
-            Console.WriteLine("GenericCovariantDeveloper");
-        }
-
-        public string Code() {
-            return langugae.Name;
-        }
+        event Action<string> Ev;
+        void RaiseEvent();
     }
 
-    public interface ICovariantDeveloper<out T>
+    public class CSharpDeveloperMixin : IDeveloper
     {
-        string Code();
-    }
+        public event Action<string> Ev;
 
-    public abstract class CILLanguage
-    {
-        public abstract string Name { get; }
-    }
-
-    public class CSharpLanguage : CILLanguage
-    {
-        public override string Name {
-            get {
-                return "C# coding";
+        public void RaiseEvent() {
+            if (Ev != null) {
+                Ev("C# coding");
             }
         }
     }
 
-    [PerHttpRequestComposite]
-    [Mixins(typeof(GenericCovariantDeveloper<CSharpLanguage>))]
-    public interface ICSharpDeveloper : ICovariantDeveloper<CSharpLanguage>
+    public class DeveloperComposite : IDeveloper
     {
+        CSharpDeveloperMixin mixin = new CSharpDeveloperMixin();
+
+        public event Action<string> Ev {
+            add {
+                mixin.Ev += value;
+            }
+            remove {
+                mixin.Ev -= value;
+            }
+        }
+
+        public void RaiseEvent() {
+            mixin.RaiseEvent();
+        }
     }
 
     class Program
     {
         static void Main(string[] args) {
-            CompositeContainer container = null;
-            ICSharpDeveloper developer = null;
+            IDeveloper person = new DeveloperComposite();
+            var container = new CompositeContainer();
 
-            SetHttpContext();
-            container = new CompositeContainer();
             container.Configure();
-            developer = container.Resolve<ICSharpDeveloper>();
-            Console.WriteLine(developer == container.Resolve<ICSharpDeveloper>());
-            SetHttpContext();
-            Console.WriteLine(developer == container.Resolve<ICSharpDeveloper>());
-        }
+            person = container.Resolve<IDeveloper>();
 
-        private static void SetHttpContext() {
-            HttpContext.Current = new HttpContext(new HttpRequest(null, "http://tempuri.org", null), new HttpResponse(null));
+            //person.Ev += (value) => {
+            //    Console.WriteLine(value);
+            //};
+
+            person.RaiseEvent();
         }
     }
 }

@@ -14,24 +14,24 @@ namespace NCop.Core
 				mixin.ContractType,
 				mixin.ImplementationType,
 				ContractProperties = mixin.ContractType.GetProperties(),
-				ImplProperties = mixin.ImplementationType.GetProperties().ToSet()
+				PropertiesImpl = mixin.ImplementationType.GetProperties().ToSet()
 			});
 
 			var mappedPropertiesEnumerable = mapped.SelectMany(map => {
 				var properties = map.ContractProperties;
 
 				return properties.Select(property => {
-					var match = property.SelectFirst(map.ImplProperties,
+                    var match = property.SelectFirst(map.PropertiesImpl,
 													 (c, impl) => c.IsMatchedTo(impl),
 													 (c, impl) => new {
-														 ImplProperty = impl,
+														 PropertyImpl = impl,
 														 ContractProperty = c
 													 });
 
 					return new PropertyMap(map.ContractType,
 										   map.ImplementationType,
 										   match.ContractProperty,
-                                           match.ImplProperty);
+                                           match.PropertyImpl);
 				});
 			});
 

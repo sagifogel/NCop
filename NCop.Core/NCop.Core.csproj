@@ -89,11 +89,13 @@
     </Compile>
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="IAcceptsVisitor.cs" />
+    <Compile Include="IEventMap.cs" />
     <Compile Include="IMemberMapper.cs" />
     <Compile Include="IMemberMap.cs" />
     <Compile Include="IMethodMap.cs" />
     <Compile Include="IMethodMapper.cs" />
     <Compile Include="IPropertyMap.cs" />
+    <Compile Include="IEventMapper.cs" />
     <Compile Include="IPropertyMapper.cs" />
     <Compile Include="Lib\LazyFactory.cs" />
     <Compile Include="Lib\Lazy`3.cs" />
@@ -102,7 +104,9 @@
     <Compile Include="MethodComparer.cs" />
     <Compile Include="ITypeMap.cs" />
     <Compile Include="MemberMap.cs" />
+    <Compile Include="EventMap.cs" />
     <Compile Include="MethodMap.cs" />
+    <Compile Include="EventMapper.cs" />
     <Compile Include="MethodMapper.cs" />
     <Compile Include="PropertyMap.cs" />
     <Compile Include="PropertyMapper.cs" />
