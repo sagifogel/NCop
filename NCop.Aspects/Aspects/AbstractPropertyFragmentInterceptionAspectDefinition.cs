@@ -6,8 +6,8 @@ namespace NCop.Aspects.Aspects
 {
     internal abstract class AbstractPropertyFragmentInterceptionAspectDefinition : AbstractPropertyAspectDefinition, IFullPropertyAspectDefinition
     {
-        internal AbstractPropertyFragmentInterceptionAspectDefinition(IPropertyExpressionBuilder propertyBuilder, IAspect aspect, Type aspectDeclaringType, MethodInfo method, PropertyInfo property)
-            : base(aspect, aspectDeclaringType, method, property) {
+        internal AbstractPropertyFragmentInterceptionAspectDefinition(IPropertyExpressionBuilder propertyBuilder, IAspect aspect, Type aspectDeclaringType, PropertyInfo property)
+            : base(aspect, aspectDeclaringType, property) {
             PropertyBuilder = propertyBuilder;
         }
 

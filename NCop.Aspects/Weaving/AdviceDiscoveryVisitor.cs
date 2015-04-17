@@ -6,13 +6,19 @@ namespace NCop.Aspects.Weaving
     {
         internal bool HasFinallyAdvice { get; private set; }
 
+        internal bool HasOnAddHandlerAdvice { get; private set; }
+
         internal bool HasOnSetPropertyAdvice { get; private set; }
 
         internal bool HasOnGetPropertyAdvice { get; private set; }
-        
+
         internal bool HasOnMethodEntryAdvice { get; private set; }
 
         internal bool HasOnMethodInvokeAdvice { get; private set; }
+
+        internal bool HasOnInvokeHandlerAdvice { get; private set; }
+
+        internal bool HasOnRemoveHandlerAdvice { get; private set; }
 
         internal bool HasOnMethodSuccessAdvice { get; private set; }
 
@@ -20,13 +26,19 @@ namespace NCop.Aspects.Weaving
 
         internal FinallyAdviceAttribute FinallyAdvice { get; private set; }
 
+        internal OnAddHandlerAdviceAttribute OnAddHandlerAdvice { get; private set; }
+
         internal OnMethodEntryAdviceAttribute OnMethodEntryAdvice { get; private set; }
 
         internal OnGetPropertyAdviceAttribute OnGetPropertyAdvice { get; private set; }
 
         internal OnSetPropertyAdviceAttribute OnSetPropertyAdvice { get; private set; }
-        
+
         internal OnMethodInvokeAdviceAttribute OnMethodInvokeAdvice { get; private set; }
+
+        internal OnInvokeHandlerAdviceAttribute OnInvokeHandlerAdvice { get; private set; }
+
+        internal OnRemoveHandlerAdviceAttribute OnRemoveHandlerAdvice { get; private set; }
 
         internal OnMethodSuccessAdviceAttribute OnMethodSuccessAdvice { get; private set; }
 
@@ -35,6 +47,21 @@ namespace NCop.Aspects.Weaving
         internal void Visit(FinallyAdviceAttribute advice) {
             FinallyAdvice = advice;
             HasFinallyAdvice = true;
+        }
+
+        internal void Visit(OnAddHandlerAdviceAttribute advice) {
+            OnAddHandlerAdvice = advice;
+            HasOnAddHandlerAdvice = true;
+        }
+
+        internal void Visit(OnGetPropertyAdviceAttribute advice) {
+            OnGetPropertyAdvice = advice;
+            HasOnGetPropertyAdvice = true;
+        }
+
+        internal void Visit(OnSetPropertyAdviceAttribute advice) {
+            OnSetPropertyAdvice = advice;
+            HasOnSetPropertyAdvice = true;
         }
 
         internal void Visit(OnMethodEntryAdviceAttribute advice) {
@@ -47,6 +74,16 @@ namespace NCop.Aspects.Weaving
             HasOnMethodInvokeAdvice = true;
         }
 
+        internal void Visit(OnInvokeHandlerAdviceAttribute advice) {
+            OnInvokeHandlerAdvice = advice;
+            HasOnInvokeHandlerAdvice = true;
+        }
+
+        internal void Visit(OnRemoveHandlerAdviceAttribute advice) {
+            OnRemoveHandlerAdvice = advice;
+            HasOnRemoveHandlerAdvice = true;
+        }
+
         internal void Visit(OnMethodSuccessAdviceAttribute advice) {
             OnMethodSuccessAdvice = advice;
             HasOnMethodSuccessAdvice = true;
@@ -55,16 +92,6 @@ namespace NCop.Aspects.Weaving
         internal void Visit(OnMethodExceptionAdviceAttribute advice) {
             OnMethodExceptionAdvice = advice;
             HasOnMethodExceptionAdvice = true;
-        }
-
-		internal void Visit(OnGetPropertyAdviceAttribute advice) {
-			OnGetPropertyAdvice = advice;
-            HasOnGetPropertyAdvice = true;
-        }
-
-        internal void Visit(OnSetPropertyAdviceAttribute advice) {
-            OnSetPropertyAdvice = advice;
-            HasOnSetPropertyAdvice = true;
         }
     }
 }

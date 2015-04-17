@@ -14,6 +14,7 @@ namespace NCop.Composite.Mixins.Weaving
         }
 
         public override ITypeWeaver Build() {
+            AddEventWeavers();
             AddMethodWeavers();
             AddPropertyWeavers();
 

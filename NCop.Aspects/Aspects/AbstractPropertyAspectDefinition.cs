@@ -3,16 +3,12 @@ using System.Reflection;
 
 namespace NCop.Aspects.Aspects
 {
-    internal abstract class AbstractPropertyAspectDefinition : AbstractAspectDefinition, IPropertyAspectDefinition
+    internal abstract class AbstractPropertyAspectDefinition : AbstractAspectDefinition<PropertyInfo>, IPropertyAspectDefinition
     {
-        internal AbstractPropertyAspectDefinition(IAspect aspect, Type aspectDeclaringType, MethodInfo method, PropertyInfo property)
+        internal AbstractPropertyAspectDefinition(IAspect aspect, Type aspectDeclaringType, PropertyInfo property)
             : base(aspectDeclaringType) {
             Aspect = aspect;
-            Method = method;
-            Property = property;
+            Member = property;
         }
-
-        public PropertyInfo Property { get; protected set; }
-
     }
 }

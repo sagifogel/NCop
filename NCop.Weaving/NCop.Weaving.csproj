@@ -61,11 +61,15 @@
     </Compile>
     <Compile Include="Extensions\WeavingExtensions.cs" />
     <Compile Include="GetPropertyMethodSignatureWeaver.cs" />
+    <Compile Include="IEventTypeBuilder.cs" />
+    <Compile Include="IEventWeaver.cs" />
     <Compile Include="IMethodLocalWeaver.cs" />
     <Compile Include="BulkWeaving.cs" />
+    <Compile Include="IEventWeaverBuilder.cs" />
     <Compile Include="IPropertyTypeBuilder.cs" />
     <Compile Include="IPropertyWeaver.cs" />
     <Compile Include="IPropertyWeaverBuilder.cs" />
+    <Compile Include="IEventWeaverBuilderBag.cs" />
     <Compile Include="IPropertyWeaverBuilderBag.cs" />
     <Compile Include="IWeavingSettings.cs" />
     <Compile Include="AbstractPropertyMethodSingatureWeaver.cs" />

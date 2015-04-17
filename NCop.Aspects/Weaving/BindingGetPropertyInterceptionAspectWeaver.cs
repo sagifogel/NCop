@@ -15,10 +15,10 @@ namespace NCop.Aspects.Weaving
         internal BindingGetPropertyInterceptionAspectWeaver(IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             IMethodScopeWeaver finallyWeaver = null;
-
-            method = aspectDefinition.Method;
+            
+            method = aspectDefinition.Member.GetGetMethod();
             argumentsWeavingSettings.BindingsDependency = weavedType;
-            argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Property.PropertyType };
+            argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Member.PropertyType };
             argumentsWeaver = new BindingGetPropertyInterceptionArgumentsWeaver(method, argumentsWeavingSettings, aspectWeavingSettings);
             finallyWeaver = new FinallyBindingPropertyAspectWeaver(method, argumentsWeavingSettings, aspectWeavingSettings);
             weaver = new TryFinallyAspectWeaver(methodScopeWeavers, new[] { finallyWeaver });

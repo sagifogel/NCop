@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace NCop.Aspects.Aspects
 {
-    internal abstract class AbstractAspectDefinition : IAspectDefinition
+    internal abstract class AbstractAspectDefinition<TMember> : IAspectDefinition where TMember : MemberInfo
     {
         protected readonly AdviceDefinitionCollection advices = null;
 
@@ -18,10 +18,9 @@ namespace NCop.Aspects.Aspects
 
         public IAspect Aspect { get; protected set; }
 
-
         public abstract AspectType AspectType { get; }
 
-        public MethodInfo Method { get; protected set; }
+        public TMember Member { get; protected set; }
 
         public Type AspectDeclaringType { get; private set; }
 
@@ -31,10 +30,10 @@ namespace NCop.Aspects.Aspects
             }
         }
 
-        protected bool TryBulidAdvice<TAdvice>(MethodInfo member, Func<TAdvice, MethodInfo, IAdviceDefinition> adviceDefinitionFactory) where TAdvice : AdviceAttribute {
-            var advice = member.GetCustomAttribute<TAdvice>(true);
+        protected bool TryBulidAdvice<TAdvice>(MethodInfo method, Func<TAdvice, MethodInfo, IAdviceDefinition> adviceDefinitionFactory) where TAdvice : AdviceAttribute {
+            var advice = method.GetCustomAttribute<TAdvice>(true);
 
-            return TryBulidAdvice(advice, member, adviceDefinitionFactory);
+            return TryBulidAdvice(advice, method, adviceDefinitionFactory);
         }
 
         protected bool TryBulidAdvice<TAdvice>(TAdvice advice, MethodInfo member, Func<TAdvice, MethodInfo, IAdviceDefinition> adviceDefinitionFactory) where TAdvice : AdviceAttribute {

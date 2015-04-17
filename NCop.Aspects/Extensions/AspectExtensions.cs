@@ -51,11 +51,11 @@ namespace NCop.Aspects.Extensions
         }
 
         internal static Type ToAspectArgumentImpl(this IMethodAspectDefinition aspectDefinition) {
-            return aspectDefinition.ToAspectArgumentImpl(aspectDefinition.Method);
+            return aspectDefinition.ToAspectArgumentImpl(aspectDefinition.Member);
         }
 
         internal static Type ToAspectArgumentImpl(this IPropertyAspectDefinition aspectDefinition) {
-            var property = aspectDefinition.Property;
+            var property = aspectDefinition.Member;
             var method = aspectDefinition.IsGetPropertyAspectDefinition() ?
                                           property.GetGetMethod() :
                                           property.GetSetMethod();
@@ -99,8 +99,7 @@ namespace NCop.Aspects.Extensions
             return typeof(IPropertyArg<>).MakeGenericType(argumentTypes);
         }
 
-        private static Type[] GetArguments(this MethodInfo methodInfoImpl)
-        {
+        private static Type[] GetArguments(this MethodInfo methodInfoImpl) {
             var argumentTypes = new Type[1];
 
             if (methodInfoImpl.ReturnType.IsNotNull() && !ReferenceEquals(methodInfoImpl.ReturnType, typeof(void))) {
@@ -164,6 +163,10 @@ namespace NCop.Aspects.Extensions
         public static bool IsPropertyAspectDefinition(this IAspectDefinition aspectDefinition) {
             return aspectDefinition.IsGetPropertyAspectDefinition() ||
                    aspectDefinition.IsSetPropertyAspectDefinition();
+        }
+
+        public static bool IsEventAspectDefinition(this IAspectDefinition aspectDefinition) {
+            return aspectDefinition.AspectType == AspectType.EventInterceptionAspect;
         }
 
         public static bool IsGetPropertyAspectDefinition(this IAspectDefinition aspectDefinition) {

@@ -5,9 +5,9 @@ namespace NCop.Aspects.Weaving.Expressions
 {
 	internal class BindingMethodInterceptionAspectExpression : AbstractAspectMethodExpression
     {
-        private readonly IAspectDefinition topAspectInScopeDefinition = null;
+        private readonly IMethodAspectDefinition topAspectInScopeDefinition = null;
 
-        internal BindingMethodInterceptionAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectDefinition topAspectInScopeDefinition)
+        internal BindingMethodInterceptionAspectExpression(IAspectExpression aspectExpression, IMethodAspectDefinition aspectDefinition, IMethodAspectDefinition topAspectInScopeDefinition)
             : base(aspectExpression, aspectDefinition) {
             this.topAspectInScopeDefinition = topAspectInScopeDefinition;
         }

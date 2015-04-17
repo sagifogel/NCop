@@ -18,8 +18,8 @@ namespace NCop.Aspects.Weaving
         internal TopBothAccessorsPropertyInterceptionAspectWeaver(IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(null, aspectWeavingSettings, weavedType) {
             argumentsWeavingSettings.BindingsDependency = weavedType;
-            argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Property.PropertyType };
-            argumentsWeaver = new TopGetPropertyInterceptionArgumentsWeaver(aspectDefinition.Method, argumentsWeavingSettings, aspectWeavingSettings);
+            argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Member.PropertyType };
+            argumentsWeaver = new TopGetPropertyInterceptionArgumentsWeaver(aspectDefinition.Member, argumentsWeavingSettings, aspectWeavingSettings);
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 
@@ -36,7 +36,7 @@ namespace NCop.Aspects.Weaving
 
         public override void Weave(ILGenerator ilGenerator) {
             LocalBuilder argsLocalBuilder = null;
-            var aspectArgsType = aspectMethodDefinition.Method.ToPropertyAspectArgument();
+            var aspectArgsType = aspectMethodDefinition.Member.ToPropertyAspectArgument();
 
             argumentsWeaver.Weave(ilGenerator);
             weaver.Weave(ilGenerator);

@@ -28,7 +28,7 @@ namespace NCop.Aspects.Weaving
             var getMethodAspectWeaver = getAspectExpression.Reduce(aspectSettings);
             var setMethodAspectWeaver = setAspectExpression.Reduce(aspectSettings);
 
-            bindingWeaver = new FullPropertyInterceptionBindingWeaver(aspectDefinition.Property, bindingSettings, aspectSettings, getMethodAspectWeaver, setMethodAspectWeaver);
+            bindingWeaver = new FullPropertyInterceptionBindingWeaver(aspectDefinition.Member, bindingSettings, aspectSettings, getMethodAspectWeaver, setMethodAspectWeaver);
 
             return bindingWeaver.Weave();
         }

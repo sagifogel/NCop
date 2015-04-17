@@ -9,8 +9,8 @@ namespace NCop.Aspects.Weaving
     {
         private readonly IArgumentsWeaver argumentsWeaver = null;
 
-        internal SetPropertyDecoratorScopeWeaver(MethodInfo methodInfo, IAspectWeavingSettings aspectWeavingSettings)
-            : base(methodInfo, aspectWeavingSettings.WeavingSettings) {
+        internal SetPropertyDecoratorScopeWeaver(PropertyInfo property, IAspectWeavingSettings aspectWeavingSettings)
+            : base(property.GetSetMethod(), aspectWeavingSettings.WeavingSettings) {
             argumentsWeaver = new PropertyDecoratorArgumentsWeaver();
         }
 

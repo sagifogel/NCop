@@ -12,10 +12,10 @@ namespace NCop.Aspects.Weaving
     {
         protected IArgumentsWeaver argumentsWeaver = null;
 
-        internal TopMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal TopMethodInterceptionAspectWeaver(IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             IMethodScopeWeaver getReturnValueWeaver = null;
-            var @params = aspectDefinition.Method.GetParameters();
+            var @params = aspectDefinition.Member.GetParameters();
             var byRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
 
             if (argumentsWeavingSettings.IsFunction) {
@@ -24,7 +24,7 @@ namespace NCop.Aspects.Weaving
 
             argumentsWeavingSettings.Parameters = @params.ToArray(@param => @param.ParameterType);
             argumentsWeavingSettings.BindingsDependency = weavedType;
-            argumentsWeaver = new TopMethodInterceptionArgumentsWeaver(aspectDefinition.Method, argumentsWeavingSettings, aspectWeavingSettings);
+            argumentsWeaver = new TopMethodInterceptionArgumentsWeaver(aspectDefinition.Member, argumentsWeavingSettings, aspectWeavingSettings);
 
             if (!byRefArgumentsStoreWeaver.ContainsByRefParams) {
                 if (getReturnValueWeaver.IsNotNull()) {

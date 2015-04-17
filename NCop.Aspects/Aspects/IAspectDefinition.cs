@@ -7,13 +7,8 @@ using System.Reflection;
 
 namespace NCop.Aspects.Aspects
 {
-    public interface IAspectDefinition : IAcceptsVisitor<IAspectDefinitionVisitor, IAspectExpressionBuilder>
+    public interface IAspectDefinition<TMember> : IAspectDefinition
     {
-        IAspect Aspect { get; }
-        MethodInfo Method { get; }
-        AspectType AspectType { get; }
-        IAspectDefinition BuildAdvices();
-        Type AspectDeclaringType { get; }
-        IAdviceDefinitionCollection Advices { get; }
+        TMember Member { get; }
     }
 }

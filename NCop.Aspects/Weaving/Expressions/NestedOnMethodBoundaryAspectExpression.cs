@@ -4,7 +4,7 @@ namespace NCop.Aspects.Weaving.Expressions
 {
 	internal class NestedOnMethodBoundaryAspectExpression : AbstractAspectMethodExpression
     {
-        internal NestedOnMethodBoundaryAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition)
+        internal NestedOnMethodBoundaryAspectExpression(IAspectExpression aspectExpression, IMethodAspectDefinition aspectDefinition)
             : base(aspectExpression, aspectDefinition) {
         }
 

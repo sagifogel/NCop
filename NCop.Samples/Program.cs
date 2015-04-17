@@ -5,6 +5,8 @@ using NCop.Composite.Framework;
 using NCop.Composite.Runtime;
 using NCop.Mixins.Framework;
 using StructureMap;
+using NCop.Aspects.Framework;
+using System.Diagnostics;
 
 namespace NCop.Samples
 {
@@ -12,43 +14,41 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IDeveloper
     {
+        [EventInterceptionAspect(typeof(ActionEventInterceptionAspect))]
         event Action<string> Ev;
-        void RaiseEvent();
+        //void RaiseEvent(string s);
+    }
+
+    public class ActionEventInterceptionAspect : ActionEventInterceptionAspect<string>
+    {
+        public override void OnAddHandler(ActionEventInterceptionArgs<string> args) {
+            base.OnAddHandler(args);
+        }
+
+        public override void OnInvokeHandler(ActionEventInterceptionArgs<string> args) {
+            base.OnInvokeHandler(args);
+        }
+
+        public override void OnRemoveHandler(ActionEventInterceptionArgs<string> args) {
+            base.OnRemoveHandler(args);
+        }
     }
 
     public class CSharpDeveloperMixin : IDeveloper
     {
         public event Action<string> Ev;
 
-        public void RaiseEvent() {
+        public void RaiseEvent(string s) {
             if (Ev != null) {
                 Ev("C# coding");
             }
         }
     }
 
-    public class DeveloperComposite : IDeveloper
-    {
-        CSharpDeveloperMixin mixin = new CSharpDeveloperMixin();
-
-        public event Action<string> Ev {
-            add {
-                mixin.Ev += value;
-            }
-            remove {
-                mixin.Ev -= value;
-            }
-        }
-
-        public void RaiseEvent() {
-            mixin.RaiseEvent();
-        }
-    }
-
     class Program
     {
         static void Main(string[] args) {
-            IDeveloper person = new DeveloperComposite();
+            IDeveloper person;
             var container = new CompositeContainer();
 
             container.Configure();
@@ -58,7 +58,7 @@ namespace NCop.Samples
             //    Console.WriteLine(value);
             //};
 
-            person.RaiseEvent();
+            //person.RaiseEvent("");
         }
     }
 }

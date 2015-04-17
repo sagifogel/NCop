@@ -5,6 +5,5 @@ namespace NCop.Aspects.Engine
     public abstract class AbstractAdviceArgs : IAdviceArgs
     {
         public object Instance { get; set; }
-        public Exception Exception { get; set; }
     }
 }

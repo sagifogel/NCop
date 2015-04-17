@@ -23,7 +23,7 @@ namespace NCop.Aspects.Weaving
             var aspectSettings = GetAspectsWeavingSettings();
             
             aspectWeaver = aspectExpression.Reduce(aspectSettings);
-            bindingWeaver = new SetPropertyInterceptionBindingWeaver(aspectDefinition.Property, bindingSettings, aspectSettings, aspectWeaver);
+            bindingWeaver = new SetPropertyInterceptionBindingWeaver(aspectDefinition.Member, bindingSettings, aspectSettings, aspectWeaver);
 
             return bindingWeaver.Weave();
         }

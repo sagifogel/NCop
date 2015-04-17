@@ -19,6 +19,7 @@ namespace NCop.Composite.Mixins.Weaving
         }
 
         public override ITypeWeaver Build() {
+            AddEventWeavers();
             AddMethodWeavers();
             AddPropertyWeavers();
             registry.Register(mixin.ImplementationType, mixin.ContractType, name: atomIdentifier);

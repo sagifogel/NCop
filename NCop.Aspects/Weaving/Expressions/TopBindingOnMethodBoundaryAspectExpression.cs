@@ -5,14 +5,14 @@ namespace NCop.Aspects.Weaving.Expressions
 {
 	internal class TopBindingOnMethodBoundaryAspectExpression : AbstractAspectMethodExpression
     {
-        internal TopBindingOnMethodBoundaryAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition)
+        internal TopBindingOnMethodBoundaryAspectExpression(IAspectExpression aspectExpression, IMethodAspectDefinition aspectDefinition)
             : base(aspectExpression, aspectDefinition) {
         }
 
 		public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
             var topBindingArgType = aspectDefinition.ToAspectArgumentImpl();
             var clonedSettings = aspectWeavingSettings.CloneWith(settings => {
-                settings.ByRefArgumentsStoreWeaver = new BindingByRefArgumentsWeaverImpl(topBindingArgType, aspectDefinition.Method, settings.LocalBuilderRepository);
+                settings.ByRefArgumentsStoreWeaver = new BindingByRefArgumentsWeaverImpl(topBindingArgType, aspectDefinition.Member, settings.LocalBuilderRepository);
             });
 
             var nestedWeaver = aspectExpression.Reduce(clonedSettings);

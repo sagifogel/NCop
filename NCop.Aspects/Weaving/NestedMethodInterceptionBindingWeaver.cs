@@ -5,7 +5,7 @@ namespace NCop.Aspects.Weaving
 {
     internal class NestedMethodInterceptionBindingWeaver : AbstractMethodInterceptionBindingWeaver
     {
-        internal NestedMethodInterceptionBindingWeaver(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
+        internal NestedMethodInterceptionBindingWeaver(IAspectExpression aspectExpression, IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectExpression, aspectDefinition, aspectWeavingSettings) {
         }
 

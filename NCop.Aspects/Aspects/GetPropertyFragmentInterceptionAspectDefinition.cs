@@ -11,8 +11,8 @@ namespace NCop.Aspects.Aspects
     {
         private readonly GetPropertyFragmentInterceptionAspect aspect = null;
 
-        internal GetPropertyFragmentInterceptionAspectDefinition(IPropertyExpressionBuilder propertyBuilder, GetPropertyFragmentInterceptionAspect aspect, Type aspectDeclaringType, MethodInfo method, PropertyInfo property)
-            : base(propertyBuilder, aspect, aspectDeclaringType, method, property) {
+        internal GetPropertyFragmentInterceptionAspectDefinition(IPropertyExpressionBuilder propertyBuilder, GetPropertyFragmentInterceptionAspect aspect, Type aspectDeclaringType, PropertyInfo property)
+            : base(propertyBuilder, aspect, aspectDeclaringType, property) {
             Aspect = this.aspect = aspect;
         }
         

@@ -5,7 +5,7 @@ namespace NCop.Aspects.Weaving.Expressions
 {
 	internal class TopMethodInterceptionAspectExpression : AbstractAspectMethodExpression
     {
-        internal TopMethodInterceptionAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition)
+        internal TopMethodInterceptionAspectExpression(IAspectExpression aspectExpression, IMethodAspectDefinition aspectDefinition)
             : base(aspectExpression, aspectDefinition) {
         }
 
@@ -15,7 +15,7 @@ namespace NCop.Aspects.Weaving.Expressions
                 var aspectArgumentImplType = aspectDefinition.ToAspectArgumentImpl();
 
                 settings.LocalBuilderRepository = localBuilderRepository;
-                settings.ByRefArgumentsStoreWeaver = new TopAspectByRefArgumentsStoreWeaver(aspectArgumentImplType, aspectDefinition.Method, localBuilderRepository);
+                settings.ByRefArgumentsStoreWeaver = new TopAspectByRefArgumentsStoreWeaver(aspectArgumentImplType, aspectDefinition.Member, localBuilderRepository);
             });
 
             var bindingWeaver = new IsolatedMethodInterceptionBindingWeaver(aspectExpression, aspectDefinition, clonedAspectWeavingSettings);

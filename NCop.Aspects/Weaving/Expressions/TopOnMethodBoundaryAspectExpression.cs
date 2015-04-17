@@ -5,7 +5,7 @@ namespace NCop.Aspects.Weaving.Expressions
 {
 	internal class TopOnMethodBoundaryAspectExpression : AbstractAspectMethodExpression
     {
-        internal TopOnMethodBoundaryAspectExpression(IAspectExpression aspectExpression, IAspectDefinition aspectDefinition)
+        internal TopOnMethodBoundaryAspectExpression(IAspectExpression aspectExpression, IMethodAspectDefinition aspectDefinition)
             : base(aspectExpression, aspectDefinition) {
         }
 
@@ -15,7 +15,7 @@ namespace NCop.Aspects.Weaving.Expressions
                 var aspectArgumentImplType = aspectDefinition.ToAspectArgumentImpl();
                     
                 settings.LocalBuilderRepository = localBuilderRepository;
-                settings.ByRefArgumentsStoreWeaver = new TopAspectByRefArgumentsStoreWeaver(aspectArgumentImplType, aspectDefinition.Method, localBuilderRepository);
+                settings.ByRefArgumentsStoreWeaver = new TopAspectByRefArgumentsStoreWeaver(aspectArgumentImplType, aspectDefinition.Member, localBuilderRepository);
             });
 
             var nestedWeaver = aspectExpression.Reduce(clonedAspectWeavingSettings);

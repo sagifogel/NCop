@@ -11,17 +11,17 @@ namespace NCop.Aspects.Weaving
     {
         protected readonly IArgumentsWeaver argumentsWeaver = null;
 
-        internal TopBindingMethodInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal TopBindingMethodInterceptionAspectWeaver(IMethodAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             argumentsWeavingSettings.BindingsDependency = weavedType;
-            argumentsWeaver = new TopBindingMethodInterceptionArgumentsWeaver(aspectDefinition.Method, argumentsWeavingSettings, aspectWeavingSettings);
+            argumentsWeaver = new TopBindingMethodInterceptionArgumentsWeaver(aspectDefinition.Member, argumentsWeavingSettings, aspectWeavingSettings);
             methodScopeWeavers.Add(new TopAspectArgsMappingWeaverImpl(aspectWeavingSettings, argumentsWeavingSettings));
             ArgumentType = argumentsWeavingSettings.ArgumentType;
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
 
         public override void Weave(ILGenerator ilGenerator) {
-            var aspectArgsType = aspectMethodDefinition.Method.ToAspectArgumentContract();
+            var aspectArgsType = aspectMethodDefinition.Member.ToAspectArgumentContract();
 
             argumentsWeaver.Weave(ilGenerator);
             weaver.Weave(ilGenerator);

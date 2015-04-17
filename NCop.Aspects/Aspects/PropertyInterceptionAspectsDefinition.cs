@@ -10,7 +10,7 @@ namespace NCop.Aspects.Aspects
     {
         public PropertyInterceptionAspectsDefinition(IAspect aspect, Type aspectDeclaringType, PropertyInfo property) {
             Aspect = aspect;
-            Property = property;
+            Member = property;
             AspectDeclaringType = aspectDeclaringType;
         }
 
@@ -23,7 +23,7 @@ namespace NCop.Aspects.Aspects
 
         public MethodInfo Method { get; private set; }
 
-        public PropertyInfo Property { get; private set; }
+        public PropertyInfo Member { get; private set; }
 
         public Type AspectDeclaringType { get; private set; }
 

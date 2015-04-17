@@ -85,7 +85,7 @@ namespace NCop.Aspects.Engine
             var eventInterceptionAspect = @event.GetCustomAttributes<EventInterceptionAspectAttribute>();
 
             return eventInterceptionAspect.Select(aspect => {
-                return new EventInterceptionAspectDefinition();
+                return new EventInterceptionAspectDefinition(aspect, aspectDeclaringType, target);
             });
         }
 
@@ -96,14 +96,12 @@ namespace NCop.Aspects.Engine
 
                 if (propertyMap.Target.IsNotNull()) {
                     propertyMap.Members.ForEach(property => {
-                        MethodInfo contractMethod = null;
                         IEnumerable<IAspectDefinition> aspectDefinitions = null;
                         var aspectsAttrs = property.GetCustomAttributes<PropertyInterceptionAspectAttribute>().ToArray();
 
                         if (aspectsAttrs.IsNotNullOrEmpty()) {
                             if (property.CanWrite) {
                                 target = propertyMap.Target.GetSetMethod();
-                                contractMethod = propertyMap.ContractMember.GetSetMethod();
                                 aspectDefinitions = aspectsAttrs.Select(aspectAttr => {
                                     var aspect = new SetPropertyInterceptionAspect {
                                         AspectType = aspectAttr.AspectType,
@@ -111,12 +109,11 @@ namespace NCop.Aspects.Engine
                                         LifetimeStrategy = aspectAttr.LifetimeStrategy
                                     };
 
-                                    return new SetPropertyInterceptionAspectDefinition(aspect, propertyMap.ContractType, contractMethod, propertyMap.ContractMember);
+                                    return new SetPropertyInterceptionAspectDefinition(aspect, propertyMap.ContractType, propertyMap.ContractMember);
                                 });
                             }
                             else {
                                 target = propertyMap.Target.GetGetMethod();
-                                contractMethod = propertyMap.ContractMember.GetGetMethod();
                                 aspectDefinitions = aspectsAttrs.Select(aspectAttr => {
                                     var aspect = new GetPropertyInterceptionAspect {
                                         AspectType = aspectAttr.AspectType,
@@ -124,7 +121,7 @@ namespace NCop.Aspects.Engine
                                         LifetimeStrategy = aspectAttr.LifetimeStrategy
                                     };
 
-                                    return new GetPropertyInterceptionAspectDefinition(aspect, propertyMap.ContractType, contractMethod, propertyMap.ContractMember);
+                                    return new GetPropertyInterceptionAspectDefinition(aspect, propertyMap.ContractType, propertyMap.ContractMember);
                                 });
                             }
 
@@ -170,8 +167,8 @@ namespace NCop.Aspects.Engine
                 LifetimeStrategy = aspectAttribute.LifetimeStrategy
             };
 
-            AddOrUpdate(propertyGetMethod, new[] { new GetPropertyFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, getPropertyAspect, aspectDeclaringType, getMethodTarget, target) });
-            AddOrUpdate(propertySetMethod, new[] { new SetPropertyFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, setPropertyAspect, aspectDeclaringType, setMethodTarget, target) });
+            AddOrUpdate(propertyGetMethod, new[] { new GetPropertyFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, getPropertyAspect, aspectDeclaringType, target) });
+            AddOrUpdate(propertySetMethod, new[] { new SetPropertyFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, setPropertyAspect, aspectDeclaringType, target) });
         }
     }
 }

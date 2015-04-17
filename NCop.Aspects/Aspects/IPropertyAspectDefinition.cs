@@ -2,8 +2,7 @@
 
 namespace NCop.Aspects.Aspects
 {
-    public interface IPropertyAspectDefinition : IAspectDefinition
+    public interface IPropertyAspectDefinition : IAspectDefinition<PropertyInfo>
     {
-        PropertyInfo Property { get; }       
     }
 }
