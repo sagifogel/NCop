@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
+using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
@@ -47,7 +48,7 @@ namespace NCop.Aspects.Weaving
                 tryWeavers.Add(selectedExpression.Reduce(adviceWeavingSettings));
             }
 
-            if (argumentsWeavingSettings.IsFunction) {
+            if (argumentsWeavingSettings.IsFunction()) {
                 OnFunctionWeavingDetected();
             }
 

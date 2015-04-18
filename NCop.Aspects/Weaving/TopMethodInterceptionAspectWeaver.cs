@@ -5,6 +5,7 @@ using NCop.Weaving.Extensions;
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
+using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
@@ -18,7 +19,7 @@ namespace NCop.Aspects.Weaving
             var @params = aspectDefinition.Member.GetParameters();
             var byRefArgumentsStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
 
-            if (argumentsWeavingSettings.IsFunction) {
+            if (argumentsWeavingSettings.IsFunction()) {
                 getReturnValueWeaver = new TopGetReturnValueWeaver(aspectWeavingSettings, argumentsWeavingSettings);
             }
 

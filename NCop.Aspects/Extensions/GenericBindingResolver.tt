@@ -1,0 +1,13 @@
+﻿<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ include file="T4Toolbox.tt" #><#+
+public class GenericBindingResolver : CSharpTemplate
+{
+	public override string TransformText()
+	{#>
+<#+    return this.GenerationEnvironment.ToString();	
+    }
+}
+#>

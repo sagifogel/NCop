@@ -9,7 +9,7 @@ namespace NCop.Weaving
 {
     public interface IEventTypeBuilder
     {
-        void SetAddOnMethod(MethodBuilder method);
-        void SetRemoveOnMethod(MethodBuilder method);
+        void SetAddOnMethod(IMethodWeaver method);
+        void SetRemoveOnMethod(IMethodWeaver method);
     }
 }

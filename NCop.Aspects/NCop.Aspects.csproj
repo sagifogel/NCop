@@ -160,6 +160,9 @@
       <DependentUpon>AspectWeavingException.tt</DependentUpon>
     </Compile>
     <Compile Include="Exceptions\TopAspectInvalidOperationException.cs" />
+    <None Include="Extensions\GenericBindingResolver.tt">
+      <LastOutputs>.\AbstrcatBindingResolver1.cs</LastOutputs>
+    </None>
     <Compile Include="Extensions\AspectArgsContractResolver.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -169,6 +172,16 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AspectArgsImplResolver.tt</DependentUpon>
+    </Compile>
+    <None Include="Extensions\EventBindingResolver.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EventBindingResolver1.cs</LastGenOutput>
+      <LastOutputs>.\EventBindingResolver1.cs</LastOutputs>
+    </None>
+    <Compile Include="Extensions\EventBindingResolver1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EventBindingResolver.tt</DependentUpon>
     </Compile>
     <Compile Include="Extensions\MethodBindingResolver.cs">
       <AutoGen>True</AutoGen>
@@ -251,6 +264,7 @@
     <Compile Include="Weaving\AbstractAspectPropertyArgsWeaver.cs" />
     <Compile Include="Weaving\AspectArgsMethodWeaver.cs" />
     <Compile Include="Weaving\AspectArgsSetPropertyWeaver.cs" />
+    <Compile Include="Weaving\AspectEventWeaver.cs" />
     <Compile Include="Weaving\AspectPropertyWeaver.cs" />
     <Compile Include="Weaving\BindingGetPropertyInterceptionArgumentsWeaver.cs" />
     <Compile Include="Weaving\BindingSetPropertyInterceptionArgumentsWeaver.cs" />

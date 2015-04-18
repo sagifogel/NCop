@@ -12,6 +12,12 @@ namespace NCop.Weaving
 {
     public static class ReflectionUtils
     {
+        public static EventBuilder DefineEvent(this TypeBuilder typeBuilder, EventInfo @event, EventAttributes? attributes = null) {
+            attributes = attributes ?? @event.Attributes | EventAttributes.None;
+
+            return typeBuilder.DefineEvent(@event.Name, attributes.Value, @event.EventHandlerType);
+        }
+
         public static PropertyBuilder DefineProperty(this TypeBuilder typeBuilder, PropertyInfo property, PropertyAttributes? attributes = null) {
             attributes = attributes ?? property.Attributes | PropertyAttributes.None;
 

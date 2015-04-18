@@ -34,6 +34,12 @@ namespace NCop.Composite.Weaving
 
             mixinsMap.ForEach(map => builder.Add(map));
 
+            compositeMappedMembers.Events.ForEach(compositeEventMap => {
+                var propertyBuillder = new CompositeEventWeaverBuilder(compositeEventMap, typeDefinition, weavingServices);
+
+                builder.Add(propertyBuillder);
+            });
+
             compositeMappedMembers.Methods.ForEach(compositeMethodMap => {
                 var methodBuilder = new CompositeMethodWeaverBuilder(compositeMethodMap, typeDefinition, weavingServices);
 

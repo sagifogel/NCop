@@ -7,7 +7,7 @@ using System;
 
 namespace NCop.Composite.Weaving
 {
-    internal class CompositeWeavinsSettingsImpl : ICompositeWeavingSettings
+    internal class CompositeWeavingSettingsImpl : ICompositeWeavingSettings
     {   
         public Type CompositeType { get; set; }
         public ITypeMap MixinsMap { get; set; }

@@ -60,6 +60,7 @@
       <LastGenOutput>PropertyAccessorsMismatchException.cs</LastGenOutput>
       <LastOutputs>.\PropertyAccessorsMismatchException.cs</LastOutputs>
     </None>
+    <Compile Include="EventComparer.cs" />
     <Compile Include="Exceptions\PropertyAccessorsMismatchException.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -54,7 +54,7 @@ namespace NCop.Composite.Framework
 
                 aspectDefinitionsTypeSet.AddRange(aspectDefinitionsTypes);
 
-                return new CompositeWeavinsSettingsImpl {
+                return new CompositeWeavingSettingsImpl {
                     Registry = registry,
                     MixinsMap = mixinsMap,
                     AspectsMap = aspectsMap,

@@ -176,6 +176,10 @@ namespace NCop.Core.Extensions
             return !value.IsNullOrDefault();
         }
 
+        public static bool IsNotNullOrNotVoid(this Type type) {
+            return type.IsNotNull() && !ReferenceEquals(type, typeof(void));
+        }
+
         public static bool IsNullOrDefault(this object value) {
             Type type = null;
             var isNull = ReferenceEquals(value, null);

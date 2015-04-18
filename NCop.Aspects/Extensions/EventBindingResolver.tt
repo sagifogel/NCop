@@ -1,0 +1,9 @@
+﻿<#@ template language="C#" hostspecific="True" debug="True" #>
+<#@ output extension="cs" #>
+<#@ include file="GenericBindingResolver.tt" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#
+	var template = new GenericBindingResolver();
+	template.Render();
+#>

@@ -73,7 +73,7 @@ namespace NCop.Aspects.Extensions
         }
 
         internal static Type ToAspectArgumentContract(this MethodInfo methodInfoImpl) {
-            var isFunction = !ReferenceEquals(methodInfoImpl.ReturnType, typeof(void));
+            var isFunction = methodInfoImpl.ReturnType.IsNotNullOrNotVoid();
 
             var argumentTypes = methodInfoImpl.GetParameters().ToList(param => {
                 var parameterType = param.ParameterType;
@@ -102,7 +102,7 @@ namespace NCop.Aspects.Extensions
         private static Type[] GetArguments(this MethodInfo methodInfoImpl) {
             var argumentTypes = new Type[1];
 
-            if (methodInfoImpl.ReturnType.IsNotNull() && !ReferenceEquals(methodInfoImpl.ReturnType, typeof(void))) {
+            if (methodInfoImpl.ReturnType.IsNotNullOrNotVoid()) {
                 argumentTypes[0] = methodInfoImpl.ReturnType;
             }
             else {
@@ -113,13 +113,20 @@ namespace NCop.Aspects.Extensions
         }
 
         internal static BindingSettings ToBindingSettings(this IAspectDefinition aspectDefinition) {
+            IPropertyAspectDefinition propertyAspectDefinition = null;
             var methodAspectDefinition = aspectDefinition as IMethodAspectDefinition;
 
             if (methodAspectDefinition.IsNotNull()) {
                 return methodAspectDefinition.ToMethodBindingSettings();
             }
 
-            return ((IPropertyAspectDefinition)aspectDefinition).ToPropertyBindingSettings();
+            propertyAspectDefinition = aspectDefinition as IPropertyAspectDefinition;
+
+            if (propertyAspectDefinition.IsNotNull()) {
+                return propertyAspectDefinition.ToPropertyBindingSettings();
+            }
+
+            return null;//TODO: ((IEventAspectDefinition)aspectDefinition).ToEventBindingSettings();
         }
 
         private static BindingSettings ToMethodBindingSettings(this IAspectDefinition aspectDefinition) {
@@ -129,14 +136,16 @@ namespace NCop.Aspects.Extensions
 
             if (aspectArgumentType.IsFunctionAspectArgs()) {
                 return new BindingSettings {
-                    IsFunction = true,
+                    HasReturnType = true,
+                    MemberType = MemberTypes.Method,
                     ArgumentType = aspectArgumentImplType,
                     BindingType = aspectArgumentType.MakeGenericFunctionBinding(genericArguments)
                 };
             }
 
             return new BindingSettings {
-                IsFunction = false,
+                HasReturnType = false,
+                MemberType = MemberTypes.Method,
                 ArgumentType = aspectArgumentImplType,
                 BindingType = aspectArgumentType.MakeGenericActionBinding(genericArguments)
             };
@@ -148,8 +157,19 @@ namespace NCop.Aspects.Extensions
             var genericArguments = aspectArgumentImplType.GetGenericArguments();
 
             return new BindingSettings {
-                IsFunction = true,
-                IsProperty = true,
+                MemberType = MemberTypes.Property,
+                ArgumentType = aspectArgumentImplType,
+                BindingType = aspectArgumentType.MakeGenericPropertyBinding(genericArguments)
+            };
+        }
+
+        private static BindingSettings ToEventBindingSettings(this IPropertyAspectDefinition aspectDefinition) {
+            var aspectArgumentType = aspectDefinition.GetArgumentType();
+            var aspectArgumentImplType = aspectDefinition.ToAspectArgumentImpl();
+            var genericArguments = aspectArgumentImplType.GetGenericArguments();
+
+            return new BindingSettings {
+                MemberType = MemberTypes.Event,
                 ArgumentType = aspectArgumentImplType,
                 BindingType = aspectArgumentType.MakeGenericPropertyBinding(genericArguments)
             };
@@ -184,13 +204,29 @@ namespace NCop.Aspects.Extensions
 
             return new ArgumentsWeavingSettings {
                 AspectType = aspectType,
-                IsProperty = bindingSettings.IsProperty,
-                IsFunction = bindingSettings.IsFunction,
+                MemberType = bindingSettings.MemberType,
                 ReturnType = methodParameters.ReturnType,
                 Parameters = methodParameters.Parameters,
                 ArgumentType = bindingSettings.ArgumentType,
+                HasReturnType = bindingSettings.HasReturnType,
                 BindingsDependency = bindingSettings.BindingDependency
             };
+        }
+
+        internal static bool IsFunction(this IArgumentsSettings argumentsSettings) {
+            return argumentsSettings.MemberType == MemberTypes.Method && argumentsSettings.HasReturnType;
+        }
+
+        internal static bool IsFunction(this BindingSettings bindingSettings) {
+            return bindingSettings.MemberType == MemberTypes.Method && bindingSettings.HasReturnType;
+        }
+
+        internal static bool IsProperty(this IArgumentsSettings argumentsSettings) {
+            return argumentsSettings.MemberType == MemberTypes.Property;
+        }
+
+        internal static bool IsProperty(this BindingSettings bindingSettings) {
+            return bindingSettings.MemberType == MemberTypes.Property;
         }
 
         internal static AspectWeavingSettingsImpl CloneWith(this IAspectWeavingSettings aspectWeavingSettings, Action<AspectWeavingSettingsImpl> cloneFunc) {
@@ -211,7 +247,7 @@ namespace NCop.Aspects.Extensions
             var methodParameters = new MethodParameters();
             var arguments = bindingSettings.BindingType.GetGenericArguments();
 
-            if (bindingSettings.IsFunction) {
+            if (bindingSettings.IsFunction()) {
                 var length = arguments.Length - 2;
 
                 methodParameters.ReturnType = arguments.Last();
@@ -234,13 +270,13 @@ namespace NCop.Aspects.Extensions
             methodParameters.Parameters[0] = arguments[0].MakeByRefType();
             arguments = arguments.Skip(1).ToArray();
 
-            if (bindingSettings.IsProperty) {
+            if (bindingSettings.IsProperty()) {
                 methodParameters.ReturnType = arguments.Last();
                 argumentResolver = typeArguments => {
                     return typeof(IPropertyArg<>).MakeGenericType(typeArguments);
                 };
             }
-            else if (bindingSettings.IsFunction) {
+            else if (bindingSettings.IsFunction()) {
                 methodParameters.ReturnType = arguments.Last();
                 argumentResolver = AspectArgsContractResolver.ToFunctionAspectArgumentContract;
             }

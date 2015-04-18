@@ -12,12 +12,33 @@ namespace NCop.Composite.Engine
 {
     public class CompositeMemberMapper : ICompositeMemberCollection
     {
+        private List<ICompositeEventMap> mappedEvents = null;
         private List<ICompositeMethodMap> mappedMethods = null;
         private List<ICompositePropertyMap> mappedProperties = null;
 
         public CompositeMemberMapper(IAspectsMap aspectMap, IAspectMemebrsCollection aspectMembersCollection) {
+            MapEvents(aspectMap, aspectMembersCollection.Events);
             MapMethods(aspectMap, aspectMembersCollection.Methods);
             MapProperties(aspectMap, aspectMembersCollection.Properties);
+        }
+
+        private void MapEvents(IAspectsMap aspectsMap, IEnumerable<IAspectEventMap> aspetMappedEvents) {
+            var methodMap = aspectsMap.Where(map => map.Member.MemberType == MemberTypes.Event);
+
+            var mappedEventsEnumerable = from mapped in aspetMappedEvents
+                                         from aspectMap in aspectsMap.Where(map => {
+                                             var @event = map.Member as EventInfo;
+
+                                             return @event.IsMatchedTo(mapped.ImplementationMember);
+                                         })
+                                         .DefaultIfEmpty(AspectMap.Empty)
+                                         select new CompositeEventMap(mapped.ContractType,
+                                                                      mapped.ImplementationType,
+                                                                      mapped.ContractMember,
+                                                                      mapped.ImplementationMember,
+                                                                      aspectMap.Aspects);
+
+            mappedEvents = mappedEventsEnumerable.ToListOf<ICompositeEventMap>();
         }
 
         private void MapMethods(IAspectsMap aspectsMap, IEnumerable<IAspectMethodMap> aspetMappedMethods) {
@@ -26,7 +47,7 @@ namespace NCop.Composite.Engine
             var mappedMethodsEnumerable = from mapped in aspetMappedMethods
                                           from aspectMap in aspectsMap.Where(map => {
                                               var method = map.Member as MethodInfo;
-                                              
+
                                               return method.IsMatchedTo(mapped.ImplementationMember);
                                           })
                                           .DefaultIfEmpty(AspectMap.Empty)
@@ -70,6 +91,12 @@ namespace NCop.Composite.Engine
                                                       aspectMap.Aspects);
         }
 
+        public IEnumerable<ICompositeEventMap> Events {
+            get {
+                return mappedEvents;
+            }
+        }
+        
         public IEnumerable<ICompositeMethodMap> Methods {
             get {
                 return mappedMethods;
@@ -84,15 +111,18 @@ namespace NCop.Composite.Engine
 
         public int Count {
             get {
-                return mappedMethods.Count + mappedProperties.Count;
+                return mappedMethods.Count + mappedProperties.Count + mappedEvents.Count;
             }
         }
 
         public IEnumerator<IAspectMembers<MemberInfo>> GetEnumerator() {
+            var aspectEvents = mappedEvents.Cast<IAspectMembers<MemberInfo>>();
             var aspectsMethods = mappedMethods.Cast<IAspectMembers<MemberInfo>>();
             var aspectsProperties = mappedProperties.Cast<IAspectMembers<MemberInfo>>();
 
-            return aspectsMethods.Concat(aspectsProperties).GetEnumerator();
+            return aspectsMethods.Concat(aspectsProperties)
+                                 .Concat(aspectEvents)
+                                 .GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() {

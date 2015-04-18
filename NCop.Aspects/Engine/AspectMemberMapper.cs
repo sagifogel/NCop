@@ -26,8 +26,7 @@ namespace NCop.Aspects.Engine
 
             var mappedEventsEnumerable = eventMapper.Select(map => {
                 var aspectEvent = events.FirstOrDefault(@event => {
-                    return @event.EventHandlerType.Equals(map.ContractMember.EventHandlerType) &&
-                           @event.GetAddMethod().IsMatchedTo(map.ContractMember.GetAddMethod());
+                    return @event.IsMatchedTo(map.ContractMember);
                 });
 
                 return new AspectEventMap(map.ContractType,

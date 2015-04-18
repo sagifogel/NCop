@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving
 {
@@ -36,7 +37,7 @@ namespace NCop.Aspects.Weaving
             var argsImplLocalBuilder = localBuilderRepository.Get(aspectArgumentType);
 
             if (mappingParameters.Length > 0) {
-                getMappingArgsMethod = argumentsSettings.IsFunction ?
+                getMappingArgsMethod = argumentsSettings.IsFunction() ?
                                             aspectWeavingSettings.AspectArgsMapper.GetFunctionMappingArgs :
                                             (Func<int, MethodInfo>)aspectWeavingSettings.AspectArgsMapper.GetActionMappingArgs;
 

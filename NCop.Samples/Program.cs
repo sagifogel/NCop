@@ -16,6 +16,8 @@ namespace NCop.Samples
     {
         [EventInterceptionAspect(typeof(ActionEventInterceptionAspect))]
         event Action<string> Ev;
+
+        //event EventHandler SagiEv;
         //void RaiseEvent(string s);
     }
 
@@ -43,6 +45,8 @@ namespace NCop.Samples
                 Ev("C# coding");
             }
         }
+
+        //public event EventHandler SagiEv;
     }
 
     class Program

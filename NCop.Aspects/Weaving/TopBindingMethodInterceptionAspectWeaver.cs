@@ -26,7 +26,7 @@ namespace NCop.Aspects.Weaving
             argumentsWeaver.Weave(ilGenerator);
             weaver.Weave(ilGenerator);
 
-            if (argumentsWeavingSettings.IsFunction) {
+            if (argumentsWeavingSettings.IsFunction()) {
                 var returnValueProperty = aspectArgsType.GetProperty("ReturnValue");
 
                 ilGenerator.EmitLoadArg(2);
