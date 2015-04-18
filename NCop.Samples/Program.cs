@@ -21,17 +21,17 @@ namespace NCop.Samples
         //void RaiseEvent(string s);
     }
 
-    public class ActionEventInterceptionAspect : ActionEventInterceptionAspect<string>
+    public class ActionEventInterceptionAspect : EventActionInterceptionAspect<string>
     {
-        public override void OnAddHandler(ActionEventInterceptionArgs<string> args) {
+        public override void OnAddHandler(EventActionInterceptionArgs<string> args) {
             base.OnAddHandler(args);
         }
 
-        public override void OnInvokeHandler(ActionEventInterceptionArgs<string> args) {
+        public override void OnInvokeHandler(EventActionInterceptionArgs<string> args) {
             base.OnInvokeHandler(args);
         }
 
-        public override void OnRemoveHandler(ActionEventInterceptionArgs<string> args) {
+        public override void OnRemoveHandler(EventActionInterceptionArgs<string> args) {
             base.OnRemoveHandler(args);
         }
     }

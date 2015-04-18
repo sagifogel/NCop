@@ -41,13 +41,20 @@ namespace NCop.Aspects.Extensions
         }
 
         internal static Type ToAspectArgumentImpl(this IAspectDefinition aspectDefinition) {
+            IPropertyAspectDefinition propertyAspectDefinition = null;
             var methodAspectDefinition = aspectDefinition as IMethodAspectDefinition;
 
             if (methodAspectDefinition.IsNotNull()) {
                 return methodAspectDefinition.ToAspectArgumentImpl();
             }
 
-            return ((IPropertyAspectDefinition)aspectDefinition).ToAspectArgumentImpl();
+            propertyAspectDefinition = aspectDefinition as IPropertyAspectDefinition;
+
+            if (propertyAspectDefinition.IsNotNull()) {
+                return propertyAspectDefinition.ToAspectArgumentImpl();
+            }
+
+            return ((IEventAspectDefinition)aspectDefinition).ToAspectArgumentImpl();
         }
 
         internal static Type ToAspectArgumentImpl(this IMethodAspectDefinition aspectDefinition) {
@@ -61,6 +68,10 @@ namespace NCop.Aspects.Extensions
                                           property.GetSetMethod();
 
             return aspectDefinition.ToAspectArgumentImpl(method);
+        }
+
+        internal static Type ToAspectArgumentImpl(this IEventAspectDefinition aspectDefinition) {
+            return aspectDefinition.ToAspectArgumentImpl(aspectDefinition.Member.GetAddMethod());
         }
 
         private static Type ToAspectArgumentImpl(this IAspectDefinition aspectDefinition, MethodInfo method) {
@@ -126,7 +137,7 @@ namespace NCop.Aspects.Extensions
                 return propertyAspectDefinition.ToPropertyBindingSettings();
             }
 
-            return null;//TODO: ((IEventAspectDefinition)aspectDefinition).ToEventBindingSettings();
+            return ((IEventAspectDefinition)aspectDefinition).ToEventBindingSettings();
         }
 
         private static BindingSettings ToMethodBindingSettings(this IAspectDefinition aspectDefinition) {
@@ -144,7 +155,6 @@ namespace NCop.Aspects.Extensions
             }
 
             return new BindingSettings {
-                HasReturnType = false,
                 MemberType = MemberTypes.Method,
                 ArgumentType = aspectArgumentImplType,
                 BindingType = aspectArgumentType.MakeGenericActionBinding(genericArguments)
@@ -160,6 +170,27 @@ namespace NCop.Aspects.Extensions
                 MemberType = MemberTypes.Property,
                 ArgumentType = aspectArgumentImplType,
                 BindingType = aspectArgumentType.MakeGenericPropertyBinding(genericArguments)
+            };
+        }
+
+        private static BindingSettings ToEventBindingSettings(this IEventAspectDefinition aspectDefinition) {
+            var aspectArgumentType = aspectDefinition.GetArgumentType();
+            var aspectArgumentImplType = aspectDefinition.ToAspectArgumentImpl();
+            var genericArguments = aspectArgumentImplType.GetGenericArguments();
+
+            if (aspectArgumentType.IsFunctionAspectArgs()) {
+                return new BindingSettings {
+                    HasReturnType = true,
+                    MemberType = MemberTypes.Event,
+                    ArgumentType = aspectArgumentImplType,
+                    BindingType = aspectArgumentType.MakeEventGenericFunctionBinding(genericArguments)
+                };
+            }
+
+            return new BindingSettings {
+                MemberType = MemberTypes.Event,
+                ArgumentType = aspectArgumentImplType,
+                BindingType = aspectArgumentType.MakeEventGenericActionBinding(genericArguments)
             };
         }
 

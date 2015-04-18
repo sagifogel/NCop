@@ -16,12 +16,16 @@ namespace NCop.Aspects.Extensions
 
 	internal static class AspectArgsImplResolver
 	{
+		private static readonly IDictionary<int, Type> funcEventArgsMap = null;
+		private static readonly IDictionary<int, Type> actionEventArgsMap = null;
 		private static readonly IDictionary<int, Type> funcExecutionArgsMap = null;
 		private static readonly IDictionary<int, Type> actionExecutionArgsMap = null;
 		private static readonly IDictionary<int, Type> funcInterceptionArgsMap = null;
 		private static readonly IDictionary<int, Type> actionInterceptionArgsMap = null;
 
 		static AspectArgsImplResolver() {
+			funcEventArgsMap = new Dictionary<int, Type>();
+			actionEventArgsMap = new Dictionary<int, Type>();
 			funcExecutionArgsMap = new Dictionary<int, Type>();
 			actionExecutionArgsMap = new Dictionary<int, Type>();
 			funcInterceptionArgsMap = new Dictionary<int, Type>();
@@ -30,47 +34,64 @@ namespace NCop.Aspects.Extensions
 			actionExecutionArgsMap.Add(0, typeof(ActionExecutionArgsImpl<>));	
 			actionInterceptionArgsMap.Add(0, typeof(ActionInterceptionArgsImpl<>));
 
-			actionExecutionArgsMap.Add(1, typeof(ActionExecutionArgsImpl<,>));	
 			funcExecutionArgsMap.Add(1, typeof(FunctionExecutionArgsImpl<,>));	
+			actionExecutionArgsMap.Add(1, typeof(ActionExecutionArgsImpl<,>));	
+			funcEventArgsMap.Add(1, typeof(EventFunctionInterceptionArgsImpl<,>));
+			actionEventArgsMap.Add(1, typeof(EventActionInterceptionArgsImpl<,>));
 			actionInterceptionArgsMap.Add(1, typeof(ActionInterceptionArgsImpl<,>));	
 			funcInterceptionArgsMap.Add(1, typeof(FunctionInterceptionArgsImpl<,>));							
 
-			actionExecutionArgsMap.Add(2, typeof(ActionExecutionArgsImpl<,,>));	
 			funcExecutionArgsMap.Add(2, typeof(FunctionExecutionArgsImpl<,,>));	
+			actionExecutionArgsMap.Add(2, typeof(ActionExecutionArgsImpl<,,>));	
+			funcEventArgsMap.Add(2, typeof(EventFunctionInterceptionArgsImpl<,,>));
+			actionEventArgsMap.Add(2, typeof(EventActionInterceptionArgsImpl<,,>));
 			actionInterceptionArgsMap.Add(2, typeof(ActionInterceptionArgsImpl<,,>));	
 			funcInterceptionArgsMap.Add(2, typeof(FunctionInterceptionArgsImpl<,,>));							
 
-			actionExecutionArgsMap.Add(3, typeof(ActionExecutionArgsImpl<,,,>));	
 			funcExecutionArgsMap.Add(3, typeof(FunctionExecutionArgsImpl<,,,>));	
+			actionExecutionArgsMap.Add(3, typeof(ActionExecutionArgsImpl<,,,>));	
+			funcEventArgsMap.Add(3, typeof(EventFunctionInterceptionArgsImpl<,,,>));
+			actionEventArgsMap.Add(3, typeof(EventActionInterceptionArgsImpl<,,,>));
 			actionInterceptionArgsMap.Add(3, typeof(ActionInterceptionArgsImpl<,,,>));	
 			funcInterceptionArgsMap.Add(3, typeof(FunctionInterceptionArgsImpl<,,,>));							
 
-			actionExecutionArgsMap.Add(4, typeof(ActionExecutionArgsImpl<,,,,>));	
 			funcExecutionArgsMap.Add(4, typeof(FunctionExecutionArgsImpl<,,,,>));	
+			actionExecutionArgsMap.Add(4, typeof(ActionExecutionArgsImpl<,,,,>));	
+			funcEventArgsMap.Add(4, typeof(EventFunctionInterceptionArgsImpl<,,,,>));
+			actionEventArgsMap.Add(4, typeof(EventActionInterceptionArgsImpl<,,,,>));
 			actionInterceptionArgsMap.Add(4, typeof(ActionInterceptionArgsImpl<,,,,>));	
 			funcInterceptionArgsMap.Add(4, typeof(FunctionInterceptionArgsImpl<,,,,>));							
 
-			actionExecutionArgsMap.Add(5, typeof(ActionExecutionArgsImpl<,,,,,>));	
 			funcExecutionArgsMap.Add(5, typeof(FunctionExecutionArgsImpl<,,,,,>));	
+			actionExecutionArgsMap.Add(5, typeof(ActionExecutionArgsImpl<,,,,,>));	
+			funcEventArgsMap.Add(5, typeof(EventFunctionInterceptionArgsImpl<,,,,,>));
+			actionEventArgsMap.Add(5, typeof(EventActionInterceptionArgsImpl<,,,,,>));
 			actionInterceptionArgsMap.Add(5, typeof(ActionInterceptionArgsImpl<,,,,,>));	
 			funcInterceptionArgsMap.Add(5, typeof(FunctionInterceptionArgsImpl<,,,,,>));							
 
-			actionExecutionArgsMap.Add(6, typeof(ActionExecutionArgsImpl<,,,,,,>));	
 			funcExecutionArgsMap.Add(6, typeof(FunctionExecutionArgsImpl<,,,,,,>));	
+			actionExecutionArgsMap.Add(6, typeof(ActionExecutionArgsImpl<,,,,,,>));	
+			funcEventArgsMap.Add(6, typeof(EventFunctionInterceptionArgsImpl<,,,,,,>));
+			actionEventArgsMap.Add(6, typeof(EventActionInterceptionArgsImpl<,,,,,,>));
 			actionInterceptionArgsMap.Add(6, typeof(ActionInterceptionArgsImpl<,,,,,,>));	
 			funcInterceptionArgsMap.Add(6, typeof(FunctionInterceptionArgsImpl<,,,,,,>));							
 
-			actionExecutionArgsMap.Add(7, typeof(ActionExecutionArgsImpl<,,,,,,,>));	
 			funcExecutionArgsMap.Add(7, typeof(FunctionExecutionArgsImpl<,,,,,,,>));	
+			actionExecutionArgsMap.Add(7, typeof(ActionExecutionArgsImpl<,,,,,,,>));	
+			funcEventArgsMap.Add(7, typeof(EventFunctionInterceptionArgsImpl<,,,,,,,>));
+			actionEventArgsMap.Add(7, typeof(EventActionInterceptionArgsImpl<,,,,,,,>));
 			actionInterceptionArgsMap.Add(7, typeof(ActionInterceptionArgsImpl<,,,,,,,>));	
 			funcInterceptionArgsMap.Add(7, typeof(FunctionInterceptionArgsImpl<,,,,,,,>));							
 
-			actionExecutionArgsMap.Add(8, typeof(ActionExecutionArgsImpl<,,,,,,,,>));	
 			funcExecutionArgsMap.Add(8, typeof(FunctionExecutionArgsImpl<,,,,,,,,>));	
+			actionExecutionArgsMap.Add(8, typeof(ActionExecutionArgsImpl<,,,,,,,,>));	
+			funcEventArgsMap.Add(8, typeof(EventFunctionInterceptionArgsImpl<,,,,,,,,>));
+			actionEventArgsMap.Add(8, typeof(EventActionInterceptionArgsImpl<,,,,,,,,>));
 			actionInterceptionArgsMap.Add(8, typeof(ActionInterceptionArgsImpl<,,,,,,,,>));	
 			funcInterceptionArgsMap.Add(8, typeof(FunctionInterceptionArgsImpl<,,,,,,,,>));							
 			
 			funcExecutionArgsMap.Add(9, typeof(FunctionExecutionArgsImpl<,,,,,,,,,>));	
+			funcEventArgsMap.Add(9, typeof(EventFunctionInterceptionArgsImpl<,,,,,,,,,>));
 			funcInterceptionArgsMap.Add(9, typeof(FunctionInterceptionArgsImpl<,,,,,,,,,>));							
 		}
 
@@ -78,7 +99,13 @@ namespace NCop.Aspects.Extensions
 			Type type = null;
 			int parametersCount = argumentsType.GetGenericArguments().Length;
 
-			 if (typeof(IPropertyInterceptionArgs).IsAssignableFrom(argumentsType)) {
+			if (typeof(IEventFunctionInterceptionArgs).IsAssignableFrom(argumentsType)) {
+                type = funcEventArgsMap[parametersCount];
+            }
+            else if (typeof(IEventActionInterceptionArgs).IsAssignableFrom(argumentsType)) {
+                type = actionEventArgsMap[parametersCount];
+            }
+			else if (typeof(IPropertyInterceptionArgs).IsAssignableFrom(argumentsType)) {
                 type = aspectMember.HasReturnType() ? typeof(GetPropertyInterceptionArgsImpl<,>) : typeof(SetPropertyInterceptionArgsImpl<,>);
             }
 			else if (typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType)) {

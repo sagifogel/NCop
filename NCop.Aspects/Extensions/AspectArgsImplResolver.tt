@@ -21,12 +21,16 @@ namespace NCop.Aspects.Extensions
 
 	internal static class AspectArgsImplResolver
 	{
+		private static readonly IDictionary<int, Type> funcEventArgsMap = null;
+		private static readonly IDictionary<int, Type> actionEventArgsMap = null;
 		private static readonly IDictionary<int, Type> funcExecutionArgsMap = null;
 		private static readonly IDictionary<int, Type> actionExecutionArgsMap = null;
 		private static readonly IDictionary<int, Type> funcInterceptionArgsMap = null;
 		private static readonly IDictionary<int, Type> actionInterceptionArgsMap = null;
 
 		static AspectArgsImplResolver() {
+			funcEventArgsMap = new Dictionary<int, Type>();
+			actionEventArgsMap = new Dictionary<int, Type>();
 			funcExecutionArgsMap = new Dictionary<int, Type>();
 			actionExecutionArgsMap = new Dictionary<int, Type>();
 			funcInterceptionArgsMap = new Dictionary<int, Type>();
@@ -39,8 +43,10 @@ namespace NCop.Aspects.Extensions
 foreach (var i in Enumerable.Range(1, 8)) {
 	string commas = string.Concat(Enumerable.Repeat(",", i));
 #>
-			actionExecutionArgsMap.Add(<#= i #>, typeof(ActionExecutionArgsImpl<<#= commas #>>));	
 			funcExecutionArgsMap.Add(<#= i #>, typeof(FunctionExecutionArgsImpl<<#=commas#>>));	
+			actionExecutionArgsMap.Add(<#= i #>, typeof(ActionExecutionArgsImpl<<#= commas #>>));	
+			funcEventArgsMap.Add(<#= i #>, typeof(EventFunctionInterceptionArgsImpl<<#=commas#>>));
+			actionEventArgsMap.Add(<#= i #>, typeof(EventActionInterceptionArgsImpl<<#= commas #>>));
 			actionInterceptionArgsMap.Add(<#= i #>, typeof(ActionInterceptionArgsImpl<<#= commas #>>));	
 			funcInterceptionArgsMap.Add(<#= i #>, typeof(FunctionInterceptionArgsImpl<<#= commas #>>));							
 <#
@@ -48,6 +54,7 @@ foreach (var i in Enumerable.Range(1, 8)) {
 		commas += ",";#>
 			
 			funcExecutionArgsMap.Add(9, typeof(FunctionExecutionArgsImpl<<#= commas #>>));	
+			funcEventArgsMap.Add(9, typeof(EventFunctionInterceptionArgsImpl<<#=commas#>>));
 			funcInterceptionArgsMap.Add(9, typeof(FunctionInterceptionArgsImpl<<#= commas #>>));							
 <#}
 	else{
@@ -60,7 +67,13 @@ foreach (var i in Enumerable.Range(1, 8)) {
 			Type type = null;
 			int parametersCount = argumentsType.GetGenericArguments().Length;
 
-			 if (typeof(IPropertyInterceptionArgs).IsAssignableFrom(argumentsType)) {
+			if (typeof(IEventFunctionInterceptionArgs).IsAssignableFrom(argumentsType)) {
+                type = funcEventArgsMap[parametersCount];
+            }
+            else if (typeof(IEventActionInterceptionArgs).IsAssignableFrom(argumentsType)) {
+                type = actionEventArgsMap[parametersCount];
+            }
+			else if (typeof(IPropertyInterceptionArgs).IsAssignableFrom(argumentsType)) {
                 type = aspectMember.HasReturnType() ? typeof(GetPropertyInterceptionArgsImpl<,>) : typeof(SetPropertyInterceptionArgsImpl<,>);
             }
 			else if (typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType)) {
