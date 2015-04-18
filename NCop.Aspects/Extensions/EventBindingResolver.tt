@@ -5,5 +5,9 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#
 	var template = new GenericBindingResolver();
+    
+    template.AcionBinding = "EventActionBinding";
+    template.FunctionBinding = "EventFunctionBinding";
+    template.BindingResolverType = "EventBindingResolver";
 	template.Render();
 #>

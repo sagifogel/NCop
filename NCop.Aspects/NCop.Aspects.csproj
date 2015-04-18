@@ -130,9 +130,45 @@
     <Compile Include="Aspects\SetPropertyFragmentInterceptionAspectDefinition.cs" />
     <Compile Include="Aspects\GetPropertyFragmentInterceptionAspectDefinition.cs" />
     <Compile Include="Engine\AspectEventMap.cs" />
+    <Compile Include="Engine\IEventActionArgs.cs" />
+    <Compile Include="Engine\IEventActionArgs`1.cs" />
+    <Compile Include="Engine\IEventActionArgs`2.cs" />
+    <Compile Include="Engine\IEventActionArgs`3.cs" />
+    <Compile Include="Engine\IEventActionArgs`4.cs" />
+    <Compile Include="Engine\IEventActionArgs`5.cs" />
+    <Compile Include="Engine\IEventActionArg`6.cs" />
+    <Compile Include="Engine\IEventActionArgs`7.cs" />
+    <Compile Include="Engine\IEventActionArgs`8.cs" />
+    <Compile Include="Engine\IEventActionBinding.cs" />
+    <Compile Include="Engine\IEventActionBinding`1.cs" />
+    <Compile Include="Engine\IEventActionBinding`2.cs" />
+    <Compile Include="Engine\IEventActionBinding`3.cs" />
+    <Compile Include="Engine\IEventActionBinding`4.cs" />
+    <Compile Include="Engine\IEventActionBinding`5.cs" />
+    <Compile Include="Engine\IEventActionBinding`6.cs" />
+    <Compile Include="Engine\IEventActionBinding`7.cs" />
+    <Compile Include="Engine\IEventActionBinding`8.cs" />
     <Compile Include="Engine\IAspectEventMap.cs" />
     <Compile Include="Engine\IAspectEventMapCollection.cs" />
     <Compile Include="Engine\IEventInterceptionAspect.cs" />
+    <Compile Include="Engine\IEventFunctionArgs.cs" />
+    <Compile Include="Engine\IEventFunctionArgs`1.cs" />
+    <Compile Include="Engine\IEventFunctionArgs`2.cs" />
+    <Compile Include="Engine\IEventFunctionArgs`3.cs" />
+    <Compile Include="Engine\IEventFunctionArgs`4.cs" />
+    <Compile Include="Engine\IEventFunctionArgs`5.cs" />
+    <Compile Include="Engine\IEventFunctionArgs`6.cs" />
+    <Compile Include="Engine\IEventFunctionArgs`7.cs" />
+    <Compile Include="Engine\IEventFunctionArgs`8.cs" />
+    <Compile Include="Engine\IEventFunctionBinding.cs" />
+    <Compile Include="Engine\IEventFunctionBinding`1.cs" />
+    <Compile Include="Engine\IEventFunctionBinding`2.cs" />
+    <Compile Include="Engine\IEventFunctionBinding`3.cs" />
+    <Compile Include="Engine\IEventFunctionBinding`4.cs" />
+    <Compile Include="Engine\IEventFunctionBinding`5.cs" />
+    <Compile Include="Engine\IEventFunctionBinding`6.cs" />
+    <Compile Include="Engine\IEventFunctionBinding`7.cs" />
+    <Compile Include="Engine\IEventFunctionBinding`8.cs" />
     <Compile Include="Engine\SetPropertyFragmentInterceptionAspect.cs" />
     <Compile Include="Engine\GetPropertyFragmentInterceptionAspect.cs" />
     <Compile Include="Engine\IPropertyFragment.cs" />
@@ -178,6 +214,7 @@
       <LastGenOutput>EventBindingResolver1.cs</LastGenOutput>
       <LastOutputs>.\EventBindingResolver1.cs</LastOutputs>
     </None>
+    <Compile Include="Extensions\BindingExtensions.cs" />
     <Compile Include="Extensions\EventBindingResolver1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
