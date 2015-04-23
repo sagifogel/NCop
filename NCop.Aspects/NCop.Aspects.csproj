@@ -113,10 +113,20 @@
     <Compile Include="Aspects\PropertyInterceptionAspectsDefinition.cs" />
     <Compile Include="Aspects\SetPropertyInterceptionAspectDefinition.cs" />
     <Compile Include="Aspects\GetPropertyInterceptionAspectDefinition.cs" />
+    <Compile Include="Engine\AbstractFunctionEventBroker.cs" />
+    <Compile Include="Engine\AbstractFunctionEventBroker`7.cs" />
+    <Compile Include="Engine\AbstractFunctionEventBroker`3.cs" />
+    <Compile Include="Engine\AbstractFunctionEventBroker`4.cs" />
+    <Compile Include="Engine\AbstractFunctionEventBroker`5.cs" />
+    <Compile Include="Engine\AbstractFunctionEventBroker`6.cs" />
+    <Compile Include="Engine\AbstractFunctionEventBroker`8.cs" />
+    <Compile Include="Engine\AbstractFunctionEventBroker`2.cs" />
+    <Compile Include="Engine\AbstractFunctionEventBroker`1.cs" />
     <Compile Include="Engine\AbstractMethodAdviceArgs.cs" />
     <Compile Include="Engine\AbstractPropertyAdviceArgs.cs" />
     <Compile Include="Engine\AbstractPropertyAspect.cs" />
     <Compile Include="Engine\AbstractPropertyInterceptionArgs.cs" />
+    <Compile Include="Engine\Action.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`2.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`3.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`4.cs" />
@@ -169,6 +179,9 @@
     <Compile Include="Engine\IAspectEventMap.cs" />
     <Compile Include="Engine\IAspectEventMapCollection.cs" />
     <Compile Include="Engine\IEventActionInterceptionArgs.cs" />
+    <Compile Include="Engine\IEventBroker.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Engine\IEventInterceptionAspect.cs" />
     <Compile Include="Engine\IEventFunctionArgs.cs" />
     <Compile Include="Engine\IEventFunctionArgs`1.cs" />
@@ -283,15 +296,15 @@
     <Compile Include="Framework\EventActionInterceptionAspect`6.cs" />
     <Compile Include="Framework\EventActionInterceptionAspect`7.cs" />
     <Compile Include="Framework\EventActionInterceptionAspect`8.cs" />
-    <Compile Include="Framework\FunctionEventInterceptionAspect`2.cs" />
-    <Compile Include="Framework\FunctionEventInterceptionAspect`3.cs" />
-    <Compile Include="Framework\FunctionEventInterceptionAspect`4.cs" />
-    <Compile Include="Framework\FunctionEventInterceptionAspect`5.cs" />
-    <Compile Include="Framework\FunctionEventInterceptionAspect`6.cs" />
-    <Compile Include="Framework\FunctionEventInterceptionAspect`7.cs" />
-    <Compile Include="Framework\FunctionEventInterceptionAspect`8.cs" />
-    <Compile Include="Framework\FunctionEventInterceptionAspect`1.cs" />
-    <Compile Include="Framework\FunctionEventInterceptionAspect.cs" />
+    <Compile Include="Framework\EventFunctionInterceptionAspect.cs" />
+    <Compile Include="Framework\EventFunctionInterceptionAspect`2.cs" />
+    <Compile Include="Framework\EventFunctionInterceptionAspect`3.cs" />
+    <Compile Include="Framework\EventFunctionInterceptionAspect`4.cs" />
+    <Compile Include="Framework\EventFunctionInterceptionAspect`5.cs" />
+    <Compile Include="Framework\EventFunctionInterceptionAspect`6.cs" />
+    <Compile Include="Framework\EventFunctionInterceptionAspect`7.cs" />
+    <Compile Include="Framework\EventFunctionInterceptionAspect`8.cs" />
+    <Compile Include="Framework\EventFunctionInterceptionAspect`1.cs" />
     <Compile Include="Framework\SetPropertyInterceptionArgs.cs" />
     <Compile Include="Framework\PropertyInterceptionArgs.cs" />
     <Compile Include="Framework\PropertyInterceptionAspect.cs" />

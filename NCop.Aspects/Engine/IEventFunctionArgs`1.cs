@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace NCop.Aspects.Engine
 {
@@ -7,5 +8,7 @@ namespace NCop.Aspects.Engine
         TArg1 Arg1 { get; set; }
         EventInfo Event { get; set; }
         TResult ReturnValue { get; set; }
+        Func<TArg1, TResult> Handler { get; set; }
+        IEventBroker<Func<TArg1, TResult>> EventBroker { get; }
     }
 }

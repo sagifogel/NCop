@@ -10,6 +10,5 @@ namespace NCop.Aspects.Framework
     public abstract class EventFunctionInterceptionArgs<TResult> : AbstractEventInterceptionArgs, IEventFunctionInterceptionArgs
     {
         public TResult ReturnValue { get; set; }
-        public abstract TResult InvokeHanlder();
     }
 }

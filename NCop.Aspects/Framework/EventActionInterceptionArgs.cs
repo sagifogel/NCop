@@ -10,6 +10,5 @@ namespace NCop.Aspects.Framework
 {
     public abstract class EventActionInterceptionArgs : AbstractEventInterceptionArgs, IEventActionInterceptionArgs
     {
-        public abstract void InvokeHanlder();
     }
 }

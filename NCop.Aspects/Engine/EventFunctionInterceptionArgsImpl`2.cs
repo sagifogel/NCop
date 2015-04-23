@@ -10,37 +10,29 @@ namespace NCop.Aspects.Engine
         private readonly Func<TArg1, TArg2, TResult> handler = null;
         private readonly IEventFunctionBinding<TInstance, TArg1, TArg2, TResult> funcBinding = null;
 
-        public EventFunctionInterceptionArgsImpl(TInstance instance, EventInfo @event, Func<TArg1, TArg2, TResult> handler, IEventFunctionBinding<TInstance, TArg1, TArg2, TResult> funcBinding, TArg1 arg1, TArg2 arg2) {
+        public EventFunctionInterceptionArgsImpl(TInstance instance, EventInfo @event, Func<TArg1, TArg2, TResult> handler, IEventFunctionBinding<TInstance, TArg1, TArg2, TResult> funcBinding, TArg1 arg1, TArg2 arg2, IEventBroker<Func<TArg1, TArg2, TResult>> eventBroker = null) {
             Arg1 = arg1;
             Arg2 = arg2;
             Event = @event;
-            this.handler = handler;
+            Handler = handler;
+            EventBroker = eventBroker;
             this.funcBinding = funcBinding;
             Instance = this.instance = instance;
         }
+        public Func<TArg1, TArg2, TResult> Handler { get; set; }
+
+        public IEventBroker<Func<TArg1, TArg2, TResult>> EventBroker { get; set; }
 
         public override void ProceedAddHandler() {
-            funcBinding.ProceedAddHandler(ref instance, handler, this);
+            funcBinding.AddHandler(ref instance, Handler,this);
         }
 
         public override void ProceedInvokeHandler() {
-            funcBinding.ProceedInvokeHandler(ref instance, handler, this);
+            funcBinding.InvokeHandler(ref instance, Handler,this);
         }
 
         public override void ProceedRemoveHandler() {
-            funcBinding.ProceedRemoveHandler(ref instance, handler, this);
-        }
-
-        public override TResult InvokeHanlder() {
-            return funcBinding.InvokeHandler(ref instance, handler, this);
-        }
-
-        public override void AddHandler() {
-            funcBinding.AddHandler(ref instance, handler);
-        }
-
-        public override void RemoveHandler() {
-            funcBinding.RemoveHandler(ref instance, handler);
+            funcBinding.RemoveHandler(ref instance, Handler,this);
         }
     }
 }

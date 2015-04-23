@@ -15,5 +15,7 @@ namespace NCop.Aspects.Engine
         TArg8 Arg8 { get; set; }
         EventInfo Event { get; set; }
         TResult ReturnValue { get; set; }
+        Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> Handler { get; set; }
+        IEventBroker<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>> EventBroker { get; }
     }
 }

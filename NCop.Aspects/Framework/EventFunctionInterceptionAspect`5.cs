@@ -3,7 +3,7 @@ using NCop.Aspects.Engine;
 
 namespace NCop.Aspects.Framework
 {
-    public class FunctionEventInterceptionAspect<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> : IEventInterceptionAspect
+    public class EventFunctionInterceptionAspect<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> : IEventInterceptionAspect
     {
         [OnAddHandlerAdvice]
         public virtual void OnAddHandler(EventFunctionInterceptionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> args) { }
