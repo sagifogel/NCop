@@ -9,8 +9,7 @@
 namespace NCop.Composite.Exceptions
 {
 	using System;
-	using NCop.Core.Extensions;
-	using System.Runtime.Serialization;
+    using System.Runtime.Serialization;
 	
 	[Serializable]
 	public class DuplicateCompositeAnnotationException : SystemException, ISerializable

@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCop.Tests", "NCop.Tests\NCop.Tests.csproj", "{1A05073C-E859-4503-9178-54E4267F3BCA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCop.IoC", "NCop.IoC\NCop.IoC.csproj", "{0B598341-32A5-4D5F-A11C-E37E5B4EF65D}"

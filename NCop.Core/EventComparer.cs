@@ -1,5 +1,4 @@
 ﻿using NCop.Core.Extensions;
-using System;
 using System.Reflection;
 
 namespace NCop.Core

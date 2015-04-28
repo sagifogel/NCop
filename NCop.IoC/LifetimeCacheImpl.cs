@@ -1,7 +1,7 @@
-﻿using System;
+﻿using NCop.Core.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Threading;
-using NCop.Core.Extensions;
 
 namespace NCop.IoC
 {

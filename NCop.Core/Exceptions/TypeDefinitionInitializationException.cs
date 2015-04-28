@@ -9,8 +9,7 @@
 namespace NCop.Core.Exceptions
 {
 	using System;
-	using NCop.Core.Extensions;
-	using System.Runtime.Serialization;
+    using System.Runtime.Serialization;
 	
 	[Serializable]
 	public class TypeDefinitionInitializationException : SystemException, ISerializable

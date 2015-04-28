@@ -1,5 +1,6 @@
 ﻿using NCop.Aspects.Advices;
 using NCop.Aspects.Aspects;
+using NCop.Aspects.Extensions;
 using NCop.Aspects.Weaving.Expressions;
 using NCop.Core.Extensions;
 using NCop.Weaving;
@@ -8,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving
 {

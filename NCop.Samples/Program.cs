@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using NCop.Aspects.Engine;
+﻿using NCop.Aspects.Engine;
 using NCop.Aspects.Framework;
 using NCop.Composite.Framework;
 using NCop.Mixins.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace NCop.Samples
 {
@@ -44,7 +44,7 @@ namespace NCop.Samples
     public class Developer : IDeveloper
     {
         private readonly IDeveloper developer = null;
-        private readonly EventBroker eventBroker = null;
+        private readonly IEventBroker<Func<string>> eventBroker = null;
 
         public Developer() {
             developer = new CSharpDeveloperMixin();

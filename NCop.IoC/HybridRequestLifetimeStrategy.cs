@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace NCop.IoC
 {
     internal class HybridRequestLifetimeStrategy : ILifetimeStrategy

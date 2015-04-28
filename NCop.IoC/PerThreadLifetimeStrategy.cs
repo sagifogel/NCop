@@ -1,6 +1,6 @@
-﻿using System;
+﻿using NCop.Core.Extensions;
+using System;
 using System.Runtime.Remoting.Messaging;
-using NCop.Core.Extensions;
 
 namespace NCop.IoC
 {

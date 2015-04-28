@@ -1,10 +1,10 @@
-﻿using NCop.Weaving;
+﻿using NCop.Aspects.Extensions;
+using NCop.Weaving;
 using NCop.Weaving.Extensions;
 using System;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using NCop.Aspects.Extensions;
 
 namespace NCop.Aspects.Weaving
 {

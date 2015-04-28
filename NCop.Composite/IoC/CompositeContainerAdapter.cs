@@ -1,8 +1,8 @@
 ﻿using NCop.Composite.Extensions;
 using NCop.Core;
 using NCop.IoC;
-using System;
 using NCop.IoC.Fluent;
+using System;
 
 namespace NCop.Composite.IoC
 {

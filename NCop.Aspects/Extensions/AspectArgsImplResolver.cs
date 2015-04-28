@@ -8,11 +8,11 @@
 
 namespace NCop.Aspects.Extensions
 {
-	using System;
-	using System.Reflection;
-	using NCop.Aspects.Engine;
-	using NCop.Core.Extensions;
-	using System.Collections.Generic;
+    using NCop.Aspects.Engine;
+    using NCop.Core.Extensions;
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
 
 	internal static class AspectArgsImplResolver
 	{

@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -42,12 +44,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -68,10 +64,6 @@
       <Project>{7100c0df-e619-4ac8-8ed0-048dd118f251}</Project>
       <Name>NCop.Composite</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NCop.Core\NCop.Core.csproj">
-      <Project>{ef89677e-7af0-4c80-b73f-aea357c5614c}</Project>
-      <Name>NCop.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NCop.IoC\NCop.IoC.csproj">
       <Project>{0b598341-32a5-4d5f-a11c-e37e5b4ef65d}</Project>
       <Name>NCop.IoC</Name>
@@ -80,12 +72,15 @@
       <Project>{cf04be7b-d2af-4218-8317-627ce2edc3f5}</Project>
       <Name>NCop.Mixins</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NCop.Weaving\NCop.Weaving.csproj">
-      <Project>{37218cf8-19a4-4614-9e83-b03375dc421a}</Project>
-      <Name>NCop.Weaving</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

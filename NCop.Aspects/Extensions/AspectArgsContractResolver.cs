@@ -8,10 +8,10 @@
 
 namespace NCop.Aspects.Extensions
 {
+    using NCop.Aspects.Engine;
     using System;
-    using System.Linq;
-	using NCop.Aspects.Engine;
     using System.Collections.Generic;
+    using System.Linq;
 
 	internal static class AspectArgsContractResolver
 	{

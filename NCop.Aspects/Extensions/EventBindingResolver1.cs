@@ -7,9 +7,9 @@
 // ------------------------------------------------------------------------------
 namespace NCop.Aspects.Extensions
 {
-	using System;
-	using NCop.Aspects.Engine;
-	using System.Collections.Generic;
+    using NCop.Aspects.Engine;
+    using System;
+    using System.Collections.Generic;
 
 	internal static class EventBindingResolver
 	{

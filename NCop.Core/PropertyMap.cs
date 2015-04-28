@@ -1,7 +1,7 @@
 ﻿using NCop.Core.Exceptions;
+using NCop.Core.Extensions;
 using NCop.Core.Properties;
 using System;
-using NCop.Core.Extensions;
 using System.Reflection;
 
 namespace NCop.Core

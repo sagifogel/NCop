@@ -1,10 +1,9 @@
 ﻿
-using System;
+using NCop.Core.Extensions;
+using NCop.IoC.Properties;
+using System.Collections;
 using System.Reflection;
 using System.Web;
-using NCop.Core.Extensions;
-using System.Collections;
-using NCop.IoC.Properties;
 
 namespace NCop.IoC
 {

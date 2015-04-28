@@ -1,8 +1,8 @@
 ﻿
-using System;
-using System.Collections.Generic;
 using NCop.Core;
 using NCop.IoC;
+using System;
+using System.Collections.Generic;
 
 namespace NCop.Composite.IoC
 {
