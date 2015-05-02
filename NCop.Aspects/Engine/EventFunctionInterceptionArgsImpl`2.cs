@@ -7,7 +7,6 @@ namespace NCop.Aspects.Engine
     public class EventFunctionInterceptionArgsImpl<TInstance, TArg1, TArg2, TResult> : EventFunctionInterceptionArgs<TArg1, TArg2, TResult>, IEventFunctionArgs<TArg1, TArg2, TResult>
     {
         private TInstance instance = default(TInstance);
-        private readonly Func<TArg1, TArg2, TResult> handler = null;
         private readonly IEventFunctionBinding<TInstance, TArg1, TArg2, TResult> funcBinding = null;
 
         public EventFunctionInterceptionArgsImpl(TInstance instance, EventInfo @event, Func<TArg1, TArg2, TResult> handler, IEventFunctionBinding<TInstance, TArg1, TArg2, TResult> funcBinding, TArg1 arg1, TArg2 arg2, IEventBroker<Func<TArg1, TArg2, TResult>> eventBroker = null) {

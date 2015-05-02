@@ -154,6 +154,8 @@
     <Compile Include="Weaving\CompositeMethodWeaver.cs" />
     <Compile Include="Weaving\CompositeMethodWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeGetPropertyWeaverBuilder.cs" />
+    <Compile Include="Weaving\CompositeTypeDefinitions.cs" />
+    <Compile Include="Weaving\CompositeTypeDefinitionWeaver.cs" />
     <Compile Include="Weaving\CompositeTypeWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeSetPropertyWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeWeavingSettingsImpl.cs" />

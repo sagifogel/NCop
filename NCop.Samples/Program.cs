@@ -1,6 +1,7 @@
 ﻿using NCop.Aspects.Engine;
 using NCop.Aspects.Framework;
 using NCop.Composite.Framework;
+using NCop.Core.Extensions;
 using NCop.Mixins.Framework;
 using System;
 using System.Collections.Generic;
@@ -20,8 +21,8 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IDeveloper
     {
-        [EventInterceptionAspect(typeof(FunctionEventInterceptionAspect))]
-        event Func<string> Ev;
+        //[EventInterceptionAspect(typeof(FunctionEventInterceptionAspect))]
+        //event Func<string> Ev;
 
         string RaiseEvent();
     }
@@ -130,7 +131,7 @@ namespace NCop.Samples
         public void RemoveHandler(Func<TResult> handler) {
             linkedHandlers.Remove(handler);
 
-            if (linkedHandlers.First == null) {
+            if (linkedHandlers.First.IsNotNull()) {
                 UnsubscribeImpl();
             }
         }
@@ -153,11 +154,11 @@ namespace NCop.Samples
         }
 
         protected override void SubscribeImpl() {
-            instance.Ev += Intercept;
+            //instance.Ev += Intercept;
         }
 
         protected override void UnsubscribeImpl() {
-            instance.Ev -= Intercept;
+            //instance.Ev -= Intercept;
         }
 
         public override void OnInvokeHandler(EventFunctionInterceptionArgs<string> args) {
@@ -181,6 +182,11 @@ namespace NCop.Samples
     class Program
     {
         static void Main(string[] args) {
+            var container = new CompositeContainer();
+            container.Configure();
+            var d = container.Resolve<IDeveloper>();
+
+            d.RaiseEvent();
             var developer = new Developer();
             Func<string> func = () => "C# coding";
             developer.Ev += func;

@@ -346,6 +346,7 @@
     <Compile Include="Weaving\BindingSetPropertyInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\BindingSetPropertyAspectDecoratorWeaver.cs" />
     <Compile Include="Weaving\BindingGetPropertyAspectDecoratorWeaver.cs" />
+    <Compile Include="Weaving\EventBrokerTypeDefinition.cs" />
     <Compile Include="Weaving\Expressions\AbstractAspectEventExpression.cs" />
     <Compile Include="Weaving\Expressions\AbstractPartialFragmentAspectPropertyExpression.cs" />
     <Compile Include="Weaving\Expressions\BindingGetPropertyFragmentInterceptionAspectExpression.cs" />

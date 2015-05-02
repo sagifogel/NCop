@@ -4,19 +4,17 @@ using System;
 
 namespace NCop.Mixins.Weaving
 {
-    public class MixinsTypeDefinitionWeaver : ITypeDefinitionWeaver
+    public class MixinsTypeDefinitionWeaver : AbstractTypeDefinitionWeaver
     {
-        private readonly ITypeDefinition typeDefinition = null;
+        private readonly ITypeDefinitionIntilaizer typeDefinitionInitializer = null;
 
-        public MixinsTypeDefinitionWeaver(Type contractType, ITypeMap mixinsMap) {
-            Type = contractType;
-            typeDefinition = new MixinsTypeDefinition(contractType, mixinsMap);
+        public MixinsTypeDefinitionWeaver(Type contractType, ITypeMap mixinsMap)
+            : base(contractType, mixinsMap) {
+            typeDefinitionInitializer = new MixinsTypeDefinition(Type, mixinsMap);
         }
 
-        public Type Type { get; private set; }
-
-        public ITypeDefinition Weave() {
-            return typeDefinition;
+        public override ITypeDefinition Weave() {
+            return typeDefinitionInitializer.Initialize();
         }
     }
 }

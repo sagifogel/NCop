@@ -46,6 +46,8 @@
   <ItemGroup>
     <Compile Include="AbstractMemberSignatureWeaver.cs" />
     <Compile Include="AbstractMethodScopeWeaver.cs" />
+    <Compile Include="AbstractTypeDefinition.cs" />
+    <Compile Include="AbstractTypeDefinitionWeaver.cs" />
     <Compile Include="AbstractTypeWeaverBuilder.cs" />
     <Compile Include="AbstractWeaverBuilder.cs" />
     <Compile Include="DelegateMethodScopeWeaver.cs" />
@@ -66,6 +68,7 @@
     <Compile Include="IPropertyWeaverBuilder.cs" />
     <Compile Include="IEventWeaverBuilderBag.cs" />
     <Compile Include="IPropertyWeaverBuilderBag.cs" />
+    <Compile Include="ITypeDefinitionIntilaizer.cs" />
     <Compile Include="IWeavingSettings.cs" />
     <Compile Include="AbstractPropertyMethodSingatureWeaver.cs" />
     <Compile Include="SetPropertyMethodSignatureWeaver.cs" />

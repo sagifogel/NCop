@@ -19,10 +19,9 @@ namespace NCop.Composite.Weaving
             var mixinsMap = compositeWeavingSettings.MixinsMap;
             var aspectsMap = compositeWeavingSettings.AspectsMap;
             var compositeType = compositeWeavingSettings.CompositeType;
-            IAspectWeavingServices weavingServices = compositeWeavingSettings;
             var aspectMappedMembers = compositeWeavingSettings.AspectMemebrsCollection;
-            var typeDefinitionWeaver = new MixinsTypeDefinitionWeaver(compositeType, mixinsMap);
             var compositeMappedMembers = new CompositeMemberMapper(aspectsMap, aspectMappedMembers);
+            var typeDefinitionWeaver = new CompositeTypeDefinitionWeaver(compositeType, mixinsMap, Type.EmptyTypes);
             var typeDefinition = typeDefinitionWeaver.Weave();
 
             if (IsAtomComposite(compositeType, mixinsMap)) {
@@ -35,19 +34,19 @@ namespace NCop.Composite.Weaving
             mixinsMap.ForEach(map => builder.Add(map));
 
             compositeMappedMembers.Events.ForEach(compositeEventMap => {
-                var propertyBuillder = new CompositeEventWeaverBuilder(compositeEventMap, typeDefinition, weavingServices);
+                var propertyBuillder = new CompositeEventWeaverBuilder(compositeEventMap, typeDefinition, compositeWeavingSettings);
 
                 builder.Add(propertyBuillder);
             });
 
             compositeMappedMembers.Methods.ForEach(compositeMethodMap => {
-                var methodBuilder = new CompositeMethodWeaverBuilder(compositeMethodMap, typeDefinition, weavingServices);
+                var methodBuilder = new CompositeMethodWeaverBuilder(compositeMethodMap, typeDefinition, compositeWeavingSettings);
 
                 builder.Add(methodBuilder);
             });
 
             compositeMappedMembers.Properties.ForEach(compositePropertyMap => {
-                var propertyBuillder = new CompositePropertyWeaverBuilder(compositePropertyMap, typeDefinition, weavingServices);
+                var propertyBuillder = new CompositePropertyWeaverBuilder(compositePropertyMap, typeDefinition, compositeWeavingSettings);
 
                 builder.Add(propertyBuillder);
             });
