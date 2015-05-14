@@ -160,6 +160,7 @@
     <Compile Include="Weaving\CompositeSetPropertyWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeWeavingSettingsImpl.cs" />
     <Compile Include="Mixins\Weaving\ICompositeMixinsTypeWeaverBuilder.cs" />
+    <Compile Include="Weaving\ICompositeTypeDefinition.cs" />
     <Compile Include="Weaving\ICompositeWeavingSettings.cs" />
   </ItemGroup>
   <ItemGroup>

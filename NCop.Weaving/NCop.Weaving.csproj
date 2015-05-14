@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="AbstractMemberSignatureWeaver.cs" />
     <Compile Include="AbstractMethodScopeWeaver.cs" />
-    <Compile Include="AbstractTypeDefinition.cs" />
+    <Compile Include="AbstractFieldBuilderDefinition.cs" />
     <Compile Include="AbstractTypeDefinitionWeaver.cs" />
     <Compile Include="AbstractTypeWeaverBuilder.cs" />
     <Compile Include="AbstractWeaverBuilder.cs" />
@@ -60,6 +60,7 @@
     <Compile Include="GetPropertyMethodSignatureWeaver.cs" />
     <Compile Include="IEventTypeBuilder.cs" />
     <Compile Include="IEventWeaver.cs" />
+    <Compile Include="IFieldBuilderDefinition.cs" />
     <Compile Include="IMethodLocalWeaver.cs" />
     <Compile Include="BulkWeaving.cs" />
     <Compile Include="IEventWeaverBuilder.cs" />
@@ -107,7 +108,7 @@
     <Compile Include="MethodDecoratorWeaver.cs" />
     <Compile Include="MethodEndWeaver.cs" />
     <Compile Include="MethodSignatureWeaver.cs" />
-    <Compile Include="MixinTypeDefinition.cs" />
+    <Compile Include="MixinFieldBuilderDefinition.cs" />
     <Compile Include="MixinTypeDefinitionWeaver.cs" />
     <Compile Include="MixinTypeWeaverBuilder.cs" />
     <Compile Include="MixinWeaverStrategy.cs" />

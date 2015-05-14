@@ -29,7 +29,7 @@ namespace NCop.Aspects.Engine
 
         protected TResult OnEventFired(TArg1 arg1, TArg2 arg2) {
             var @event = instance.GetType().GetEvents()[0];
-            var args = new EventFunctionInterceptionArgsImpl<TInstance, TArg1, TArg2, TResult>(instance, @event, null, binding, arg1, arg2, this);
+            var args = new EventFunctionInterceptionArgsImpl<TInstance, TArg1, TArg2, TResult>(instance, @event, null, binding, this, arg1, arg2);
 
             for (var i = linkedHandlers.First; i != null; i = i.Next) {
                 args.Handler = i.Value;

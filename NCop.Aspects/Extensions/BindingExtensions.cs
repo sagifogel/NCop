@@ -1,5 +1,5 @@
-﻿using NCop.Aspects.Engine;
-using System;
+﻿using System;
+using NCop.Aspects.Engine;
 
 namespace NCop.Aspects.Extensions
 {

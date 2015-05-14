@@ -21,7 +21,7 @@ namespace NCop.Composite.Weaving
             var compositeType = compositeWeavingSettings.CompositeType;
             var aspectMappedMembers = compositeWeavingSettings.AspectMemebrsCollection;
             var compositeMappedMembers = new CompositeMemberMapper(aspectsMap, aspectMappedMembers);
-            var typeDefinitionWeaver = new CompositeTypeDefinitionWeaver(compositeType, mixinsMap, Type.EmptyTypes);
+            var typeDefinitionWeaver = new CompositeTypeDefinitionWeaver(compositeType, mixinsMap);
             var typeDefinition = typeDefinitionWeaver.Weave();
 
             if (IsAtomComposite(compositeType, mixinsMap)) {

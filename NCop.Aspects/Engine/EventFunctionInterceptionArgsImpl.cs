@@ -16,20 +16,21 @@ namespace NCop.Aspects.Engine
             this.funcBinding = funcBinding;
             Instance = this.instance = instance;
         }
+
         public Func<TResult> Handler { get; set; }
 
         public IEventBroker<Func<TResult>> EventBroker { get; set; }
 
         public override void ProceedAddHandler() {
-            funcBinding.AddHandler(ref instance, Handler,this);
+            funcBinding.AddHandler(ref instance, Handler, this);
         }
 
         public override void ProceedInvokeHandler() {
-            ReturnValue = funcBinding.InvokeHandler(ref instance, Handler,this);
+            ReturnValue = funcBinding.InvokeHandler(ref instance, Handler, this);
         }
 
         public override void ProceedRemoveHandler() {
-            funcBinding.RemoveHandler(ref instance, Handler,this);
+            funcBinding.RemoveHandler(ref instance, Handler, this);
         }
     }
 }

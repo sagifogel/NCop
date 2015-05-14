@@ -10,9 +10,11 @@ namespace NCop.Samples
 {
     public class Aspects
     {
+        public static ActionEventInterceptionAspect EventInterception2 = null;
         public static FunctionEventInterceptionAspect EventInterception = null;
 
         static Aspects() {
+            EventInterception2 = new ActionEventInterceptionAspect();
             EventInterception = new FunctionEventInterceptionAspect();
         }
     }
@@ -22,9 +24,12 @@ namespace NCop.Samples
     public interface IDeveloper
     {
         //[EventInterceptionAspect(typeof(FunctionEventInterceptionAspect))]
-        //event Func<string> Ev;
+        event Func<int, int, string> Ev;
+
+        event EventHandler<EventArgs> Ev2;
 
         string RaiseEvent();
+        void RaiseEvent2();
     }
 
     public class FunctionEventInterceptionAspect : EventFunctionInterceptionAspect<string>
@@ -42,31 +47,92 @@ namespace NCop.Samples
         }
     }
 
-    public class Developer : IDeveloper
+    public class ActionEventInterceptionAspect : EventActionInterceptionAspect<object, EventArgs>
     {
-        private readonly IDeveloper developer = null;
-        private readonly IEventBroker<Func<string>> eventBroker = null;
-
-        public Developer() {
-            developer = new CSharpDeveloperMixin();
-            eventBroker = new EventBroker(developer, EventInterceptionAspectBinding.singleton);
+        public override void OnAddHandler(EventActionInterceptionArgs<object, EventArgs> args) {
+            args.ProceedAddHandler();
         }
 
-        public event Func<string> Ev {
-            add {
-                var @event = GetType().GetEvents()[0];
-                var args = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(developer, @event, value, EventInterceptionAspectBinding.singleton, eventBroker);
-                Aspects.EventInterception.OnAddHandler(args);
-            }
-            remove {
-                var @event = GetType().GetEvents()[0];
-                var args = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(developer, @event, value, EventInterceptionAspectBinding.singleton, eventBroker);
-                Aspects.EventInterception.OnRemoveHandler(args);
-            }
+        public override void OnInvokeHandler(EventActionInterceptionArgs<object, EventArgs> args) {
+            args.Arg2 = new AssemblyLoadEventArgs(this.GetType().Assembly);
+            args.ProceedInvokeHandler();
         }
 
-        public string RaiseEvent() {
-            return developer.RaiseEvent();
+        public override void OnRemoveHandler(EventActionInterceptionArgs<object, EventArgs> args) {
+            args.ProceedRemoveHandler();
+        }
+    }
+
+    //public class Developer : IDeveloper
+    //{
+    //    private readonly IDeveloper developer = null;
+    //    private readonly IEventBroker<Func<string>> eventBroker = null;
+    //    private readonly IEventBroker<Action<object, EventArgs>> eventBroker2 = null;
+
+    //    public Developer() {
+    //        developer = new CSharpDeveloperMixin();
+    //        eventBroker = new EventBroker(developer, EventInterceptionAspectBinding.singleton);
+    //        eventBroker2 = new EventBroker2(developer, EventInterceptionAspectBinding2.singleton);
+    //    }
+
+    //    public event Func<string> Ev {
+    //        add {
+    //            var @event = GetType().GetEvent("Ev");
+    //            var args = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(developer, @event, value, EventInterceptionAspectBinding.singleton, eventBroker);
+    //            Aspects.EventInterception.OnAddHandler(args);
+    //        }
+    //        remove {
+    //            var @event = GetType().GetEvent("Ev");
+    //            var args = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(developer, @event, value, EventInterceptionAspectBinding.singleton, eventBroker);
+    //            Aspects.EventInterception.OnRemoveHandler(args);
+    //        }
+    //    }
+
+    //    public event EventHandler<EventArgs> Ev2 {
+    //        add {
+    //            var @event = GetType().GetEvent("Ev2");
+    //            Action<object, EventArgs> action = value.Invoke;
+    //            var args = new EventActionInterceptionArgsImpl<IDeveloper, object, EventArgs>(developer, @event, action, EventInterceptionAspectBinding2.singleton, eventBroker2);
+    //            Aspects.EventInterception2.OnAddHandler(args);
+    //        }
+    //        remove {
+    //            var @event = GetType().GetEvent("Ev2");
+    //            Action<object, EventArgs> action = value.Invoke;
+    //            var args = new EventActionInterceptionArgsImpl<IDeveloper, object, EventArgs>(developer, @event, action, EventInterceptionAspectBinding2.singleton, eventBroker2);
+    //            Aspects.EventInterception2.OnRemoveHandler(args);
+    //        }
+    //    }
+
+    //    public string RaiseEvent() {
+    //        return developer.RaiseEvent();
+    //    }
+
+    //    public void RaiseEvent2() {
+    //        developer.RaiseEvent2();
+    //    }
+    //}
+
+    public sealed class EventInterceptionAspectBinding2 : IEventActionBinding<IDeveloper, object, EventArgs>
+    {
+        public static EventInterceptionAspectBinding2 singleton = null;
+
+        static EventInterceptionAspectBinding2() {
+            singleton = new EventInterceptionAspectBinding2();
+        }
+
+        private EventInterceptionAspectBinding2() {
+        }
+
+        public void AddHandler(ref IDeveloper instance, Action<object, EventArgs> handler, IEventActionArgs<object, EventArgs> args) {
+            args.EventBroker.AddHandler(handler);
+        }
+
+        public void InvokeHandler(ref IDeveloper instance, Action<object, EventArgs> handler, IEventActionArgs<object, EventArgs> args) {
+            handler(args.Arg1, args.Arg2);
+        }
+
+        public void RemoveHandler(ref IDeveloper instance, Action<object, EventArgs> handler, IEventActionArgs<object, EventArgs> args) {
+            args.EventBroker.RemoveHandler(handler);
         }
     }
 
@@ -166,16 +232,46 @@ namespace NCop.Samples
         }
     }
 
+    public sealed class EventBroker2 : AbstractActionEventBroker<IDeveloper, object, EventArgs>
+    {
+        public EventBroker2(IDeveloper developer, IEventActionBinding<IDeveloper, object, EventArgs> binding)
+            : base(developer, binding) {
+        }
+
+        private void Intercept(object sender, EventArgs args) {
+            OnEventFired(sender, args);
+        }
+
+        protected override void SubscribeImpl() {
+            instance.Ev2 += Intercept;
+        }
+
+        protected override void UnsubscribeImpl() {
+            instance.Ev2 -= Intercept;
+        }
+
+        public override void OnInvokeHandler(EventActionInterceptionArgs<object, EventArgs> args) {
+            Aspects.EventInterception2.OnInvokeHandler(args);
+        }
+    }
+
     public class CSharpDeveloperMixin : IDeveloper
     {
-        public event Func<string> Ev;
+        public event Func<int, int, string> Ev;
+        public event EventHandler<EventArgs> Ev2;
 
         public string RaiseEvent() {
             if (Ev != null) {
-                return Ev();
+                return Ev(1, 1);
             }
 
             return string.Empty;
+        }
+
+        public void RaiseEvent2() {
+            if (Ev2 != null) {
+                Ev2(this, EventArgs.Empty);
+            }
         }
     }
 
@@ -186,12 +282,14 @@ namespace NCop.Samples
             container.Configure();
             var d = container.Resolve<IDeveloper>();
 
-            d.RaiseEvent();
-            var developer = new Developer();
-            Func<string> func = () => "C# coding";
-            developer.Ev += func;
-            developer.Ev -= func;
-            Console.WriteLine(developer.RaiseEvent());
+            //d.RaiseEvent();
+            //var developer = new Developer();
+            //EventHandler<EventArgs> action = (sender, args2) => Console.WriteLine("C# coding");
+            //developer.Ev2 += action;
+            //developer.RaiseEvent2();
+            //developer.Ev2 -= action;
+            //developer.RaiseEvent2();
+            //Console.WriteLine(developer.RaiseEvent());
         }
     }
 }

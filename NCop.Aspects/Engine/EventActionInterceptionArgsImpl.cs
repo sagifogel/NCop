@@ -16,6 +16,7 @@ namespace NCop.Aspects.Engine
             this.actionBinding = actionBinding;
             Instance = this.instance = instance;
         }
+
         public Action Handler { get; set; }
 
         public IEventBroker<Action> EventBroker { get; set; }

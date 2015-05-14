@@ -9,9 +9,9 @@ namespace NCop.Composite.Weaving
     {
         private readonly ITypeDefinitionIntilaizer typeDefinitionInitializer = null;
 
-        internal CompositeTypeDefinitionWeaver(Type contractType, ITypeMap mixinsMap, IEnumerable<Type> eventBrokersType)
+        internal CompositeTypeDefinitionWeaver(Type contractType, ITypeMap mixinsMap)
             : base(contractType, mixinsMap) {
-            typeDefinitionInitializer = new CompositeTypeDefinition(Type, mixinsMap, eventBrokersType);
+            typeDefinitionInitializer = new CompositeTypeDefinition(Type, mixinsMap);
         }
 
         public override ITypeDefinition Weave() {

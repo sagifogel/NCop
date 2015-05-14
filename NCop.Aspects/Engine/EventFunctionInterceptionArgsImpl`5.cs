@@ -9,7 +9,7 @@ namespace NCop.Aspects.Engine
         private TInstance instance = default(TInstance);
         private readonly IEventFunctionBinding<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TResult> funcBinding = null;
 
-        public EventFunctionInterceptionArgsImpl(TInstance instance, EventInfo @event, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> handler, IEventFunctionBinding<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TResult> funcBinding, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, IEventBroker<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>> eventBroker = null) {
+        public EventFunctionInterceptionArgsImpl(TInstance instance, EventInfo @event, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> handler, IEventFunctionBinding<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TResult> funcBinding, IEventBroker<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>> eventBroker = null, TArg1 arg1 = default(TArg1), TArg2 arg2 = default(TArg2), TArg3 arg3 = default(TArg3), TArg4 arg4 = default(TArg4), TArg5 arg5 = default(TArg5)) {
             Arg1 = arg1;
             Arg2 = arg2;
             Arg3 = arg3;
@@ -21,6 +21,7 @@ namespace NCop.Aspects.Engine
             this.funcBinding = funcBinding;
             Instance = this.instance = instance;
         }
+
         public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> Handler { get; set; }
 
         public IEventBroker<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>> EventBroker { get; set; }

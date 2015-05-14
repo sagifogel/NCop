@@ -8,8 +8,8 @@ namespace NCop.Weaving
 {
 	public class MethodDecoratorScopeWeaver : AbstractMethodScopeWeaver
     {
-		public MethodDecoratorScopeWeaver(MethodInfo methodInfo, IWeavingSettings weavingSettings)
-			:base(methodInfo, weavingSettings) {
+		public MethodDecoratorScopeWeaver(MethodInfo method, IWeavingSettings weavingSettings)
+			:base(method, weavingSettings) {
         }
 
         public override void Weave(ILGenerator ilGenerator) {

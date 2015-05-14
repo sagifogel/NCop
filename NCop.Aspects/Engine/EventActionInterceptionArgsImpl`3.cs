@@ -9,7 +9,7 @@ namespace NCop.Aspects.Engine
         private TInstance instance = default(TInstance);
         private readonly IEventActionBinding<TInstance, TArg1, TArg2, TArg3> actionBinding = null;
 
-        public EventActionInterceptionArgsImpl(TInstance instance, EventInfo @event, Action<TArg1, TArg2, TArg3> handler, IEventActionBinding<TInstance, TArg1, TArg2, TArg3> actionBinding, TArg1 arg1, TArg2 arg2, TArg3 arg3, IEventBroker<Action<TArg1, TArg2, TArg3>> eventBroker = null) {
+        public EventActionInterceptionArgsImpl(TInstance instance, EventInfo @event, Action<TArg1, TArg2, TArg3> handler, IEventActionBinding<TInstance, TArg1, TArg2, TArg3> actionBinding, IEventBroker<Action<TArg1, TArg2, TArg3>> eventBroker = null, TArg1 arg1 = default(TArg1), TArg2 arg2 = default(TArg2), TArg3 arg3 = default(TArg3)) {
             Arg1 = arg1;
             Arg2 = arg2;
             Arg3 = arg3;
@@ -19,6 +19,7 @@ namespace NCop.Aspects.Engine
             this.actionBinding = actionBinding;
             Instance = this.instance = instance;
         }
+
         public Action<TArg1, TArg2, TArg3> Handler { get; set; }
 
         public IEventBroker<Action<TArg1, TArg2, TArg3>> EventBroker { get; set; }
