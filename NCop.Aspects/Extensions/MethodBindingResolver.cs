@@ -11,42 +11,42 @@ namespace NCop.Aspects.Extensions
 	using NCop.Aspects.Engine;
 	using System.Collections.Generic;
 
-	internal static class MethodBindingResolver
+	internal static partial class MethodBindingResolver
 	{
-		internal static readonly IDictionary<int, Type> ActionBindingMap = null;
-		internal static readonly IDictionary<int, Type> FuncionBindingMap = null;
+		internal static readonly IDictionary<int, Type> ActionMap = null;
+		internal static readonly IDictionary<int, Type> FunctionMap = null;
  
  		static MethodBindingResolver() {
-			FuncionBindingMap = new Dictionary<int, Type>();
-			ActionBindingMap = new Dictionary<int, Type>();
+			FunctionMap = new Dictionary<int, Type>();
+			ActionMap = new Dictionary<int, Type>();
 
-			ActionBindingMap.Add(0, typeof(IActionBinding<>));				
+			ActionMap.Add(0, typeof(IActionBinding<>));				
 
-			ActionBindingMap.Add(1, typeof(IActionBinding<,>));	
-			FuncionBindingMap.Add(1, typeof(IFunctionBinding<,>));	
+			ActionMap.Add(1, typeof(IActionBinding<,>));	
+			FunctionMap.Add(1, typeof(IFunctionBinding<,>));	
 
-			ActionBindingMap.Add(2, typeof(IActionBinding<,,>));	
-			FuncionBindingMap.Add(2, typeof(IFunctionBinding<,,>));	
+			ActionMap.Add(2, typeof(IActionBinding<,,>));	
+			FunctionMap.Add(2, typeof(IFunctionBinding<,,>));	
 
-			ActionBindingMap.Add(3, typeof(IActionBinding<,,,>));	
-			FuncionBindingMap.Add(3, typeof(IFunctionBinding<,,,>));	
+			ActionMap.Add(3, typeof(IActionBinding<,,,>));	
+			FunctionMap.Add(3, typeof(IFunctionBinding<,,,>));	
 
-			ActionBindingMap.Add(4, typeof(IActionBinding<,,,,>));	
-			FuncionBindingMap.Add(4, typeof(IFunctionBinding<,,,,>));	
+			ActionMap.Add(4, typeof(IActionBinding<,,,,>));	
+			FunctionMap.Add(4, typeof(IFunctionBinding<,,,,>));	
 
-			ActionBindingMap.Add(5, typeof(IActionBinding<,,,,,>));	
-			FuncionBindingMap.Add(5, typeof(IFunctionBinding<,,,,,>));	
+			ActionMap.Add(5, typeof(IActionBinding<,,,,,>));	
+			FunctionMap.Add(5, typeof(IFunctionBinding<,,,,,>));	
 
-			ActionBindingMap.Add(6, typeof(IActionBinding<,,,,,,>));	
-			FuncionBindingMap.Add(6, typeof(IFunctionBinding<,,,,,,>));	
+			ActionMap.Add(6, typeof(IActionBinding<,,,,,,>));	
+			FunctionMap.Add(6, typeof(IFunctionBinding<,,,,,,>));	
 
-			ActionBindingMap.Add(7, typeof(IActionBinding<,,,,,,,>));	
-			FuncionBindingMap.Add(7, typeof(IFunctionBinding<,,,,,,,>));	
+			ActionMap.Add(7, typeof(IActionBinding<,,,,,,,>));	
+			FunctionMap.Add(7, typeof(IFunctionBinding<,,,,,,,>));	
 
-			ActionBindingMap.Add(8, typeof(IActionBinding<,,,,,,,,>));	
-			FuncionBindingMap.Add(8, typeof(IFunctionBinding<,,,,,,,,>));	
+			ActionMap.Add(8, typeof(IActionBinding<,,,,,,,,>));	
+			FunctionMap.Add(8, typeof(IFunctionBinding<,,,,,,,,>));	
 
-			FuncionBindingMap.Add(9, typeof(IFunctionBinding<,,,,,,,,,>));	
+			FunctionMap.Add(9, typeof(IFunctionBinding<,,,,,,,,,>));	
 		}
 	}
 }

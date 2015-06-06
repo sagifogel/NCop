@@ -4,12 +4,12 @@ using NCop.Weaving;
 
 namespace NCop.Composite.Weaving
 {
-    internal abstract class AbstractCompositeEventWeaverBuilder : AbstractWeaverBuilder, IMethodWeaverBuilder
+    internal abstract class AbstractCompositeEventWeaverBuilder : AbstractAspectWeaverBuilder, IMethodWeaverBuilder
     {
         protected readonly ICompositeEventMap compositeEventMap = null;
         protected readonly IAspectWeavingServices aspectWeavingServices = null;
 
-        protected AbstractCompositeEventWeaverBuilder(ICompositeEventMap compositeEventMap, ITypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
+        protected AbstractCompositeEventWeaverBuilder(ICompositeEventMap compositeEventMap, IAspectTypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
             : base(compositeEventMap.ContractType, typeDefinition) {
             this.compositeEventMap = compositeEventMap;
             this.aspectWeavingServices = aspectWeavingServices;

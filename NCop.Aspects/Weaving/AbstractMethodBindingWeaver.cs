@@ -20,9 +20,9 @@ namespace NCop.Aspects.Weaving
         protected readonly IMethodScopeWeaver methodScopeWeaver = null;
         protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
         protected readonly MethodAttributes methodAttr = MA.Public | MA.Final | MA.HideBySig | MA.NewSlot | MA.Virtual;
+        protected readonly MethodAttributes ctorAttributes = MA.Private | MA.HideBySig | MA.SpecialName | MA.RTSpecialName;
         protected readonly CallingConventions callingConventions = CallingConventions.Standard | CallingConventions.HasThis;
         protected readonly FieldAttributes singletonFieldAttributes = FieldAttributes.Private | FieldAttributes.FamANDAssem | FieldAttributes.Static;
-        protected readonly MethodAttributes ctorAttributes = MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
 
         internal AbstractMethodBindingWeaver(MethodInfo methodInfo, BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IMethodScopeWeaver methodScopeWeaver) {
             this.methodInfo = methodInfo;

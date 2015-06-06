@@ -10,7 +10,7 @@ namespace NCop.Aspects.Weaving.Expressions
         }
 
         public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

@@ -41,7 +41,7 @@ namespace NCop.Weaving
         }
 
         public virtual void WeaveEndMethod(ILGenerator ilGenerator) {
-            MethodEndWeaver.Weave(methodInfo, ilGenerator);
+            MethodEndWeaver.Weave(ilGenerator);
         }
     }
 }

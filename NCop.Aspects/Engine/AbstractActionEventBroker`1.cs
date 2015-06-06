@@ -28,10 +28,10 @@ namespace NCop.Aspects.Engine
         }
 
         protected void OnEventFired(TArg1 arg1) {
-            var @event = instance.GetType().GetEvents()[0];
-            var args = new EventActionInterceptionArgsImpl<TInstance, TArg1>(instance, @event, null, binding, this, arg1);
+            var args = new EventActionInterceptionArgsImpl<TInstance, TArg1>();
 
             for (var i = linkedHandlers.First; i != null; i = i.Next) {
+                args.Arg1 = arg1;
                 args.Handler = i.Value;
                 OnInvokeHandler(args);
             }
@@ -49,6 +49,6 @@ namespace NCop.Aspects.Engine
 
         protected abstract void UnsubscribeImpl();
 
-        public abstract void OnInvokeHandler(EventActionInterceptionArgs<TArg1> args);
+        protected abstract void OnInvokeHandler(EventActionInterceptionArgsImpl<TInstance, TArg1> args);
     }
 }

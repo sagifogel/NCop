@@ -12,18 +12,24 @@ namespace NCop.Composite.Weaving
 {
     internal class CompositeTypeWeaverBuilder : ITypeWeaverBuilder
     {
-        private readonly ICompositeMixinsTypeWeaverBuilder builder = null;
+        private readonly ICompositeWeavingSettings compositeWeavingSettings = null;
 
         internal CompositeTypeWeaverBuilder(ICompositeWeavingSettings compositeWeavingSettings) {
+            this.compositeWeavingSettings = compositeWeavingSettings;
+        }
+
+        public ITypeWeaver Build() {
+            ICompositeMixinsTypeWeaverBuilder builder = null;
             var registry = compositeWeavingSettings.Registry;
             var mixinsMap = compositeWeavingSettings.MixinsMap;
             var aspectsMap = compositeWeavingSettings.AspectsMap;
             var compositeType = compositeWeavingSettings.CompositeType;
+            var aspectRepository = compositeWeavingSettings.AspectRepository;
             var aspectMappedMembers = compositeWeavingSettings.AspectMemebrsCollection;
             var compositeMappedMembers = new CompositeMemberMapper(aspectsMap, aspectMappedMembers);
-            var typeDefinitionWeaver = new CompositeTypeDefinitionWeaver(compositeType, mixinsMap);
-            var typeDefinition = typeDefinitionWeaver.Weave();
-
+            var typeDefinitionWeaver = new CompositeTypeDefinitionWeaver(compositeType, mixinsMap, compositeMappedMembers);
+            var typeDefinition = typeDefinitionWeaver.Weave() as IAspectTypeDefinition;
+            
             if (IsAtomComposite(compositeType, mixinsMap)) {
                 builder = new AtomCompositeMixinsWeaverBuilder(compositeType, typeDefinition, registry);
             }
@@ -34,9 +40,9 @@ namespace NCop.Composite.Weaving
             mixinsMap.ForEach(map => builder.Add(map));
 
             compositeMappedMembers.Events.ForEach(compositeEventMap => {
-                var propertyBuillder = new CompositeEventWeaverBuilder(compositeEventMap, typeDefinition, compositeWeavingSettings);
+                var eventBuilder = new CompositeEventWeaverBuilder(compositeEventMap, typeDefinition, compositeWeavingSettings);
 
-                builder.Add(propertyBuillder);
+                builder.Add(eventBuilder);
             });
 
             compositeMappedMembers.Methods.ForEach(compositeMethodMap => {
@@ -46,13 +52,11 @@ namespace NCop.Composite.Weaving
             });
 
             compositeMappedMembers.Properties.ForEach(compositePropertyMap => {
-                var propertyBuillder = new CompositePropertyWeaverBuilder(compositePropertyMap, typeDefinition, compositeWeavingSettings);
+                var propertyBuilder = new CompositePropertyWeaverBuilder(compositePropertyMap, typeDefinition, compositeWeavingSettings);
 
-                builder.Add(propertyBuillder);
+                builder.Add(propertyBuilder);
             });
-        }
 
-        public ITypeWeaver Build() {
             return builder.Build();
         }
 

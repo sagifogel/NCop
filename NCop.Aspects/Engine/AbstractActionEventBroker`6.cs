@@ -28,10 +28,15 @@ namespace NCop.Aspects.Engine
         }
 
         protected void OnEventFired(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6) {
-            var @event = instance.GetType().GetEvents()[0];
-            var args = new EventActionInterceptionArgsImpl<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(instance, @event, null, binding, this, arg1, arg2, arg3, arg4, arg5, arg6);
+            var args = new EventActionInterceptionArgsImpl<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>();
 
             for (var i = linkedHandlers.First; i != null; i = i.Next) {
+                args.Arg1 = arg1;
+                args.Arg2 = arg2;
+                args.Arg3 = arg3;
+                args.Arg4 = arg4;
+                args.Arg5 = arg5;
+                args.Arg6 = arg6; 
                 args.Handler = i.Value;
                 OnInvokeHandler(args);
             }
@@ -49,6 +54,6 @@ namespace NCop.Aspects.Engine
 
         protected abstract void UnsubscribeImpl();
 
-        public abstract void OnInvokeHandler(EventActionInterceptionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> args);
+        protected abstract void OnInvokeHandler(EventActionInterceptionArgsImpl<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> args);
     }
 }

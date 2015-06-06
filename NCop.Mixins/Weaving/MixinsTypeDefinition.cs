@@ -15,7 +15,6 @@ namespace NCop.Mixins.Weaving
     {
         protected readonly ITypeMap mixinsMap = null;
         protected readonly IDictionary<Type, IFieldBuilderDefinition> typeDefinitions = new Dictionary<Type, IFieldBuilderDefinition>();
-        private static readonly MethodAttributes attrs = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
 
         public MixinsTypeDefinition(Type mixinsType, ITypeMap mixinsMap) {
             Type = mixinsType;
@@ -25,8 +24,6 @@ namespace NCop.Mixins.Weaving
         public virtual ITypeDefinition Initialize() {
             CreateTypeBuilder();
             CreateTypeDefinitions();
-            CreateDefaultConstructor();
-
             return this;
         }
 
@@ -53,39 +50,6 @@ namespace NCop.Mixins.Weaving
                 var mixinTypeDefinition = new MixinFieldBuilderDefinition(mixin.ContractType, TypeBuilder);
 
                 typeDefinitions.Add(mixin.ContractType, mixinTypeDefinition);
-            });
-        }
-
-        protected virtual void CreateDefaultConstructor() {
-            var ctorBuilder = DefineConstructor();
-            var ilGenerator = ctorBuilder.GetILGenerator();
-
-            EmitConstructorBody(ilGenerator);
-            ilGenerator.Emit(OpCodes.Ret);
-        }
-
-        protected virtual ConstructorBuilder DefineConstructor() {
-            var @params = mixinsMap.ToArray(map => map.ContractType);
-            var ctorBuilder = TypeBuilder.DefineConstructor(attrs, CallingConventions.HasThis, @params);
-
-            @params.ForEach(1, (param, i) => {
-                ctorBuilder.DefineParameter(i, ParameterAttributes.None, "param{0}".Fmt(i));
-            });
-
-            return ctorBuilder;
-        }
-
-        protected virtual void EmitConstructorBody(ILGenerator ilGenerator) {
-            ilGenerator.Emit(OpCodes.Ldarg_0);
-            ilGenerator.Emit(OpCodes.Call, typeof(object).GetConstructor(Type.EmptyTypes));
-
-            mixinsMap.ForEach(1, (map, i) => {
-                var contractType = map.ContractType;
-                var mixinTypeDefinition = typeDefinitions[contractType];
-
-                ilGenerator.Emit(OpCodes.Ldarg_0);
-                ilGenerator.EmitLoadArg(i);
-                ilGenerator.Emit(OpCodes.Stfld, mixinTypeDefinition.FieldBuilder);
             });
         }
     }

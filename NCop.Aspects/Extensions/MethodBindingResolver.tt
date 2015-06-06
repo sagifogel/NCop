@@ -6,8 +6,9 @@
 <#
 	var template = new GenericBindingResolver();
     
+	template.GenerateInterfaces = true;
     template.AcionBinding = "ActionBinding";
-    template.FunctionBinding = "FunctionBinding";
+	template.FunctionBinding = "FunctionBinding";
     template.BindingResolverType = "MethodBindingResolver";
 	template.Render();
 #>

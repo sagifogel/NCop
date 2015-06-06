@@ -1,0 +1,13 @@
+<#@ template language="C#" hostspecific="True" debug="True" #>
+<#@ output extension="cs" #>
+<#@ include file="GenericBindingResolver.tt" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#
+	var template = new GenericBindingResolver();
+    
+    template.AcionBinding = "AbstractActionEventBroker";
+    template.FunctionBinding = "AbstractFunctionEventBroker";
+    template.BindingResolverType = "EventBrokerBaseClassResolver";
+	template.Render();
+#>

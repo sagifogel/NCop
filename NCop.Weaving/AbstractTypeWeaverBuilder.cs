@@ -1,4 +1,5 @@
 ﻿using System;
+using NCop.Core.Extensions;
 using System.Collections.Generic;
 
 namespace NCop.Weaving
@@ -6,15 +7,13 @@ namespace NCop.Weaving
     public abstract class AbstractTypeWeaverBuilder : ITypeWeaverBuilder, IMethodWeaverBuilderBag, IPropertyWeaverBuilderBag, IEventWeaverBuilderBag
     {
         protected readonly Type type = null;
-        protected readonly ITypeDefinition typeDefinition = null;
         protected readonly List<IMethodWeaver> methodWeavers = null;
         protected readonly List<IEventWeaverBuilder> eventWeaversBuilders = null;
         protected readonly List<IMethodWeaverBuilder> methodWeaversBuilders = null;
         protected readonly List<IPropertyWeaverBuilder> propertyWeaversBuilders = null;
 
-        protected AbstractTypeWeaverBuilder(Type type, ITypeDefinition typeDefinition) {
+        protected AbstractTypeWeaverBuilder(Type type) {
             this.type = type;
-            this.typeDefinition = typeDefinition;
             methodWeavers = new List<IMethodWeaver>();
             eventWeaversBuilders = new List<IEventWeaverBuilder>();
             methodWeaversBuilders = new List<IMethodWeaverBuilder>();
@@ -37,31 +36,39 @@ namespace NCop.Weaving
 
         public virtual void AddEventWeavers() {
             eventWeaversBuilders.ForEach(eventBuilder => {
-                var propertyWeaver = eventBuilder.Build();
-
-                methodWeavers.Add(propertyWeaver.GetOnAddMethod());
-                methodWeavers.Add(propertyWeaver.GetOnRemoveMethod());
+                AddEventWeaver(eventBuilder.Build());
             });
         }
 
         public virtual void AddMethodWeavers() {
             methodWeaversBuilders.ForEach(methodBuilder => {
-                methodWeavers.Add(methodBuilder.Build());
+                AddMethodWeaver(methodBuilder.Build());
             });
         }
 
-        public virtual void AddPropertyWeavers() {
+        protected virtual void AddPropertyWeavers() {
             propertyWeaversBuilders.ForEach(propertyBuilder => {
-                var propertyWeaver = propertyBuilder.Build();
-
-                if (propertyWeaver.CanRead) {
-                    methodWeavers.Add(propertyWeaver.GetGetMethod());
-                }
-
-                if (propertyWeaver.CanWrite) {
-                    methodWeavers.Add(propertyWeaver.GetSetMethod());
-                }
+                AddPropertyWeaver(propertyBuilder.Build());
             });
+        }
+
+        public virtual void AddEventWeaver(IEventWeaver eventWeaver) {
+            methodWeavers.Add(eventWeaver.GetOnAddMethod());
+            methodWeavers.Add(eventWeaver.GetOnRemoveMethod());
+        }
+
+        public virtual void AddMethodWeaver(IMethodWeaver methodWeaver) {
+            methodWeavers.Add(methodWeaver);
+        }
+
+        public virtual void AddPropertyWeaver(IPropertyWeaver propertyWeaver) {
+            if (propertyWeaver.CanRead) {
+                methodWeavers.Add(propertyWeaver.GetGetMethod());
+            }
+
+            if (propertyWeaver.CanWrite) {
+                methodWeavers.Add(propertyWeaver.GetSetMethod());
+            }
         }
     }
 }

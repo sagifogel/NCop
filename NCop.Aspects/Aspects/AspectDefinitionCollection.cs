@@ -1,4 +1,5 @@
-﻿using NCop.Core.Lib;
+﻿using System.Linq;
+using NCop.Core.Lib;
 using System.Collections.Generic;
 
 namespace NCop.Aspects.Aspects
@@ -10,6 +11,10 @@ namespace NCop.Aspects.Aspects
 
         public AspectDefinitionCollection(IEnumerable<IAspectDefinition> aspectDefinitions)
             : base(aspectDefinitions) {
+        }
+
+        public IEnumerable<IAspectDefinition> OrderAspectsByPriority() {
+            return Items.OrderBy(aspect => aspect.Aspect.AspectPriority);
         }
     }
 }

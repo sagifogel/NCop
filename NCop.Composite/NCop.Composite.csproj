@@ -113,7 +113,6 @@
     <Compile Include="Engine\ICompositeGetPropertyMap.cs" />
     <Compile Include="Engine\ICompositePropertyMapper.cs" />
     <Compile Include="Engine\ICompositePropertyMapCollection.cs" />
-    <Compile Include="Engine\IHasAspectDefinition.cs" />
     <Compile Include="Exceptions\DuplicateCompositeAnnotationException.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -128,6 +127,7 @@
     <Compile Include="IoC\CompositeRegistration.cs" />
     <Compile Include="IoC\CompositeServiceEntry.cs" />
     <Compile Include="IoC\CompositeTypeRegistration.cs" />
+    <Compile Include="Mixins\Weaving\AbstractCompositeWeaverBuilder.cs" />
     <Compile Include="Mixins\Weaving\AtomCompositeMixinsWeaverBuilder.cs" />
     <Compile Include="Mixins\Weaving\CompositeMixinsWeaverBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -140,8 +140,10 @@
     <Compile Include="Runtime\CompositeRuntimeSettings.cs" />
     <Compile Include="Weaving\AbstractCompositeEventWeaverBuilder.cs" />
     <Compile Include="Weaving\AbstractCompositePropertyWeaver.cs" />
-    <Compile Include="Weaving\AtomMixinsWeaverStartegy.cs" />
+    <Compile Include="Weaving\AtomMixinsWeaverStrategy.cs" />
     <Compile Include="Weaving\CompositeEventWeaver.cs" />
+    <Compile Include="Weaving\CompositeOnInvokeEventWeaver .cs" />
+    <Compile Include="Weaving\CompositeOnInvokeEventWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeOnRemoveEventWeaver.cs" />
     <Compile Include="Weaving\CompositeOnAddEventWeaver.cs" />
     <Compile Include="Weaving\CompositeOnRemoveEventWeaverBuilder.cs" />
@@ -160,8 +162,10 @@
     <Compile Include="Weaving\CompositeSetPropertyWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeWeavingSettingsImpl.cs" />
     <Compile Include="Mixins\Weaving\ICompositeMixinsTypeWeaverBuilder.cs" />
-    <Compile Include="Weaving\ICompositeTypeDefinition.cs" />
+    <Compile Include="Weaving\ICompositeEventTypeBuilder.cs" />
+    <Compile Include="Weaving\ICompositeEventWeaver.cs" />
     <Compile Include="Weaving\ICompositeWeavingSettings.cs" />
+    <Compile Include="Weaving\OnInvokeMethodWeaverBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

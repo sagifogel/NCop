@@ -11,13 +11,13 @@ namespace NCop.Mixins.Weaving
         protected readonly TypeMapSet mixinsMap = null;
         protected readonly INCopDependencyAwareRegistry registry = null;
 
-        protected AbstrcatMixinsTypeWeaverBuilder(Type type, ITypeDefinition typeDefinition, INCopDependencyAwareRegistry registry)
-            : base(type, typeDefinition) {
+        protected AbstrcatMixinsTypeWeaverBuilder(Type type, INCopDependencyAwareRegistry registry)
+            : base(type) {
             this.registry = registry;
             mixinsMap = new TypeMapSet();
         }
 
-        public void Add(TypeMap item) {
+        public virtual void Add(TypeMap item) {
             mixinsMap.Add(item);
         }
     }

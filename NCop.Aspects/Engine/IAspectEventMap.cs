@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace NCop.Aspects.Engine
 {
-    public interface IAspectEventMap : IAspectMembers<EventInfo>, IMemberMap<EventInfo>
+    public interface IAspectEventMap : IAspectEvent
     {
         EventInfo AspectEvent { get; }
     }

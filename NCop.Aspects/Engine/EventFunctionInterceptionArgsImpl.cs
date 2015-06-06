@@ -9,6 +9,9 @@ namespace NCop.Aspects.Engine
         private TInstance instance = default(TInstance);
         private readonly IEventFunctionBinding<TInstance, TResult> funcBinding = null;
 
+        public EventFunctionInterceptionArgsImpl() {
+        }
+
         public EventFunctionInterceptionArgsImpl(TInstance instance, EventInfo @event, Func<TResult> handler, IEventFunctionBinding<TInstance, TResult> funcBinding, IEventBroker<Func<TResult>> eventBroker = null) {
             Event = @event;
             Handler = handler;

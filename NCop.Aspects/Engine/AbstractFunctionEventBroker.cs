@@ -9,10 +9,8 @@ namespace NCop.Aspects.Engine
     {
         protected readonly TInstance instance = default(TInstance);
         private readonly LinkedList<Func<TResult>> linkedHandlers = null;
-        private readonly IEventFunctionBinding<TInstance, TResult> binding = null;
 
-        protected AbstractFunctionEventBroker(TInstance instance, IEventFunctionBinding<TInstance, TResult> binding) {
-            this.binding = binding;
+        protected AbstractFunctionEventBroker(TInstance instance) {
             this.instance = instance;
             linkedHandlers = new LinkedList<Func<TResult>>();
         }
@@ -28,8 +26,7 @@ namespace NCop.Aspects.Engine
         }
 
         protected TResult OnEventFired() {
-            var @event = instance.GetType().GetEvents()[0];
-            var args = new EventFunctionInterceptionArgsImpl<TInstance, TResult>(instance, @event, null, binding, this);
+            var args = new EventFunctionInterceptionArgsImpl<TInstance, TResult>();
 
             for (var i = linkedHandlers.First; i != null; i = i.Next) {
                 args.Handler = i.Value;
@@ -51,6 +48,6 @@ namespace NCop.Aspects.Engine
 
         protected abstract void UnsubscribeImpl();
 
-        public abstract void OnInvokeHandler(EventFunctionInterceptionArgs<TResult> args);
+        protected abstract void OnInvokeHandler(EventFunctionInterceptionArgsImpl<TInstance, TResult> args);
     }
 }

@@ -35,7 +35,7 @@ namespace NCop.Aspects.Weaving
         }
 
         public void WeaveEndMethod(ILGenerator ilGenerator) {
-            methodEndWeaver.Weave(method, ilGenerator);
+            methodEndWeaver.Weave(ilGenerator);
         }
 
         public IMethodScopeWeaver MethodScopeWeaver {

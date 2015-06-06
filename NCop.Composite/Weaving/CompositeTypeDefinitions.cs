@@ -1,4 +1,5 @@
 ﻿using NCop.Aspects.Weaving;
+using NCop.Composite.Engine;
 using NCop.Core;
 using NCop.Core.Extensions;
 using NCop.Mixins.Exceptions;
@@ -7,27 +8,31 @@ using NCop.Weaving;
 using NCop.Weaving.Properties;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 
 namespace NCop.Composite.Weaving
 {
-    internal class CompositeTypeDefinition : MixinsTypeDefinition, ICompositeTypeDefinition
+    internal class CompositeTypeDefinition : MixinsTypeDefinition, IAspectTypeDefinition
     {
-        protected readonly IDictionary<string, IFieldBuilderDefinition> eventTypeDefinitions = new Dictionary<string, IFieldBuilderDefinition>();
+        protected readonly ICompositeMemberCollection compositeMemberCollection = null;
+        protected readonly IDictionary<string, EventBrokerFieldTypeDefinition> eventTypeDefinitions = new Dictionary<string, EventBrokerFieldTypeDefinition>();
 
-        internal CompositeTypeDefinition(Type mixinsType, ITypeMap mixinsMap)
+        internal CompositeTypeDefinition(Type mixinsType, ITypeMap mixinsMap, ICompositeMemberCollection compositeMemberCollection)
             : base(mixinsType, mixinsMap) {
+            this.compositeMemberCollection = compositeMemberCollection;
         }
 
         protected override void CreateTypeDefinitions() {
             var typeDefinitionsActions = new List<Action<TypeMap>>();
 
-            RegisterTypeDefinitionMixinAction(typeDefinitionsActions);
-            RegisterEventTypeDefinitionAction(typeDefinitionsActions);
+            RegisterMixinsTypeDefinition(typeDefinitionsActions);
+            RegisterEventTypeDefinitions();
             CreateTypeDefinitions(typeDefinitionsActions);
         }
 
-        protected void RegisterTypeDefinitionMixinAction(List<Action<TypeMap>> typeDefinitionsActions) {
+        protected void RegisterMixinsTypeDefinition(List<Action<TypeMap>> typeDefinitionsActions) {
             typeDefinitionsActions.Add(mixin => {
                 var mixinTypeDefinition = new MixinFieldBuilderDefinition(mixin.ContractType, TypeBuilder);
 
@@ -35,15 +40,13 @@ namespace NCop.Composite.Weaving
             });
         }
 
-        protected virtual void RegisterEventTypeDefinitionAction(List<Action<TypeMap>> typeDefinitionsActions) {
-            typeDefinitionsActions.Add(mixin => {
-                IEnumerable<EventBrokerFieldTypeDefinition> eventBrokerFieldTypeDefinitions;
+        protected virtual void RegisterEventTypeDefinitions() {
+            var eventsMap = compositeMemberCollection.Events.Where(eventMap => eventMap.HasAspectDefinitions);
+            var eventBrokerWeaver = new EventBrokerWeaver(TypeBuilder, eventsMap);
+            var eventBrokerDefinitions = eventBrokerWeaver.Weave();
 
-                if (EventBrokerFieldTypeDefinitionsResolver.TryResolve(mixin.ContractType, TypeBuilder, out eventBrokerFieldTypeDefinitions)) {
-                    eventBrokerFieldTypeDefinitions.ForEach(eventBrokerFieldTypeDefinition => {
-                        eventTypeDefinitions.Add(eventBrokerFieldTypeDefinition.Name, eventBrokerFieldTypeDefinition);
-                    });
-                }
+            eventBrokerDefinitions.ForEach(eventBrokerDefinition => {
+                eventTypeDefinitions.Add(eventBrokerDefinition.Name, eventBrokerDefinition);
             });
         }
 
@@ -55,23 +58,33 @@ namespace NCop.Composite.Weaving
             });
         }
 
-        protected override void EmitConstructorBody(ILGenerator ilGenerator) {
-            base.EmitConstructorBody(ilGenerator);
+        public FieldBuilder GetEventFieldBuilder(string name, Type type) {
+            var eventBrokerFieldTypeDefinition = GetEventBrokerFielTypeDefinition(name, (eventBrokerDefinition) => {
+                return ReferenceEquals(eventBrokerDefinition.Type, type);
+            });
+
+            return eventBrokerFieldTypeDefinition.FieldBuilder;
         }
 
-        public FieldBuilder GetEventFieldBuilder(string name, Type type) {
-            IFieldBuilderDefinition fieldBuilderDefinition;
+        public EventBrokerFieldTypeDefinition GetEventBrokerFielTypeDefinition(EventInfo @event) {
+            return GetEventBrokerFielTypeDefinition(@event.Name, (eventBrokerDefinition) => {
+                return @event.ToEventBrokerType() == eventBrokerDefinition.EventBrokerType;
+            });
+        }
 
-            if (!eventTypeDefinitions.TryGetValue(name, out fieldBuilderDefinition)) {
-                throw new MissingFieldBuilderException(Resources.CouldNotFindFieldBuilderByType.Fmt(type.FullName));
+        private EventBrokerFieldTypeDefinition GetEventBrokerFielTypeDefinition(string name, Func<EventBrokerFieldTypeDefinition, bool> predicate) {
+            EventBrokerFieldTypeDefinition eventBrokerFieldTypeDefinition;
+
+            if (!eventTypeDefinitions.TryGetValue(name, out eventBrokerFieldTypeDefinition)) {
+                throw new MissingFieldBuilderException(Resources.CouldNotFindFieldBuilderByType.Fmt(eventBrokerFieldTypeDefinition.Type.FullName));
             }
-            else if (!ReferenceEquals(type, fieldBuilderDefinition.Type)) {
-                var message = Resources.CouldNotFindFieldBuilderByType.Fmt(fieldBuilderDefinition.Type.FullName);
+            else if (predicate(eventBrokerFieldTypeDefinition)) {
+                var message = Resources.CouldNotFindFieldBuilderByType.Fmt(eventBrokerFieldTypeDefinition.Type.FullName);
 
                 throw new MissingFieldBuilderException(message);
             }
 
-            return fieldBuilderDefinition.FieldBuilder;
+            return eventBrokerFieldTypeDefinition;
         }
     }
 }

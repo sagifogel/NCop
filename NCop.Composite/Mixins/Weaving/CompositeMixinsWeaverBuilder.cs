@@ -1,4 +1,6 @@
-﻿using NCop.Composite.Framework;
+﻿using NCop.Aspects.Weaving;
+using NCop.Composite.Framework;
+using NCop.Composite.Weaving;
 using NCop.Core.Extensions;
 using NCop.IoC;
 using NCop.Mixins.Weaving;
@@ -7,9 +9,9 @@ using System;
 
 namespace NCop.Composite.Mixins.Weaving
 {
-    internal class CompositeMixinsWeaverBuilder : AbstrcatMixinsTypeWeaverBuilder, ICompositeMixinsTypeWeaverBuilder
+    internal class CompositeMixinsWeaverBuilder : AbstractCompositeWeaverBuilder, ICompositeMixinsTypeWeaverBuilder
     {
-        public CompositeMixinsWeaverBuilder(Type type, ITypeDefinition typeDefinition, INCopDependencyAwareRegistry registry)
+        public CompositeMixinsWeaverBuilder(Type type, IAspectTypeDefinition typeDefinition, INCopDependencyAwareRegistry registry)
             : base(type, typeDefinition, registry) {
         }
 

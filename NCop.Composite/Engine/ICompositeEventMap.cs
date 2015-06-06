@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace NCop.Composite.Engine
 {
-    public interface ICompositeEventMap : IAspectMembers<EventInfo>, IMemberMap<EventInfo>, IHasAspectDefinitions
+    public interface ICompositeEventMap : IAspectEvent, IHasAspectDefinitions
     {
     }
 }

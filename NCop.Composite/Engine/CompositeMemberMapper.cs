@@ -23,10 +23,10 @@ namespace NCop.Composite.Engine
         }
 
         private void MapEvents(IAspectsMap aspectsMap, IEnumerable<IAspectEventMap> aspetMappedEvents) {
-            var methodMap = aspectsMap.Where(map => map.Member.MemberType == MemberTypes.Event);
+            var eventMap = aspectsMap.Where(map => map.Member.MemberType == MemberTypes.Event);
 
             var mappedEventsEnumerable = from mapped in aspetMappedEvents
-                                         from aspectMap in aspectsMap.Where(map => {
+                                         from aspectMap in eventMap.Where(map => {
                                              var @event = map.Member as EventInfo;
 
                                              return @event.IsMatchedTo(mapped.ImplementationMember);
@@ -45,7 +45,7 @@ namespace NCop.Composite.Engine
             var methodMap = aspectsMap.Where(map => map.Member.MemberType == MemberTypes.Method);
 
             var mappedMethodsEnumerable = from mapped in aspetMappedMethods
-                                          from aspectMap in aspectsMap.Where(map => {
+                                          from aspectMap in methodMap.Where(map => {
                                               var method = map.Member as MethodInfo;
 
                                               return method.IsMatchedTo(mapped.ImplementationMember);

@@ -2,12 +2,12 @@
 
 namespace NCop.Aspects.Weaving
 {
-	public interface IAspectWeavingSettings
-	{
+    public interface IAspectWeavingSettings
+    {
         IWeavingSettings WeavingSettings { get; }
-		IAspectRepository AspectRepository { get; }
-		IAspectArgsMapper AspectArgsMapper { get; }
-		ILocalBuilderRepository LocalBuilderRepository { get; }
+        IAspectRepository AspectRepository { get; }
+        IAspectArgsMapper AspectArgsMapper { get; }
+        ILocalBuilderRepository LocalBuilderRepository { get; }
         IByRefArgumentsStoreWeaver ByRefArgumentsStoreWeaver { get; }
     }
 }

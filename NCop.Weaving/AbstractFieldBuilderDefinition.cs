@@ -5,9 +5,9 @@ namespace NCop.Weaving
 {
     public abstract class AbstractFieldBuilderDefinition : IFieldBuilderDefinition
     {
-        protected AbstractFieldBuilderDefinition(Type type, TypeBuilder typeBuilder) {
+        protected AbstractFieldBuilderDefinition(Type type, TypeBuilder typeBuilder, string fieldName = null) {
             Type = type;
-            FieldBuilder = new FieldWeaver(typeBuilder, type).Weave();
+            FieldBuilder = new FieldWeaver(typeBuilder, type, fieldName).Weave();
         }
 
         public Type Type { get; private set; }

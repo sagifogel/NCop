@@ -4,12 +4,12 @@ using NCop.Weaving;
 
 namespace NCop.Composite.Weaving
 {
-    public class CompositeEventWeaverBuilder : AbstractWeaverBuilder, IEventWeaverBuilder
+    public class CompositeEventWeaverBuilder : AbstractAspectWeaverBuilder, IEventWeaverBuilder
     {
         private readonly ICompositeEventMap compositeEventMap = null;
         private readonly IAspectWeavingServices aspectWeavingServices = null;
 
-        public CompositeEventWeaverBuilder(ICompositeEventMap compositeEventMap, ITypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
+        public CompositeEventWeaverBuilder(ICompositeEventMap compositeEventMap, IAspectTypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
             : base(compositeEventMap.ContractType, typeDefinition) {
             this.compositeEventMap = compositeEventMap;
             this.aspectWeavingServices = aspectWeavingServices;
@@ -22,6 +22,12 @@ namespace NCop.Composite.Weaving
 
             eventWeaver.SetAddOnMethod(addEventWeaver.Build());
             eventWeaver.SetRemoveOnMethod(removeEventWeaver.Build());
+
+            if (compositeEventMap.HasAspectDefinitions) {
+                var onInvokeWeaver = new CompositeOnInvokeEventWeaverBuilder(compositeEventMap, typeDefinition, aspectWeavingServices);
+
+                eventWeaver.SetOnInvokeMethod(onInvokeWeaver.Build());
+            }
 
             return eventWeaver;
         }

@@ -8,7 +8,7 @@ namespace NCop.Weaving
 		IMethodEndWeaver MethodEndWeaver { get; }
 		void WeaveEndMethod(ILGenerator ilGenerator);
 		IMethodScopeWeaver MethodScopeWeaver { get; }
-        IMethodSignatureWeaver MethodDefintionWeaver { get; }
         void WeaveMethodScope(ILGenerator ilGenerator);
+        IMethodSignatureWeaver MethodDefintionWeaver { get; }
     }
 }

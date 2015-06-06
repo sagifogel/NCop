@@ -5,6 +5,6 @@ namespace NCop.Weaving
 {
     public interface IMethodEndWeaver
     {
-        void Weave(MethodInfo methodInfo, ILGenerator ilGenerator);
+        void Weave(ILGenerator ilGenerator);
     }
 }

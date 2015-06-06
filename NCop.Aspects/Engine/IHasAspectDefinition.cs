@@ -1,6 +1,6 @@
 ﻿using NCop.Aspects.Aspects;
 
-namespace NCop.Composite.Engine
+namespace NCop.Aspects.Engine
 {
     public interface IHasAspectDefinitions
     {

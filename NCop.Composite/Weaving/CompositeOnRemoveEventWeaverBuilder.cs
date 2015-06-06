@@ -6,7 +6,7 @@ namespace NCop.Composite.Weaving
 {
     internal class CompositeOnRemoveEventWeaverBuilder : AbstractCompositeEventWeaverBuilder
     {
-        internal CompositeOnRemoveEventWeaverBuilder(ICompositeEventMap compositeEventMap, ITypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
+        internal CompositeOnRemoveEventWeaverBuilder(ICompositeEventMap compositeEventMap, IAspectTypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
             : base(compositeEventMap, typeDefinition, aspectWeavingServices) {
         }
 
@@ -24,7 +24,7 @@ namespace NCop.Composite.Weaving
                 return new CompositeOnRemoveEventWeaver(removeMethod, typeDefinition, compositeEventMap.AspectDefinitions, aspectWeavingSettings);
             }
 
-            return null;// new GetPropertyDecoratorWeaver(compositePropertyMap.ContractMember.GetGetMethod(), weavingSettings);
+            return null;// new OnRemoveEventDecoratorWeaver(compositePropertyMap.ContractMember.GetGetMethod(), weavingSettings);
         }
     }
 }

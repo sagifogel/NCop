@@ -6,6 +6,7 @@
 <#
 	var template = new GenericBindingResolver();
     
+	template.GenerateInterfaces = true;
     template.AcionBinding = "EventActionBinding";
     template.FunctionBinding = "EventFunctionBinding";
     template.BindingResolverType = "EventBindingResolver";

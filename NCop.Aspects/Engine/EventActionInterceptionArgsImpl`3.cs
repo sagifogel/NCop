@@ -9,6 +9,9 @@ namespace NCop.Aspects.Engine
         private TInstance instance = default(TInstance);
         private readonly IEventActionBinding<TInstance, TArg1, TArg2, TArg3> actionBinding = null;
 
+        public EventActionInterceptionArgsImpl() {
+        }
+
         public EventActionInterceptionArgsImpl(TInstance instance, EventInfo @event, Action<TArg1, TArg2, TArg3> handler, IEventActionBinding<TInstance, TArg1, TArg2, TArg3> actionBinding, IEventBroker<Action<TArg1, TArg2, TArg3>> eventBroker = null, TArg1 arg1 = default(TArg1), TArg2 arg2 = default(TArg2), TArg3 arg3 = default(TArg3)) {
             Arg1 = arg1;
             Arg2 = arg2;

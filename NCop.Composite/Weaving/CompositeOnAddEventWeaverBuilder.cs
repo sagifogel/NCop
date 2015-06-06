@@ -6,7 +6,7 @@ namespace NCop.Composite.Weaving
 {
     internal class CompositeOnAddEventWeaverBuilder : AbstractCompositeEventWeaverBuilder
     {
-        internal CompositeOnAddEventWeaverBuilder(ICompositeEventMap compositeEventMap, ITypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
+        internal CompositeOnAddEventWeaverBuilder(ICompositeEventMap compositeEventMap, IAspectTypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
             : base(compositeEventMap, typeDefinition, aspectWeavingServices) {
         }
 

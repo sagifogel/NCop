@@ -5,7 +5,7 @@ namespace NCop.Weaving
 {
     public class MethodEndWeaver : IMethodEndWeaver
     {
-        public void Weave(MethodInfo methodInfo, ILGenerator ilGenerator) {
+        public void Weave(ILGenerator ilGenerator) {
             ilGenerator.Emit(OpCodes.Ret);
         }
     }

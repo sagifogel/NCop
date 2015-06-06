@@ -206,6 +206,8 @@
     <Compile Include="Engine\IEventFunctionBinding`7.cs" />
     <Compile Include="Engine\IEventFunctionBinding`8.cs" />
     <Compile Include="Engine\IEventFunctionInterceptionArgs.cs" />
+    <Compile Include="Engine\IAspectEvent.cs" />
+    <Compile Include="Engine\IHasAspectDefinition.cs" />
     <Compile Include="Engine\SetPropertyFragmentInterceptionAspect.cs" />
     <Compile Include="Engine\GetPropertyFragmentInterceptionAspect.cs" />
     <Compile Include="Engine\IPropertyFragment.cs" />
@@ -233,13 +235,24 @@
       <DependentUpon>AspectWeavingException.tt</DependentUpon>
     </Compile>
     <Compile Include="Exceptions\TopAspectInvalidOperationException.cs" />
+    <None Include="Extensions\AspectArgsContractResolver.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AspectArgsContractResolver.cs</LastGenOutput>
+      <LastOutputs>.\AspectArgsContractResolver.cs</LastOutputs>
+    </None>
+    <None Include="Extensions\EventBrokerBaseClassResolver.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EventBrokerBaseClassResolver.cs</LastGenOutput>
+      <LastOutputs>.\EventBrokerBaseClassResolver.cs</LastOutputs>
+    </None>
     <None Include="Extensions\GenericBindingResolver.tt">
       <LastOutputs>.\AbstrcatBindingResolver1.cs</LastOutputs>
     </None>
     <Compile Include="Extensions\AspectArgsContractResolver.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>AspectArgsContractResolver.tt</DependentUpon>
+      <SubType>Code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Extensions\AspectArgsImplResolver.cs">
       <AutoGen>True</AutoGen>
@@ -248,11 +261,16 @@
     </Compile>
     <None Include="Extensions\EventBindingResolver.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>EventBindingResolver1.cs</LastGenOutput>
-      <LastOutputs>.\EventBindingResolver1.cs</LastOutputs>
+      <LastGenOutput>EventBindingResolver.cs</LastGenOutput>
+      <LastOutputs>.\EventBindingResolver.cs</LastOutputs>
     </None>
+    <Compile Include="Extensions\EventBrokerBaseClassResolver.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EventBrokerBaseClassResolver.tt</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\BindingExtensions.cs" />
-    <Compile Include="Extensions\EventBindingResolver1.cs">
+    <Compile Include="Extensions\EventBindingResolver.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EventBindingResolver.tt</DependentUpon>
@@ -314,6 +332,7 @@
     <Compile Include="Framework\PropertyInterceptionAspect.cs" />
     <Compile Include="Weaving\AbstractArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractAspectMethodWeaver.cs" />
+    <Compile Include="Weaving\AbstractAspectWeaverBuilder.cs" />
     <Compile Include="Weaving\AbstractBindingPropertyAspectWeaver.cs" />
     <Compile Include="Weaving\AbstractBindingMethodInterceptionArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractBindingOnMethodExecutionArgumentsWeaver.cs" />
@@ -347,7 +366,9 @@
     <Compile Include="Weaving\BindingSetPropertyAspectDecoratorWeaver.cs" />
     <Compile Include="Weaving\BindingGetPropertyAspectDecoratorWeaver.cs" />
     <Compile Include="Weaving\EventBrokerFieldTypeDefinition.cs" />
-    <Compile Include="Weaving\EventBrokerFieldTypeDefinitionsResolver.cs" />
+    <Compile Include="Weaving\EventBrokerFieldTypeDefinitionResolver.cs" />
+    <Compile Include="Weaving\EventBrokerResolvedType.cs" />
+    <Compile Include="Weaving\EventBrokerWeaver.cs" />
     <Compile Include="Weaving\Expressions\AbstractAspectEventExpression.cs" />
     <Compile Include="Weaving\Expressions\AbstractPartialFragmentAspectPropertyExpression.cs" />
     <Compile Include="Weaving\Expressions\BindingGetPropertyFragmentInterceptionAspectExpression.cs" />
@@ -359,6 +380,10 @@
     <Compile Include="Weaving\Expressions\OnRemoveHandlerAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\OnAddHandlerAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\TopEventInterceptionAspectExpression.cs" />
+    <Compile Include="Weaving\IAspectTypeDefinition.cs" />
+    <Compile Include="Weaving\OnInvokeMethodDefinition.cs" />
+    <Compile Include="Weaving\OnInvokeMethodScopeWeaver.cs" />
+    <Compile Include="Weaving\OnInvokeMethodWeaver.cs" />
     <Compile Include="Weaving\OnRemoveHandlerAdviceWeaver.cs" />
     <Compile Include="Weaving\OnAddHandlerAdviceWeaver.cs" />
     <Compile Include="Weaving\OnInvokeHandlerAdviceWeaver.cs" />
@@ -753,11 +778,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastOutputs>.\AspectArgsImplResolver.cs</LastOutputs>
       <LastGenOutput>AspectArgsImplResolver.cs</LastGenOutput>
-    </None>
-    <None Include="Extensions\AspectArgsContractResolver.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AspectArgsContractResolver.cs</LastGenOutput>
-      <LastOutputs>.\AspectArgsContractResolver.cs</LastOutputs>
     </None>
     <None Include="Extensions\MethodBindingResolver.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

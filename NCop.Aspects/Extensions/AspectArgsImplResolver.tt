@@ -21,41 +21,41 @@ namespace NCop.Aspects.Extensions
 
 	internal static class AspectArgsImplResolver
 	{
-		private static readonly IDictionary<int, Type> funcEventArgsMap = null;
-		private static readonly IDictionary<int, Type> actionEventArgsMap = null;
-		private static readonly IDictionary<int, Type> funcExecutionArgsMap = null;
-		private static readonly IDictionary<int, Type> actionExecutionArgsMap = null;
-		private static readonly IDictionary<int, Type> funcInterceptionArgsMap = null;
-		private static readonly IDictionary<int, Type> actionInterceptionArgsMap = null;
+		internal static readonly IDictionary<int, Type> FuncEventArgsMap = null;
+		internal static readonly IDictionary<int, Type> ActionEventArgsMap = null;
+		internal static readonly IDictionary<int, Type> FuncExecutionArgsMap = null;
+		internal static readonly IDictionary<int, Type> ActionExecutionArgsMap = null;
+		internal static readonly IDictionary<int, Type> FuncInterceptionArgsMap = null;
+		internal static readonly IDictionary<int, Type> ActionInterceptionArgsMap = null;
 
 		static AspectArgsImplResolver() {
-			funcEventArgsMap = new Dictionary<int, Type>();
-			actionEventArgsMap = new Dictionary<int, Type>();
-			funcExecutionArgsMap = new Dictionary<int, Type>();
-			actionExecutionArgsMap = new Dictionary<int, Type>();
-			funcInterceptionArgsMap = new Dictionary<int, Type>();
-			actionInterceptionArgsMap = new Dictionary<int, Type>();
+			FuncEventArgsMap = new Dictionary<int, Type>();
+			ActionEventArgsMap = new Dictionary<int, Type>();
+			FuncExecutionArgsMap = new Dictionary<int, Type>();
+			ActionExecutionArgsMap = new Dictionary<int, Type>();
+			FuncInterceptionArgsMap = new Dictionary<int, Type>();
+			ActionInterceptionArgsMap = new Dictionary<int, Type>();
 
-			actionExecutionArgsMap.Add(0, typeof(ActionExecutionArgsImpl<>));	
-			actionInterceptionArgsMap.Add(0, typeof(ActionInterceptionArgsImpl<>));
+			ActionExecutionArgsMap.Add(0, typeof(ActionExecutionArgsImpl<>));	
+			ActionInterceptionArgsMap.Add(0, typeof(ActionInterceptionArgsImpl<>));
 
 <#
 foreach (var i in Enumerable.Range(1, 8)) {
 	string commas = string.Concat(Enumerable.Repeat(",", i));
 #>
-			funcExecutionArgsMap.Add(<#= i #>, typeof(FunctionExecutionArgsImpl<<#=commas#>>));	
-			actionExecutionArgsMap.Add(<#= i #>, typeof(ActionExecutionArgsImpl<<#= commas #>>));	
-			funcEventArgsMap.Add(<#= i #>, typeof(EventFunctionInterceptionArgsImpl<<#=commas#>>));
-			actionEventArgsMap.Add(<#= i #>, typeof(EventActionInterceptionArgsImpl<<#= commas #>>));
-			actionInterceptionArgsMap.Add(<#= i #>, typeof(ActionInterceptionArgsImpl<<#= commas #>>));	
-			funcInterceptionArgsMap.Add(<#= i #>, typeof(FunctionInterceptionArgsImpl<<#= commas #>>));							
+			FuncExecutionArgsMap.Add(<#= i #>, typeof(FunctionExecutionArgsImpl<<#=commas#>>));	
+			ActionExecutionArgsMap.Add(<#= i #>, typeof(ActionExecutionArgsImpl<<#= commas #>>));	
+			FuncEventArgsMap.Add(<#= i #>, typeof(EventFunctionInterceptionArgsImpl<<#=commas#>>));
+			ActionEventArgsMap.Add(<#= i #>, typeof(EventActionInterceptionArgsImpl<<#= commas #>>));
+			ActionInterceptionArgsMap.Add(<#= i #>, typeof(ActionInterceptionArgsImpl<<#= commas #>>));	
+			FuncInterceptionArgsMap.Add(<#= i #>, typeof(FunctionInterceptionArgsImpl<<#= commas #>>));							
 <#
 	if (i == 8) {
 		commas += ",";#>
 			
-			funcExecutionArgsMap.Add(9, typeof(FunctionExecutionArgsImpl<<#= commas #>>));	
-			funcEventArgsMap.Add(9, typeof(EventFunctionInterceptionArgsImpl<<#=commas#>>));
-			funcInterceptionArgsMap.Add(9, typeof(FunctionInterceptionArgsImpl<<#= commas #>>));							
+			FuncExecutionArgsMap.Add(9, typeof(FunctionExecutionArgsImpl<<#= commas #>>));	
+			FuncEventArgsMap.Add(9, typeof(EventFunctionInterceptionArgsImpl<<#=commas#>>));
+			FuncInterceptionArgsMap.Add(9, typeof(FunctionInterceptionArgsImpl<<#= commas #>>));							
 <#}
 	else{
 		WriteLine(""); 
@@ -68,25 +68,25 @@ foreach (var i in Enumerable.Range(1, 8)) {
 			int parametersCount = argumentsType.GetGenericArguments().Length;
 
 			if (typeof(IEventFunctionInterceptionArgs).IsAssignableFrom(argumentsType)) {
-                type = funcEventArgsMap[parametersCount];
+                type = FuncEventArgsMap[parametersCount];
             }
             else if (typeof(IEventActionInterceptionArgs).IsAssignableFrom(argumentsType)) {
-                type = actionEventArgsMap[parametersCount];
+                type = ActionEventArgsMap[parametersCount];
             }
 			else if (typeof(IPropertyInterceptionArgs).IsAssignableFrom(argumentsType)) {
                 type = aspectMember.HasReturnType() ? typeof(GetPropertyInterceptionArgsImpl<,>) : typeof(SetPropertyInterceptionArgsImpl<,>);
             }
 			else if (typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType)) {
-				type = funcInterceptionArgsMap[parametersCount];
+				type = FuncInterceptionArgsMap[parametersCount];
 			}
 			else if (typeof(IActionInterceptionArgs).IsAssignableFrom(argumentsType)) {
-				type = actionInterceptionArgsMap[parametersCount];
+				type = ActionInterceptionArgsMap[parametersCount];
 			}
 			else if (typeof(IFunctionExecutionArgs).IsAssignableFrom(argumentsType)) {
-				type = funcExecutionArgsMap[parametersCount];
+				type = FuncExecutionArgsMap[parametersCount];
 			}
 			else {
-				type = actionExecutionArgsMap[parametersCount];
+				type = ActionExecutionArgsMap[parametersCount];
 			}
 
 			return type.MakeGenericType(typeArguments);
