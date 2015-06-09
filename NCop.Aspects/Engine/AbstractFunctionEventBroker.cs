@@ -9,9 +9,11 @@ namespace NCop.Aspects.Engine
     {
         protected readonly TInstance instance = default(TInstance);
         private readonly LinkedList<Func<TResult>> linkedHandlers = null;
+        private readonly Action<EventFunctionInterceptionArgsImpl<TInstance, TResult>> onInvokeHandler = null;
 
-        protected AbstractFunctionEventBroker(TInstance instance) {
+        protected AbstractFunctionEventBroker(TInstance instance, Action<EventFunctionInterceptionArgsImpl<TInstance, TResult>> onInvokeHandler) {
             this.instance = instance;
+            this.onInvokeHandler = onInvokeHandler;
             linkedHandlers = new LinkedList<Func<TResult>>();
         }
 
@@ -48,6 +50,8 @@ namespace NCop.Aspects.Engine
 
         protected abstract void UnsubscribeImpl();
 
-        protected abstract void OnInvokeHandler(EventFunctionInterceptionArgsImpl<TInstance, TResult> args);
+        protected void OnInvokeHandler(EventFunctionInterceptionArgsImpl<TInstance, TResult> args) {
+            onInvokeHandler(args);
+        }
     }
 }

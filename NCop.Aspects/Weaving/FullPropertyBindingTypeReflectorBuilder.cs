@@ -9,7 +9,7 @@ namespace NCop.Aspects.Weaving
         private IAspectExpression setAspectExpression = null;
         private readonly Core.Lib.Lazy<IAspectExpression, IAspectExpression, IAspectWeavingSettings, IBindingTypeReflector> lazyBindingTypeReflector = null;
 
-        public FullPropertyBindingTypeReflectorBuilder(IPropertyAspectDefinition aspectDefinition) {
+        internal FullPropertyBindingTypeReflectorBuilder(IPropertyAspectDefinition aspectDefinition) {
             lazyBindingTypeReflector = new Core.Lib.Lazy<IAspectExpression, IAspectExpression, IAspectWeavingSettings, IBindingTypeReflector>((getAspectExpression, setAspectExpression, aspectWeavingSettings) => {
                 return new IsolatedFullPropertyInterceptionBindingWeaver(getAspectExpression, setAspectExpression, aspectDefinition, aspectWeavingSettings);
             });

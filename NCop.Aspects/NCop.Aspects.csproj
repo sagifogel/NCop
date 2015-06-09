@@ -336,6 +336,7 @@
     <Compile Include="Weaving\AbstractBindingPropertyAspectWeaver.cs" />
     <Compile Include="Weaving\AbstractBindingMethodInterceptionArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractBindingOnMethodExecutionArgumentsWeaver.cs" />
+    <Compile Include="Weaving\AbstractBindingTypeReflector.cs" />
     <Compile Include="Weaving\AbstractBranchedMethodScopeWeaver.cs" />
     <Compile Include="Weaving\AbstractByRefArgumentsStoreWeaver.cs" />
     <Compile Include="Weaving\AbstractBindingByRefArgumentsWeaver.cs" />
@@ -369,6 +370,7 @@
     <Compile Include="Weaving\EventBrokerFieldTypeDefinitionResolver.cs" />
     <Compile Include="Weaving\EventBrokerResolvedType.cs" />
     <Compile Include="Weaving\EventBrokerWeaver.cs" />
+    <Compile Include="Weaving\EventInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\Expressions\AbstractAspectEventExpression.cs" />
     <Compile Include="Weaving\Expressions\AbstractPartialFragmentAspectPropertyExpression.cs" />
     <Compile Include="Weaving\Expressions\BindingGetPropertyFragmentInterceptionAspectExpression.cs" />
@@ -381,6 +383,7 @@
     <Compile Include="Weaving\Expressions\OnAddHandlerAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\TopEventInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\IAspectTypeDefinition.cs" />
+    <Compile Include="Weaving\IsolatedEventInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\OnInvokeMethodDefinition.cs" />
     <Compile Include="Weaving\OnInvokeMethodScopeWeaver.cs" />
     <Compile Include="Weaving\OnInvokeMethodWeaver.cs" />

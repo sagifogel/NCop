@@ -17,7 +17,6 @@ namespace NCop.Aspects.Weaving
 
         public AspectsAttributeWeaver(IEnumerable<Type> aspectTypes) {
             this.aspectTypes = aspectTypes;
-            //Weave();
         }
 
         public FieldInfo GetAspectFieldByType(Type type) {

@@ -25,7 +25,7 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IDeveloper
     {
-        [EventInterceptionAspect(typeof(FunctionEventInterceptionAspect), AspectPriority = 1)]
+        //[EventInterceptionAspect(typeof(FunctionEventInterceptionAspect), AspectPriority = 1)]
         //[EventInterceptionAspect(typeof(FunctionEventInterceptionAspect), AspectPriority = 2)]
         event Func<string> Ev;
 
@@ -34,14 +34,28 @@ namespace NCop.Samples
 
         ////[EventInterceptionAspect(typeof(ActionEventInterceptionAspect2))]
         //event Action Ev3;
-        
+
         //[MethodInterceptionAspect(typeof(FunctionInterceptionAspectImpl))]
         string RaiseEvent();
 
         ////[MethodInterceptionAspect(typeof(ActionInterceptionAspectImpl))]
         //void RaiseEvent2();
 
-        string Code(string s);
+        //string Code(string s);
+
+        [PropertyInterceptionAspect(typeof(PropertyInterception))]
+        int MyProperty { get; set; }
+    }
+
+    public class PropertyInterception : PropertyInterceptionAspect<int>
+    {
+        //public override void OnGetValue(PropertyInterceptionArgs<int> args) {
+        //    base.OnGetValue(args);
+        //}
+
+        public override void OnSetValue(PropertyInterceptionArgs<int> args) {
+            base.OnSetValue(args);
+        }
     }
 
     public class FunctionInterceptionAspectImpl : FunctionInterceptionAspect<string>
@@ -149,12 +163,7 @@ namespace NCop.Samples
         //    }
         //}
 
-        public event Action Ev3 {
-            add {
-            }
-            remove {
-            }
-        }
+        public int MyProperty { get; set; }
 
         public string RaiseEvent() {
             return developer.RaiseEvent();
@@ -275,7 +284,7 @@ namespace NCop.Samples
         private readonly Action<EventFunctionInterceptionArgsImpl<IDeveloper, string>> onInvokeHandler = null;
 
         public EventBroker(IDeveloper developer, Action<EventFunctionInterceptionArgsImpl<IDeveloper, string>> onInvokeHandler)
-            : base(developer) {
+            : base(developer, onInvokeHandler) {
             this.onInvokeHandler = onInvokeHandler;
         }
 
@@ -289,10 +298,6 @@ namespace NCop.Samples
 
         protected override void UnsubscribeImpl() {
             instance.Ev -= Intercept;
-        }
-
-        protected override void OnInvokeHandler(EventFunctionInterceptionArgsImpl<IDeveloper, string> args) {
-            onInvokeHandler(args);
         }
     }
 
@@ -342,6 +347,7 @@ namespace NCop.Samples
             }
         }
 
+        public int MyProperty { get; set; }
 
         public string Code(string s) {
             return s;
@@ -357,11 +363,11 @@ namespace NCop.Samples
             Console.WriteLine(developer.RaiseEvent());
             developer.Ev -= action;
             Console.WriteLine(developer.RaiseEvent());
-            
+
             var container = new CompositeContainer();
             container.Configure();
             var d = container.Resolve<IDeveloper>();
-            Console.WriteLine(d.Code("Sagi"));
+            //Console.WriteLine(d.Code("Sagi"));
         }
     }
 }

@@ -34,15 +34,13 @@ namespace NCop.Aspects.Weaving
         public FieldInfo WeavedType { get; set; }
 
         public FieldInfo Weave() {
-            Type bindingMethodType = null;
-
             WeaveTypeBuilder();
             WeaveConstructors();
             WeaveInvokeMethod();
             WeaveProceedMethod();
-            bindingMethodType = typeBuilder.CreateType();
 
-            return WeavedType = bindingMethodType.GetField(fieldBuilder.Name, BindingFlags.NonPublic | BindingFlags.Static);
+            return WeavedType = typeBuilder.CreateType()
+                                           .GetField(fieldBuilder.Name, BindingFlags.NonPublic | BindingFlags.Static);
         }
 
         protected void WeaveTypeBuilder() {

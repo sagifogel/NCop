@@ -1,19 +1,11 @@
 ﻿using NCop.Aspects.Aspects;
-using NCop.Aspects.Extensions;
-using System.Reflection;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractBindingMethodAspectWeaver : IBindingTypeReflector
+    internal abstract class AbstractBindingMethodAspectWeaver : AbstractBindingTypeReflector<IMethodAspectDefinition>
     {
-        protected readonly BindingSettings bindingSettings = null;
-        protected readonly IMethodAspectDefinition aspectDefinition = null;
-
-        internal AbstractBindingMethodAspectWeaver(IMethodAspectDefinition aspectDefinition) {
-            this.aspectDefinition = aspectDefinition;
-            bindingSettings = aspectDefinition.ToBindingSettings();
+        internal AbstractBindingMethodAspectWeaver(IMethodAspectDefinition aspectDefinition)
+            : base(aspectDefinition) {
         }
-
-        public virtual FieldInfo WeavedType { get; private set; }
     }
 }

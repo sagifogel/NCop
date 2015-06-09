@@ -21,7 +21,5 @@ namespace NCop.Aspects.Weaving
         }
 
         protected abstract FieldInfo WeaveType();
-
-        protected abstract IAspectWeavingSettings GetAspectsWeavingSettings();
     }
 }

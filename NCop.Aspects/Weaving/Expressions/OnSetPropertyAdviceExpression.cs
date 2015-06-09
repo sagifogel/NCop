@@ -8,6 +8,7 @@ namespace NCop.Aspects.Weaving.Expressions
         internal OnSetPropertyAdviceExpression(IAdviceDefinition adviceDefinition)
             : base(adviceDefinition) {
         }
+
         protected override AdviceType AdviceType {
             get {
                 return AdviceType.OnSetPropertyAdvice;
