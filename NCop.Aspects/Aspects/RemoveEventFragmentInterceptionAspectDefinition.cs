@@ -7,18 +7,18 @@ using System.Reflection;
 
 namespace NCop.Aspects.Aspects
 {
-    internal class GetPropertyFragmentInterceptionAspectDefinition : AbstractPropertyFragmentInterceptionAspectDefinition
+    internal class RemoveEventFragmentInterceptionAspectDefinition : AbstractEventFragmentInterceptionAspectDefinition
     {
-        private readonly GetPropertyFragmentInterceptionAspect aspect = null;
+        private readonly RemoveEventFragmentInterceptionAspect aspect = null;
 
-        internal GetPropertyFragmentInterceptionAspectDefinition(IPropertyExpressionBuilder propertyBuilder, GetPropertyFragmentInterceptionAspect aspect, Type aspectDeclaringType, PropertyInfo property)
-            : base(propertyBuilder, aspect, aspectDeclaringType, property) {
+        internal RemoveEventFragmentInterceptionAspectDefinition(IEventExpressionBuilder eventBuilder, RemoveEventFragmentInterceptionAspect aspect, Type aspectDeclaringType, EventInfo @event)
+            : base(eventBuilder, aspect, aspectDeclaringType, @event) {
             Aspect = this.aspect = aspect;
         }
 
         public override AspectType AspectType {
             get {
-                return AspectType.GetPropertyFragmentInterceptionAspect;
+                return AspectType.RemoveEventInterceptionAspect;
             }
         }
 
@@ -26,8 +26,8 @@ namespace NCop.Aspects.Aspects
             Aspect.AspectType
                   .GetOverridenMethods()
                   .ForEach(method => {
-                      TryBulidAdvice<OnGetPropertyAdviceAttribute>(method, (advice, mi) => {
-                          return new OnGetPropertyAdviceDefinition(advice, mi);
+                      TryBulidAdvice<OnRemoveHandlerAdviceAttribute>(method, (advice, mi) => {
+                          return new OnRemoveHandlerAdviceDefinition(advice, mi);
                       });
                   });
 

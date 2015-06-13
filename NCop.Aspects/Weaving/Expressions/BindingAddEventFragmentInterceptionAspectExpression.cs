@@ -3,9 +3,9 @@ using System;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class BindingEventInterceptionAspectExpression : AbstractAspectEventExpression
+    internal class BindingAddEventFragmentInterceptionAspectExpression : AbstractAspectEventExpression
     {
-        public BindingEventInterceptionAspectExpression(IAspectExpression aspectExpression, IEventAspectDefinition aspectDefinition)
+        public BindingAddEventFragmentInterceptionAspectExpression(IAspectExpression aspectExpression, IEventAspectDefinition aspectDefinition, IBindingTypeReflectorBuilder eventBuilder)
             : base(aspectExpression, aspectDefinition) {
         }
 

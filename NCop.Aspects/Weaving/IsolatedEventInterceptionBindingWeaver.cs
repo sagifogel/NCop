@@ -8,13 +8,17 @@ namespace NCop.Aspects.Weaving
     internal class IsolatedEventInterceptionBindingWeaver : AbstractBindingTypeReflector<IEventAspectDefinition>
     {
         protected readonly Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
+        protected readonly IAspectExpression addAspectExpression = null;
+        protected readonly IAspectExpression removeAspectExpression = null;
         protected readonly IAspectExpression invokeAspectExpression = null;
         protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
 
-        internal IsolatedEventInterceptionBindingWeaver(IAspectExpression invokeAspectExpression, IEventAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
+        internal IsolatedEventInterceptionBindingWeaver(IAspectExpression addAspectExpression, IAspectExpression removeAspectExpression, IAspectExpression invokeAspectExpression, IEventAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings)
             : base(aspectDefinition) {
-            this.invokeAspectExpression = invokeAspectExpression;
+            this.addAspectExpression = addAspectExpression;
             this.aspectWeavingSettings = aspectWeavingSettings;
+            this.removeAspectExpression = removeAspectExpression;
+            this.invokeAspectExpression = invokeAspectExpression;
             lazyWeavedType = new Core.Lib.Lazy<FieldInfo>(WeaveType);
         }
 
@@ -31,12 +35,11 @@ namespace NCop.Aspects.Weaving
         }
 
         protected virtual FieldInfo WeaveType() {
-            IAspectWeaver aspectWeaver = null;
-            IBindingWeaver bindingWeaver = null;
             var aspectSettings = GetAspectsWeavingSettings();
-
-            aspectWeaver = invokeAspectExpression.Reduce(aspectSettings);
-            bindingWeaver = new EventInterceptionBindingWeaver(aspectDefinition.Member, bindingSettings, aspectWeavingSettings, aspectWeaver);
+            var addMethodAspectWeaver = addAspectExpression.Reduce(aspectSettings);
+            var removeMethodAspectWeaver = removeAspectExpression.Reduce(aspectSettings);
+            var invokeMethodAspectWeaver = invokeAspectExpression.Reduce(aspectSettings);
+            var bindingWeaver = new EventInterceptionBindingWeaver(aspectDefinition.Member, bindingSettings, aspectWeavingSettings, addMethodAspectWeaver, removeMethodAspectWeaver, invokeMethodAspectWeaver);
 
             return bindingWeaver.Weave();
         }

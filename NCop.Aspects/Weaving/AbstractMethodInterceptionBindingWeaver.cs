@@ -24,12 +24,9 @@ namespace NCop.Aspects.Weaving
         }
 
         protected virtual FieldInfo WeaveType() {
-            IAspectWeaver aspectWeaver = null;
-            IBindingWeaver bindingWeaver = null;
             var aspectSettings = GetAspectsWeavingSettings();
-
-            aspectWeaver = aspectExpression.Reduce(aspectSettings);
-            bindingWeaver = new MethodInterceptionBindingWeaver(aspectDefinition.Member, bindingSettings, aspectWeavingSettings, aspectWeaver);
+            var aspectWeaver = aspectExpression.Reduce(aspectSettings);
+            var bindingWeaver = new MethodInterceptionBindingWeaver(aspectDefinition.Member, bindingSettings, aspectWeavingSettings, aspectWeaver);
 
             return bindingWeaver.Weave();
         }

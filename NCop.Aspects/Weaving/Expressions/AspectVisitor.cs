@@ -125,11 +125,23 @@ namespace NCop.Aspects.Weaving.Expressions
                     });
                 }
                 else if (topAspectInScopeDefinition.IsEventAspectDefinition()) {
-                    var propertyAspectDefinition = (IEventAspectDefinition)topAspectInScopeDefinition;
+                    var eventAspectDefinition = (IEventAspectDefinition)topAspectInScopeDefinition;
 
-                    expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
-                        return new BindingEventInterceptionAspectExpression(expression, propertyAspectDefinition);
-                    });
+                    if (topAspectInScopeDefinition.AspectType == AspectType.AddEventInterceptionAspect) {
+                        expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
+                            return new BindingAddEventAspectDecoratorExpression(eventAspectDefinition);
+                        });
+                    }
+                    else if (topAspectInScopeDefinition.AspectType == AspectType.RemoveEventInterceptionAspect) {
+                        expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
+                            return new BindingRemoveEventAspectDecoratorExpression(eventAspectDefinition);
+                        });
+                    }
+                    else {
+                        expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
+                            return new BindingInvokeEventAspectDecoratorExpression(eventAspectDefinition);
+                        });
+                    }
                 }
                 else {
                     expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
@@ -270,14 +282,18 @@ namespace NCop.Aspects.Weaving.Expressions
             };
         }
 
-        public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(EventInterceptionAspectAttribute aspect) {
+        public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(AddEventFragmentInterceptionAspect aspect) {
             return aspectDefinition => {
                 Func<IAspectExpression, IAspectExpression> ctor = null;
-                var eventAspectDefinition = (IEventAspectDefinition)aspectDefinition;
+                var eventAspectDefinition = (IFullEventAspectDefinition)aspectDefinition;
 
                 if (lastAspect.Top) {
                     ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
-                        return new TopEventInterceptionAspectExpression(expression, eventAspectDefinition);
+                        var eventBuilder = eventAspectDefinition.EventBuilder;
+
+                        eventBuilder.SetAddExpression(expression);
+
+                        return new TopAddEventFragmentInterceptionAspectExpression(expression, eventAspectDefinition, eventBuilder);
                     });
 
                     lastAspect = new Aspect();
@@ -285,7 +301,81 @@ namespace NCop.Aspects.Weaving.Expressions
                 else {
                     if (lastAspect.IsInBinding) {
                         ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
-                            return new BindingEventInterceptionAspectExpression(expression, eventAspectDefinition);
+                            var eventBuilder = eventAspectDefinition.EventBuilder;
+
+                            eventBuilder.SetAddExpression(expression);
+
+                            return new BindingAddEventFragmentInterceptionAspectExpression(expression, eventAspectDefinition, eventBuilder);
+                        });
+                    }
+                }
+
+                lastAspect.IsInBinding = true;
+                topAspectInScopeDefinition = aspectDefinition;
+
+                return new AspectNodeExpressionBuilder(ctor);
+            };
+        }
+
+        public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(RemoveEventFragmentInterceptionAspect aspect) {
+            return aspectDefinition => {
+                Func<IAspectExpression, IAspectExpression> ctor = null;
+                var eventAspectDefinition = (IFullEventAspectDefinition)aspectDefinition;
+
+                if (lastAspect.Top) {
+                    ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
+                        var eventBuilder = eventAspectDefinition.EventBuilder;
+
+                        eventBuilder.SetRemoveExpression(expression);
+
+                        return new TopRemoveEventFragmentInterceptionAspectExpression(expression, eventAspectDefinition, eventBuilder);
+                    });
+
+                    lastAspect = new Aspect();
+                }
+                else {
+                    if (lastAspect.IsInBinding) {
+                        ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
+                            var eventBuilder = eventAspectDefinition.EventBuilder;
+
+                            eventBuilder.SetRemoveExpression(expression);
+
+                            return new BindingAddEventFragmentInterceptionAspectExpression(expression, eventAspectDefinition, eventBuilder);
+                        });
+                    }
+                }
+
+                lastAspect.IsInBinding = true;
+                topAspectInScopeDefinition = aspectDefinition;
+
+                return new AspectNodeExpressionBuilder(ctor);
+            };
+        }
+
+        public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(InvokeEventFragmentInterceptionAspect aspect) {
+            return aspectDefinition => {
+                Func<IAspectExpression, IAspectExpression> ctor = null;
+                var eventAspectDefinition = (IFullEventAspectDefinition)aspectDefinition;
+
+                if (lastAspect.Top) {
+                    ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
+                        var eventBuilder = eventAspectDefinition.EventBuilder;
+
+                        eventBuilder.SetInvokeExpression(expression);
+
+                        return new TopInvokeEventFragmentInterceptionAspectExpression(expression, eventAspectDefinition, eventBuilder);
+                    });
+
+                    lastAspect = new Aspect();
+                }
+                else {
+                    if (lastAspect.IsInBinding) {
+                        ctor = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
+                            var eventBuilder = eventAspectDefinition.EventBuilder;
+
+                            eventBuilder.SetInvokeExpression(expression);
+
+                            return new BindingInvokeEventFragmentInterceptionAspectExpression(expression, eventAspectDefinition, eventBuilder);
                         });
                     }
                 }

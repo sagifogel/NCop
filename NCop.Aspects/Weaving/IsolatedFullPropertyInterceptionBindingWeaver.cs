@@ -23,12 +23,10 @@ namespace NCop.Aspects.Weaving
         }
 
         protected override FieldInfo WeaveType() {
-            IBindingWeaver bindingWeaver = null;
             var aspectSettings = GetAspectsWeavingSettings();
             var getMethodAspectWeaver = getAspectExpression.Reduce(aspectSettings);
             var setMethodAspectWeaver = setAspectExpression.Reduce(aspectSettings);
-
-            bindingWeaver = new FullPropertyInterceptionBindingWeaver(aspectDefinition.Member, bindingSettings, aspectSettings, getMethodAspectWeaver, setMethodAspectWeaver);
+            var bindingWeaver = new FullPropertyInterceptionBindingWeaver(aspectDefinition.Member, bindingSettings, aspectSettings, getMethodAspectWeaver, setMethodAspectWeaver);
 
             return bindingWeaver.Weave();
         }

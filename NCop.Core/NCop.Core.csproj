@@ -98,6 +98,7 @@
     <Compile Include="Lib\Lazy`3.cs" />
     <Compile Include="Lib\Lazy`2.cs" />
     <Compile Include="Lib\Lazy`1.cs" />
+    <Compile Include="Lib\Lazy`4.cs" />
     <Compile Include="MethodComparer.cs" />
     <Compile Include="ITypeMap.cs" />
     <Compile Include="MemberMap.cs" />

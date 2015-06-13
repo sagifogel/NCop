@@ -8,7 +8,7 @@ namespace NCop.Aspects.Aspects
 {
     internal sealed class PropertyInterceptionAspectsDefinition : IPropertyAspectDefinition
     {
-        public PropertyInterceptionAspectsDefinition(IAspect aspect, Type aspectDeclaringType, PropertyInfo property) {
+        internal PropertyInterceptionAspectsDefinition(IAspect aspect, Type aspectDeclaringType, PropertyInfo property) {
             Aspect = aspect;
             Member = property;
             AspectDeclaringType = aspectDeclaringType;
@@ -20,8 +20,6 @@ namespace NCop.Aspects.Aspects
             }
         }
         public IAspect Aspect { get; private set; }
-
-        public MethodInfo Method { get; private set; }
 
         public PropertyInfo Member { get; private set; }
 

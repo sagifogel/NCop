@@ -18,6 +18,8 @@ namespace NCop.Aspects.Weaving
         protected TypeBuilder typeBuilder = null;
         protected FieldBuilder fieldBuilder = null;
         protected readonly BindingSettings bindingSettings = null;
+        protected readonly IMethodScopeWeaver addMethodScopeWeaver = null;
+        protected readonly IMethodScopeWeaver removeMethodScopeWeaver = null;
         protected readonly IMethodScopeWeaver invokeMethodScopeWeaver = null;
         protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
         protected readonly MethodAttributes methodAttr = MA.Public | MA.HideBySig | MA.Virtual;
@@ -25,10 +27,12 @@ namespace NCop.Aspects.Weaving
         protected readonly FieldAttributes singletonFieldAttributes = FieldAttributes.Private | FieldAttributes.FamANDAssem | FieldAttributes.Static;
         protected readonly MethodAttributes ctorAttributes = MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
 
-        public EventInterceptionBindingWeaver(EventInfo @event, BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IAspectWeaver invokeMethodScopeWeaver) {
+        public EventInterceptionBindingWeaver(EventInfo @event, BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IAspectWeaver addMethodScopeWeaver, IAspectWeaver removeMethodScopeWeaver, IAspectWeaver invokeMethodScopeWeaver) {
             this.@event = @event;
             this.bindingSettings = bindingSettings;
+            this.addMethodScopeWeaver = addMethodScopeWeaver;
             this.aspectWeavingSettings = aspectWeavingSettings;
+            this.removeMethodScopeWeaver = removeMethodScopeWeaver;
             this.invokeMethodScopeWeaver = invokeMethodScopeWeaver;
         }
 

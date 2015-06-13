@@ -44,14 +44,15 @@ namespace NCop.Samples
         //string Code(string s);
 
         [PropertyInterceptionAspect(typeof(PropertyInterception))]
+        [PropertyInterceptionAspect(typeof(PropertyInterception))]
         int MyProperty { get; set; }
     }
 
     public class PropertyInterception : PropertyInterceptionAspect<int>
     {
-        //public override void OnGetValue(PropertyInterceptionArgs<int> args) {
-        //    base.OnGetValue(args);
-        //}
+        public override void OnGetValue(PropertyInterceptionArgs<int> args) {
+            base.OnGetValue(args);
+        }
 
         public override void OnSetValue(PropertyInterceptionArgs<int> args) {
             base.OnSetValue(args);
@@ -68,14 +69,17 @@ namespace NCop.Samples
     public class FunctionEventInterceptionAspect : EventFunctionInterceptionAspect<string>
     {
         public override void OnAddHandler(EventFunctionInterceptionArgs<string> args) {
+            Console.WriteLine("OnAddHandler");
             args.ProceedAddHandler();
         }
 
         public override void OnInvokeHandler(EventFunctionInterceptionArgs<string> args) {
+            Console.WriteLine("OnInvokeHandler");
             args.ProceedInvokeHandler();
         }
 
         public override void OnRemoveHandler(EventFunctionInterceptionArgs<string> args) {
+            Console.WriteLine("OnRemoveHandler");
             args.ProceedRemoveHandler();
         }
     }
@@ -83,14 +87,17 @@ namespace NCop.Samples
     public class FunctionEventInterceptionAspect2 : EventFunctionInterceptionAspect<string>
     {
         public override void OnAddHandler(EventFunctionInterceptionArgs<string> args) {
+            Console.WriteLine("OnAddHandler2");
             args.ProceedAddHandler();
         }
 
         public override void OnInvokeHandler(EventFunctionInterceptionArgs<string> args) {
+            Console.WriteLine("OnInvokeHandler2");
             args.ProceedInvokeHandler();
         }
 
         public override void OnRemoveHandler(EventFunctionInterceptionArgs<string> args) {
+            Console.WriteLine("OnRemoveHandler2");
             args.ProceedRemoveHandler();
         }
     }
@@ -98,18 +105,20 @@ namespace NCop.Samples
     public class FunctionEventInterceptionAspect3 : EventFunctionInterceptionAspect<string>
     {
         public override void OnAddHandler(EventFunctionInterceptionArgs<string> args) {
+            Console.WriteLine("OnAddHandler3");
             args.ProceedAddHandler();
         }
 
         public override void OnInvokeHandler(EventFunctionInterceptionArgs<string> args) {
+            Console.WriteLine("OnInvokeHandler3");
             args.ProceedInvokeHandler();
         }
 
         public override void OnRemoveHandler(EventFunctionInterceptionArgs<string> args) {
+            Console.WriteLine("OnRemoveHandler3");
             args.ProceedRemoveHandler();
         }
     }
-
 
     public class Developer : IDeveloper
     {
@@ -215,7 +224,9 @@ namespace NCop.Samples
         }
 
         public void AddHandler(ref IDeveloper instance, Func<string> handler, IEventFunctionArgs<string> args) {
-            args.EventBroker.AddHandler(handler);
+            var clonedArgs = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(instance, args.Event, args.Handler, EventInterceptionAspectBinding2.singleton, args.EventBroker);
+
+            Aspects.EventInterception2.OnAddHandler(clonedArgs);
         }
 
         public string InvokeHandler(ref IDeveloper instance, Func<string> handler, IEventFunctionArgs<string> args) {
@@ -227,7 +238,9 @@ namespace NCop.Samples
         }
 
         public void RemoveHandler(ref IDeveloper instance, Func<string> handler, IEventFunctionArgs<string> args) {
-            args.EventBroker.RemoveHandler(handler);
+            var clonedArgs = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(instance, args.Event, args.Handler, EventInterceptionAspectBinding2.singleton, args.EventBroker);
+
+            Aspects.EventInterception2.OnRemoveHandler(clonedArgs);
         }
     }
 
@@ -243,15 +256,23 @@ namespace NCop.Samples
         }
 
         public void AddHandler(ref IDeveloper instance, Func<string> handler, IEventFunctionArgs<string> args) {
-            args.EventBroker.AddHandler(handler);
+            var clonedArgs = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(instance, args.Event, args.Handler, EventInterceptionAspectBinding3.singleton, args.EventBroker);
+
+            Aspects.EventInterception3.OnAddHandler(clonedArgs);
         }
 
         public string InvokeHandler(ref IDeveloper instance, Func<string> handler, IEventFunctionArgs<string> args) {
-            return handler();
+            var clonedArgs = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(instance, args.Event, args.Handler, EventInterceptionAspectBinding3.singleton, args.EventBroker);
+
+            Aspects.EventInterception3.OnInvokeHandler(clonedArgs);
+
+            return clonedArgs.ReturnValue;
         }
 
         public void RemoveHandler(ref IDeveloper instance, Func<string> handler, IEventFunctionArgs<string> args) {
-            args.EventBroker.RemoveHandler(handler);
+            var clonedArgs = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(instance, args.Event, args.Handler, EventInterceptionAspectBinding3.singleton, args.EventBroker);
+
+            Aspects.EventInterception3.OnRemoveHandler(clonedArgs);
         }
     }
 
@@ -363,7 +384,6 @@ namespace NCop.Samples
             Console.WriteLine(developer.RaiseEvent());
             developer.Ev -= action;
             Console.WriteLine(developer.RaiseEvent());
-
             var container = new CompositeContainer();
             container.Configure();
             var d = container.Resolve<IDeveloper>();

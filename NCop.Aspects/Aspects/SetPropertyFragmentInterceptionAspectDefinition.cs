@@ -24,12 +24,12 @@ namespace NCop.Aspects.Aspects
 
         public override IAspectDefinition BuildAdvices() {
             Aspect.AspectType
-                 .GetOverridenMethods()
-                 .ForEach(method => {
-                     TryBulidAdvice<OnSetPropertyAdviceAttribute>(method, (advice, mi) => {
-                         return new OnSetPropertyAdviceDefinition(advice, mi);
-                     });
-                 });
+                  .GetOverridenMethods()
+                  .ForEach(method => {
+                      TryBulidAdvice<OnSetPropertyAdviceAttribute>(method, (advice, mi) => {
+                          return new OnSetPropertyAdviceDefinition(advice, mi);
+                      });
+                  });
 
             return this;
         }

@@ -1,7 +1,7 @@
 ﻿
 namespace NCop.Aspects.Engine
 {
-    public class GetPropertyFragmentInterceptionAspect : AbstractPropertyAspect
+    public class GetPropertyFragmentInterceptionAspect : AbstractAspect
     {
     }
 }

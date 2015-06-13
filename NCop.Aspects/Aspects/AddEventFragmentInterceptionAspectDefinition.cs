@@ -7,18 +7,18 @@ using System.Reflection;
 
 namespace NCop.Aspects.Aspects
 {
-    internal class SetPropertyInterceptionAspectDefinition : AbstractPropertyAspectDefinition
+    internal class AddEventFragmentInterceptionAspectDefinition : AbstractEventFragmentInterceptionAspectDefinition
     {
-        private readonly SetPropertyInterceptionAspect aspect = null;
+        private readonly AddEventFragmentInterceptionAspect aspect = null;
 
-        internal SetPropertyInterceptionAspectDefinition(SetPropertyInterceptionAspect aspect, Type aspectDeclaringType, PropertyInfo property)
-            : base(aspect, aspectDeclaringType, property) {
-            this.aspect = aspect;
+        internal AddEventFragmentInterceptionAspectDefinition(IEventExpressionBuilder eventBuilder, AddEventFragmentInterceptionAspect aspect, Type aspectDeclaringType, EventInfo @event)
+            : base(eventBuilder, aspect, aspectDeclaringType, @event) {
+            Aspect = this.aspect = aspect;
         }
 
         public override AspectType AspectType {
             get {
-                return AspectType.SetPropertyInterceptionAspect;
+                return AspectType.AddEventInterceptionAspect;
             }
         }
 
@@ -26,8 +26,8 @@ namespace NCop.Aspects.Aspects
             Aspect.AspectType
                   .GetOverridenMethods()
                   .ForEach(method => {
-                      TryBulidAdvice<OnSetPropertyAdviceAttribute>(method, (advice, mi) => {
-                          return new OnSetPropertyAdviceDefinition(advice, mi);
+                      TryBulidAdvice<OnAddHandlerAdviceAttribute>(method, (advice, mi) => {
+                          return new OnAddHandlerAdviceDefinition(advice, mi);
                       });
                   });
 

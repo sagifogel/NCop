@@ -1,7 +1,7 @@
 ﻿
 namespace NCop.Aspects.Engine
 {
-    public class SetPropertyInterceptionAspect : AbstractPropertyAspect
+    public class SetPropertyInterceptionAspect : AbstractAspect
     {
     }
 }

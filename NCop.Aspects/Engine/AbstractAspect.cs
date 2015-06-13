@@ -3,7 +3,7 @@ using System;
 
 namespace NCop.Aspects.Engine
 {
-    public abstract class AbstractPropertyAspect : IAspect
+    public abstract class AbstractAspect : IAspect
     {
         public Type AspectType { get; internal set; }
         public int AspectPriority { get; internal set; }
