@@ -148,6 +148,10 @@ namespace NCop.Core.Extensions
             return methodInfo.DeclaringType == declaringType;
         }
 
+        public static bool IsOverride(this EventInfo @event, Type declaringType) {
+            return @event.DeclaringType == declaringType;
+        }
+
         public static TypeBuilder SetCustomAttribute<TAttribute>(this TypeBuilder builder) where TAttribute : Attribute {
             return builder.SetCustomAttribute<TypeBuilder, TAttribute>(builder.SetCustomAttribute);
         }
@@ -156,8 +160,8 @@ namespace NCop.Core.Extensions
             return builder.SetCustomAttribute<ParameterBuilder, TAttribute>(builder.SetCustomAttribute);
         }
 
-        public static bool HasCustomAttributes(this MethodInfo methodInfo) {
-            return methodInfo.GetCustomAttributes(true).Length > 0;
+        public static bool HasCustomAttributes(this MethodInfo method) {
+            return method.GetCustomAttributes(true).Length > 0;
         }
 
         private static TBuilder SetCustomAttribute<TBuilder, TAttribute>(this TBuilder builder, Action<CustomAttributeBuilder> customBuilder) where TAttribute : Attribute {
@@ -345,10 +349,6 @@ namespace NCop.Core.Extensions
             return TypeComparer.Compare(type, inspected);
         }
 
-        public static bool HasReturnType(this MethodInfo methodInfo) {
-            return !ReferenceEquals(methodInfo.ReturnType, typeof(void));
-        }
-
         public static bool Is<TCompareTo>(this object @object) {
             return typeof(TCompareTo).IsAssignableFrom(@object.GetType());
         }
@@ -359,8 +359,16 @@ namespace NCop.Core.Extensions
             return delegateFactory(parameters);
         }
 
-        public static bool IsFunction(this MethodInfo methodInfo) {
-            return !ReferenceEquals(methodInfo.ReturnType, typeof(void));
+        public static bool IsFunction(this MethodInfo method) {
+            return !ReferenceEquals(method.ReturnType, typeof(void));
+        }
+
+        public static MethodInfo GetInvokeMethod(this EventInfo @event) {
+            return @event.EventHandlerType.GetMethod("Invoke");
+        }
+
+        public static bool IsFunction(this EventInfo @event) {
+            return @event.GetInvokeMethod().IsFunction();
         }
     }
 }

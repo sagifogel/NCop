@@ -143,8 +143,9 @@ namespace NCop.Core.Extensions
             return source.ToGroupedDictionary(keySelector, group => group.AsEnumerable());
         }
 
-        public static TValue SetIfNotNull<TSource, TValue>(this IEnumerable<TSource> source, Func<TSource, TValue> selctor) where TSource : class where TValue : class
-        {
+        public static TValue SetIfNotNull<TSource, TValue>(this IEnumerable<TSource> source, Func<TSource, TValue> selctor)
+            where TSource : class
+            where TValue : class {
             return source.Where(e => !ReferenceEquals(e, null))
                          .Select(selctor)
                          .FirstOrDefault();

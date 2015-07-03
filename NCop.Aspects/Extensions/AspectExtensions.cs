@@ -11,8 +11,12 @@ namespace NCop.Aspects.Extensions
 {
     public static class AspectExtensions
     {
-        internal static bool Is<TAspect>(this IAspect aspect) where TAspect : IAspect {
+        internal static bool Is<TAspect>(this IAspect aspect) {
             return typeof(TAspect).IsAssignableFrom(aspect.GetType());
+        }
+
+        internal static bool IsNot<TAspect>(this IAspect aspect) {
+            return !aspect.Is<TAspect>();
         }
 
         internal static bool IsMethodLevelAspect(this IAspect aspect) {
@@ -83,44 +87,64 @@ namespace NCop.Aspects.Extensions
             return argumentType.MakeGenericArgsType(method, genericArgumentsWithContext.ToArray());
         }
 
-        internal static Type ToAspectArgumentContract(this MethodInfo methodInfoImpl) {
-            var isFunction = methodInfoImpl.ReturnType.IsNotNullOrNotVoid();
+        internal static Type ToAspectArgumentContract(this MethodInfo method) {
+            var isFunction = method.ReturnType.IsNotNullOrNotVoid();
 
-            var argumentTypes = methodInfoImpl.GetParameters().ToList(param => {
+            var argumentTypes = method.GetParameters().ToList(param => {
                 var parameterType = param.ParameterType;
                 return parameterType.IsByRef ? parameterType.GetElementType() : parameterType;
             });
 
             if (isFunction) {
-                argumentTypes.Add(methodInfoImpl.ReturnType);
+                argumentTypes.Add(method.ReturnType);
             }
 
             return argumentTypes.ToAspectArgumentContract(isFunction);
         }
 
-        internal static Type ToPropertyAspectArgument(this MethodInfo methodInfoImpl) {
-            var argumentTypes = methodInfoImpl.GetArguments();
-
-            return typeof(PropertyInterceptionArgs<>).MakeGenericType(argumentTypes);
+        internal static Type ToPropertyAspectArgument(this PropertyInfo property) {
+            return typeof(PropertyInterceptionArgs<>).MakeGenericType(new[] { property.PropertyType });
         }
 
-        internal static Type ToPropertyArgumentContract(this MethodInfo methodInfoImpl) {
-            var argumentTypes = methodInfoImpl.GetArguments();
-
-            return typeof(IPropertyArg<>).MakeGenericType(argumentTypes);
+        internal static Type ToPropertyArgumentContract(this PropertyInfo property) {
+            return typeof(IPropertyArg<>).MakeGenericType(new[] { property.PropertyType });
         }
 
-        private static Type[] GetArguments(this MethodInfo methodInfoImpl) {
-            var argumentTypes = new Type[1];
+        internal static Type ToEventArgumentContract(this EventInfo @event, Type[] @params = null) {
+            bool isFunction = @event.IsFunction();
 
-            if (methodInfoImpl.ReturnType.IsNotNullOrNotVoid()) {
-                argumentTypes[0] = methodInfoImpl.ReturnType;
-            }
-            else {
-                argumentTypes[0] = methodInfoImpl.GetParameters().First().ParameterType;
+            @params = @params ?? @event.ToEventInvokeParams();
+
+            if (isFunction) {
+                return typeof(IEventFunctionArgs<>).MakeGenericType(@params);
             }
 
-            return argumentTypes;
+            return typeof(IEventActionArgs<>).MakeGenericType(@params);
+        }
+
+        internal static Type[] ToEventInvokeParams(this EventInfo @event) {
+            var invokeMethod = @event.GetInvokeMethod();
+            var invokeReturnType = invokeMethod.ReturnType;
+
+            var delegateParameters = invokeMethod.GetParameters()
+                                                 .Select(p => p.ParameterType)
+                                                 .ToArray();
+
+            if (invokeMethod.IsFunction()) {
+                var @params = new Type[delegateParameters.Length + 1];
+
+                if (delegateParameters.Length > 0) {
+                    Array.Copy(delegateParameters, 0, @params, 0, delegateParameters.Length - 1);
+                    @params[@params.Length - 1] = invokeReturnType;
+                }
+                else {
+                    @params[0] = invokeMethod.ReturnType;
+                }
+
+                return @params;
+            }
+
+            return delegateParameters;
         }
 
         internal static BindingSettings ToBindingSettings(this IAspectDefinition aspectDefinition) {
@@ -194,18 +218,6 @@ namespace NCop.Aspects.Extensions
             };
         }
 
-        private static BindingSettings ToEventBindingSettings(this IPropertyAspectDefinition aspectDefinition) {
-            var aspectArgumentType = aspectDefinition.GetArgumentType();
-            var aspectArgumentImplType = aspectDefinition.ToAspectArgumentImpl();
-            var genericArguments = aspectArgumentImplType.GetGenericArguments();
-
-            return new BindingSettings {
-                MemberType = MemberTypes.Event,
-                ArgumentType = aspectArgumentImplType,
-                BindingType = aspectArgumentType.MakeGenericPropertyBinding(genericArguments)
-            };
-        }
-
         internal static ArgumentsWeavingSettings ToArgumentsWeavingSettings(this IAspectDefinition aspectDefinition) {
             return aspectDefinition.ToBindingSettings()
                                    .ToArgumentsWeavingSettings(aspectDefinition.Aspect.AspectType);
@@ -217,7 +229,9 @@ namespace NCop.Aspects.Extensions
         }
 
         public static bool IsEventAspectDefinition(this IAspectDefinition aspectDefinition) {
-            return aspectDefinition.AspectType == AspectType.EventInterceptionAspect;
+            return aspectDefinition.AspectType == AspectType.AddEventInterceptionAspect ||
+                   aspectDefinition.AspectType == AspectType.RemoveEventInterceptionAspect ||
+                   aspectDefinition.AspectType == AspectType.InvokeEventInterceptionAspect;
         }
 
         public static bool IsGetPropertyAspectDefinition(this IAspectDefinition aspectDefinition) {

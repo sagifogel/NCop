@@ -5,13 +5,13 @@ namespace NCop.Aspects.Framework
 {
     public class EventFunctionInterceptionAspect<TResult> : IEventInterceptionAspect
     {
-        [OnAddHandlerAdvice]
+        [OnAddEventHandlerAdvice]
         public virtual void OnAddHandler(EventFunctionInterceptionArgs<TResult> args) { }
 
-        [OnRemoveHandlerAdvice]
+        [OnRemoveEventHandlerAdvice]
         public virtual void OnRemoveHandler(EventFunctionInterceptionArgs<TResult> args) { }
 
-        [OnInvokeHandlerAdvice]
+        [OnInvokeEventHandlerAdvice]
         public virtual void OnInvokeHandler(EventFunctionInterceptionArgs<TResult> args) { }
     }
 }

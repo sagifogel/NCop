@@ -6,11 +6,11 @@ namespace NCop.Weaving
 {
     public abstract class AbstractMethodWeaver : IMethodWeaver, IWeavingSettings
     {
-        protected readonly MethodInfo methodInfo = null;
+        protected readonly MethodInfo method = null;
         private readonly IWeavingSettings weavingSettings = null;
 
-        protected AbstractMethodWeaver(MethodInfo methodInfo, IWeavingSettings weavingSettings) {
-            this.methodInfo = methodInfo;
+        protected AbstractMethodWeaver(MethodInfo method, IWeavingSettings weavingSettings) {
+            this.method = method;
             this.weavingSettings = weavingSettings;
         }
 
@@ -33,7 +33,7 @@ namespace NCop.Weaving
         public IMethodSignatureWeaver MethodDefintionWeaver { get; protected set; }
 
         public virtual MethodBuilder DefineMethod() {
-            return MethodDefintionWeaver.Weave(methodInfo);
+            return MethodDefintionWeaver.Weave(method);
         }
 
         public virtual void WeaveMethodScope(ILGenerator ilGenerator) {

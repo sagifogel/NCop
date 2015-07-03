@@ -1,17 +1,19 @@
-﻿using NCop.Aspects.Framework;
-using NCop.Core.Extensions;
+﻿using NCop.Core.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace NCop.Aspects.Engine
 {
     public abstract class AbstractActionEventBroker<TInstance, TArg1> : IEventBroker<Action<TArg1>>
     {
-        protected readonly TInstance instance = default(TInstance);
+        protected readonly EventInfo @event = null;
+        protected TInstance instance = default(TInstance);
         private readonly LinkedList<Action<TArg1>> linkedHandlers = null;
         protected readonly IEventActionBinding<TInstance, TArg1> binding = null;
 
-        protected AbstractActionEventBroker(TInstance instance, IEventActionBinding<TInstance, TArg1> binding) {
+        protected AbstractActionEventBroker(TInstance instance, EventInfo @event, IEventActionBinding<TInstance, TArg1> binding) {
+            this.@event = @event;
             this.binding = binding;
             this.instance = instance;
             linkedHandlers = new LinkedList<Action<TArg1>>();
@@ -30,10 +32,13 @@ namespace NCop.Aspects.Engine
         protected void OnEventFired(TArg1 arg1) {
             var args = new EventActionInterceptionArgsImpl<TInstance, TArg1>();
 
+            args.Arg1 = arg1;
+            args.Event = @event;
+            args.EventBroker = this;
+
             for (var i = linkedHandlers.First; i != null; i = i.Next) {
-                args.Arg1 = arg1;
                 args.Handler = i.Value;
-                OnInvokeHandler(args);
+                binding.InvokeHandler(ref instance, args.Handler, args);
             }
         }
 
@@ -48,7 +53,5 @@ namespace NCop.Aspects.Engine
         protected abstract void SubscribeImpl();
 
         protected abstract void UnsubscribeImpl();
-
-        protected abstract void OnInvokeHandler(EventActionInterceptionArgsImpl<TInstance, TArg1> args);
     }
 }

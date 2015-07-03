@@ -5,13 +5,12 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractArgumentsWeaver : IArgumentsWeaver, IArgumentsWeavingSettings
+    internal abstract class AbstractArgumentsWeaver<TMember> : IArgumentsWeaver, IArgumentsWeavingSettings where TMember : MemberInfo
     {
-        protected readonly MethodInfo method = null;
         protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
 
-        internal AbstractArgumentsWeaver(MethodInfo method, IArgumentsWeavingSettings argumentsWeavingSettings, IAspectWeavingSettings aspectWeavingSettings) {
-            this.method = method;
+        internal AbstractArgumentsWeaver(TMember member, IArgumentsWeavingSettings argumentsWeavingSettings, IAspectWeavingSettings aspectWeavingSettings) {
+            Member = member;
             ReturnType = argumentsWeavingSettings.ReturnType;
             AspectType = argumentsWeavingSettings.AspectType;
             Parameters = new Type[argumentsWeavingSettings.Parameters.Length];
@@ -25,8 +24,10 @@ namespace NCop.Aspects.Weaving
             BindingsDependency = argumentsWeavingSettings.BindingsDependency;
         }
 
-        public bool IsProperty { get; protected set; }
+        public TMember Member { get; protected set; }
 
+        public bool IsProperty { get; protected set; }
+        
         public Type ReturnType { get; protected set; }
 
         public Type AspectType { get; protected set; }

@@ -26,7 +26,7 @@ namespace NCop.Aspects.Weaving
 
         internal FinallyAdviceAttribute FinallyAdvice { get; private set; }
 
-        internal OnAddHandlerAdviceAttribute OnAddHandlerAdvice { get; private set; }
+        internal OnAddEventHandlerAdviceAttribute OnAddHandlerAdvice { get; private set; }
 
         internal OnMethodEntryAdviceAttribute OnMethodEntryAdvice { get; private set; }
 
@@ -36,9 +36,9 @@ namespace NCop.Aspects.Weaving
 
         internal OnMethodInvokeAdviceAttribute OnMethodInvokeAdvice { get; private set; }
 
-        internal OnInvokeHandlerAdviceAttribute OnInvokeHandlerAdvice { get; private set; }
+        internal OnInvokeEventHandlerAdviceAttribute OnInvokeHandlerAdvice { get; private set; }
 
-        internal OnRemoveHandlerAdviceAttribute OnRemoveHandlerAdvice { get; private set; }
+        internal OnRemoveEventHandlerAdviceAttribute OnRemoveHandlerAdvice { get; private set; }
 
         internal OnMethodSuccessAdviceAttribute OnMethodSuccessAdvice { get; private set; }
 
@@ -49,7 +49,7 @@ namespace NCop.Aspects.Weaving
             HasFinallyAdvice = true;
         }
 
-        internal void Visit(OnAddHandlerAdviceAttribute advice) {
+        internal void Visit(OnAddEventHandlerAdviceAttribute advice) {
             OnAddHandlerAdvice = advice;
             HasOnAddHandlerAdvice = true;
         }
@@ -74,12 +74,12 @@ namespace NCop.Aspects.Weaving
             HasOnMethodInvokeAdvice = true;
         }
 
-        internal void Visit(OnInvokeHandlerAdviceAttribute advice) {
+        internal void Visit(OnInvokeEventHandlerAdviceAttribute advice) {
             OnInvokeHandlerAdvice = advice;
             HasOnInvokeHandlerAdvice = true;
         }
 
-        internal void Visit(OnRemoveHandlerAdviceAttribute advice) {
+        internal void Visit(OnRemoveEventHandlerAdviceAttribute advice) {
             OnRemoveHandlerAdvice = advice;
             HasOnRemoveHandlerAdvice = true;
         }

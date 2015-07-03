@@ -7,14 +7,14 @@ namespace NCop.Aspects.Weaving
 {
     internal class BindingSetPropertyInterceptionArgumentsWeaver : AbstractTopPropertyAspectArgumentsWeaver
     {   
-        internal BindingSetPropertyInterceptionArgumentsWeaver(MethodInfo methodInfo, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
-            : base(methodInfo, argumentWeavingSettings, aspectWeavingSettings) {
+        internal BindingSetPropertyInterceptionArgumentsWeaver(PropertyInfo property, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+            : base(property, argumentWeavingSettings, aspectWeavingSettings) {
         }
 
         public override LocalBuilder BuildArguments(ILGenerator ilGenerator) {
             LocalBuilder aspectArgLocalBuilder = null;
             ConstructorInfo ctorInterceptionArgs = null;
-            var aspectArgsType = method.ToPropertyArgumentContract();
+            var aspectArgsType = Member.ToPropertyArgumentContract();
 
             ctorInterceptionArgs = ArgumentType.GetConstructors()[0];
             aspectArgLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);

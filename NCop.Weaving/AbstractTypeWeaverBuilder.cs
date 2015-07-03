@@ -1,5 +1,4 @@
 ﻿using System;
-using NCop.Core.Extensions;
 using System.Collections.Generic;
 
 namespace NCop.Weaving
@@ -53,8 +52,9 @@ namespace NCop.Weaving
         }
 
         public virtual void AddEventWeaver(IEventWeaver eventWeaver) {
-            methodWeavers.Add(eventWeaver.GetOnAddMethod());
-            methodWeavers.Add(eventWeaver.GetOnRemoveMethod());
+            methodWeavers.Add(eventWeaver.GetAddMethod());
+            methodWeavers.Add(eventWeaver.GetRemoveMethod());
+            methodWeavers.Add(eventWeaver.GetInvokeMethod());
         }
 
         public virtual void AddMethodWeaver(IMethodWeaver methodWeaver) {

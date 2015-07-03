@@ -8,8 +8,8 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractBranchedMethodScopeWeaver : AbstractMethodScopeWeaver
     {
-        internal AbstractBranchedMethodScopeWeaver(MethodInfo methodInfo, IWeavingSettings weavingSettings)
-            : base(methodInfo, weavingSettings) {
+        internal AbstractBranchedMethodScopeWeaver(MethodInfo method, IWeavingSettings weavingSettings)
+            : base(method, weavingSettings) {
         }
 
         public override void Weave(ILGenerator ilGenerator) {

@@ -9,8 +9,8 @@ namespace NCop.Aspects.Weaving
     {
         private LocalBuilder argsLocalBuilder;
 
-        internal BindingByRefArgumentsWeaverImpl(Type topAspectInScopeArgType, MethodInfo methodInfoImpl, ILocalBuilderRepository localBuilderRepository)
-            : base(topAspectInScopeArgType, methodInfoImpl, localBuilderRepository) {            
+        internal BindingByRefArgumentsWeaverImpl(Type topAspectInScopeArgType, MethodInfo method, ILocalBuilderRepository localBuilderRepository)
+            : base(topAspectInScopeArgType, method, localBuilderRepository) {            
         }
 
         public override bool Contains(int argPosition) {

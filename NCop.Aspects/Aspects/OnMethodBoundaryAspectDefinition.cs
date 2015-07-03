@@ -31,19 +31,19 @@ namespace NCop.Aspects.Aspects
             Aspect.AspectType
                   .GetOverridenMethods()
                   .ForEach(method => {
-                      TryBulidAdvice<OnMethodEntryAdviceAttribute>(method, (advice, mi) => {
+                      TryBulidAdvice<MethodInfo, OnMethodEntryAdviceAttribute>(method, (advice, mi) => {
                           return new OnMethodEntryAdviceDefinition(advice, mi);
                       });
 
-                      TryBulidAdvice<OnMethodSuccessAdviceAttribute>(method, (advice, mi) => {
+                      TryBulidAdvice<MethodInfo, OnMethodSuccessAdviceAttribute>(method, (advice, mi) => {
                           return new OnMethodSuccessAdviceDefinition(advice, mi);
                       });
 
-                      TryBulidAdvice<OnMethodExceptionAdviceAttribute>(method, (advice, mi) => {
+                      TryBulidAdvice<MethodInfo, OnMethodExceptionAdviceAttribute>(method, (advice, mi) => {
                           return new OnMethodExceptionAdviceDefinition(advice, mi);
                       });
 
-                      TryBulidAdvice<FinallyAdviceAttribute>(method, (advice, mi) => {
+                      TryBulidAdvice<MethodInfo, FinallyAdviceAttribute>(method, (advice, mi) => {
                           return new FinallyAdviceDefinition(advice, mi);
                       });
                   });

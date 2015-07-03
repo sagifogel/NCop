@@ -9,8 +9,8 @@ namespace NCop.Aspects.Weaving
     {
         private readonly Type topAspectInScopeArgType = null;
 
-        internal BindingMethodInterceptionArgumentsWeaver(MethodInfo methodInfo, Type topAspectInScopeArgType, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
-            : base(methodInfo, argumentWeavingSettings, aspectWeavingSettings) {
+        internal BindingMethodInterceptionArgumentsWeaver(MethodInfo method, Type topAspectInScopeArgType, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+            : base(method, argumentWeavingSettings, aspectWeavingSettings) {
             this.topAspectInScopeArgType = topAspectInScopeArgType;
         }
 

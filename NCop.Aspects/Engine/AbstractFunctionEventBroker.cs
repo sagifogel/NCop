@@ -1,5 +1,4 @@
-﻿using NCop.Aspects.Framework;
-using NCop.Core.Extensions;
+﻿using NCop.Core.Extensions;
 using System;
 using System.Collections.Generic;
 
@@ -9,11 +8,11 @@ namespace NCop.Aspects.Engine
     {
         protected readonly TInstance instance = default(TInstance);
         private readonly LinkedList<Func<TResult>> linkedHandlers = null;
-        private readonly Action<EventFunctionInterceptionArgsImpl<TInstance, TResult>> onInvokeHandler = null;
+        protected readonly Func<IEventFunctionArgs<TResult>, TResult> handler = null;
 
-        protected AbstractFunctionEventBroker(TInstance instance, Action<EventFunctionInterceptionArgsImpl<TInstance, TResult>> onInvokeHandler) {
+        protected AbstractFunctionEventBroker(TInstance instance, Func<IEventFunctionArgs<TResult>, TResult> handler) {
+            this.handler = handler;
             this.instance = instance;
-            this.onInvokeHandler = onInvokeHandler;
             linkedHandlers = new LinkedList<Func<TResult>>();
         }
 
@@ -30,9 +29,11 @@ namespace NCop.Aspects.Engine
         protected TResult OnEventFired() {
             var args = new EventFunctionInterceptionArgsImpl<TInstance, TResult>();
 
+            args.EventBroker = this;
+
             for (var i = linkedHandlers.First; i != null; i = i.Next) {
                 args.Handler = i.Value;
-                OnInvokeHandler(args);
+                args.ReturnValue = handler(args);
             }
 
             return args.ReturnValue;
@@ -49,9 +50,5 @@ namespace NCop.Aspects.Engine
         protected abstract void SubscribeImpl();
 
         protected abstract void UnsubscribeImpl();
-
-        protected void OnInvokeHandler(EventFunctionInterceptionArgsImpl<TInstance, TResult> args) {
-            onInvokeHandler(args);
-        }
     }
 }

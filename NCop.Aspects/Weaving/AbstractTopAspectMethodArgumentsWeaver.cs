@@ -4,10 +4,10 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractTopAspectMethodArgumentsWeaver : AbstractArgumentsWeaver, IAspectArgumentsWeaver
+    internal abstract class AbstractTopAspectMethodArgumentsWeaver : AbstractArgumentsWeaver<MethodInfo>, IAspectArgumentsWeaver
     {
-        internal AbstractTopAspectMethodArgumentsWeaver(MethodInfo methodInfo, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
-            : base(methodInfo, argumentWeavingSettings, aspectWeavingSettings) {
+        internal AbstractTopAspectMethodArgumentsWeaver(MethodInfo method, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+            : base(method, argumentWeavingSettings, aspectWeavingSettings) {
         }
 
         public override void Weave(ILGenerator ilGenerator) {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NCop.Core.Extensions;
+using System;
 using System.Reflection;
 
 namespace NCop.Aspects.Weaving
@@ -7,6 +8,7 @@ namespace NCop.Aspects.Weaving
     {
         public EventBrokerResolvedType(EventInfo @event) {
             Event = @event;
+            EventBrokerInvokeDelegateName = "Invoke{0}".Fmt(@event.Name);
         }
 
         public Type[] Arguments { get; set; }
@@ -15,15 +17,14 @@ namespace NCop.Aspects.Weaving
 
         public EventInfo Event { get; private set; }
 
-        public string OnInvokeUniqueName { get; set; }
-
         public Type EventBrokerFieldType { get; set; }
 
         public Type EventInterceptionArgs { get; set; }
 
-        public Type EventBrokerBindingType { get; set; }
-
         public Type EventBrokerBaseClassType { get; set; }
 
+        public Type EventBrokerInvokeDelegateType { get; set; }
+
+        public string EventBrokerInvokeDelegateName { get; private set; }
     }
 }

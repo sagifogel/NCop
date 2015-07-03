@@ -1,6 +1,5 @@
-﻿using System;
-using System.Linq;
-using NCop.Aspects.Engine;
+﻿using NCop.Aspects.Engine;
+using System;
 using System.Collections.Generic;
 
 namespace NCop.Aspects.Extensions

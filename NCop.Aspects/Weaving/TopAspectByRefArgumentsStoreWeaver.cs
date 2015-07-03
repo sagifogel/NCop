@@ -14,8 +14,8 @@ namespace NCop.Aspects.Weaving
         private readonly Type previousAspectArgType = null;
         protected readonly ISet<int> byRefParamslocalBuilderMap = null;
 
-        internal TopAspectByRefArgumentsStoreWeaver(Type previousAspectArgType, MethodInfo methodInfoImpl, ILocalBuilderRepository localBuilderRepository)
-            : base(methodInfoImpl, localBuilderRepository) {
+        internal TopAspectByRefArgumentsStoreWeaver(Type previousAspectArgType, MethodInfo method, ILocalBuilderRepository localBuilderRepository)
+            : base(method, localBuilderRepository) {
             this.previousAspectArgType = previousAspectArgType;
             byRefParamslocalBuilderMap = new HashSet<int>();
         }

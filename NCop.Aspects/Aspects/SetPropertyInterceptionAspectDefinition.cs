@@ -26,7 +26,7 @@ namespace NCop.Aspects.Aspects
             Aspect.AspectType
                   .GetOverridenMethods()
                   .ForEach(method => {
-                      TryBulidAdvice<OnSetPropertyAdviceAttribute>(method, (advice, mi) => {
+                      TryBulidAdvice<MethodInfo, OnSetPropertyAdviceAttribute>(method, (advice, mi) => {
                           return new OnSetPropertyAdviceDefinition(advice, mi);
                       });
                   });

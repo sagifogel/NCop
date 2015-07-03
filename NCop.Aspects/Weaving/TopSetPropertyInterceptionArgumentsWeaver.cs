@@ -7,7 +7,7 @@ namespace NCop.Aspects.Weaving
     internal class TopSetPropertyInterceptionArgumentsWeaver : AbstractTopPropertyAspectArgumentsWeaver
     {
         internal TopSetPropertyInterceptionArgumentsWeaver(PropertyInfo property, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
-            : base(property.GetSetMethod(), argumentWeavingSettings, aspectWeavingSettings) {
+            : base(property, argumentWeavingSettings, aspectWeavingSettings) {
         }
 
         public override LocalBuilder BuildArguments(ILGenerator ilGenerator) {
@@ -24,7 +24,7 @@ namespace NCop.Aspects.Weaving
             ctorInterceptionArgs = ArgumentType.GetConstructors()[0];
             aspectArgLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
             contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
-            methodWeaver = new AspectArgsSetPropertyWeaver(method, methodLocalBuilder, aspectWeavingSettings);
+            methodWeaver = new AspectArgsSetPropertyWeaver(Member.GetSetMethod(), methodLocalBuilder, aspectWeavingSettings);
             methodWeaver.Weave(ilGenerator);
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);

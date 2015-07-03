@@ -4,6 +4,6 @@ namespace NCop.Weaving
 {
     public interface IMethodWeaverHandler
     {
-        IMethodWeaver Handle(MethodInfo methodInfo, ITypeDefinition typeDefinition);
+        IMethodWeaver Handle(MethodInfo method, ITypeDefinition typeDefinition);
     }
 }

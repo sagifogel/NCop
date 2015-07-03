@@ -3,7 +3,7 @@ namespace NCop.Composite.Engine
 {
     public interface ICompositePropertyMapVisitor
     {       
-        void Visit(GetCompositePropertyMap propertyMap);
-        void Visit(SetCompositePropertyMap propertyMap);
+        void Visit(CompositeGetPropertyMap propertyMap);
+        void Visit(CompositeSetPropertyMap propertyMap);
     }
 }

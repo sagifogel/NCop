@@ -12,8 +12,8 @@ namespace NCop.Aspects.Weaving
         protected readonly Type aspectArgumentType = null;
         protected readonly IDictionary<int, LocalBuilder> byRefParamslocalBuilderMap = null;
 
-        internal AbstractBindingByRefArgumentsWeaver(Type aspectArgumentType, MethodInfo methodInfoImpl, ILocalBuilderRepository localBuilderRepository)
-            : base(methodInfoImpl, localBuilderRepository) {
+        internal AbstractBindingByRefArgumentsWeaver(Type aspectArgumentType, MethodInfo method, ILocalBuilderRepository localBuilderRepository)
+            : base(method, localBuilderRepository) {
             this.aspectArgumentType = aspectArgumentType;
             byRefParamslocalBuilderMap = new Dictionary<int, LocalBuilder>();
         }

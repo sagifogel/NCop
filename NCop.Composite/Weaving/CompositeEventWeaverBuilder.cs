@@ -4,7 +4,7 @@ using NCop.Weaving;
 
 namespace NCop.Composite.Weaving
 {
-    public class CompositeEventWeaverBuilder : AbstractAspectWeaverBuilder, IEventWeaverBuilder
+    public class CompositeEventWeaverBuilder : AbstractWeaverBuilder, IEventWeaverBuilder
     {
         private readonly ICompositeEventMap compositeEventMap = null;
         private readonly IAspectWeavingServices aspectWeavingServices = null;
@@ -16,18 +16,18 @@ namespace NCop.Composite.Weaving
         }
 
         public IEventWeaver Build() {
-            var eventWeaver = new CompositeEventWeaver(typeDefinition, compositeEventMap.ContractMember);
-            var addEventWeaver = new CompositeOnAddEventWeaverBuilder(compositeEventMap, typeDefinition, aspectWeavingServices);
-            var removeEventWeaver = new CompositeOnRemoveEventWeaverBuilder(compositeEventMap, typeDefinition, aspectWeavingServices);
+            var addEventFragmentMap = compositeEventMap.AddEventFragmentMap;
+            var aspectTypeDefinition = (IAspectTypeDefinition)typeDefinition;
+            var removeEventFragmentMap = compositeEventMap.RemoveEventFragmentMap;
+            var invokeEventFragmentMap = compositeEventMap.InvokeEventFragmentMap;
+            var eventWeaver = new CompositeEventWeaver(typeDefinition, addEventFragmentMap.ContractMember);
+            var addEventWeaverBuilder = new CompositeAddEventWeaverBuilder(eventWeaver, addEventFragmentMap, aspectTypeDefinition, aspectWeavingServices);
+            var removeEventWeaverBuilder = new CompositeRemoveEventWeaverBuilder(eventWeaver, removeEventFragmentMap, aspectTypeDefinition, aspectWeavingServices);
+            var invokeEventWeaverBuilder = new CompositeInvokeEventWeaverBuilder(eventWeaver, invokeEventFragmentMap, aspectTypeDefinition, aspectWeavingServices);
 
-            eventWeaver.SetAddOnMethod(addEventWeaver.Build());
-            eventWeaver.SetRemoveOnMethod(removeEventWeaver.Build());
-
-            if (compositeEventMap.HasAspectDefinitions) {
-                var onInvokeWeaver = new CompositeOnInvokeEventWeaverBuilder(compositeEventMap, typeDefinition, aspectWeavingServices);
-
-                eventWeaver.SetOnInvokeMethod(onInvokeWeaver.Build());
-            }
+            eventWeaver.SetAddMethod(addEventWeaverBuilder.Build());
+            eventWeaver.SetRemoveMethod(removeEventWeaverBuilder.Build());
+            eventWeaver.SetInvokeMethod(invokeEventWeaverBuilder.Build());
 
             return eventWeaver;
         }

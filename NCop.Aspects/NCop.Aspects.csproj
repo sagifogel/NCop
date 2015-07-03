@@ -83,13 +83,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Advices\OnRemoveHandlerAdviceDefinition.cs" />
-    <Compile Include="Advices\OnInvokeHandlerAdviceDefinition.cs" />
-    <Compile Include="Advices\OnInvokeHandlerAdviceAttribute.cs" />
+    <Compile Include="Advices\OnInvokeEventHandlerAdviceDefinition.cs" />
+    <Compile Include="Advices\OnInvokeEventHandlerAdviceAttribute.cs" />
     <Compile Include="Advices\OnAddHandlerAdviceDefinition.cs" />
-    <Compile Include="Advices\OnRemoveHandlerAdviceAttribute.cs" />
+    <Compile Include="Advices\OnRemoveEventHandlerAdviceAttribute.cs" />
     <Compile Include="Advices\OnGetPropertyAdviceAttribute.cs" />
     <Compile Include="Advices\OnGetPropertyAdviceDefinition.cs" />
-    <Compile Include="Advices\OnAddHandlerAdviceAttribute.cs" />
+    <Compile Include="Advices\OnAddEventHandlerAdviceAttribute.cs" />
     <Compile Include="Advices\OnSetPropertyAdviceAttribute.cs" />
     <Compile Include="Advices\OnSetPropertyAdviceDefinition.cs" />
     <Compile Include="Aspects\AbstractAspectDefinition.cs">
@@ -135,7 +135,6 @@
     <Compile Include="Engine\AbstractPropertyAdviceArgs.cs" />
     <Compile Include="Engine\AbstractAspect.cs" />
     <Compile Include="Engine\AbstractPropertyInterceptionArgs.cs" />
-    <Compile Include="Engine\Action.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`2.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`3.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`4.cs" />
@@ -145,6 +144,8 @@
     <Compile Include="Engine\ActionExecutionArgsImpl`8.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`1.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl.cs" />
+    <Compile Include="Engine\IAspectContainer.cs" />
+    <Compile Include="Engine\IAspectDefinitionsContainer.cs" />
     <Compile Include="Engine\IEventFragment.cs" />
     <Compile Include="Engine\InvokeEventFragmentInterceptionAspect.cs" />
     <Compile Include="Engine\RemoveEventFragmentInterceptionAspect.cs" />
@@ -158,7 +159,6 @@
     <Compile Include="Engine\EventActionInterceptionArgsImpl`6.cs" />
     <Compile Include="Engine\EventActionInterceptionArgsImpl`7.cs" />
     <Compile Include="Engine\EventActionInterceptionArgsImpl`8.cs" />
-    <Compile Include="Engine\AspectDefinitionRegistry.cs" />
     <Compile Include="Aspects\SetPropertyFragmentInterceptionAspectDefinition.cs" />
     <Compile Include="Aspects\GetPropertyFragmentInterceptionAspectDefinition.cs" />
     <Compile Include="Engine\AspectEventMap.cs" />
@@ -361,7 +361,9 @@
     <Compile Include="Weaving\AbstractMethodInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\AbstractTopAspectMethodArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractTopAspectPropertyArgumentsWeaver.cs" />
+    <Compile Include="Weaving\AbstractTopEventFragmentInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\AbstractTopOnMethodBoundaryAspectWeaver.cs" />
+    <Compile Include="Weaving\AbstractAddHanlderAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractTopPropertyAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\AspectArgsGetPropertyWeaver.cs" />
     <Compile Include="Weaving\AbstractAspectPropertyArgsWeaver.cs" />
@@ -382,7 +384,8 @@
     <Compile Include="Weaving\EventBrokerWeaver.cs" />
     <Compile Include="Weaving\EventInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\Expressions\AbstractAspectEventExpression.cs" />
-    <Compile Include="Weaving\Expressions\AbstractPartialFragmentAspectPropertyExpression.cs" />
+    <Compile Include="Weaving\Expressions\AbstractEventFragmentAspectExpression.cs" />
+    <Compile Include="Weaving\Expressions\AbstractPartialPropertyFragmentAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\BindingInvokeEventAspectDecoratorExpression.cs" />
     <Compile Include="Weaving\Expressions\BindingRemoveEventAspectDecoratorExpression.cs" />
     <Compile Include="Weaving\Expressions\BindingAddEventAspectDecoratorExpression.cs" />
@@ -395,18 +398,17 @@
     <Compile Include="Weaving\Expressions\BindingAddEventFragmentInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\IEventExpressionBuilder.cs" />
     <Compile Include="Weaving\Expressions\OnInvokeHandlerAdviceExpression.cs" />
-    <Compile Include="Weaving\Expressions\OnRemoveHandlerAdviceExpression.cs" />
-    <Compile Include="Weaving\Expressions\OnAddHandlerAdviceExpression.cs" />
+    <Compile Include="Weaving\Expressions\OnRemoveEventHandlerAdviceExpression.cs" />
+    <Compile Include="Weaving\Expressions\OnAddEventHandlerAdviceExpression.cs" />
     <Compile Include="Weaving\Expressions\TopInvokeEventFragmentInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\TopRemoveEventFragmentInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\Expressions\TopAddEventFragmentInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\IAspectTypeDefinition.cs" />
     <Compile Include="Weaving\IsolatedEventInterceptionBindingWeaver.cs" />
-    <Compile Include="Weaving\OnInvokeMethodDefinition.cs" />
+    <Compile Include="Weaving\OnEventInvokeMethodSignatureWeaver.cs" />
     <Compile Include="Weaving\OnInvokeMethodScopeWeaver.cs" />
-    <Compile Include="Weaving\OnInvokeMethodWeaver.cs" />
-    <Compile Include="Weaving\OnRemoveHandlerAdviceWeaver.cs" />
-    <Compile Include="Weaving\OnAddHandlerAdviceWeaver.cs" />
+    <Compile Include="Weaving\OnRemoveEventHandlerAdviceWeaver.cs" />
+    <Compile Include="Weaving\OnAddEventHandlerAdviceWeaver.cs" />
     <Compile Include="Weaving\OnInvokeHandlerAdviceWeaver.cs" />
     <Compile Include="Weaving\FinallyBindingPropertyAspectWeaver.cs" />
     <Compile Include="Weaving\SetPropertyBindingTypeReflectorBuilder.cs" />
@@ -449,6 +451,10 @@
     <Compile Include="Weaving\NullObjectByRefArgumentsWeaver.cs" />
     <Compile Include="Weaving\GetPropertyInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\SetPropertyAspectWeaver.cs" />
+    <Compile Include="Weaving\TopEventInterceptionArgumentsWeaver.cs" />
+    <Compile Include="Weaving\TopInvokeEventInterceptionAspectWeaver.cs" />
+    <Compile Include="Weaving\TopRemoveEventInterceptionAspectWeaver.cs" />
+    <Compile Include="Weaving\TopAddEventInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\TopAspectByRefArgumentsStoreWeaver.cs" />
     <Compile Include="Weaving\IByRefArgumentsStoreWeaver.cs" />
     <Compile Include="Weaving\MethodDecoratorByRefArgumentsStoreWeaver.cs" />
@@ -491,7 +497,6 @@
     <Compile Include="Weaving\TopBindingMethodInterceptionArgumentsWeaver.cs" />
     <Compile Include="Weaving\TopBindingMethodInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\TopBindingOnMethodBoundaryAspectWeaver.cs" />
-    <Compile Include="Weaving\TopBothAccessorsPropertyInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\TopSetPropertyInterceptionArgumentsWeaver.cs" />
     <Compile Include="Weaving\TopGetPropertyInterceptionArgumentsWeaver.cs" />
     <Compile Include="Weaving\TopBindingOnMethodExecutionArgumentsWeaver.cs" />

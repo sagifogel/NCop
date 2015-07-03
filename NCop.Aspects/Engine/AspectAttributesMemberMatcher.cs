@@ -37,7 +37,7 @@ namespace NCop.Aspects.Engine
         private void CollectEventsAspectDefinitions(IAspectEventMapCollection aspectMembersCollection) {
             aspectMembersCollection.Events.ForEach(aspectMembers => {
                 aspectMembers.Members.ForEach(member => {
-                    CollectEventsAspectDefinitions(member, aspectMembers.ContractType, aspectMembers.Target);
+                    CollectEventsAspectDefinitions(member, aspectMembers.ContractType, aspectMembers.ContractMember);
                 });
             });
         }
@@ -85,6 +85,7 @@ namespace NCop.Aspects.Engine
             eventInterceptionAspect.ForEach(aspectAttribute => {
                 var addMethod = target.GetAddMethod();
                 var removeMethod = target.GetRemoveMethod();
+                var invokeMethod = target.GetInvokeMethod();
                 var aspectDefinition = new EventInterceptionAspectDefinition(aspectAttribute, aspectAttribute.AspectType, target);
                 var bindingTypeReflectorBuilder = new EventBindingTypeReflectorBuilder(aspectDefinition);
 
@@ -108,7 +109,7 @@ namespace NCop.Aspects.Engine
 
                 AddOrUpdate(addMethod, new[] { new AddEventFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, addEventAspect, aspectDeclaringType, target) });
                 AddOrUpdate(removeMethod, new[] { new RemoveEventFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, removeEventAspect, aspectDeclaringType, target) });
-                AddOrUpdate(target, new[] { new InvokeEventFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, invokeEventAspect, aspectDeclaringType, target) });
+                AddOrUpdate(invokeMethod, new[] { new InvokeEventFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, invokeEventAspect, aspectDeclaringType, target) });
             });
         }
 

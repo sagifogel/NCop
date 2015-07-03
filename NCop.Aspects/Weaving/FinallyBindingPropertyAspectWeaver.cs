@@ -8,12 +8,12 @@ namespace NCop.Aspects.Weaving
 {
     internal class FinallyBindingPropertyAspectWeaver : IMethodScopeWeaver
     {
-        private readonly MethodInfo method = null;
+        private readonly PropertyInfo property = null;
         private readonly IAspectWeavingSettings aspectWeavingSettings = null;
         private readonly IArgumentsWeavingSettings argumentsWeavingSettings = null;
 
-        internal FinallyBindingPropertyAspectWeaver(MethodInfo method, IArgumentsWeavingSettings argumentsWeavingSettings, IAspectWeavingSettings aspectWeavingSettings) {
-            this.method = method;
+        internal FinallyBindingPropertyAspectWeaver(PropertyInfo property, IArgumentsWeavingSettings argumentsWeavingSettings, IAspectWeavingSettings aspectWeavingSettings) {
+            this.property = property;
             this.aspectWeavingSettings = aspectWeavingSettings;
             this.argumentsWeavingSettings = argumentsWeavingSettings;
         }
@@ -21,8 +21,8 @@ namespace NCop.Aspects.Weaving
         public void Weave(ILGenerator ilGenerator) {
             LocalBuilder aspectArgLocalBuilder = null;
             var argumentType = argumentsWeavingSettings.ArgumentType;
-            var propertyAspectArgument = method.ToPropertyAspectArgument();
-            var propertyArgumentContract = method.ToPropertyArgumentContract();
+            var propertyAspectArgument = property.ToPropertyAspectArgument();
+            var propertyArgumentContract = property.ToPropertyArgumentContract();
             var localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
             var propertyAspectArgumentProperty = propertyAspectArgument.GetProperty("Value");
             var propertyArgumentContractProperty = propertyArgumentContract.GetProperty("Value");

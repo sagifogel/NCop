@@ -4,22 +4,23 @@ using System.Reflection;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal abstract class AbstractPartialFragmentAspectPropertyExpression : AbstractPartialAspectPropertyExpression
+    internal abstract class AbstractEventFragmentAspectExpression : AbstractAspectEventExpression
     {
-        protected readonly IBindingTypeReflectorBuilder propertyBuilder = null;
+        protected readonly IBindingTypeReflectorBuilder eventBuilder = null;
 
-        internal AbstractPartialFragmentAspectPropertyExpression(IAspectExpression aspectExpression, IBindingTypeReflectorBuilder propertyBuilder, IPropertyAspectDefinition aspectDefinition = null)
+        internal AbstractEventFragmentAspectExpression(IAspectExpression aspectExpression, IBindingTypeReflectorBuilder eventBuilder, IEventAspectDefinition aspectDefinition = null)
             : base(aspectExpression, aspectDefinition) {
-            this.propertyBuilder = propertyBuilder;
+            this.eventBuilder = eventBuilder;
         }
 
         public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
-            var bindingWeaver = propertyBuilder.Build(aspectWeavingSettings);
+            var bindingWeaver = eventBuilder.Build(aspectWeavingSettings);
+            
             var clonedSettings = aspectWeavingSettings.CloneWith(settings => {
                 settings.LocalBuilderRepository = new LocalBuilderRepository();
             });
 
-            return CreateWeaver(clonedSettings, bindingWeaver.WeavedType);
+            return CreateWeaver(clonedSettings, null/* bindingWeaver.WeavedType*/);
         }
 
         protected abstract IAspectWeaver CreateWeaver(IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType);

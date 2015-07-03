@@ -1,7 +1,6 @@
 ﻿using NCop.Core;
 using NCop.Core.Extensions;
 using NCop.IoC;
-using NCop.Mixins.Weaving;
 using NCop.Weaving;
 using NCop.Weaving.Extensions;
 using System;
@@ -36,6 +35,7 @@ namespace NCop.Mixins.Weaving
 
                 methodWeaver.WeaveMethodScope(ilGenerator);
                 methodWeaver.WeaveEndMethod(ilGenerator);
+                return;
             });
 
             CreateDefaultConstructor();

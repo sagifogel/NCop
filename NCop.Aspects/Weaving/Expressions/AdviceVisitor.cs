@@ -11,9 +11,9 @@ namespace NCop.Aspects.Weaving.Expressions
             };
         }
 
-        internal Func<IAdviceDefinition, IAdviceExpression> Visit(OnAddHandlerAdviceAttribute advice) {
+        internal Func<IAdviceDefinition, IAdviceExpression> Visit(OnAddEventHandlerAdviceAttribute advice) {
             return adviceDefinition => {
-                return new OnAddHandlerAdviceExpression(adviceDefinition);
+                return new OnAddEventHandlerAdviceExpression(adviceDefinition);
             };
         }
 
@@ -41,13 +41,13 @@ namespace NCop.Aspects.Weaving.Expressions
             };
         }
 
-        internal Func<IAdviceDefinition, IAdviceExpression> Visit(OnRemoveHandlerAdviceAttribute advice) {
+        internal Func<IAdviceDefinition, IAdviceExpression> Visit(OnRemoveEventHandlerAdviceAttribute advice) {
             return adviceDefinition => {
-                return new OnRemoveHandlerAdviceExpression(adviceDefinition);
+                return new OnRemoveEventHandlerAdviceExpression(adviceDefinition);
             };
         }
 
-        internal Func<IAdviceDefinition, IAdviceExpression> Visit(OnInvokeHandlerAdviceAttribute advice) {
+        internal Func<IAdviceDefinition, IAdviceExpression> Visit(OnInvokeEventHandlerAdviceAttribute advice) {
             return adviceDefinition => {
                 return new OnInvokeHandlerAdviceExpression(adviceDefinition);
             };

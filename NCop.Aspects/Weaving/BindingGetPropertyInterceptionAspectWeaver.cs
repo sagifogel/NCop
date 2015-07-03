@@ -9,23 +9,23 @@ namespace NCop.Aspects.Weaving
 {
     internal class BindingGetPropertyInterceptionAspectWeaver : AbstractGetPropertyInterceptionAspectWeaver
     {
-        protected readonly MethodInfo method = null;
+        protected readonly PropertyInfo property = null;
         protected readonly IArgumentsWeaver argumentsWeaver = null;
 
         internal BindingGetPropertyInterceptionAspectWeaver(IPropertyAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             IMethodScopeWeaver finallyWeaver = null;
-            
-            method = aspectDefinition.Member.GetGetMethod();
+
+            property = aspectDefinition.Member;
             argumentsWeavingSettings.BindingsDependency = weavedType;
             argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Member.PropertyType };
-            argumentsWeaver = new BindingGetPropertyInterceptionArgumentsWeaver(method, argumentsWeavingSettings, aspectWeavingSettings);
-            finallyWeaver = new FinallyBindingPropertyAspectWeaver(method, argumentsWeavingSettings, aspectWeavingSettings);
+            argumentsWeaver = new BindingGetPropertyInterceptionArgumentsWeaver(aspectDefinition.Member, argumentsWeavingSettings, aspectWeavingSettings);
+            finallyWeaver = new FinallyBindingPropertyAspectWeaver(aspectDefinition.Member, argumentsWeavingSettings, aspectWeavingSettings);
             weaver = new TryFinallyAspectWeaver(methodScopeWeavers, new[] { finallyWeaver });
         }
 
         public override void Weave(ILGenerator ilGenerator) {
-            var propertyArgumentContract = method.ToPropertyArgumentContract();
+            var propertyArgumentContract = property.ToPropertyArgumentContract();
             var propertyArgumentContractProperty = propertyArgumentContract.GetProperty("Value");
 
             argumentsWeaver.Weave(ilGenerator);

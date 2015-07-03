@@ -3,20 +3,20 @@ using NCop.Weaving;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class OnRemoveHandlerAdviceExpression : AbstractAdviceExpression
+    internal class OnAddEventHandlerAdviceExpression : AbstractAdviceExpression
     {
-        internal OnRemoveHandlerAdviceExpression(IAdviceDefinition adviceDefinition)
+        internal OnAddEventHandlerAdviceExpression(IAdviceDefinition adviceDefinition)
 			: base(adviceDefinition) {
         }
 
 		protected override AdviceType AdviceType {
 			get {
-				return AdviceType.OnRemoveHandlerAdvice;
+				return AdviceType.OnAddHandlerAdvice;
 			}
 		}
 
         public override IMethodScopeWeaver Reduce(IAdviceWeavingSettings adviceWeavingSettings) {
-            return new OnRemoveHandlerAdviceWeaver(adviceWeavingSettings);
+            return new OnAddEventHandlerAdviceWeaver(adviceWeavingSettings);
         }
     }
 }

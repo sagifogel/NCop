@@ -6,19 +6,19 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractBindingMethodInterceptionArgumentsWeaver: AbstractArgumentsWeaver
+    internal abstract class AbstractBindingMethodInterceptionArgumentsWeaver: AbstractArgumentsWeaver<MethodInfo>
     {
         private readonly FieldInfo bindingsDependency = null;
 
-        internal AbstractBindingMethodInterceptionArgumentsWeaver(MethodInfo methodInfo, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
-            : base(methodInfo, argumentWeavingSettings, aspectWeavingSettings) {
+        internal AbstractBindingMethodInterceptionArgumentsWeaver(MethodInfo method, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+            : base(method, argumentWeavingSettings, aspectWeavingSettings) {
             bindingsDependency = argumentWeavingSettings.BindingsDependency;
         }
 
         public override void Weave(ILGenerator ilGenerator) {
             LocalBuilder argsImplLocalBuilder = null;
             var ctorInterceptionArgs = ArgumentType.GetConstructors()[0];
-            var aspectArgsType = method.ToAspectArgumentContract();
+            var aspectArgsType = Member.ToAspectArgumentContract();
             var methodProperty = aspectArgsType.GetProperty("Method");
 
             argsImplLocalBuilder = LocalBuilderRepository.GetOrDeclare(ArgumentType, () => {

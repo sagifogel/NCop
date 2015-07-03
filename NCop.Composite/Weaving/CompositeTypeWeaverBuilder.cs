@@ -3,7 +3,6 @@ using NCop.Composite.Engine;
 using NCop.Composite.Mixins.Weaving;
 using NCop.Core;
 using NCop.Core.Extensions;
-using NCop.Mixins.Weaving;
 using NCop.Weaving;
 using System;
 using System.Linq;
@@ -24,7 +23,6 @@ namespace NCop.Composite.Weaving
             var mixinsMap = compositeWeavingSettings.MixinsMap;
             var aspectsMap = compositeWeavingSettings.AspectsMap;
             var compositeType = compositeWeavingSettings.CompositeType;
-            var aspectRepository = compositeWeavingSettings.AspectRepository;
             var aspectMappedMembers = compositeWeavingSettings.AspectMemebrsCollection;
             var compositeMappedMembers = new CompositeMemberMapper(aspectsMap, aspectMappedMembers);
             var typeDefinitionWeaver = new CompositeTypeDefinitionWeaver(compositeType, mixinsMap, compositeMappedMembers);

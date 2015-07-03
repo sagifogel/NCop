@@ -8,8 +8,8 @@ namespace NCop.Aspects.Weaving
     {
         private readonly Type propertyType = null;
 
-        internal AspectArgsSetPropertyWeaver(MethodInfo methodInfo, LocalBuilder methodLocalBuilder, IAspectWeavingSettings aspectWeavingSettings)
-            : base(methodInfo, methodLocalBuilder, aspectWeavingSettings) {
+        internal AspectArgsSetPropertyWeaver(MethodInfo method, LocalBuilder methodLocalBuilder, IAspectWeavingSettings aspectWeavingSettings)
+            : base(method, methodLocalBuilder, aspectWeavingSettings) {
             var @params = method.GetParameters();
 
             propertyType = @params[0].ParameterType;

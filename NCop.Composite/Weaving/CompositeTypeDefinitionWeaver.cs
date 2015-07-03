@@ -1,9 +1,7 @@
-﻿using NCop.Aspects.Weaving;
-using NCop.Composite.Engine;
+﻿using NCop.Composite.Engine;
 using NCop.Core;
 using NCop.Weaving;
 using System;
-using System.Collections.Generic;
 
 namespace NCop.Composite.Weaving
 {

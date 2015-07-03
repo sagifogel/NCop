@@ -4,8 +4,7 @@ using System.Reflection;
 
 namespace NCop.Composite.Engine
 {
-    public interface ICompositePropertyFragmentMap : IAspectMembers<PropertyInfo>, IMemberMap<PropertyInfo>, IHasAspectDefinitions, IAcceptsCompositePropertyMapVisitor
+    public interface ICompositePropertyFragmentMap : IAspectMembers<PropertyInfo>, IMemberMap<PropertyInfo>, IAspectContainer, IAcceptsCompositePropertyMapVisitor, ICompositeFragmentMap
     {
-        MethodInfo FragmentMethod { get; }
     }
 }

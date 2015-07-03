@@ -1,7 +1,7 @@
 ﻿
 namespace NCop.Aspects.Engine
 {
-    public class AddEventFragmentInterceptionAspect : AbstractAspect
+    public class AddEventFragmentInterceptionAspect : AbstractAspect, IEventInterceptionAspect
     {
     }
 }

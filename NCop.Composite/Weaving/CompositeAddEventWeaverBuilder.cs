@@ -4,10 +4,10 @@ using NCop.Weaving;
 
 namespace NCop.Composite.Weaving
 {
-    internal class CompositeOnAddEventWeaverBuilder : AbstractCompositeEventWeaverBuilder
+    internal class CompositeAddEventWeaverBuilder : AbstractCompositeEventWeaverBuilder
     {
-        internal CompositeOnAddEventWeaverBuilder(ICompositeEventMap compositeEventMap, IAspectTypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
-            : base(compositeEventMap, typeDefinition, aspectWeavingServices) {
+        internal CompositeAddEventWeaverBuilder(IEventTypeBuilder eventTypeBuilder, ICompositeEventFragmentMap compositeEventMap, IAspectTypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
+            : base(eventTypeBuilder, compositeEventMap, typeDefinition, aspectWeavingServices) {
         }
 
         public override IMethodWeaver Build() {

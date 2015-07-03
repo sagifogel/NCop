@@ -9,8 +9,8 @@ namespace NCop.Weaving
 			: base(typeDefinition) {
 		}
 
-        public override MethodBuilder Weave(MethodInfo methodInfo) {
-            return typeDefinition.TypeBuilder.DefineParameterlessMethod(methodInfo);
+        public override MethodBuilder Weave(MethodInfo method) {
+            return typeDefinition.TypeBuilder.DefineParameterlessMethod(method);
         }
     }
 }

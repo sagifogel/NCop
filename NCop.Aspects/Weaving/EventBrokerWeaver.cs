@@ -1,12 +1,11 @@
-﻿using NCop.Aspects.Engine;
+﻿using NCop.Core;
 using NCop.Core.Extensions;
 using NCop.Weaving;
+using NCop.Weaving.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using NCop.Weaving.Extensions;
-using FA = System.Reflection.FieldAttributes;
 using MA = System.Reflection.MethodAttributes;
 
 namespace NCop.Aspects.Weaving
@@ -14,57 +13,44 @@ namespace NCop.Aspects.Weaving
     public class EventBrokerWeaver : IWeaver
     {
         private MethodBuilder interceptMethod = null;
-        private FieldBuilder onInvokeFieldBuilder = null;
+        private readonly TypeBuilder typeBuilder = null;
+        private readonly IEnumerable<IEventMap> eventMaps = null;
         private static readonly MA interceptMethodAttrs = MA.Private | MA.HideBySig;
-        private static readonly FA onInvokeFieldBuilderAttrs = FA.Private | FA.InitOnly;
         private static readonly MA subscribtionsMethodsAttrs = MA.Family | MA.HideBySig | MA.Virtual;
         private static readonly MA ctorAttrs = MA.Public | MA.SpecialName | MA.HideBySig | MA.RTSpecialName;
         private readonly List<EventBrokerFieldTypeDefinition> eventTypeDefinitions = new List<EventBrokerFieldTypeDefinition>();
 
-        public EventBrokerWeaver(TypeBuilder typeBuilder, IEnumerable<IAspectEvent> aspectEvents) {
-            aspectEvents.ForEach(aspectEvent => {
-                var @event = aspectEvent.ContractMember;
-                var eventBrokerResolvedType = EventBrokerFieldTypeDefinitionResolver.ResolveType(aspectEvent, typeBuilder);
-                var eventBrokerGeneratedType = WeaveEventBrokerType(aspectEvent, eventBrokerResolvedType);
-
-                eventTypeDefinitions.Add(new EventBrokerFieldTypeDefinition(@event, eventBrokerResolvedType.EventBrokerFieldType, typeBuilder, eventBrokerGeneratedType, eventBrokerResolvedType.OnInvokeUniqueName, eventBrokerResolvedType.EventInterceptionArgs));
-            });
+        public EventBrokerWeaver(TypeBuilder typeBuilder, IEnumerable<IEventMap> eventMaps) {
+            this.typeBuilder = typeBuilder;
+            this.eventMaps = eventMaps;
         }
 
-        private Type WeaveEventBrokerType(IAspectEvent aspectEvent, EventBrokerResolvedType eventBrokerResolvedType) {
-            var @event = aspectEvent.ContractMember;
+        private Type WeaveEventBrokerType(EventBrokerResolvedType eventBrokerResolvedType) {
             var eventBrokerTypeBuilder = eventBrokerResolvedType.EventBrokerBaseClassType.DefineType();
 
-            onInvokeFieldBuilder = WeaveDelegateField(eventBrokerTypeBuilder, eventBrokerResolvedType);
-            WeaveConstructor(eventBrokerTypeBuilder, eventBrokerResolvedType, onInvokeFieldBuilder);
+            WeaveConstructor(eventBrokerTypeBuilder, eventBrokerResolvedType);
             interceptMethod = WeaveInterceptMethod(eventBrokerTypeBuilder, eventBrokerResolvedType);
             WeaveSubscribeImpl(eventBrokerTypeBuilder, eventBrokerResolvedType);
             WeaveUnsubscribeImpl(eventBrokerTypeBuilder, eventBrokerResolvedType);
-            WeaveOnInvokeHandler(aspectEvent, eventBrokerTypeBuilder, eventBrokerResolvedType, onInvokeFieldBuilder);
 
             return eventBrokerTypeBuilder.CreateType();
         }
 
-        private FieldBuilder WeaveDelegateField(TypeBuilder typeBuilder, EventBrokerResolvedType eventBrokerResolvedType) {
-            var eventArgsActionImpl = typeof(Action<>).MakeGenericType(eventBrokerResolvedType.EventInterceptionArgs);
-
-            return typeBuilder.DefineField("onInvokeHandler", eventArgsActionImpl, onInvokeFieldBuilderAttrs);
-        }
-
-        private void WeaveConstructor(TypeBuilder typeBuilder, EventBrokerResolvedType eventBrokerResolvedType, FieldBuilder onInvokeFieldBuilder) {
+        private void WeaveConstructor(TypeBuilder typeBuilder, EventBrokerResolvedType eventBrokerResolvedType) {
             ConstructorBuilder ctor = null;
             ILGenerator ilGenerator = null;
-            var ctorArgs = new Type[] { eventBrokerResolvedType.DecalringType, eventBrokerResolvedType.EventBrokerBindingType, onInvokeFieldBuilder.FieldType };
+            var ctorArgs = new[] { eventBrokerResolvedType.DecalringType, eventBrokerResolvedType.EventBrokerInvokeDelegateType };
+            var baseCtor = eventBrokerResolvedType.EventBrokerBaseClassType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, Type.DefaultBinder, ctorArgs, null);
 
             ctor = typeBuilder.DefineConstructor(ctorAttrs, CallingConventions.Standard | CallingConventions.HasThis, ctorArgs);
             ilGenerator = ctor.GetILGenerator();
             ilGenerator.EmitLoadArg(0);
-            ilGenerator.EmitLoadArg(1);
-            ilGenerator.EmitLoadArg(2);
-            ilGenerator.Emit(OpCodes.Call, eventBrokerResolvedType.EventBrokerBaseClassType);
-            ilGenerator.EmitLoadArg(0);
-            ilGenerator.EmitLoadArg(3);
-            ilGenerator.Emit(OpCodes.Stfld, onInvokeFieldBuilder);
+
+            ctorArgs.ForEach(1, (arg, i) => {
+                ilGenerator.EmitLoadArg(i);
+            });
+
+            ilGenerator.Emit(OpCodes.Call, baseCtor);
             ilGenerator.Emit(OpCodes.Ret);
         }
 
@@ -93,19 +79,7 @@ namespace NCop.Aspects.Weaving
             WeaveSubscribitionMethod(typeBuilder, eventBrokerResolvedType, eventBrokerResolvedType.Event.GetRemoveMethod(), "UnsubscribeImpl");
         }
 
-        private void WeaveOnInvokeHandler(IAspectEvent aspectEvent, TypeBuilder typeBuilder, EventBrokerResolvedType eventBrokerResolvedType, FieldBuilder onInvokeFieldBuilder) {
-            var interceptMethod = typeBuilder.DefineMethod("OnInvokeHandler", subscribtionsMethodsAttrs, typeof(void), new Type[] { eventBrokerResolvedType.EventInterceptionArgs });
-            var ilGenerator = interceptMethod.GetILGenerator();
-
-            ilGenerator.EmitLoadArg(0);
-            ilGenerator.Emit(OpCodes.Ldfld, onInvokeFieldBuilder);
-            ilGenerator.EmitLoadArg(1);
-            ilGenerator.Emit(OpCodes.Callvirt, onInvokeFieldBuilder.FieldType);
-            ilGenerator.Emit(OpCodes.Ret);
-        }
-
         private void WeaveSubscribitionMethod(TypeBuilder typeBuilder, EventBrokerResolvedType eventBrokerResolvedType, MethodInfo eventHandlerMethod, string methodName) {
-            var eventHandlerType = eventBrokerResolvedType.Event.EventHandlerType;
             var instanceField = eventBrokerResolvedType.EventBrokerBaseClassType.GetField("instance", BindingFlags.NonPublic | BindingFlags.Instance);
             var subscribeImplMethod = typeBuilder.DefineMethod(methodName, subscribtionsMethodsAttrs, typeof(void), eventBrokerResolvedType.Arguments);
             var ilGenerator = subscribeImplMethod.GetILGenerator();
@@ -120,6 +94,14 @@ namespace NCop.Aspects.Weaving
         }
 
         public IEnumerable<EventBrokerFieldTypeDefinition> Weave() {
+            eventMaps.ForEach(eventMap => {
+                var @event = eventMap.ContractMember;
+                var eventBrokerResolvedType = EventBrokerFieldTypeDefinitionResolver.ResolveType(eventMap, typeBuilder);
+                var eventBrokerGeneratedType = WeaveEventBrokerType(eventBrokerResolvedType);
+
+                eventTypeDefinitions.Add(new EventBrokerFieldTypeDefinition(@event, eventBrokerResolvedType.EventBrokerFieldType, typeBuilder, eventBrokerGeneratedType, eventBrokerResolvedType.EventInterceptionArgs));
+            });
+
             return eventTypeDefinitions;
         }
     }

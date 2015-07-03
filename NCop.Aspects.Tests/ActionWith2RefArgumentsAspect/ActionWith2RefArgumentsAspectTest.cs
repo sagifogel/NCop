@@ -25,7 +25,7 @@ namespace NCop.Aspects.Tests
         }
 
         [TestInitialize()]
-        public void InitializeAllprivateVariablesForEachTest() {
+        public void InitializeAllPrivateVariablesForEachTest() {
             i = 0;
             j = 0;
         }

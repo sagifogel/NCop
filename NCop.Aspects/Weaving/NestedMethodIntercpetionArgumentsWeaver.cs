@@ -6,12 +6,12 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class NestedMethodIntercpetionArgumentsWeaver : AbstractArgumentsWeaver
+    internal class NestedMethodIntercpetionArgumentsWeaver : AbstractArgumentsWeaver<MethodInfo>
     {
         private readonly Type topAspectInScopeArgType = null;
 
-        internal NestedMethodIntercpetionArgumentsWeaver(MethodInfo methodInfo, Type topAspectInScopeArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings)
-            : base(methodInfo, argumentWeavingSettings, aspectWeavingSettings) {
+        internal NestedMethodIntercpetionArgumentsWeaver(MethodInfo method, Type topAspectInScopeArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings)
+            : base(method, argumentWeavingSettings, aspectWeavingSettings) {
             this.topAspectInScopeArgType = topAspectInScopeArgType;
         }
 

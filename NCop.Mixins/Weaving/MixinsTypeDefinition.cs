@@ -2,11 +2,9 @@
 using NCop.Core.Extensions;
 using NCop.Mixins.Exceptions;
 using NCop.Weaving;
-using NCop.Weaving.Extensions;
 using NCop.Weaving.Properties;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Reflection.Emit;
 
 namespace NCop.Mixins.Weaving

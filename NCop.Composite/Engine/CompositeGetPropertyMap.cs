@@ -4,14 +4,12 @@ using System.Reflection;
 
 namespace NCop.Composite.Engine
 {
-    public class GetCompositePropertyMap : AbstractCompositeFragmentPropertyMap, ICompositeGetPropertyMap
+    public class CompositeGetPropertyMap : AbstractCompositeFragmentPropertyMap, ICompositeGetPropertyMap
     {
-        internal GetCompositePropertyMap(Type contractType, Type implementationType, PropertyInfo contractProperty, PropertyInfo implementationProperty, IAspectDefinitionCollection aspectDefinitions)
+        internal CompositeGetPropertyMap(Type contractType, Type implementationType, PropertyInfo contractProperty, PropertyInfo implementationProperty, IAspectDefinitionCollection aspectDefinitions)
             : base(contractType, implementationType, contractProperty, implementationProperty, aspectDefinitions) {
             FragmentMethod = contractProperty.GetGetMethod();
         }
-
-        public override MethodInfo FragmentMethod { get; protected set; }
 
         public override void Accept(ICompositePropertyMapVisitor visitor) {
             visitor.Visit(this);

@@ -6,9 +6,9 @@ namespace NCop.Aspects.Advices
 {
 	internal class OnRemoveHandlerAdviceDefinition : AbstractAdviceDefinition
 	{
-        private readonly OnRemoveHandlerAdviceAttribute advice = null;
+        private readonly OnRemoveEventHandlerAdviceAttribute advice = null;
 
-        public OnRemoveHandlerAdviceDefinition(OnRemoveHandlerAdviceAttribute advice, MethodInfo adviceMethod)
+        public OnRemoveHandlerAdviceDefinition(OnRemoveEventHandlerAdviceAttribute advice, MethodInfo adviceMethod)
 			: base(advice, adviceMethod) {
 			this.advice = advice;
 		}

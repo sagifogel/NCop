@@ -7,8 +7,8 @@ namespace NCop.Aspects.Weaving
 {
     internal class MethodDecoratorByRefArgumentsStoreWeaver : AbstractBindingByRefArgumentsWeaver
     {
-        internal MethodDecoratorByRefArgumentsStoreWeaver(Type aspectArgumentType, MethodInfo methodInfoImpl, ILocalBuilderRepository localBuilderRepository)
-            : base(aspectArgumentType,  methodInfoImpl, localBuilderRepository) {
+        internal MethodDecoratorByRefArgumentsStoreWeaver(Type aspectArgumentType, MethodInfo method, ILocalBuilderRepository localBuilderRepository)
+            : base(aspectArgumentType,  method, localBuilderRepository) {
         }
 
         protected override void WeaveAspectArg(ILGenerator ilGenerator) {

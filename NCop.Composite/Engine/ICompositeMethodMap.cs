@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace NCop.Composite.Engine
 {
-    public interface ICompositeMethodMap : IAspectMembers<MethodInfo>, IMemberMap<MethodInfo>, IHasAspectDefinitions
+    public interface ICompositeMethodMap : IAspectMembers<MethodInfo>, IMemberMap<MethodInfo>, IAspectContainer
     {
     }
 }

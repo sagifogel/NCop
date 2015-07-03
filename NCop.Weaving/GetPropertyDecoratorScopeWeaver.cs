@@ -6,8 +6,8 @@ namespace NCop.Weaving
 {
     public class GetPropertyDecoratorScopeWeaver : AbstractMethodScopeWeaver
     {
-        public GetPropertyDecoratorScopeWeaver(MethodInfo methodInfo, IWeavingSettings weavingSettings)
-            : base(methodInfo, weavingSettings) {
+        public GetPropertyDecoratorScopeWeaver(MethodInfo method, IWeavingSettings weavingSettings)
+            : base(method, weavingSettings) {
         }
 
         public override void Weave(ILGenerator ilGenerator) {

@@ -1,5 +1,4 @@
-﻿using NCop.Aspects.Weaving;
-using NCop.Weaving;
+﻿using NCop.Weaving;
 using System;
 using System.Reflection;
 using System.Reflection.Emit;

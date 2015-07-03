@@ -4,11 +4,11 @@ using System.Reflection;
 
 namespace NCop.Aspects.Advices
 {
-	internal class OnInvokeHandlerAdviceDefinition : AbstractAdviceDefinition
+	internal class OnInvokeEventHandlerAdviceDefinition : AbstractAdviceDefinition
 	{
-        private readonly OnInvokeHandlerAdviceAttribute advice = null;
+        private readonly OnInvokeEventHandlerAdviceAttribute advice = null;
 
-        public OnInvokeHandlerAdviceDefinition(OnInvokeHandlerAdviceAttribute advice, MethodInfo adviceMethod)
+        public OnInvokeEventHandlerAdviceDefinition(OnInvokeEventHandlerAdviceAttribute advice, MethodInfo adviceMethod)
 			: base(advice, adviceMethod) {
 			this.advice = advice;
 		}

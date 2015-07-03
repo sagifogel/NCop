@@ -15,7 +15,7 @@ namespace NCop.Aspects.Weaving
         protected static int bindingCounter = 0;
         protected TypeBuilder typeBuilder = null;
         protected FieldBuilder fieldBuilder = null;
-        private readonly MethodInfo methodInfo = null;
+        private readonly MethodInfo method = null;
         protected readonly BindingSettings bindingSettings = null;
         protected readonly IMethodScopeWeaver methodScopeWeaver = null;
         protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
@@ -24,8 +24,8 @@ namespace NCop.Aspects.Weaving
         protected readonly CallingConventions callingConventions = CallingConventions.Standard | CallingConventions.HasThis;
         protected readonly FieldAttributes singletonFieldAttributes = FieldAttributes.Private | FieldAttributes.FamANDAssem | FieldAttributes.Static;
 
-        internal AbstractMethodBindingWeaver(MethodInfo methodInfo, BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IMethodScopeWeaver methodScopeWeaver) {
-            this.methodInfo = methodInfo;
+        internal AbstractMethodBindingWeaver(MethodInfo method, BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IMethodScopeWeaver methodScopeWeaver) {
+            this.method = method;
             this.bindingSettings = bindingSettings;
             this.methodScopeWeaver = methodScopeWeaver;
             this.aspectWeavingSettings = aspectWeavingSettings;
@@ -77,7 +77,7 @@ namespace NCop.Aspects.Weaving
 
             methodBuilder = typeBuilder.DefineMethod("Invoke", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
             ilGenerator = methodBuilder.GetILGenerator();
-            methodDecoratorScopeWeaver = new MethodDecoratorScopeWeaver(methodInfo, aspectWeavingSettings);
+            methodDecoratorScopeWeaver = new MethodDecoratorScopeWeaver(method, aspectWeavingSettings);
             methodDecoratorScopeWeaver.Weave(ilGenerator);
             ilGenerator.Emit(OpCodes.Ret);
         }

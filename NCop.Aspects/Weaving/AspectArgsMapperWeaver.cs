@@ -69,12 +69,12 @@ namespace NCop.Aspects.Weaving
             methodProperty = genericTypeArgumentType.GetProperty("Method");
 
             Enumerable.Range(1, numberOfArgs).ForEach(j => {
-                var propertyInfo = genericTypeArgumentType.GetProperty("Arg{0}".Fmt(j));
+                var property = genericTypeArgumentType.GetProperty("Arg{0}".Fmt(j));
 
                 ilGenerator.Emit(OpCodes.Ldarg_1);
                 ilGenerator.Emit(OpCodes.Ldarg_0);
-                ilGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(argumentType, propertyInfo.GetGetMethod()));
-                ilGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(argumentType, propertyInfo.GetSetMethod()));
+                ilGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(argumentType, property.GetGetMethod()));
+                ilGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(argumentType, property.GetSetMethod()));
             });
 
             ilGenerator.Emit(OpCodes.Ldarg_1);

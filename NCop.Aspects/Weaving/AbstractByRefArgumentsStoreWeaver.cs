@@ -9,9 +9,9 @@ namespace NCop.Aspects.Weaving
         protected readonly ParameterInfo[] parameters = null;
         protected readonly ILocalBuilderRepository localBuilderRepository = null;
 
-        internal AbstractByRefArgumentsStoreWeaver(MethodInfo methodInfoImpl, ILocalBuilderRepository localBuilderRepository) {
+        internal AbstractByRefArgumentsStoreWeaver(MethodInfo method, ILocalBuilderRepository localBuilderRepository) {
             this.localBuilderRepository = localBuilderRepository;
-            parameters = methodInfoImpl.GetParameters().ToArray(param => param.ParameterType.IsByRef);
+            parameters = method.GetParameters().ToArray(param => param.ParameterType.IsByRef);
         }
 
         public bool ContainsByRefParams {

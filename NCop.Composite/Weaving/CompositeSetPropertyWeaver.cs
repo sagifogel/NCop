@@ -7,8 +7,8 @@ namespace NCop.Composite.Weaving
 {
     internal class CompositeSetPropertyWeaver : AspectPropertyWeaver
     {
-        public CompositeSetPropertyWeaver(IPropertyTypeBuilder propertyTypeBuilder, ITypeDefinition typeDefinition, PropertyInfo propertyInfo, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings)
-            : base(propertyInfo.GetSetMethod(), aspectDefinitions, aspectWeavingSettings) {
+        public CompositeSetPropertyWeaver(IPropertyTypeBuilder propertyTypeBuilder, ITypeDefinition typeDefinition, PropertyInfo property, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings)
+            : base(property.GetSetMethod(), aspectDefinitions, aspectWeavingSettings) {
             methodSignatureWeaver = new SetPropertyMethodSignatureWeaver(propertyTypeBuilder, typeDefinition);
         }
     }

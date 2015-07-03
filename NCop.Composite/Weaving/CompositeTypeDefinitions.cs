@@ -42,12 +42,15 @@ namespace NCop.Composite.Weaving
 
         protected virtual void RegisterEventTypeDefinitions() {
             var eventsMap = compositeMemberCollection.Events.Where(eventMap => eventMap.HasAspectDefinitions);
-            var eventBrokerWeaver = new EventBrokerWeaver(TypeBuilder, eventsMap);
-            var eventBrokerDefinitions = eventBrokerWeaver.Weave();
 
-            eventBrokerDefinitions.ForEach(eventBrokerDefinition => {
-                eventTypeDefinitions.Add(eventBrokerDefinition.Name, eventBrokerDefinition);
-            });
+            if (eventsMap.IsNotNullOrEmpty()) {
+                var eventBrokerWeaver = new EventBrokerWeaver(TypeBuilder, eventsMap);
+                var eventBrokerDefinitions = eventBrokerWeaver.Weave();
+
+                eventBrokerDefinitions.ForEach(eventBrokerDefinition => {
+                    eventTypeDefinitions.Add(eventBrokerDefinition.Name, eventBrokerDefinition);
+                });
+            }
         }
 
         private void CreateTypeDefinitions(List<Action<TypeMap>> typeDefinitionsActions) {

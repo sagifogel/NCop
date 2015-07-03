@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class BindingGetPropertyFragmentInterceptionAspectExpression : AbstractPartialFragmentAspectPropertyExpression
+    internal class BindingGetPropertyFragmentInterceptionAspectExpression : AbstractPartialPropertyFragmentAspectExpression
     {
         internal BindingGetPropertyFragmentInterceptionAspectExpression(IAspectExpression aspectExpression, IPropertyAspectDefinition aspectDefinition, IBindingTypeReflectorBuilder propertyBuilder)
             : base(aspectExpression, propertyBuilder, aspectDefinition) {

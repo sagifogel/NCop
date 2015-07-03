@@ -6,13 +6,13 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class NestedMethodInvokerArgumentsWeaver : AbstractArgumentsWeaver
+    internal class NestedMethodInvokerArgumentsWeaver : AbstractArgumentsWeaver<MethodInfo>
     {
         private readonly Type topAspectInScopeArgType = null;
         private readonly IByRefArgumentsStoreWeaver byRefArgumentStoreWeaver = null;
 
-        internal NestedMethodInvokerArgumentsWeaver(MethodInfo methodInfo, Type topAspectInScopeArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings)
-            : base(methodInfo, argumentWeavingSettings, aspectWeavingSettings) {
+        internal NestedMethodInvokerArgumentsWeaver(MethodInfo method, Type topAspectInScopeArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentWeavingSettings)
+            : base(method, argumentWeavingSettings, aspectWeavingSettings) {
             this.topAspectInScopeArgType = topAspectInScopeArgType;
             byRefArgumentStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
         }
@@ -20,7 +20,7 @@ namespace NCop.Aspects.Weaving
         public override void Weave(ILGenerator ilGenerator) {
             var argsLocalBuilder = LocalBuilderRepository.Get(topAspectInScopeArgType);
             var contractFieldBuilder = WeavingSettings.TypeDefinition.GetFieldBuilder(WeavingSettings.ContractType);
-            var methodImplParameters = method.GetParameters();
+            var methodImplParameters = Member.GetParameters();
 
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);

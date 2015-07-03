@@ -7,11 +7,10 @@ namespace NCop.Aspects.Weaving
 {
     public class EventBrokerFieldTypeDefinition : AbstractFieldBuilderDefinition
     {
-        public EventBrokerFieldTypeDefinition(EventInfo @event, Type eventBrokerContractType, TypeBuilder typeBuilder, Type eventBrokerImplementationType, string onInvokeMethodName, Type eventInterceptionArgs)
+        public EventBrokerFieldTypeDefinition(EventInfo @event, Type eventBrokerContractType, TypeBuilder typeBuilder, Type eventBrokerImplementationType, Type eventInterceptionArgs)
             : base(eventBrokerContractType, typeBuilder, @event.Name) {
             Name = @event.Name;
             EventType = @event.EventHandlerType;
-            OnInvokeMethodName = onInvokeMethodName;
             EventInterceptionArgs = eventInterceptionArgs;
             EventBrokerType = eventBrokerImplementationType;
         }
@@ -22,7 +21,7 @@ namespace NCop.Aspects.Weaving
 
         public Type EventBrokerType { get; private set; }
 
-        public string OnInvokeMethodName { get; private set; }
+        public string InvokeMethodName { get; private set; }
 
         public Type EventInterceptionArgs { get; private set; }
     }

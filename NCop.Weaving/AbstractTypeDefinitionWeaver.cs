@@ -1,5 +1,5 @@
-﻿using System;
-using NCop.Core;
+﻿using NCop.Core;
+using System;
 
 namespace NCop.Weaving
 {

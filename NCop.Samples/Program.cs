@@ -1,10 +1,8 @@
 ﻿using NCop.Aspects.Engine;
 using NCop.Aspects.Framework;
 using NCop.Composite.Framework;
-using NCop.Core.Extensions;
 using NCop.Mixins.Framework;
 using System;
-using System.Collections.Generic;
 
 namespace NCop.Samples
 {
@@ -25,18 +23,18 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IDeveloper
     {
-        //[EventInterceptionAspect(typeof(FunctionEventInterceptionAspect), AspectPriority = 1)]
-        //[EventInterceptionAspect(typeof(FunctionEventInterceptionAspect), AspectPriority = 2)]
+        [EventInterceptionAspect(typeof(FunctionEventInterceptionAspect), AspectPriority = 1)]
+        [EventInterceptionAspect(typeof(FunctionEventInterceptionAspect), AspectPriority = 2)]
         event Func<string> Ev;
 
-        //[EventInterceptionAspect(typeof(ActionEventInterceptionAspect))]
-        //event EventHandler<EventArgs> Ev2;
+        //[EventInterceptionAspect(typeof(FunctionEventInterceptionAspect))]
+        event EventHandler<EventArgs> Ev2;
 
         ////[EventInterceptionAspect(typeof(ActionEventInterceptionAspect2))]
         //event Action Ev3;
 
         //[MethodInterceptionAspect(typeof(FunctionInterceptionAspectImpl))]
-        string RaiseEvent();
+        //string RaiseEvent();
 
         ////[MethodInterceptionAspect(typeof(ActionInterceptionAspectImpl))]
         //void RaiseEvent2();
@@ -128,22 +126,24 @@ namespace NCop.Samples
 
         public Developer() {
             developer = new CSharpDeveloperMixin();
-            eventBroker = new EventBroker(developer, OnInvokeHanlder);
+            eventBroker = new EventBroker(developer, InvokeEv);
             //eventBroker2 = new EventBroker2(developer, OnIvokeHanlder);
-        }
-
-        public void OnInvokeHanlder(EventFunctionInterceptionArgsImpl<IDeveloper, string> args) {
-            var @event = GetType().GetEvent("Ev");
-            var eventArgs = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(developer, @event, args.Handler, EventInterceptionAspectBinding.singleton, eventBroker);
-
-            Aspects.EventInterception.OnInvokeHandler(eventArgs);
-            args.ReturnValue = eventArgs.ReturnValue;
         }
 
         //private void OnIvokeHanlder(EventActionInterceptionArgsImpl<IDeveloper, object, EventArgs> args) {
         //    Aspects.EventActionInterception.OnInvokeHandler(args);
         //}
 
+        private string InvokeEv(IEventFunctionArgs<string> args) {
+            var clonedArgs = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(developer, args.Event, args.Handler, EventInterceptionAspectBinding.singleton, args.EventBroker);
+
+            Aspects.EventInterception.OnInvokeHandler(clonedArgs);
+
+            return clonedArgs.ReturnValue;
+        }
+
+        public event EventHandler<EventArgs> Ev2;
+ 
         public event Func<string> Ev {
             add {
                 var @event = GetType().GetEvent("Ev");
@@ -175,7 +175,8 @@ namespace NCop.Samples
         public int MyProperty { get; set; }
 
         public string RaiseEvent() {
-            return developer.RaiseEvent();
+            return string.Empty;
+            //return developer.RaiseEvent();
         }
 
         //public void RaiseEvent2() {
@@ -185,30 +186,6 @@ namespace NCop.Samples
 
         public string Code(string s) {
             throw new NotImplementedException();
-        }
-    }
-
-    public sealed class EventActionInterceptionAspectBinding3 : IEventActionBinding<IDeveloper, object, EventArgs>
-    {
-        public static EventActionInterceptionAspectBinding3 singleton = null;
-
-        static EventActionInterceptionAspectBinding3() {
-            singleton = new EventActionInterceptionAspectBinding3();
-        }
-
-        private EventActionInterceptionAspectBinding3() {
-        }
-
-        public void AddHandler(ref IDeveloper instance, Action<object, EventArgs> handler, IEventActionArgs<object, EventArgs> args) {
-            args.EventBroker.AddHandler(handler);
-        }
-
-        public void InvokeHandler(ref IDeveloper instance, Action<object, EventArgs> handler, IEventActionArgs<object, EventArgs> args) {
-            handler(args.Arg1, args.Arg2);
-        }
-
-        public void RemoveHandler(ref IDeveloper instance, Action<object, EventArgs> handler, IEventActionArgs<object, EventArgs> args) {
-            args.EventBroker.RemoveHandler(handler);
         }
     }
 
@@ -276,6 +253,30 @@ namespace NCop.Samples
         }
     }
 
+    public sealed class EventActionInterceptionAspectBinding3 : IEventActionBinding<IDeveloper, object, EventArgs>
+    {
+        public static EventActionInterceptionAspectBinding3 singleton = null;
+
+        static EventActionInterceptionAspectBinding3() {
+            singleton = new EventActionInterceptionAspectBinding3();
+        }
+
+        private EventActionInterceptionAspectBinding3() {
+        }
+
+        public void AddHandler(ref IDeveloper instance, Action<object, EventArgs> handler, IEventActionArgs<object, EventArgs> args) {
+            args.EventBroker.AddHandler(handler);
+        }
+
+        public void InvokeHandler(ref IDeveloper instance, Action<object, EventArgs> handler, IEventActionArgs<object, EventArgs> args) {
+            handler(args.Arg1, args.Arg2);
+        }
+
+        public void RemoveHandler(ref IDeveloper instance, Action<object, EventArgs> handler, IEventActionArgs<object, EventArgs> args) {
+            args.EventBroker.RemoveHandler(handler);
+        }
+    }
+
     public sealed class EventInterceptionAspectBinding3 : IEventFunctionBinding<IDeveloper, string>
     {
         public static EventInterceptionAspectBinding3 singleton = null;
@@ -302,11 +303,8 @@ namespace NCop.Samples
 
     public sealed class EventBroker : AbstractFunctionEventBroker<IDeveloper, string>
     {
-        private readonly Action<EventFunctionInterceptionArgsImpl<IDeveloper, string>> onInvokeHandler = null;
-
-        public EventBroker(IDeveloper developer, Action<EventFunctionInterceptionArgsImpl<IDeveloper, string>> onInvokeHandler)
-            : base(developer, onInvokeHandler) {
-            this.onInvokeHandler = onInvokeHandler;
+        public EventBroker(IDeveloper instance, Func<IEventFunctionArgs<string>, string> handler)
+            : base(instance, handler) {
         }
 
         private string Intercept() {
@@ -314,11 +312,11 @@ namespace NCop.Samples
         }
 
         protected override void SubscribeImpl() {
-            instance.Ev += Intercept;
+            //instance.Ev += Intercept;
         }
 
         protected override void UnsubscribeImpl() {
-            instance.Ev -= Intercept;
+            //instance.Ev -= Intercept;
         }
     }
 
@@ -378,16 +376,16 @@ namespace NCop.Samples
     class Program
     {
         static void Main(string[] args) {
-            var developer = new Developer();
-            Func<string> action = () => "C# coding";
-            developer.Ev += action;
-            Console.WriteLine(developer.RaiseEvent());
-            developer.Ev -= action;
-            Console.WriteLine(developer.RaiseEvent());
+            //var developer = new Developer();
+            //Func<string> action = () => "C# coding";
+            //developer.Ev += action;
+            //Console.WriteLine(developer.RaiseEvent());
+            //developer.Ev -= action;
+            //Console.WriteLine(developer.RaiseEvent());
             var container = new CompositeContainer();
             container.Configure();
             var d = container.Resolve<IDeveloper>();
-            //Console.WriteLine(d.Code("Sagi"));
+            //Console.WriteLine(d.RaiseEvent());
         }
     }
 }

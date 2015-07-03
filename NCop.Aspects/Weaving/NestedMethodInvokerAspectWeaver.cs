@@ -12,12 +12,12 @@ namespace NCop.Aspects.Weaving
         private readonly IAspectWeavingSettings aspectWeavingSettings = null;
         private readonly IByRefArgumentsStoreWeaver byRefArgumentStoreWeaver = null;
 
-        internal NestedMethodInvokerAspectWeaver(MethodInfo methodInfo, Type topAspectInScopeArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
-            : base(methodInfo, aspectWeavingSettings.WeavingSettings) {
+        internal NestedMethodInvokerAspectWeaver(MethodInfo method, Type topAspectInScopeArgType, IAspectWeavingSettings aspectWeavingSettings, IArgumentsWeavingSettings argumentsWeavingSettings)
+            : base(method, aspectWeavingSettings.WeavingSettings) {
             this.topAspectInScopeArgType = topAspectInScopeArgType;
             this.aspectWeavingSettings = aspectWeavingSettings;
             byRefArgumentStoreWeaver = aspectWeavingSettings.ByRefArgumentsStoreWeaver;
-            argumentsWeaver = new NestedMethodInvokerArgumentsWeaver(methodInfo, topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSettings);
+            argumentsWeaver = new NestedMethodInvokerArgumentsWeaver(method, topAspectInScopeArgType, aspectWeavingSettings, argumentsWeavingSettings);
         }
 
         protected override void WeaveAction(ILGenerator ilGenerator) {

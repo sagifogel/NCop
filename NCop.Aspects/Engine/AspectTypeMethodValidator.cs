@@ -46,7 +46,7 @@ namespace NCop.Aspects.Engine
             argumentsType = aspectParameters[0].ParameterType;
             genericArguments = argumentsType.GetGenericArguments();
 
-            if (method.HasReturnType()) {
+            if (method.IsFunction()) {
                 var argumentsLength = 0;
                 Type aspectReturnType = null;
 

@@ -79,33 +79,46 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\AbstractCompositePropertyMap.cs" />
+    <Compile Include="Engine\AbstractCompositeFragmentEventMap.cs" />
+    <Compile Include="Engine\AbstractCompositeMap.cs" />
+    <Compile Include="Engine\AbstractCompositeFragmentPropertyMap.cs" />
+    <Compile Include="Engine\CompositeInvokeEventMap.cs" />
+    <Compile Include="Engine\CompositeRemoveEventMap.cs" />
     <Compile Include="Engine\CompositeMemberMapper.cs" />
-    <Compile Include="Engine\CompositeEventMap.cs" />
+    <Compile Include="Engine\CompositeAddEventMap.cs" />
     <Compile Include="Engine\CompositeMethodMap.cs" />
     <Compile Include="Engine\CompositeAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Engine\CompositeMethodWeaverBuilderFactoryImpl.cs" />
+    <Compile Include="Engine\CompositeEventMap.cs" />
     <Compile Include="Engine\CompositePropertyMap.cs" />
+    <Compile Include="Engine\CompositeEventMapVisitor.cs" />
     <Compile Include="Engine\CompositePropertyMapVisitor.cs" />
     <Compile Include="Engine\CompositeRegistryDecorator.cs" />
+    <Compile Include="Engine\IAcceptsCompositeEventMapVisitor.cs" />
     <Compile Include="Engine\IAcceptsCompositePropertyMapVisitor.cs" />
+    <Compile Include="Engine\ICompositeInvokeEventMap.cs" />
+    <Compile Include="Engine\ICompositeRemoveEventMap.cs" />
+    <Compile Include="Engine\ICompositeEventFragmentMap.cs" />
     <Compile Include="Engine\ICompositeEventMap.cs" />
+    <Compile Include="Engine\ICompositeFragmentMap.cs" />
+    <Compile Include="Engine\ICompositeAddEventMap.cs" />
     <Compile Include="Engine\ICompositeMethodWeaverBuilderFactory.cs" />
     <Compile Include="Engine\ICompositePropertyFragmentMap.cs" />
     <Compile Include="Engine\ICompositePropertyMap.cs" />
     <Compile Include="Engine\ICompositeEventMapCollection.cs" />
+    <Compile Include="Engine\ICompositeEventMapVisitor.cs" />
     <Compile Include="Engine\ICompositePropertyMapVisitor.cs" />
     <Compile Include="Engine\ICompositeSetPropertyMap.cs" />
-    <Compile Include="Engine\SetCompositePropertyMap.cs" />
+    <Compile Include="Engine\CompositeSetPropertyMap.cs" />
     <Compile Include="Extensions\CompositeExtensions.cs" />
     <Compile Include="Framework\PerHttpRequestCompositeAttribute.cs" />
     <Compile Include="Framework\PerHybridRequestComposite.cs" />
     <Compile Include="Framework\PerThreadCompositeAttribute.cs" />
     <Compile Include="IoC\CompositeContainer.cs" />
     <Compile Include="IoC\CompositeFrameworkRegistration.cs" />
-    <Compile Include="Engine\GetCompositePropertyMap.cs" />
+    <Compile Include="Engine\CompositeGetPropertyMap.cs" />
     <Compile Include="IoC\CompositeContainerRegistry.cs" />
     <Compile Include="Engine\ICompositeMemberCollection.cs" />
     <Compile Include="Engine\ICompositeMethodMap.cs" />
@@ -142,14 +155,13 @@
     <Compile Include="Weaving\AbstractCompositePropertyWeaver.cs" />
     <Compile Include="Weaving\AtomMixinsWeaverStrategy.cs" />
     <Compile Include="Weaving\CompositeEventWeaver.cs" />
-    <Compile Include="Weaving\CompositeOnInvokeEventWeaver .cs" />
-    <Compile Include="Weaving\CompositeOnInvokeEventWeaverBuilder.cs" />
-    <Compile Include="Weaving\CompositeOnRemoveEventWeaver.cs" />
+    <Compile Include="Weaving\CompositeInvokeEventWeaver .cs" />
+    <Compile Include="Weaving\CompositeInvokeEventWeaverBuilder.cs" />
+    <Compile Include="Weaving\CompositeRemoveEventWeaver.cs" />
     <Compile Include="Weaving\CompositeOnAddEventWeaver.cs" />
-    <Compile Include="Weaving\CompositeOnRemoveEventWeaverBuilder.cs" />
-    <Compile Include="Weaving\CompositeOnAddEventWeaverBuilder.cs" />
+    <Compile Include="Weaving\CompositeRemoveEventWeaverBuilder.cs" />
+    <Compile Include="Weaving\CompositeAddEventWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositePropertyWeaver.cs" />
-    <Compile Include="Weaving\CompositeEventWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositePropertyWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeSetPropertyWeaver.cs" />
     <Compile Include="Weaving\CompositeGetPropertyWeaver.cs" />
@@ -160,12 +172,11 @@
     <Compile Include="Weaving\CompositeTypeDefinitionWeaver.cs" />
     <Compile Include="Weaving\CompositeTypeWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeSetPropertyWeaverBuilder.cs" />
+    <Compile Include="Weaving\CompositeEventWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeWeavingSettingsImpl.cs" />
     <Compile Include="Mixins\Weaving\ICompositeMixinsTypeWeaverBuilder.cs" />
     <Compile Include="Weaving\ICompositeEventTypeBuilder.cs" />
-    <Compile Include="Weaving\ICompositeEventWeaver.cs" />
     <Compile Include="Weaving\ICompositeWeavingSettings.cs" />
-    <Compile Include="Weaving\OnInvokeMethodWeaverBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -50,10 +50,10 @@ namespace NCop.Weaving
             return methodBuilder;
         }
 
-        internal static MethodBuilder DefineParameterlessMethod(this TypeBuilder typeBuilder, MethodInfo methodInfo, MethodAttributes? attributes = null) {
-            attributes = attributes ?? methodInfo.Attributes & ~MethodAttributes.Abstract;
+        internal static MethodBuilder DefineParameterlessMethod(this TypeBuilder typeBuilder, MethodInfo method, MethodAttributes? attributes = null) {
+            attributes = attributes ?? method.Attributes & ~MethodAttributes.Abstract;
 
-            return typeBuilder.DefineMethod(methodInfo.Name, attributes.Value, methodInfo.ReturnType, Type.EmptyTypes);
+            return typeBuilder.DefineMethod(method.Name, attributes.Value, method.ReturnType, Type.EmptyTypes);
         }
 
         public static TypeBuilder DefineType(this Type parentType, string name = null, IEnumerable<Type> interfaces = null, TypeAttributes? attributes = null) {

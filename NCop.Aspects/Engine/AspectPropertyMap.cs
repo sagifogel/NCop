@@ -16,7 +16,9 @@ namespace NCop.Aspects.Engine
         }
 
         public bool IsPartial { get; private set; }
+        
         public MethodInfo AspectGetProperty { get; private set; }
+        
         public MethodInfo AspectSetProperty { get; private set; }
     }
 }

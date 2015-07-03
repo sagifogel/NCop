@@ -30,13 +30,19 @@ namespace NCop.Aspects.Aspects
             }
         }
 
-        protected bool TryBulidAdvice<TAdvice>(MethodInfo method, Func<TAdvice, MethodInfo, IAdviceDefinition> adviceDefinitionFactory) where TAdvice : AdviceAttribute {
-            var advice = method.GetCustomAttribute<TAdvice>(true);
+        protected bool TryBulidAdvice<TBuildMember, TAdvice>(TBuildMember member, Func<TAdvice, TBuildMember, IAdviceDefinition> adviceDefinitionFactory)
+            where TAdvice : AdviceAttribute
+            where TBuildMember : MemberInfo {
 
-            return TryBulidAdvice(advice, method, adviceDefinitionFactory);
+            var advice = member.GetCustomAttribute<TAdvice>(true);
+
+            return TryBulidAdvice(advice, member, adviceDefinitionFactory);
         }
 
-        protected bool TryBulidAdvice<TAdvice>(TAdvice advice, MethodInfo member, Func<TAdvice, MethodInfo, IAdviceDefinition> adviceDefinitionFactory) where TAdvice : AdviceAttribute {
+        protected bool TryBulidAdvice<TBuildMember, TAdvice>(TAdvice advice, TBuildMember member, Func<TAdvice, TBuildMember, IAdviceDefinition> adviceDefinitionFactory)
+            where TAdvice : AdviceAttribute
+            where TBuildMember : MemberInfo {
+
             if (advice.IsNotNull()) {
                 advices.Add(adviceDefinitionFactory(advice, member));
 

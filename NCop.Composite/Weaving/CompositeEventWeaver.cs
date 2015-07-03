@@ -1,15 +1,15 @@
-﻿using System;
-using NCop.Weaving;
+﻿using NCop.Weaving;
+using System;
 using System.Reflection;
 using System.Reflection.Emit;
 
 namespace NCop.Composite.Weaving
 {
-    internal class CompositeEventWeaver : ICompositeEventWeaver, ICompositeEventTypeBuilder
+    internal class CompositeEventWeaver : IEventWeaver, ICompositeEventTypeBuilder
     {
-        private IMethodWeaver onAddMethod = null;
-        private IMethodWeaver onRemoveMethod = null;
-        private IMethodWeaver onInvokeMethod = null;
+        private IMethodWeaver addMethod = null;
+        private IMethodWeaver removeMethod = null;
+        private IMethodWeaver invokeMethod = null;
         private readonly EventBuilder eventBuilder = null;
 
         public CompositeEventWeaver(ITypeDefinition typeDefinition, EventInfo @event) {
@@ -19,31 +19,31 @@ namespace NCop.Composite.Weaving
         }
 
         public Type EventType { get; private set; }
-        
+
         public string EventName { get; private set; }
 
-        public IMethodWeaver GetOnAddMethod() {
-            return onAddMethod;
+        public IMethodWeaver GetAddMethod() {
+            return addMethod;
         }
 
-        public IMethodWeaver GetOnRemoveMethod() {
-            return onRemoveMethod;
+        public IMethodWeaver GetRemoveMethod() {
+            return removeMethod;
         }
 
-        public IMethodWeaver GetOnInvokeMethod() {
-            return onInvokeMethod;
+        public IMethodWeaver GetInvokeMethod() {
+            return invokeMethod;
         }
 
-        public void SetAddOnMethod(IMethodWeaver addOnMethod) {
-            this.onAddMethod = addOnMethod;
+        public void SetAddMethod(IMethodWeaver addMethod) {
+            this.addMethod = addMethod;
         }
 
-        public void SetRemoveOnMethod(IMethodWeaver onRemoveMethod) {
-            this.onRemoveMethod = onRemoveMethod;
+        public void SetRemoveMethod(IMethodWeaver removeMethod) {
+            this.removeMethod = removeMethod;
         }
 
-        public void SetOnInvokeMethod(IMethodWeaver onInvokeMethod) {
-            this.onInvokeMethod = onInvokeMethod;
+        public void SetInvokeMethod(IMethodWeaver invokeMethod) {
+            this.invokeMethod = invokeMethod;
         }
     }
 }

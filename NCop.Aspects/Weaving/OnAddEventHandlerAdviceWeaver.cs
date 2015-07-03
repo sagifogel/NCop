@@ -1,9 +1,9 @@
 ﻿
 namespace NCop.Aspects.Weaving
 {
-    internal class OnAddHandlerAdviceWeaver : AbstractAdviceWeaver
+    internal class OnAddEventHandlerAdviceWeaver : AbstractAdviceWeaver
     {
-        public OnAddHandlerAdviceWeaver(IAdviceWeavingSettings adviceWeavingSettings)
+        public OnAddEventHandlerAdviceWeaver(IAdviceWeavingSettings adviceWeavingSettings)
             : base(adviceWeavingSettings) {
         }
 

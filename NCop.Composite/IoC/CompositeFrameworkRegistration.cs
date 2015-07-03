@@ -157,14 +157,14 @@ namespace NCop.Composite.IoC
             return Expression.New(ctor, @params.ToArray());
         }
 
-        protected MethodCallExpression MethodCallExpression(MethodInfo methodInfo, Type parameterType, ParameterExpression instance) {
-            var method = methodInfo.MakeGenericMethod(parameterType);
+        protected MethodCallExpression MethodCallExpression(MethodInfo method, Type parameterType, ParameterExpression instance) {
+            method = method.MakeGenericMethod(parameterType);
 
             return Expression.Call(instance, method);
         }
 
-        protected MethodCallExpression ResolveNamedMethodCallExpression(string name, MethodInfo methodInfo, Type parameterType, ParameterExpression instance) {
-            var method = methodInfo.MakeGenericMethod(parameterType);
+        protected MethodCallExpression ResolveNamedMethodCallExpression(string name, MethodInfo method, Type parameterType, ParameterExpression instance) {
+            method = method.MakeGenericMethod(parameterType);
 
             return Expression.Call(instance, method, Expression.Constant(name));
         }

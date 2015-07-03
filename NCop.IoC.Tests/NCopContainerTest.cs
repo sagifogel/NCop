@@ -363,23 +363,7 @@ namespace NCop.IoC.Tests
             Assert.IsNotNull(instance);
             Assert.IsNotNull(instance.Baz);
         }
-
-        [TestMethod]
-        public async Task Resolve_UsingAsPerThreadSingletonExpressionRegistrationWithAutoFactory_ReturnsDiffrentOjectsForDiffrentThreadsAndTheSameObjectForDifferentResolveCallsOnTheSameThread() {
-            Foo foo1 = null;
-            Foo foo2 = null;
-
-            var container = new NCopContainer(registry => {
-                registry.Register<Foo>().AsSingleton().PerThread();
-            });
-
-            foo1 = await Task.Factory.StartNew(() => container.Resolve<Foo>());
-            foo2 = await Task.Factory.StartNew(() => container.Resolve<Foo>());
-            
-            Assert.AreNotEqual(foo1, foo2);
-            Assert.AreEqual(container.Resolve<Foo>(), container.Resolve<Foo>());
-        }
-
+        
         [TestMethod]
         [ExpectedException(typeof(LifetimeStragtegyException))]
         public void Resolve_UsingAsPerHttpRequestExpressionRegistrationWhenThereIsNoHttpContext_ThrowsLifetimeStragtegyException() {
@@ -434,6 +418,22 @@ namespace NCop.IoC.Tests
             Assert.AreEqual(foo, container.Resolve<Foo>());
             foo2 = await Task.Factory.StartNew(() => container.Resolve<Foo>());
             Assert.AreEqual(foo, foo2);
+        }
+
+        [TestMethod]
+        public async Task Resolve_UsingAsPerThreadSingletonExpressionRegistrationWithAutoFactory_ReturnsDiffrentOjectsForDiffrentThreadsAndTheSameObjectForDifferentResolveCallsOnTheSameThread() {
+            Foo foo1 = null;
+            Foo foo2 = null;
+
+            var container = new NCopContainer(registry => {
+                registry.Register<Foo>().AsSingleton().PerThread();
+            });
+
+            foo1 = await Task.Factory.StartNew(() => container.Resolve<Foo>());
+            foo2 = await Task.Factory.StartNew(() => container.Resolve<Foo>());
+
+            Assert.AreNotEqual(foo1, foo2);
+            Assert.AreEqual(container.Resolve<Foo>(), container.Resolve<Foo>());
         }
 
         private static void SetHttpContext() {

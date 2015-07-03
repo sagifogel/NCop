@@ -4,8 +4,8 @@ namespace NCop.Aspects.Weaving
 {
     internal class GetPropertyInterceptionBindingWeaver : AbstractPropertyBindingWeaver
     {
-        internal GetPropertyInterceptionBindingWeaver(PropertyInfo propertyInfo, BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IAspectWeaver methodScopeWeaver)
-            : base(propertyInfo, bindingSettings, aspectWeavingSettings, methodScopeWeaver) {
+        internal GetPropertyInterceptionBindingWeaver(PropertyInfo property, BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IAspectWeaver methodScopeWeaver)
+            : base(property, bindingSettings, aspectWeavingSettings, methodScopeWeaver) {
         }
 
         public override bool WeaveGetMethod {

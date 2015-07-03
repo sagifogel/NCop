@@ -5,6 +5,6 @@ namespace NCop.Weaving
 {
     public interface IMethodSignatureWeaver : IWeaver
     {
-        MethodBuilder Weave(MethodInfo methodInfo = null);
+        MethodBuilder Weave(MethodInfo method = null);
     }
 }

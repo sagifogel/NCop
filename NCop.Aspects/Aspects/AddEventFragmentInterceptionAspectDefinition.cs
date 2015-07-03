@@ -26,8 +26,8 @@ namespace NCop.Aspects.Aspects
             Aspect.AspectType
                   .GetOverridenMethods()
                   .ForEach(method => {
-                      TryBulidAdvice<OnAddHandlerAdviceAttribute>(method, (advice, mi) => {
-                          return new OnAddHandlerAdviceDefinition(advice, mi);
+                      TryBulidAdvice<MethodInfo, OnAddEventHandlerAdviceAttribute>(method, (advice, mi) => {
+                          return new OnAddHandlerAdviceDefinition(advice, method);
                       });
                   });
 

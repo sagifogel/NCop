@@ -4,10 +4,10 @@ using NCop.Weaving;
 
 namespace NCop.Composite.Weaving
 {
-    internal class CompositeOnRemoveEventWeaverBuilder : AbstractCompositeEventWeaverBuilder
+    internal class CompositeRemoveEventWeaverBuilder : AbstractCompositeEventWeaverBuilder
     {
-        internal CompositeOnRemoveEventWeaverBuilder(ICompositeEventMap compositeEventMap, IAspectTypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
-            : base(compositeEventMap, typeDefinition, aspectWeavingServices) {
+        internal CompositeRemoveEventWeaverBuilder(IEventTypeBuilder eventTypeBuilder, ICompositeEventFragmentMap compositeEventMap, IAspectTypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
+            : base(eventTypeBuilder, compositeEventMap, typeDefinition, aspectWeavingServices) {
         }
 
         public override IMethodWeaver Build() {
@@ -21,7 +21,7 @@ namespace NCop.Composite.Weaving
                     AspectArgsMapper = aspectWeavingServices.AspectArgsMapper
                 };
 
-                return new CompositeOnRemoveEventWeaver(removeMethod, typeDefinition, compositeEventMap.AspectDefinitions, aspectWeavingSettings);
+                return new CompositeRemoveEventWeaver(removeMethod, typeDefinition, compositeEventMap.AspectDefinitions, aspectWeavingSettings);
             }
 
             return null;// new OnRemoveEventDecoratorWeaver(compositePropertyMap.ContractMember.GetGetMethod(), weavingSettings);

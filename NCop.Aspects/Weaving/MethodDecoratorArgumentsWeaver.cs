@@ -8,17 +8,17 @@ namespace NCop.Aspects.Weaving
 {
     internal class MethodDecoratorArgumentsWeaver : IArgumentsWeaver
     {
-        private readonly MethodInfo methodInfoImpl = null;
+        private readonly MethodInfo method = null;
         private readonly IByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver = null;
 
-        internal MethodDecoratorArgumentsWeaver(MethodInfo methodInfoImpl, IByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver) {
-            this.methodInfoImpl = methodInfoImpl;
+        internal MethodDecoratorArgumentsWeaver(MethodInfo method, IByRefArgumentsStoreWeaver byRefArgumentsStoreWeaver) {
+            this.method = method;
             this.byRefArgumentsStoreWeaver = byRefArgumentsStoreWeaver;
         }
 
         public void Weave(ILGenerator ilGenerator) {
-            var methodImplParameters = methodInfoImpl.GetParameters();
-            var aspectArgsType = methodInfoImpl.ToAspectArgumentContract();
+            var methodImplParameters = method.GetParameters();
+            var aspectArgsType = method.ToAspectArgumentContract();
 
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);
