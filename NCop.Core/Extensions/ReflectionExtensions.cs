@@ -360,6 +360,10 @@ namespace NCop.Core.Extensions
         }
 
         public static bool IsFunction(this MethodInfo method) {
+            return method.HasReturnType();
+        }
+
+        public static bool HasReturnType(this MethodInfo method) {
             return !ReferenceEquals(method.ReturnType, typeof(void));
         }
 
