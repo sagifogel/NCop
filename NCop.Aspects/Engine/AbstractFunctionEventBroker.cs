@@ -8,11 +8,11 @@ namespace NCop.Aspects.Engine
     {
         protected readonly TInstance instance = default(TInstance);
         private readonly LinkedList<Func<TResult>> linkedHandlers = null;
-        protected readonly Func<IEventFunctionArgs<TResult>, TResult> handler = null;
+        protected readonly Func<IEventFunctionArgs<TResult>, TResult> argsHandler = null;
 
-        protected AbstractFunctionEventBroker(TInstance instance, Func<IEventFunctionArgs<TResult>, TResult> handler) {
-            this.handler = handler;
+        protected AbstractFunctionEventBroker(TInstance instance, Func<IEventFunctionArgs<TResult>, TResult> argsHandler) {
             this.instance = instance;
+            this.argsHandler = argsHandler;
             linkedHandlers = new LinkedList<Func<TResult>>();
         }
 
@@ -33,7 +33,7 @@ namespace NCop.Aspects.Engine
 
             for (var i = linkedHandlers.First; i != null; i = i.Next) {
                 args.Handler = i.Value;
-                args.ReturnValue = handler(args);
+                args.ReturnValue = argsHandler(args);
             }
 
             return args.ReturnValue;

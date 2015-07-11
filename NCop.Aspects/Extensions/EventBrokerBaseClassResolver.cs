@@ -8,17 +8,17 @@
 namespace NCop.Aspects.Extensions
 {
 	using System;
-	using NCop.Aspects.Engine;
+	using Engine;
 	using System.Collections.Generic;
 
-	internal static partial class EventBrokerBaseClassResolver
+	internal static class EventBrokerBaseClassResolver
 	{
 		internal static readonly IDictionary<int, Type> ActionMap = null;
 		internal static readonly IDictionary<int, Type> FunctionMap = null;
  
  		static EventBrokerBaseClassResolver() {
-			FunctionMap = new Dictionary<int, Type>();
 			ActionMap = new Dictionary<int, Type>();
+			FunctionMap = new Dictionary<int, Type>();
 
 			ActionMap.Add(0, typeof(AbstractActionEventBroker<>));				
 

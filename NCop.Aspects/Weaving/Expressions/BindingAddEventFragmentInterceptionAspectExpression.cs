@@ -1,16 +1,17 @@
-﻿using NCop.Aspects.Aspects;
+﻿using System.Reflection;
+using NCop.Aspects.Aspects;
 using System;
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class BindingAddEventFragmentInterceptionAspectExpression : AbstractAspectEventExpression
+    internal class BindingAddEventFragmentInterceptionAspectExpression : AbstractEventFragmentAspectExpression
     {
         public BindingAddEventFragmentInterceptionAspectExpression(IAspectExpression aspectExpression, IEventAspectDefinition aspectDefinition, IBindingTypeReflectorBuilder eventBuilder)
-            : base(aspectExpression, aspectDefinition) {
+            : base(aspectExpression, eventBuilder, aspectDefinition) {
         }
 
-        public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
-            throw new NotImplementedException();
+        protected override IAspectWeaver CreateWeaver(IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType) {
+            return new BindingAddEventInterceptionAspectWeaver(aspectDefinition, aspectWeavingSettings, weavedType);
         }
     }
 }

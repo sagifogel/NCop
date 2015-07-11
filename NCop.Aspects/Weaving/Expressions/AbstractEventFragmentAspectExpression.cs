@@ -15,12 +15,12 @@ namespace NCop.Aspects.Weaving.Expressions
 
         public override IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
             var bindingWeaver = eventBuilder.Build(aspectWeavingSettings);
-            
+
             var clonedSettings = aspectWeavingSettings.CloneWith(settings => {
                 settings.LocalBuilderRepository = new LocalBuilderRepository();
             });
 
-            return CreateWeaver(clonedSettings, null/* bindingWeaver.WeavedType*/);
+            return CreateWeaver(clonedSettings, bindingWeaver.WeavedType);
         }
 
         protected abstract IAspectWeaver CreateWeaver(IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType);

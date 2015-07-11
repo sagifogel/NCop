@@ -17,6 +17,7 @@ namespace NCop.Aspects.Weaving
         protected static int bindingCounter = 0;
         protected TypeBuilder typeBuilder = null;
         protected FieldBuilder fieldBuilder = null;
+        private MethodParameters methodParameters = null;
         protected readonly BindingSettings bindingSettings = null;
         protected readonly IMethodScopeWeaver addMethodScopeWeaver = null;
         protected readonly IMethodScopeWeaver removeMethodScopeWeaver = null;
@@ -30,6 +31,7 @@ namespace NCop.Aspects.Weaving
         public EventInterceptionBindingWeaver(EventInfo @event, BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IAspectWeaver addMethodScopeWeaver, IAspectWeaver removeMethodScopeWeaver, IAspectWeaver invokeMethodScopeWeaver) {
             this.@event = @event;
             this.bindingSettings = bindingSettings;
+            ResolveParameterTypes();
             this.addMethodScopeWeaver = addMethodScopeWeaver;
             this.aspectWeavingSettings = aspectWeavingSettings;
             this.removeMethodScopeWeaver = removeMethodScopeWeaver;
@@ -44,17 +46,16 @@ namespace NCop.Aspects.Weaving
             WeaveAddHandlerMethod();
             WeaveRemoveHandlerMethod();
             WeaveInvokeHandlerMethod();
-            
+
             return WeavedType = typeBuilder.CreateType()
                                            .GetField(fieldBuilder.Name, BindingFlags.NonPublic | BindingFlags.Static);
         }
 
         protected void WeaveTypeBuilder() {
-            var declaringType = @event.DeclaringType;
-            var types = new[] { declaringType, @event.EventHandlerType };
+            var implementationTypes = new[] { bindingSettings.BindingType };
 
-            baseType = typeof(AbstractPropertyBinding<,>).MakeGenericType(types);
-            typeBuilder = baseType.DefineType("EventBinding_{0}".Fmt(Interlocked.Increment(ref bindingCounter)).ToUniqueName(), attributes: TypeAttributes.Public | TypeAttributes.Sealed);
+            baseType = typeof(object);
+            typeBuilder = baseType.DefineType("EventBinding_{0}".Fmt(Interlocked.Increment(ref bindingCounter)).ToUniqueName(), implementationTypes, TypeAttributes.Public | TypeAttributes.Sealed);
         }
 
         protected virtual void WeaveConstructors() {
@@ -75,50 +76,38 @@ namespace NCop.Aspects.Weaving
             cctorILGenerator.Emit(OpCodes.Ret);
         }
 
-        protected virtual MethodParameters ResolveParameterTypes(bool set = false) {
+        protected virtual void ResolveParameterTypes(bool set = false) {
             Type[] parameters = null;
-            var methodParameters = bindingSettings.ToBindingMethodParameters();
+
+            methodParameters = bindingSettings.ToBindingMethodParameters();
 
             if (!set) {
-                return methodParameters;
+                return;
             }
 
             parameters = new Type[methodParameters.Parameters.Length + 1];
             methodParameters.Parameters.CopyTo(parameters, 0);
             parameters[methodParameters.Parameters.Length] = @event.EventHandlerType;
             methodParameters.Parameters = parameters;
-
-            return methodParameters;
         }
 
         protected virtual void WeaveInvokeHandlerMethod() {
-            ILGenerator ilGenerator = null;
-            MethodBuilder methodBuilder = null;
-            var methodParameters = ResolveParameterTypes();
-
-            methodBuilder = typeBuilder.DefineMethod("InvokeHandler", methodAttr, callingConventions, methodParameters.ReturnType, methodParameters.Parameters);
-            ilGenerator = methodBuilder.GetILGenerator();
-            invokeMethodScopeWeaver.Weave(ilGenerator);
-            ilGenerator.Emit(OpCodes.Ret);
+            WeaveHandlerMethod("InvokeHandler", invokeMethodScopeWeaver, methodParameters.ReturnType);
         }
 
         protected virtual void WeaveAddHandlerMethod() {
-            ILGenerator ilGenerator = null;
-            MethodBuilder methodBuilder = null;
-            var methodParameters = ResolveParameterTypes();
-
-            methodBuilder = typeBuilder.DefineMethod("AddHandler", methodAttr, callingConventions, typeof(void), methodParameters.Parameters);
-            ilGenerator = methodBuilder.GetILGenerator();
-            ilGenerator.Emit(OpCodes.Ret);
+            WeaveHandlerMethod("AddHandler", addMethodScopeWeaver, typeof(void));
         }
 
         protected virtual void WeaveRemoveHandlerMethod() {
-            ILGenerator ilGenerator = null;
-            MethodBuilder methodBuilder = null;
-            var methodParameters = ResolveParameterTypes(true);
+            WeaveHandlerMethod("RemoveHandler", removeMethodScopeWeaver, typeof(void));
+        }
 
-            methodBuilder = typeBuilder.DefineMethod("RemoveHandler", methodAttr, callingConventions, typeof(void), methodParameters.Parameters);
-            ilGenerator = methodBuilder.GetILGenerator();
+        protected virtual void WeaveHandlerMethod(string methodName, IMethodScopeWeaver methodScopeWeaver, Type returnType) {
+            var methodBuilder = typeBuilder.DefineMethod(methodName, methodAttr, callingConventions, returnType, methodParameters.Parameters);
+            var ilGenerator = methodBuilder.GetILGenerator();
+
+            methodScopeWeaver.Weave(ilGenerator);
             ilGenerator.Emit(OpCodes.Ret);
         }
     }

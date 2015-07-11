@@ -4,7 +4,6 @@ using NCop.Core;
 using NCop.Core.Extensions;
 using System;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -37,12 +36,12 @@ namespace NCop.Aspects.Weaving
                     @params[0] = invokeMethod.ReturnType;
                 }
 
-                delegateType = Expression.GetFuncType(@params);
+                delegateType = @params.GetDelegateType(true);
                 eventBrokerResolvedType.EventBrokerBaseClassType = declaringType.MakeGenericEventBrokerBaseClassFunctionBinding(@params);
                 eventBrokerResolvedType.EventBrokerInvokeDelegateType = typeof(Func<,>).MakeGenericType(new[] { @event.ToEventArgumentContract(@params), invokeReturnType });
             }
             else {
-                delegateType = Expression.GetActionType(delegateParameters);
+                delegateType = delegateParameters.GetDelegateType(false);
                 eventBrokerResolvedType.EventBrokerBaseClassType = declaringType.MakeGenericEventBrokerBaseClassActionType(delegateParameters);
                 eventBrokerResolvedType.EventBrokerInvokeDelegateType = typeof(Action<>).MakeGenericType(new[] { @event.ToEventArgumentContract(delegateParameters) });
             }
@@ -73,10 +72,10 @@ namespace NCop.Aspects.Weaving
                     @params[0] = invokeMethod.ReturnType;
                 }
 
-                delegateType = Expression.GetFuncType(@params);
+                delegateType = @params.GetDelegateType(true);
             }
             else {
-                delegateType = Expression.GetActionType(delegateParameters);
+                delegateType = delegateParameters.GetDelegateType(false);
             }
 
             return typeof(IEventBroker<>).MakeGenericType(delegateType);

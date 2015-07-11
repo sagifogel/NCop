@@ -4,6 +4,7 @@ using NCop.Aspects.Framework;
 using NCop.Aspects.Weaving;
 using NCop.Core.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -164,7 +165,7 @@ namespace NCop.Aspects.Extensions
             return ((IEventAspectDefinition)aspectDefinition).ToEventBindingSettings();
         }
 
-        private static BindingSettings ToMethodBindingSettings(this IAspectDefinition aspectDefinition) {
+        private static BindingSettings ToMethodBindingSettings(this IMethodAspectDefinition aspectDefinition) {
             var aspectArgumentType = aspectDefinition.GetArgumentType();
             var aspectArgumentImplType = aspectDefinition.ToAspectArgumentImpl();
             var genericArguments = aspectArgumentImplType.GetGenericArguments();
@@ -173,6 +174,7 @@ namespace NCop.Aspects.Extensions
                 return new BindingSettings {
                     HasReturnType = true,
                     MemberType = MemberTypes.Method,
+                    MemberInfo = aspectDefinition.Member,
                     ArgumentType = aspectArgumentImplType,
                     BindingType = aspectArgumentType.MakeGenericFunctionBinding(genericArguments)
                 };
@@ -180,6 +182,7 @@ namespace NCop.Aspects.Extensions
 
             return new BindingSettings {
                 MemberType = MemberTypes.Method,
+                MemberInfo = aspectDefinition.Member,
                 ArgumentType = aspectArgumentImplType,
                 BindingType = aspectArgumentType.MakeGenericActionBinding(genericArguments)
             };
@@ -192,6 +195,7 @@ namespace NCop.Aspects.Extensions
 
             return new BindingSettings {
                 MemberType = MemberTypes.Property,
+                MemberInfo = aspectDefinition.Member,
                 ArgumentType = aspectArgumentImplType,
                 BindingType = aspectArgumentType.MakeGenericPropertyBinding(genericArguments)
             };
@@ -206,6 +210,7 @@ namespace NCop.Aspects.Extensions
                 return new BindingSettings {
                     HasReturnType = true,
                     MemberType = MemberTypes.Event,
+                    MemberInfo = aspectDefinition.Member,
                     ArgumentType = aspectArgumentImplType,
                     BindingType = aspectArgumentType.MakeEventGenericFunctionBinding(genericArguments)
                 };
@@ -213,6 +218,7 @@ namespace NCop.Aspects.Extensions
 
             return new BindingSettings {
                 MemberType = MemberTypes.Event,
+                MemberInfo = aspectDefinition.Member,
                 ArgumentType = aspectArgumentImplType,
                 BindingType = aspectArgumentType.MakeEventGenericActionBinding(genericArguments)
             };
@@ -250,6 +256,7 @@ namespace NCop.Aspects.Extensions
             return new ArgumentsWeavingSettings {
                 AspectType = aspectType,
                 MemberType = bindingSettings.MemberType,
+                MemberInfo = bindingSettings.MemberInfo,
                 ReturnType = methodParameters.ReturnType,
                 Parameters = methodParameters.Parameters,
                 ArgumentType = bindingSettings.ArgumentType,
@@ -258,20 +265,20 @@ namespace NCop.Aspects.Extensions
             };
         }
 
-        internal static bool IsFunction(this IArgumentsSettings argumentsSettings) {
-            return argumentsSettings.MemberType == MemberTypes.Method && argumentsSettings.HasReturnType;
+        internal static bool IsEvent(this IHasMemberType hasMemberType) {
+            return hasMemberType.MemberType == MemberTypes.Event;
         }
 
-        internal static bool IsFunction(this BindingSettings bindingSettings) {
-            return bindingSettings.MemberType == MemberTypes.Method && bindingSettings.HasReturnType;
+        private static bool IsMethod(this IHasMemberType hasMemberType) {
+            return hasMemberType.MemberType == MemberTypes.Method;
         }
 
-        internal static bool IsProperty(this IArgumentsSettings argumentsSettings) {
-            return argumentsSettings.MemberType == MemberTypes.Property;
+        internal static bool IsFunction(this IHasMemberType hasMemberType) {
+            return (hasMemberType.IsMethod() || hasMemberType.IsEvent()) && hasMemberType.HasReturnType;
         }
 
-        internal static bool IsProperty(this BindingSettings bindingSettings) {
-            return bindingSettings.MemberType == MemberTypes.Property;
+        internal static bool IsProperty(this IHasMemberType hasMemberType) {
+            return hasMemberType.MemberType == MemberTypes.Property;
         }
 
         internal static AspectWeavingSettingsImpl CloneWith(this IAspectWeavingSettings aspectWeavingSettings, Action<AspectWeavingSettingsImpl> cloneFunc) {
@@ -310,27 +317,49 @@ namespace NCop.Aspects.Extensions
             Func<Type[], Type> argumentResolver = null;
             var methodParameters = new MethodParameters();
             var arguments = bindingSettings.BindingType.GetGenericArguments();
+            var argumentList = new List<Type> { arguments[0].MakeByRefType() };
 
-            methodParameters.Parameters = new Type[2];
-            methodParameters.Parameters[0] = arguments[0].MakeByRefType();
             arguments = arguments.Skip(1).ToArray();
 
             if (bindingSettings.IsProperty()) {
                 methodParameters.ReturnType = arguments.Last();
+
                 argumentResolver = typeArguments => {
                     return typeof(IPropertyArg<>).MakeGenericType(typeArguments);
                 };
             }
-            else if (bindingSettings.IsFunction()) {
-                methodParameters.ReturnType = arguments.Last();
-                argumentResolver = AspectArgsContractResolver.ToFunctionAspectArgumentContract;
-            }
             else {
-                methodParameters.ReturnType = typeof(void);
-                argumentResolver = AspectArgsContractResolver.ToActionAspectArgumentContract;
+                var isFunction = bindingSettings.IsFunction();
+                var isEventBinding = bindingSettings.IsEvent();
+
+                if (isEventBinding) {
+                    var @event = (EventInfo)bindingSettings.MemberInfo;
+
+                    argumentList.Add(@event.GetInvokeMethod().DeclaringType);
+
+                    if (isFunction) {
+                        methodParameters.ReturnType = arguments.Last();
+                        argumentResolver = AspectArgsContractResolver.ToEventFunctionAspectArgumentContract;
+                    }
+                    else {
+                        methodParameters.ReturnType = typeof(void);
+                        argumentResolver = AspectArgsContractResolver.ToEventActionAspectArgumentContract;
+                    }
+                }
+                else {
+                    if (isFunction) {
+                        methodParameters.ReturnType = arguments.Last();
+                        argumentResolver = AspectArgsContractResolver.ToFunctionAspectArgumentContract;
+                    }
+                    else {
+                        methodParameters.ReturnType = typeof(void);
+                        argumentResolver = AspectArgsContractResolver.ToActionAspectArgumentContract;
+                    }
+                }
             }
 
-            methodParameters.Parameters[1] = argumentResolver(arguments);
+            argumentList.Add(argumentResolver(arguments));
+            methodParameters.Parameters = argumentList.ToArray();
 
             return methodParameters;
         }

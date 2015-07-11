@@ -34,7 +34,7 @@ namespace NCop.Samples
         //event Action Ev3;
 
         //[MethodInterceptionAspect(typeof(FunctionInterceptionAspectImpl))]
-        //string RaiseEvent();
+        string RaiseEvent();
 
         ////[MethodInterceptionAspect(typeof(ActionInterceptionAspectImpl))]
         //void RaiseEvent2();
@@ -134,6 +134,11 @@ namespace NCop.Samples
         //    Aspects.EventActionInterception.OnInvokeHandler(args);
         //}
 
+        //var clonedArgs = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(instance, args.Event, args.Handler, EventInterceptionAspectBinding2.singleton, args.EventBroker);
+
+        //Aspects.EventInterception2.OnInvokeHandler(clonedArgs);
+
+        //return clonedArgs.ReturnValue;
         private string InvokeEv(IEventFunctionArgs<string> args) {
             var clonedArgs = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(developer, args.Event, args.Handler, EventInterceptionAspectBinding.singleton, args.EventBroker);
 
@@ -175,8 +180,8 @@ namespace NCop.Samples
         public int MyProperty { get; set; }
 
         public string RaiseEvent() {
+            return developer.RaiseEvent();
             return string.Empty;
-            //return developer.RaiseEvent();
         }
 
         //public void RaiseEvent2() {
@@ -296,6 +301,10 @@ namespace NCop.Samples
             return handler();
         }
 
+        public string InvokeHandler(ref IDeveloper instance, Func<string, string, string> handler, IEventFunctionArgs<string, string, string> args) {
+            return handler(args.Arg1, args.Arg2);
+        }
+
         public void RemoveHandler(ref IDeveloper instance, Func<string> handler, IEventFunctionArgs<string> args) {
             args.EventBroker.RemoveHandler(handler);
         }
@@ -312,11 +321,11 @@ namespace NCop.Samples
         }
 
         protected override void SubscribeImpl() {
-            //instance.Ev += Intercept;
+            instance.Ev += Intercept;
         }
 
         protected override void UnsubscribeImpl() {
-            //instance.Ev -= Intercept;
+            instance.Ev -= Intercept;
         }
     }
 
@@ -376,12 +385,12 @@ namespace NCop.Samples
     class Program
     {
         static void Main(string[] args) {
-            //var developer = new Developer();
-            //Func<string> action = () => "C# coding";
-            //developer.Ev += action;
-            //Console.WriteLine(developer.RaiseEvent());
-            //developer.Ev -= action;
-            //Console.WriteLine(developer.RaiseEvent());
+            var developer = new Developer();
+            Func<string> action = () => "C# coding";
+            developer.Ev += action;
+            Console.WriteLine(developer.RaiseEvent());
+            developer.Ev -= action;
+            Console.WriteLine(developer.RaiseEvent());
             var container = new CompositeContainer();
             container.Configure();
             var d = container.Resolve<IDeveloper>();

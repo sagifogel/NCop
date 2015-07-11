@@ -17,46 +17,83 @@ namespace NCop.Aspects.Extensions
 	{
 		private static readonly IDictionary<int, Type> funcArgsMap = null;
 		private static readonly IDictionary<int, Type> actionArgsMap = null;
+		private static readonly IDictionary<int, Type> eventFuncArgsMap = null;
+		private static readonly IDictionary<int, Type> eventActionArgsMap = null;
 
 		static AspectArgsContractResolver() {
 			funcArgsMap = new Dictionary<int, Type>();
 			actionArgsMap = new Dictionary<int, Type>();
+			eventFuncArgsMap = new Dictionary<int, Type>();
+			eventActionArgsMap = new Dictionary<int, Type>();
 			
 			actionArgsMap.Add(0, typeof(IActionArgs));
+			eventActionArgsMap.Add(0, typeof(IEventActionArgs));
 
 			funcArgsMap.Add(1, typeof(IFunctionArgs<>));	
 			actionArgsMap.Add(1, typeof(IActionArgs<>));	
+			eventFuncArgsMap.Add(1, typeof(IEventFunctionArgs<>));	
+			eventActionArgsMap.Add(1, typeof(IEventActionArgs<>));	
 
 			funcArgsMap.Add(2, typeof(IFunctionArgs<,>));	
 			actionArgsMap.Add(2, typeof(IActionArgs<,>));	
+			eventFuncArgsMap.Add(2, typeof(IEventFunctionArgs<,>));	
+			eventActionArgsMap.Add(2, typeof(IEventActionArgs<,>));	
 
 			funcArgsMap.Add(3, typeof(IFunctionArgs<,,>));	
 			actionArgsMap.Add(3, typeof(IActionArgs<,,>));	
+			eventFuncArgsMap.Add(3, typeof(IEventFunctionArgs<,,>));	
+			eventActionArgsMap.Add(3, typeof(IEventActionArgs<,,>));	
 
 			funcArgsMap.Add(4, typeof(IFunctionArgs<,,,>));	
 			actionArgsMap.Add(4, typeof(IActionArgs<,,,>));	
+			eventFuncArgsMap.Add(4, typeof(IEventFunctionArgs<,,,>));	
+			eventActionArgsMap.Add(4, typeof(IEventActionArgs<,,,>));	
 
 			funcArgsMap.Add(5, typeof(IFunctionArgs<,,,,>));	
 			actionArgsMap.Add(5, typeof(IActionArgs<,,,,>));	
+			eventFuncArgsMap.Add(5, typeof(IEventFunctionArgs<,,,,>));	
+			eventActionArgsMap.Add(5, typeof(IEventActionArgs<,,,,>));	
 
 			funcArgsMap.Add(6, typeof(IFunctionArgs<,,,,,>));	
 			actionArgsMap.Add(6, typeof(IActionArgs<,,,,,>));	
+			eventFuncArgsMap.Add(6, typeof(IEventFunctionArgs<,,,,,>));	
+			eventActionArgsMap.Add(6, typeof(IEventActionArgs<,,,,,>));	
 
 			funcArgsMap.Add(7, typeof(IFunctionArgs<,,,,,,>));	
 			actionArgsMap.Add(7, typeof(IActionArgs<,,,,,,>));	
+			eventFuncArgsMap.Add(7, typeof(IEventFunctionArgs<,,,,,,>));	
+			eventActionArgsMap.Add(7, typeof(IEventActionArgs<,,,,,,>));	
 
 			funcArgsMap.Add(8, typeof(IFunctionArgs<,,,,,,,>));	
 			actionArgsMap.Add(8, typeof(IActionArgs<,,,,,,,>));	
+			eventFuncArgsMap.Add(8, typeof(IEventFunctionArgs<,,,,,,,>));	
+			eventActionArgsMap.Add(8, typeof(IEventActionArgs<,,,,,,,>));	
 			
 			funcArgsMap.Add(9, typeof(IFunctionArgs<,,,,,,,,>));	
+			eventFuncArgsMap.Add(9, typeof(IEventFunctionArgs<,,,,,,,,>));	
 		}
 
 		internal static Type ToFunctionAspectArgumentContract(this Type[] typeArguments) {
 			return funcArgsMap[typeArguments.Length].MakeGenericType(typeArguments);
 		}
+
+		internal static Type ToEventFunctionAspectArgumentContract(this Type[] typeArguments) {
+			return eventFuncArgsMap[typeArguments.Length].MakeGenericType(typeArguments);
+		}
 		
 		internal static Type ToActionAspectArgumentContract(this Type[] typeArguments) {
 			 var mappedArgs = actionArgsMap[typeArguments.Length];
+            
+            if (typeArguments.Length > 0) {
+                mappedArgs = mappedArgs.MakeGenericType(typeArguments);
+
+            }
+
+            return mappedArgs;
+		}
+
+		internal static Type ToEventActionAspectArgumentContract(this Type[] typeArguments) {
+			 var mappedArgs = eventActionArgsMap[typeArguments.Length];
             
             if (typeArguments.Length > 0) {
                 mappedArgs = mappedArgs.MakeGenericType(typeArguments);
@@ -76,6 +113,18 @@ namespace NCop.Aspects.Extensions
 		
 		internal static Type ToAspectArgumentContract(this IEnumerable<Type> typeArguments, bool isFunction) {
 			return typeArguments.ToArray().ToAspectArgumentContract(isFunction);
+		}
+		
+		internal static Type ToEventAspectArgumentContract(this Type[] typeArguments, bool isFunction) {
+			if (isFunction) {
+				return typeArguments.ToEventFunctionAspectArgumentContract();
+			}
+
+			return typeArguments.ToEventActionAspectArgumentContract();
+		}
+		
+		internal static Type ToEventAspectArgumentContract(this IEnumerable<Type> typeArguments, bool isFunction) {
+			return typeArguments.ToArray().ToEventAspectArgumentContract(isFunction);
 		}	
 	}
 }

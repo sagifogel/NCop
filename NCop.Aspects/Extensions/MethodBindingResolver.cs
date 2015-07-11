@@ -8,17 +8,17 @@
 namespace NCop.Aspects.Extensions
 {
 	using System;
-	using NCop.Aspects.Engine;
+	using Engine;
 	using System.Collections.Generic;
 
-	internal static partial class MethodBindingResolver
+	internal static class MethodBindingResolver
 	{
 		internal static readonly IDictionary<int, Type> ActionMap = null;
 		internal static readonly IDictionary<int, Type> FunctionMap = null;
  
  		static MethodBindingResolver() {
-			FunctionMap = new Dictionary<int, Type>();
 			ActionMap = new Dictionary<int, Type>();
+			FunctionMap = new Dictionary<int, Type>();
 
 			ActionMap.Add(0, typeof(IActionBinding<>));				
 

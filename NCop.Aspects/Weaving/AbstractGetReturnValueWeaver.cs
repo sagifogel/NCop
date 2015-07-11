@@ -21,9 +21,8 @@ namespace NCop.Aspects.Weaving
         public void Weave(ILGenerator ilGenerator) {
             MethodInfo returnValueGetMethod = null;
             LocalBuilder argsImplLocalBuilder = null;
-            var weavingSettings = aspectWeavingSettings.WeavingSettings;
-            var argumentType = argumentsWeavingSetings.ArgumentType;
-            var aspectArgsType = GetAspectType();
+             var argumentType = argumentsWeavingSetings.ArgumentType;
+            var aspectArgsType = GetAspectArgsType();
 
             argsImplLocalBuilder = localBuilderRepository.Get(argumentType);
             ilGenerator.EmitLoadLocal(argsImplLocalBuilder);
@@ -31,6 +30,6 @@ namespace NCop.Aspects.Weaving
             ilGenerator.Emit(OpCodes.Callvirt, returnValueGetMethod);
         }
 
-        protected abstract Type GetAspectType();
+        protected abstract Type GetAspectArgsType();
     }
 }

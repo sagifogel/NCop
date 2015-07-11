@@ -1,15 +1,15 @@
-﻿using NCop.Aspects.Aspects;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractTopEventAspectArgumentsWeaver : AbstractTopAspectArgumentsWeaver<EventInfo>
+    internal abstract class AbstractTopPropertyAspectArgumentsWeaver : AbstractTopAspectArgumentsWeaver<PropertyInfo>
     {
-        protected readonly IEventAspectDefinition aspectDefinition = null;
+        protected readonly FieldInfo bindingsDependency = null;
 
-        internal AbstractTopEventAspectArgumentsWeaver(IEventAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
-            : base(aspectDefinition.Member, argumentWeavingSettings, aspectWeavingSettings) {
-            this.aspectDefinition = aspectDefinition;
+        internal AbstractTopPropertyAspectArgumentsWeaver(PropertyInfo property, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
+            : base(property, argumentWeavingSettings, aspectWeavingSettings) {
+            IsProperty = true;
+            bindingsDependency = argumentWeavingSettings.BindingsDependency;
         }
     }
 }

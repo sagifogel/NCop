@@ -8,7 +8,7 @@ namespace NCop.Aspects.Weaving
             : base(aspectWeavingSettings, argumentsWeavingSetings) {
         }
 
-        protected override Type GetAspectType() {
+        protected override Type GetAspectArgsType() {
             return argumentsWeavingSetings.ArgumentType;
         }
     }

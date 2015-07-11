@@ -340,7 +340,7 @@ namespace NCop.Aspects.Weaving.Expressions
 
                             eventBuilder.SetRemoveExpression(expression);
 
-                            return new BindingAddEventFragmentInterceptionAspectExpression(expression, eventAspectDefinition, eventBuilder);
+                            return new BindingRemoveEventFragmentInterceptionAspectExpression(expression, eventAspectDefinition, eventBuilder);
                         });
                     }
                 }

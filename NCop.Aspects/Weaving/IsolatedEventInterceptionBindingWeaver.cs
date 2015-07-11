@@ -7,8 +7,8 @@ namespace NCop.Aspects.Weaving
 {
     internal class IsolatedEventInterceptionBindingWeaver : AbstractBindingTypeReflector<IEventAspectDefinition>
     {
-        protected readonly Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
         protected readonly IAspectExpression addAspectExpression = null;
+        protected readonly Core.Lib.Lazy<FieldInfo> lazyWeavedType = null;
         protected readonly IAspectExpression removeAspectExpression = null;
         protected readonly IAspectExpression invokeAspectExpression = null;
         protected readonly IAspectWeavingSettings aspectWeavingSettings = null;

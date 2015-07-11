@@ -90,7 +90,7 @@ namespace NCop.IoC.Fluent
         }
 
         protected virtual ICasted As(Type castTo) {
-            var delegateType = Expression.GetFuncType(new[] { typeof(INCopDependencyResolver), ServiceType });
+            var delegateType = new[] { typeof(INCopDependencyResolver), ServiceType }.GetDelegateType(true);
             var ctor = castTo.GetConstructor(Type.EmptyTypes);
 
             Contract.RequiersConstructorNotNull(ctor, () => {

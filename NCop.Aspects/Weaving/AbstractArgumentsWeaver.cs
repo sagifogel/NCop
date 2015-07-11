@@ -10,7 +10,7 @@ namespace NCop.Aspects.Weaving
         protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
 
         internal AbstractArgumentsWeaver(TMember member, IArgumentsWeavingSettings argumentsWeavingSettings, IAspectWeavingSettings aspectWeavingSettings) {
-            Member = member;
+            MemberInfo = Member = member;
             ReturnType = argumentsWeavingSettings.ReturnType;
             AspectType = argumentsWeavingSettings.AspectType;
             Parameters = new Type[argumentsWeavingSettings.Parameters.Length];
@@ -27,7 +27,7 @@ namespace NCop.Aspects.Weaving
         public TMember Member { get; protected set; }
 
         public bool IsProperty { get; protected set; }
-        
+
         public Type ReturnType { get; protected set; }
 
         public Type AspectType { get; protected set; }
@@ -37,6 +37,8 @@ namespace NCop.Aspects.Weaving
         public Type[] Parameters { get; protected set; }
 
         public bool HasReturnType { get; protected set; }
+
+        public MemberInfo MemberInfo { get; protected set; }
 
         public MemberTypes MemberType { get; protected set; }
 

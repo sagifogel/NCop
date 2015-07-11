@@ -11,6 +11,7 @@ namespace NCop.Aspects.Weaving
         public Type ArgumentType { get; set; }
         public Type[] Parameters { get; set; }
         public bool HasReturnType { get; set; }
+        public MemberInfo MemberInfo { get; set; }
         public MemberTypes MemberType { get; set; }
         public FieldInfo BindingsDependency { get; set; }
     }
