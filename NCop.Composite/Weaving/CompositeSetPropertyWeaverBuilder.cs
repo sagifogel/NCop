@@ -20,7 +20,7 @@ namespace NCop.Composite.Weaving
                     AspectArgsMapper = aspectWeavingServices.AspectArgsMapper
                 };
 
-                return new CompositeSetPropertyWeaver(propertyTypeBuilder, typeDefinition, compositePropertyMap.ContractMember, compositePropertyMap.AspectDefinitions, aspectWeavingSettings);
+                return new CompositeSetPropertyWeaver(propertyTypeBuilder, compositePropertyMap.ContractMember, compositePropertyMap.AspectDefinitions, aspectWeavingSettings);
             }
 
             return new SetPropertyDecoratorWeaver(compositePropertyMap.ContractMember.GetSetMethod(), weavingSettings);

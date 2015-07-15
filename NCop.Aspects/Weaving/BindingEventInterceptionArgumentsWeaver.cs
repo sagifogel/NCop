@@ -15,7 +15,6 @@ namespace NCop.Aspects.Weaving
             var ctorInterceptionArgs = ArgumentType.GetConstructors()[0];
             var aspectArgLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
             var eventArgumentContract = Member.ToEventArgumentContract();
-            var aspectMember = aspectWeavingSettings.AspectRepository.GetAspectFieldByType(AspectType);
 
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);
@@ -23,7 +22,7 @@ namespace NCop.Aspects.Weaving
             ilGenerator.Emit(OpCodes.Callvirt, eventArgumentContract.GetProperty("Event").GetGetMethod());
             ilGenerator.EmitLoadArg(3);
             ilGenerator.Emit(OpCodes.Callvirt, eventArgumentContract.GetProperty("Handler").GetGetMethod());
-            ilGenerator.Emit(OpCodes.Ldsfld, aspectMember);
+            ilGenerator.Emit(OpCodes.Ldsfld, BindingsDependency);
             ilGenerator.EmitLoadArg(3);
             ilGenerator.Emit(OpCodes.Callvirt, eventArgumentContract.GetProperty("EventBroker").GetGetMethod());
             ilGenerator.Emit(OpCodes.Newobj, ctorInterceptionArgs);

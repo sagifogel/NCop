@@ -31,11 +31,11 @@ namespace NCop.Aspects.Weaving
         public EventInterceptionBindingWeaver(EventInfo @event, BindingSettings bindingSettings, IAspectWeavingSettings aspectWeavingSettings, IAspectWeaver addMethodScopeWeaver, IAspectWeaver removeMethodScopeWeaver, IAspectWeaver invokeMethodScopeWeaver) {
             this.@event = @event;
             this.bindingSettings = bindingSettings;
-            ResolveParameterTypes();
             this.addMethodScopeWeaver = addMethodScopeWeaver;
             this.aspectWeavingSettings = aspectWeavingSettings;
             this.removeMethodScopeWeaver = removeMethodScopeWeaver;
             this.invokeMethodScopeWeaver = invokeMethodScopeWeaver;
+            ResolveParameterTypes();
         }
 
         public FieldInfo WeavedType { get; set; }
@@ -76,7 +76,7 @@ namespace NCop.Aspects.Weaving
             cctorILGenerator.Emit(OpCodes.Ret);
         }
 
-        protected virtual void ResolveParameterTypes(bool set = false) {
+        protected void ResolveParameterTypes(bool set = false) {
             Type[] parameters = null;
 
             methodParameters = bindingSettings.ToBindingMethodParameters();

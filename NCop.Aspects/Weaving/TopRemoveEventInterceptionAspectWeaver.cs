@@ -8,6 +8,8 @@ namespace NCop.Aspects.Weaving
     {
         internal TopRemoveEventInterceptionAspectWeaver(IEventAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
+            argumentsWeavingSettings.BindingsDependency = weavedType;
+            argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Member.EventHandlerType }; 
             argumentsWeaver = new TopEventInterceptionArgumentsWeaver(aspectDefinition, argumentsWeavingSettings, aspectWeavingSettings);
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }

@@ -99,7 +99,7 @@ namespace NCop.Aspects.Weaving
                 var eventBrokerResolvedType = EventBrokerFieldTypeDefinitionResolver.ResolveType(eventMap, typeBuilder);
                 var eventBrokerGeneratedType = WeaveEventBrokerType(eventBrokerResolvedType);
 
-                eventTypeDefinitions.Add(new EventBrokerFieldTypeDefinition(@event, eventBrokerResolvedType.EventBrokerFieldType, typeBuilder, eventBrokerGeneratedType, eventBrokerResolvedType.EventInterceptionArgs));
+                eventTypeDefinitions.Add(new EventBrokerFieldTypeDefinition(@event, eventBrokerResolvedType, typeBuilder, eventBrokerGeneratedType));
             });
 
             return eventTypeDefinitions;

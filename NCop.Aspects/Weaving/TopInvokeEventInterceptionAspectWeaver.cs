@@ -9,6 +9,8 @@ namespace NCop.Aspects.Weaving
     {
         internal TopInvokeEventInterceptionAspectWeaver(IEventAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
+            argumentsWeavingSettings.BindingsDependency = weavedType;
+            argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Member.EventHandlerType };
             argumentsWeaver = new TopEventInterceptionArgumentsWeaver(aspectDefinition, argumentsWeavingSettings, aspectWeavingSettings);
 
             if (aspectDefinition.Member.IsFunction()) {

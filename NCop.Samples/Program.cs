@@ -28,7 +28,7 @@ namespace NCop.Samples
         event Func<string> Ev;
 
         //[EventInterceptionAspect(typeof(FunctionEventInterceptionAspect))]
-        event EventHandler<EventArgs> Ev2;
+        //event EventHandler<EventArgs> Ev2;
 
         ////[EventInterceptionAspect(typeof(ActionEventInterceptionAspect2))]
         //event Action Ev3;
@@ -41,9 +41,9 @@ namespace NCop.Samples
 
         //string Code(string s);
 
-        [PropertyInterceptionAspect(typeof(PropertyInterception))]
-        [PropertyInterceptionAspect(typeof(PropertyInterception))]
-        int MyProperty { get; set; }
+        //[PropertyInterceptionAspect(typeof(PropertyInterception))]
+        //[PropertyInterceptionAspect(typeof(PropertyInterception))]
+        //int MyProperty { get; set; }
     }
 
     public class PropertyInterception : PropertyInterceptionAspect<int>
@@ -385,12 +385,12 @@ namespace NCop.Samples
     class Program
     {
         static void Main(string[] args) {
-            var developer = new Developer();
-            Func<string> action = () => "C# coding";
-            developer.Ev += action;
-            Console.WriteLine(developer.RaiseEvent());
-            developer.Ev -= action;
-            Console.WriteLine(developer.RaiseEvent());
+            //var developer = new Developer();
+            //Func<string> action = () => "C# coding";
+            //developer.Ev += action;
+            //Console.WriteLine(developer.RaiseEvent());
+            //developer.Ev -= action;
+            //Console.WriteLine(developer.RaiseEvent());
             var container = new CompositeContainer();
             container.Configure();
             var d = container.Resolve<IDeveloper>();

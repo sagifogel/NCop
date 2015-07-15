@@ -70,7 +70,7 @@ namespace NCop.Composite.Weaving
         }
 
         public EventBrokerFieldTypeDefinition GetEventBrokerFielTypeDefinition(EventInfo @event) {
-            return GetEventBrokerFielTypeDefinition(@event.Name, (eventBrokerDefinition) => {
+            return GetEventBrokerFielTypeDefinition(@event.Name, eventBrokerDefinition => {
                 return @event.ToEventBrokerType() == eventBrokerDefinition.EventBrokerType;
             });
         }

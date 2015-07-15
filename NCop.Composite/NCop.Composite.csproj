@@ -158,7 +158,7 @@
     <Compile Include="Weaving\CompositeInvokeEventWeaver .cs" />
     <Compile Include="Weaving\CompositeInvokeEventWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeRemoveEventWeaver.cs" />
-    <Compile Include="Weaving\CompositeOnAddEventWeaver.cs" />
+    <Compile Include="Weaving\CompositeAddEventWeaver.cs" />
     <Compile Include="Weaving\CompositeRemoveEventWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeAddEventWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositePropertyWeaver.cs" />

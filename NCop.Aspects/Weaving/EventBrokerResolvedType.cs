@@ -23,6 +23,8 @@ namespace NCop.Aspects.Weaving
 
         public Type EventBrokerBaseClassType { get; set; }
 
+        public Type EventInterceptionContractArgs { get; set; }
+
         public Type EventBrokerInvokeDelegateType { get; set; }
 
         public string EventBrokerInvokeDelegateName { get; private set; }

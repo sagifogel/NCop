@@ -3,6 +3,7 @@ using NCop.Core.Extensions;
 using NCop.Weaving;
 using System.Reflection;
 using System.Reflection.Emit;
+
 namespace NCop.Composite.Weaving
 {
     internal class CompositePropertyWeaver : IPropertyWeaver, IPropertyTypeBuilder

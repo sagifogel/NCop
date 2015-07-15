@@ -415,6 +415,7 @@
     <Compile Include="Weaving\Expressions\TopAddEventFragmentInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\IAspectTypeDefinition.cs" />
     <Compile Include="Weaving\IHasMemberType.cs" />
+    <Compile Include="Weaving\InvokeEventMethodSignatureWeaver.cs" />
     <Compile Include="Weaving\IsolatedEventInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\OnEventInvokeMethodSignatureWeaver.cs" />
     <Compile Include="Weaving\OnRemoveEventHandlerAdviceWeaver.cs" />

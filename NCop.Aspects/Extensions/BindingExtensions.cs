@@ -53,11 +53,11 @@ namespace NCop.Aspects.Extensions
         }
 
         internal static Type MakeGenericEventBrokerBaseClassActionType(this Type decalringType, params Type[] typeArguments) {
-            return MakeGenericEventBrokerBaseClass(decalringType, (parametersCount) => EventBrokerBaseClassResolver.ActionMap[parametersCount], typeArguments);
+            return MakeGenericEventBrokerBaseClass(decalringType, parametersCount => EventBrokerBaseClassResolver.ActionMap[parametersCount], typeArguments);
         }
 
         internal static Type MakeGenericEventBrokerBaseClassFunctionBinding(this Type decalringType, params Type[] typeArguments) {
-            return MakeGenericEventBrokerBaseClass(decalringType, (parametersCount) => EventBrokerBaseClassResolver.FunctionMap[parametersCount], typeArguments);
+            return MakeGenericEventBrokerBaseClass(decalringType, parametersCount => EventBrokerBaseClassResolver.FunctionMap[parametersCount], typeArguments);
         }
 
         private static Type MakeGenericEventBrokerBaseClass(this Type decalringType, Func<int, Type> genericTypeResolver, params Type[] typeArguments) {

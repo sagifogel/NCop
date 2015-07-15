@@ -21,7 +21,7 @@ namespace NCop.Composite.Weaving
                     AspectArgsMapper = aspectWeavingServices.AspectArgsMapper
                 };
 
-                return new CompositeOnAddEventWeaver(addMethod, typeDefinition, compositeEventMap.AspectDefinitions, aspectWeavingSettings);
+                return new CompositeAddEventWeaver(addMethod, compositeEventMap.AspectDefinitions, aspectWeavingSettings);
             }
 
             return null;// new GetPropertyDecoratorWeaver(compositePropertyMap.ContractMember.GetGetMethod(), weavingSettings);

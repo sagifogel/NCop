@@ -37,15 +37,19 @@ namespace NCop.Aspects.Weaving
                 }
 
                 delegateType = @params.GetDelegateType(true);
+                eventBrokerResolvedType.EventInterceptionContractArgs = @event.ToEventArgumentContract(@params);
+                eventBrokerResolvedType.EventInterceptionArgs = declaringType.MakeGenericFunctionAspectArgsEvent(@params);
                 eventBrokerResolvedType.EventBrokerBaseClassType = declaringType.MakeGenericEventBrokerBaseClassFunctionBinding(@params);
-                eventBrokerResolvedType.EventBrokerInvokeDelegateType = typeof(Func<,>).MakeGenericType(new[] { @event.ToEventArgumentContract(@params), invokeReturnType });
+                eventBrokerResolvedType.EventBrokerInvokeDelegateType = typeof(Func<,>).MakeGenericType(new[] { eventBrokerResolvedType.EventInterceptionContractArgs, invokeReturnType });
             }
             else {
                 delegateType = delegateParameters.GetDelegateType(false);
+                eventBrokerResolvedType.EventInterceptionContractArgs = @event.ToEventArgumentContract(delegateParameters);
+                eventBrokerResolvedType.EventInterceptionArgs = declaringType.MakeGenericActionAspectArgsEvent(delegateParameters);
                 eventBrokerResolvedType.EventBrokerBaseClassType = declaringType.MakeGenericEventBrokerBaseClassActionType(delegateParameters);
-                eventBrokerResolvedType.EventBrokerInvokeDelegateType = typeof(Action<>).MakeGenericType(new[] { @event.ToEventArgumentContract(delegateParameters) });
+                eventBrokerResolvedType.EventBrokerInvokeDelegateType = typeof(Action<>).MakeGenericType(new[] { eventBrokerResolvedType.EventInterceptionContractArgs });
             }
-            
+
             eventBrokerResolvedType.Arguments = delegateParameters;
             eventBrokerResolvedType.EventBrokerFieldType = typeof(IEventBroker<>).MakeGenericType(delegateType);
 

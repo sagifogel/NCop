@@ -35,7 +35,6 @@ namespace NCop.Mixins.Weaving
 
                 methodWeaver.WeaveMethodScope(ilGenerator);
                 methodWeaver.WeaveEndMethod(ilGenerator);
-                return;
             });
 
             CreateDefaultConstructor();

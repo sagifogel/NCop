@@ -126,7 +126,8 @@ namespace NCop.Aspects.Extensions
 
 		internal static bool IsFunctionAspectArgs(this Type argumentsType) {
 			return typeof(IFunctionExecutionArgs).IsAssignableFrom(argumentsType)||
-				   typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType);
+				   typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType) ||
+				   typeof(IEventFunctionInterceptionArgs).IsAssignableFrom(argumentsType);
 		}
 	}
 }

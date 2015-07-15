@@ -7,9 +7,9 @@ namespace NCop.Composite.Weaving
 {
     public class CompositeGetPropertyWeaver : AspectPropertyWeaver
     {
-        public CompositeGetPropertyWeaver(IPropertyTypeBuilder propertyTypeBuilder, ITypeDefinition typeDefinition, PropertyInfo property, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings)
+        public CompositeGetPropertyWeaver(IPropertyTypeBuilder propertyTypeBuilder, PropertyInfo property, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings)
             : base(property.GetGetMethod(), aspectDefinitions, aspectWeavingSettings) {
-            methodSignatureWeaver = new GetPropertyMethodSignatureWeaver(propertyTypeBuilder, typeDefinition);
+            methodSignatureWeaver = new GetPropertyMethodSignatureWeaver(propertyTypeBuilder, aspectWeavingSettings.WeavingSettings.TypeDefinition);
         }
     }
 }

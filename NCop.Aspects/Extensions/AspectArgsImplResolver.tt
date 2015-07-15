@@ -94,7 +94,8 @@ foreach (var i in Enumerable.Range(1, 8)) {
 
 		internal static bool IsFunctionAspectArgs(this Type argumentsType) {
 			return typeof(IFunctionExecutionArgs).IsAssignableFrom(argumentsType)||
-				   typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType);
+				   typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType) ||
+				   typeof(IEventFunctionInterceptionArgs).IsAssignableFrom(argumentsType);
 		}
 	}
 }

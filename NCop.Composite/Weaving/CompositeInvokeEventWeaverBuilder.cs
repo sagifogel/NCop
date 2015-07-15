@@ -22,7 +22,7 @@ namespace NCop.Composite.Weaving
                     AspectArgsMapper = aspectWeavingServices.AspectArgsMapper
                 };
 
-                return new CompositeInvokeEventWeaver(invokeMethod, typeDefinition, compositeEventMap.AspectDefinitions, aspectWeavingSettings);
+                return new CompositeInvokeEventWeaver(compositeEventMap.ContractMember, invokeMethod, compositeEventMap.AspectDefinitions, aspectWeavingSettings);
             }
 
             return null;
