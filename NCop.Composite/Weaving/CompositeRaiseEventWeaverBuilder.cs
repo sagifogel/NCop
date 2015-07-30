@@ -5,9 +5,9 @@ using NCop.Weaving;
 
 namespace NCop.Composite.Weaving
 {
-    internal class CompositeInvokeEventWeaverBuilder : AbstractCompositeEventWeaverBuilder
+    internal class CompositeRaiseEventWeaverBuilder : AbstractCompositeEventWeaverBuilder
     {
-        internal CompositeInvokeEventWeaverBuilder(IEventTypeBuilder eventTypeBuilder, ICompositeEventFragmentMap compositeEventMap, IAspectTypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
+        internal CompositeRaiseEventWeaverBuilder(IEventTypeBuilder eventTypeBuilder, ICompositeEventFragmentMap compositeEventMap, IAspectTypeDefinition typeDefinition, IAspectWeavingServices aspectWeavingServices)
             : base(eventTypeBuilder, compositeEventMap, typeDefinition, aspectWeavingServices) {
         }
 
@@ -22,7 +22,7 @@ namespace NCop.Composite.Weaving
                     AspectArgsMapper = aspectWeavingServices.AspectArgsMapper
                 };
 
-                return new CompositeInvokeEventWeaver(compositeEventMap.ContractMember, invokeMethod, compositeEventMap.AspectDefinitions, aspectWeavingSettings);
+                return new CompositeRaiseEventWeaver(eventTypeBuilder, compositeEventMap.ContractMember, invokeMethod, compositeEventMap.AspectDefinitions, aspectWeavingSettings);
             }
 
             return null;

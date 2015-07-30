@@ -19,17 +19,17 @@ namespace NCop.Composite.Weaving
             var addEventFragmentMap = compositeEventMap.AddEventFragmentMap;
             var aspectTypeDefinition = (IAspectTypeDefinition)typeDefinition;
             var removeEventFragmentMap = compositeEventMap.RemoveEventFragmentMap;
-            var invokeEventFragmentMap = compositeEventMap.InvokeEventFragmentMap;
-            var eventWeaver = new CompositeEventWeaver(typeDefinition, addEventFragmentMap.ContractMember);
-            var addEventWeaverBuilder = new CompositeAddEventWeaverBuilder(eventWeaver, addEventFragmentMap, aspectTypeDefinition, aspectWeavingServices);
-            var removeEventWeaverBuilder = new CompositeRemoveEventWeaverBuilder(eventWeaver, removeEventFragmentMap, aspectTypeDefinition, aspectWeavingServices);
-            var invokeEventWeaverBuilder = new CompositeInvokeEventWeaverBuilder(eventWeaver, invokeEventFragmentMap, aspectTypeDefinition, aspectWeavingServices);
+            var raiseEventFragmentMap = compositeEventMap.RaiseEventFragmentMap;
+            var eventTypeBuilder = new CompositeEventWeaver(typeDefinition, addEventFragmentMap.ContractMember);
+            var addEventWeaverBuilder = new CompositeAddEventWeaverBuilder(eventTypeBuilder, addEventFragmentMap, aspectTypeDefinition, aspectWeavingServices);
+            var raiseEventWeaverBuilder = new CompositeRaiseEventWeaverBuilder(eventTypeBuilder, raiseEventFragmentMap, aspectTypeDefinition, aspectWeavingServices);
+            var removeEventWeaverBuilder = new CompositeRemoveEventWeaverBuilder(eventTypeBuilder, removeEventFragmentMap, aspectTypeDefinition, aspectWeavingServices);
 
-            eventWeaver.SetAddMethod(addEventWeaverBuilder.Build());
-            eventWeaver.SetRemoveMethod(removeEventWeaverBuilder.Build());
-            eventWeaver.SetInvokeMethod(invokeEventWeaverBuilder.Build());
+            eventTypeBuilder.SetAddMethodWeaver(addEventWeaverBuilder.Build());
+            eventTypeBuilder.SetRaiseMethodWeaver(raiseEventWeaverBuilder.Build());
+            eventTypeBuilder.SetRemoveMethodWeaver(removeEventWeaverBuilder.Build());
 
-            return eventWeaver;
+            return eventTypeBuilder;
         }
     }
 }

@@ -236,8 +236,8 @@ namespace NCop.Aspects.Extensions
 
         public static bool IsEventAspectDefinition(this IAspectDefinition aspectDefinition) {
             return aspectDefinition.AspectType == AspectType.AddEventInterceptionAspect ||
-                   aspectDefinition.AspectType == AspectType.RemoveEventInterceptionAspect ||
-                   aspectDefinition.AspectType == AspectType.InvokeEventInterceptionAspect;
+                   aspectDefinition.AspectType == AspectType.RaiseEventInterceptionAspect ||
+                   aspectDefinition.AspectType == AspectType.RemoveEventInterceptionAspect;
         }
 
         public static bool IsGetPropertyAspectDefinition(this IAspectDefinition aspectDefinition) {

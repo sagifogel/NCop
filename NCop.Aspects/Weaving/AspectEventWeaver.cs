@@ -6,9 +6,11 @@ namespace NCop.Aspects.Weaving
 {
     public class AspectEventWeaver : AbstractAspectMethodWeaver
     {
-        public AspectEventWeaver(MethodInfo method, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings)
+        protected readonly IEventTypeBuilder eventTypeBuilder = null;
+
+        public AspectEventWeaver(IEventTypeBuilder eventTypeBuilder, MethodInfo method, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings)
             : base(method, aspectDefinitions, aspectWeavingSettings) {
-            methodSignatureWeaver = new MethodSignatureWeaver(aspectWeavingSettings.WeavingSettings.TypeDefinition);
+            this.eventTypeBuilder = eventTypeBuilder;
         }
     }
 }

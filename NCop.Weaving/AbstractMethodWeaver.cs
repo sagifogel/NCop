@@ -26,6 +26,8 @@ namespace NCop.Weaving
             }
         }
 
+        public MethodBuilder MethodBuilder { get; protected set; }
+
         public IMethodEndWeaver MethodEndWeaver { get; protected set; }
 
         public IMethodScopeWeaver MethodScopeWeaver { get; protected set; }
@@ -33,7 +35,7 @@ namespace NCop.Weaving
         public IMethodSignatureWeaver MethodDefintionWeaver { get; protected set; }
 
         public virtual MethodBuilder DefineMethod() {
-            return MethodDefintionWeaver.Weave(method);
+            return MethodBuilder = MethodDefintionWeaver.Weave(method);
         }
 
         public virtual void WeaveMethodScope(ILGenerator ilGenerator) {

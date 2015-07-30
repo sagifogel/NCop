@@ -1,40 +1,27 @@
-﻿using NCop.Aspects.Aspects;
-using NCop.Aspects.Extensions;
+﻿using NCop.Aspects.Advices;
+using NCop.Aspects.Aspects;
 using NCop.Aspects.Weaving.Expressions;
-using NCop.Weaving;
-using System.Collections.Generic;
+using System;
+using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractInterceptionAspectWeaver : AbstractAspectWeaver
+    internal abstract class AbstractSetPropertyInterceptionAspectWeaver : AbstractInterceptionAspectWeaver
     {
-        protected IArgumentsWeaver argumentsWeaver = null;
-        protected readonly FieldInfo bindingDependency = null;
-        protected readonly ILocalBuilderRepository localBuilderRepository = null;
-
-        internal AbstractInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
-            : base(aspectDefinition, aspectWeavingSettings) {
-            IAdviceExpression selectedExpression = null;
-            AdviceWeavingSettings adviceWeavingSettings = null;
-
-            bindingDependency = weavedType;
-            argumentsWeavingSettings = aspectDefinition.ToArgumentsWeavingSettings();
-            adviceWeavingSettings = new AdviceWeavingSettings(aspectWeavingSettings, argumentsWeavingSettings);
-            selectedExpression = ResolveInterceptionAdviceExpression();
-            methodScopeWeavers = new List<IMethodScopeWeaver> {
-                selectedExpression.Reduce(adviceWeavingSettings)
-            };
-
-            localBuilderRepository = aspectWeavingSettings.LocalBuilderRepository;
+        internal AbstractSetPropertyInterceptionAspectWeaver(IAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+            : base(aspectDefinition, aspectWeavingSettings, weavedType) {
         }
 
-        public override void Weave(ILGenerator ilGenerator) {
-            argumentsWeaver.Weave(ilGenerator);
-            weaver.Weave(ilGenerator);
-        }
+        protected override IAdviceExpression ResolveInterceptionAdviceExpression() {
+            IAdviceDefinition selectedAdviceDefinition = null;
+            var onSetPropertyAdvice = adviceDiscoveryVistor.OnSetPropertyAdvice;
+            Func<IAdviceDefinition, IAdviceExpression> adviceExpressionFactory = null;
 
-        protected abstract IAdviceExpression ResolveInterceptionAdviceExpression();
+            adviceExpressionFactory = adviceVisitor.Visit(adviceDiscoveryVistor.OnSetPropertyAdvice);
+            selectedAdviceDefinition = advices.First(advice => advice.Advice.Equals(onSetPropertyAdvice));
+
+            return adviceExpressionFactory(selectedAdviceDefinition);
+        }
     }
 }

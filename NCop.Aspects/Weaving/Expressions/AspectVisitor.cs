@@ -139,7 +139,7 @@ namespace NCop.Aspects.Weaving.Expressions
                     }
                     else {
                         expressionFactory = Functional.Curry<IAspectExpression, IAspectExpression>(expression => {
-                            return new BindingInvokeEventAspectDecoratorExpression(eventAspectDefinition);
+                            return new BindingRaiseEventAspectDecoratorExpression(eventAspectDefinition);
                         });
                     }
                 }
@@ -352,7 +352,7 @@ namespace NCop.Aspects.Weaving.Expressions
             };
         }
 
-        public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(InvokeEventFragmentInterceptionAspect aspect) {
+        public Func<IAspectDefinition, IAspectExpressionBuilder> Visit(RaiseEventFragmentInterceptionAspect aspect) {
             return aspectDefinition => {
                 Func<IAspectExpression, IAspectExpression> ctor = null;
                 var eventAspectDefinition = (IFullEventAspectDefinition)aspectDefinition;
@@ -363,7 +363,7 @@ namespace NCop.Aspects.Weaving.Expressions
 
                         eventBuilder.SetInvokeExpression(expression);
 
-                        return new TopInvokeEventFragmentInterceptionAspectExpression(expression, eventAspectDefinition, eventBuilder);
+                        return new TopRaiseEventFragmentInterceptionAspectExpression(expression, eventAspectDefinition, eventBuilder);
                     });
 
                     lastAspect = new Aspect();
@@ -375,7 +375,7 @@ namespace NCop.Aspects.Weaving.Expressions
 
                             eventBuilder.SetInvokeExpression(expression);
 
-                            return new BindingInvokeEventFragmentInterceptionAspectExpression(expression, eventAspectDefinition, eventBuilder);
+                            return new BindingRaiseEventFragmentInterceptionAspectExpression(expression, eventAspectDefinition, eventBuilder);
                         });
                     }
                 }

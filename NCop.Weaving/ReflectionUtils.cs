@@ -60,7 +60,7 @@ namespace NCop.Weaving
             var moudleBuilder = NCopModuleBuilder.Instance;
 
             name = name ?? parentType.ToUniqueName();
-            attributes = attributes ?? parentType.Attributes;
+            attributes = attributes ?? parentType.Attributes & ~TypeAttributes.Abstract;
 
             if (interfaces.IsNotNullOrEmpty()) {
                 return moudleBuilder.DefineType(name, attributes.Value, parentType, interfaces.ToArray());

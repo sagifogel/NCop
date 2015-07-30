@@ -8,7 +8,7 @@ namespace NCop.Aspects.Engine
 		MethodInterceptionAspect,
         PropertyInterceptionAspect,
         AddEventInterceptionAspect,
-        InvokeEventInterceptionAspect,
+        RaiseEventInterceptionAspect,
         RemoveEventInterceptionAspect,
         GetPropertyInterceptionAspect,
         SetPropertyInterceptionAspect,

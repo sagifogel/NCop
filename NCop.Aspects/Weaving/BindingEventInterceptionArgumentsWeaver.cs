@@ -7,8 +7,8 @@ namespace NCop.Aspects.Weaving
 {
     internal class BindingEventInterceptionArgumentsWeaver : AbstractEventAspectArgumentsWeaver
     {
-        internal BindingEventInterceptionArgumentsWeaver(IEventAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings)
-            : base(aspectDefinition, argumentWeavingSettings, aspectWeavingSettings) {
+        internal BindingEventInterceptionArgumentsWeaver(IEventAspectDefinition aspectDefinition, IArgumentsWeavingSettings argumentWeavingSettings, IAspectWeavingSettings aspectWeavingSettings, BindingSettings bindingSettings)
+            : base(aspectDefinition, argumentWeavingSettings, aspectWeavingSettings, bindingSettings) {
         }
 
         public override LocalBuilder BuildArguments(ILGenerator ilGenerator) {

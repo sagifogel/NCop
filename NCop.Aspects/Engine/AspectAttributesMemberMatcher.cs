@@ -85,11 +85,17 @@ namespace NCop.Aspects.Engine
             eventInterceptionAspect.ForEach(aspectAttribute => {
                 var addMethod = target.GetAddMethod();
                 var removeMethod = target.GetRemoveMethod();
-                var invokeMethod = target.GetInvokeMethod();
+                var raiseMethod = target.GetInvokeMethod();
                 var aspectDefinition = new EventInterceptionAspectDefinition(aspectAttribute, aspectAttribute.AspectType, target);
                 var bindingTypeReflectorBuilder = new EventBindingTypeReflectorBuilder(aspectDefinition);
 
                 var addEventAspect = new AddEventFragmentInterceptionAspect {
+                    AspectType = aspectAttribute.AspectType,
+                    AspectPriority = aspectAttribute.AspectPriority,
+                    LifetimeStrategy = aspectAttribute.LifetimeStrategy
+                };
+
+                var raiseEventAspect = new RaiseEventFragmentInterceptionAspect {
                     AspectType = aspectAttribute.AspectType,
                     AspectPriority = aspectAttribute.AspectPriority,
                     LifetimeStrategy = aspectAttribute.LifetimeStrategy
@@ -101,15 +107,9 @@ namespace NCop.Aspects.Engine
                     LifetimeStrategy = aspectAttribute.LifetimeStrategy
                 };
 
-                var invokeEventAspect = new InvokeEventFragmentInterceptionAspect {
-                    AspectType = aspectAttribute.AspectType,
-                    AspectPriority = aspectAttribute.AspectPriority,
-                    LifetimeStrategy = aspectAttribute.LifetimeStrategy
-                };
-
                 AddOrUpdate(addMethod, new[] { new AddEventFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, addEventAspect, aspectDeclaringType, target) });
+                AddOrUpdate(raiseMethod, new[] { new RaiseEventFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, raiseEventAspect, aspectDeclaringType, target) });
                 AddOrUpdate(removeMethod, new[] { new RemoveEventFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, removeEventAspect, aspectDeclaringType, target) });
-                AddOrUpdate(invokeMethod, new[] { new InvokeEventFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, invokeEventAspect, aspectDeclaringType, target) });
             });
         }
 

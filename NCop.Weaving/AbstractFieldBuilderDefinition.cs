@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Reflection;
 using System.Reflection.Emit;
 
 namespace NCop.Weaving
 {
-    public abstract class AbstractFieldBuilderDefinition : IFieldBuilderDefinition
+    public class FieldBuilderDefinition : IFieldBuilderDefinition
     {
-        protected AbstractFieldBuilderDefinition(Type type, TypeBuilder typeBuilder, string fieldName = null) {
+        public FieldBuilderDefinition(Type type, TypeBuilder typeBuilder, string fieldName = null, FieldAttributes? fieldAttributes = null) {
             Type = type;
-            FieldBuilder = new FieldWeaver(typeBuilder, type, fieldName).Weave();
+            FieldBuilder = new FieldWeaver(typeBuilder, type, fieldName, fieldAttributes).Weave();
         }
 
         public Type Type { get; private set; }

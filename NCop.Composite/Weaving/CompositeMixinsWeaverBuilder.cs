@@ -6,7 +6,7 @@ using NCop.Mixins.Weaving;
 using NCop.Weaving;
 using System;
 
-namespace NCop.Composite.Mixins.Weaving
+namespace NCop.Composite.Weaving
 {
     internal class CompositeMixinsWeaverBuilder : AbstractCompositeWeaverBuilder, ICompositeMixinsTypeWeaverBuilder
     {
@@ -25,7 +25,7 @@ namespace NCop.Composite.Mixins.Weaving
                 }
             });
 
-            return new MixinsWeaverStrategy(typeDefinition, mixinsMap, methodWeavers, registry);
+            return new CompositeWeavingStrategy(typeDefinition, mixinsMap, methodWeavers, registry);
         }
     }
 }

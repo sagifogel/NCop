@@ -6,7 +6,7 @@ namespace NCop.Aspects.Engine
     {
         EventInfo AspectEvent { get; }
         MethodInfo AspectAddEvent { get; }
+        MethodInfo AspectRaiseEvent { get; }
         MethodInfo AspectRemoveEvent { get; }
-        MethodInfo AspectInvokeEvent { get; }
     }
 }

@@ -7,6 +7,6 @@ namespace NCop.Composite.Engine
     {
         ICompositeEventFragmentMap AddEventFragmentMap { get; }
         ICompositeEventFragmentMap RemoveEventFragmentMap { get; }
-        ICompositeEventFragmentMap InvokeEventFragmentMap { get; }
+        ICompositeEventFragmentMap RaiseEventFragmentMap { get; }
     }
 }

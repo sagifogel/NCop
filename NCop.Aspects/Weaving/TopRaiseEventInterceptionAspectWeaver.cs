@@ -1,17 +1,17 @@
 ﻿using NCop.Aspects.Aspects;
-using System.Reflection;
 using NCop.Core.Extensions;
 using NCop.Weaving;
+using System.Reflection;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class BindingInvokeEventInterceptionAspectWeaver : AbstractInvokeEventInterceptionAspectWeaver
+    internal class TopRaiseEventInterceptionAspectWeaver : AbstractRaiseEventInterceptionAspectWeaver
     {
-        internal BindingInvokeEventInterceptionAspectWeaver(IEventAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal TopRaiseEventInterceptionAspectWeaver(IEventAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             argumentsWeavingSettings.BindingsDependency = weavedType;
             argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Member.EventHandlerType };
-            argumentsWeaver = new BindingEventInterceptionArgumentsWeaver(aspectDefinition, argumentsWeavingSettings, aspectWeavingSettings);
+            argumentsWeaver = new TopRaiseEventInterceptionArgumentsWeaver(aspectDefinition, argumentsWeavingSettings, aspectWeavingSettings, bindingSettings);
 
             if (aspectDefinition.Member.IsFunction()) {
                 methodScopeWeavers.Add(new TopGetReturnValueWeaver(aspectWeavingSettings, argumentsWeavingSettings));

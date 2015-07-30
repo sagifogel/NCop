@@ -1,8 +1,6 @@
 ﻿using NCop.Aspects.Aspects;
 using NCop.Weaving;
-using NCop.Weaving.Extensions;
 using System.Reflection;
-using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
@@ -12,7 +10,7 @@ namespace NCop.Aspects.Weaving
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
             argumentsWeavingSettings.BindingsDependency = weavedType;
             argumentsWeavingSettings.Parameters = new[] { aspectDefinition.Member.EventHandlerType };
-            argumentsWeaver = new TopEventInterceptionArgumentsWeaver(aspectDefinition, argumentsWeavingSettings, aspectWeavingSettings);
+            argumentsWeaver = new TopEventInterceptionArgumentsWeaver(aspectDefinition, argumentsWeavingSettings, aspectWeavingSettings, bindingSettings);
             weaver = new MethodScopeWeaversQueue(methodScopeWeavers);
         }
     }

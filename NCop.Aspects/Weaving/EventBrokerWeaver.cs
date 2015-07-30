@@ -26,7 +26,7 @@ namespace NCop.Aspects.Weaving
         }
 
         private Type WeaveEventBrokerType(EventBrokerResolvedType eventBrokerResolvedType) {
-            var eventBrokerTypeBuilder = eventBrokerResolvedType.EventBrokerBaseClassType.DefineType();
+            var eventBrokerTypeBuilder = eventBrokerResolvedType.EventBrokerBaseClassType.DefineType(attributes: TypeAttributes.Public | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit);
 
             WeaveConstructor(eventBrokerTypeBuilder, eventBrokerResolvedType);
             interceptMethod = WeaveInterceptMethod(eventBrokerTypeBuilder, eventBrokerResolvedType);

@@ -2,16 +2,16 @@
 
 namespace NCop.Aspects.Weaving.Expressions
 {
-    internal class BindingInvokeEventAspectDecoratorExpression : IAspectExpression
+    internal class BindingRaiseEventAspectDecoratorExpression : IAspectExpression
     {
         private readonly IEventAspectDefinition aspectDefinition = null;
 
-        internal BindingInvokeEventAspectDecoratorExpression(IEventAspectDefinition aspectDefinition) {
+        internal BindingRaiseEventAspectDecoratorExpression(IEventAspectDefinition aspectDefinition) {
             this.aspectDefinition = aspectDefinition;
         }
 
         public IAspectWeaver Reduce(IAspectWeavingSettings aspectWeavingSettings) {
-            return new BindingInvokeEventAspectDecoratorWeaver(aspectDefinition.Member, aspectWeavingSettings);
+            return new BindingRaiseEventAspectDecoratorWeaver(aspectDefinition.Member, aspectWeavingSettings);
         }
     }
 }

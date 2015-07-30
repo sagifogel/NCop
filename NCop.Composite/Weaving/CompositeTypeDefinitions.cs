@@ -62,7 +62,7 @@ namespace NCop.Composite.Weaving
         }
 
         public FieldBuilder GetEventFieldBuilder(string name, Type type) {
-            var eventBrokerFieldTypeDefinition = GetEventBrokerFielTypeDefinition(name, (eventBrokerDefinition) => {
+            var eventBrokerFieldTypeDefinition = GetEventBrokerFielTypeDefinition(name, eventBrokerDefinition => {
                 return ReferenceEquals(eventBrokerDefinition.Type, type);
             });
 
@@ -71,7 +71,7 @@ namespace NCop.Composite.Weaving
 
         public EventBrokerFieldTypeDefinition GetEventBrokerFielTypeDefinition(EventInfo @event) {
             return GetEventBrokerFielTypeDefinition(@event.Name, eventBrokerDefinition => {
-                return @event.ToEventBrokerType() == eventBrokerDefinition.EventBrokerType;
+                return @event.ToEventBrokerType() == eventBrokerDefinition.Type;
             });
         }
 
@@ -81,13 +81,20 @@ namespace NCop.Composite.Weaving
             if (!eventTypeDefinitions.TryGetValue(name, out eventBrokerFieldTypeDefinition)) {
                 throw new MissingFieldBuilderException(Resources.CouldNotFindFieldBuilderByType.Fmt(eventBrokerFieldTypeDefinition.Type.FullName));
             }
-            else if (predicate(eventBrokerFieldTypeDefinition)) {
+
+            if (!predicate(eventBrokerFieldTypeDefinition)) {
                 var message = Resources.CouldNotFindFieldBuilderByType.Fmt(eventBrokerFieldTypeDefinition.Type.FullName);
 
                 throw new MissingFieldBuilderException(message);
             }
 
             return eventBrokerFieldTypeDefinition;
+        }
+
+        public IEnumerable<EventBrokerFieldTypeDefinition> EventBrokerFieldTypeDefinitions {
+            get {
+                return eventTypeDefinitions.Values;
+            }
         }
     }
 }

@@ -7,18 +7,18 @@ using System.Reflection;
 
 namespace NCop.Aspects.Aspects
 {
-    internal class InvokeEventFragmentInterceptionAspectDefinition : AbstractEventFragmentInterceptionAspectDefinition
+    internal class RaiseEventFragmentInterceptionAspectDefinition : AbstractEventFragmentInterceptionAspectDefinition
     {
-        private readonly InvokeEventFragmentInterceptionAspect aspect = null;
+        private readonly RaiseEventFragmentInterceptionAspect aspect = null;
 
-        internal InvokeEventFragmentInterceptionAspectDefinition(IEventExpressionBuilder eventBuilder, InvokeEventFragmentInterceptionAspect aspect, Type aspectDeclaringType, EventInfo @event)
+        internal RaiseEventFragmentInterceptionAspectDefinition(IEventExpressionBuilder eventBuilder, RaiseEventFragmentInterceptionAspect aspect, Type aspectDeclaringType, EventInfo @event)
             : base(eventBuilder, aspect, aspectDeclaringType, @event) {
             Aspect = this.aspect = aspect;
         }
 
         public override AspectType AspectType {
             get {
-                return AspectType.InvokeEventInterceptionAspect;
+                return AspectType.RaiseEventInterceptionAspect;
             }
         }
 

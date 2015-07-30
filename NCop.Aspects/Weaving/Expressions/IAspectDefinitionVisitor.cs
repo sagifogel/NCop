@@ -13,7 +13,7 @@ namespace NCop.Aspects.Weaving.Expressions
         Func<IAspectDefinition, IAspectExpressionBuilder> Visit(MethodInterceptionAspectAttribute aspect);
         Func<IAspectDefinition, IAspectExpressionBuilder> Visit(AddEventFragmentInterceptionAspect aspect);
         Func<IAspectDefinition, IAspectExpressionBuilder> Visit(RemoveEventFragmentInterceptionAspect aspect);
-        Func<IAspectDefinition, IAspectExpressionBuilder> Visit(InvokeEventFragmentInterceptionAspect aspect);
+        Func<IAspectDefinition, IAspectExpressionBuilder> Visit(RaiseEventFragmentInterceptionAspect aspect);
         Func<IAspectDefinition, IAspectExpressionBuilder> Visit(SetPropertyFragmentInterceptionAspect aspect);
         Func<IAspectDefinition, IAspectExpressionBuilder> Visit(GetPropertyFragmentInterceptionAspect aspect);
     }

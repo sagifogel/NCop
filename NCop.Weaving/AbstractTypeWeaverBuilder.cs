@@ -54,7 +54,7 @@ namespace NCop.Weaving
         public virtual void AddEventWeaver(IEventWeaver eventWeaver) {
             methodWeavers.Add(eventWeaver.GetAddMethod());
             methodWeavers.Add(eventWeaver.GetRemoveMethod());
-            methodWeavers.Add(eventWeaver.GetInvokeMethod());
+            methodWeavers.Add(eventWeaver.GetRaiseMethod());
         }
 
         public virtual void AddMethodWeaver(IMethodWeaver methodWeaver) {

@@ -29,12 +29,12 @@ namespace NCop.Composite.Engine
                 return new CompositeAddEventMap(contractType, implementationType, contractMember, implementationMember, aspectMap);
             });
 
-            mappedFragmentProperties = mappedFragmentProperties.Concat(MapEvents(aspectsMap, mappedEventsList, mapped => mapped.AspectRemoveEvent, (contractType, implementationType, contractMember, implementationMember, aspectMap) => {
-                return new CompositeRemoveEventMap(contractType, implementationType, contractMember, implementationMember, aspectMap);
+            mappedFragmentProperties = mappedFragmentProperties.Concat(MapEvents(aspectsMap, mappedEventsList, mapped => mapped.AspectRaiseEvent, (contractType, implementationType, contractMember, implementationMember, aspectMap) => {
+                return new CompositeRaiseEventMap(contractType, implementationType, contractMember, implementationMember, aspectMap);
             }));
 
-            mappedFragmentProperties = mappedFragmentProperties.Concat(MapEvents(aspectsMap, mappedEventsList, mapped => mapped.AspectInvokeEvent, (contractType, implementationType, contractMember, implementationMember, aspectMap) => {
-                return new CompositeInvokeEventMap(contractType, implementationType, contractMember, implementationMember, aspectMap);
+            mappedFragmentProperties = mappedFragmentProperties.Concat(MapEvents(aspectsMap, mappedEventsList, mapped => mapped.AspectRemoveEvent, (contractType, implementationType, contractMember, implementationMember, aspectMap) => {
+                return new CompositeRemoveEventMap(contractType, implementationType, contractMember, implementationMember, aspectMap);
             }));
 
             mappedEvents = mappedFragmentProperties.Where(compositefragment => compositefragment.FragmentMethod.IsNotNull())

@@ -15,7 +15,7 @@ namespace NCop.Composite.Engine
             AddEventFragmentMap = eventMapVisitor.AddEventFragmentMap;
             HasAspectDefinitions = eventMapVisitor.HasAspectDefinitions;
             RemoveEventFragmentMap = eventMapVisitor.RemoveEventFragmentMap;
-            InvokeEventFragmentMap = eventMapVisitor.InvokeEventFragmentMap;
+            RaiseEventFragmentMap = eventMapVisitor.RaiseEventFragmentMap;
             ContractType = AddEventFragmentMap.ContractType;
             ContractMember = AddEventFragmentMap.ContractMember;
             ImplementationType = AddEventFragmentMap.ImplementationType;
@@ -34,8 +34,8 @@ namespace NCop.Composite.Engine
         
         public ICompositeEventFragmentMap AddEventFragmentMap { get; private set; }
 
-        public ICompositeEventFragmentMap RemoveEventFragmentMap { get; private set; }
+        public ICompositeEventFragmentMap RaiseEventFragmentMap { get; private set; }
 
-        public ICompositeEventFragmentMap InvokeEventFragmentMap { get; private set; }
+        public ICompositeEventFragmentMap RemoveEventFragmentMap { get; private set; }
     }
 }

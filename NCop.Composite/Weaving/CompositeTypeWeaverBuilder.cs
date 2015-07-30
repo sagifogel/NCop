@@ -1,6 +1,5 @@
 ﻿using NCop.Aspects.Weaving;
 using NCop.Composite.Engine;
-using NCop.Composite.Mixins.Weaving;
 using NCop.Core;
 using NCop.Core.Extensions;
 using NCop.Weaving;

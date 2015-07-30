@@ -7,7 +7,7 @@ namespace NCop.Weaving
         Type EventType { get; }
         string EventName { get; }
         IMethodWeaver GetAddMethod();
+        IMethodWeaver GetRaiseMethod();
         IMethodWeaver GetRemoveMethod();
-        IMethodWeaver GetInvokeMethod();
     }
 }

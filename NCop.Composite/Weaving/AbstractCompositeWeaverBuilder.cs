@@ -4,7 +4,7 @@ using NCop.Mixins.Weaving;
 using NCop.Weaving;
 using System;
 
-namespace NCop.Composite.Mixins.Weaving
+namespace NCop.Composite.Weaving
 {
     internal abstract class AbstractCompositeWeaverBuilder : AbstrcatMixinsTypeWeaverBuilder
     {

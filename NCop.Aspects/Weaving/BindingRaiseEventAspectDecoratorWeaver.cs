@@ -7,11 +7,11 @@ using System.Reflection.Emit;
 
 namespace NCop.Aspects.Weaving
 {
-    internal class BindingInvokeEventAspectDecoratorWeaver : AbstractMethodScopeWeaver, IAspectWeaver
+    internal class BindingRaiseEventAspectDecoratorWeaver : AbstractMethodScopeWeaver, IAspectWeaver
     {
         private readonly EventInfo @event = null;
 
-        internal BindingInvokeEventAspectDecoratorWeaver(EventInfo @event, IAspectWeavingSettings aspectWeavingSettings)
+        internal BindingRaiseEventAspectDecoratorWeaver(EventInfo @event, IAspectWeavingSettings aspectWeavingSettings)
             : base(@event.GetInvokeMethod(), aspectWeavingSettings.WeavingSettings) {
             this.@event = @event;
         }

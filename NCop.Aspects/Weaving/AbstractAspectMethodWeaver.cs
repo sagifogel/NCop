@@ -13,7 +13,8 @@ namespace NCop.Aspects.Weaving
         protected IMethodSignatureWeaver methodSignatureWeaver = null;
         protected readonly IMethodScopeWeaver methodScopeWeaver = null;
 
-        protected AbstractAspectMethodWeaver(MethodInfo method, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings) {
+        protected AbstractAspectMethodWeaver(MethodInfo method, IAspectDefinitionCollection aspectDefinitions,
+            IAspectWeavingSettings aspectWeavingSettings) {
             IAspectExpression aspectExpression = null;
             var aspectExpressionBuilder = new AspectExpressionTreeBuilder(aspectDefinitions);
 
@@ -24,13 +25,11 @@ namespace NCop.Aspects.Weaving
         }
 
         public virtual MethodBuilder DefineMethod() {
-            return methodSignatureWeaver.Weave(method);
+            return MethodBuilder = methodSignatureWeaver.Weave(method);
         }
 
         public IMethodEndWeaver MethodEndWeaver {
-            get {
-                return methodEndWeaver;
-            }
+            get { return methodEndWeaver; }
         }
 
         public void WeaveEndMethod(ILGenerator ilGenerator) {
@@ -38,9 +37,7 @@ namespace NCop.Aspects.Weaving
         }
 
         public IMethodScopeWeaver MethodScopeWeaver {
-            get {
-                return methodScopeWeaver;
-            }
+            get { return methodScopeWeaver; }
         }
 
         public IMethodSignatureWeaver MethodDefintionWeaver {
@@ -48,6 +45,8 @@ namespace NCop.Aspects.Weaving
                 return methodSignatureWeaver;
             }
         }
+
+        public MethodBuilder MethodBuilder { get; private set; }
 
         public void WeaveMethodScope(ILGenerator ilGenerator) {
             methodScopeWeaver.Weave(ilGenerator);

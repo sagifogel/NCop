@@ -7,9 +7,9 @@ using System.Reflection;
 
 namespace NCop.Aspects.Weaving
 {
-    internal abstract class AbstractInvokeEventInterceptionAspectWeaver : AbstractInterceptionAspectWeaver
+    internal abstract class AbstractRaiseEventInterceptionAspectWeaver : AbstractInterceptionAspectWeaver
     {
-        internal AbstractInvokeEventInterceptionAspectWeaver(IEventAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
+        internal AbstractRaiseEventInterceptionAspectWeaver(IEventAspectDefinition aspectDefinition, IAspectWeavingSettings aspectWeavingSettings, FieldInfo weavedType)
             : base(aspectDefinition, aspectWeavingSettings, weavedType) {
         }
 

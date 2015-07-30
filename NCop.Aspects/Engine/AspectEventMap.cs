@@ -13,16 +13,16 @@ namespace NCop.Aspects.Engine
             AddIfNotNull(() => aspectEvent);
             AspectAddEvent = aspectEvent.GetAddMethod();
             AspectRemoveEvent = aspectEvent.GetRemoveMethod();
-            AspectInvokeEvent = aspectEvent.GetInvokeMethod();
+            AspectRaiseEvent = aspectEvent.GetInvokeMethod();
         }
 
         public EventInfo AspectEvent { get; private set; }
 
         public MethodInfo AspectAddEvent { get; private set; }
 
-        public MethodInfo AspectRemoveEvent { get; private set; }
+        public MethodInfo AspectRaiseEvent { get; private set; }
 
-        public MethodInfo AspectInvokeEvent { get; private set; }
+        public MethodInfo AspectRemoveEvent { get; private set; }
     }
 }
 

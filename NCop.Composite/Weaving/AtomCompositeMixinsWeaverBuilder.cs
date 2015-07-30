@@ -6,7 +6,7 @@ using NCop.Weaving;
 using System;
 using System.Threading;
 
-namespace NCop.Composite.Mixins.Weaving
+namespace NCop.Composite.Weaving
 {
     internal class AtomCompositeMixinsWeaverBuilder : AbstractCompositeWeaverBuilder, ICompositeMixinsTypeWeaverBuilder
     {

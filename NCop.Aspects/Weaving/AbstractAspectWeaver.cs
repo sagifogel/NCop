@@ -13,6 +13,7 @@ namespace NCop.Aspects.Weaving
     internal abstract class AbstractAspectWeaver : IAspectTypeReflectorWeaver
     {
         protected IMethodScopeWeaver weaver = null;
+        protected readonly BindingSettings bindingSettings = null;
         protected readonly IWeavingSettings weavingSettings = null;
         protected List<IMethodScopeWeaver> methodScopeWeavers = null;
         protected readonly IAspectRepository aspectRepository = null;
@@ -27,6 +28,7 @@ namespace NCop.Aspects.Weaving
             advices = aspectDefinition.Advices;
             this.aspectDefinition = aspectDefinition;
             this.aspectWeavingSettings = aspectWeavingSettings;
+            bindingSettings = aspectDefinition.ToBindingSettings();
             weavingSettings = aspectWeavingSettings.WeavingSettings;
             aspectRepository = aspectWeavingSettings.AspectRepository;
             argumentsWeavingSettings = aspectDefinition.ToArgumentsWeavingSettings();

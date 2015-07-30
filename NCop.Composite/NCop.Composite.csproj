@@ -82,7 +82,7 @@
     <Compile Include="Engine\AbstractCompositeFragmentEventMap.cs" />
     <Compile Include="Engine\AbstractCompositeMap.cs" />
     <Compile Include="Engine\AbstractCompositeFragmentPropertyMap.cs" />
-    <Compile Include="Engine\CompositeInvokeEventMap.cs" />
+    <Compile Include="Engine\CompositeRaiseEventMap.cs" />
     <Compile Include="Engine\CompositeRemoveEventMap.cs" />
     <Compile Include="Engine\CompositeMemberMapper.cs" />
     <Compile Include="Engine\CompositeAddEventMap.cs" />
@@ -98,7 +98,7 @@
     <Compile Include="Engine\CompositeRegistryDecorator.cs" />
     <Compile Include="Engine\IAcceptsCompositeEventMapVisitor.cs" />
     <Compile Include="Engine\IAcceptsCompositePropertyMapVisitor.cs" />
-    <Compile Include="Engine\ICompositeInvokeEventMap.cs" />
+    <Compile Include="Engine\ICompositeRaiseEventMap.cs" />
     <Compile Include="Engine\ICompositeRemoveEventMap.cs" />
     <Compile Include="Engine\ICompositeEventFragmentMap.cs" />
     <Compile Include="Engine\ICompositeEventMap.cs" />
@@ -140,9 +140,9 @@
     <Compile Include="IoC\CompositeRegistration.cs" />
     <Compile Include="IoC\CompositeServiceEntry.cs" />
     <Compile Include="IoC\CompositeTypeRegistration.cs" />
-    <Compile Include="Mixins\Weaving\AbstractCompositeWeaverBuilder.cs" />
-    <Compile Include="Mixins\Weaving\AtomCompositeMixinsWeaverBuilder.cs" />
-    <Compile Include="Mixins\Weaving\CompositeMixinsWeaverBuilder.cs" />
+    <Compile Include="Weaving\AbstractCompositeWeaverBuilder.cs" />
+    <Compile Include="Weaving\AtomCompositeMixinsWeaverBuilder.cs" />
+    <Compile Include="Weaving\CompositeMixinsWeaverBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Framework\CompositeRuntime.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -153,10 +153,11 @@
     <Compile Include="Runtime\CompositeRuntimeSettings.cs" />
     <Compile Include="Weaving\AbstractCompositeEventWeaverBuilder.cs" />
     <Compile Include="Weaving\AbstractCompositePropertyWeaver.cs" />
+    <Compile Include="Weaving\CompositeWeavingStrategy.cs" />
     <Compile Include="Weaving\AtomMixinsWeaverStrategy.cs" />
     <Compile Include="Weaving\CompositeEventWeaver.cs" />
-    <Compile Include="Weaving\CompositeInvokeEventWeaver .cs" />
-    <Compile Include="Weaving\CompositeInvokeEventWeaverBuilder.cs" />
+    <Compile Include="Weaving\CompositeRaiseEventWeaver.cs" />
+    <Compile Include="Weaving\CompositeRaiseEventWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeRemoveEventWeaver.cs" />
     <Compile Include="Weaving\CompositeAddEventWeaver.cs" />
     <Compile Include="Weaving\CompositeRemoveEventWeaverBuilder.cs" />
@@ -174,8 +175,7 @@
     <Compile Include="Weaving\CompositeSetPropertyWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeEventWeaverBuilder.cs" />
     <Compile Include="Weaving\CompositeWeavingSettingsImpl.cs" />
-    <Compile Include="Mixins\Weaving\ICompositeMixinsTypeWeaverBuilder.cs" />
-    <Compile Include="Weaving\ICompositeEventTypeBuilder.cs" />
+    <Compile Include="Weaving\ICompositeMixinsTypeWeaverBuilder.cs" />
     <Compile Include="Weaving\ICompositeWeavingSettings.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +215,9 @@
       <LastGenOutput>DuplicateCompositeAnnotationException.cs</LastGenOutput>
       <LastOutputs>.\DuplicateCompositeAnnotationException.cs</LastOutputs>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mixins\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
