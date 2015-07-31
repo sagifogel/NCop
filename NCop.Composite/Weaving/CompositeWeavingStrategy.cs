@@ -26,20 +26,16 @@ namespace NCop.Composite.Weaving
                 var contractType = fieldTypeDefinition.DeclaringType;
                 var contractField = compositeTypeDefinition.GetFieldBuilder(contractType);
                 var eventBrokerCtor = fieldTypeDefinition.EventBrokerType.GetConstructors()[0];
+                var delegateCtor = fieldTypeDefinition.EventBrokerDelegateType.GetConstructor(new[] { typeof(object), typeof(IntPtr) });
 
-                //ilGenerator.EmitLoadArg(0);
-                //ilGenerator.Emit(OpCodes.Ldnull);
-                //ilGenerator.Emit(OpCodes.Stfld, fieldTypeDefinition.FieldBuilder);
-                //ilGenerator.Emit(OpCodes.Pop);
-
-                //ilGenerator.EmitLoadArg(0);
-                //ilGenerator.EmitLoadArg(0);
-                //ilGenerator.Emit(OpCodes.Ldfld, contractField);
-                //ilGenerator.EmitLoadArg(0);
-                //ilGenerator.Emit(OpCodes.Ldftn, fieldTypeDefinition.InvokeMethodBuilder);
-                //ilGenerator.Emit(OpCodes.Newobj, fieldTypeDefinition.EventBrokerDelegateType);
-                //ilGenerator.Emit(OpCodes.Newobj, eventBrokerCtor);
-                //ilGenerator.Emit(OpCodes.Stfld, fieldTypeDefinition.FieldBuilder);
+                ilGenerator.EmitLoadArg(0);
+                ilGenerator.EmitLoadArg(0);
+                ilGenerator.Emit(OpCodes.Ldfld, contractField);
+                ilGenerator.EmitLoadArg(0);
+                ilGenerator.Emit(OpCodes.Ldftn, fieldTypeDefinition.InvokeMethodBuilder);
+                ilGenerator.Emit(OpCodes.Newobj, delegateCtor);
+                ilGenerator.Emit(OpCodes.Newobj, eventBrokerCtor);
+                ilGenerator.Emit(OpCodes.Stfld, fieldTypeDefinition.FieldBuilder);
             });
         }
     }

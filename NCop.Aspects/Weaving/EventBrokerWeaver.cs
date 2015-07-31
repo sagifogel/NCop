@@ -45,11 +45,7 @@ namespace NCop.Aspects.Weaving
             ctor = typeBuilder.DefineConstructor(ctorAttrs, CallingConventions.Standard | CallingConventions.HasThis, ctorArgs);
             ilGenerator = ctor.GetILGenerator();
             ilGenerator.EmitLoadArg(0);
-
-            ctorArgs.ForEach(1, (arg, i) => {
-                ilGenerator.EmitLoadArg(i);
-            });
-
+            ctorArgs.ForEach(1, (arg, i) => ilGenerator.EmitLoadArg(i));
             ilGenerator.Emit(OpCodes.Call, baseCtor);
             ilGenerator.Emit(OpCodes.Ret);
         }
@@ -60,11 +56,7 @@ namespace NCop.Aspects.Weaving
             var onEventFiredMethod = eventBrokerResolvedType.EventBrokerBaseClassType.GetMethod("OnEventFired", BindingFlags.NonPublic | BindingFlags.Instance);
 
             ilGenerator.EmitLoadArg(0);
-
-            eventBrokerResolvedType.Arguments.ForEach(1, (arg, i) => {
-                ilGenerator.EmitLoadArg(i);
-            });
-
+            eventBrokerResolvedType.Arguments.ForEach(1, (arg, i) => ilGenerator.EmitLoadArg(i));
             ilGenerator.Emit(OpCodes.Call, onEventFiredMethod);
             ilGenerator.Emit(OpCodes.Ret);
 
@@ -72,23 +64,24 @@ namespace NCop.Aspects.Weaving
         }
 
         private void WeaveSubscribeImpl(TypeBuilder typeBuilder, EventBrokerResolvedType eventBrokerResolvedType) {
-            WeaveSubscribitionMethod(typeBuilder, eventBrokerResolvedType, eventBrokerResolvedType.Event.GetAddMethod(), "SubscribeImpl");
+            WeaveSubscriptionMethod(typeBuilder, eventBrokerResolvedType, eventBrokerResolvedType.Event.GetAddMethod(), "SubscribeImpl");
         }
 
         private void WeaveUnsubscribeImpl(TypeBuilder typeBuilder, EventBrokerResolvedType eventBrokerResolvedType) {
-            WeaveSubscribitionMethod(typeBuilder, eventBrokerResolvedType, eventBrokerResolvedType.Event.GetRemoveMethod(), "UnsubscribeImpl");
+            WeaveSubscriptionMethod(typeBuilder, eventBrokerResolvedType, eventBrokerResolvedType.Event.GetRemoveMethod(), "UnsubscribeImpl");
         }
 
-        private void WeaveSubscribitionMethod(TypeBuilder typeBuilder, EventBrokerResolvedType eventBrokerResolvedType, MethodInfo eventHandlerMethod, string methodName) {
+        private void WeaveSubscriptionMethod(TypeBuilder typeBuilder, EventBrokerResolvedType eventBrokerResolvedType, MethodInfo eventHandlerMethod, string methodName) {
             var instanceField = eventBrokerResolvedType.EventBrokerBaseClassType.GetField("instance", BindingFlags.NonPublic | BindingFlags.Instance);
             var subscribeImplMethod = typeBuilder.DefineMethod(methodName, subscribtionsMethodsAttrs, typeof(void), eventBrokerResolvedType.Arguments);
+            var eventHanlderCtor = eventBrokerResolvedType.Event.EventHandlerType.GetConstructor(new[] { typeof(object), typeof(IntPtr) });
             var ilGenerator = subscribeImplMethod.GetILGenerator();
 
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, instanceField);
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldftn, interceptMethod);
-            ilGenerator.Emit(OpCodes.Newobj, eventBrokerResolvedType.Event.EventHandlerType);
+            ilGenerator.Emit(OpCodes.Newobj, eventHanlderCtor);
             ilGenerator.Emit(OpCodes.Callvirt, eventHandlerMethod);
             ilGenerator.Emit(OpCodes.Ret);
         }

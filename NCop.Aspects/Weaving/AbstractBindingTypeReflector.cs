@@ -9,7 +9,7 @@ namespace NCop.Aspects.Weaving
         protected readonly BindingSettings bindingSettings = null;
         protected readonly TAspectDefintion aspectDefinition = null;
 
-        public AbstractBindingTypeReflector(TAspectDefintion aspectDefinition) {
+        protected AbstractBindingTypeReflector(TAspectDefintion aspectDefinition) {
             this.aspectDefinition = aspectDefinition;
             bindingSettings = aspectDefinition.ToBindingSettings();
         }

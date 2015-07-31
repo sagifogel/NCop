@@ -4,7 +4,6 @@ using NCop.Aspects.Aspects;
 using NCop.Aspects.Extensions;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Threading;
 using NCop.Weaving.Extensions;
 
 namespace NCop.Aspects.Weaving
@@ -28,13 +27,14 @@ namespace NCop.Aspects.Weaving
             var ctorInterceptionArgs = ArgumentType.GetConstructor(new[] { contractFieldBuilder.FieldType, typeof(EventInfo), handlerType, bindingSettings.BindingType, eventBrokerType });
 
             ilGenerator.EmitLoadArg(0);
-            ilGenerator.Emit(OpCodes.Call, typeof(object).GetMethod("GetType"));
+            ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
+            ilGenerator.Emit(OpCodes.Callvirt, typeof(object).GetMethod("GetType"));
             ilGenerator.Emit(OpCodes.Ldstr, Member.Name);
             ilGenerator.Emit(OpCodes.Callvirt, typeof(Type).GetMethod("GetEvent", new[] { typeof(string) }));
             ilGenerator.EmitStoreLocal(eventLocalBuilder);
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
-            ilGenerator.EmitLoadLocal(aspectArgLocalBuilder);
+            ilGenerator.EmitLoadLocal(eventLocalBuilder);
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldsfld, BindingsDependency);
             ilGenerator.EmitLoadArg(0);
