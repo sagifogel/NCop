@@ -23,8 +23,8 @@ namespace NCop.Aspects.Weaving
         protected readonly IMethodScopeWeaver removeMethodScopeWeaver = null;
         protected readonly IMethodScopeWeaver invokeMethodScopeWeaver = null;
         protected readonly IAspectWeavingSettings aspectWeavingSettings = null;
-        protected readonly MethodAttributes methodAttr = MA.Public | MA.HideBySig | MA.Virtual;
         protected readonly CallingConventions callingConventions = CallingConventions.Standard | CallingConventions.HasThis;
+        protected readonly MethodAttributes methodAttr = MA.Public | MA.HideBySig | MA.Virtual | MA.VtableLayoutMask | MA.Final;
         protected readonly FieldAttributes singletonFieldAttributes = FieldAttributes.Private | FieldAttributes.FamANDAssem | FieldAttributes.Static;
         protected readonly MethodAttributes ctorAttributes = MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
 

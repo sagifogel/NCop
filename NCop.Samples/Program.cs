@@ -78,7 +78,7 @@ namespace NCop.Samples
         }
 
         public string InvokeEv(IEventFunctionArgs<string> args) {
-            var clonedArgs = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(developer, args.Event, args.Handler, EventInterceptionAspectBinding3.singleton, args.EventBroker);
+            var clonedArgs = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(developer, args.Event, args.Handler, EventInterceptionAspectBinding2.singleton, args.EventBroker);
 
             Aspects.EventInterception.OnInvokeHandler(clonedArgs);
 
@@ -90,26 +90,22 @@ namespace NCop.Samples
         public event Func<string> Ev {
             add {
                 var @event = developer.GetType().GetEvent("Ev");
-                var args = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(developer, @event, value, EventInterceptionAspectBinding3.singleton, eventBroker);
+                var args = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(developer, @event, value, EventInterceptionAspectBinding2.singleton, eventBroker);
                 Aspects.EventInterception.OnAddHandler(args);
             }
             remove {
                 var @event = developer.GetType().GetEvent("Ev");
-                var args = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(developer, @event, value, EventInterceptionAspectBinding3.singleton, eventBroker);
+                var args = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(developer, @event, value, EventInterceptionAspectBinding2.singleton, eventBroker);
                 Aspects.EventInterception.OnRemoveHandler(args);
             }
         }
 
         public event Func<string> Ev3 {
             add {
-                var @event = GetType().GetEvent("Ev");
-                var args = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(developer, @event, value, EventInterceptionAspectBinding.singleton, eventBroker);
-                Aspects.EventInterception.OnAddHandler(args);
+                developer.Ev += value;
             }
             remove {
-                var @event = GetType().GetEvent("Ev");
-                var args = new EventFunctionInterceptionArgsImpl<IDeveloper, string>(developer, @event, value, EventInterceptionAspectBinding.singleton, eventBroker);
-                Aspects.EventInterception.OnRemoveHandler(args);
+                developer.Ev -= value;
             }
         }
 
@@ -142,22 +138,24 @@ namespace NCop.Samples
             throw new NotImplementedException();
         }
     }
-    
+
     internal class Program
     {
         private static void Main(string[] args) {
             IDeveloper d;
             Func<string> func = () => "C# coding";
 
-            //d = new Developer(new CSharpDeveloperMixin());
-            //d.Ev += func;
-            //Console.WriteLine(d.RaiseEvent());
+            d = new Developer(new CSharpDeveloperMixin());
+            d.Ev += func;
+            Console.WriteLine(d.RaiseEvent());
 
             var container = new CompositeContainer();
             container.Configure();
             d = container.Resolve<IDeveloper>();
             d.Ev += func;
             //d.Ev -= func;
+            Console.WriteLine(d.RaiseEvent());
+            d.Ev -= func;
             Console.WriteLine(d.RaiseEvent());
         }
     }
@@ -424,7 +422,7 @@ namespace NCop.Samples
                 return Ev();
             }
 
-            return string.Empty;
+            return "No Event";
         }
 
         public void RaiseEvent2() {

@@ -51,7 +51,7 @@ namespace NCop.Aspects.Weaving
         }
 
         private MethodBuilder WeaveInterceptMethod(TypeBuilder typeBuilder, EventBrokerResolvedType eventBrokerResolvedType) {
-            var interceptMethod = typeBuilder.DefineMethod("Intercept", interceptMethodAttrs, typeof(void), eventBrokerResolvedType.Arguments);
+            var interceptMethod = typeBuilder.DefineMethod("Intercept", interceptMethodAttrs, eventBrokerResolvedType.EventBrokerInvokeDelegateType, eventBrokerResolvedType.Arguments);
             var ilGenerator = interceptMethod.GetILGenerator();
             var onEventFiredMethod = eventBrokerResolvedType.EventBrokerBaseClassType.GetMethod("OnEventFired", BindingFlags.NonPublic | BindingFlags.Instance);
 

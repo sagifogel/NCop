@@ -16,8 +16,6 @@ namespace NCop.Aspects.Weaving
         public override MethodBuilder Weave(MethodInfo method) {
             var methodBuilder = typeDefinition.TypeBuilder.DefineMethod(eventBrokerFieldTypeDefinition.InvokeMethodName, MethodAttributes.Public | MethodAttributes.HideBySig, method.ReturnType, new[] { eventBrokerFieldTypeDefinition.EventInterceptionContractArgs });
 
-            eventTypeBuilder.SetRaiseMethod(methodBuilder);
-
             return eventBrokerFieldTypeDefinition.InvokeMethodBuilder = methodBuilder;
         }
     }

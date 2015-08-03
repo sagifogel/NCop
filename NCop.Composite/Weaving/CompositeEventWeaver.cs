@@ -53,10 +53,6 @@ namespace NCop.Composite.Weaving
             lazyEventBuilder.Value.SetAddOnMethod(addMethod);
         }
 
-        public void SetRaiseMethod(MethodBuilder raiseMethod) {
-            //lazyEventBuilder.Value.SetRaiseMethod(raiseMethod);
-        }
-
         public void SetRemoveMethod(MethodBuilder removeMethod) {
             lazyEventBuilder.Value.SetRemoveOnMethod(removeMethod);
         }

@@ -1,4 +1,6 @@
-﻿using NCop.Aspects.Aspects;
+﻿using System.Linq;
+using System.Reflection;
+using NCop.Aspects.Aspects;
 using NCop.Aspects.Extensions;
 using NCop.Weaving.Extensions;
 using System.Reflection.Emit;
@@ -12,9 +14,12 @@ namespace NCop.Aspects.Weaving
         }
 
         public override LocalBuilder BuildArguments(ILGenerator ilGenerator) {
-            var ctorInterceptionArgs = ArgumentType.GetConstructors()[0];
             var aspectArgLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
             var eventArgumentContract = Member.ToEventArgumentContract();
+            var eventBrokerProperty = eventArgumentContract.GetProperty("EventBroker");
+            var eventBrokerType = eventBrokerProperty.PropertyType;
+            var handlerType = eventBrokerType.GetGenericArguments().First();
+            var ctorInterceptionArgs = ArgumentType.GetConstructor(new[] { WeavingSettings.ContractType, typeof(EventInfo), handlerType, bindingSettings.BindingType, eventBrokerType });
 
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);

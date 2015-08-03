@@ -13,8 +13,7 @@ namespace NCop.Aspects.Weaving
         protected IMethodSignatureWeaver methodSignatureWeaver = null;
         protected readonly IMethodScopeWeaver methodScopeWeaver = null;
 
-        protected AbstractAspectMethodWeaver(MethodInfo method, IAspectDefinitionCollection aspectDefinitions,
-            IAspectWeavingSettings aspectWeavingSettings) {
+        protected AbstractAspectMethodWeaver(MethodInfo method, IAspectDefinitionCollection aspectDefinitions, IAspectWeavingSettings aspectWeavingSettings) {
             IAspectExpression aspectExpression = null;
             var aspectExpressionBuilder = new AspectExpressionTreeBuilder(aspectDefinitions);
 
