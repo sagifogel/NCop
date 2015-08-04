@@ -1,5 +1,8 @@
-﻿using NCop.Weaving;
+﻿using NCop.Core.Extensions;
+using NCop.Weaving;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -44,7 +47,6 @@ namespace NCop.Composite.Weaving
             this.removeMethodWeaver = removeMethodWeaver;
         }
 
-
         public void SetRaiseMethodWeaver(IMethodWeaver raiseMethodWeaver) {
             this.raiseMethodWeaver = raiseMethodWeaver;
         }
@@ -55,6 +57,19 @@ namespace NCop.Composite.Weaving
 
         public void SetRemoveMethod(MethodBuilder removeMethod) {
             lazyEventBuilder.Value.SetRemoveOnMethod(removeMethod);
+        }
+
+        public IEnumerator<IMethodWeaver> GetEnumerator() {
+            yield return addMethodWeaver;
+            yield return removeMethodWeaver;
+
+            if (raiseMethodWeaver.IsNotNull()) {
+                yield return raiseMethodWeaver;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            return GetEnumerator();
         }
     }
 }

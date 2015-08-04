@@ -100,14 +100,7 @@ namespace NCop.Samples
             }
         }
 
-        public event Func<string> Ev3 {
-            add {
-                developer.Ev += value;
-            }
-            remove {
-                developer.Ev -= value;
-            }
-        }
+        public event Func<string> Ev3;
 
         //public event EventHandler<EventArgs> Ev2 {
         //    add {
@@ -145,9 +138,9 @@ namespace NCop.Samples
             IDeveloper d;
             Func<string> func = () => "C# coding";
 
-            d = new Developer(new CSharpDeveloperMixin());
-            d.Ev += func;
-            Console.WriteLine(d.RaiseEvent());
+            //d = new Developer(new CSharpDeveloperMixin());
+            //d.Ev += func;
+            //Console.WriteLine(d.RaiseEvent());
 
             var container = new CompositeContainer();
             container.Configure();

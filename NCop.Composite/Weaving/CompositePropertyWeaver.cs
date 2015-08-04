@@ -1,6 +1,7 @@
-﻿
-using NCop.Core.Extensions;
+﻿using NCop.Core.Extensions;
 using NCop.Weaving;
+using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -52,6 +53,20 @@ namespace NCop.Composite.Weaving
 
         public void SetSetMethod(MethodBuilder method) {
             lazyPropertyBuilder.Value.SetSetMethod(method);
+        }
+
+        public IEnumerator<IMethodWeaver> GetEnumerator() {
+            if (CanRead) {
+                yield return getMethodWeaver;
+            }
+
+            if (CanWrite) {
+                yield return setMethodWeaver;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            return GetEnumerator();
         }
     }
 }

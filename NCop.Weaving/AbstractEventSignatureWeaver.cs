@@ -1,6 +1,5 @@
-﻿using NCop.Weaving;
-
-namespace NCop.Aspects.Weaving
+﻿
+namespace NCop.Weaving
 {
     public abstract class AbstractEventSignatureWeaver : AbstractMemberSignatureWeaver
     {

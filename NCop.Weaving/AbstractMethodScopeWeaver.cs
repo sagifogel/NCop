@@ -6,7 +6,7 @@ namespace NCop.Weaving
 {
     public abstract class AbstractMethodScopeWeaver : IMethodScopeWeaver, IWeavingSettings
     {
-        private readonly IWeavingSettings weavingSettings = null;
+        protected readonly IWeavingSettings weavingSettings = null;
 
         protected AbstractMethodScopeWeaver(MethodInfo method, IWeavingSettings weavingSettings) {
             Method = method;

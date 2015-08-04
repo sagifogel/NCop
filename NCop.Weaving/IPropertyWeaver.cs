@@ -1,7 +1,8 @@
-﻿
+﻿using System.Collections.Generic;
+
 namespace NCop.Weaving
 {
-    public interface IPropertyWeaver : IWeaver
+    public interface IPropertyWeaver : IWeaver, IEnumerable<IMethodWeaver>
     {
         bool CanRead { get; }
         bool CanWrite { get; }

@@ -2,7 +2,7 @@
 
 namespace NCop.Weaving
 {
-    public class SetPropertyDecoratorWeaver : AbstractMethodWeaver, ISetPropertyWeaver
+    public class SetPropertyDecoratorWeaver : AbstractMethodWeaver
     {
 		public SetPropertyDecoratorWeaver(MethodInfo method, IWeavingSettings weavingSettings)
             : base(method, weavingSettings) {

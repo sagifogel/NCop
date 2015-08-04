@@ -24,7 +24,7 @@ namespace NCop.Composite.Weaving
                 return new CompositeRemoveEventWeaver(eventTypeBuilder, removeMethod, compositeEventMap.AspectDefinitions, aspectWeavingSettings);
             }
 
-            return null;// new OnRemoveEventDecoratorWeaver(compositePropertyMap.ContractMember.GetGetMethod(), weavingSettings);
+            return new RemoveEventDecoratorWeaver(eventTypeBuilder, compositeEventMap.ContractMember, weavingSettings);
         }
     }
 }

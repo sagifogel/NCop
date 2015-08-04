@@ -353,6 +353,10 @@ namespace NCop.Core.Extensions
             return typeof(TCompareTo).IsAssignableFrom(@object.GetType());
         }
 
+        public static Type GetDelegateType(this IEnumerable<Type> parameters, bool isFunction) {
+            return parameters.ToArray().GetDelegateType(isFunction);
+        }
+
         public static Type GetDelegateType(this Type[] parameters, bool isFunction) {
             var delegateFactory = isFunction ? Expression.GetFuncType : (Func<Type[], Type>)Expression.GetActionType;
 
@@ -373,6 +377,18 @@ namespace NCop.Core.Extensions
 
         public static bool IsFunction(this EventInfo @event) {
             return @event.GetInvokeMethod().IsFunction();
+        }
+
+        public static Type ToDelegateType(this EventInfo @event) {
+            var invokeMethod = @event.GetInvokeMethod();
+            var isFunction = invokeMethod.IsFunction();
+            var @params = invokeMethod.GetParameters().ToList(p => p.ParameterType);
+
+            if (isFunction) {
+                @params.Add(invokeMethod.ReturnType);
+            }
+
+            return @params.GetDelegateType(isFunction);
         }
     }
 }

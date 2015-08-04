@@ -1,12 +1,11 @@
 ﻿using System.Reflection;
 using System.Reflection.Emit;
-using NCop.Weaving;
 
-namespace NCop.Aspects.Weaving
+namespace NCop.Weaving
 {
-    public class RemoveEventMethodSignatureWeaver : AbstractEventSignatureWeaver
+    public class AddEventMethodSignatureWeaver : AbstractEventSignatureWeaver
     {
-        public RemoveEventMethodSignatureWeaver(IEventTypeBuilder eventTypeBuilder, ITypeDefinition typeDefinition)
+        public AddEventMethodSignatureWeaver(IEventTypeBuilder eventTypeBuilder, ITypeDefinition typeDefinition)
             : base(eventTypeBuilder, typeDefinition) {
         }
 
@@ -14,7 +13,7 @@ namespace NCop.Aspects.Weaving
             var methodSignatureWeaver = new MethodSignatureWeaver(typeDefinition);
             var methodBuilder = methodSignatureWeaver.Weave(method);
 
-            eventTypeBuilder.SetRemoveMethod(methodBuilder);
+            eventTypeBuilder.SetAddMethod(methodBuilder);
 
             return methodBuilder;
         }

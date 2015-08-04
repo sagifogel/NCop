@@ -22,11 +22,16 @@ namespace NCop.Composite.Weaving
             var raiseEventFragmentMap = compositeEventMap.RaiseEventFragmentMap;
             var eventTypeBuilder = new CompositeEventWeaver(typeDefinition, addEventFragmentMap.ContractMember);
             var addEventWeaverBuilder = new CompositeAddEventWeaverBuilder(eventTypeBuilder, addEventFragmentMap, aspectTypeDefinition, aspectWeavingServices);
-            var raiseEventWeaverBuilder = new CompositeRaiseEventWeaverBuilder(eventTypeBuilder, raiseEventFragmentMap, aspectTypeDefinition, aspectWeavingServices);
             var removeEventWeaverBuilder = new CompositeRemoveEventWeaverBuilder(eventTypeBuilder, removeEventFragmentMap, aspectTypeDefinition, aspectWeavingServices);
 
             eventTypeBuilder.SetAddMethodWeaver(addEventWeaverBuilder.Build());
-            eventTypeBuilder.SetRaiseMethodWeaver(raiseEventWeaverBuilder.Build());
+
+            if (compositeEventMap.HasAspectDefinitions) {
+                var raiseEventWeaverBuilder = new CompositeRaiseEventWeaverBuilder(eventTypeBuilder, raiseEventFragmentMap, aspectTypeDefinition, aspectWeavingServices);
+
+                eventTypeBuilder.SetRaiseMethodWeaver(raiseEventWeaverBuilder.Build());
+            }
+
             eventTypeBuilder.SetRemoveMethodWeaver(removeEventWeaverBuilder.Build());
 
             return eventTypeBuilder;

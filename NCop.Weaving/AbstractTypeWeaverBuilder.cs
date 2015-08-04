@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NCop.Core.Extensions;
 
 namespace NCop.Weaving
 {
@@ -35,7 +36,7 @@ namespace NCop.Weaving
 
         public virtual void AddEventWeavers() {
             eventWeaversBuilders.ForEach(eventBuilder => {
-                AddEventWeaver(eventBuilder.Build());
+                AddMethodWeavers(eventBuilder.Build());
             });
         }
 
@@ -47,28 +48,16 @@ namespace NCop.Weaving
 
         protected virtual void AddPropertyWeavers() {
             propertyWeaversBuilders.ForEach(propertyBuilder => {
-                AddPropertyWeaver(propertyBuilder.Build());
+                AddMethodWeavers(propertyBuilder.Build());
             });
-        }
-
-        public virtual void AddEventWeaver(IEventWeaver eventWeaver) {
-            methodWeavers.Add(eventWeaver.GetAddMethod());
-            methodWeavers.Add(eventWeaver.GetRemoveMethod());
-            methodWeavers.Add(eventWeaver.GetRaiseMethod());
         }
 
         public virtual void AddMethodWeaver(IMethodWeaver methodWeaver) {
             methodWeavers.Add(methodWeaver);
         }
 
-        public virtual void AddPropertyWeaver(IPropertyWeaver propertyWeaver) {
-            if (propertyWeaver.CanRead) {
-                methodWeavers.Add(propertyWeaver.GetGetMethod());
-            }
-
-            if (propertyWeaver.CanWrite) {
-                methodWeavers.Add(propertyWeaver.GetSetMethod());
-            }
+        public virtual void AddMethodWeavers(IEnumerable<IMethodWeaver> methodWeaversSource) {
+            methodWeaversSource.ForEach(methodWeaver => AddMethodWeaver(methodWeaver));
         }
     }
 }

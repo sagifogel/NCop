@@ -44,12 +44,19 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractAddRemoveEventMethodScopeWeaver.cs" />
+    <Compile Include="AbstractEventSignatureWeaver.cs" />
     <Compile Include="AbstractMemberSignatureWeaver.cs" />
     <Compile Include="AbstractMethodScopeWeaver.cs" />
     <Compile Include="AbstractFieldBuilderDefinition.cs" />
     <Compile Include="AbstractTypeDefinitionWeaver.cs" />
     <Compile Include="AbstractTypeWeaverBuilder.cs" />
     <Compile Include="AbstractWeaverBuilder.cs" />
+    <Compile Include="AddEventMethodSignatureWeaver.cs" />
+    <Compile Include="RemoveEventDecoratorScopeWeaver.cs" />
+    <Compile Include="AddEventDecoratorScopeWeaver.cs" />
+    <Compile Include="RemoveEventDecoratorWeaver.cs" />
+    <Compile Include="AddEventDecoratorWeaver.cs" />
     <Compile Include="DelegateMethodScopeWeaver.cs" />
     <Compile Include="Exceptions\MissingFieldBuilderException.cs">
       <DependentUpon>MissingFieldBuilderException.tt</DependentUpon>
@@ -72,6 +79,7 @@
     <Compile Include="ITypeDefinitionIntilaizer.cs" />
     <Compile Include="IWeavingSettings.cs" />
     <Compile Include="AbstractPropertyMethodSingatureWeaver.cs" />
+    <Compile Include="RemoveEventMethodSignatureWeaver.cs" />
     <Compile Include="SetPropertyMethodSignatureWeaver.cs" />
     <Compile Include="WeavingSettingsImpl.cs" />
     <Compile Include="MethodScopeWeaversQueue.cs" />
@@ -89,7 +97,6 @@
     <Compile Include="AbstractMethodWeaver.cs" />
     <Compile Include="IBuilder`1.cs" />
     <Compile Include="IFieldWeaver.cs" />
-    <Compile Include="IGetPropertyWeaver.cs" />
     <Compile Include="IMethodEndWeaver.cs" />
     <Compile Include="IMethodScopeWeaver.cs" />
     <Compile Include="IMethodSignatureWeaver.cs" />
@@ -98,7 +105,6 @@
     <Compile Include="IMethodWeaverBuilder.cs" />
     <Compile Include="IMethodWeaverHandler.cs" />
     <Compile Include="FieldWeaver.cs" />
-    <Compile Include="ISetPropertyWeaver.cs" />
     <Compile Include="ITypeDefinition.cs" />
     <Compile Include="ITypeDefinitionWeaver.cs" />
     <Compile Include="ITypeWeaver.cs" />

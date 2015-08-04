@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NCop.Weaving
 {
-    public interface IEventWeaver : IWeaver
+    public interface IEventWeaver : IWeaver, IEnumerable<IMethodWeaver>
     {
         Type EventType { get; }
         string EventName { get; }

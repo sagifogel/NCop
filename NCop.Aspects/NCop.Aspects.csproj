@@ -340,7 +340,6 @@
     <Compile Include="Framework\PropertyInterceptionArgs.cs" />
     <Compile Include="Framework\PropertyInterceptionAspect.cs" />
     <Compile Include="Weaving\AbstractAddEventInterceptionAspectWeaver.cs" />
-    <Compile Include="Weaving\AbstractEventSignatureWeaver.cs" />
     <Compile Include="Weaving\AbstractRemoveEventInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\AbstractRaiseEventInterceptionAspectWeaver.cs" />
     <Compile Include="Weaving\AbstractAddRemoveEventAspectDecoratorWeaver.cs" />
@@ -370,7 +369,6 @@
     <Compile Include="Weaving\AbstractEventAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\AbstractTopPropertyAspectArgumentsWeaver.cs" />
     <Compile Include="Weaving\AddEventDecoratorArgumentsWeaver.cs" />
-    <Compile Include="Weaving\RemoveEventMethodSignatureWeaver.cs" />
     <Compile Include="Weaving\AspectArgsGetPropertyWeaver.cs" />
     <Compile Include="Weaving\AbstractAspectPropertyArgsWeaver.cs" />
     <Compile Include="Weaving\AspectArgsMethodWeaver.cs" />
@@ -417,7 +415,6 @@
     <Compile Include="Weaving\Expressions\TopAddEventFragmentInterceptionAspectExpression.cs" />
     <Compile Include="Weaving\IAspectTypeDefinition.cs" />
     <Compile Include="Weaving\IHasMemberType.cs" />
-    <Compile Include="Weaving\AddEventMethodSignatureWeaver.cs" />
     <Compile Include="Weaving\RaiseEventMethodSignatureWeaver.cs" />
     <Compile Include="Weaving\IsolatedEventInterceptionBindingWeaver.cs" />
     <Compile Include="Weaving\OnRemoveEventHandlerAdviceWeaver.cs" />
