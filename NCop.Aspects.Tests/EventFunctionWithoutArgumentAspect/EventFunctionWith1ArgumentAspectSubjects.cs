@@ -34,7 +34,7 @@ namespace NCop.Aspects.Tests.EventFunctionWithoutArgumentAspect.Subjects
         private List<AspectJoinPoints> aspectJoinPoints = new List<AspectJoinPoints>();
 
         public override void OnAddHandler(EventFunctionInterceptionArgs<List<AspectJoinPoints>> args) {
-            aspectJoinPoints.Add(AspectJoinPoints.OnAdd);
+            aspectJoinPoints.Add(AspectJoinPoints.OnAddEvent);
             args.ProceedAddHandler();
         }
 
@@ -45,7 +45,7 @@ namespace NCop.Aspects.Tests.EventFunctionWithoutArgumentAspect.Subjects
         }
 
         public override void OnRemoveHandler(EventFunctionInterceptionArgs<List<AspectJoinPoints>> args) {
-            aspectJoinPoints.Add(AspectJoinPoints.OnRemove);
+            aspectJoinPoints.Add(AspectJoinPoints.OnRemoveEvent);
             args.ProceedRemoveHandler();
         }
     }

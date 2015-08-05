@@ -124,28 +124,41 @@ namespace NCop.Aspects.Extensions
         }
 
         internal static Type[] ToEventInvokeParams(this EventInfo @event) {
+            Type[] @params;
+            Type[] delegateParameters;
             var invokeMethod = @event.GetInvokeMethod();
-            var invokeReturnType = invokeMethod.ReturnType;
 
-            var delegateParameters = invokeMethod.GetParameters()
-                                                 .Select(p => p.ParameterType)
-                                                 .ToArray();
-
-            if (invokeMethod.IsFunction()) {
-                var @params = new Type[delegateParameters.Length + 1];
-
-                if (delegateParameters.Length > 0) {
-                    Array.Copy(delegateParameters, 0, @params, 0, delegateParameters.Length - 1);
-                    @params[@params.Length - 1] = invokeReturnType;
-                }
-                else {
-                    @params[0] = invokeMethod.ReturnType;
-                }
-
+            if (invokeMethod.GetDelegateParams(out @params, out delegateParameters)) {
                 return @params;
             }
 
             return delegateParameters;
+        }
+
+        public static bool GetDelegateParams(this MethodInfo invokeMethod, out Type[] @params, out Type[] delegateParameters) {
+            var isFunction = invokeMethod.IsFunction();
+            var returnType = invokeMethod.ReturnType;
+
+            delegateParameters = invokeMethod.GetParameters()
+                                             .Select(p => p.ParameterType)
+                                             .ToArray();
+
+            if (isFunction) {
+                if (delegateParameters.Length > 0) {
+                    @params = new Type[delegateParameters.Length + 1];
+                    Array.Copy(delegateParameters, 0, @params, 0, delegateParameters.Length);
+                    @params[@params.Length - 1] = returnType;
+                }
+                else {
+                    @params = new Type[1];
+                    @params[0] = returnType;
+                }
+            }
+            else {
+                @params = Type.EmptyTypes;
+            }
+
+            return isFunction;
         }
 
         internal static BindingSettings ToBindingSettings(this IAspectDefinition aspectDefinition) {

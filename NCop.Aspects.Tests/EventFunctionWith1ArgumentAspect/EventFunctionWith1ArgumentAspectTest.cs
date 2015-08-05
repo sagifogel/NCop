@@ -2,10 +2,11 @@
 using NCop.Aspects.Tests.EventFunctionWith1ArgumentAspect.Subjects;
 using System;
 using System.Collections.Generic;
+using NCop.Aspects.Tests.Extensions;
 
 namespace NCop.Aspects.Tests
 {
-    //[TestClass]
+    [TestClass]
     public class EventFunctionWith1ArgumentAspectTest : AbstractAspectTest
     {
         private TestContext testContextInstance;
@@ -47,10 +48,15 @@ namespace NCop.Aspects.Tests
 
         //[TestMethod]
         public void EventFunctionWith1Argument_AnnotatedWithOnEventInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
+            string result;
             var instance = container.Resolve<IEventFunctionWith1ArgumentComposite>();
             var list = new List<AspectJoinPoints>();
             var joinPoints = new EventInterceptionAspectOrderedJoinPoints();
-            var result = instance.RaiseInterceptionAspect(list);
+            Func<List<AspectJoinPoints>, string> func = l => l.Stringify();
+
+            instance.InterceptionAspect += func;
+            result = instance.RaiseInterceptionAspect(list);
+            instance.InterceptionAspect -= func;
 
             CollectionAssert.AreEqual(list, joinPoints);
             Assert.AreEqual(result, joinPoints.ToString());

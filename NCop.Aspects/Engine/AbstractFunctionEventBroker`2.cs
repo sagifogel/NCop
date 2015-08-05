@@ -35,7 +35,6 @@ namespace NCop.Aspects.Engine
             args.EventBroker = this;
 
             for (var i = linkedHandlers.First; i != null; i = i.Next) {
-
                 args.Handler = i.Value;
                 args.ReturnValue = argsHandler(args);
             }

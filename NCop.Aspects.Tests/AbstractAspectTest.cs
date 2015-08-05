@@ -4,14 +4,14 @@ namespace NCop.Aspects.Tests
 {
     public enum AspectJoinPoints
     {
-        OnAdd,
         OnExit = 1,
         OnEntry,
         OnInvoke,
-        OnRemove,
         InMethod,
         OnSuccess,
+        OnAddEvent,
         OnException,
+        OnRemoveEvent,
         GetPropertyInterception,
         SetPropertyInterception
     }

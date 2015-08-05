@@ -1,8 +1,5 @@
-﻿using NCop.Aspects.Aspects;
-using NCop.Aspects.Framework;
-using NCop.Aspects.Tests.Extensions;
+﻿using NCop.Aspects.Framework;
 using NCop.Composite.Framework;
-using NCop.Core.Extensions;
 using NCop.Mixins.Framework;
 using System;
 using System.Collections.Generic;
@@ -20,7 +17,7 @@ namespace NCop.Aspects.Tests.EventFunctionWith1ArgumentAspect.Subjects
         public event Func<List<AspectJoinPoints>, string> InterceptionAspect;
 
         public string RaiseInterceptionAspect(List<AspectJoinPoints> args) {
-            return  InterceptionAspect(args);
+            return InterceptionAspect(args);
         }
     }
 
@@ -35,17 +32,19 @@ namespace NCop.Aspects.Tests.EventFunctionWith1ArgumentAspect.Subjects
     public class FunctionEventInterceptionAspect : EventFunctionInterceptionAspect<List<AspectJoinPoints>, string>
     {
         public override void OnAddHandler(EventFunctionInterceptionArgs<List<AspectJoinPoints>, string> args) {
-            args.Arg1.Add(AspectJoinPoints.OnAdd);
+            args.ReturnValue += AspectJoinPoints.OnAddEvent.ToString();
             args.ProceedAddHandler();
         }
 
         public override void OnInvokeHandler(EventFunctionInterceptionArgs<List<AspectJoinPoints>, string> args) {
             args.Arg1.Add(AspectJoinPoints.OnInvoke);
+            args.ReturnValue += AspectJoinPoints.OnInvoke.ToString();
             args.ProceedInvokeHandler();
         }
 
         public override void OnRemoveHandler(EventFunctionInterceptionArgs<List<AspectJoinPoints>, string> args) {
-            args.Arg1.Add(AspectJoinPoints.OnRemove);
+            args.Arg1.Add(AspectJoinPoints.OnRemoveEvent);
+            args.ReturnValue += AspectJoinPoints.OnRemoveEvent.ToString();
             args.ProceedRemoveHandler();
         }
     }
