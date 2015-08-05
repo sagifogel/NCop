@@ -372,15 +372,19 @@ namespace NCop.Core.Extensions
         }
 
         public static MethodInfo GetInvokeMethod(this EventInfo @event) {
-            return @event.EventHandlerType.GetMethod("Invoke");
+            return @event.EventHandlerType.GetInvokeMethod();
+        }
+
+        public static MethodInfo GetInvokeMethod(this Type type) {
+            return type.GetMethod("Invoke");
         }
 
         public static bool IsFunction(this EventInfo @event) {
             return @event.GetInvokeMethod().IsFunction();
         }
 
-        public static Type ToDelegateType(this EventInfo @event) {
-            var invokeMethod = @event.GetInvokeMethod();
+        public static Type ToDelegateType(this Type type) {
+            var invokeMethod = type.GetInvokeMethod();
             var isFunction = invokeMethod.IsFunction();
             var @params = invokeMethod.GetParameters().ToList(p => p.ParameterType);
 

@@ -7,15 +7,13 @@ namespace NCop.Aspects.Engine
 {
     public abstract class AbstractFunctionEventBroker<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> : IEventBroker<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>>
     {
-        protected readonly EventInfo @event = null;
         protected TInstance instance = default(TInstance);
         private readonly LinkedList<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>> linkedHandlers = null;
-        private readonly IEventFunctionBinding<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> binding = null;
+        private readonly Func<IEventFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>, TResult> argsHandler = null;
 
-        protected AbstractFunctionEventBroker(TInstance instance, EventInfo @event, IEventFunctionBinding<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> binding) {
-            this.@event = @event;
-            this.binding = binding;
+        protected AbstractFunctionEventBroker(TInstance instance, Func<IEventFunctionArgs<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>, TResult> argsHandler) {
             this.instance = instance;
+            this.argsHandler = argsHandler;
             linkedHandlers = new LinkedList<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>>();
         }
 
@@ -31,19 +29,18 @@ namespace NCop.Aspects.Engine
 
         protected TResult OnEventFired(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6) {
             var args = new EventFunctionInterceptionArgsImpl<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>();
-            
+
             args.Arg1 = arg1;
             args.Arg2 = arg2;
             args.Arg3 = arg3;
             args.Arg4 = arg4;
             args.Arg5 = arg5;
             args.Arg6 = arg6;
-            args.Event = @event;
             args.EventBroker = this;
 
             for (var i = linkedHandlers.First; i != null; i = i.Next) {
                 args.Handler = i.Value;
-                args.ReturnValue = binding.InvokeHandler(ref instance, args.Handler, args);
+                args.ReturnValue = argsHandler(args);
             }
 
             return args.ReturnValue;

@@ -4,6 +4,7 @@ using NCop.Aspects.Aspects;
 using NCop.Aspects.Extensions;
 using System.Reflection;
 using System.Reflection.Emit;
+using NCop.Core.Extensions;
 using NCop.Weaving.Extensions;
 
 namespace NCop.Aspects.Weaving
@@ -23,9 +24,17 @@ namespace NCop.Aspects.Weaving
             var eventBrokerProperty = eventArgumentContract.GetProperty("EventBroker");
             var eventBrokerType = eventBrokerProperty.PropertyType;
             var handlerType = eventBrokerType.GetGenericArguments().First();
+            var delegateLocalBuilder = ilGenerator.DeclareLocal(handlerType);
+            var delegateCtor = handlerType.GetConstructor(new[] { typeof(object), typeof(IntPtr) });
             var eventBrokerFieldBuilder = typeDefinition.GetEventFieldBuilder(Member.Name, eventBrokerType);
-            var ctorInterceptionArgs = ArgumentType.GetConstructor(new[] { contractFieldBuilder.FieldType, typeof(EventInfo), handlerType, bindingSettings.BindingType, eventBrokerType });
+            var eventBrokerFieldTypeDefinition = typeDefinition.GetEventBrokerFielTypeDefinition(Member);
+            var ctorInterceptionArgs = ArgumentType.GetConstructors().Single(ctor => ctor.GetParameters().Length != 0);
+            var nullableArgs = handlerType.GetInvokeMethod().GetParameters();
 
+            ilGenerator.EmitLoadArg(1);
+            ilGenerator.Emit(OpCodes.Ldftn, eventBrokerFieldTypeDefinition.EventType.GetInvokeMethod());
+            ilGenerator.Emit(OpCodes.Newobj, delegateCtor);
+            ilGenerator.EmitStoreLocal(delegateLocalBuilder);
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
             ilGenerator.Emit(OpCodes.Callvirt, typeof(object).GetMethod("GetType"));
@@ -35,10 +44,11 @@ namespace NCop.Aspects.Weaving
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
             ilGenerator.EmitLoadLocal(eventLocalBuilder);
-            ilGenerator.EmitLoadArg(1);
+            ilGenerator.EmitLoadLocal(delegateLocalBuilder);
             ilGenerator.Emit(OpCodes.Ldsfld, BindingsDependency);
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, eventBrokerFieldBuilder);
+            nullableArgs.ForEach(arg => ilGenerator.Emit(OpCodes.Ldnull));
             ilGenerator.Emit(OpCodes.Newobj, ctorInterceptionArgs);
             ilGenerator.EmitStoreLocal(aspectArgLocalBuilder);
 

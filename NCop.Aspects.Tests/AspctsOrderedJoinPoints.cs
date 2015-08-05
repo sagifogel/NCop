@@ -229,4 +229,13 @@ namespace NCop.Aspects.Tests
             Add(AspectJoinPoints.SetPropertyInterception);
         }
     }
+
+    public class EventInterceptionAspectOrderedJoinPoints : AspectOrderedJoinPoints
+    {
+        public EventInterceptionAspectOrderedJoinPoints() {
+            Add(AspectJoinPoints.OnAdd);
+            Add(AspectJoinPoints.OnInvoke);
+            Add(AspectJoinPoints.OnRemove);
+        }
+    }
 }

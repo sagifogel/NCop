@@ -10,12 +10,11 @@ namespace NCop.Aspects.Engine
         protected readonly EventInfo @event = null;
         protected TInstance instance = default(TInstance);
         private readonly LinkedList<Func<TArg1, TResult>> linkedHandlers = null;
-        private readonly IEventFunctionBinding<TInstance, TArg1, TResult> binding = null;
+        private readonly Func<IEventFunctionArgs<TArg1, TResult>, TResult> argsHanlder = null;
 
-        protected AbstractFunctionEventBroker(TInstance instance, EventInfo @event, IEventFunctionBinding<TInstance, TArg1, TResult> binding) {
-            this.@event = @event;
-            this.binding = binding;
+        protected AbstractFunctionEventBroker(TInstance instance, Func<IEventFunctionArgs<TArg1, TResult>, TResult> argsHanlder) {
             this.instance = instance;
+            this.argsHanlder = argsHanlder;
             linkedHandlers = new LinkedList<Func<TArg1, TResult>>();
         }
 
@@ -33,13 +32,12 @@ namespace NCop.Aspects.Engine
             var args = new EventFunctionInterceptionArgsImpl<TInstance, TArg1, TResult>();
 
             args.Arg1 = arg1;
-            args.Event = @event;
             args.EventBroker = this;
 
             for (var i = linkedHandlers.First; i != null; i = i.Next) {
                 
                 args.Handler = i.Value;
-                args.ReturnValue = binding.InvokeHandler(ref instance, args.Handler, args);
+                args.ReturnValue = argsHanlder(args);
             }
 
             return args.ReturnValue;

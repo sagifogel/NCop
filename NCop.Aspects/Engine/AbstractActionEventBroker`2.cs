@@ -1,21 +1,18 @@
 ﻿using NCop.Core.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace NCop.Aspects.Engine
 {
     public abstract class AbstractActionEventBroker<TInstance, TArg1, TArg2> : IEventBroker<Action<TArg1, TArg2>>
     {
-        protected readonly EventInfo @event = null;
         protected TInstance instance = default(TInstance);
         private readonly LinkedList<Action<TArg1, TArg2>> linkedHandlers = null;
-        private readonly IEventActionBinding<TInstance, TArg1, TArg2> binding = null;
+        private readonly Action<IEventActionArgs<TArg1, TArg2>> argsHandler = null;
 
-        protected AbstractActionEventBroker(TInstance instance, EventInfo @event, IEventActionBinding<TInstance, TArg1, TArg2> binding) {
-            this.@event = @event;
-            this.binding = binding;
+        protected AbstractActionEventBroker(TInstance instance, Action<IEventActionArgs<TArg1, TArg2>> argsHandler) {
             this.instance = instance;
+            this.argsHandler = argsHandler;
             linkedHandlers = new LinkedList<Action<TArg1, TArg2>>();
         }
 
@@ -31,15 +28,14 @@ namespace NCop.Aspects.Engine
 
         protected void OnEventFired(TArg1 arg1, TArg2 arg2) {
             var args = new EventActionInterceptionArgsImpl<TInstance, TArg1, TArg2>();
-            
+
             args.Arg1 = arg1;
-            args.Arg2 = arg2; 
-            args.Event = @event;
+            args.Arg2 = arg2;
             args.EventBroker = this;
 
             for (var i = linkedHandlers.First; i != null; i = i.Next) {
                 args.Handler = i.Value;
-                binding.InvokeHandler(ref instance, args.Handler, args);
+                argsHandler(args);
             }
         }
 
@@ -54,7 +50,5 @@ namespace NCop.Aspects.Engine
         protected abstract void SubscribeImpl();
 
         protected abstract void UnsubscribeImpl();
-
-        protected abstract void OnInvokeHandler(EventActionInterceptionArgsImpl<TInstance, TArg1, TArg2> args);
     }
 }

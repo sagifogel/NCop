@@ -135,6 +135,18 @@
     <Compile Include="ActionWithoutArgumentsAspect\ActionWithoutArgumentsAspectTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="EventFunctionWith1ArgumentAspect\EventFunctionWith1ArgumentAspectSubjects.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EventFunctionWith1ArgumentAspect\EventFunctionWith1ArgumentAspectTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EventFunctionWithoutArgumentAspect\EventFunctionWith1ArgumentAspectSubjects.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EventFunctionWithoutArgumentAspect\EventFunctionWith1ArgumentAspectTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Extensions\OnFunctionBoundaryAspectExtension.cs" />
     <Compile Include="FunctionWith1ArgumentAspect\FunctionWith1ArgumentAspectSubjects.cs" />
     <Compile Include="FunctionWith1ArgumentAspect\FunctionWith1ArgumentAspectTest.cs" />

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using NCop.Weaving.Extensions;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Threading;
-using NCop.Core.Extensions;
-using NCop.Weaving.Extensions;
 
 namespace NCop.Weaving
 {

@@ -117,10 +117,10 @@ namespace NCop.Aspects.Extensions
             @params = @params ?? @event.ToEventInvokeParams();
 
             if (isFunction) {
-                return typeof(IEventFunctionArgs<>).MakeGenericType(@params);
+                return @params.ToEventFunctionAspectArgumentContract();
             }
 
-            return typeof(IEventActionArgs<>).MakeGenericType(@params);
+            return @params.ToEventActionAspectArgumentContract();
         }
 
         internal static Type[] ToEventInvokeParams(this EventInfo @event) {

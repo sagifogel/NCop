@@ -694,7 +694,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AspectBuilderNotFoundException.tt</DependentUpon>
     </Compile>
-    <Compile Include="Framework\AspectMixin.cs" />
     <Compile Include="Framework\FunctionExecutionArgs`1.cs" />
     <Compile Include="Framework\PerThreadAspectAttribute.cs" />
     <Compile Include="Framework\SingletonAspectAttribute.cs" />

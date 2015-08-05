@@ -7,15 +7,13 @@ namespace NCop.Aspects.Engine
 {
     public abstract class AbstractActionEventBroker<TInstance> : IEventBroker<Action>
     {
-        protected readonly EventInfo @event = null;
         protected TInstance instance = default(TInstance);
         private readonly LinkedList<Action> linkedHandlers = null;
-        private readonly IEventActionBinding<TInstance> binding = null;
+        protected readonly Action<IEventActionArgs> argsHandler = null;
 
-        protected AbstractActionEventBroker(TInstance instance, EventInfo @event, IEventActionBinding<TInstance> binding) {
-            this.@event = @event;
-            this.binding = binding;
+        protected AbstractActionEventBroker(TInstance instance, Action<IEventActionArgs> argsHandler) {
             this.instance = instance;
+            this.argsHandler = argsHandler;
             linkedHandlers = new LinkedList<Action>();
         }
 
@@ -32,12 +30,11 @@ namespace NCop.Aspects.Engine
         protected void OnEventFired() {
             var args = new EventActionInterceptionArgsImpl<TInstance>();
 
-            args.Event = @event;
             args.EventBroker = this;
 
             for (var i = linkedHandlers.First; i != null; i = i.Next) {
                 args.Handler = i.Value;
-                binding.InvokeHandler(ref instance, args.Handler, args);
+                argsHandler(args);
             }
         }
 

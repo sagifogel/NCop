@@ -16,10 +16,7 @@ namespace NCop.Aspects.Weaving
         public override LocalBuilder BuildArguments(ILGenerator ilGenerator) {
             var aspectArgLocalBuilder = ilGenerator.DeclareLocal(ArgumentType);
             var eventArgumentContract = Member.ToEventArgumentContract();
-            var eventBrokerProperty = eventArgumentContract.GetProperty("EventBroker");
-            var eventBrokerType = eventBrokerProperty.PropertyType;
-            var handlerType = eventBrokerType.GetGenericArguments().First();
-            var ctorInterceptionArgs = ArgumentType.GetConstructor(new[] { WeavingSettings.ContractType, typeof(EventInfo), handlerType, bindingSettings.BindingType, eventBrokerType });
+            var ctorInterceptionArgs = ArgumentType.GetConstructors().Single(ctor => ctor.GetParameters().Length != 0);
 
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);

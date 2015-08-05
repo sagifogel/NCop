@@ -7,15 +7,13 @@ namespace NCop.Aspects.Engine
 {
     public abstract class AbstractActionEventBroker<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5> : IEventBroker<Action<TArg1, TArg2, TArg3, TArg4, TArg5>>
     {
-        protected readonly EventInfo @event = null;
         protected TInstance instance = default(TInstance);
         private readonly LinkedList<Action<TArg1, TArg2, TArg3, TArg4, TArg5>> linkedHandlers = null;
-        private readonly IEventActionBinding<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5> binding = null;
+        private readonly Action<IEventActionArgs<TArg1, TArg2, TArg3, TArg4, TArg5>> argsHandler = null;
 
-        protected AbstractActionEventBroker(TInstance instance, EventInfo @event, IEventActionBinding<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5> binding) {
-            this.@event = @event;
-            this.binding = binding;
+        protected AbstractActionEventBroker(TInstance instance, Action<IEventActionArgs<TArg1, TArg2, TArg3, TArg4, TArg5>> argsHandler) {
             this.instance = instance;
+            this.argsHandler = argsHandler;
             linkedHandlers = new LinkedList<Action<TArg1, TArg2, TArg3, TArg4, TArg5>>();
         }
 
@@ -37,12 +35,11 @@ namespace NCop.Aspects.Engine
             args.Arg3 = arg3;
             args.Arg4 = arg4;
             args.Arg5 = arg5;
-            args.Event = @event;
             args.EventBroker = this;
 
             for (var i = linkedHandlers.First; i != null; i = i.Next) {
                 args.Handler = i.Value;
-                binding.InvokeHandler(ref instance, args.Handler, args);
+                argsHandler(args);
             }
         }
 

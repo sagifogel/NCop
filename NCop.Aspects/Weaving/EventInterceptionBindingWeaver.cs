@@ -80,15 +80,8 @@ namespace NCop.Aspects.Weaving
             Type[] parameters = null;
 
             methodParameters = bindingSettings.ToBindingMethodParameters();
-
-            if (!set) {
-                return;
-            }
-
-            parameters = new Type[methodParameters.Parameters.Length + 1];
-            methodParameters.Parameters.CopyTo(parameters, 0);
-            parameters[methodParameters.Parameters.Length] = @event.EventHandlerType;
-            methodParameters.Parameters = parameters;
+            parameters = methodParameters.Parameters;
+            parameters[1] = parameters[1].ToDelegateType();
         }
 
         protected virtual void WeaveInvokeHandlerMethod() {
