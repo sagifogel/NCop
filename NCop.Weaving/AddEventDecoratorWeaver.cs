@@ -7,7 +7,7 @@ namespace NCop.Weaving
         public AddEventDecoratorWeaver(IEventTypeBuilder eventTypeBuilder, EventInfo @event, IWeavingSettings weavingSettings)
             : base(@event.GetAddMethod(), weavingSettings) {
             MethodEndWeaver = new MethodEndWeaver();
-            MethodScopeWeaver = new AddEventDecoratorScopeWeaver(@event, method, weavingSettings);
+            MethodScopeWeaver = new AddEventDecoratorScopeWeaver(method, weavingSettings);
             MethodDefintionWeaver = new AddEventMethodSignatureWeaver(eventTypeBuilder, weavingSettings.TypeDefinition);
         }
     }

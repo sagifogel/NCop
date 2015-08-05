@@ -7,7 +7,7 @@ namespace NCop.Weaving
         public RemoveEventDecoratorWeaver(IEventTypeBuilder eventTypeBuilder, EventInfo @event, IWeavingSettings weavingSettings)
             : base(@event.GetRemoveMethod(), weavingSettings) {
             MethodEndWeaver = new MethodEndWeaver();
-            MethodScopeWeaver = new RemoveEventDecoratorScopeWeaver(@event, method, weavingSettings);
+            MethodScopeWeaver = new RemoveEventDecoratorScopeWeaver(method, weavingSettings);
             MethodDefintionWeaver = new RemoveEventMethodSignatureWeaver(eventTypeBuilder, weavingSettings.TypeDefinition);
         }
     }
