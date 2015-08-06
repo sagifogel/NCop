@@ -5,7 +5,7 @@ using NCop.Aspects.Tests.EventFunctionWithoutArgumentAspect.Subjects;
 
 namespace NCop.Aspects.Tests
 {
-    //[TestClass]
+    [TestClass]
     public class EventFunctionWithoutArgumentAspectTest : AbstractAspectTest
     {
         private TestContext testContextInstance;
@@ -45,7 +45,7 @@ namespace NCop.Aspects.Tests
         //
         #endregion
 
-        [TestMethod]
+        //[TestMethod]
         public void EventFunctionWith1Argument_AnnotatedWithOnEventInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
             var instance = container.Resolve<IEventFunctionWithoutArgumentAspect>();
             var list = new List<AspectJoinPoints>();

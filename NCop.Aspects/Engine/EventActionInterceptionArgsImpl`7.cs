@@ -9,8 +9,7 @@ namespace NCop.Aspects.Engine
         private TInstance instance = default(TInstance);
         private readonly IEventActionBinding<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> actionBinding = null;
 
-        public EventActionInterceptionArgsImpl() {
-        }
+        public EventActionInterceptionArgsImpl() { }
 
         public EventActionInterceptionArgsImpl(TInstance instance, EventInfo @event, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> handler, IEventActionBinding<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> actionBinding, IEventBroker<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>> eventBroker = null, TArg1 arg1 = default(TArg1), TArg2 arg2 = default(TArg2), TArg3 arg3 = default(TArg3), TArg4 arg4 = default(TArg4), TArg5 arg5 = default(TArg5), TArg6 arg6 = default(TArg6), TArg7 arg7 = default(TArg7)) {
             Arg1 = arg1;
@@ -31,16 +30,20 @@ namespace NCop.Aspects.Engine
 
         public IEventBroker<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>> EventBroker { get; set; }
 
+        public override void InvokeHanlder() {
+            Handler.Invoke(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7);
+        }
+
         public override void ProceedAddHandler() {
-            actionBinding.AddHandler(ref instance, Handler,this);
+            actionBinding.AddHandler(ref instance, Handler, this);
         }
 
         public override void ProceedInvokeHandler() {
-            actionBinding.InvokeHandler(ref instance, Handler,this);
+            actionBinding.InvokeHandler(ref instance, Handler, this);
         }
 
         public override void ProceedRemoveHandler() {
-            actionBinding.RemoveHandler(ref instance, Handler,this);
+            actionBinding.RemoveHandler(ref instance, Handler, this);
         }
     }
 }

@@ -7,6 +7,12 @@ namespace NCop.Core.Extensions
 {
     public static class CollectionExtensions
     {
+        public static TSource Append<TSource>(this ICollection<TSource> source, TSource item) {
+            source.Add(item);
+
+            return item;
+        }
+
         public static void ForEach<TSource>(this IEnumerable<TSource> source, int seed, Action<TSource, int> action) {
             foreach (var item in source) {
                 action(item, seed++);

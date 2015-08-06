@@ -29,7 +29,7 @@ namespace NCop.Aspects.Weaving
             var eventBrokerFieldBuilder = typeDefinition.GetEventFieldBuilder(Member.Name, eventBrokerType);
             var eventBrokerFieldTypeDefinition = typeDefinition.GetEventBrokerFielTypeDefinition(Member);
             var ctorInterceptionArgs = ArgumentType.GetConstructors().Single(ctor => ctor.GetParameters().Length != 0);
-            var nullableArgs = handlerType.GetInvokeMethod().GetParameters();
+            var parameters = handlerType.GetInvokeMethod().GetParameters();
 
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldftn, eventBrokerFieldTypeDefinition.EventType.GetInvokeMethod());
@@ -48,7 +48,14 @@ namespace NCop.Aspects.Weaving
             ilGenerator.Emit(OpCodes.Ldsfld, BindingsDependency);
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, eventBrokerFieldBuilder);
-            nullableArgs.ForEach(arg => ilGenerator.Emit(OpCodes.Ldnull));
+
+            parameters.ForEach(1, (arg, i) => {
+                var property = ArgumentType.GetProperty("Arg{0}".Fmt(i));
+
+                ilGenerator.EmitLoadArg(1);
+                ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());
+            });
+
             ilGenerator.Emit(OpCodes.Newobj, ctorInterceptionArgs);
             ilGenerator.EmitStoreLocal(aspectArgLocalBuilder);
 

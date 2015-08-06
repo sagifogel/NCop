@@ -9,8 +9,7 @@ namespace NCop.Aspects.Engine
         private TInstance instance = default(TInstance);
         private readonly IEventActionBinding<TInstance, TArg1> actionBinding = null;
 
-        public EventActionInterceptionArgsImpl() {
-        }
+        public EventActionInterceptionArgsImpl() { }
 
         public EventActionInterceptionArgsImpl(TInstance instance, EventInfo @event, Action<TArg1> handler, IEventActionBinding<TInstance, TArg1> actionBinding, IEventBroker<Action<TArg1>> eventBroker = null, TArg1 arg1 = default(TArg1)) {
             Arg1 = arg1;
@@ -24,6 +23,10 @@ namespace NCop.Aspects.Engine
         public Action<TArg1> Handler { get; set; }
 
         public IEventBroker<Action<TArg1>> EventBroker { get; set; }
+
+        public override void InvokeHanlder() {
+            Handler.Invoke(Arg1);
+        }
 
         public override void ProceedAddHandler() {
             actionBinding.AddHandler(ref instance, Handler, this);

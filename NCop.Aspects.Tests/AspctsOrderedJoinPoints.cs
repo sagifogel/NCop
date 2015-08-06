@@ -235,6 +235,7 @@ namespace NCop.Aspects.Tests
         public EventInterceptionAspectOrderedJoinPoints() {
             Add(AspectJoinPoints.OnAddEvent);
             Add(AspectJoinPoints.OnInvoke);
+            Add(AspectJoinPoints.Intercepted);
             Add(AspectJoinPoints.OnRemoveEvent);
         }
     }

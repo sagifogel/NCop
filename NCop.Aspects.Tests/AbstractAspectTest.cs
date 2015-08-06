@@ -6,11 +6,13 @@ namespace NCop.Aspects.Tests
     {
         OnExit = 1,
         OnEntry,
+        NoEvent,
         OnInvoke,
         InMethod,
         OnSuccess,
         OnAddEvent,
         OnException,
+        Intercepted,
         OnRemoveEvent,
         GetPropertyInterception,
         SetPropertyInterception

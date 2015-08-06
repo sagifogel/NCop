@@ -9,8 +9,7 @@ namespace NCop.Aspects.Engine
         private TInstance instance = default(TInstance);
         private readonly IEventFunctionBinding<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TResult> funcBinding = null;
 
-        public EventFunctionInterceptionArgsImpl() {
-        }
+        public EventFunctionInterceptionArgsImpl() { }
 
         public EventFunctionInterceptionArgsImpl(TInstance instance, EventInfo @event, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> handler, IEventFunctionBinding<TInstance, TArg1, TArg2, TArg3, TArg4, TArg5, TResult> funcBinding, IEventBroker<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>> eventBroker = null, TArg1 arg1 = default(TArg1), TArg2 arg2 = default(TArg2), TArg3 arg3 = default(TArg3), TArg4 arg4 = default(TArg4), TArg5 arg5 = default(TArg5)) {
             Arg1 = arg1;
@@ -29,16 +28,20 @@ namespace NCop.Aspects.Engine
 
         public IEventBroker<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>> EventBroker { get; set; }
 
+        public override void InvokeHanlder() {
+            ReturnValue = Handler.Invoke(Arg1, Arg2, Arg3, Arg4, Arg5);
+        }
+
         public override void ProceedAddHandler() {
-            funcBinding.AddHandler(ref instance, Handler,this);
+            funcBinding.AddHandler(ref instance, Handler, this);
         }
 
         public override void ProceedInvokeHandler() {
-            funcBinding.InvokeHandler(ref instance, Handler,this);
+            ReturnValue = funcBinding.InvokeHandler(ref instance, Handler, this);
         }
 
         public override void ProceedRemoveHandler() {
-            funcBinding.RemoveHandler(ref instance, Handler,this);
+            funcBinding.RemoveHandler(ref instance, Handler, this);
         }
     }
 }

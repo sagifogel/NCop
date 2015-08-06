@@ -3,6 +3,7 @@ using NCop.Aspects.Tests.EventFunctionWith1ArgumentAspect.Subjects;
 using System;
 using System.Collections.Generic;
 using NCop.Aspects.Tests.Extensions;
+using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Tests
 {
@@ -48,18 +49,38 @@ namespace NCop.Aspects.Tests
 
         //[TestMethod]
         public void EventFunctionWith1Argument_AnnotatedWithOnEventInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
-            string result;
+            string firstResult;
+            string secondResult;
             var instance = container.Resolve<IEventFunctionWith1ArgumentComposite>();
-            var list = new List<AspectJoinPoints>();
             var joinPoints = new EventInterceptionAspectOrderedJoinPoints();
-            Func<List<AspectJoinPoints>, string> func = l => l.Stringify();
+            Func<List<AspectJoinPoints>, string> func = l => instance.Values.Append(AspectJoinPoints.Intercepted).ToString();
 
             instance.InterceptionAspect += func;
-            result = instance.RaiseInterceptionAspect(list);
+            firstResult = instance.RaiseInterceptionAspect(new List<AspectJoinPoints>());
             instance.InterceptionAspect -= func;
+            secondResult = instance.RaiseInterceptionAspect(new List<AspectJoinPoints>());
 
-            CollectionAssert.AreEqual(list, joinPoints);
-            Assert.AreEqual(result, joinPoints.ToString());
+            CollectionAssert.AreEqual(instance.Values, joinPoints);
+            Assert.AreEqual(firstResult, AspectJoinPoints.Intercepted.ToString());
+            Assert.AreEqual(secondResult, AspectJoinPoints.NoEvent.ToString());
+        }
+
+        [TestMethod]
+        public void EventFunctionWith1Argument_AnnotatedWithMultipleOnEventInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
+            string firstResult;
+            string secondResult;
+            var instance = container.Resolve<IEventFunctionWith1ArgumentComposite>();
+            var joinPoints = new EventInterceptionAspectOrderedJoinPoints();
+            Func<List<AspectJoinPoints>, string> func = l => instance.Values.Append(AspectJoinPoints.Intercepted).ToString();
+
+            instance.MutipleInterceptionAspect += func;
+            firstResult = instance.RaiseMultipleInterceptionAspect(new List<AspectJoinPoints>());
+            instance.MutipleInterceptionAspect -= func;
+            secondResult = instance.RaiseMultipleInterceptionAspect(new List<AspectJoinPoints>());
+
+            CollectionAssert.AreEqual(instance.Values, joinPoints);
+            Assert.AreEqual(firstResult, AspectJoinPoints.Intercepted.ToString());
+            Assert.AreEqual(secondResult, AspectJoinPoints.NoEvent.ToString());
         }
     }
 }
