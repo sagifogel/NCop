@@ -25,21 +25,19 @@ namespace NCop.Composite.Engine
         private void MapEvents(IAspectsMap aspectsMap, IEnumerable<IAspectEventMap> aspectMappedEvents) {
             var mappedEventsList = aspectMappedEvents.ToList();
 
-            var mappedFragmentProperties = MapEvents(aspectsMap, mappedEventsList, mapped => mapped.AspectAddEvent, (contractType, implementationType, contractMember, implementationMember, aspectMap) => {
+            var mappedFragmentEvents = MapEvents(aspectsMap, mappedEventsList, mapped => mapped.AspectAddEvent, (contractType, implementationType, contractMember, implementationMember, aspectMap) => {
                 return new CompositeAddEventMap(contractType, implementationType, contractMember, implementationMember, aspectMap);
             });
 
-            mappedFragmentProperties = mappedFragmentProperties.Concat(MapEvents(aspectsMap, mappedEventsList, mapped => mapped.AspectRaiseEvent, (contractType, implementationType, contractMember, implementationMember, aspectMap) => {
-                return new CompositeRaiseEventMap(contractType, implementationType, contractMember, implementationMember, aspectMap);
-            }));
+            mappedFragmentEvents = mappedFragmentEvents.Concat(MapRaiseEvents(aspectsMap, mappedEventsList));
 
-            mappedFragmentProperties = mappedFragmentProperties.Concat(MapEvents(aspectsMap, mappedEventsList, mapped => mapped.AspectRemoveEvent, (contractType, implementationType, contractMember, implementationMember, aspectMap) => {
+            mappedFragmentEvents = mappedFragmentEvents.Concat(MapEvents(aspectsMap, mappedEventsList, mapped => mapped.AspectRemoveEvent, (contractType, implementationType, contractMember, implementationMember, aspectMap) => {
                 return new CompositeRemoveEventMap(contractType, implementationType, contractMember, implementationMember, aspectMap);
             }));
 
-            mappedEvents = mappedFragmentProperties.Where(compositefragment => compositefragment.FragmentMethod.IsNotNull())
-                                                       .ToGroupedDictionary(map => map.Target)
-                                                       .ToList(keyValue => new CompositeEventMap(keyValue.Value) as ICompositeEventMap);
+            mappedEvents = mappedFragmentEvents.Where(compositefragment => compositefragment.FragmentMethod.IsNotNull())
+                                               .ToGroupedDictionary(map => map.Target)
+                                               .ToList(keyValue => new CompositeEventMap(keyValue.Value) as ICompositeEventMap);
         }
 
         private IEnumerable<ICompositeEventFragmentMap> MapEvents(IEnumerable<AspectMap> aspectsMap, IEnumerable<IAspectEventMap> aspectMappedEvents, Func<IAspectEventMap, MethodInfo> eventyFactory, Func<Type, Type, EventInfo, EventInfo, IAspectDefinitionCollection, ICompositeEventFragmentMap> compositeEventMapFactory) {
@@ -51,10 +49,26 @@ namespace NCop.Composite.Engine
                    })
                    .DefaultIfEmpty(AspectMap.Empty)
                    select compositeEventMapFactory(mapped.ContractType,
-                                                      mapped.ImplementationType,
-                                                      mapped.ContractMember,
-                                                      mapped.ImplementationMember,
-                                                      aspectMap.Aspects);
+                                                   mapped.ImplementationType,
+                                                   mapped.ContractMember,
+                                                   mapped.ImplementationMember,
+                                                   aspectMap.Aspects);
+        }
+
+        private IEnumerable<ICompositeEventFragmentMap> MapRaiseEvents(IEnumerable<AspectMap> aspectsMap, IEnumerable<IAspectEventMap> aspectMappedEvents) {
+            var invokeAspets = aspectsMap.Where(aspectMap => aspectMap.Aspects.All(aspect => aspect is RaiseEventFragmentInterceptionAspectDefinition));
+
+            return invokeAspets.Join(aspectMappedEvents, inner => {
+                var aspect = inner.Aspects.FirstOrDefault() as RaiseEventFragmentInterceptionAspectDefinition;
+
+                return aspect.IsNotNull() ? new EventComparer(aspect.Member) : null;
+            },
+            outer => new EventComparer(outer.Target),
+            (outer, inner) => new CompositeRaiseEventMap(inner.ContractType,
+                                                         inner.ImplementationType,
+                                                         inner.ContractMember,
+                                                         inner.ImplementationMember,
+                                                         outer.Aspects));
         }
 
         private void MapMethods(IAspectsMap aspectsMap, IEnumerable<IAspectMethodMap> aspectMappedMethods) {

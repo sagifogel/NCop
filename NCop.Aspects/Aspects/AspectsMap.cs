@@ -38,9 +38,5 @@ namespace NCop.Aspects.Aspects
         IEnumerator IEnumerable.GetEnumerator() {
             return GetEnumerator();
         }
-
-        public object Where(System.Func<AspectMap, int, bool> func) {
-            throw new System.NotImplementedException();
-        }
     }
 }

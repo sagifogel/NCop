@@ -36,7 +36,7 @@ namespace NCop.Aspects.Weaving
             parameters.ForEach(1, (arg, i) => {
                 var property = ArgumentType.GetProperty("Arg{0}".Fmt(i));
 
-                ilGenerator.EmitLoadArg(1);
+                ilGenerator.EmitLoadArg(3);
                 ilGenerator.Emit(OpCodes.Callvirt, property.GetGetMethod());
             });
 

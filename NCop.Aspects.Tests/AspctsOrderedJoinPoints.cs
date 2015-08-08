@@ -16,6 +16,8 @@ namespace NCop.Aspects.Tests
 
     public class AspectOrderedJoinPoints : List<AspectJoinPoints>
     {
+        public static List<AspectJoinPoints> Empty = new List<AspectJoinPoints>();
+
         public AspectOrderedJoinPoints() {
         }
 
@@ -237,6 +239,52 @@ namespace NCop.Aspects.Tests
             Add(AspectJoinPoints.OnInvoke);
             Add(AspectJoinPoints.Intercepted);
             Add(AspectJoinPoints.OnRemoveEvent);
+        }
+    }
+
+    public class MultipleEventInterceptionAspectOrderedJoinPoints : AspectOrderedJoinPoints
+    {
+        public MultipleEventInterceptionAspectOrderedJoinPoints() {
+            Add(AspectJoinPoints.OnAddEvent);
+            Add(AspectJoinPoints.OnAddEvent);
+            Add(AspectJoinPoints.OnAddEvent);
+            Add(AspectJoinPoints.OnInvoke);
+            Add(AspectJoinPoints.OnInvoke);
+            Add(AspectJoinPoints.OnInvoke);
+            Add(AspectJoinPoints.Intercepted);
+            Add(AspectJoinPoints.OnRemoveEvent);
+            Add(AspectJoinPoints.OnRemoveEvent);
+            Add(AspectJoinPoints.OnRemoveEvent);
+        }
+    }
+
+    public class MultipleIgnoredEventInterceptionAspectOrderedJoinPoints : AspectOrderedJoinPoints
+    {
+        public MultipleIgnoredEventInterceptionAspectOrderedJoinPoints() {
+            Add(AspectJoinPoints.OnAddEvent);
+            Add(AspectJoinPoints.OnAddEvent);
+            Add(AspectJoinPoints.OnAddEvent);
+            Add(AspectJoinPoints.OnInvoke);
+            Add(AspectJoinPoints.Intercepted);
+            Add(AspectJoinPoints.OnRemoveEvent);
+            Add(AspectJoinPoints.OnRemoveEvent);
+            Add(AspectJoinPoints.OnRemoveEvent);
+        }
+    }
+
+    public class EventInterceptionInvokeAspectOrderedJoinPoints : AspectOrderedJoinPoints
+    {
+        public EventInterceptionInvokeAspectOrderedJoinPoints() {
+            Add(AspectJoinPoints.OnInvoke);
+        }
+    }
+
+    public class EventMultipleInterceptionInvokeAspectOrderedJoinPoints : AspectOrderedJoinPoints
+    {
+        public EventMultipleInterceptionInvokeAspectOrderedJoinPoints() {
+            Add(AspectJoinPoints.OnInvoke);
+            Add(AspectJoinPoints.OnInvoke);
+            Add(AspectJoinPoints.OnInvoke);
         }
     }
 }

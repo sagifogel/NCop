@@ -14,14 +14,14 @@ namespace NCop.Aspects.Engine
     public class AspectAttributesMemberMatcher : Tuples<MemberInfo, IAspectDefinitionCollection>
     {
         private static readonly bool partial = true;
-        private readonly ConcurrentDictionary<MemberInfo, IAspectDefinitionCollection> registry = null;
+        private readonly ConcurrentDictionary<int, Tuple<MemberInfo, IAspectDefinitionCollection>> registry = null;
 
         public AspectAttributesMemberMatcher(IAspectMemebrsCollection aspectMembersCollection) {
-            registry = new ConcurrentDictionary<MemberInfo, IAspectDefinitionCollection>();
+            registry = new ConcurrentDictionary<int, Tuple<MemberInfo, IAspectDefinitionCollection>>();
             CollectEventsAspectDefinitions(aspectMembersCollection);
             CollectMethodsAspectDefinitions(aspectMembersCollection);
             CollectPropertiesAspectDefinitions(aspectMembersCollection);
-            values = registry.Select(keyValue => Tuple.Create(keyValue.Key, keyValue.Value));
+            values = registry.Select(keyValue => Tuple.Create(keyValue.Value.Item1, keyValue.Value.Item2));
         }
 
         private void CollectMethodsAspectDefinitions(IAspectMethodMapCollection aspectMembersCollection) {
@@ -56,10 +56,14 @@ namespace NCop.Aspects.Engine
         }
 
         private void AddOrUpdate(MemberInfo member, ICollection<IAspectDefinition> aspects) {
-            if (aspects.Count > 0) {
-                var aspectCollection = registry.GetOrAdd(member, new AspectDefinitionCollection());
+            AddOrUpdate(member.GetHashCode(), member, aspects);
+        }
 
-                aspectCollection.AddRange(aspects);
+        private void AddOrUpdate(int hash, MemberInfo member, ICollection<IAspectDefinition> aspects) {
+            if (aspects.Count > 0) {
+                var aspectCollectionTuple = registry.GetOrAdd(hash, Tuple.Create<MemberInfo, IAspectDefinitionCollection>(member, new AspectDefinitionCollection()));
+
+                aspectCollectionTuple.Item2.AddRange(aspects);
             }
         }
 
@@ -80,12 +84,13 @@ namespace NCop.Aspects.Engine
         }
 
         private void CollectEventsAspectDefinitions(EventInfo @event, Type aspectDeclaringType, EventInfo target) {
+            var addMethod = target.GetAddMethod();
+            var raiseMethod = target.GetInvokeMethod();
+            var removeMethod = target.GetRemoveMethod();
+            var raiseMethodHash = Guid.NewGuid().GetHashCode();
             var eventInterceptionAspect = @event.GetCustomAttributes<EventInterceptionAspectAttribute>();
 
             eventInterceptionAspect.ForEach(aspectAttribute => {
-                var addMethod = target.GetAddMethod();
-                var removeMethod = target.GetRemoveMethod();
-                var raiseMethod = target.GetInvokeMethod();
                 var aspectDefinition = new EventInterceptionAspectDefinition(aspectAttribute, aspectAttribute.AspectType, target);
                 var bindingTypeReflectorBuilder = new EventBindingTypeReflectorBuilder(aspectDefinition);
 
@@ -108,7 +113,7 @@ namespace NCop.Aspects.Engine
                 };
 
                 AddOrUpdate(addMethod, new[] { new AddEventFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, addEventAspect, aspectDeclaringType, target) });
-                AddOrUpdate(raiseMethod, new[] { new RaiseEventFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, raiseEventAspect, aspectDeclaringType, target) });
+                AddOrUpdate(raiseMethodHash, raiseMethod, new[] { new RaiseEventFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, raiseEventAspect, aspectDeclaringType, target) });
                 AddOrUpdate(removeMethod, new[] { new RemoveEventFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, removeEventAspect, aspectDeclaringType, target) });
             });
         }
@@ -174,8 +179,6 @@ namespace NCop.Aspects.Engine
 
         private void CollectPropertyInterceptionAspectDefinition(IAspectPropertyMap propertyMap, MethodInfo propertyGetMethod, MethodInfo propertySetMethod, Type aspectDeclaringType, PropertyInterceptionAspectAttribute aspectAttribute) {
             var target = propertyMap.ContractMember;
-            var setMethodTarget = propertyMap.ContractMember.GetSetMethod();
-            var getMethodTarget = propertyMap.ContractMember.GetGetMethod();
             var aspectDefinition = new PropertyInterceptionAspectsDefinition(aspectAttribute, aspectAttribute.AspectType, target);
             var bindingTypeReflectorBuilder = new FullPropertyBindingTypeReflectorBuilder(aspectDefinition);
 

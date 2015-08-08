@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace NCop.Aspects.Aspects
 {
-    internal abstract class AbstractAspectDefinition<TMember> : IAspectDefinition where TMember : MemberInfo
+    public abstract class AbstractAspectDefinition<TMember> : IAspectDefinition where TMember : MemberInfo
     {
         protected readonly AdviceDefinitionCollection advices = null;
 

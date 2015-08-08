@@ -12,7 +12,7 @@ namespace NCop.Aspects.Weaving
 
         internal EventBindingTypeReflectorBuilder(IEventAspectDefinition aspectDefinition) {
             lazyBindingTypeReflector = new Core.Lib.Lazy<IAspectExpression, IAspectExpression, IAspectExpression, IAspectWeavingSettings, IBindingTypeReflector>((addAspectExpression, removeAspectExpression, invokeAspectExpression, aspectWeavingSettings) => {
-                return new IsolatedEventInterceptionBindingWeaver(addAspectExpression, removeAspectExpression, invokeAspectExpression ,aspectDefinition, aspectWeavingSettings);
+                return new IsolatedEventInterceptionBindingWeaver(addAspectExpression, removeAspectExpression, invokeAspectExpression, aspectDefinition, aspectWeavingSettings);
             });
         }
 

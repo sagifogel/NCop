@@ -1,10 +1,10 @@
-﻿
-using NCop.Aspects.Weaving.Expressions;
+﻿using NCop.Aspects.Weaving.Expressions;
 using System;
 using System.Reflection;
+
 namespace NCop.Aspects.Aspects
 {
-    internal abstract class AbstractEventFragmentInterceptionAspectDefinition : AbstractEventAspectDefinition, IFullEventAspectDefinition
+    public abstract class AbstractEventFragmentInterceptionAspectDefinition : AbstractEventAspectDefinition, IFullEventAspectDefinition
     {
         internal AbstractEventFragmentInterceptionAspectDefinition(IEventExpressionBuilder eventBuilder, IAspect aspect, Type aspectDeclaringType, EventInfo @event)
             : base(aspect, aspectDeclaringType, @event) {

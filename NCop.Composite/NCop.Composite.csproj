@@ -96,6 +96,7 @@
     <Compile Include="Engine\CompositeEventMapVisitor.cs" />
     <Compile Include="Engine\CompositePropertyMapVisitor.cs" />
     <Compile Include="Engine\CompositeRegistryDecorator.cs" />
+    <Compile Include="Engine\EventComparer.cs" />
     <Compile Include="Engine\IAcceptsCompositeEventMapVisitor.cs" />
     <Compile Include="Engine\IAcceptsCompositePropertyMapVisitor.cs" />
     <Compile Include="Engine\ICompositeRaiseEventMap.cs" />

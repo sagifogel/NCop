@@ -21,11 +21,15 @@ namespace NCop.Samples
     public interface IDeveloper
     {
         [EventInterceptionAspect(typeof(FunctionEventInterceptionAspect), AspectPriority = 1)]
-        [EventInterceptionAspect(typeof(FunctionEventInterceptionAspect), AspectPriority = 1)]
-        [EventInterceptionAspect(typeof(FunctionEventInterceptionAspect), AspectPriority = 1)]
         event Func<List<string>, string> Ev;
+        
+        [EventInterceptionAspect(typeof(FunctionEventInterceptionAspect), AspectPriority = 1)]
+        [EventInterceptionAspect(typeof(FunctionEventInterceptionAspect), AspectPriority = 1)]
+        [EventInterceptionAspect(typeof(FunctionEventInterceptionAspect), AspectPriority = 1)]
+        event Func<List<string>, string> Ev2;
 
         string RaiseEvent(List<string> list);
+        string RaiseEvent2(List<string> list);
     }
 
     public class Developer : IDeveloper
@@ -73,6 +77,36 @@ namespace NCop.Samples
         public string RaiseEvent(List<string> list) {
             return developer.RaiseEvent(list);
         }
+
+
+        public string RaiseEvent2(List<string> list) {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class CSharpDeveloperMixin : IDeveloper
+    {
+        public event Func<List<string>, string> Ev;
+        public event Func<List<string>, string> Ev2;
+
+        public string RaiseEvent(List<string> list) {
+            Console.WriteLine("Raising Ev");
+            if (Ev != null) {
+                return Ev(list);
+            }
+
+            return "No Event";
+        }
+
+        public string RaiseEvent2(List<string> list) {
+            Console.WriteLine("Raising Ev2");
+
+            if (Ev2 != null) {
+                return Ev2(list);
+            }
+
+            return "No Event";
+        }
     }
 
     internal class Program
@@ -83,13 +117,18 @@ namespace NCop.Samples
             var container = new CompositeContainer();
 
             var list = new List<string>();
+            var list2 = new List<string>();
             container.Configure();
-            d = container.Resolve<IDeveloper>();
-            //d = new Developer(new CSharpDeveloperMixin());
+            //d = container.Resolve<IDeveloper>();
+            d = new Developer(new CSharpDeveloperMixin());
             d.Ev += func;
+            //d.Ev2 += func;
             Console.WriteLine(d.RaiseEvent(list));
+            //Console.WriteLine(d.RaiseEvent2(list2));
             d.Ev -= func;
+            //d.Ev2 -= func;
             Console.WriteLine(d.RaiseEvent(list));
+            //Console.WriteLine(d.RaiseEvent2(list2));
         }
     }
 
@@ -102,6 +141,7 @@ namespace NCop.Samples
 
         public override void OnInvokeHandler(EventFunctionInterceptionArgs<List<string>, string> args) {
             Console.WriteLine("OnInvokeHandler");
+            args.Arg1.Add("Sagi");
             args.ProceedInvokeHandler();
         }
 
@@ -183,19 +223,6 @@ namespace NCop.Samples
 
         protected override void UnsubscribeImpl() {
             instance.Ev -= Intercept;
-        }
-    }
-
-    public class CSharpDeveloperMixin : IDeveloper
-    {
-        public event Func<List<string>, string> Ev;
-
-        public string RaiseEvent(List<string> list) {
-            if (Ev != null) {
-                return Ev(list);
-            }
-
-            return "No Event";
         }
     }
 }

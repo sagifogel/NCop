@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace NCop.Aspects.Aspects
 {
-    internal class RaiseEventFragmentInterceptionAspectDefinition : AbstractEventFragmentInterceptionAspectDefinition
+    public class RaiseEventFragmentInterceptionAspectDefinition : AbstractEventFragmentInterceptionAspectDefinition
     {
         private readonly RaiseEventFragmentInterceptionAspect aspect = null;
 
