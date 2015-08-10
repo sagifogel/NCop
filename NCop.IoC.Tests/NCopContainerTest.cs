@@ -431,7 +431,7 @@ namespace NCop.IoC.Tests
 
             foo1 = await Task.Factory.StartNew(() => container.Resolve<Foo>());
             foo2 = await Task.Factory.StartNew(() => container.Resolve<Foo>());
-
+            
             Assert.AreNotEqual(foo1, foo2);
             Assert.AreEqual(container.Resolve<Foo>(), container.Resolve<Foo>());
         }

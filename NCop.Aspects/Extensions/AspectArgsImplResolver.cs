@@ -32,6 +32,7 @@ namespace NCop.Aspects.Extensions
 			ActionInterceptionArgsMap = new Dictionary<int, Type>();
 
 			ActionExecutionArgsMap.Add(0, typeof(ActionExecutionArgsImpl<>));	
+			ActionEventArgsMap.Add(0, typeof(EventActionInterceptionArgsImpl<>));
 			ActionInterceptionArgsMap.Add(0, typeof(ActionInterceptionArgsImpl<>));
 
 			FuncExecutionArgsMap.Add(1, typeof(FunctionExecutionArgsImpl<,>));	

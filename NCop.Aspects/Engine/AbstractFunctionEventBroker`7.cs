@@ -1,7 +1,6 @@
 ﻿using NCop.Core.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace NCop.Aspects.Engine
 {
@@ -36,6 +35,7 @@ namespace NCop.Aspects.Engine
             args.Arg4 = arg4;
             args.Arg5 = arg5;
             args.Arg6 = arg6;
+            args.Arg7 = arg7;
             args.EventBroker = this;
 
             for (var i = linkedHandlers.First; i != null; i = i.Next) {

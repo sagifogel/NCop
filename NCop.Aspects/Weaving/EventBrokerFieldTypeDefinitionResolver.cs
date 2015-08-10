@@ -3,7 +3,6 @@ using NCop.Aspects.Extensions;
 using NCop.Core;
 using NCop.Core.Extensions;
 using System;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 

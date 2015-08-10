@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using NCop.Weaving;
+﻿using NCop.Weaving;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 

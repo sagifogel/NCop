@@ -1,8 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NCop.Aspects.Tests.EventFunctionWith2ArgumentsAspect.Subjects;
+using NCop.Aspects.Tests.Extensions;
+using NCop.Core.Extensions;
 using System;
 using System.Collections.Generic;
-using NCop.Aspects.Tests.EventFunctionWith2ArgumentAspect.Subjects;
-using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Tests
 {
@@ -53,22 +54,18 @@ namespace NCop.Aspects.Tests
             var firstArg1List = new List<AspectJoinPoints>();
             var firstArg2List = new List<AspectJoinPoints>();
             var secondArg1List = new List<AspectJoinPoints>();
-            var secondArg2List = new List<AspectJoinPoints>(); 
-            var instance = container.Resolve<IEventFunctionWith2ArgumentComposite>();
+            var secondArg2List = new List<AspectJoinPoints>();
+            var instance = container.Resolve<IEventFunctionWith2ArgumentsComposite>();
             var joinPoints = new EventInterceptionAspectOrderedJoinPoints();
             Func<List<AspectJoinPoints>, List<AspectJoinPoints>, string> func = (l1, l2) => instance.Values.Append(AspectJoinPoints.Intercepted).ToString();
-            var firstList = new List<AspectJoinPoints>();
-            var secondList = new List<AspectJoinPoints>();
 
             instance.InterceptionAspect += func;
             firstResult = instance.RaiseInterceptionAspect(firstArg1List, firstArg2List);
             instance.InterceptionAspect -= func;
             secondResult = instance.RaiseInterceptionAspect(secondArg1List, secondArg2List);
 
-            CollectionAssert.AreEqual(firstArg1List, new EventInterceptionInvokeAspectOrderedJoinPoints());
-            CollectionAssert.AreEqual(firstArg1List, firstArg2List);
-            CollectionAssert.AreEqual(secondArg1List, AspectOrderedJoinPoints.Empty);
-            CollectionAssert.AreEqual(secondArg1List, secondArg2List);
+            CollectionAssertExt.AreAllEqual(new EventInterceptionInvokeAspectOrderedJoinPoints(), firstArg1List, firstArg2List);
+            CollectionAssertExt.AreAllEqual(AspectOrderedJoinPoints.Empty, secondArg1List, secondArg2List);
             CollectionAssert.AreEqual(instance.Values, joinPoints);
             Assert.AreEqual(firstResult, AspectJoinPoints.Intercepted.ToString());
             Assert.AreEqual(secondResult, AspectJoinPoints.NoEvent.ToString());
@@ -81,8 +78,8 @@ namespace NCop.Aspects.Tests
             var firstArg1List = new List<AspectJoinPoints>();
             var firstArg2List = new List<AspectJoinPoints>();
             var secondArg1List = new List<AspectJoinPoints>();
-            var secondArg2List = new List<AspectJoinPoints>(); 
-            var instance = container.Resolve<IEventFunctionWith2ArgumentComposite>();
+            var secondArg2List = new List<AspectJoinPoints>();
+            var instance = container.Resolve<IEventFunctionWith2ArgumentsComposite>();
             var joinPoints = new MultipleEventInterceptionAspectOrderedJoinPoints();
             Func<List<AspectJoinPoints>, List<AspectJoinPoints>, string> func = (l1, l2) => instance.Values.Append(AspectJoinPoints.Intercepted).ToString();
 
@@ -91,10 +88,8 @@ namespace NCop.Aspects.Tests
             instance.MultipleInterceptionAspects -= func;
             secondResult = instance.RaiseMultipleInterceptionAspect(secondArg1List, secondArg2List);
 
-            CollectionAssert.AreEqual(firstArg1List, new EventMultipleInterceptionInvokeAspectOrderedJoinPoints());
-            CollectionAssert.AreEqual(firstArg1List, firstArg2List);
-            CollectionAssert.AreEqual(secondArg1List, AspectOrderedJoinPoints.Empty);
-            CollectionAssert.AreEqual(secondArg1List, secondArg2List);
+            CollectionAssertExt.AreAllEqual(new EventMultipleInterceptionInvokeAspectOrderedJoinPoints(), firstArg1List, firstArg2List);
+            CollectionAssertExt.AreAllEqual(AspectOrderedJoinPoints.Empty, secondArg1List, secondArg2List);
             CollectionAssert.AreEqual(instance.Values, joinPoints);
             Assert.AreEqual(firstResult, AspectJoinPoints.Intercepted.ToString());
             Assert.AreEqual(secondResult, AspectJoinPoints.NoEvent.ToString());
@@ -107,8 +102,8 @@ namespace NCop.Aspects.Tests
             var firstArg1List = new List<AspectJoinPoints>();
             var firstArg2List = new List<AspectJoinPoints>();
             var secondArg1List = new List<AspectJoinPoints>();
-            var secondArg2List = new List<AspectJoinPoints>(); 
-            var instance = container.Resolve<IEventFunctionWith2ArgumentComposite>();
+            var secondArg2List = new List<AspectJoinPoints>();
+            var instance = container.Resolve<IEventFunctionWith2ArgumentsComposite>();
             var joinPoints = new MultipleIgnoredEventInterceptionAspectOrderedJoinPoints();
             Func<List<AspectJoinPoints>, List<AspectJoinPoints>, string> func = (l1, l2) => {
                 return instance.Values.Append(AspectJoinPoints.Intercepted).ToString();
@@ -119,10 +114,8 @@ namespace NCop.Aspects.Tests
             instance.MultipleIgnoredInterceptionAspects -= func;
             secondResult = instance.RaiseMultipleIgnoredInterceptionAspects(secondArg1List, secondArg2List);
 
-            CollectionAssert.AreEqual(firstArg1List, new EventInterceptionInvokeAspectOrderedJoinPoints());
-            CollectionAssert.AreEqual(firstArg1List, firstArg2List);
-            CollectionAssert.AreEqual(secondArg1List, AspectOrderedJoinPoints.Empty);
-            CollectionAssert.AreEqual(secondArg1List, secondArg2List); 
+            CollectionAssertExt.AreAllEqual(new EventInterceptionInvokeAspectOrderedJoinPoints(), firstArg1List, firstArg2List);
+            CollectionAssertExt.AreAllEqual(AspectOrderedJoinPoints.Empty, secondArg1List, secondArg2List);
             CollectionAssert.AreEqual(instance.Values, joinPoints);
             Assert.AreEqual(firstResult, AspectJoinPoints.Intercepted.ToString());
             Assert.AreEqual(secondResult, AspectJoinPoints.NoEvent.ToString());

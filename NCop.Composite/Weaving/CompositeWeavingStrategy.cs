@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection.Emit;
-using NCop.Aspects.Weaving;
+﻿using NCop.Aspects.Weaving;
 using NCop.Core;
 using NCop.Core.Extensions;
 using NCop.IoC;
 using NCop.Mixins.Weaving;
 using NCop.Weaving;
 using NCop.Weaving.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Reflection.Emit;
 
 namespace NCop.Composite.Weaving
 {

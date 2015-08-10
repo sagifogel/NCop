@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using NCop.Aspects.Engine;
+﻿using NCop.Aspects.Engine;
 using NCop.Aspects.Framework;
 using NCop.Composite.Framework;
 using NCop.Mixins.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace NCop.Samples
 {

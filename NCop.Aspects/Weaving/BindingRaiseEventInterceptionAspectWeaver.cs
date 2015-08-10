@@ -1,7 +1,7 @@
 ﻿using NCop.Aspects.Aspects;
-using System.Reflection;
 using NCop.Core.Extensions;
 using NCop.Weaving;
+using System.Reflection;
 
 namespace NCop.Aspects.Weaving
 {

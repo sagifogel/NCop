@@ -51,8 +51,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ContainerSubjects.cs" />
     <Compile Include="CompositeContainerTest.cs" />
+    <Compile Include="ContainerSubjects.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Subjects.cs" />
   </ItemGroup>

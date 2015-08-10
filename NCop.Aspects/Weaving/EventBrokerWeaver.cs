@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using NCop.Core;
+﻿using NCop.Core;
 using NCop.Core.Extensions;
 using NCop.Weaving;
 using NCop.Weaving.Extensions;
@@ -7,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Threading;
 using MA = System.Reflection.MethodAttributes;
 
 namespace NCop.Aspects.Weaving

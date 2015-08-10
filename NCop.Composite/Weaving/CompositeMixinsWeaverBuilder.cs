@@ -2,7 +2,6 @@
 using NCop.Composite.Framework;
 using NCop.Core.Extensions;
 using NCop.IoC;
-using NCop.Mixins.Weaving;
 using NCop.Weaving;
 using System;
 

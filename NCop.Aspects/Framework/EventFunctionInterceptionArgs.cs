@@ -1,5 +1,4 @@
-﻿using System;
-using NCop.Aspects.Engine;
+﻿using NCop.Aspects.Engine;
 
 namespace NCop.Aspects.Framework
 {

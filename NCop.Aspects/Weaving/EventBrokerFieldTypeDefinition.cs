@@ -1,9 +1,9 @@
-﻿using System.Threading;
-using NCop.Core.Extensions;
+﻿using NCop.Core.Extensions;
 using NCop.Weaving;
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Threading;
 using FA = System.Reflection.FieldAttributes;
 
 namespace NCop.Aspects.Weaving

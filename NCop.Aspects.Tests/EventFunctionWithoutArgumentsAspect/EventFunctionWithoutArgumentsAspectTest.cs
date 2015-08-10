@@ -1,7 +1,7 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NCop.Aspects.Tests.EventFunctionWithoutArgumentsAspectSubjects.Subjects;
+using System;
+using System.Collections.Generic;
 
 namespace NCop.Aspects.Tests
 {
@@ -62,12 +62,13 @@ namespace NCop.Aspects.Tests
             instance.InterceptionAspect -= func;
             secondResult = instance.RaiseInterceptionAspect();
 
+            CollectionAssert.AreEqual(instance.Values, joinPoints);
             CollectionAssert.AreEqual(firstResult, joinPoints);
             CollectionAssert.AreEqual(secondResult, AspectOrderedJoinPoints.Empty);
         }
 
         [TestMethod]
-        public void EventFunctionWith1Argument_AnnotatedWithMultipleOnEventInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
+        public void EventFunctionWithoutArguments_AnnotatedWithMultipleOnEventInterceptionAspect_ReturnsTheCorrectSequenceOfAdvices() {
             List<AspectJoinPoints> firstResult = null;
             List<AspectJoinPoints> secondResult = null;
             var instance = container.Resolve<IEventFunctionWithoutArgumentsComposite>();
@@ -83,12 +84,13 @@ namespace NCop.Aspects.Tests
             instance.MultipleInterceptionAspects -= func;
             secondResult = instance.RaiseMultipleInterceptionAspect();
 
+            CollectionAssert.AreEqual(instance.Values, joinPoints);
             CollectionAssert.AreEqual(firstResult, joinPoints);
             CollectionAssert.AreEqual(secondResult, AspectOrderedJoinPoints.Empty);
         }
 
         [TestMethod]
-        public void EventFunctionWith1Argument_AnnotatedWithMultipleOnEventInterceptionAspectWhichCallsInvokeHanlder_IgnoresAllFollowingAspectsAndReturnsTheCorrectValue() {
+        public void EventFunctionWithoutArguments_AnnotatedWithMultipleOnEventInterceptionAspectWhichCallsInvokeHanlder_IgnoresAllFollowingAspectsAndReturnsTheCorrectValue() {
             List<AspectJoinPoints> firstResult = null;
             List<AspectJoinPoints> secondResult = null;
             var instance = container.Resolve<IEventFunctionWithoutArgumentsComposite>();
@@ -104,6 +106,7 @@ namespace NCop.Aspects.Tests
             instance.MultipleIgnoredInterceptionAspects -= func;
             secondResult = instance.RaiseMultipleIgnoredInterceptionAspects();
 
+            CollectionAssert.AreEqual(instance.Values, joinPoints);
             CollectionAssert.AreEqual(firstResult, joinPoints);
             CollectionAssert.AreEqual(secondResult, AspectOrderedJoinPoints.Empty);
         }

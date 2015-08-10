@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCop.Tests", "NCop.Tests\NCop.Tests.csproj", "{1A05073C-E859-4503-9178-54E4267F3BCA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCop.IoC", "NCop.IoC\NCop.IoC.csproj", "{0B598341-32A5-4D5F-A11C-E37E5B4EF65D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCop.Aspects", "NCop.Aspects\NCop.Aspects.csproj", "{302ADD1B-6FDB-4872-BB24-3D783826A91E}"
@@ -43,21 +41,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1A05073C-E859-4503-9178-54E4267F3BCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1A05073C-E859-4503-9178-54E4267F3BCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1A05073C-E859-4503-9178-54E4267F3BCA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{1A05073C-E859-4503-9178-54E4267F3BCA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{1A05073C-E859-4503-9178-54E4267F3BCA}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1A05073C-E859-4503-9178-54E4267F3BCA}.MonoTouch|Any CPU.ActiveCfg = Release|Any CPU
-		{1A05073C-E859-4503-9178-54E4267F3BCA}.MonoTouch|Any CPU.Build.0 = Release|Any CPU
-		{1A05073C-E859-4503-9178-54E4267F3BCA}.MonoTouch|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{1A05073C-E859-4503-9178-54E4267F3BCA}.MonoTouch|Mixed Platforms.Build.0 = Release|Any CPU
-		{1A05073C-E859-4503-9178-54E4267F3BCA}.MonoTouch|x86.ActiveCfg = Release|Any CPU
-		{1A05073C-E859-4503-9178-54E4267F3BCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1A05073C-E859-4503-9178-54E4267F3BCA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1A05073C-E859-4503-9178-54E4267F3BCA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{1A05073C-E859-4503-9178-54E4267F3BCA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{1A05073C-E859-4503-9178-54E4267F3BCA}.Release|x86.ActiveCfg = Release|Any CPU
 		{0B598341-32A5-4D5F-A11C-E37E5B4EF65D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0B598341-32A5-4D5F-A11C-E37E5B4EF65D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B598341-32A5-4D5F-A11C-E37E5B4EF65D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

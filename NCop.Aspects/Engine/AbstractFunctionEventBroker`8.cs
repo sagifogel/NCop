@@ -1,7 +1,6 @@
 ﻿using NCop.Core.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace NCop.Aspects.Engine
 {

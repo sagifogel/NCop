@@ -58,9 +58,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="IdentifierTest.cs" />
     <Compile Include="NCopContainerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IdentifierTest.cs" />
     <Compile Include="Subjects.cs" />
   </ItemGroup>
   <ItemGroup>

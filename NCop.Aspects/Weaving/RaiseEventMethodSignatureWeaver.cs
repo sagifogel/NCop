@@ -1,6 +1,6 @@
-﻿using System.Reflection;
+﻿using NCop.Weaving;
+using System.Reflection;
 using System.Reflection.Emit;
-using NCop.Weaving;
 
 namespace NCop.Aspects.Weaving
 {

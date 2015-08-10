@@ -1,5 +1,4 @@
 ﻿using NCop.Aspects.Weaving;
-using NCop.Composite.Weaving;
 using NCop.Core;
 using NCop.IoC;
 using NCop.Weaving;

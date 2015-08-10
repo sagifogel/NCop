@@ -5,7 +5,7 @@ using NCop.Mixins.Framework;
 using System;
 using System.Collections.Generic;
 
-namespace NCop.Aspects.Tests.EventFunctionWith2ArgumentAspect.Subjects
+namespace NCop.Aspects.Tests.EventFunctionWith2ArgumentsAspect.Subjects
 {
     public interface IEventFunctionWith2ArgumentsAspect
     {
@@ -53,7 +53,7 @@ namespace NCop.Aspects.Tests.EventFunctionWith2ArgumentAspect.Subjects
 
     [TransientComposite]
     [Mixins(typeof(Mixin))]
-    public interface IEventFunctionWith2ArgumentComposite : IEventFunctionWith2ArgumentsAspect
+    public interface IEventFunctionWith2ArgumentsComposite : IEventFunctionWith2ArgumentsAspect
     {
         [EventInterceptionAspect(typeof(EventFunctionInterceptionAspect))]
         new event Func<List<AspectJoinPoints>, List<AspectJoinPoints>, string> InterceptionAspect;

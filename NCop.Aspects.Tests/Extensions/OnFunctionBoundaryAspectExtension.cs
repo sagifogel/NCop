@@ -3,7 +3,7 @@ using NCop.Core.Extensions;
 using System.Collections.Generic;
 
 namespace NCop.Aspects.Tests.Extensions
-{
+{   
     public static class OnFunctionBoundaryAspectExtension
     {
         private static readonly string format = "{0}:{1}";

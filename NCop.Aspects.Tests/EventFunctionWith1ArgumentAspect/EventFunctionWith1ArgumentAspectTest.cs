@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NCop.Aspects.Tests.EventFunctionWith1ArgumentAspect.Subjects;
+using NCop.Core.Extensions;
 using System;
 using System.Collections.Generic;
-using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Tests
 {

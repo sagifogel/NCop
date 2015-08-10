@@ -6,6 +6,7 @@ namespace NCop.IoC.Tests
 	public interface IFoo { string Name { get; } }
 	public interface IBar { }
 
+    [Serializable]
 	public class Foo : IFoo, IDisposable
 	{
 		public bool IsDisposed { get; set; }
