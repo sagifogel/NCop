@@ -74,7 +74,7 @@ namespace NCop.Aspects.Tests
             var method = GetMethod("MethodWithStringParamAndBoolReturnType");
             var aspect = new OnMethodBoundaryAspectAttribute(typeof(TestAspect));
 
-            AspectTypeMethodValidator.ValidateMethodAspect(aspect, method);
+            AspectTypeValidator.ValidateMethodAspect(aspect, method);
         }
 
         [TestMethod]
@@ -83,7 +83,7 @@ namespace NCop.Aspects.Tests
             var method = GetMethod("MethodWithStringParamAndBoolReturnType");
             var aspect = new OnMethodBoundaryAspectAttribute(typeof(TestInterceptionAspect));
 
-            AspectTypeMethodValidator.ValidateMethodAspect(aspect, method);
+            AspectTypeValidator.ValidateMethodAspect(aspect, method);
         }
 
         [TestMethod]
@@ -92,7 +92,7 @@ namespace NCop.Aspects.Tests
             var method = GetMethod("MethodWithStringParamAndBoolReturnType");
             var aspect = new MethodInterceptionAspectAttribute(typeof(TestAspect));
 
-            AspectTypeMethodValidator.ValidateMethodAspect(aspect, method);
+            AspectTypeValidator.ValidateMethodAspect(aspect, method);
         }
 
         [TestMethod]
@@ -100,7 +100,7 @@ namespace NCop.Aspects.Tests
             var method = GetMethod("MethodWithoutParamsWithReturnType");
             var aspect = new OnMethodBoundaryAspectAttribute(typeof(TestAspect2));
 
-            AspectTypeMethodValidator.ValidateMethodAspect(aspect, method);
+            AspectTypeValidator.ValidateMethodAspect(aspect, method);
         }
 
         [TestMethod]
@@ -109,7 +109,7 @@ namespace NCop.Aspects.Tests
             var method = GetMethod("MethodWithStringParamAndVoidReturnType");
             var aspect = new OnMethodBoundaryAspectAttribute(typeof(TestAspect));
 
-            AspectTypeMethodValidator.ValidateMethodAspect(aspect, method);
+            AspectTypeValidator.ValidateMethodAspect(aspect, method);
         }
 
         [TestMethod]
@@ -118,7 +118,7 @@ namespace NCop.Aspects.Tests
             var method = GetMethod("MethodWithStringParamAndBoolReturnType");
             var aspect = new OnMethodBoundaryAspectAttribute(typeof(TestAspect3));
 
-            AspectTypeMethodValidator.ValidateMethodAspect(aspect, method);
+            AspectTypeValidator.ValidateMethodAspect(aspect, method);
         }
 
         [TestMethod]
@@ -127,7 +127,7 @@ namespace NCop.Aspects.Tests
             var method = GetMethod("MethodWithStringParamAndBoolReturnType");
             var aspect = new OnMethodBoundaryAspectAttribute(typeof(TestAspect4));
 
-            AspectTypeMethodValidator.ValidateMethodAspect(aspect, method);
+            AspectTypeValidator.ValidateMethodAspect(aspect, method);
         }
 
         [TestMethod]
@@ -136,7 +136,7 @@ namespace NCop.Aspects.Tests
             var method = GetMethod("MethodWithoutParams");
             var aspect = new OnMethodBoundaryAspectAttribute(typeof(TestAspect));
 
-            AspectTypeMethodValidator.ValidateMethodAspect(aspect, method);
+            AspectTypeValidator.ValidateMethodAspect(aspect, method);
         }
 
         [TestMethod]
@@ -145,7 +145,7 @@ namespace NCop.Aspects.Tests
             var method = GetMethod("MethodWithoutParamsWithReturnType");
             var aspect = new OnMethodBoundaryAspectAttribute(typeof(TestAspect));
 
-            AspectTypeMethodValidator.ValidateMethodAspect(aspect, method);
+            AspectTypeValidator.ValidateMethodAspect(aspect, method);
         }
 
         [TestMethod]
@@ -154,7 +154,7 @@ namespace NCop.Aspects.Tests
             var method = GetMethod("MethodWithStringParamAndBoolReturnType");
             var aspect = new OnMethodBoundaryAspectAttribute(typeof(NoAdviceAspect));
 
-            AspectTypeMethodValidator.ValidateMethodAspect(aspect, method);
+            AspectTypeValidator.ValidateMethodAspect(aspect, method);
         }
 
         private static MethodInfo GetMethod(string name) {
@@ -167,7 +167,7 @@ namespace NCop.Aspects.Tests
             var method = GetMethod("MethodWithIntParamAndNoReturnType");
             var aspect = new MethodInterceptionAspectAttribute(typeof(TestFunctionInterceptionAspect));
 
-            AspectTypeMethodValidator.ValidateMethodAspect(aspect, method);
+            AspectTypeValidator.ValidateMethodAspect(aspect, method);
         }
     }
 }

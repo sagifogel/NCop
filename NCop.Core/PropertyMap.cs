@@ -1,7 +1,4 @@
-﻿using NCop.Core.Exceptions;
-using NCop.Core.Extensions;
-using NCop.Core.Properties;
-using System;
+﻿using System;
 using System.Reflection;
 
 namespace NCop.Core
@@ -10,14 +7,6 @@ namespace NCop.Core
     {
         public PropertyMap(Type contractType, Type implementationType, PropertyInfo contractProperty, PropertyInfo implementationProperty)
             : base(contractType, implementationType, contractProperty, implementationProperty) {
-            ValidateProperties();
-        }
-
-        private void ValidateProperties() {
-            if (ContractMember.CanRead != ImplementationMember.CanRead ||
-                ContractMember.CanWrite != ImplementationMember.CanWrite) {
-                throw new PropertyAccessorsMismatchException(Resources.PropertiesAccessorsMismatach.Fmt(ContractMember.Name, ContractType.FullName, ImplementationType.FullName));
-            }
         }
     }
 }

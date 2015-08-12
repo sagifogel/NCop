@@ -43,7 +43,7 @@ namespace NCop.Composite.Engine
         private IEnumerable<ICompositeEventFragmentMap> MapEvents(IEnumerable<AspectMap> aspectsMap, IEnumerable<IAspectEventMap> aspectMappedEvents, Func<IAspectEventMap, MethodInfo> eventyFactory, Func<Type, Type, EventInfo, EventInfo, IAspectDefinitionCollection, ICompositeEventFragmentMap> compositeEventMapFactory) {
             return from mapped in aspectMappedEvents
                    from aspectMap in aspectsMap.Where(map => {
-                       var method = map.Member as MethodInfo;
+                       var method = map.Method as MethodInfo;
 
                        return method.IsMatchedTo(eventyFactory(mapped));
                    })
@@ -74,7 +74,7 @@ namespace NCop.Composite.Engine
         private void MapMethods(IAspectsMap aspectsMap, IEnumerable<IAspectMethodMap> aspectMappedMethods) {
             var mappedMethodsEnumerable = from mapped in aspectMappedMethods
                                           from aspectMap in aspectsMap.Where(map => {
-                                              var method = map.Member as MethodInfo;
+                                              var method = map.Method as MethodInfo;
 
                                               return method.IsMatchedTo(mapped.ImplementationMember);
                                           })
@@ -107,7 +107,7 @@ namespace NCop.Composite.Engine
         private IEnumerable<ICompositePropertyFragmentMap> MapProperties(IEnumerable<AspectMap> aspectsMap, IEnumerable<IAspectPropertyMap> aspectMappedProperties, Func<IAspectPropertyMap, MethodInfo> propertyFactory, Func<Type, Type, PropertyInfo, PropertyInfo, IAspectDefinitionCollection, ICompositePropertyFragmentMap> compositePropertyMapFactory) {
             return from mapped in aspectMappedProperties
                    from aspectMap in aspectsMap.Where(map => {
-                       var method = map.Member as MethodInfo;
+                       var method = map.Method as MethodInfo;
 
                        return method.IsMatchedTo(propertyFactory(mapped));
                    })

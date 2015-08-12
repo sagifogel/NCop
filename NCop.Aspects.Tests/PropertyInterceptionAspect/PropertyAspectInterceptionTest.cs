@@ -116,6 +116,5 @@ namespace NCop.Aspects.Tests
 
             CollectionAssert.AreEqual(list, new AspectOrderedJoinPoints());
         }
-
     }
 }

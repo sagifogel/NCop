@@ -10,8 +10,12 @@ using System.Reflection;
 
 namespace NCop.Aspects.Engine
 {
-    public static class AspectTypeMethodValidator
+    public static class AspectTypeValidator
     {
+        public static void ValidateMethodAspect(IAspect aspect, AspectMap aspectMap) {
+            ValidateMethodAspect(aspect, aspectMap.Method);
+        }
+
         public static void ValidateMethodAspect(IAspect aspect, MethodInfo method) {
             Type argumentsType = null;
             Type[] genericArguments = null;
@@ -73,7 +77,7 @@ namespace NCop.Aspects.Engine
             else {
                 comparedTypes = genericArguments;
 
-                if (!typeof(IPropertyInterceptionArgs).IsAssignableFrom(argumentsType) && (typeof(IFunctionExecutionArgs).IsAssignableFrom(argumentsType) || typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType))) {
+                if (typeof(IFunctionExecutionArgs).IsAssignableFrom(argumentsType) || typeof(IFunctionInterceptionArgs).IsAssignableFrom(argumentsType)) {
                     throw new AspectAnnotationException(Resources.FunctionAspectMismatch);
                 }
             }
@@ -81,6 +85,24 @@ namespace NCop.Aspects.Engine
             if (!ValidateParameters(methodParameters, comparedTypes)) {
                 throw new AspectTypeMismatchException(Resources.AspectMethodParametersMismatach.Fmt(method.Name));
             }
+        }
+
+        public static void ValidatePropertyAspect(IAspect aspect, AspectMap aspectMap) {
+            ValidatePropertyAspect(aspect, (PropertyInfo)aspectMap.Contract, (PropertyInfo)aspectMap.Target);
+        }
+
+        public static void ValidatePropertyAspect(IAspect aspect, PropertyInfo contractProperty, PropertyInfo implementationProperty) {
+            //if (contractProperty.CanRead != implementationProperty.CanRead ||
+            //    contractProperty.CanWrite != implementationProperty.CanWrite) {
+            //    throw new PropertyAccessorsMismatchException(Resources.PropertiesAccessorsMismatach.Fmt(ContractMember.Name, ContractType.FullName, ImplementationType.FullName));
+            //}
+        }
+
+        public static void ValidateEventAspect(IAspect aspect, AspectMap aspectMap) {
+            ValidateEventAspect(aspect, (EventInfo)aspectMap.Target);
+        }
+
+        public static void ValidateEventAspect(IAspect aspect, EventInfo @event) {
         }
 
         private static bool ValidateParameters(ParameterInfo[] methodParameters, Type[] comparedTypes) {

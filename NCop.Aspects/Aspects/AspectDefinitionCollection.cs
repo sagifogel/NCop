@@ -12,9 +12,5 @@ namespace NCop.Aspects.Aspects
         public AspectDefinitionCollection(IEnumerable<IAspectDefinition> aspectDefinitions)
             : base(aspectDefinitions) {
         }
-
-        public IEnumerable<IAspectDefinition> OrderAspectsByPriority() {
-            return Items.OrderBy(aspect => aspect.Aspect.AspectPriority);
-        }
     }
 }

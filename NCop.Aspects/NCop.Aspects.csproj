@@ -74,6 +74,7 @@
     <AssemblyOriginatorKeyFile>..\build\NCop.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -145,6 +146,7 @@
     <Compile Include="Engine\ActionExecutionArgsImpl`8.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl`1.cs" />
     <Compile Include="Engine\ActionExecutionArgsImpl.cs" />
+    <Compile Include="Engine\AspectValidatorVisitor.cs" />
     <Compile Include="Engine\IAspectContainer.cs" />
     <Compile Include="Engine\IAspectDefinitionsContainer.cs" />
     <Compile Include="Engine\IEventFragment.cs" />
@@ -285,6 +287,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EventBindingResolver.tt</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\MemberInfoExtensions.cs" />
     <Compile Include="Extensions\MethodBindingResolver.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -555,7 +558,7 @@
     <Compile Include="Engine\IAspectMemebrsCollection.cs" />
     <Compile Include="Engine\AspectMethodMap.cs" />
     <Compile Include="Engine\AspectPropertyMap.cs" />
-    <Compile Include="Engine\AspectTypeMethodValidator.cs" />
+    <Compile Include="Engine\AspectTypeValidator.cs" />
     <Compile Include="Engine\AspectValidator.cs" />
     <Compile Include="Engine\ActionInterceptionArgsImpl`1.cs" />
     <Compile Include="Engine\ActionInterceptionArgsImpl`2.cs" />

@@ -6,15 +6,18 @@ namespace NCop.Aspects.Aspects
     {
         public static AspectMap Empty = new AspectMap();
 
-        private AspectMap() {
-        }
+        private AspectMap() { }
 
-        public AspectMap(MemberInfo member, IAspectDefinitionCollection aspects) {
-            Member = member;
+        public AspectMap(MemberInfo target, MemberInfo contract, MethodInfo method, IAspectDefinitionCollection aspects) {
+            Method = method;
+            Target = target;
             Aspects = aspects;
+            Contract = contract;
         }
 
-        public MemberInfo Member { get; private set; }
+        public MemberInfo Target { get; private set; }
+        public MethodInfo Method { get; private set; }
+        public MemberInfo Contract { get; private set; }
         public IAspectDefinitionCollection Aspects { get; private set; }
     }
 }

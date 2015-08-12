@@ -2,8 +2,8 @@
 using NCop.Aspects.Framework;
 using NCop.Aspects.Weaving;
 using NCop.Core.Extensions;
-using NCop.Core.Lib;
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,17 +11,16 @@ using System.Reflection;
 
 namespace NCop.Aspects.Engine
 {
-    public class AspectAttributesMemberMatcher : Tuples<MemberInfo, IAspectDefinitionCollection>
+    public class AspectAttributesMemberMatcher : IEnumerable<AspectMap>
     {
         private static readonly bool partial = true;
-        private readonly ConcurrentDictionary<int, Tuple<MemberInfo, IAspectDefinitionCollection>> registry = null;
+        private readonly ConcurrentDictionary<int, AspectMap> registry = null;
 
         public AspectAttributesMemberMatcher(IAspectMemebrsCollection aspectMembersCollection) {
-            registry = new ConcurrentDictionary<int, Tuple<MemberInfo, IAspectDefinitionCollection>>();
+            registry = new ConcurrentDictionary<int, AspectMap>();
             CollectEventsAspectDefinitions(aspectMembersCollection);
             CollectMethodsAspectDefinitions(aspectMembersCollection);
             CollectPropertiesAspectDefinitions(aspectMembersCollection);
-            values = registry.Select(keyValue => Tuple.Create(keyValue.Value.Item1, keyValue.Value.Item2));
         }
 
         private void CollectMethodsAspectDefinitions(IAspectMethodMapCollection aspectMembersCollection) {
@@ -30,7 +29,7 @@ namespace NCop.Aspects.Engine
                     return CollectMethodsAspectDefinitions(member, aspectMembers.ContractType, aspectMembers.Target);
                 });
 
-                AddOrUpdate(aspectMembers.Target, aspects.ToList());
+                AddOrUpdate(aspectMembers.Target, aspectMembers.ContractMember, aspectMembers.Target, aspects.ToList());
             });
         }
 
@@ -55,15 +54,15 @@ namespace NCop.Aspects.Engine
             }
         }
 
-        private void AddOrUpdate(MemberInfo member, ICollection<IAspectDefinition> aspects) {
-            AddOrUpdate(member.GetHashCode(), member, aspects);
+        private void AddOrUpdate(MemberInfo target, MemberInfo contract, MethodInfo method, ICollection<IAspectDefinition> aspects) {
+            AddOrUpdate(method.GetHashCode(), target, contract, method, aspects);
         }
 
-        private void AddOrUpdate(int hash, MemberInfo member, ICollection<IAspectDefinition> aspects) {
+        private void AddOrUpdate(int hash, MemberInfo target, MemberInfo contract, MethodInfo method, ICollection<IAspectDefinition> aspects) {
             if (aspects.Count > 0) {
-                var aspectCollectionTuple = registry.GetOrAdd(hash, Tuple.Create<MemberInfo, IAspectDefinitionCollection>(member, new AspectDefinitionCollection()));
+                var aspectCollectionTuple = registry.GetOrAdd(hash, new AspectMap(target, contract, method, new AspectDefinitionCollection()));
 
-                aspectCollectionTuple.Item2.AddRange(aspects);
+                aspectCollectionTuple.Aspects.AddRange(aspects);
             }
         }
 
@@ -112,15 +111,15 @@ namespace NCop.Aspects.Engine
                     LifetimeStrategy = aspectAttribute.LifetimeStrategy
                 };
 
-                AddOrUpdate(addMethod, new[] { new AddEventFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, addEventAspect, aspectDeclaringType, target) });
-                AddOrUpdate(raiseMethodHash, raiseMethod, new[] { new RaiseEventFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, raiseEventAspect, aspectDeclaringType, target) });
-                AddOrUpdate(removeMethod, new[] { new RemoveEventFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, removeEventAspect, aspectDeclaringType, target) });
+                AddOrUpdate(target, @event, addMethod, new[] { new AddEventFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, addEventAspect, aspectDeclaringType, target) });
+                AddOrUpdate(raiseMethodHash, target, @event, raiseMethod, new[] { new RaiseEventFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, raiseEventAspect, aspectDeclaringType, target) });
+                AddOrUpdate(target, @event, removeMethod, new[] { new RemoveEventFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, removeEventAspect, aspectDeclaringType, target) });
             });
         }
 
         private void CollectPartialPropertyAspectDefinitionsByPropertyInterceptionAttribute(IEnumerable<IAspectPropertyMap> properties) {
             properties.ForEach(propertyMap => {
-                MethodInfo target = null;
+                MethodInfo method = null;
                 var propertyInterceptionAspects = new List<IAspectDefinition>();
 
                 if (propertyMap.Target.IsNotNull()) {
@@ -130,7 +129,7 @@ namespace NCop.Aspects.Engine
 
                         if (aspectsAttrs.IsNotNullOrEmpty()) {
                             if (property.CanWrite) {
-                                target = propertyMap.Target.GetSetMethod();
+                                method = propertyMap.Target.GetSetMethod();
                                 aspectDefinitions = aspectsAttrs.Select(aspectAttr => {
                                     var aspect = new SetPropertyInterceptionAspect {
                                         AspectType = aspectAttr.AspectType,
@@ -142,7 +141,7 @@ namespace NCop.Aspects.Engine
                                 });
                             }
                             else {
-                                target = propertyMap.Target.GetGetMethod();
+                                method = propertyMap.Target.GetGetMethod();
                                 aspectDefinitions = aspectsAttrs.Select(aspectAttr => {
                                     var aspect = new GetPropertyInterceptionAspect {
                                         AspectType = aspectAttr.AspectType,
@@ -158,7 +157,7 @@ namespace NCop.Aspects.Engine
                         }
                     });
 
-                    AddOrUpdate(target, propertyInterceptionAspects);
+                    AddOrUpdate(propertyMap.Target, propertyMap.ContractMember, method, propertyInterceptionAspects);
                 }
             });
         }
@@ -178,8 +177,8 @@ namespace NCop.Aspects.Engine
         }
 
         private void CollectPropertyInterceptionAspectDefinition(IAspectPropertyMap propertyMap, MethodInfo propertyGetMethod, MethodInfo propertySetMethod, Type aspectDeclaringType, PropertyInterceptionAspectAttribute aspectAttribute) {
-            var target = propertyMap.ContractMember;
-            var aspectDefinition = new PropertyInterceptionAspectsDefinition(aspectAttribute, aspectAttribute.AspectType, target);
+            var contract = propertyMap.ContractMember;
+            var aspectDefinition = new PropertyInterceptionAspectsDefinition(aspectAttribute, aspectAttribute.AspectType, contract);
             var bindingTypeReflectorBuilder = new FullPropertyBindingTypeReflectorBuilder(aspectDefinition);
 
             var getPropertyAspect = new GetPropertyFragmentInterceptionAspect {
@@ -194,8 +193,16 @@ namespace NCop.Aspects.Engine
                 LifetimeStrategy = aspectAttribute.LifetimeStrategy
             };
 
-            AddOrUpdate(propertyGetMethod, new[] { new GetPropertyFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, getPropertyAspect, aspectDeclaringType, target) });
-            AddOrUpdate(propertySetMethod, new[] { new SetPropertyFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, setPropertyAspect, aspectDeclaringType, target) });
+            AddOrUpdate(propertyMap.Target, contract, propertyGetMethod, new[] { new GetPropertyFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, getPropertyAspect, aspectDeclaringType, contract) });
+            AddOrUpdate(propertyMap.Target, contract, propertySetMethod, new[] { new SetPropertyFragmentInterceptionAspectDefinition(bindingTypeReflectorBuilder, setPropertyAspect, aspectDeclaringType, contract) });
+        }
+
+        public IEnumerator<AspectMap> GetEnumerator() {
+            return registry.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            return GetEnumerator();
         }
     }
 }
