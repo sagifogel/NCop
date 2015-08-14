@@ -220,7 +220,7 @@ namespace NCop.Aspects.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AspectTypeMismatchException))]
+        [ExpectedException(typeof(AspectAnnotationException))]
         public void MethodWithAReturnType_DecoratedWithActionAspect_ThrowsAspectTypeMismatchException() {
             var method = GetMethod("MethodWithStringParamAndBoolReturnType");
             var aspect = new OnMethodBoundaryAspectAttribute(typeof(TestAspect6));
