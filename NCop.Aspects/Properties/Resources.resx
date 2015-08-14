@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ActionAspectMismatch" xml:space="preserve">
-    <value>OnActionBoundaryAspcets are valid only on method that has return type of  void. Use one of the OnFunctionBoundaryAspcets types.</value>
+  <data name="AspectEventParametersMismatach" xml:space="preserve">
+    <value>Event {0} has different set of parameters than the parameters of one of its annotated aspects.</value>
   </data>
   <data name="AspectMethodParametersMismatach" xml:space="preserve">
     <value>Method {0} has different set of parameters than the parameters of one of its annotated aspects.</value>
@@ -135,8 +135,14 @@
   <data name="EmitLoadLocalAddressAtTopAspectIsInvalid" xml:space="preserve">
     <value>Emit load local address in top aspect is not permitted.</value>
   </data>
-  <data name="FunctionAspectMismatch" xml:space="preserve">
-    <value>OnFunctionBoundaryAspcets are valid only on method that has return type other than void. Use one of the OnActionBoundaryAspect types.</value>
+  <data name="EventActionInterceptionAspcetMismatch" xml:space="preserve">
+    <value>EventActionInterceptionAspcets are valid only on event that has return type of  void. Use one of the EventFunctionInterceptionAspcet types.</value>
+  </data>
+  <data name="EventFunctionInterceptionAspcetMismatch" xml:space="preserve">
+    <value>EventFunctionInterceptionAspcets are valid only on method that has return type other than void. Use one of the EventActionInterceptionAspcet types.</value>
+  </data>
+  <data name="EventInterceptionAspectAttributeErrorInitialization" xml:space="preserve">
+    <value>EventInterceptionAspectAttribute can only be initialized with IEventInterceptionAspect as an aspect type.</value>
   </data>
   <data name="IllegalMethodAspectAnnotation" xml:space="preserve">
     <value>Annotaion of OnMethodBoundaryAspect and MethodInterceptionAspect are valid only on methods.</value>
@@ -147,10 +153,13 @@
   <data name="MethodInterceptionAspectAttributeErrorInitialization" xml:space="preserve">
     <value>MethodInterceptionAspectAttribute can only be initialized with IMethodInterceptionAspect as an aspect type.</value>
   </data>
-  <data name="OnMethodBoundaryAspectAttributeErrorInitialization" xml:space="preserve">
-    <value>OnMethodBoundaryAspectAttribute can only be initialized with IOnMethodBoundaryAspect as an aspect type.</value>
+  <data name="OnActionBoundaryAspcetMismatch" xml:space="preserve">
+    <value>OnActionBoundaryAspcets are valid only on method that has return type of  void. Use one of the OnFunctionBoundaryAspcet types.</value>
   </data>
-  <data name="OnMethodBoundaryAspectAttributeErrorInitialization1" xml:space="preserve">
+  <data name="OnFunctionBoundaryAspcetMismatch" xml:space="preserve">
+    <value>OnFunctionBoundaryAspcets are valid only on method that has return type other than void. Use one of the OnActionBoundaryAspect types.</value>
+  </data>
+  <data name="OnMethodBoundaryAspectAttributeErrorInitialization" xml:space="preserve">
     <value>OnMethodBoundaryAspectAttribute can only be initialized with IOnMethodBoundaryAspect as an aspect type.</value>
   </data>
   <data name="PropertyInterceptionAspectAttributeErrorInitialization" xml:space="preserve">

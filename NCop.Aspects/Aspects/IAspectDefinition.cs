@@ -1,7 +1,7 @@
 ﻿
 namespace NCop.Aspects.Aspects
 {
-    public interface IAspectDefinition<TMember> : IAspectDefinition
+    public interface IAspectDefinition<out TMember> : IAspectDefinition
     {
         TMember Member { get; }
     }

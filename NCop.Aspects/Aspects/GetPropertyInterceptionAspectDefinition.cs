@@ -11,8 +11,8 @@ namespace NCop.Aspects.Aspects
     {
         private readonly GetPropertyInterceptionAspect aspect = null;
 
-        public GetPropertyInterceptionAspectDefinition(GetPropertyInterceptionAspect aspect, Type aspectDeclaringType, PropertyInfo property)
-            : base(aspect, aspectDeclaringType, property) {
+        public GetPropertyInterceptionAspectDefinition(GetPropertyInterceptionAspect aspect, Type aspectDeclaringType, PropertyInfo property, MemberInfo target)
+            : base(aspect, aspectDeclaringType, property, target) {
             this.aspect = aspect;
         }
 

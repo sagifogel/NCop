@@ -1,5 +1,6 @@
 ﻿using NCop.Aspects.Aspects;
 using NCop.Aspects.Extensions;
+using NCop.Core.Extensions;
 
 namespace NCop.Aspects.Engine
 {
@@ -8,7 +9,7 @@ namespace NCop.Aspects.Engine
         private static readonly AspectValidatorVisitor visitor = new AspectValidatorVisitor();
 
         public static void ValidateAspect(IAspect aspect, AspectMap aspectMap) {
-            aspectMap.Target.Accept(visitor, aspect, aspectMap);
+            aspectMap.Aspects.ForEach(a => a.Target.Accept(visitor, aspect, aspectMap));
         }
     }
 }

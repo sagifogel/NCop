@@ -10,7 +10,7 @@ namespace NCop.Aspects.Engine
         }
 
         public void Visit(PropertyInfo property, IAspect aspect, AspectMap aspectMap) {
-            AspectTypeValidator.ValidatePropertyAspect(aspect, aspectMap);
+            AspectTypeValidator.ValidatePropertyAspect(property, aspect, aspectMap);
         }
 
         public void Visit(EventInfo @event, IAspect aspect, AspectMap aspectMap) {

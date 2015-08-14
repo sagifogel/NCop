@@ -6,8 +6,8 @@ namespace NCop.Aspects.Aspects
 {
     public abstract class AbstractEventFragmentInterceptionAspectDefinition : AbstractEventAspectDefinition, IFullEventAspectDefinition
     {
-        internal AbstractEventFragmentInterceptionAspectDefinition(IEventExpressionBuilder eventBuilder, IAspect aspect, Type aspectDeclaringType, EventInfo @event)
-            : base(aspect, aspectDeclaringType, @event) {
+        internal AbstractEventFragmentInterceptionAspectDefinition(IEventExpressionBuilder eventBuilder, IAspect aspect, Type aspectDeclaringType, EventInfo @event, MemberInfo target)
+            : base(aspect, aspectDeclaringType, @event, target) {
             EventBuilder = eventBuilder;
         }
 

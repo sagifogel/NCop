@@ -12,8 +12,8 @@ namespace NCop.Aspects.Aspects
     {
         private readonly MethodInterceptionAspectAttribute aspect = null;
 
-        internal MethodInterceptionAspectDefinition(MethodInterceptionAspectAttribute aspect, Type aspectDeclaringType, MethodInfo method)
-            : base(aspect, aspectDeclaringType, method) {
+        internal MethodInterceptionAspectDefinition(MethodInterceptionAspectAttribute aspect, Type aspectDeclaringType, MethodInfo method, MemberInfo target)
+            : base(aspect, aspectDeclaringType, method, target) {
             this.aspect = aspect;
         }
 

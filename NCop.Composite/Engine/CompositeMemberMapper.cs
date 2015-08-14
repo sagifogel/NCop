@@ -74,9 +74,7 @@ namespace NCop.Composite.Engine
         private void MapMethods(IAspectsMap aspectsMap, IEnumerable<IAspectMethodMap> aspectMappedMethods) {
             var mappedMethodsEnumerable = from mapped in aspectMappedMethods
                                           from aspectMap in aspectsMap.Where(map => {
-                                              var method = map.Method as MethodInfo;
-
-                                              return method.IsMatchedTo(mapped.ImplementationMember);
+                                              return map.Method.IsMatchedTo(mapped.ImplementationMember);
                                           })
                                           .DefaultIfEmpty(AspectMap.Empty)
                                           select new CompositeMethodMap(mapped.ContractType,
@@ -107,9 +105,7 @@ namespace NCop.Composite.Engine
         private IEnumerable<ICompositePropertyFragmentMap> MapProperties(IEnumerable<AspectMap> aspectsMap, IEnumerable<IAspectPropertyMap> aspectMappedProperties, Func<IAspectPropertyMap, MethodInfo> propertyFactory, Func<Type, Type, PropertyInfo, PropertyInfo, IAspectDefinitionCollection, ICompositePropertyFragmentMap> compositePropertyMapFactory) {
             return from mapped in aspectMappedProperties
                    from aspectMap in aspectsMap.Where(map => {
-                       var method = map.Method as MethodInfo;
-
-                       return method.IsMatchedTo(propertyFactory(mapped));
+                       return map.Method.IsMatchedTo(propertyFactory(mapped));
                    })
                    .DefaultIfEmpty(AspectMap.Empty)
                    select compositePropertyMapFactory(mapped.ContractType,

@@ -11,16 +11,19 @@ namespace NCop.Aspects.Aspects
     {
         protected readonly AdviceDefinitionCollection advices = null;
 
-        internal AbstractAspectDefinition(Type aspectDeclaringType) {
+        internal AbstractAspectDefinition(Type aspectDeclaringType, MemberInfo target) {
+            Target = target;
             AspectDeclaringType = aspectDeclaringType;
             advices = new AdviceDefinitionCollection();
         }
+
+        public TMember Member { get; protected set; }
 
         public IAspect Aspect { get; protected set; }
 
         public abstract AspectType AspectType { get; }
 
-        public TMember Member { get; protected set; }
+        public MemberInfo Target { get; protected set; }
 
         public Type AspectDeclaringType { get; private set; }
 

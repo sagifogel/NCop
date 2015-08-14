@@ -8,9 +8,10 @@ namespace NCop.Aspects.Aspects
 {
     internal class EventInterceptionAspectDefinition : IEventAspectDefinition
     {
-        internal EventInterceptionAspectDefinition(IAspect aspect, Type aspectDeclaringType, EventInfo @event) {
+        internal EventInterceptionAspectDefinition(IAspect aspect, Type aspectDeclaringType, EventInfo @event, MemberInfo target) {
             Aspect = aspect;
             Member = @event;
+            Target = target;
             AspectDeclaringType = aspectDeclaringType;
         }
 
@@ -22,6 +23,8 @@ namespace NCop.Aspects.Aspects
         public IAspect Aspect { get; private set; }
 
         public EventInfo Member { get; private set; }
+
+        public MemberInfo Target { get; private set; }
 
         public Type AspectDeclaringType { get; private set; }
 

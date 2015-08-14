@@ -57,6 +57,8 @@
     <Prefer32Bit>false</Prefer32Bit>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -651,7 +653,6 @@
     <Compile Include="Framework\FunctionIntercaptionArgs`7.cs" />
     <Compile Include="Framework\FunctionIntercaptionArgs`8.cs" />
     <Compile Include="Framework\GenericActionExecutionArgs.cs" />
-    <Compile Include="Framework\GenericFunctionExecutionArgs.cs" />
     <Compile Include="Engine\IActionExecutionArgs.cs" />
     <Compile Include="Engine\IAdviceArgs.cs" />
     <Compile Include="Engine\IFunctionExecutionArgs.cs" />

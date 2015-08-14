@@ -12,11 +12,10 @@ namespace NCop.Samples
 {
     internal static class Aspects
     {
-        public static CSharpDeveloperMixin mixin = null;
-        public static PropertyStopWatchAspect stopWatchAspect = null;
+        public static EventStopWatchAspect stopWatchAspect = null;
 
         static Aspects() {
-            stopWatchAspect = new PropertyStopWatchAspect();
+            stopWatchAspect = new EventStopWatchAspect();
         }
     }
 
@@ -24,14 +23,18 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPerson : IDeveloper
     {
-        //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
-        new string Code { get; set; }
     }
 
     public interface IDeveloper
     {
-        //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
-        string Code { get; set; }
+        [MethodInterceptionAspect(typeof(StopWatchAspect))]
+        void Do();
+
+        //string CodeProp { get; set; }
+
+        //[EventInterceptionAspect(typeof(EventStopWatchAspect))]
+        event Action Code;
+        void RaiseEvent();
     }
 
     public interface IDo
@@ -39,60 +42,38 @@ namespace NCop.Samples
         void Do();
     }
 
-    public class CSharpDeveloperMixin : IDeveloper, IDo
+    public class CSharpDeveloperMixin : IDeveloper
     {
-        private string code = "C#";
-
-        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
-        public string Code {
-            get { return code; }
-            set { code = value; }
-        }
-
-        //[GetPropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        //[EventInterceptionAspect(typeof(EventStopWatchAspect))]
+        public event Action Code;
 
 
-        [MethodInterceptionAspect(typeof(StopWatchAspect))]
-        //[MethodInterceptionAspect(typeof(StopWatchAspect))]
-        public void Do() {
+        //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        //public string CodeProp { get; set; }
 
-        }
-    }
-
-    public class PropertyBinding : AbstractPropertyBinding<IDeveloper, string>
-    {
-        public static PropertyBinding singleton = null;
-
-        static PropertyBinding() {
-            singleton = new PropertyBinding();
-        }
-
-        public override string GetValue(ref IDeveloper instance, IPropertyArg<string> arg) {
-            return instance.Code;
-        }
-
-        public override void SetValue(ref IDeveloper instance, IPropertyArg<string> arg, string value) {
-            throw new NotSupportedException();
-        }
-    }
-
-    public class Person : IPerson
-    {
-        private readonly IDeveloper instance = null;
-
-        public Person() {
-            instance = new CSharpDeveloperMixin();
-        }
-
-        public string Code {
-            get {
-                var codeMethod = instance.GetType().GetProperty("Code", typeof(string)).GetGetMethod();
-                var interArgs = new GetPropertyInterceptionArgsImpl<IDeveloper, string>(instance, codeMethod, PropertyBinding.singleton);
-                Aspects.stopWatchAspect.OnGetValue(interArgs);
-
-                return interArgs.Value;
+        public void RaiseEvent() {
+            if (Code != null) {
+                Code();
             }
-            set { }
+        }
+
+        public void Do() {
+        }
+    }
+
+    public class StopWatchAspect : FunctionInterceptionAspect<string>
+    {
+        private readonly Stopwatch stopWatch = null;
+
+        public StopWatchAspect() {
+            stopWatch = new Stopwatch();
+        }
+
+        public override void OnInvoke(FunctionInterceptionArgs<string> args) {
+            stopWatch.Restart();
+            base.OnInvoke(args);
+            stopWatch.Stop();
+            Console.WriteLine("Elapsed Ticks: {0}", stopWatch.ElapsedTicks);
         }
     }
 
@@ -111,19 +92,23 @@ namespace NCop.Samples
         }
     }
 
-    public class StopWatchAspect : ActionInterceptionAspect
+    public class EventStopWatchAspect : EventActionInterceptionAspect
     {
-        private readonly Stopwatch stopWatch = null;
+        private readonly Stopwatch stopWatch = new Stopwatch();
 
-        public StopWatchAspect() {
-            stopWatch = new Stopwatch();
+        public override void OnAddHandler(EventActionInterceptionArgs args) {
+            args.ProceedAddHandler();
         }
 
-        public override void OnInvoke(ActionInterceptionArgs args) {
+        public override void OnInvokeHandler(EventActionInterceptionArgs args) {
             stopWatch.Restart();
-            base.OnInvoke(args);
+            args.ProceedInvokeHandler();
             stopWatch.Stop();
             Console.WriteLine("Elapsed Ticks: {0}", stopWatch.ElapsedTicks);
+        }
+
+        public override void OnRemoveHandler(EventActionInterceptionArgs args) {
+            args.ProceedRemoveHandler();
         }
     }
 
@@ -136,7 +121,7 @@ namespace NCop.Samples
 
             container.Configure();
             developer = container.Resolve<IPerson>();
-            Console.WriteLine(developer.Code);
+            developer.Do();
         }
     }
 }

@@ -11,8 +11,8 @@ namespace NCop.Aspects.Aspects
     {
         private readonly RemoveEventFragmentInterceptionAspect aspect = null;
 
-        internal RemoveEventFragmentInterceptionAspectDefinition(IEventExpressionBuilder eventBuilder, RemoveEventFragmentInterceptionAspect aspect, Type aspectDeclaringType, EventInfo @event)
-            : base(eventBuilder, aspect, aspectDeclaringType, @event) {
+        internal RemoveEventFragmentInterceptionAspectDefinition(IEventExpressionBuilder eventBuilder, RemoveEventFragmentInterceptionAspect aspect, Type aspectDeclaringType, EventInfo @event, MemberInfo target)
+            : base(eventBuilder, aspect, aspectDeclaringType, @event, target) {
             Aspect = this.aspect = aspect;
         }
 
