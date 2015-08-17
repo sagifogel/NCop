@@ -1,6 +1,10 @@
-﻿using NCop.Core;
+﻿using System.Linq;
+using NCop.Core;
 using NCop.Core.Extensions;
 using NCop.IoC;
+using NCop.Mixins.Exceptions;
+using NCop.Mixins.Extensions;
+using NCop.Mixins.Properties;
 using NCop.Weaving;
 using NCop.Weaving.Extensions;
 using System;
@@ -38,7 +42,20 @@ namespace NCop.Mixins.Weaving
             });
 
             CreateDefaultConstructor();
-            weavedType = typeDefinition.TypeBuilder.CreateType();
+
+            try {
+                weavedType = typeDefinition.TypeBuilder.CreateType();
+            }
+            catch (TypeLoadException ex) {
+                if (ex.IsPartialWeavingException()) {
+                    var firstInterface = typeDefinition.TypeBuilder.ImplementedInterfaces.First();
+
+                    throw new TypeWeavingException(Resources.CouldNotWeaveTypeException.Fmt(firstInterface.Name), ex);
+                }
+
+                throw;
+            }
+
             registry.Register(weavedType, typeDefinition.Type, mixinsMap, isComposite: true);
         }
 

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Contracts;
-using NCop.Aspects.Aspects;
+﻿using NCop.Aspects.Aspects;
 using NCop.Aspects.Exceptions;
 using NCop.Aspects.Extensions;
 using NCop.Aspects.Framework;
@@ -115,24 +114,29 @@ namespace NCop.Aspects.Engine
             MethodInfo[] overridenMethods = null;
             var propertyName = contractProperty.Name;
 
-            if (contractProperty.CanRead != implementationProperty.CanRead ||
-                contractProperty.CanWrite != implementationProperty.CanWrite) {
+            if (contractProperty.Equals(implementationProperty)) {
+                return;
+            }
+
+            if ((contractProperty.CanRead != implementationProperty.CanRead ||
+                contractProperty.CanWrite != implementationProperty.CanWrite) &&
+                implementationProperty.DeclaringType.IsInterface) {
                 var contractDeclaringType = contractProperty.DeclaringType;
                 var implementationDeclaringType = contractProperty.DeclaringType;
 
                 throw new PropertyAccessorsMismatchException(CoreResources.PropertiesAccessorsMismatach.Fmt(propertyName, contractDeclaringType.FullName, implementationDeclaringType.FullName));
             }
 
-            overridenMethods = aspect.AspectType.GetOverridenMethods().ToArray(method => method.Name.Equals("OnGetValue") || method.Name.Equals("OnSetValue"));
-
-            if (overridenMethods.Length == 0) {
-                throw new AdviceNotFoundException(aspect.GetType());
-            }
-
             if (!typeof(IPropertyInterceptionAspect).IsAssignableFrom(aspect.AspectType)) {
                 var argumentException = new ArgumentException(Resources.PropertyInterceptionAspectAttributeErrorInitialization, "aspectType");
 
                 throw new AspectAnnotationException(argumentException);
+            }
+
+            overridenMethods = aspect.AspectType.GetOverridenMethods().ToArray(method => method.Name.Equals("OnGetValue") || method.Name.Equals("OnSetValue"));
+
+            if (overridenMethods.Length == 0) {
+                throw new AdviceNotFoundException(aspect.GetType());
             }
 
             overridenMethods.ForEach(overridenMethod => {

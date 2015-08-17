@@ -386,6 +386,7 @@
     <Compile Include="MethodsAndProperties\MethodsAndPropertiesAspectTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PropertyToAspectValidator.cs" />
     <Compile Include="MethodToAspectValidator.cs">
       <SubType>Code</SubType>
     </Compile>

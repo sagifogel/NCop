@@ -120,6 +120,7 @@ namespace NCop.Aspects.Engine
         private void CollectPartialPropertyAspectDefinitionsByPropertyInterceptionAttribute(IEnumerable<IAspectPropertyMap> properties) {
             properties.ForEach(propertyMap => {
                 MethodInfo method = null;
+                var canWrite = propertyMap.ContractMember.CanWrite;
                 var propertyInterceptionAspects = new List<IAspectDefinition>();
 
                 if (propertyMap.Target.IsNotNull()) {
@@ -128,7 +129,7 @@ namespace NCop.Aspects.Engine
                         var aspectsAttrs = targetMember.GetCustomAttributes<PropertyInterceptionAspectAttribute>().ToArray();
 
                         if (aspectsAttrs.IsNotNullOrEmpty()) {
-                            if (targetMember.CanWrite) {
+                            if (canWrite) {
                                 method = propertyMap.Target.GetSetMethod();
                                 aspectDefinitions = aspectsAttrs.Select(aspectAttr => {
                                     var aspect = new SetPropertyInterceptionAspect {

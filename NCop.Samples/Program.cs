@@ -23,18 +23,26 @@ namespace NCop.Samples
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IPerson : IDeveloper
     {
+        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        new int CodeProp { get; }
     }
 
     public interface IDeveloper
     {
-        [MethodInterceptionAspect(typeof(StopWatchAspect))]
-        void Do();
+        //[MethodInterceptionAspect(typeof(StopWatchAspect))]
+        //void Do();
 
-        //string CodeProp { get; set; }
+        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        string CodeProp { get; }
 
         //[EventInterceptionAspect(typeof(EventStopWatchAspect))]
-        event Action Code;
-        void RaiseEvent();
+        //event Action Code;
+        //void RaiseEvent();
     }
 
     public interface IDo
@@ -45,20 +53,22 @@ namespace NCop.Samples
     public class CSharpDeveloperMixin : IDeveloper
     {
         //[EventInterceptionAspect(typeof(EventStopWatchAspect))]
-        public event Action Code;
+        //public event Action Code;
 
+        [PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
+        public string CodeProp { get; set; }
+        //{
+        //    get { return string.Empty; }
+        //}
 
-        //[PropertyInterceptionAspect(typeof(PropertyStopWatchAspect))]
-        //public string CodeProp { get; set; }
+        //public void RaiseEvent() {
+        //    if (Code != null) {
+        //        Code();
+        //    }
+        //}
 
-        public void RaiseEvent() {
-            if (Code != null) {
-                Code();
-            }
-        }
-
-        public void Do() {
-        }
+        //public void Do() {
+        //}
     }
 
     public class StopWatchAspect : FunctionInterceptionAspect<string>
@@ -84,6 +94,7 @@ namespace NCop.Samples
         }
 
         public override void OnGetValue(PropertyInterceptionArgs<string> args) {
+            Console.WriteLine("OnGetValue");
             base.OnGetValue(args);
         }
 
@@ -121,7 +132,7 @@ namespace NCop.Samples
 
             container.Configure();
             developer = container.Resolve<IPerson>();
-            developer.Do();
+            Console.WriteLine(developer.CodeProp);
         }
     }
 }

@@ -167,8 +167,12 @@ namespace NCop.Aspects.Tests
             }
         }
 
+        private static MethodInfo GetMethod(string name) {
+            return typeof(Subject).GetMethod(name);
+        }
+
         [TestMethod]
-        public void MethodWithStringParamAndBoolReturnType_DecoratedWithMatcheOnFunctionBoundaryAspect_ReturnsNoErrorFromValidation() {
+        public void MethodWithStringParamAndBoolReturnType_DecoratedWithMatchedOnFunctionBoundaryAspect_ReturnsNoErrorFromValidation() {
             var method = GetMethod("MethodWithStringParamAndBoolReturnType");
             var aspect = new OnMethodBoundaryAspectAttribute(typeof(TestAspect));
 
@@ -262,10 +266,6 @@ namespace NCop.Aspects.Tests
             var aspect = new OnMethodBoundaryAspectAttribute(typeof(NoAdviceAspect));
 
             AspectTypeValidator.ValidateMethodAspect(aspect, method);
-        }
-
-        private static MethodInfo GetMethod(string name) {
-            return typeof(Subject).GetMethod(name);
         }
 
         [TestMethod]
