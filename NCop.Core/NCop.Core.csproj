@@ -114,6 +114,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="PropertyComparer.cs" />
+    <Compile Include="Runtime\FromAssembliesTypeFacotry.cs" />
+    <Compile Include="Runtime\TypeFactory.cs" />
+    <Compile Include="Runtime\TypeFactoryFactory.cs" />
+    <Compile Include="Runtime\ITypeFactory.cs" />
     <Compile Include="TypeComparer.cs" />
     <Compile Include="IBag`1.cs" />
     <Compile Include="Runtime\IRuntimeSettings.cs" />

@@ -16,12 +16,12 @@ namespace NCop.Composite.Framework
 {
     internal class CompositeRuntime : IRuntime
     {
-        private readonly IRuntimeSettings settings = null;
+        private readonly ITypeFactory typeFactory = null;
         private readonly INCopDependencyAwareRegistry registry = null;
 
         public CompositeRuntime(IRuntimeSettings settings, INCopDependencyAwareRegistry registry) {
             this.registry = registry;
-            this.settings = settings ?? new RuntimeSettings();
+            this.typeFactory = TypeFactoryFactory.Get(settings);
         }
 
         public void Run() {
@@ -30,15 +30,12 @@ namespace NCop.Composite.Framework
             AspectsAttributeWeaver aspectRepository = null;
             AspectArgsMapperWeaver aspectArgsMapperWeaver = null;
             var aspectDefinitionsTypeSet = new HashSet<Type>();
-
-            var composites = settings.Assemblies.SelectMany(assembly => {
-                return assembly.GetTypes()
-                               .Select(type => new {
-                                   Type = type,
-                                   Attributes = type.GetCustomAttributesArray<CompositeAttribute>()
-                               })
-                               .Where(composite => composite.Attributes.Length > 0);
-            });
+            
+            var composites = typeFactory.Types.Select(type => new {
+                                                    Type = type,
+                                                    Attributes = type.GetCustomAttributesArray<CompositeAttribute>()
+                                              })
+                                              .Where(composite => composite.Attributes.Length > 0);
 
             var compositeWeavingSettings = composites.ToList(composite => {
                 var compositeType = composite.Type;

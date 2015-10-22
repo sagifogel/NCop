@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace NCop.Core.Runtime
 {
-    public interface IRuntimeSettings
+    public interface ITypeFactory
     {
         IEnumerable<Type> Types { get; }
-        IEnumerable<Assembly> Assemblies { get; }
     }
 }
