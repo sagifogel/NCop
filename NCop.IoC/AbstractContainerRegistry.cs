@@ -80,6 +80,6 @@ namespace NCop.IoC
 
         public abstract void Register(IRegistration registration);
 
-        public abstract void Register(Type concreteType, Type serviceType, Core.ITypeMap dependencies = null, string name = null, bool isComposite = false);
+        public abstract void Register(Core.TypeMap typeMap, Core.ITypeMapCollection dependencies = null, bool isComposite = false);
     }
 }

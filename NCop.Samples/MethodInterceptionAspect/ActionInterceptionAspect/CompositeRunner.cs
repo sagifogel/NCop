@@ -13,7 +13,7 @@ namespace NCop.Samples.MethodInterceptionAspect.ActionInterceptionAspect
 
             container.Configure();
             developer = container.Resolve<IDeveloper>();
-            developer.Code("C# code");
+            developer.Code("C# coding");
         }
     }
 }

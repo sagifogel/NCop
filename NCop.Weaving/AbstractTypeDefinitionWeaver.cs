@@ -5,9 +5,9 @@ namespace NCop.Weaving
 {
     public abstract class AbstractTypeDefinitionWeaver : ITypeDefinitionWeaver
     {   
-        protected readonly ITypeMap mixinsMap = null;
+        protected readonly ITypeMapCollection mixinsMap = null;
         
-        protected AbstractTypeDefinitionWeaver(Type contractType, ITypeMap mixinsMap) {
+        protected AbstractTypeDefinitionWeaver(Type contractType, ITypeMapCollection mixinsMap) {
             Type = contractType;
             this.mixinsMap = mixinsMap;
         }

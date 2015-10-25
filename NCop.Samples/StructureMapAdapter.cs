@@ -1,4 +1,5 @@
-﻿using NCop.IoC;
+﻿using NCop.Core;
+using NCop.IoC;
 using StructureMap;
 using System;
 
@@ -42,10 +43,11 @@ namespace NCop.Samples
             return new StructureMapAdapter(container.GetNestedContainer());
         }
 
-        public void Register(Type concreteType, Type serviceType, string name = null) {
+        public void Register(TypeMap typeMap, ITypeMapCollection dependencies = null) {
             container.Configure(x => {
-                var use = x.For(serviceType)
-                           .Use(concreteType);
+                var name = typeMap.Name;
+                var use = x.For(typeMap.ServiceType)
+                           .Use(typeMap.ConcreteType);
 
                 if (!string.IsNullOrEmpty(name)) {
                     use.Named(name);

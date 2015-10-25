@@ -11,10 +11,10 @@ namespace NCop.Mixins.Weaving
 {
     public class MixinsTypeDefinition : ITypeDefinition, ITypeDefinitionIntilaizer
     {
-        protected readonly ITypeMap mixinsMap = null;
+        protected readonly ITypeMapCollection mixinsMap = null;
         protected readonly IDictionary<Type, IFieldBuilderDefinition> typeDefinitions = new Dictionary<Type, IFieldBuilderDefinition>();
 
-        public MixinsTypeDefinition(Type mixinsType, ITypeMap mixinsMap) {
+        public MixinsTypeDefinition(Type mixinsType, ITypeMapCollection mixinsMap) {
             Type = mixinsType;
             this.mixinsMap = mixinsMap;
         }
@@ -45,9 +45,9 @@ namespace NCop.Mixins.Weaving
 
         protected virtual void CreateTypeDefinitions() {
             mixinsMap.ForEach(mixin => {
-                var mixinTypeDefinition = new MixinFieldBuilderDefinition(mixin.ContractType, TypeBuilder);
+                var mixinTypeDefinition = new MixinFieldBuilderDefinition(mixin.ServiceType, TypeBuilder);
 
-                typeDefinitions.Add(mixin.ContractType, mixinTypeDefinition);
+                typeDefinitions.Add(mixin.ServiceType, mixinTypeDefinition);
             });
         }
     }

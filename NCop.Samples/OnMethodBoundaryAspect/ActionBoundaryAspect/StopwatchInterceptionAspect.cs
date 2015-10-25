@@ -27,6 +27,7 @@ namespace NCop.Samples.OnMethodBoundaryAspect.ActionBoundaryAspect
 
         public override void OnSuccess(ActionExecutionArgs args) {
             stopwatch.Stop();
+            Console.WriteLine("{0} OnSuccess", args.Method.Name);
             Console.WriteLine("Elapsed Ticks: {0}", stopwatch.ElapsedTicks);
         }
     }

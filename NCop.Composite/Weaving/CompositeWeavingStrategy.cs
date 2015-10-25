@@ -13,7 +13,7 @@ namespace NCop.Composite.Weaving
 {
     internal class CompositeWeavingStrategy : MixinsWeaverStrategy
     {
-        internal CompositeWeavingStrategy(IAspectTypeDefinition typeDefinition, ITypeMap mixins, IEnumerable<IMethodWeaver> methodWeavers, INCopDependencyAwareRegistry registry)
+        internal CompositeWeavingStrategy(IAspectTypeDefinition typeDefinition, ITypeMapCollection mixins, IEnumerable<IMethodWeaver> methodWeavers, INCopDependencyAwareRegistry registry)
             : base(typeDefinition, mixins, methodWeavers, registry) {
         }
 

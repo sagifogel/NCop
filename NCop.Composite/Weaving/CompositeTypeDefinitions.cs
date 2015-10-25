@@ -19,7 +19,7 @@ namespace NCop.Composite.Weaving
         protected readonly ICompositeMemberCollection compositeMemberCollection = null;
         protected readonly IDictionary<string, EventBrokerFieldTypeDefinition> eventTypeDefinitions = new Dictionary<string, EventBrokerFieldTypeDefinition>();
 
-        internal CompositeTypeDefinition(Type mixinsType, ITypeMap mixinsMap, ICompositeMemberCollection compositeMemberCollection)
+        internal CompositeTypeDefinition(Type mixinsType, ITypeMapCollection mixinsMap, ICompositeMemberCollection compositeMemberCollection)
             : base(mixinsType, mixinsMap) {
             this.compositeMemberCollection = compositeMemberCollection;
         }
@@ -34,9 +34,9 @@ namespace NCop.Composite.Weaving
 
         protected void RegisterMixinsTypeDefinition(List<Action<TypeMap>> typeDefinitionsActions) {
             typeDefinitionsActions.Add(mixin => {
-                var mixinTypeDefinition = new MixinFieldBuilderDefinition(mixin.ContractType, TypeBuilder);
+                var mixinTypeDefinition = new MixinFieldBuilderDefinition(mixin.ServiceType, TypeBuilder);
 
-                typeDefinitions.Add(mixin.ContractType, mixinTypeDefinition);
+                typeDefinitions.Add(mixin.ServiceType, mixinTypeDefinition);
             });
         }
 

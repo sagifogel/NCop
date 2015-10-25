@@ -5,8 +5,8 @@ namespace NCop.Core
 {
     public class PropertyMap : MemberMap<PropertyInfo>, IPropertyMap
     {
-        public PropertyMap(Type contractType, Type implementationType, PropertyInfo contractProperty, PropertyInfo implementationProperty)
-            : base(contractType, implementationType, contractProperty, implementationProperty) {
+        public PropertyMap(Type serviceType, Type concreteType, PropertyInfo contractProperty, PropertyInfo implementationProperty)
+            : base(serviceType, concreteType, contractProperty, implementationProperty) {
         }
     }
 }

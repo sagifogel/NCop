@@ -2,6 +2,7 @@
 using NCop.Core;
 using NCop.IoC;
 using System;
+using NCop.Core.Extensions;
 
 namespace NCop.Composite.Engine
 {
@@ -13,10 +14,14 @@ namespace NCop.Composite.Engine
             this.regisrty = regisrty;
         }
 
-        public void Register(Type concreteType, Type serviceType, ITypeMap dependencies, string name = null, bool isComposite = false) {
-            name = name ?? serviceType.GetNameFromAttribute() ?? concreteType.GetNameFromAttribute();
+        public void Register(TypeMap typeMap, ITypeMapCollection dependencies, bool isComposite = false) {
+            var name = typeMap.Name ?? typeMap.ServiceType.GetNameFromAttribute() ?? typeMap.ConcreteType.GetNameFromAttribute();
 
-            regisrty.Register(concreteType, serviceType, dependencies, name, isComposite);
+            if (name.IsNotNullOrEmpty()) {
+                typeMap = typeMap.CloneWithName(name);
+            }
+
+            regisrty.Register(typeMap, dependencies, isComposite);
         }
     }
 }

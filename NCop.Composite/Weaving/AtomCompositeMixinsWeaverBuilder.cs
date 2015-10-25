@@ -4,6 +4,7 @@ using NCop.IoC;
 using NCop.Weaving;
 using System;
 using System.Threading;
+using NCop.Core.Extensions;
 
 namespace NCop.Composite.Weaving
 {
@@ -20,9 +21,9 @@ namespace NCop.Composite.Weaving
             AddEventWeavers();
             AddMethodWeavers();
             AddPropertyWeavers();
-            registry.Register(mixin.ImplementationType, mixin.ContractType, name: atomIdentifier);
+            registry.Register(mixin);
 
-            return new AtomMixinsWeaverStrategy(typeDefinition, mixin, methodWeavers, registry);
+            return new AtomMixinsWeaverStrategy(typeDefinition, mixin.CloneWithName(atomIdentifier), methodWeavers, registry);
         }
 
         public override void Add(TypeMap item) {

@@ -9,12 +9,12 @@ namespace NCop.Core
 	{
 		private readonly List<IPropertyMap> mappedProperties = null;
 
-		public PropertyMapper(ITypeMap mixinsMap) {
+		public PropertyMapper(ITypeMapCollection mixinsMap) {
 			var mapped = mixinsMap.Select(mixin => new {
-				mixin.ContractType,
-				mixin.ImplementationType,
-				ContractProperties = mixin.ContractType.GetProperties(),
-				PropertiesImpl = mixin.ImplementationType.GetProperties().ToSet()
+				ServiceType = mixin.ServiceType,
+				ConcreteType = mixin.ConcreteType,
+				ContractProperties = mixin.ServiceType.GetProperties(),
+				PropertiesImpl = mixin.ConcreteType.GetProperties().ToSet()
 			});
 
 			var mappedPropertiesEnumerable = mapped.SelectMany(map => {
@@ -24,14 +24,14 @@ namespace NCop.Core
                     var match = property.SelectFirst(map.PropertiesImpl,
 													 (c, impl) => c.IsMatchedTo(impl),
 													 (c, impl) => new {
-														 PropertyImpl = impl,
-														 ContractProperty = c
+														 ServiceProperty = c,
+                                                         ConcreteProperty = impl
 													 });
 
-					return new PropertyMap(map.ContractType,
-										   map.ImplementationType,
-										   match.ContractProperty,
-                                           match.PropertyImpl);
+                    return new PropertyMap(map.ServiceType,
+                                           map.ConcreteType,
+                                           match.ServiceProperty,
+                                           match.ConcreteProperty);
 				});
 			});
 

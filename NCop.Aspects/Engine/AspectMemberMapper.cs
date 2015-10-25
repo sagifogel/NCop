@@ -14,13 +14,13 @@ namespace NCop.Aspects.Engine
         private List<IAspectMethodMap> mappedMethods = null;
         private List<IAspectPropertyMap> mappedProperties = null;
 
-        public AspectMemberMapper(Type aspectDeclaringType, ITypeMap typeMap) {
+        public AspectMemberMapper(Type aspectDeclaringType, ITypeMapCollection typeMap) {
             MapEvents(aspectDeclaringType, typeMap);
             MapMethods(aspectDeclaringType, typeMap);
             MapProperties(aspectDeclaringType, typeMap);
         }
 
-        private void MapEvents(Type aspectDeclaringType, ITypeMap typeMap) {
+        private void MapEvents(Type aspectDeclaringType, ITypeMapCollection typeMap) {
             var events = aspectDeclaringType.GetPublicEvents();
             var eventMapper = new EventMapper(typeMap);
 
@@ -39,7 +39,7 @@ namespace NCop.Aspects.Engine
             mappedEvents = mappedEventsEnumerable.ToList<IAspectEventMap>();
         }
 
-        private void MapMethods(Type aspectDeclaringType, ITypeMap typeMap) {
+        private void MapMethods(Type aspectDeclaringType, ITypeMapCollection typeMap) {
             var methods = aspectDeclaringType.GetPublicMethods();
             var methodMapper = new MethodMapper(typeMap);
 
@@ -58,7 +58,7 @@ namespace NCop.Aspects.Engine
             mappedMethods = mappedMethodsEnumerable.ToList<IAspectMethodMap>();
         }
 
-        private void MapProperties(Type aspectDeclaringType, ITypeMap typeMap) {
+        private void MapProperties(Type aspectDeclaringType, ITypeMapCollection typeMap) {
             var properties = aspectDeclaringType.GetPublicProperties();
             var propertyMapper = new PropertyMapper(typeMap);
 

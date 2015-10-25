@@ -5,6 +5,6 @@ namespace NCop.Aspects.Engine
     public interface IPropertyArg<TArg>
     {
         TArg Value { get; set; }
-        MethodInfo Method { get; set; }
+        PropertyInfo Property { get; set; }
     }
 }

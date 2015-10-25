@@ -10,7 +10,7 @@ namespace NCop.Composite.Weaving
     internal class CompositeWeavingSettingsImpl : ICompositeWeavingSettings
     {   
         public Type CompositeType { get; set; }
-        public ITypeMap MixinsMap { get; set; }
+        public ITypeMapCollection MixinsMap { get; set; }
         public IAspectsMap AspectsMap { get; set; }
         public IAspectArgsMapper AspectArgsMapper { get; set; }
         public IAspectRepository AspectRepository { get; set; }

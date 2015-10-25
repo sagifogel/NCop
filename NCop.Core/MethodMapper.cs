@@ -11,14 +11,14 @@ namespace NCop.Core
     {
         private readonly List<IMethodMap> mappedMethods = null;
 
-        public MethodMapper(ITypeMap typeMap) {
+        public MethodMapper(ITypeMapCollection typeMap) {
             Func<MethodInfo, bool> methodPredicate = methodInfo => !methodInfo.IsSpecialName;
 
             var mapped = typeMap.Select(map => new {
-                map.ContractType,
-                map.ImplementationType,
-                ContractMethods = map.ContractType.GetPublicMethods().Where(methodPredicate),
-                MethodsImpl = map.ImplementationType.GetPublicMethods().ToSet(methodPredicate),
+                ContractType = map.ServiceType,
+                ImplementationType = map.ConcreteType,
+                ContractMethods = map.ServiceType.GetPublicMethods().Where(methodPredicate),
+                MethodsImpl = map.ConcreteType.GetPublicMethods().ToSet(methodPredicate),
             });
 
             var mappedMethodsEnumerable = mapped.SelectMany(map => {

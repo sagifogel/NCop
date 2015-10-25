@@ -17,6 +17,7 @@ namespace NCop.Samples.MethodInterceptionAspect.ActionInterceptionAspect
             args.Proceed();
             stopwatch.Stop();
             Console.WriteLine("Arg1: {0}", args.Arg1);
+            Console.WriteLine("{0} OnSuccess", args.Method.Name);
             Console.WriteLine("Elapsed Ticks: {0}", stopwatch.ElapsedTicks);
         }
     }

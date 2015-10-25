@@ -9,7 +9,7 @@ namespace NCop.Composite.Weaving
     {
         private readonly ITypeDefinitionIntilaizer typeDefinitionInitializer = null;
 
-        internal CompositeTypeDefinitionWeaver(Type contractType, ITypeMap mixinsMap, ICompositeMemberCollection compositeMemberCollection)
+        internal CompositeTypeDefinitionWeaver(Type contractType, ITypeMapCollection mixinsMap, ICompositeMemberCollection compositeMemberCollection)
             : base(contractType, mixinsMap) {
             typeDefinitionInitializer = new CompositeTypeDefinition(Type, mixinsMap, compositeMemberCollection);
         }

@@ -11,8 +11,8 @@ namespace NCop.IoC
             this.registry = registry;
         }
 
-        public void Register(Type concreteType, Type serviceType, ITypeMap dependencies = null, string name = null, bool isComposite = false) {
-            registry.Register(concreteType, serviceType, name);
+        public void Register(TypeMap typeMap, ITypeMapCollection dependencies = null, bool isComposite = false) {
+            registry.Register(typeMap, dependencies);
         }
     }
 }

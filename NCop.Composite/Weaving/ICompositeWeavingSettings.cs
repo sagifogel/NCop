@@ -10,7 +10,7 @@ namespace NCop.Composite.Weaving
     interface ICompositeWeavingSettings : IAspectWeavingServices
     {
         Type CompositeType { get; }
-        ITypeMap MixinsMap { get; }
+        ITypeMapCollection MixinsMap { get; }
         IAspectsMap AspectsMap { get; }
         INCopDependencyAwareRegistry Registry { get; }
         IAspectMemebrsCollection AspectMemebrsCollection { get; }

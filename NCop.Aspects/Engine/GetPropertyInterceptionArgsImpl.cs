@@ -4,8 +4,8 @@ namespace NCop.Aspects.Engine
 {
     public class GetPropertyInterceptionArgsImpl<TInstance, TArg> : AbstractPropertyInterceptionArgs<TInstance, TArg>
     {
-        public GetPropertyInterceptionArgsImpl(TInstance instance, MethodInfo method, IPropertyBinding<TInstance, TArg> propertyBinding)
-            : base(instance, method, propertyBinding) {
+        public GetPropertyInterceptionArgsImpl(TInstance instance, PropertyInfo property, IPropertyBinding<TInstance, TArg> propertyBinding)
+            : base(instance, property, propertyBinding) {
         }
     }
 }

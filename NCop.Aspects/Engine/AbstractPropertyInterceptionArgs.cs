@@ -8,8 +8,8 @@ namespace NCop.Aspects.Engine
         protected TInstance instance = default(TInstance);
         protected readonly IPropertyBinding<TInstance, TArg> propertyBinding = null;
 
-        protected AbstractPropertyInterceptionArgs(TInstance instance, MethodInfo method, IPropertyBinding<TInstance, TArg> propertyBinding) {
-            Method = method;
+        protected AbstractPropertyInterceptionArgs(TInstance instance, PropertyInfo property, IPropertyBinding<TInstance, TArg> propertyBinding) {
+            Property = property;
             Instance = this.instance = instance;
             this.propertyBinding = propertyBinding;
         }

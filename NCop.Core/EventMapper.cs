@@ -11,14 +11,14 @@ namespace NCop.Core
     {
         private readonly List<IEventMap> mappedEvents = null;
 
-        public EventMapper(ITypeMap typeMap) {
+        public EventMapper(ITypeMapCollection typeMap) {
             Func<EventInfo, bool> eventPredicate = eventdInfo => !eventdInfo.IsSpecialName;
 
             var mapped = typeMap.Select(map => new {
-                map.ContractType,
-                map.ImplementationType,
-                ContractEvents = map.ContractType.GetPublicEvents().Where(eventPredicate),
-                EventsImpl = map.ImplementationType.GetPublicEvents().ToSet(eventPredicate),
+                ContractType = map.ServiceType,
+                ImplementationType = map.ConcreteType,
+                ContractEvents = map.ServiceType.GetPublicEvents().Where(eventPredicate),
+                EventsImpl = map.ConcreteType.GetPublicEvents().ToSet(eventPredicate),
             });
 
             var mappedEventsEnumerable = mapped.SelectMany(map => {

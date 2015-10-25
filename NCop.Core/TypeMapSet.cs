@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NCop.Core
 {
-    public class TypeMapSet : ITypeMap
+    public class TypeMapSet : ITypeMapCollection
     {
         private readonly HashSet<TypeMap> maps = null;
 

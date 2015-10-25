@@ -63,6 +63,7 @@
       <DependentUpon>PropertyAccessorsMismatchException.tt</DependentUpon>
     </Compile>
     <Compile Include="Extensions\ReaderWriterLockSlimExtensions.cs" />
+    <Compile Include="Extensions\TypeMapExtenisons.cs" />
     <Compile Include="Functional.cs" />
     <Compile Include="Exceptions\AttributeNotFoundException.cs">
       <AutoGen>True</AutoGen>
@@ -100,7 +101,7 @@
     <Compile Include="Lib\Lazy`1.cs" />
     <Compile Include="Lib\Lazy`4.cs" />
     <Compile Include="MethodComparer.cs" />
-    <Compile Include="ITypeMap.cs" />
+    <Compile Include="ITypeMapCollection.cs" />
     <Compile Include="MemberMap.cs" />
     <Compile Include="EventMap.cs" />
     <Compile Include="MethodMap.cs" />

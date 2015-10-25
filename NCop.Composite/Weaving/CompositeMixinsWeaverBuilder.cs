@@ -19,8 +19,10 @@ namespace NCop.Composite.Weaving
             AddPropertyWeavers();
 
             mixinsMap.ForEach(map => {
-                if (map.ImplementationType.IsNotDefined<IgnoreRegistrationAttribute>()) {
-                    registry.Register(map.ImplementationType, map.ContractType, name: Guid.NewGuid().ToString());
+                if (map.ConcreteType.IsNotDefined<IgnoreRegistrationAttribute>()) {
+                    var name = Guid.NewGuid().ToString();
+
+                    registry.Register(map.CloneWithName(name));
                 }
             });
 

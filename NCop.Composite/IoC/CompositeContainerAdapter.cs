@@ -42,14 +42,16 @@ namespace NCop.Composite.IoC
             return container.CreateChildContainer();
         }
 
-        public void Register(Type concreteType, Type serviceType, ITypeMap dependencies = null, string name = null, bool isComposite = false) {
+        public void Register(TypeMap typeMap, ITypeMapCollection dependencies = null, bool isComposite = false) {
+            var serviceType = typeMap.ServiceType;
+            var concreteType = typeMap.ConcreteType;
             IRegistration compositeRegistration = null;
             var castAs = serviceType.GetTypeFromAttribute();
             var disposable = serviceType.GetDisposableFromAttribute();
 
-            compositeRegistration = isComposite ? 
-                                    new CompositeTypeRegistration(container, concreteType, serviceType, dependencies, castAs, name, disposable) :
-                                    new CompositeFrameworkRegistration(container, concreteType, serviceType, dependencies, castAs, name, disposable);
+            compositeRegistration = isComposite ?
+                                    new CompositeTypeRegistration(container, typeMap, dependencies, castAs, disposable) :
+                                    new CompositeFrameworkRegistration(container, typeMap, dependencies, castAs, disposable);
 
             container.Register(compositeRegistration);
         }

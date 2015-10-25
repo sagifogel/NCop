@@ -1,9 +1,10 @@
-﻿using System;
+﻿using NCop.Core;
+using System;
 
 namespace NCop.IoC
 {
     public interface INCopRegistry
     {
-        void Register(Type concreteType, Type serviceType, string name = null);
+        void Register(TypeMap typeMap, ITypeMapCollection dependencies = null);
     }
 }

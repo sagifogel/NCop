@@ -21,12 +21,12 @@ namespace NCop.Composite.IoC
         private readonly CompositeRegistration registration = null;
         private readonly IRegistrationResolver registrationResolver = null;
 
-        internal CompositeFrameworkRegistration(IRegistrationResolver registrationResolver, Type concreteType, Type serviceType, IEnumerable<TypeMap> dependencies, Type castTo, string name, bool disposable) {
+        internal CompositeFrameworkRegistration(IRegistrationResolver registrationResolver, TypeMap typeMap, IEnumerable<TypeMap> dependencies, Type castTo, bool disposable) {
             NamedAttribute namedAttribute = null;
 
-            this.serviceType = serviceType;
-            this.concreteType = concreteType;
             this.dependencies = dependencies;
+            this.serviceType = typeMap.ServiceType;
+            this.concreteType = typeMap.ConcreteType;
             this.registrationResolver = registrationResolver;
 
             registration = new CompositeRegistration {
@@ -35,10 +35,9 @@ namespace NCop.Composite.IoC
             };
 
             SetLifetime();
+            registration.Name = typeMap.Name;
 
-            registration.Name = name;
-
-            if (name.IsNullOrEmpty() && TryGetNamedAttribute(out namedAttribute)) {
+            if (typeMap.Name.IsNullOrEmpty() && TryGetNamedAttribute(out namedAttribute)) {
                 registration.Name = namedAttribute.Name;
             }
 
@@ -136,7 +135,7 @@ namespace NCop.Composite.IoC
             var ctorParameters = ctor.GetParameters();
 
             if (ctorParameters.Length > 0) {
-                var dependencyMap = dependencies.ToDictionary(dependency => dependency.ContractType, dependency => dependency.ImplementationType);
+                var dependencyMap = dependencies.ToDictionary(dependency => dependency.ServiceType, dependency => dependency.ConcreteType);
 
                 @params = ctorParameters.Select(pi => {
                     Type registeredType;

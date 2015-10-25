@@ -147,11 +147,11 @@ namespace NCop.Aspects.Weaving
             fromArgTypeILGenerator.Emit(OpCodes.Ldarg_1);
             fromArgTypeILGenerator.Emit(OpCodes.Ldarg_0);
             fromArgTypeILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(fromArgumentType, fromArgType.GetProperty("Method").GetGetMethod()));
-            fromArgTypeILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(propertyArgumentType, propertyArgType.GetProperty("Method").GetSetMethod()));
+            fromArgTypeILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(propertyArgumentType, propertyArgType.GetProperty("Property").GetSetMethod()));
 
             fromPropertyILGenerator.Emit(OpCodes.Ldarg_1);
             fromPropertyILGenerator.Emit(OpCodes.Ldarg_0);
-            fromPropertyILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(propertyArgumentType, propertyArgType.GetProperty("Method").GetGetMethod()));
+            fromPropertyILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(propertyArgumentType, propertyArgType.GetProperty("Property").GetGetMethod()));
             fromPropertyILGenerator.Emit(OpCodes.Callvirt, TypeBuilder.GetMethod(fromArgumentType, fromArgType.GetProperty("Method").GetSetMethod()));
 
             fromArgTypeILGenerator.Emit(OpCodes.Ret);

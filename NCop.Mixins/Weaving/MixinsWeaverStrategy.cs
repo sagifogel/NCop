@@ -17,13 +17,13 @@ namespace NCop.Mixins.Weaving
 {
     public class MixinsWeaverStrategy : ITypeWeaver
     {
-        protected readonly ITypeMap mixinsMap = null;
+        protected readonly ITypeMapCollection mixinsMap = null;
         protected readonly ITypeDefinition typeDefinition = null;
         protected readonly INCopDependencyAwareRegistry registry = null;
         protected readonly IEnumerable<IMethodWeaver> methodWeavers = null;
         private static readonly MethodAttributes attrs = MA.Public | MA.HideBySig | MA.SpecialName | MA.RTSpecialName;
 
-        public MixinsWeaverStrategy(ITypeDefinition typeDefinition, ITypeMap mixinsMap, IEnumerable<IMethodWeaver> methodWeavers, INCopDependencyAwareRegistry registry) {
+        public MixinsWeaverStrategy(ITypeDefinition typeDefinition, ITypeMapCollection mixinsMap, IEnumerable<IMethodWeaver> methodWeavers, INCopDependencyAwareRegistry registry) {
             this.registry = registry;
             this.mixinsMap = mixinsMap;
             this.methodWeavers = methodWeavers;
@@ -56,7 +56,7 @@ namespace NCop.Mixins.Weaving
                 throw;
             }
 
-            registry.Register(weavedType, typeDefinition.Type, mixinsMap, isComposite: true);
+            registry.Register(new TypeMap(typeDefinition.Type,  weavedType), mixinsMap, isComposite: true);
         }
 
         protected virtual void CreateDefaultConstructor() {
@@ -68,7 +68,7 @@ namespace NCop.Mixins.Weaving
         }
 
         protected virtual ConstructorBuilder DefineConstructor() {
-            var @params = mixinsMap.ToArray(map => map.ContractType);
+            var @params = mixinsMap.ToArray(map => map.ServiceType);
             var ctorBuilder = typeDefinition.TypeBuilder.DefineConstructor(attrs, CallingConventions.HasThis, @params);
 
             @params.ForEach(1, (param, i) => {
@@ -83,7 +83,7 @@ namespace NCop.Mixins.Weaving
             ilGenerator.Emit(OpCodes.Call, typeof(object).GetConstructor(Type.EmptyTypes));
 
             mixinsMap.ForEach(1, (map, i) => {
-                var contractType = map.ContractType;
+                var contractType = map.ServiceType;
                 var mixinTypeDefinition = typeDefinition.GetFieldBuilder(contractType);
 
                 ilGenerator.Emit(OpCodes.Ldarg_0);

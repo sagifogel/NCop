@@ -8,7 +8,7 @@ namespace NCop.Mixins.Weaving
     {
         private readonly ITypeDefinitionIntilaizer typeDefinitionInitializer = null;
 
-        public MixinsTypeDefinitionWeaver(Type contractType, ITypeMap mixinsMap)
+        public MixinsTypeDefinitionWeaver(Type contractType, ITypeMapCollection mixinsMap)
             : base(contractType, mixinsMap) {
             typeDefinitionInitializer = new MixinsTypeDefinition(Type, mixinsMap);
         }

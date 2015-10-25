@@ -57,11 +57,11 @@ namespace NCop.Composite.Weaving
             return builder.Build();
         }
 
-        private bool IsAtomComposite(Type compositeType, ITypeMap mixinsMap) {
+        private bool IsAtomComposite(Type compositeType, ITypeMapCollection mixinsMap) {
             if (mixinsMap.Count == 1) {
                 var mixinMap = mixinsMap.First();
 
-                return ReferenceEquals(mixinMap.ContractType, compositeType);
+                return ReferenceEquals(mixinMap.ServiceType, compositeType);
             }
 
             return false;

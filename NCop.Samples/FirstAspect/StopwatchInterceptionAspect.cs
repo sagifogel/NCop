@@ -16,6 +16,7 @@ namespace NCop.Samples.FirstAspect
             stopwatch.Restart();
             args.Proceed();
             stopwatch.Stop();
+            Console.WriteLine("{0} OnSuccess", args.Method.Name);
             Console.WriteLine("Elapsed Ticks: {0}", stopwatch.ElapsedTicks);
         }
     }

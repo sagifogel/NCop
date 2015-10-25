@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace NCop.Mixins.Engine
 {
-    public class MixinsMap : ITypeMap
+    public class MixinsMap : ITypeMapCollection
     {
         private readonly List<TypeMap> map = null;
         private AttributeTypeMatcher<MixinsAttribute> matcher = null;

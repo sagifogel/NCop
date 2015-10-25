@@ -21,7 +21,7 @@ namespace NCop.Aspects.Weaving
             ilGenerator.EmitLoadArg(1);
             ilGenerator.Emit(OpCodes.Ldind_Ref);
             ilGenerator.EmitLoadArg(2);
-            ilGenerator.Emit(OpCodes.Callvirt, aspectArgsType.GetProperty("Method").GetGetMethod());
+            ilGenerator.Emit(OpCodes.Callvirt, aspectArgsType.GetProperty("Property").GetGetMethod());
             ilGenerator.Emit(OpCodes.Ldsfld, bindingsDependency);
             ilGenerator.Emit(OpCodes.Newobj, ctorInterceptionArgs);
             ilGenerator.EmitStoreLocal(aspectArgLocalBuilder);

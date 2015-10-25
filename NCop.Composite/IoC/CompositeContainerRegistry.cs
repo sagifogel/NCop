@@ -30,8 +30,8 @@ namespace NCop.Composite.IoC
             registrations.Add(concreteType, registration);
         }
 
-        public override void Register(Type concreteType, Type serviceType, ITypeMap dependencies = null, string name = null, bool isComposite = false) {
-            RegisterImpl(new ReflectionRegistration(concreteType, serviceType));
+        public override void Register(TypeMap typeMap, ITypeMapCollection dependencies = null, bool isComposite = false) {
+            RegisterImpl(new ReflectionRegistration(typeMap.ConcreteType, typeMap.ServiceType));
         }
 
         public IRegistration Resolve(Type concreteType) {

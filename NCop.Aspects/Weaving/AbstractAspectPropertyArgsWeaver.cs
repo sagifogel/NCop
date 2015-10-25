@@ -7,13 +7,13 @@ namespace NCop.Aspects.Weaving
 {
     internal abstract class AbstractAspectPropertyArgsWeaver : IArgumentsWeaver
     {
-        protected readonly MethodInfo method = null;
+        protected readonly PropertyInfo property = null;
         private readonly LocalBuilder methodLocalBuilder = null;
         private readonly IAspectWeavingSettings aspectWeavingSettings = null;
 
-        internal AbstractAspectPropertyArgsWeaver(MethodInfo method, LocalBuilder methodLocalBuilder, IAspectWeavingSettings aspectWeavingSettings) {
-            this.method = method;
-            this.methodLocalBuilder = methodLocalBuilder;
+        internal AbstractAspectPropertyArgsWeaver(PropertyInfo property, LocalBuilder propertyLocalBuilder, IAspectWeavingSettings aspectWeavingSettings) {
+            this.property = property;
+            this.propertyLocalBuilder = propertyLocalBuilder;
             this.aspectWeavingSettings = aspectWeavingSettings;
         }
 
@@ -28,18 +28,13 @@ namespace NCop.Aspects.Weaving
             ilGenerator.EmitLoadArg(0);
             ilGenerator.Emit(OpCodes.Ldfld, contractFieldBuilder);
             ilGenerator.Emit(OpCodes.Callvirt, typeofObject.GetMethod("GetType"));
-            ilGenerator.Emit(OpCodes.Ldstr, PropertyName);
-            ilGenerator.Emit(OpCodes.Ldtoken, PropertyType);
+            ilGenerator.Emit(OpCodes.Ldstr, property.Name);
+            ilGenerator.Emit(OpCodes.Ldtoken, property.PropertyType);
             ilGenerator.Emit(OpCodes.Call, getTypeFromHandleMethodInfo);
             ilGenerator.Emit(OpCodes.Callvirt, typeofType.GetMethod("GetProperty", new[] { typeof(string), typeof(Type) }));
-            ilGenerator.Emit(OpCodes.Callvirt, PropertyMethod);
-            ilGenerator.EmitStoreLocal(methodLocalBuilder);
+            ilGenerator.EmitStoreLocal(propertyLocalBuilder);
         }
 
-        protected abstract Type PropertyType { get; }
-
-        protected abstract string PropertyName { get; }
-
-        protected abstract MethodInfo PropertyMethod { get; }
+        public LocalBuilder propertyLocalBuilder { get; set; }
     }
 }
