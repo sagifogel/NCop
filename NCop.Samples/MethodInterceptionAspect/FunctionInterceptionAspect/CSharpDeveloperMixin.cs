@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace NCop.Samples.MethodInterceptionAspect.FunctionInterceptionAspect
 {
     public class CSharpDeveloperMixin : IDeveloper

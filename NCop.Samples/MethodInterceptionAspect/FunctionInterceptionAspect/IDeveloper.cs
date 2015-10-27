@@ -1,6 +1,6 @@
-﻿using NCop.Composite.Framework;
+﻿using NCop.Aspects.Framework;
+using NCop.Composite.Framework;
 using NCop.Mixins.Framework;
-using NCop.Aspects.Framework;
 
 namespace NCop.Samples.MethodInterceptionAspect.FunctionInterceptionAspect
 {

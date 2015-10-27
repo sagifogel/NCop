@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace NCop.Samples.OnMethodBoundaryAspect.FunctionBoundaryAspect
 {   
     public class CSharpDeveloperMixin : IDeveloper

@@ -1,5 +1,5 @@
-﻿using System;
-using NCop.Aspects.Framework;
+﻿using NCop.Aspects.Framework;
+using System;
 
 namespace NCop.Samples.PropertyInterceptionAppect
 {

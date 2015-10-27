@@ -23,11 +23,13 @@ namespace NCop.Composite.Weaving
             AddPropertyWeavers();
             registry.Register(mixin);
 
-            return new AtomMixinsWeaverStrategy(typeDefinition, mixin.CloneWithName(atomIdentifier), methodWeavers, registry);
+            return new AtomMixinsWeaverStrategy(typeDefinition, mixin, methodWeavers, registry);
         }
 
         public override void Add(TypeMap item) {
-            Interlocked.CompareExchange(ref mixin, item, null);
+            var cloned = item.CloneWithName(atomIdentifier);
+
+            Interlocked.CompareExchange(ref mixin, cloned, null);
         }
     }
 }

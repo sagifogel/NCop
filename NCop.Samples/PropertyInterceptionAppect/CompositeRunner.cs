@@ -1,6 +1,5 @@
 ﻿using NCop.Composite.Framework;
 using NCop.Composite.Runtime;
-using NCop.Samples.AtomMixin;
 using System;
 
 namespace NCop.Samples.PropertyInterceptionAppect
