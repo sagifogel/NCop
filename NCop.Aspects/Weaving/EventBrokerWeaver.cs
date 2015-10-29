@@ -43,7 +43,7 @@ namespace NCop.Aspects.Weaving
         private void WeaveConstructor(TypeBuilder typeBuilder, EventBrokerResolvedType eventBrokerResolvedType) {
             ConstructorBuilder ctor = null;
             ILGenerator ilGenerator = null;
-            var ctorArgs = new[] { eventBrokerResolvedType.DecalringType, eventBrokerResolvedType.EventBrokerInvokeDelegateType };
+            var ctorArgs = new[] { eventBrokerResolvedType.DecalringType, typeof(EventInfo), eventBrokerResolvedType.EventBrokerInvokeDelegateType };
             var baseCtor = eventBrokerResolvedType.EventBrokerBaseClassType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, Type.DefaultBinder, ctorArgs, null);
 
             ctor = typeBuilder.DefineConstructor(ctorAttrs, CallingConventions.Standard | CallingConventions.HasThis, ctorArgs);

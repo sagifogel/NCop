@@ -1,16 +1,19 @@
 ﻿using NCop.Core.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace NCop.Aspects.Engine
 {
     public abstract class AbstractFunctionEventBroker<TInstance, TResult> : IEventBroker<Func<TResult>>
     {
+        protected readonly EventInfo @event = null;
         protected readonly TInstance instance = default(TInstance);
         private readonly LinkedList<Func<TResult>> linkedHandlers = null;
         protected readonly Func<IEventFunctionArgs<TResult>, TResult> argsHandler = null;
 
-        protected AbstractFunctionEventBroker(TInstance instance, Func<IEventFunctionArgs<TResult>, TResult> argsHandler) {
+        protected AbstractFunctionEventBroker(TInstance instance, EventInfo @event, Func<IEventFunctionArgs<TResult>, TResult> argsHandler) {
+            this.@event = @event;
             this.instance = instance;
             this.argsHandler = argsHandler;
             linkedHandlers = new LinkedList<Func<TResult>>();
@@ -29,6 +32,7 @@ namespace NCop.Aspects.Engine
         protected TResult OnEventFired() {
             var args = new EventFunctionInterceptionArgsImpl<TInstance, TResult>();
 
+            args.Event = @event;
             args.EventBroker = this;
 
             for (var i = linkedHandlers.First; i != null; i = i.Next) {

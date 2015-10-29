@@ -32,7 +32,7 @@ namespace NCop.Aspects.Weaving
             var parameters = handlerType.GetInvokeMethod().GetParameters();
 
             ilGenerator.EmitLoadArg(1);
-            ilGenerator.Emit(OpCodes.Ldftn, eventBrokerFieldTypeDefinition.EventType.GetInvokeMethod());
+            ilGenerator.Emit(OpCodes.Ldftn, eventBrokerFieldTypeDefinition.Event.EventHandlerType.GetInvokeMethod());
             ilGenerator.Emit(OpCodes.Newobj, delegateCtor);
             ilGenerator.EmitStoreLocal(delegateLocalBuilder);
             ilGenerator.EmitLoadArg(0);

@@ -48,7 +48,7 @@ namespace NCop.Composite.Weaving
                 var eventBrokerDefinitions = eventBrokerWeaver.Weave();
 
                 eventBrokerDefinitions.ForEach(eventBrokerDefinition => {
-                    eventTypeDefinitions.Add(eventBrokerDefinition.Name, eventBrokerDefinition);
+                    eventTypeDefinitions.Add(eventBrokerDefinition.Event.Name, eventBrokerDefinition);
                 });
             }
         }

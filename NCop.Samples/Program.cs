@@ -1,4 +1,4 @@
-﻿using NCop.Samples.IntegrationWithExternalIoC;
+﻿using NCop.Samples.EventFunctionInterceptionAspect;
 
 namespace NCop.Samples
 {
