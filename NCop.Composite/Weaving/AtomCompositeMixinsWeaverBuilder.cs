@@ -5,13 +5,13 @@ using NCop.Weaving;
 using System;
 using System.Threading;
 using NCop.Core.Extensions;
+using NCop.Composite.Framework;
 
 namespace NCop.Composite.Weaving
 {
     internal class AtomCompositeMixinsWeaverBuilder : AbstractCompositeWeaverBuilder, ICompositeMixinsTypeWeaverBuilder
     {
         private TypeMap mixin = null;
-        private readonly string atomIdentifier = Guid.NewGuid().ToString();
 
         public AtomCompositeMixinsWeaverBuilder(Type type, IAspectTypeDefinition typeDefinition, INCopDependencyAwareRegistry registry)
             : base(type, typeDefinition, registry) {
@@ -21,15 +21,16 @@ namespace NCop.Composite.Weaving
             AddEventWeavers();
             AddMethodWeavers();
             AddPropertyWeavers();
-            registry.Register(mixin);
+
+            if (mixin.ConcreteType.IsNotDefined<IgnoreRegistrationAttribute>()) {
+                registry.Register(mixin);
+            }
 
             return new AtomMixinsWeaverStrategy(typeDefinition, mixin, methodWeavers, registry);
         }
 
         public override void Add(TypeMap item) {
-            var cloned = item.CloneWithName(atomIdentifier);
-
-            Interlocked.CompareExchange(ref mixin, cloned, null);
+            Interlocked.CompareExchange(ref mixin, item, null);
         }
     }
 }

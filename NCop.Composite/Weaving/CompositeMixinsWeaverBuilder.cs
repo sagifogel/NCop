@@ -20,9 +20,7 @@ namespace NCop.Composite.Weaving
 
             mixinsMap.ForEach(map => {
                 if (map.ConcreteType.IsNotDefined<IgnoreRegistrationAttribute>()) {
-                    var name = Guid.NewGuid().ToString();
-
-                    registry.Register(map.CloneWithName(name));
+                    registry.Register(map);
                 }
             });
 

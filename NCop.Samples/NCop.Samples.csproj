@@ -39,6 +39,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="SimpleInjector, Version=3.1.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.3.1.0\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="StructureMap, Version=3.1.6.186, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\structuremap.3.1.6.186\lib\net40\StructureMap.dll</HintPath>
       <Private>True</Private>
@@ -73,8 +77,11 @@
     <Compile Include="DependableMixins\CompositeRunner.cs" />
     <Compile Include="DependableMixins\CSharp5LanguageVersion.cs" />
     <Compile Include="DependableMixins\CSharpDeveloperMixin.cs" />
+    <Compile Include="DependableMixins\GuitarPlayerMixin.cs" />
     <Compile Include="DependableMixins\ICSharpLanguageVersion.cs" />
     <Compile Include="DependableMixins\IDeveloper.cs" />
+    <Compile Include="DependableMixins\IMusician.cs" />
+    <Compile Include="DependableMixins\IPerson.cs" />
     <Compile Include="Generics\CovariantComposites\CompositeRunner.cs" />
     <Compile Include="Generics\CovariantComposites\GenericCovariantDeveloperMixin.cs" />
     <Compile Include="Generics\CovariantComposites\ICovariantDeveloper.cs" />

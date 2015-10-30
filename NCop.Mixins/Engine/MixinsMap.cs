@@ -19,7 +19,7 @@ namespace NCop.Mixins.Engine
                 matcher = new AttributeTypeMatcher<MixinsAttribute>(compositeType, attr => attr.Mixins);
                 map = new List<TypeMap>(
                     matcher.Select(tuple => {
-                        return new TypeMap(tuple.Item1, tuple.Item2);
+                        return TypeMap.Create(tuple.Item1, tuple.Item2);
                     })
                 );
             }

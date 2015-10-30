@@ -18,7 +18,7 @@ namespace NCop.Composite.Engine
             var name = typeMap.Name ?? typeMap.ServiceType.GetNameFromAttribute() ?? typeMap.ConcreteType.GetNameFromAttribute();
 
             if (name.IsNotNullOrEmpty()) {
-                typeMap = typeMap.CloneWithName(name);
+                typeMap = new TypeMap(typeMap.ServiceType, typeMap.ConcreteType, name);
             }
 
             regisrty.Register(typeMap, dependencies, isComposite);

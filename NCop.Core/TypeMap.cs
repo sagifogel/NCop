@@ -10,6 +10,14 @@ namespace NCop.Core
             ConcreteType = concreteType;
         }
 
+        private TypeMap(Type serviceType, Type concreteType, Guid guid)
+            : this(serviceType, concreteType, guid.ToString()) {
+        }
+
+        public static TypeMap Create(Type serviceType, Type concreteType) {
+            return new TypeMap(serviceType, concreteType, Guid.NewGuid());
+        }
+
         public string Name { get; private set; }
         public Type ServiceType { get; private set; }
         public Type ConcreteType { get; private set; }

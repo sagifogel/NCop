@@ -3,7 +3,6 @@ using System;
 
 namespace NCop.Samples.DependableMixins
 {
-    [IgnoreRegistration]
     public class CSharpDeveloperMixin : IDeveloper
     {
         private readonly ICSharpLanguageVersion languageVersion = null;

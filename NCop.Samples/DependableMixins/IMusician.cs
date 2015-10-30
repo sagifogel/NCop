@@ -1,8 +1,8 @@
 ﻿
 namespace NCop.Samples.DependableMixins
 {
-    public interface IDeveloper
+    public interface IMusician
     {
-        void Code();
+        void Play();
     }
 }

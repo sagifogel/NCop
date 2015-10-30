@@ -63,7 +63,6 @@
       <DependentUpon>PropertyAccessorsMismatchException.tt</DependentUpon>
     </Compile>
     <Compile Include="Extensions\ReaderWriterLockSlimExtensions.cs" />
-    <Compile Include="Extensions\TypeMapExtenisons.cs" />
     <Compile Include="Functional.cs" />
     <Compile Include="Exceptions\AttributeNotFoundException.cs">
       <AutoGen>True</AutoGen>
