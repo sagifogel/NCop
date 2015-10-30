@@ -1,6 +1,6 @@
-﻿using System.Reflection;
-using NCop.Aspects.Aspects;
+﻿using NCop.Aspects.Aspects;
 using NCop.Aspects.Engine;
+using System.Reflection;
 
 namespace NCop.Aspects.Extensions
 {

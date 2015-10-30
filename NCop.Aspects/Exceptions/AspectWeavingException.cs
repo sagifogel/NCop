@@ -9,8 +9,7 @@
 namespace NCop.Aspects.Exceptions
 {
 	using System;
-	using NCop.Core.Extensions;
-	using System.Runtime.Serialization;
+    using System.Runtime.Serialization;
 	
 	[Serializable]
 	public class AspectWeavingException : SystemException, ISerializable

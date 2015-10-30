@@ -34,7 +34,7 @@ namespace NCop.IoC
 
             cache = cache ?? (ILifetimeCache)items[itemsName];
 
-            return cache.GetOrAdd(context.Factory);
+            return cache.GetOrAdd(context.Key, context.Factory);
         }
 
         private IDictionary EnsureHttpContextItems() {

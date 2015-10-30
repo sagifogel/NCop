@@ -10,8 +10,8 @@ namespace NCop.Composite.IoC
     {
         private readonly CompositeContainer container = null;
 
-        public CompositeContainerAdapter() {
-            container = new CompositeContainer();
+        internal CompositeContainerAdapter(CompositeContainer container = null) {
+            this.container = container ?? new CompositeContainer();
         }
 
         public void Configure() {

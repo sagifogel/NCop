@@ -22,8 +22,8 @@ namespace NCop.IoC
             return CloneAndResolve(context.Key, context.Entry, context.Container, context.Registry, context.Factory);
         }
 
-        private TService CloneAndResolve<TService>(ServiceKey key, ServiceEntry entry, INCopDependencyResolver containerResolver, Action<ServiceKey, ServiceEntry> registry, Func<TService> factory) {
-            var clonedEntry = entry.CloneFor(containerResolver);
+        private TService CloneAndResolve<TService>(ServiceKey key, ServiceEntry entry, INCopDependencyContainer container, Action<ServiceKey, ServiceEntry> registry, Func<TService> factory) {
+            var clonedEntry = entry.CloneFor(container);
 
             registry(key, clonedEntry);
 
@@ -32,7 +32,7 @@ namespace NCop.IoC
                 Factory = factory,
                 Entry = clonedEntry,
                 Registry = registry,
-                Container = containerResolver
+                Container = container
             };
 
             return clonedEntry.LifetimeStrategy.Resolve(context);

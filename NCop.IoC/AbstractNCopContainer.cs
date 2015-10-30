@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace NCop.IoC
 {
-    public abstract class AbstractNCopContainer : INCopDependencyResolver
+    public abstract class AbstractNCopContainer : INCopDependencyContainer
     {
         private readonly object syncLock = new object();
         protected readonly IContainerRegistry registry = null;
@@ -164,5 +164,7 @@ namespace NCop.IoC
                 }
             }
         }
+
+        public abstract INCopDependencyContainer CreateChildContainer();
     }
 }

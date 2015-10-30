@@ -9,29 +9,34 @@ namespace NCop.Composite.Framework
 {
     public sealed class CompositeContainer : INCopDependencyContainer
     {
+        private readonly CompositeRuntimeSettings runtimeSettings = null;
         private readonly INCopDependencyContainer dependencyContainer = null;
 
-        public CompositeContainer(CompositeRuntimeSettings runtimeSettings = null) {
+        public CompositeContainer(CompositeRuntimeSettings runtimeSettings = null)
+            : this(runtimeSettings, null) {
+        }
+
+        private CompositeContainer(CompositeRuntimeSettings runtimeSettings = null, IoC.CompositeContainer container = null) {
             IRuntime compositeRuntime = null;
             INCopDependencyAwareRegistry registry = null;
             INCopDependencyContainerAdapter compositeAdpater = null;
 
-            runtimeSettings = runtimeSettings ?? CompositeRuntimeSettings.Empty;
-            compositeAdpater = runtimeSettings.DependencyContainerAdapter;
+            this.runtimeSettings = runtimeSettings ?? CompositeRuntimeSettings.Empty;
+            compositeAdpater = this.runtimeSettings.DependencyContainerAdapter;
 
             if (compositeAdpater.IsNotNull()) {
                 dependencyContainer = compositeAdpater;
                 registry = new NCopRegistryAdapter(compositeAdpater);
             }
             else {
-                var compositeContainerAdapter = new CompositeContainerAdapter();
+                var compositeContainerAdapter = new CompositeContainerAdapter(container);
 
                 registry = compositeContainerAdapter;
                 dependencyContainer = compositeContainerAdapter;
             }
 
             registry = new CompositeRegistryDecorator(registry);
-            compositeRuntime = new CompositeRuntime(runtimeSettings, registry);
+            compositeRuntime = new CompositeRuntime(this.runtimeSettings, registry);
             compositeRuntime.Run();
         }
 
@@ -60,7 +65,13 @@ namespace NCop.Composite.Framework
         }
 
         public INCopDependencyContainer CreateChildContainer() {
-            return dependencyContainer.CreateChildContainer();
+            var childContainer = (NCop.Composite.IoC.CompositeContainer)dependencyContainer.CreateChildContainer();
+            var newCompositeSettings = new CompositeRuntimeSettings {
+                Types = runtimeSettings.Types,
+                Assemblies = runtimeSettings.Assemblies
+            };
+
+            return new Framework.CompositeContainer(newCompositeSettings, childContainer);
         }
     }
 }

@@ -7,6 +7,6 @@ namespace NCop.IoC
         void Dispose();
         bool Remove(Type serviceType);
         bool Contains(Type serviceType);
-        TService GetOrAdd<TService>(Func<TService> factory);
+        TService GetOrAdd<TService>(ServiceKey serviceKey, Func<TService> factory);
     }
 }

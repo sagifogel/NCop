@@ -11,7 +11,7 @@ namespace NCop.IoC
     {
         private int locked = 0;
         private readonly NCopContainer parentContainer = null;
-        private readonly Stack<NCopContainer> childContainers = new Stack<NCopContainer>();
+        protected readonly Stack<NCopContainer> childContainers = new Stack<NCopContainer>();
 
         public NCopContainer(Action<IArgumentsFluentRegistry> registrationAction = null)
             : this(registrationAction, null) {
@@ -45,7 +45,7 @@ namespace NCop.IoC
             return entry;
         }
 
-        public INCopDependencyContainer CreateChildContainer() {
+        public override INCopDependencyContainer CreateChildContainer() {
             return CreateChildContainer(null);
         }
 

@@ -7,9 +7,9 @@
 // ------------------------------------------------------------------------------
 namespace NCop.Aspects.Extensions
 {
-	using System;
-	using Engine;
-	using System.Collections.Generic;
+    using Engine;
+    using System;
+    using System.Collections.Generic;
 
 	internal static class EventBrokerBaseClassResolver
 	{

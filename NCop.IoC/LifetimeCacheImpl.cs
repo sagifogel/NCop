@@ -29,21 +29,21 @@ namespace NCop.IoC
             });
         }
 
-        public TService GetOrAdd<TService>(Func<TService> factory) {
+        public TService GetOrAdd<TService>(ServiceKey key, Func<TService> factory) {
             var result = default(TService);
             var serviceType = typeof(TService);
 
             locker.UpgradeableRead(() => {
                 object service;
 
-                if (instances.TryGetValue(serviceType, out service)) {
+                if (instances.TryGetValue(key, out service)) {
                     result = (TService)service;
                     return;
                 }
 
                 locker.Write(() => {
                     result = factory();
-                    instances.Add(serviceType, result);
+                    instances.Add(key, result);
                 });
             });
 

@@ -34,5 +34,15 @@ namespace NCop.Composite.IoC
         public IRegistration Resolve(Type concreteType) {
             return ((CompositeContainerRegistry)registry).Resolve(concreteType);
         }
+
+        public override INCopDependencyContainer CreateChildContainer() {
+            CompositeContainer container = null;
+
+            lock (childContainers) {
+                childContainers.Push(container = new CompositeContainer());
+            }
+
+            return container;
+        }
     }
 }

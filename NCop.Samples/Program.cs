@@ -1,4 +1,4 @@
-﻿using NCop.Samples.EventFunctionInterceptionAspect;
+﻿using NCop.Samples.DependableMixins;
 
 namespace NCop.Samples
 {
