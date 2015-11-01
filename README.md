@@ -14,7 +14,6 @@ Please visit the [Wiki](https://github.com/sagifogel/NCop/wiki) page for explana
 
 A mixin is an interface with implemented methods.<br/>
 Mixins exists in .NET in the form of object oriented interfaces implementation.
-In order to create a new 
 
 ```csharp
 public interface IDeveloper
