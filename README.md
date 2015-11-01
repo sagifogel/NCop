@@ -87,7 +87,7 @@ public interface IDeveloper
 <a name="dependency-injection"></a>
 ### Dependency Injection
 
-**NCop** IoC is based on [`Funq`](http://funq.codeplex.com/) - which was adopted because of its excellent performance and memory characteristics.<br/>
+**NCop** IoC is based on <a href="http://funq.codeplex.com/" target="_blank">Funq</a> - which was adopted because of its excellent performance and memory characteristics.<br/>
 In order to resolve an artifact of **NCop** you need to create a composite IoC Container, <br/>
 and call the `Resolve` function. <br/>
 
