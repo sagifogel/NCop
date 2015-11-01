@@ -4,7 +4,7 @@ NCop
 What is **NCop**?
 
 **NCop** is a framework that implements Composite/Aspect Oriented Programming that encapsulates the concepts of [Mixins](https://github.com/sagifogel/NCop/blob/master/README.md#mixins), [Aspects](https://github.com/sagifogel/NCop/blob/master/README.md#aspects) and [Dependency Injection](https://github.com/sagifogel/NCop/blob/master/README.md#dependency-injection), using the standard .NET.<br/>
-The main purpose of composites is separation of concerns. You  achive it by defining different roles within different entities and combine all of them using using **NCop** (much like multiple inheritance).
+The main purpose of composites is separation of concerns. You  achieve it by defining different roles within different entities and combine all of them using using **NCop** (much like multiple inheritance).
 
 Please visit the [Wiki](https://github.com/sagifogel/NCop/wiki) page for explanations and demos.
 ------------
@@ -51,7 +51,7 @@ public interface IDeveloper
 ### Aspects
 
 Aspects aims to increase modularity by allowing the separation of cross-cutting concerns.<br/>
-In order to create an aspect you should first create an aspect class that will hold your desired join points,
+In order to create an aspect you should first create an aspect class that will hold your desired join points.
 
 ```csharp
 public class StopwatchActionInterceptionAspect : ActionInterceptionAspect
@@ -72,7 +72,7 @@ public class StopwatchActionInterceptionAspect : ActionInterceptionAspect
 ```
 
 
-The second that you will need todo is annotate the method which you want to apply the aspect on.<br/>
+The second thing that you will need to do is to annotate the method which you want to apply the aspect on.<br/>
 
 ```csharp
 [TransientComposite]
