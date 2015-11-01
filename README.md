@@ -3,12 +3,13 @@ NCop
 ===================
 What is **NCop**?
 
-**NCop** is a framework that implements Composite/Aspect Oriented Programming that encapsulates the concepts of [`Mixins`](https://github.com/sagifogel/NCop/blob/master/README.md#mixins), [`Aspects`](https://github.com/sagifogel/NCop/blob/master/README.md#aspects) and [`Dependency Injection`](https://github.com/sagifogel/NCop#dependency-injection), using the standard .NET.<br/>
+**NCop** is a framework that implements Composite/Aspect Oriented Programming that encapsulates the concepts of [Mixins](https://github.com/sagifogel/NCop/blob/master/README.md#mixins), [Aspects](https://github.com/sagifogel/NCop/blob/master/README.md#aspects) and [Dependency Injection](https://github.com/sagifogel/NCop#dependency-injection), using the standard .NET.<br/>
 The main purpose of composites is separation of concerns. You  achive it by defining different roles within different entities and combine all of them using using **NCop** (much like multiple inheritance).
 
 Please visit the [Wiki](https://github.com/sagifogel/NCop/wiki) page for explanations and demos.
 ------------
 
+<a name="mixins"></a>
 ### Mixins
 
 A mixin is an interface with implemented methods.<br/>
@@ -30,6 +31,7 @@ public class CSharpDeveloperMixin : IDeveloper
     }
 }
 ```
+
 ### Composites
 
 Composites are the artifacts of **NCop** processing. A composite is a combination of Mixins and Aspects.<br/>
@@ -45,6 +47,7 @@ public interface IDeveloper
 }
 ```
 
+<a name="aspects"></a>
 ### Aspects
 
 Aspects aims to increase modularity by allowing the separation of cross-cutting concerns.<br/>
@@ -81,6 +84,7 @@ public interface IDeveloper
 }
 ```
 
+<a name="dependency-injection"></a>
 ### Dependency Injection
 
 **NCop** IoC is based on [`Funq`](http://funq.codeplex.com/) - which was adopted because of its excellent performance and memory characteristics.<br/>
