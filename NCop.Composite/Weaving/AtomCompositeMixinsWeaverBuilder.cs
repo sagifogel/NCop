@@ -1,11 +1,11 @@
 ﻿using NCop.Aspects.Weaving;
+using NCop.Composite.Framework;
 using NCop.Core;
+using NCop.Core.Extensions;
 using NCop.IoC;
 using NCop.Weaving;
 using System;
 using System.Threading;
-using NCop.Core.Extensions;
-using NCop.Composite.Framework;
 
 namespace NCop.Composite.Weaving
 {

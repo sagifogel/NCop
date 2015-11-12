@@ -1,5 +1,4 @@
-﻿using NCop.Core.Extensions;
-using NCop.Core.Runtime;
+﻿using NCop.Core.Runtime;
 using NCop.IoC;
 using System;
 using System.Collections.Generic;

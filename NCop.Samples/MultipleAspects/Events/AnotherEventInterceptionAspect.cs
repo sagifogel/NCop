@@ -1,23 +1,22 @@
 ﻿using NCop.Aspects.Framework;
 using System;
 
-namespace NCop.Samples.EventActionInterceptionAspect
+namespace NCop.Samples.MultipleAspects.Events
 {
-    public class SimpleEventInterceptionAspect : EventActionInterceptionAspect<string>
+    public class AnotherEventInterceptionAspect : EventActionInterceptionAspect<string>
     {
         public override void OnAddHandler(EventActionInterceptionArgs<string> args) {
-            Console.WriteLine("OnAddHandler {0}", args.Event.Name);
+            Console.WriteLine("OnAddHandler of AnotherEventInterceptionAspect");
             args.ProceedAddHandler();
         }
 
         public override void OnInvokeHandler(EventActionInterceptionArgs<string> args) {
-            Console.WriteLine("OnInvokeHandler {0}", args.Event.Name);
-            Console.WriteLine("Arg1: {0}", args.Arg1);
+            Console.WriteLine("OnInvokeHandler of AnotherEventInterceptionAspect");
             args.ProceedInvokeHandler();
         }
 
         public override void OnRemoveHandler(EventActionInterceptionArgs<string> args) {
-            Console.WriteLine("OnRemoveHandler {0}", args.Event.Name);
+            Console.WriteLine("OnRemoveHandler of AnotherEventInterceptionAspect");
             args.ProceedRemoveHandler();
         }
     }

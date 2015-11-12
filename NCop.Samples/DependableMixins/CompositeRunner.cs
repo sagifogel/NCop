@@ -1,6 +1,5 @@
 ﻿using NCop.Composite.Framework;
 using NCop.Composite.Runtime;
-using NCop.IoC;
 using NCop.Samples.IntegrationWithExternalIoC;
 using StructureMap;
 

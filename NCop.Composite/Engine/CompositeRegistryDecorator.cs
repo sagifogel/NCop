@@ -1,8 +1,7 @@
 ﻿using NCop.Composite.Extensions;
 using NCop.Core;
-using NCop.IoC;
-using System;
 using NCop.Core.Extensions;
+using NCop.IoC;
 
 namespace NCop.Composite.Engine
 {

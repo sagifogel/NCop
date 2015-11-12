@@ -2,7 +2,6 @@
 using NCop.Core;
 using NCop.IoC;
 using NCop.IoC.Fluent;
-using System;
 
 namespace NCop.Composite.IoC
 {

@@ -3,15 +3,15 @@ using NCop.Composite.Framework;
 using NCop.Mixins.Framework;
 using System;
 
-namespace NCop.Samples.EventFunctionInterceptionAspect
+namespace NCop.Samples.EventInterceptionAspect.EventActionInterceptionAspect
 {
     [TransientComposite]
     [Mixins(typeof(CSharpDeveloperMixin))]
     public interface IDeveloper
     {
         [EventInterceptionAspect(typeof(SimpleEventInterceptionAspect))]
-        event Func<string> OnCodeCompleted;
+        event Action<string> OnCodeCompleted;
 
-        string Code();
+        void Code(string code);
     }
 }

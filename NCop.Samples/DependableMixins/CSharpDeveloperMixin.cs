@@ -1,5 +1,4 @@
-﻿using NCop.Composite.Framework;
-using System;
+﻿using System;
 
 namespace NCop.Samples.DependableMixins
 {

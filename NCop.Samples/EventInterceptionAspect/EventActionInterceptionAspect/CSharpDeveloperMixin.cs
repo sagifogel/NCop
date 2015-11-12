@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NCop.Samples.EventActionInterceptionAspect
+namespace NCop.Samples.EventInterceptionAspect.EventActionInterceptionAspect
 {
     public class CSharpDeveloperMixin : IDeveloper
     {

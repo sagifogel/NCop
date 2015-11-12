@@ -1,5 +1,4 @@
 ﻿using NCop.Core;
-using System;
 
 namespace NCop.IoC
 {

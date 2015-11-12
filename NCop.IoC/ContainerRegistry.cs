@@ -1,6 +1,5 @@
 ﻿using NCop.Core;
 using NCop.IoC.Fluent;
-using System;
 using System.Collections.Generic;
 
 namespace NCop.IoC

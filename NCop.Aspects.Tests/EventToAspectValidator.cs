@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NCop.Aspects.Engine;
 using NCop.Aspects.Exceptions;
 using NCop.Aspects.Framework;
+using System;
 using System.Reflection;
 
 namespace NCop.Aspects.Tests

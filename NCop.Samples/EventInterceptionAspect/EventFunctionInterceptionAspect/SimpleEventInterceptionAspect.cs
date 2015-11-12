@@ -1,7 +1,7 @@
 ﻿using NCop.Aspects.Framework;
 using System;
 
-namespace NCop.Samples.EventFunctionInterceptionAspect
+namespace NCop.Samples.EventInterceptionAspect.EventFunctionInterceptionAspect
 {
     public class SimpleEventInterceptionAspect : EventFunctionInterceptionAspect<string>
     {
