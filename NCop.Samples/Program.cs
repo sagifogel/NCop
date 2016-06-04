@@ -1,4 +1,4 @@
-﻿using NCop.Samples.MultipleAspecyts.Events;
+﻿using NCop.Samples.MultipleAspects.Events;
 
 namespace NCop.Samples
 {
