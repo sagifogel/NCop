@@ -6,6 +6,12 @@ What is **NCop**?
 **NCop** is a framework that implements Composite/Aspect Oriented Programming that encapsulates the concepts of [Mixins](https://github.com/sagifogel/NCop/blob/master/README.md#mixins), [Aspects](https://github.com/sagifogel/NCop/blob/master/README.md#aspects) and [Dependency Injection](https://github.com/sagifogel/NCop/blob/master/README.md#dependency-injection), using the standard .NET.<br/>
 The main purpose of composites is separation of concerns. You  achieve it by defining different roles within different entities and combine all of them using **NCop** (much like multiple inheritance).
 
+### Installing
+
+```
+Install-Package NCop
+```
+
 Please visit the [Wiki](https://github.com/sagifogel/NCop/wiki) page for explanations and demos.
 ------------
 
