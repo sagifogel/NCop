@@ -107,3 +107,8 @@ static void Main(string[] args) {
 }
 ```
 
+The expected output should be:
+```
+"C# coding"
+"Elapsed Ticks: [Number of ticks]"
+```
